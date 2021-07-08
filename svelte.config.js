@@ -9,6 +9,7 @@ const config = {
     vite: {
       optimizeDeps: {
         include: ["insane"],
+        exclude: ["simple-svelte-autocomplete"],
       },
       server: {
         hmr: {
