@@ -5,6 +5,9 @@
 
   // Vite will automatically inject it in the page
   import leafletCSS from "leaflet/dist/leaflet.css";
+  import leafletMarker from "leaflet/dist/images/marker-icon.png";
+  import leafletMarker2x from "leaflet/dist/images/marker-icon-2x.png";
+  import leafletMarkerShadow from "leaflet/dist/images/marker-shadow.png";
   leafletCSS; // suppress warning
 
   let L;
@@ -94,7 +97,21 @@
       lat = coords[1];
       long = coords[0];
       const latLng = L.latLng(lat, long);
-      currentMarker = L.marker(latLng, { draggable: true, autoPan: true });
+      const icon = L.icon({
+        iconUrl: leafletMarker,
+        iconRetinaUrl: leafletMarker2x,
+        shadowUrl: leafletMarkerShadow,
+        iconSize: [25, 41],
+        iconAnchor: [12, 41],
+        popupAnchor: [1, -34],
+        tooltipAnchor: [16, -28],
+        shadowSize: [41, 41],
+      });
+      currentMarker = L.marker(latLng, {
+        draggable: true,
+        autoPan: true,
+        icon: icon,
+      });
       currentMarker.addTo(map);
       currentMarker.on("move", (evt) => {
         const latLng = evt.latlng;
