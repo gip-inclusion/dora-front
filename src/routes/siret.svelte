@@ -44,8 +44,28 @@
   }
 
   function handleCityChange(item) {
+    name = "";
+    parent = "";
+    siren = "";
+    nic = "";
+    addr1 = "";
+    addr2 = "";
+    city = "";
+    postcode = "";
+    citycode = "";
+    ape = "";
+    lat = null;
+    long = null;
+
     if (item) {
-      selectedCityCode = item.value.properties.citycode;
+      selectedEstablishment = null;
+      citycode = selectedCityCode = item.value.properties.citycode;
+      if (item) {
+        if (currentMarker) {
+          currentMarker.remove();
+          currentMarker = null;
+        }
+      }
     }
   }
 
@@ -124,7 +144,6 @@
         currentMarker.remove();
         currentMarker = null;
       }
-      // mapDiv.classList.remove("hidden");
       name = item.label;
       parent = name !== item.parent ? item.parent : "";
       siren = item.siren;
@@ -181,7 +200,7 @@
       onChange={handleCityChange}
       showLoadingIndicator
       html5autocomplete={false}
-      placeholder="Charleville-Mézières"
+      placeholder="Commune"
       inputClassName=""
       className="w-full"
       hideArrow
@@ -204,7 +223,7 @@
       onChange={handleChange}
       showLoadingIndicator
       html5autocomplete={false}
-      placeholder="Pole Emploi Saint-Joseph"
+      placeholder="Nom ou SIRET"
       inputClassName="disabled:bg-gray-100"
       className="w-full mt-4"
       hideArrow
@@ -218,9 +237,9 @@
       valueFieldName="siret"
       __textCleanFunction>
       <div slot="item" let:item let:label class="text-sm">
-        {@html label}
+        {@html label || ""}
         <span
-          class="inline-block rounded-md  p-2 text-center bg-orange-300 text-white mx-2">
+          class="inline-block rounded-md  px-2 text-center bg-orange-300 text-white mx-2">
           {item.siret}</span>
       </div>
       <div slot="no-results" let:noResultsText>
