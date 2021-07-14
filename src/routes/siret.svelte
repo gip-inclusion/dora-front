@@ -13,7 +13,7 @@
 
   let L;
   let map;
-  let selectedEstablishment;
+  let selectedEstablishment, selectedCityCode;
 
   onMount(async () => {
     if (browser) {
@@ -28,8 +28,29 @@
     }
   });
 
+  const banAPIUrl = "https://api-adresse.data.gouv.fr/search/";
+
+  async function searchCity(q) {
+    const url = `${banAPIUrl}?q=${encodeURIComponent(
+      q
+    )}&limit=10&type=municipality`;
+    const response = await fetch(url);
+    const jsonResponse = await response.json();
+    let results = jsonResponse.features.map((feature) => ({
+      value: feature,
+      label: `${feature.properties.label} (${feature.properties.postcode})`,
+    }));
+    return results;
+  }
+
+  function handleCityChange(item) {
+    if (item) {
+      selectedCityCode = item.value.properties.citycode;
+    }
+  }
+
   async function searchSirene(q) {
-    const sireneAPIUrl = `${getApiURL()}/search-sirene/?q=${encodeURIComponent(
+    const sireneAPIUrl = `${getApiURL()}/search-sirene/${selectedCityCode}/?q=${encodeURIComponent(
       q
     )}`;
     const response = await fetch(sireneAPIUrl, {
@@ -70,7 +91,12 @@
         latitude: r.latitude,
         longitude: r.longitude,
       };
-      result.label = result.name || result.parent;
+
+      if (result.name.startsWith(result.parent)) {
+        result.label = result.name;
+      } else {
+        result.label = result.parent + " " + result.name;
+      }
       return result;
     });
     console.log(results);
@@ -141,11 +167,6 @@
 
   function handleSubmit() {}
   let mapDiv;
-  /*
-diffusable: true
-isSiege: true
-nic: "00017"
-  */
 </script>
 
 <svelte:head>
@@ -157,12 +178,35 @@ nic: "00017"
 <div class="flex flex-row gap-8">
   <div class="flex-1">
     <AutoComplete
-      onChange={handleChange}
-      showLoadingIndicator={true}
+      onChange={handleCityChange}
+      showLoadingIndicator
       html5autocomplete={false}
-      placeholder="Pole Emploi Saint-Joseph"
+      placeholder="Charleville-Mézières"
       inputClassName=""
       className="w-full"
+      hideArrow
+      searchFunction={searchCity}
+      delay="200"
+      localFiltering="false"
+      bind:selectedItem={selectedCityCode}
+      labelFieldName="label"
+      valueFieldName="value">
+      <div slot="no-results">
+        <strong>Aucun résultat</strong>
+      </div>
+      <div slot="loading">
+        <strong>Chargement…</strong>
+      </div>
+    </AutoComplete>
+
+    <AutoComplete
+      disabled={!selectedCityCode}
+      onChange={handleChange}
+      showLoadingIndicator
+      html5autocomplete={false}
+      placeholder="Pole Emploi Saint-Joseph"
+      inputClassName="disabled:bg-gray-100"
+      className="w-full mt-4"
       hideArrow
       searchFunction={searchSirene}
       delay="200"
@@ -177,10 +221,13 @@ nic: "00017"
         {@html label}
         <span
           class="inline-block rounded-md  p-2 text-center bg-orange-300 text-white mx-2">
-          {item.city} ({item.postcode})</span>
+          {item.siret}</span>
       </div>
       <div slot="no-results" let:noResultsText>
         <strong>Aucun résultat</strong>
+      </div>
+      <div slot="loading">
+        <strong>Chargement…</strong>
       </div>
     </AutoComplete>
     {#if selectedEstablishment}
