@@ -12,8 +12,7 @@
 
   let L;
   let map;
-  let selectedAddress;
-
+  let selectedAddress, selectedCity;
   onMount(async () => {
     if (browser) {
       L = await import("leaflet");
@@ -29,44 +28,29 @@
 
   const banAPIUrl = "https://api-adresse.data.gouv.fr/search/";
 
-  function getAddressLabel(addressObj) {
-    const data = addressObj.properties;
-    if (data.type === "municipality") {
-      return `${data.label} (${data.postcode})`;
-    }
-    return data.label;
-  }
-
-  function getAddressType(addressObj) {
-    const type = addressObj.properties.type;
-    switch (type) {
-      case "municipality":
-        return { label: "Ville", priority: 4, classes: "bg-orange-300" };
-      case "locality":
-        return { label: "Lieu-dit", priority: 3, classes: "bg-green-300" };
-      case "street":
-        return { label: "Rue", priority: 2, classes: "bg-back1" };
-      case "housenumber":
-        return { label: "Adresse", priority: 1, classes: "bg-back2" };
-      default:
-        return { label: "Autres", priority: 5, classes: "bg-white" };
-    }
-  }
-
   async function searchAddress(q) {
-    const url = `${banAPIUrl}?q=${encodeURIComponent(q)}&limit=10`;
+    const url = `${banAPIUrl}?q=${encodeURIComponent(
+      q
+    )}&limit=10&citycode=${citycode}`;
     const response = await fetch(url);
     const jsonResponse = await response.json();
     let results = jsonResponse.features.map((feature) => ({
       value: feature,
-      label: getAddressLabel(feature),
-      type: getAddressType(feature),
+      label: feature.properties.name,
     }));
-    // .sort((a, b) => {
-    //   var prioA = a.type.priority;
-    //   var prioB = b.type.priority;
-    //   return prioA - prioB;
-    // });
+    return results;
+  }
+
+  async function searchCity(q) {
+    const url = `${banAPIUrl}?q=${encodeURIComponent(
+      q
+    )}&limit=10&type=municipality`;
+    const response = await fetch(url);
+    const jsonResponse = await response.json();
+    let results = jsonResponse.features.map((feature) => ({
+      value: feature,
+      label: `${feature.properties.label} (${feature.properties.postcode})`,
+    }));
     return results;
   }
 
@@ -91,7 +75,6 @@
       addr1 = addressProps.name;
       city = addressProps.city;
       postcode = addressProps.postcode;
-      citycode = addressProps.citycode;
       console.log(addressObj);
       const coords = addressObj.geometry.coordinates;
       lat = coords[1];
@@ -122,6 +105,23 @@
     }
   }
 
+  function handleCityChange(item) {
+    if (item) {
+      selectedAddress = null;
+      addressObj = item.value;
+      const addressProps = addressObj.properties;
+      city = addressProps.city;
+      citycode = addressProps.citycode;
+      addr1 = null;
+      postcode = null;
+      if (currentMarker) {
+        currentMarker.remove();
+        currentMarker = null;
+      }
+      lat = null;
+      long = null;
+    }
+  }
   function handleSubmit() {}
   let mapDiv;
 </script>
@@ -135,11 +135,35 @@
 <div class="flex flex-row gap-8">
   <div class="flex-1">
     <AutoComplete
-      onChange={handleChange}
+      onChange={handleCityChange}
+      showLoadingIndicator
       html5autocomplete={false}
-      placeholder="2 rue du taur toulouse"
+      placeholder="Toulouse"
       inputClassName=""
       className="w-full"
+      hideArrow
+      searchFunction={searchCity}
+      delay="200"
+      localFiltering="false"
+      bind:selectedItem={selectedCity}
+      labelFieldName="label"
+      valueFieldName="value">
+      <div slot="no-results">
+        <strong>Aucun résultat</strong>
+      </div>
+      <div slot="loading">
+        <strong>Chargement…</strong>
+      </div>
+    </AutoComplete>
+
+    <AutoComplete
+      disabled={!selectedCity}
+      onChange={handleChange}
+      showLoadingIndicator
+      html5autocomplete={false}
+      placeholder="2 rue du taur"
+      inputClassName="disabled:bg-gray-100"
+      className="w-full mt-4"
       hideArrow
       searchFunction={searchAddress}
       delay="200"
@@ -147,20 +171,16 @@
       bind:selectedItem={selectedAddress}
       labelFieldName="label"
       valueFieldName="value">
-      <div slot="item" let:item let:label class="text-sm">
-        <span
-          class="inline-block rounded-md {item.type
-            .classes} w-20 p-2 text-center text-blue-dora mx-2">
-          {item.type.label}</span>
-        {@html label}
-      </div>
-      <div slot="no-results" let:noResultsText>
+      <div slot="no-results">
         <strong>Aucun résultat</strong>
+      </div>
+      <div slot="loading">
+        <strong>Chargement…</strong>
       </div>
     </AutoComplete>
     {#if true}
       <form
-        class="flex flex-col max-w-xl gap-6 p-8 mx-auto mt-8 bg-back2"
+        class="flex flex-col max-w-xl gap-6 p-8 mx-auto mt-4 bg-back2"
         on:submit|preventDefault={handleSubmit}>
         <label class="flex flex-row items-center">
           <span class="inline-block w-40 font-bold">Addresse:</span>
