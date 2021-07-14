@@ -10,8 +10,8 @@
     "build": "svelte-kit build",
     "preview": "svelte-kit preview --host",
     "start": "node build",
-    "lint": "prettier --check . && eslint --ignore-path .gitignore .",
-    "format": "prettier --write .",
+    "lint": "prettier --check --plugin-search-dir=. . && eslint --ignore-path .gitignore .",
+    "format": "prettier --write --plugin-search-dir=. .",
     "prepare": "husky install"
   },
   "devDependencies": {
@@ -33,6 +33,7 @@
     "postcss-load-config": "^3.1.0",
     "prettier": "~2.2.1",
     "prettier-plugin-svelte": "^2.2.0",
+    "remixicon": "^2.5.0",
     "simple-svelte-autocomplete": "^1.3.2",
     "svelte": "^3.34.0",
     "svelte-preprocess": "^4.7.3",
@@ -41,11 +42,11 @@
   "type": "module",
   "lint-staged": {
     "*.{js,svelte}": [
-      "prettier --write",
+      "prettier --write --plugin-search-dir=.",
       "eslint --ignore-path .gitignore --fix ."
     ],
     "*.{json,css,postcss,html,md}": [
-      "prettier --write"
+      "prettier --write --plugin-search-dir=."
     ]
   }
 }
