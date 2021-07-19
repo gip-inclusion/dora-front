@@ -1,7 +1,17 @@
+<script context="module">
+  export const load = async ({ page }) => ({
+    props: {
+      next: page.query.get("next"),
+    },
+  });
+</script>
+
 <script>
   import { getApiURL } from "$lib/utils";
-  import { token } from "$lib/stores";
   import { goto } from "$app/navigation";
+  import { setToken } from "$lib/auth";
+
+  export let next;
 
   let email = "";
   let password = "";
@@ -22,10 +32,8 @@
 
     if (result.ok) {
       const jsonResult = await result.json();
-      $token = jsonResult.token;
-      // TODO: use secure cookie instead
-      // localStorage.setItem("token", token.token);
-      await goto("/");
+      setToken(jsonResult.token);
+      await goto(next || "/");
     }
     return {
       status: result.status,
