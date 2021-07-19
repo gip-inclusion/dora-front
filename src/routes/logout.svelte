@@ -1,8 +1,18 @@
-<script>
-  import { token } from "$lib/stores";
-  import { goto } from "$app/navigation";
+<script context="module">
+  export const load = async ({ page }) => ({
+    props: {
+      next: page.query.get("next"),
+    },
+  });
+</script>
 
-  $token = null;
+<script>
+  import { goto } from "$app/navigation";
+  import { clearToken } from "$lib/auth";
+
+  export let next;
+
+  clearToken();
   localStorage.clear();
-  goto("/");
+  goto(next || "/");
 </script>
