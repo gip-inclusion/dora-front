@@ -1,3 +1,113 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  @font-face {
+    font-display: swap;
+    font-family: "Marianne";
+    font-style: normal;
+    font-weight: normal;
+    src: url("$lib/assets/fonts/Marianne/Marianne-Regular.woff2")
+        format("woff2"),
+      url("$lib/assets/fonts/Marianne/Marianne-Regular.woff") format("woff");
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: "Marianne";
+    font-style: normal;
+    font-weight: bold;
+    src: url("$lib/assets/fonts/Marianne/Marianne-Bold.woff2") format("woff2"),
+      url("$lib/assets/fonts/Marianne/Marianne-Bold.woff") format("woff");
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: "Marianne";
+    font-style: italic;
+    font-weight: normal;
+    src: url("$lib/assets/fonts/Marianne/Marianne-Regular_Italic.woff2")
+        format("woff2"),
+      url("$lib/assets/fonts/Marianne/Marianne-Regular_Italic.woff")
+        format("woff");
+  }
+
+  @font-face {
+    font-display: swap;
+    font-family: "Marianne";
+    font-style: italic;
+    font-weight: bold;
+    src: url("$lib/assets/fonts/Marianne/Marianne-Bold_Italic.woff2")
+        format("woff2"),
+      url("$lib/assets/fonts/Marianne/Marianne-Bold_Italic.woff") format("woff");
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5 {
+    @apply font-bold text-gray-dark;
+  }
+
+  h1 {
+    @apply text-f26 md:text-f30 lg:text-f38 xl:text-f45;
+  }
+
+  h2 {
+    @apply text-f22 md:text-f24 lg:text-f28 xl:text-f32;
+  }
+
+  h3 {
+    @apply text-f19 md:text-f20 lg:text-f21 xl:text-f23;
+  }
+
+  h4 {
+    @apply text-f17;
+  }
+
+  h5 {
+    @apply text-f14;
+  }
+
+  @media print {
+    .noprint {
+      @apply !hidden;
+    }
+  }
+
+  @page {
+    size: A4 portrait;
+    margin: 1cm;
+  }
+
+  /* Tarte au citron */
+
+  #tarteaucitronAlertBig {
+    @apply !font-sans !bg-white !shadow-md !text-gray-text;
+  }
+
+  #tarteaucitronAlertBig #tarteaucitronDisclaimerAlert {
+    @apply !font-sans !text-gray-text;
+  }
+  #tarteaucitronAlertBig #tarteaucitronPersonalize2 {
+    @apply !font-sans !bg-magenta-cta;
+  }
+
+  #tarteaucitronAlertBig #tarteaucitronAllDenied2 {
+    @apply !font-sans !bg-gray-dark;
+  }
+
+  #tarteaucitronAlertBig #tarteaucitronCloseAlert {
+    @apply !font-sans !text-gray-text-alt2;
+  }
+
+  #tarteaucitronAlertBig #tarteaucitronPrivacyUrl {
+    @apply !font-sans !text-magenta-cta;
+  }
+
+  #tarteaucitronRoot #tarteaucitronCloseCross {
+    @apply !font-sans !text-gray-text;
+  }
+}

@@ -36,13 +36,6 @@
     color: var(--col-text);
   }
 
-  :global(.homepage-second-row) {
-    position: relative;
-    z-index: -10;
-    top: -75px;
-    padding-top: 80px;
-  }
-
   .content-mission {
     margin-top: var(--s32);
   }
@@ -100,7 +93,7 @@
 </CenteredGrid>
 
 <CenteredGrid
-  extraClass="homepage-second-row"
+  extraClass="relative z-[-10] -top-9 pt-10"
   --col-bg="var(--col-magenta-dark)"
 >
   <div class="col-start-1 mb-5 col-span-full">

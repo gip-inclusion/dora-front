@@ -718,7 +718,11 @@
   }
 </script>
 
-<style>
+<style lang="postcss">
+  input {
+    @apply disabled:bg-gray-00 read-only:text-gray-03;
+  }
+
   /* stylelint-disable */
   .autocomplete {
     position: relative;

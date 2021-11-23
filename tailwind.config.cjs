@@ -1,3 +1,5 @@
+// Defaults: https://github.com/tailwindlabs/tailwindcss/blob/master/stubs/defaultConfig.stub.js
+
 const config = {
   mode: "jit",
   purge: ["./src/**/*.{html,js,svelte,ts}"],
@@ -13,18 +15,19 @@ const config = {
       transparent: "transparent",
       current: "currentColor",
       gray: {
+        bg: "#F8F8F8",
         "00": "#F5F5F5",
         "01": "#E0E0E0",
         "02": "#D5D5D5",
         "03": "#CCCCCC",
-        text: { DEFAULT: "#555555", alt: "#999999", alt2: "#777777" },
         dark: "#2E2E2E",
-        bg: "#F8F8F8",
+        text: { DEFAULT: "#555555", alt: "#999999", alt2: "#777777" },
       },
       "france-blue": "#000091",
       white: "#FFFFFF",
       "marianne-red": "#E1000F",
       dora: {
+        // deprecated
         magenta: {
           brand: "#9C6FF4",
           hover: "#7B40F0",
@@ -33,6 +36,10 @@ const config = {
         },
       },
       magenta: {
+        brand: "#9C6FF4",
+        hover: "#7B40F0",
+        cta: "#5B12EB",
+        dark: "#19004a",
         80: "#AF8EF3",
         60: "#C3AAF6",
         40: "#D7C6F9",
@@ -42,11 +49,33 @@ const config = {
       success: "#008941",
       error: "#E10600",
       information: { DEFAULT: "#0762C8", bg: "#DBF0FF", light: "#F0F8FF" },
+      available: { DEFAULT: "#008941", dark: "#1cda76" },
+      na: { DEFAULT: "#e10600", dark: "#ff504c" },
+      wait: { DEFAULT: "#f29023", dark: "#fe9800" },
     },
     fontFamily: {
       sans: ["Marianne"],
     },
     fontSize: {
+      f12: ".75rem", // 12px
+      f14: ".875rem", // 14px
+      f16: "1rem", // 16px
+      f17: "1.0625rem", // 17px
+      f18: "1.125rem", // 18px
+      f19: "1.1875rem", // 19px
+      f20: "1.25rem", // 20px
+      f21: "1.3125rem", // 21px
+      f22: "1.375rem", // 22px
+      f23: "1.4375rem", // 23px
+      f24: "1.5rem", // 24px
+      f26: "1.625rem", // 26px
+      f28: "1.75rem", // 28px
+      f30: "1.875rem", // 30px
+      f32: "2rem", // 32px
+      f38: "2.375rem", // 38px
+      f45: "2.8125rem", // 45px
+
+      // deprecated
       xs: ".75rem", // 12px
       sm: ".875rem", // 14px
       base: "1rem", // 16px
@@ -66,8 +95,23 @@ const config = {
       "13xl": "2.8125rem", // 45px
     },
     lineHeight: {
-      tight: "1.2",
+      none: "1",
+      tight: "1.25",
+      snug: "1.375",
       normal: "1.5",
+      relaxed: "1.625",
+      loose: "2",
+      12: ".75rem",
+      16: "1rem",
+      20: "1.25rem",
+      24: "1.5rem",
+      28: "1.75rem",
+      32: "2rem",
+      36: "2.25rem",
+      40: "2.5rem",
+      // deprecated
+      // tight: "1.2",
+      // normal: "1.5",
       large: "1.7",
     },
     screens: {
@@ -77,6 +121,30 @@ const config = {
       print: { raw: "print" },
     },
     spacing: {
+      s0: "0",
+      s2: "0.125rem",
+      s4: "0.25rem",
+      s6: "0.375rem",
+      s8: "0.5rem",
+      s10: "0.625rem",
+      s12: "0.75rem",
+      s16: "1rem",
+      s20: "1.25rem",
+      s24: "1.5rem",
+      s32: "2rem",
+      s40: "2.5rem",
+      s48: "3rem",
+      s56: "3.5rem",
+      s64: "4rem",
+      s72: "4.5rem",
+      s80: "5rem",
+      s88: "5.5rem",
+      s96: "6rem",
+      s112: "7rem",
+      s136: "8.5rem",
+      s160: "10rem",
+      s250: "15.625rem",
+      // deprecated
       0: "0",
       "2p": "0.125rem", // 2px
       "1/2": "0.25rem", // 4px
@@ -127,6 +195,9 @@ const config = {
       full: "100%",
       6: "3rem", // 48px
     },
+  },
+  corePlugins: {
+    fontVariantNumeric: false,
   },
   plugins: [require("@tailwindcss/typography")],
 };

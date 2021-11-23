@@ -41,12 +41,9 @@
     @apply px-1 min-h-6 border border-gray-03 rounded outline-none placeholder-gray-text-alt focus:shadow-focus text-sm;
   }
 
-  :global(input:disabled, textarea:disabled, select:disabled) {
-    background-color: var(--col-gray-00);
-  }
-
-  :global(input:read-only, textarea:read-only, select:read-only) {
-    color: var(--col-gray-03);
+  input,
+  textarea {
+    @apply disabled:bg-gray-00 read-only:text-gray-03;
   }
 </style>
 

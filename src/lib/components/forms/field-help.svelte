@@ -3,15 +3,15 @@
   export let title;
 </script>
 
-<style>
+<style lang="postcss">
   .help {
     position: absolute;
     right: -472px;
     width: 384px;
   }
 
-  .content :global(p) {
-    margin-bottom: var(--s16);
+  .help-content :global(p) {
+    @apply mb-s16 last:mb-0;
   }
 </style>
 
@@ -28,7 +28,7 @@
       {title}
     </div>
   {/if}
-  <div class="content text-sm leading-large text-gray-text">
+  <div class="help-content text-sm leading-large text-gray-text">
     <slot />
   </div>
 </div>

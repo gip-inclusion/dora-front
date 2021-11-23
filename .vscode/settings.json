@@ -29,5 +29,8 @@
   },
   "files.trimTrailingWhitespace": true,
   "svelte.plugin.css.globals": "src/app.css",
-  "tailwindCSS.validate": true
+  "tailwindCSS.validate": true,
+  "tailwindCSS.includeLanguages": {
+    "\"postcss\"": "\"postcss\""
+  }
 }
