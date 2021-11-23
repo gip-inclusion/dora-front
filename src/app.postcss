@@ -52,25 +52,28 @@
   }
 
   h1 {
-    @apply text-f26 md:text-f30 lg:text-f38 xl:text-f45;
+    @apply text-f26 leading-32 md:text-f30 md:leading-40 lg:text-f38 lg:leading-48 xl:text-f45 xl:leading-56;
   }
 
   h2 {
-    @apply text-f22 md:text-f24 lg:text-f28 xl:text-f32;
+    @apply text-f22 leading-32 md:text-f24 lg:text-f28 lg:leading-40 xl:text-f32;
   }
 
   h3 {
-    @apply text-f19 md:text-f20 lg:text-f21 xl:text-f23;
+    @apply text-f19 leading-24 md:text-f20 md:leading-32 lg:text-f21 xl:text-f23;
   }
 
   h4 {
-    @apply text-f17;
+    @apply text-f17 leading-32;
   }
 
   h5 {
-    @apply text-f14;
+    @apply text-f14 leading-24;
   }
 
+  p {
+    @apply text-f18 leading-32 text-gray-text;
+  }
   @media print {
     .noprint {
       @apply !hidden;

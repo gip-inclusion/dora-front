@@ -306,12 +306,12 @@
   <Preview {service} />
 {:else}
   <CenteredGrid topPadded>
-    <div class="col-start-1 col-span-full text-center mb-6">
+    <div class="col-start-1 col-span-full text-center mb-s48">
       <div class="mx-auto">
-        <h1 class="text-france-blue text-13xl">
+        <h1 class="text-france-blue text-f45">
           {title}
         </h1>
-        <p class="text-gray-text text-base">
+        <p class="text-gray-text text-f16">
           Rendez visible votre offre de services sur la plateforme DORA.<br />
           Les champs marqués d’un astérisque<span
             style="color: var(--col-error);">*</span
@@ -332,7 +332,7 @@
     </div>
   </CenteredGrid>
   <CenteredGrid roundedbg>
-    <div class="col-span-8 col-start-1 mb-8">
+    <div class="col-span-8 col-start-1 mb-s64">
       <div bind:this={errorDiv}>
         {#each $formErrors.nonFieldErrors || [] as msg}
           <Alert iconOnLeft label={msg} />

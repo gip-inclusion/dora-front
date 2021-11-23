@@ -26,7 +26,7 @@
       <Label label={result.structureInfo.name} truncate />
     </a>
     <h4><a href="/services/{result.slug}">{result.name}</a></h4>
-    <div class="flex flex-col gap-2 mt-1 md:flex-row">
+    <div class="flex flex-col gap-s16 mt-s8 md:flex-row">
       <Tag
         --bg-color="var(--col-magenta-20)"
         --fg-color="var(--col-magenta-cta)"

@@ -966,13 +966,13 @@
                     ? listItem.highlighted.label
                     : listItem.label}
                   {#if postfixValueFunction}
-                    <div class="inline-block ml-1 text-gray-text-alt text-xs">
+                    <div class="inline-block ml-s8 text-gray-text-alt text-f12">
                       {postfixValueFunction(listItem.value)}
                     </div>
                   {/if}
                 </div>
                 <div class="flex-grow-0 hidden checkmark">
-                  <div class="w-3 h-2 ml-1 fill-current ">
+                  <div class="w-s24 h-s16 ml-s8 fill-current ">
                     {@html checkIcon}
                   </div>
                 </div>
