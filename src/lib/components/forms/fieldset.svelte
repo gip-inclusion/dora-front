@@ -6,7 +6,7 @@
 
 <style lang="postcss">
   .no-top-padding {
-    @apply mt-0;
+    @apply mt-s0;
   }
 </style>
 

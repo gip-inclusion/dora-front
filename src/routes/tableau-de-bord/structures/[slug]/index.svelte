@@ -80,7 +80,7 @@
               <p class="text-gray-text-alt2 mt-s12">SIRET: {structure.siret}</p>
             </div>
             <div class="border border-gray-01 rounded px-s24 py-s16">
-              <h5 class="">Adresse</h5>
+              <h5>Adresse</h5>
               <p class="text-gray-text-alt2">
                 {structure.address1}<br />
                 {#if structure.address2}{structure.address2}<br />{/if}
