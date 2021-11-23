@@ -150,8 +150,8 @@ Cordialement,
 
 <CenteredGrid topPadded>
   <div class="col-start-1 col-span-full text-center mb-s48">
-    <p class="text-gray-text text-f16">Consultez les services</p>
-    <h1 class="text-france-blue text-f45">Résultats de recherche</h1>
+    <p class="text-f16">Consultez les services</p>
+    <h1 class="text-france-blue">Résultats de recherche</h1>
   </div>
 </CenteredGrid>
 
@@ -203,7 +203,7 @@ Cordialement,
             (Loire-Atlantique, Ardennes et La Réunion).
           </p>
 
-          <h4 class="mt-s48 leading-relaxed">
+          <h4 class="mt-s48">
             Vous connaissez des structures proposant des services correspondant
             à ces critères ? Invitez vos partenaires à se référencer :
           </h4>
@@ -216,7 +216,7 @@ Cordialement,
             />
           </div>
 
-          <h4 class="mt-s48 leading-relaxed">
+          <h4 class="mt-s48">
             Infolettre : nouveautés et les prochains territoires ouverts sur
             Dora.
           </h4>

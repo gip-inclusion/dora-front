@@ -6,8 +6,8 @@
 <EnsureLoggedIn>
   <CenteredGrid topPadded>
     <div class="col-start-1 col-span-full text-center mb-s48">
-      <h1 class="text-france-blue text-f45">Création d’une structure</h1>
-      <p class="text-gray-text text-f16">
+      <h1 class="text-france-blue">Création d’une structure</h1>
+      <p class="text-f16">
         Rendez visible vos offres de services sur la plateforme DORA.
       </p>
     </div>

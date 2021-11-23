@@ -92,6 +92,6 @@
   {/if}
 </div>
 <div class="col-span-full lg:col-start-6 lg:col-end-13 lg:mt-s64">
-  <p class="text-f18 text-gray-dark font-bold mb-s24">{structure.shortDesc}</p>
+  <p class="text-gray-dark font-bold mb-s24">{structure.shortDesc}</p>
   <p class="prose">{@html structure.fullDesc}</p>
 </div>

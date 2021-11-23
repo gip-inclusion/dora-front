@@ -100,7 +100,7 @@
 
 <CenteredGrid topPadded>
   <div class="col-start-1 mb-s48 text-center col-span-full">
-    <h1 class="text-france-blue text-f45">Réinitialiser votre mot de passe</h1>
+    <h1 class="text-france-blue">Réinitialiser votre mot de passe</h1>
   </div>
 </CenteredGrid>
 

@@ -311,7 +311,7 @@
         <h1 class="text-france-blue text-f45">
           {title}
         </h1>
-        <p class="text-gray-text text-f16">
+        <p class="text-f16">
           Rendez visible votre offre de services sur la plateforme DORA.<br />
           Les champs marqués d’un astérisque<span
             style="color: var(--col-error);">*</span

@@ -86,7 +86,7 @@
       {:else}
         {#if service.locationKinds.includes("OS")}
           <h4 class="pt-s16 pb-s8">En présentiel</h4>
-          <p class="pb-s16 text-f14 text-gray-text">
+          <p class="pb-s16 text-f14">
             {service.address1}<br />
             {#if service.address2}{service.address2}<br />{/if}
             {service.postalCode}
