@@ -64,7 +64,7 @@
     onRefresh={handleRefreshMemberList}
   />
   <CenteredGrid --col-bg="var(--col-gray-00)" topPadded>
-    <div class="col-start-1 col-span-full mb-10">
+    <div class="col-start-1 col-span-full mb-s80">
       <div class="mb-s32">
         <h2>Ma structure</h2>
       </div>
@@ -125,7 +125,7 @@
         </div>
         <div class="flex-1">
           {#if members}
-            <div class="mt-6">
+            <div class="mt-s48">
               <h3>Vos collaborateurs</h3>
               <div class="flex flex-col gap-s8 mt-s32 mb-s32">
                 {#each sortedMembers(members) as member}

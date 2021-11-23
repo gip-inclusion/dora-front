@@ -36,7 +36,7 @@
           class="self-center hidden rounded-full w-s12 h-s12 bg-magenta-cta toggle-circle"
         />
       </div>
-      <span class="inline-block w-40 ml-s16 text-gray-text text-f14"
+      <span class="inline-block ml-s16 text-gray-text text-f14"
         >{choice.label}</span
       >
     </label>

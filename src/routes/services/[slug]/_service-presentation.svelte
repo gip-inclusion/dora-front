@@ -55,7 +55,7 @@
 <SuggestionModal {service} bind:isOpen={suggestionModalIsOpen} />
 
 <div class="flex mt-s48 mb-s32 items-baseline">
-  <Tag --bg-color="var(--col-gray-01)" --fg-color="var(--col-gray-dark)">
+  <Tag bgColorClass="bg-gray-01" fgColorClass="text-gray-dark">
     {service.categoryDisplay}
   </Tag>
   <div class="text-gray-text-alt2 text-f12 maj ml-s24">

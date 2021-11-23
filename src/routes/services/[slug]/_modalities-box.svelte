@@ -52,7 +52,7 @@
 
     {#if service.hasFee}
       <Info label="Frais à charge du bénéficiaire : " negativeMood>
-        <p slot="details">{service.feeDetails}</p>
+        <svelte:fragment slot="details">{service.feeDetails}</svelte:fragment>
       </Info>
     {/if}
   </div>

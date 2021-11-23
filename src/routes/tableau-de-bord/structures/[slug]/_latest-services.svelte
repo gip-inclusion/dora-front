@@ -22,11 +22,7 @@
       <div class="shadow-md rounded-md px-s20 py-s24">
         <h4><a href="/services/{service.slug}">{service.name}</a></h4>
         <div class="flex flex-col gap-s16 mt-s8">
-          <Tag
-            --bg-color="var(--col-magenta-20)"
-            --fg-color="var(--col-magenta-cta)"
-            selfStart>{service.categoryDisplay}</Tag
-          >
+          <Tag selfStart>{service.categoryDisplay}</Tag>
           <Label
             label={`${service.postalCode}, ${service.city}`}
             iconOnLeft

@@ -52,14 +52,15 @@
   <div class="flex-1 " class:hidden={type === "hidden"}>
     <div
       {name}
-      class="flex {layoutClass} items-top relative "
+      class="flex {layoutClass} items-top relative"
       isDOMLabel={type !== "checkboxes" && type !== "radios"}
     >
+      <!-- #1# -->
       <div
         class="flex flex-col"
-        class:w-250p={!vertical}
+        class:w-s250={!vertical}
         class:w-full={vertical}
-        class:mb-1={vertical}
+        class:mb-s8={vertical}
       >
         <div
           class="flex-shrink-0 inline-block w-full font-bold text-f16 text-gray-dark"

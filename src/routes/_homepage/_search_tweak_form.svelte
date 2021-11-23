@@ -54,13 +54,6 @@
     flex-direction: column;
     gap: var(--s16);
   }
-
-  p {
-    margin-top: var(--s16);
-    color: var(--col-text-alt2);
-    font-size: var(--f12);
-    text-align: center;
-  }
 </style>
 
 <div class="wrapper">
@@ -118,7 +111,7 @@
           preventDefaultOnMouseDown
         />
       </form>
-      <p>
+      <p class="mt-s16 text-gray-text-alt2 text-f12 text-center">
         Le service DORA est actuellement <a
           class="underline"
           target="_blank"

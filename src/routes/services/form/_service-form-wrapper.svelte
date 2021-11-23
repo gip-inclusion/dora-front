@@ -286,13 +286,6 @@
 </script>
 
 <style>
-  h1 + p {
-    margin-top: var(--s16);
-    color: var(--col-text);
-    font-size: var(--f16);
-    line-height: var(--s24);
-  }
-
   nav {
     display: flex;
     justify-content: center;
@@ -311,12 +304,12 @@
         <h1 class="text-france-blue text-f45">
           {title}
         </h1>
-        <p class="text-f16">
+        <div class="paragraph-small mt-s16">
           Rendez visible votre offre de services sur la plateforme DORA.<br />
           Les champs marqués d’un astérisque<span
             style="color: var(--col-error);">*</span
           > sont obligatoires.
-        </p>
+        </div>
 
         <nav>
           {#each ["Présentation du service", "Conditions d’accès", "Modalités d’accès", "Informations pratiques"] as name, i}

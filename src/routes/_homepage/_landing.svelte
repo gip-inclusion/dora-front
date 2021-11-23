@@ -126,7 +126,7 @@
 
 <CenteredGrid>
   <div class="col-start-1 col-span-full mb-s40 text-center ">
-    <div class=" mx-auto mb-s64 lg:w-1/2">
+    <div class="mx-auto mb-s64 lg:w-1/2">
       <h5>
         Vous travaillez pour une structure porteuse/offreuse de services
         d'insertion ?

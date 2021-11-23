@@ -723,12 +723,10 @@
     @apply disabled:bg-gray-00 read-only:text-gray-03;
   }
 
-  /* stylelint-disable */
   .autocomplete {
     position: relative;
     display: inline-block;
     max-width: 100%;
-    /* height: 2.25em; */
     vertical-align: top;
   }
 
@@ -878,10 +876,7 @@
   }
 
   .tag {
-    color: var(--col-white);
-    font-size: var(--f12);
-    text-transform: uppercase;
-    line-height: 20px;
+    @apply text-white text-f12 uppercase leading-20;
   }
 
   .tag.is-delete {

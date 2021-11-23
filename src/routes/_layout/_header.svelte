@@ -3,8 +3,6 @@
 
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 
-  import "../../app.postcss";
-  import "../../app.css";
   import LogoDORA from "$lib/assets/dora-logo-rvb.svg";
   import LogoMinistere from "$lib/assets/logo-ministere-travail.svg";
 

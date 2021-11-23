@@ -14,10 +14,7 @@
         <h4><a href="/services/{service.slug}">{service.name}</a></h4>
         <div class="flex flex-col gap-s16">
           <div class="flex flex-row gap-s16 mt-s8">
-            <Tag
-              --bg-color="var(--col-magenta-20)"
-              --fg-color="var(--col-magenta-cta)">{service.categoryDisplay}</Tag
-            >
+            <Tag>{service.categoryDisplay}</Tag>
             <Label
               label={`${service.postalCode}, ${service.city}`}
               iconOnLeft

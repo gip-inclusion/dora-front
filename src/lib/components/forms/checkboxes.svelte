@@ -34,7 +34,7 @@
       >
         <div class="self-center hidden w-s12 h-s12 bg-magenta-cta" />
       </div>
-      <span class="inline-block w-40 ml-s16 text-gray-text text-f14"
+      <span class="inline-block ml-s16 text-gray-text text-f14"
         >{choice.label}</span
       >
     </label>

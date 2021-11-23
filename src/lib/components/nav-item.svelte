@@ -13,7 +13,7 @@
   class="flex flex-row items-center py-s8 text-f14 rounded outline-none"
   class:text-gray-text-alt2={light}
   class:text-gray-dark={!light}
-  class:pr-4={!separator}
+  class:pr-s32={!separator}
   on:click
   {href}
   target="_blank"
