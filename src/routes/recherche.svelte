@@ -33,6 +33,7 @@
     const subcategory = query.get("sub");
     const cityCode = query.get("city");
     const cityLabel = query.get("cl");
+    const radius = query.get("ra") || "10";
 
     return {
       props: {
@@ -40,6 +41,7 @@
         subcategory,
         cityCode,
         cityLabel,
+        radius,
         results: await getResults(category, subcategory, cityCode),
         servicesOptions: await getServicesOptions(),
       },
@@ -61,8 +63,15 @@
   import NoResultsPic from "$lib/assets/illu_zero-resultats-optimise.svg";
 
   export let servicesOptions;
-  export let category, subcategory, cityCode, cityLabel;
+  export let category, subcategory, cityCode, cityLabel, radius;
   export let results;
+
+  const radiusChoices = [
+    { value: "10", label: "10 km" },
+    { value: "20", label: "20 km" },
+    { value: "50", label: "50 km" },
+    { value: "100", label: "100 km" },
+  ];
 
   onMount(() => {
     if (browser) {
@@ -164,7 +173,9 @@ Cordialement,
       bind:subcategory
       bind:cityCode
       bind:cityLabel
+      bind:radius
       {servicesOptions}
+      {radiusChoices}
     />
   </div>
   <div class="results-wrapper">
