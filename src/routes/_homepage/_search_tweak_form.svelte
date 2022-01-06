@@ -19,7 +19,7 @@
   export let radiusChoices;
 
   function handleSearch() {
-    const query = getQuery(category, subcategory, cityCode, cityLabel, radius);
+    const query = getQuery(category, subcategory, cityCode, radius, cityLabel);
     goto(`recherche?${query}`);
   }
 

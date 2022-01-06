@@ -9,7 +9,6 @@
       category,
       subcategory,
       cityCode,
-      null,
       radius
     )}`;
     const res = await fetch(url, {
@@ -29,13 +28,20 @@
     return [];
   }
 
+  const radiusChoices = [
+    { value: "10", label: "10 km" },
+    { value: "20", label: "20 km" },
+    { value: "50", label: "50 km" },
+    { value: "100", label: "100 km" },
+  ];
+
   export async function load({ url }) {
     const query = url.searchParams;
     const category = query.get("cat");
     const subcategory = query.get("sub");
     const cityCode = query.get("city");
     const cityLabel = query.get("cl");
-    const radius = query.get("ra") || "10";
+    const radius = query.get("radius") || radiusChoices[0].value;
 
     return {
       props: {
@@ -67,13 +73,6 @@
   export let servicesOptions;
   export let category, subcategory, cityCode, cityLabel, radius;
   export let results;
-
-  const radiusChoices = [
-    { value: "10", label: "10 km" },
-    { value: "20", label: "20 km" },
-    { value: "50", label: "50 km" },
-    { value: "100", label: "100 km" },
-  ];
 
   onMount(() => {
     if (browser) {

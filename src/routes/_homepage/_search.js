@@ -1,10 +1,10 @@
-export function getQuery(category, subcategory, cityCode, cityLabel, radius) {
+export function getQuery(category, subcategory, cityCode, radius, cityLabel) {
   const parameters = {
     cat: category,
     sub: subcategory,
     city: cityCode,
     cl: cityLabel,
-    ra: radius,
+    radius,
   };
   const query = Object.entries(parameters)
     .filter(([_k, v]) => v != null)
