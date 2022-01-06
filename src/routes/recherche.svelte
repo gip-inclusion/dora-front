@@ -4,11 +4,13 @@
   import { getApiURL } from "$lib/utils/api.js";
   import { getQuery } from "./_homepage/_search";
 
-  async function getResults(category, subcategory, cityCode) {
+  async function getResults(category, subcategory, cityCode, radius) {
     const url = `${getApiURL()}/search/?${getQuery(
       category,
       subcategory,
-      cityCode
+      cityCode,
+      null,
+      radius
     )}`;
     const res = await fetch(url, {
       headers: {
@@ -42,7 +44,7 @@
         cityCode,
         cityLabel,
         radius,
-        results: await getResults(category, subcategory, cityCode),
+        results: await getResults(category, subcategory, cityCode, radius),
         servicesOptions: await getServicesOptions(),
       },
     };

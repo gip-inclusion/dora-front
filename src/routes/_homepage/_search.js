@@ -10,5 +10,6 @@ export function getQuery(category, subcategory, cityCode, cityLabel, radius) {
     .filter(([_k, v]) => v != null)
     .map(([k, v]) => `${k}=${encodeURIComponent(v)}`)
     .join("&");
+
   return query;
 }
