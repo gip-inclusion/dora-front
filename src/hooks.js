@@ -12,15 +12,14 @@ const noSsrPaths = [
   "/auth",
   "/sentry-debug-client",
   "/services/creer",
-  "tableau-de-bord/structures",
+  "/tableau-de-bord",
 ];
 
 export async function handle({ event, resolve }) {
-  const response = await resolve(event, {
-    ssr: !noSsrPaths.some((s) => !event.url.pathname.startsWith(s)),
-  });
+  const ssr = !noSsrPaths.some((s) => event.url.pathname.startsWith(s));
+  const response = await resolve(event, { ssr });
 
-  // https://help.hotjar.com/hc/en-us/articles/115011640307-Content-Security-Policies
+  // https://help.hotjar.com/hc/en-us/aFrticles/115011640307-Content-Security-Policies
 
   const connectSrc = `connect-src ${API_URL} ${
     dev ? "ws:" : ""
