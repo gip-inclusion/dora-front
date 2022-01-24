@@ -7,7 +7,7 @@
   import Field from "$lib/components/forms/field.svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
   import AddressSearch from "$lib/components/forms/street-search.svelte";
-  import Info from "./_info.svelte";
+  import Info from "$lib/components/forms/form-info.svelte";
 
   export let servicesOptions;
   export let service;
@@ -52,24 +52,11 @@
     placeholderMulti="Choisir un autre critères d’admission"
     sortSelect
   >
-    <FieldHelp slot="helptext" title="Critères">
+    <FieldHelp slot="helptext" title="Critères d’éligibilité">
+      <p>Définissez le type de publics auxquels ce service s’adresse.</p>
       <p>
-        <strong>Critères d’admission</strong><br />
-        Précisez les critères d’éligibilité du public afin de recevoir des orientations
-        adéquates
-      </p>
-      <p>
-        <strong>Publics concernés</strong><br />Définissez bien les publics
-        concernés, cela permettra d’orienter le bon public.
-      </p>
-      <p>
-        <strong>Pré-requis ou compétences</strong><br />
-        Quels sont les compétences, les diplômes qui limitent l’accès au service
-        ?
-      </p>
-      <p>
-        <strong>Service cumulable</strong><br />Ce service peut-il être cumulé à
-        un autre ?
+        Si le service est ouvert à tout le monde, sans critères ou prérequis,
+        laissez les champs avec les options par défaut.
       </p>
     </FieldHelp>
   </ModelField>
@@ -193,12 +180,7 @@
     bind:value={service.remoteUrl}
   />
 
-  <Field
-    type="custom"
-    label="Ville"
-    errorMessages={$formErrors.city}
-    schema={serviceSchema.city}
-  >
+  <Field type="custom" label="Ville" errorMessages={$formErrors.city}>
     <CitySearch
       slot="custom-input"
       name="city"
@@ -208,12 +190,7 @@
     />
   </Field>
 
-  <Field
-    type="custom"
-    label="Adresse"
-    errorMessages={$formErrors.address1}
-    schema={serviceSchema.address1}
-  >
+  <Field type="custom" label="Adresse" errorMessages={$formErrors.address1}>
     <AddressSearch
       slot="custom-input"
       name="address1"

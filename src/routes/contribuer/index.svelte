@@ -1,9 +1,9 @@
 <script>
-  import ContributionPic from "$lib/assets/illu_contribution.svg";
-
-  import { addCircleIcon, checkIcon } from "$lib/icons";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
+
+  import ContributionPic from "$lib/assets/illu_contribution.svg";
+  import { addCircleIcon, checkIcon } from "$lib/icons";
 </script>
 
 <svelte:head>
@@ -46,7 +46,8 @@
             </div>
             <div class="paragraph-small">
               Vous complétez uniquement les informations que vous possédez sur
-              le service, au minimum la structure et le nom du service ;
+              le service, au minimum la structure, le nom du service, la
+              thématique, le type de service et une courte description@nbsp;;
             </div>
           </div>
           <div class="flex">
@@ -55,7 +56,8 @@
             </div>
             <div class="paragraph-small">
               Les services renseignés sont enregistrés dans la base de données
-              DORA, en attendant d’être validés et complétés par la structure ;
+              DORA, en attendant d’être validés et complétés par la
+              structure@nbsp;;
             </div>
           </div>
 
@@ -76,7 +78,7 @@
 
         <LinkButton
           label="Proposer un service"
-          to={"/contribuer/etape1"}
+          to={"/contribuer/saisie"}
           icon={addCircleIcon}
           iconOnRight
         />

@@ -129,10 +129,10 @@ export async function getLastDraft() {
   return null;
 }
 
-export async function getServicesOptions() {
+export async function getServicesOptions({ kitFetch }) {
   const url = `${getApiURL()}/services-options/`;
   try {
-    return (await fetchData(url)).data;
+    return (await fetchData(url, { kitFetch })).data;
   } catch (err) {
     logException(err);
     return {};

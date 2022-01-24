@@ -1,13 +1,13 @@
 <script>
-  import ContributionPic from "$lib/assets/illu_contribution.svg";
-
-  import { addCircleIcon } from "$lib/icons";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
+
+  import ContributionPic from "$lib/assets/illu_contribution.svg";
+  import { addCircleIcon } from "$lib/icons";
 </script>
 
 <svelte:head>
-  <title>Merci pour votre contribution | DORA</title>
+  <title>Merci de votre contribution | DORA</title>
   <meta
     name="description"
     content="Aidez-nous à identifier et référencer l’ensemble de l’offre de l’insertion"
@@ -37,7 +37,7 @@
 
         <LinkButton
           label="Proposer un nouveau service"
-          to={"/contribuer/etape1"}
+          to={"/contribuer/saisie"}
           icon={addCircleIcon}
           iconOnRight
         />

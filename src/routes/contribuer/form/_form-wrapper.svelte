@@ -18,8 +18,6 @@
     step2Schema,
   } from "$lib/schemas/service-contrib.js";
 
-  // import { createOrModifyService,  } from "$lib/services";
-  import { assert /* logException*/ } from "$lib/logger";
   import Alert from "$lib/components/forms/alert.svelte";
 
   const schemas = new Map([
@@ -78,55 +76,19 @@
     case 1:
       navInfo = {
         next: 2,
-        showPublish: true,
       };
       break;
     case 2:
-      navInfo = {
-        previous: 1,
-        showPublish: true,
-      };
+      navInfo = {};
       break;
 
     default:
       console.log("?");
   }
 
-  function isValid(_schema) {
-    // TODO
-    // return schema.isValidSync(service);
-  }
-
-  export async function publish() {
-    // Validate the whole form
-    const { _validatedData, valid } = validate(
-      service,
-      serviceSchema,
-      serviceSchema,
-      { skipDependenciesCheck: true, noScroll: false }
-    );
-
-    if (valid) {
-      assert(service.slug);
-
-      // Validation OK, let's send it to the API endpoint
-      goto(`/contribuer/merci`);
-      // try {
-      //   const result = await publishDraft(service.slug);
-      //   goto(`/services/${result.slug}`);
-      // } catch (error) {
-      //   logException(error);
-      // }
-    }
-  }
-
   function goToPage(number) {
     currentStep = number;
     scrollY = 0;
-  }
-
-  function handleGoBack() {
-    goToPage(navInfo.previous);
   }
 
   async function handleGoForward() {
@@ -141,17 +103,21 @@
   }
 
   async function handlePublish() {
-    if (currentStep === 5) {
-      publish();
-    } else {
-      if (
-        validate(service, schemas.get(currentStep), serviceSchema, {
-          skipDependenciesCheck: true,
-          noScroll: false,
-        }).valid
-      ) {
-        publish();
-      }
+    // Validate the whole form
+    if (
+      validate(service, serviceSchema, serviceSchema, {
+        skipDependenciesCheck: true,
+        noScroll: false,
+      }).valid
+    ) {
+      // try {
+      //   const result = await publishDraft(service.slug);
+      //   goto(`/services/${result.slug}`);
+      // } catch (error) {
+      //   logException(error);
+      // }
+      console.log(service);
+      goto(`/contribuer/merci`);
     }
   }
 </script>
@@ -184,12 +150,9 @@
 
 <CenteredGrid sticky>
   <NavButtons
-    _currentPageIsValid={isValid(schemas.get(currentStep))}
-    onGoBack={handleGoBack}
+    currentPageIsValid={service.siret}
     onGoForward={handleGoForward}
     onPublish={handlePublish}
-    withBack={!!navInfo?.previous}
     withForward={!!navInfo?.next && !navInfo?.showPreview}
-    withPublish={navInfo?.showPublish}
   />
 </CenteredGrid>

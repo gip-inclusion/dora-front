@@ -1,25 +1,14 @@
 <script>
   import Button from "$lib/components/button.svelte";
 
-  import { arrowRightSIcon, arrowLeftCircleIcon } from "$lib/icons.js";
-  export let withBack = false;
+  import { arrowRightSIcon } from "$lib/icons.js";
   export let withForward = false;
-  export let onGoBack, onGoForward, onPublish;
+  export let onGoForward, onPublish;
   export let currentPageIsValid;
 </script>
 
 <div class="col-span-full col-start-1 ">
   <div class="flex flex-row gap-s48">
-    {#if withBack}
-      <Button
-        on:click={onGoBack}
-        name="backward"
-        label="Étape précédente"
-        icon={arrowLeftCircleIcon}
-        noBackground
-        iconOnLeft
-      />
-    {/if}
     <div class="grow" />
 
     {#if withForward}
@@ -28,7 +17,7 @@
         name="forward"
         label="Ajouter plus d’informations"
         secondary
-        disabled={currentPageIsValid}
+        disabled={!currentPageIsValid}
         icon={arrowRightSIcon}
         iconOnRight
       />
@@ -38,7 +27,7 @@
       on:click={onPublish}
       name="validate"
       label="Envoyer la contribution"
-      disabled={currentPageIsValid}
+      disabled={!currentPageIsValid}
       icon={arrowRightSIcon}
       iconOnRight
     />

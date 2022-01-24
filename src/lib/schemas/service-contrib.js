@@ -1,10 +1,10 @@
 import * as v from "./utils";
 
 const shape1 = {
-  structure: {
-    default: null,
+  siret: {
+    default: "",
     required: true,
-    rules: [v.isString(), v.maxStrLength(50)],
+    rules: [v.isSiret()],
   },
   name: {
     default: "",
@@ -14,6 +14,7 @@ const shape1 = {
   },
   shortDesc: {
     default: "",
+    required: true,
     rules: [v.isString(), v.maxStrLength(280)],
     post: [v.trim],
   },
@@ -25,8 +26,7 @@ const shape1 = {
   fullDesc: { default: "", rules: [v.isString()], post: [v.trim] },
   category: {
     default: "",
-    nullable: true,
-    required: false,
+    required: true,
     rules: [v.isString(), v.maxStrLength(2)],
   },
   subcategories: {
@@ -35,6 +35,7 @@ const shape1 = {
   },
   kinds: {
     default: [],
+    required: true,
     rules: [v.isArray([v.isString(), v.maxStrLength(2)])],
   },
 };
