@@ -7,8 +7,18 @@ export async function handleError({ error, event }) {
   Sentry.captureException(error, { event });
 }
 
+const noSsrPaths = [
+  "/recherche",
+  "/auth",
+  "/sentry-debug-client",
+  "/services/creer",
+  "tableau-de-bord/structures",
+];
+
 export async function handle({ event, resolve }) {
-  const response = await resolve(event);
+  const response = await resolve(event, {
+    ssr: !noSsrPaths.some((s) => !event.url.pathname.startsWith(s)),
+  });
 
   // https://help.hotjar.com/hc/en-us/articles/115011640307-Content-Security-Policies
 
@@ -20,12 +30,13 @@ export async function handle({ event, resolve }) {
   const fontSrc = `font-src 'self' http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io`;
   const imgSrc = `img-src 'self' data: http://*.hotjar.com https://*.hotjar.com http://*.hotjar.io https://*.hotjar.io`;
 
-  response.headers["X-Frame-Options"] = "DENY";
-  response.headers["X-XSS-Protection"] = "1; mode=block";
-  response.headers["X-Content-Type-Options"] = "nosniff";
-  response.headers[
-    "Content-Security-Policy"
-  ] = `default-src 'none';  ${connectSrc}; ${scriptSrc}; ${fontSrc}; ${imgSrc}; style-src 'self' 'unsafe-inline'; ${frameSrc}`;
+  response.headers.set("X-Frame-Options", "DENY");
+  response.headers.set("X-XSS-Protection", "1; mode=block");
+  response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set(
+    "Content-Security-Policy",
+    `default-src 'none';  ${connectSrc}; ${scriptSrc}; ${fontSrc}; ${imgSrc}; style-src 'self' 'unsafe-inline'; ${frameSrc}`
+  );
 
   return response;
 }
