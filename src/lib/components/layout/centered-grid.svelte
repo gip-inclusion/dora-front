@@ -25,7 +25,7 @@
     justify-content: center;
     padding-right: var(--s16);
     padding-left: var(--s16);
-    background-color: var(--col-bg);
+    /* background-color: var(--col-bg); */
   }
 
   .centered-grid {
