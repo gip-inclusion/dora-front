@@ -6,7 +6,7 @@
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import {
     validate,
-    injectAPIErrors,
+    // injectAPIErrors,
     contextValidationKey,
     formErrors,
   } from "$lib/validation.js";
@@ -18,8 +18,8 @@
     step2Schema,
   } from "$lib/schemas/service-contrib.js";
 
-  import { createOrModifyService, publishDraft } from "$lib/services";
-  import { assert, logException } from "$lib/logger";
+  // import { createOrModifyService,  } from "$lib/services";
+  import { assert /* logException*/ } from "$lib/logger";
   import Alert from "$lib/components/forms/alert.svelte";
 
   const schemas = new Map([
@@ -110,36 +110,13 @@
       assert(service.slug);
 
       // Validation OK, let's send it to the API endpoint
-      try {
-        const result = await publishDraft(service.slug);
-        goto(`/services/${result.slug}`);
-      } catch (error) {
-        logException(error);
-      }
-    }
-  }
-
-  export async function modify() {
-    // Validate the whole form
-    const { validatedData, valid } = validate(
-      service,
-      serviceSchema,
-      serviceSchema,
-      { skipDependenciesCheck: true, noScroll: false }
-    );
-
-    if (valid) {
-      assert(service.slug);
-
-      // Validation OK, let's send it to the API endpoint
-
-      const result = await createOrModifyService(validatedData);
-      if (result.ok) {
-        service = result.data;
-        goto(`/services/${service.slug}`);
-      } else {
-        injectAPIErrors(result.error, {});
-      }
+      goto(`/contribuer/merci`);
+      // try {
+      //   const result = await publishDraft(service.slug);
+      //   goto(`/services/${result.slug}`);
+      // } catch (error) {
+      //   logException(error);
+      // }
     }
   }
 
@@ -177,21 +154,6 @@
       }
     }
   }
-
-  async function handleModify() {
-    if (currentStep === 5) {
-      modify();
-    } else {
-      if (
-        validate(service, schemas.get(currentStep), serviceSchema, {
-          skipDependenciesCheck: true,
-          noScroll: false,
-        }).valid
-      ) {
-        await modify();
-      }
-    }
-  }
 </script>
 
 <svelte:window bind:scrollY />
@@ -226,7 +188,6 @@
     onGoBack={handleGoBack}
     onGoForward={handleGoForward}
     onPublish={handlePublish}
-    onModify={handleModify}
     withBack={!!navInfo?.previous}
     withForward={!!navInfo?.next && !navInfo?.showPreview}
     withPublish={navInfo?.showPublish}

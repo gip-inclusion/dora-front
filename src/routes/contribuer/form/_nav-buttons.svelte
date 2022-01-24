@@ -4,11 +4,8 @@
   import { arrowRightSIcon, arrowLeftCircleIcon } from "$lib/icons.js";
   export let withBack = false;
   export let withForward = false;
-  export let withDraft = false;
-  export let isDraft;
-  export let onGoBack, onGoForward, onPublish, onModify, onSaveDraft, onPreview;
+  export let onGoBack, onGoForward, onPublish;
   export let currentPageIsValid;
-  export let flashSaveDraftButton = false;
 </script>
 
 <div class="col-span-full col-start-1 ">
@@ -24,17 +21,7 @@
       />
     {/if}
     <div class="grow" />
-    {#if withDraft}
-      <Button
-        on:click={onSaveDraft}
-        flashSuccess={flashSaveDraftButton}
-        name="save_draft"
-        label={flashSaveDraftButton
-          ? "Enregistré !"
-          : "Enregistrer comme brouillon"}
-        tertiary
-      />
-    {/if}
+
     {#if withForward}
       <Button
         on:click={onGoForward}
@@ -48,7 +35,7 @@
     {/if}
 
     <Button
-      on:click={isDraft ? onPublish : onModify}
+      on:click={onPublish}
       name="validate"
       label="Envoyer la contribution"
       disabled={currentPageIsValid}
