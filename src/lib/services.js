@@ -156,8 +156,19 @@ export async function publishServiceSuggestion(service) {
       contents,
     }),
   });
-  if (!response.ok) {
-    throw Error(response.statusText);
+
+  const result = {
+    ok: response.ok,
+    status: response.status,
+  };
+  if (response.ok) {
+    result.data = await response.json();
+  } else {
+    try {
+      result.error = await response.json();
+    } catch (err) {
+      console.error(err);
+    }
   }
-  return await response.json();
+  return result;
 }

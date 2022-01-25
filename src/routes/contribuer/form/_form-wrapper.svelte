@@ -6,7 +6,7 @@
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import {
     validate,
-    // injectAPIErrors,
+    injectAPIErrors,
     contextValidationKey,
     formErrors,
   } from "$lib/validation.js";
@@ -19,7 +19,6 @@
   } from "$lib/schemas/service-contrib.js";
 
   import Alert from "$lib/components/forms/alert.svelte";
-  import { logException } from "$lib/logger";
   import { publishServiceSuggestion } from "$lib/services";
 
   const schemas = new Map([
@@ -112,11 +111,11 @@
         noScroll: false,
       }).valid
     ) {
-      try {
-        await publishServiceSuggestion(service);
+      const result = await publishServiceSuggestion(service);
+      if (result.ok) {
         goto(`/contribuer/merci`);
-      } catch (error) {
-        logException(error);
+      } else {
+        injectAPIErrors(result.error, {});
       }
     }
   }
