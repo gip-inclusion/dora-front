@@ -4,6 +4,7 @@
 
   import ContributionPic from "$lib/assets/illu_contribution.svg";
   import { addCircleIcon } from "$lib/icons";
+  import ShareButton from "$lib/components/share-button.svelte";
 </script>
 
 <svelte:head>
@@ -29,18 +30,28 @@
       <div class="flex-1">
         <h1 class="text-france-blue">Merci pour votre contribution&nbsp;!</h1>
 
-        <p class="paragraph mt-s24 mb-s32 text-gray-dark">
+        <p class="paragraph mt-s24  text-gray-dark">
           Les informations que vous avez proposées ont été enregistrées. Dès que
           la structure validera et complètera vos propositions, le service sera
           réferencé sur la plateforme DORA.
         </p>
 
-        <LinkButton
-          label="Proposer un nouveau service"
-          to={"/contribuer/saisie"}
-          icon={addCircleIcon}
-          iconOnRight
-        />
+        <p class="paragraph mt-s24 mb-s48 text-gray-dark">
+          N'hésitez pas à partager le lien de la plateforme DORA pour faire
+          grandir le nombre de services référencés et le nombre de personnes
+          accompagnées.
+        </p>
+
+        <div class="flex flex-col gap-s16">
+          <LinkButton
+            label="Proposer un nouveau service"
+            to={"/contribuer/saisie"}
+            icon={addCircleIcon}
+            iconOnRight
+          />
+
+          <ShareButton />
+        </div>
       </div>
     </div>
   </div>

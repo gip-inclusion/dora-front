@@ -87,16 +87,6 @@
       name="shortDesc"
       errorMessages={$formErrors.shortDesc}
       bind:value={service.shortDesc}
-    />
-    <ModelField
-      label="Sessions & récurrence"
-      description="À quelle fréquence ce service est-il disponible ?"
-      type="text"
-      placeholder="Ex. Tous les jours, une fois par mois, etc."
-      schema={serviceSchema.recurrence}
-      name="recurrence"
-      errorMessages={$formErrors.recurrence}
-      bind:value={service.recurrence}
       ><FieldHelp slot="helptext" title="Présentation résumée">
         <p>
           Contenu de présentation court qui apparait dans les résultats de

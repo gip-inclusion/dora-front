@@ -129,8 +129,11 @@
     errorMessages={$formErrors.contactName}
     bind:value={service.contactName}
   >
-    <FieldHelp slot="helptext" title="Contact référent">
-      Merci de préciser les coordonnées de la personne en charge de ce service.
+    <FieldHelp slot="helptext" title="Contact">
+      Si vous les connaissez, merci de renseigner les coordonnées de la personne
+      responsable de la réception et du traitement des demandes d’orientation,
+      pour ce service. À défaut, renseignez le courriel et le numéro de
+      téléphone de la personne avec qui vous êtes en contact.
     </FieldHelp></ModelField
   >
   <ModelField

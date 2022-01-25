@@ -3,7 +3,12 @@
   import LinkButton from "$lib/components/link-button.svelte";
 
   import ContributionPic from "$lib/assets/illu_contribution.svg";
-  import { addCircleIcon, checkIcon } from "$lib/icons";
+  import {
+    addCircleIcon,
+    uploadCloudIcon,
+    quillPenIcon,
+    timerFlashIcon,
+  } from "$lib/icons";
 </script>
 
 <svelte:head>
@@ -28,53 +33,13 @@
       />
       <div class="flex-1">
         <h1 class="text-france-blue">
-          Aidez-nous à identifier et référencer l’ensemble de l’offre de
-          l’insertion
+          Participez à notre démarche collective en identifiant vos partenaires
         </h1>
 
-        <p class="paragraph mt-s24 text-gray-dark">
-          Vous connaissez des services et structures qui ne sont pas encore
-          référencés sur la plateforme DORA ? Vous pouvez dès à présent
-          contribuer à la construction de la première base de données publique
-          de l’offre d’insertion nationale.
+        <p class="paragraph mt-s24 mb-s24 text-gray-dark">
+          Vous pouvez des à présent contribuer à la construction de la première
+          base de données publique de l’offre d’insertion nationale.
         </p>
-
-        <div class="mt-s24 mb-s48 flex flex-col gap-s20">
-          <div class="flex">
-            <div class="icon ">
-              {@html checkIcon}
-            </div>
-            <div class="paragraph-small">
-              Vous complétez uniquement les informations que vous possédez sur
-              le service, au minimum la structure, le nom du service, la
-              thématique, le type de service et une courte description@nbsp;;
-            </div>
-          </div>
-          <div class="flex">
-            <div class="icon ">
-              {@html checkIcon}
-            </div>
-            <div class="paragraph-small">
-              Les services renseignés sont enregistrés dans la base de données
-              DORA, en attendant d’être validés et complétés par la
-              structure@nbsp;;
-            </div>
-          </div>
-
-          <div class="flex">
-            <div class="icon ">
-              {@html checkIcon}
-            </div>
-            <div class="paragraph-small">
-              Si vous le souhaitez, vous pouvez créer un compte afin de pouvoir
-              suivre la mise en ligne des structures et fiches. <span
-                class="text-magenta-brand"
-              >
-                Bientot !</span
-              >
-            </div>
-          </div>
-        </div>
 
         <LinkButton
           label="Proposer un service"
@@ -82,6 +47,40 @@
           icon={addCircleIcon}
           iconOnRight
         />
+
+        <div class="mt-s48 mb-s48 flex flex-col gap-s20">
+          <div class="flex">
+            <div class="icon ">
+              {@html timerFlashIcon}
+            </div>
+            <div class="paragraph-small">
+              <strong
+                >Deux minutes suffisent pour partager votre expertise&nbsp;!</strong
+              >
+            </div>
+          </div>
+          <div class="flex">
+            <div class="icon">
+              {@html quillPenIcon}
+            </div>
+            <div class="paragraph-small">
+              Complétez uniquement les informations que vous possédez sur le
+              service proposé. Seuls les champs marqués d’un astérisque<span
+                style="color: var(--col-error);">*</span
+              > sont obligatoires.
+            </div>
+          </div>
+
+          <div class="flex">
+            <div class="icon">
+              {@html uploadCloudIcon}
+            </div>
+            <div class="paragraph-small">
+              Les services renseignés sont enregistrés dans la base de données
+              DORA, en attendant leur validation.
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -89,6 +88,6 @@
 
 <style lang="postcss">
   .icon {
-    @apply w-s24 mr-s12 fill-current text-magenta-brand flex-initial self-center;
+    @apply w-s32 mr-s12 fill-current text-france-blue flex-none self-center;
   }
 </style>

@@ -131,8 +131,9 @@
       <div class="paragraph-small mt-s16">
         Aidez-nous à identifier et référencer l’ensemble de l’offre de
         l’insertion.<br />
-        Seuls les champs marqués d’un astérisque
-        <span style="color: var(--col-error);">*</span> sont obligatoires.
+        Seuls les champs marqués d’un astérisque<span
+          style="color: var(--col-error);">*</span
+        > sont obligatoires.
       </div>
     </div>
   </div>
