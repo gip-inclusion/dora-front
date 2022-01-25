@@ -7,8 +7,9 @@ export async function handleError({ error, event }) {
   Sentry.captureException(error, { event });
 }
 
-// We don't need ssr here, and don't want to api call done twice
-// given that the token will be deleted after validation
+// /auth utilise un token qui est invalidé sur le serveur après le premier appel.
+// on ne veut donc pas qu'il soit requêté par le ssr puis par le le client
+// on devrait pouvoir utiliser la function `fetch` disponible en paramètre de la function load.
 const noSsrPaths = [
   "/recherche",
   "/auth",
