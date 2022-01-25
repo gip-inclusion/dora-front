@@ -92,7 +92,7 @@
   </div>
 </div>
 
-<style>
+<style lang="postcss">
   h2 {
     color: var(--col-france-blue) !important;
   }
