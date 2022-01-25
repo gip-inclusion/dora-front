@@ -183,7 +183,7 @@
   </Form>
 </AuthLayout>
 
-<style>
+<style lang="postcss">
   li {
     list-style-position: inside;
     list-style-type: disc;
