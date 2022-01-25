@@ -15,6 +15,9 @@
     "prepare": "husky install",
     "security-scan": "ggshield scan  path -r . -y"
   },
+  "@comment dependencies": {
+    "dependencies-vs-devdependencies": "Les librairies qui sont dans dependencies sont utilisées depuis node_modules par le bundle ssr (voir: https://vitejs.dev/guide/ssr.html#ssr-externals). Pour tester: `npm i && npm run build && rm -rf node_modules/ && npm i --production && node build`."
+  },
   "dependencies": {
     "@sentry/browser": "^6.17.1",
     "@sentry/tracing": "^6.17.1",

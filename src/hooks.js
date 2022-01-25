@@ -7,6 +7,8 @@ export async function handleError({ error, event }) {
   Sentry.captureException(error, { event });
 }
 
+// We don't need ssr here, and don't want to api call done twice
+// given that the token will be deleted after validation
 const noSsrPaths = [
   "/recherche",
   "/auth",

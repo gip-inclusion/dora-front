@@ -224,8 +224,4 @@
   textarea {
     @apply disabled:bg-gray-00 read-only:text-gray-03;
   }
-
-  textarea {
-    @apply px-s12 py-s6;
-  }
 </style>
