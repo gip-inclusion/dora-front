@@ -19,6 +19,8 @@
   } from "$lib/schemas/service-contrib.js";
 
   import Alert from "$lib/components/forms/alert.svelte";
+  import { logException } from "$lib/logger";
+  import { publishServiceSuggestion } from "$lib/services";
 
   const schemas = new Map([
     [1, step1Schema],
@@ -110,14 +112,12 @@
         noScroll: false,
       }).valid
     ) {
-      // try {
-      //   const result = await publishDraft(service.slug);
-      //   goto(`/services/${result.slug}`);
-      // } catch (error) {
-      //   logException(error);
-      // }
-      console.log(service);
-      goto(`/contribuer/merci`);
+      try {
+        await publishServiceSuggestion(service);
+        goto(`/contribuer/merci`);
+      } catch (error) {
+        logException(error);
+      }
     }
   }
 </script>

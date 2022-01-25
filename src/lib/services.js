@@ -138,3 +138,26 @@ export async function getServicesOptions({ kitFetch } = {}) {
     return {};
   }
 }
+
+export async function publishServiceSuggestion(service) {
+  const url = `${getApiURL()}/services-suggestions/`;
+  const method = "POST";
+  const { siret, name, ...contents } = service;
+  const response = await fetch(url, {
+    method,
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({
+      siret,
+      name,
+      contents,
+    }),
+  });
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return await response.json();
+}
