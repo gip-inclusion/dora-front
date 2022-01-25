@@ -87,6 +87,17 @@
       name="shortDesc"
       errorMessages={$formErrors.shortDesc}
       bind:value={service.shortDesc}
+    />
+
+    <ModelField
+      label="Descriptif complet du service"
+      placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant ce service et ses spécificités."
+      type="richtext"
+      vertical
+      schema={serviceSchema.fullDesc}
+      name="fullDesc"
+      errorMessages={$formErrors.fullDesc}
+      bind:value={service.fullDesc}
       ><FieldHelp slot="helptext" title="Présentation résumée">
         <p>
           Contenu de présentation court qui apparait dans les résultats de
@@ -100,16 +111,6 @@
         </p>
       </FieldHelp></ModelField
     >
-    <ModelField
-      label="Descriptif complet du service"
-      placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant ce service et ses spécificités."
-      type="richtext"
-      vertical
-      schema={serviceSchema.fullDesc}
-      name="fullDesc"
-      errorMessages={$formErrors.fullDesc}
-      bind:value={service.fullDesc}
-    />
   </FieldSet>
 
   <FieldSet title="Typologie de service">

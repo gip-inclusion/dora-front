@@ -31,7 +31,7 @@
 </script>
 
 <FieldSet title="Conditions d'accès pour le bénéficiaire">
-  <Info title="Informations non obligatoires">
+  <Info slot="prefix" title="Informations non obligatoires">
     Vous avez décidé de rajouter des informations supplémentaires concernant le
     service saisi. Ces informations ne sont pas obligatoires, mais nous
     permettent d’enregistrer des informations qualifiées et ainsi de faciliter
