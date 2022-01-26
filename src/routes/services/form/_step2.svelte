@@ -27,12 +27,12 @@
     <FieldHelp slot="helptext" title="Critères">
       <p>
         <strong>Critères d’éligibilité</strong><br />
-        Définissez le type de publics auxquels votre service s’adresse.  Si parmi
+        Définissez le type de publics auxquels votre service s’adresse. Si parmi
         les choix proposés pour les « critères d’accès », pour les « publics concernés »
         ou pour « les prérequis ou compétences » vous pouvez ajouter vos propres
-        critères grâce au bouton « Ajouter une autre option ».  Si votre service
-        est ouvert à tout le monde, sans critères ou prérequis, laissez les champs
-        avec les options par défaut.
+        critères grâce au bouton « Ajouter une autre option ». Si votre service est
+        ouvert à tout le monde, sans critères ou prérequis, laissez les champs avec
+        les options par défaut.
       </p>
     </FieldHelp>
   </AddableMultiselect>

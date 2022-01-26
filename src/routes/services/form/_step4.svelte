@@ -72,7 +72,7 @@
       <FieldHelp slot="helptext" title="Contact référent">
         Merci de préciser les coordonnées de la personne responsable de la
         réception et du traitement des demandes d’orientation. À défaut,
-        renseignez le courriel et le numéro de téléphone de votre structure. Par
+        renseignez le courriel et le numéro de téléphone de votre structure.Par
         défaut, ces informations sont disponibles uniquement aux accompagnateurs
         qui ont un compte DORA. En cochant la case « Rendre les informations
         publiques », les informations seront rendues disponibles à tous les
