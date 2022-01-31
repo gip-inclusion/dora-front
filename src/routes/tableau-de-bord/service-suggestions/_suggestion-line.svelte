@@ -1,9 +1,9 @@
 <script>
   export let label;
   export let data;
-  export let isList;
-  export let verticalLayout;
-  export let isBool;
+  export let isList = false;
+  export let verticalLayout = false;
+  export let isBool = false;
 </script>
 
 <div

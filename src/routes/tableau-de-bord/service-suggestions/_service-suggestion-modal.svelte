@@ -29,7 +29,7 @@
         >
 
         <SuggestionLine label="Soumis par" data={suggestion.creator}>
-          {suggestion.creator.getFullName} ({suggestion.creator.email})
+          {suggestion.creator?.getFullName} ({suggestion.creator?.email})
         </SuggestionLine>
 
         <SuggestionLine

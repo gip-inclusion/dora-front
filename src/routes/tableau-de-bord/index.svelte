@@ -25,6 +25,10 @@
   import PendingNotice from "./_pending-notice.svelte";
 
   export let services, structures, pendingStructures;
+
+  async function handleRefresh() {
+    services = await getMyServices();
+  }
 </script>
 
 <svelte:head>
@@ -96,7 +100,7 @@
           <h2>Mes Services</h2>
         </div>
         <div class="border-t border-gray-03" />
-        <ServicesList {services} />
+        <ServicesList {services} onRefresh={handleRefresh} />
       {/if}
     </div>
   </CenteredGrid>

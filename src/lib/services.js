@@ -85,6 +85,31 @@ export async function createOrModifyService(service) {
   return result;
 }
 
+export async function deleteService(serviceSlug) {
+  const url = `${getApiURL()}/services/${serviceSlug}/`;
+  const method = "DELETE";
+  const res = await fetch(url, {
+    method,
+    headers: {
+      Accept: "application/json; version=1.0",
+      Authorization: `Token ${get(token)}`,
+    },
+  });
+
+  const result = {
+    ok: res.ok,
+    status: res.status,
+  };
+  if (!res.ok) {
+    try {
+      result.error = await res.json();
+    } catch (err) {
+      logException(err);
+    }
+  }
+  return result;
+}
+
 export async function publishDraft(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
@@ -103,7 +128,7 @@ export async function publishDraft(serviceSlug) {
   return await response.json();
 }
 
-export async function unPublishDraft(serviceSlug) {
+export async function unPublishService(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
   const response = await fetch(url, {
@@ -114,6 +139,24 @@ export async function unPublishDraft(serviceSlug) {
       Authorization: `Token ${get(token)}`,
     },
     body: JSON.stringify({ isDraft: true }),
+  });
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return await response.json();
+}
+
+export async function convertSuggestionToDraft(serviceSlug) {
+  const url = `${getApiURL()}/services/${serviceSlug}/`;
+  const method = "PATCH";
+  const response = await fetch(url, {
+    method,
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({ isDraft: true, isSuggestion: false }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
