@@ -51,6 +51,7 @@
         <a
           href="https://itou.typeform.com/to/DPQOe5pP"
           target="_blank"
+          rel="noopener nofollow"
           label="Participer (3min)"
           class="px-s16 py-s12 text-f16 font-bold text-white bg-magenta-cta hover:bg-magenta-hover active:bg-france-blue rounded focus:shadow-focus"
           >Participer (3 min.)</a
