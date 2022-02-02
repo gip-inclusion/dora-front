@@ -53,8 +53,8 @@
     border =
       "border border-magenta-cta hover:border-magenta-hover disabled:border-gray-01 active:border-france-blue";
     text =
-      "font-bold text-magenta-cta hover:text-white disabled:disabled:text-gray-text-alt2 active:text-france-blue";
-    background = "bg-white hover:bg-magenta-hover";
+      "font-bold text-magenta-cta hover:text-white disabled:text-gray-text-alt2 active:text-france-blue";
+    background = "bg-white hover:bg-magenta-hover disabled:bg-white";
   } else if (tertiary) {
     border =
       "border border-gray-dark  disabled:border-gray-01 active:border-france-blue";
@@ -82,7 +82,7 @@
 <button
   {type}
   {name}
-  class="{px} {py} {ts} {lead} {border} {text} {background} flex flex-row rounded items-center focus:shadow-focus outline-none"
+  class="{px} {py} {ts} {lead} {border} {text} {background} flex flex-row rounded items-center focus:shadow-focus outline-none whitespace-nowrap"
   class:items-start={nogrow}
   class:flash-success={flashSuccess}
   class:w-full={wFull}
@@ -93,7 +93,7 @@
   {disabled}
 >
   {#if iconOnLeft}
-    <div class="{iw} {ih} mr-s8 fill-current">
+    <div class="{iw} {ih} mr-s8 fill-current shrink-0">
       {@html icon}
     </div>
   {/if}
@@ -105,7 +105,7 @@
   {label}
 
   {#if iconOnRight}
-    <div class="{iw} {ih} ml-s8 fill-current justify-end">
+    <div class="{iw} {ih} ml-s8 fill-current justify-end shrink-0">
       {@html icon}
     </div>
   {/if}

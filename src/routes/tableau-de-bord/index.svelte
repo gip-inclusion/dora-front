@@ -24,8 +24,11 @@
   import ServicesList from "./_services-list.svelte";
   import PendingNotice from "./_pending-notice.svelte";
 
-  export let services;
-  export let structures, pendingStructures;
+  export let services, structures, pendingStructures;
+
+  async function handleRefresh() {
+    services = await getMyServices();
+  }
 </script>
 
 <svelte:head>
@@ -43,8 +46,8 @@
       <div class="mb-s16 lg:mb-s0">
         <h4 class="text-magenta-cta">Aidez-nous à améliorer DORA !</h4>
         <p class="text-f14">
-          Faites nous part de vos retours d'expérience, des problemes que vous
-          rencontrez ou porpositions d’amelioration.
+          Faites-nous part de vos retours d’expérience, de problèmes que vous
+          rencontrez ou de propositions d’amélioration.
         </p>
       </div>
       <div class="shrink-0 py-s16 self-end">
@@ -85,7 +88,18 @@
           </div>
         </div>
       {/if}
-
+      {#if $userInfo.isBizdev}
+        <div class="rounded-md p-s8 bg-gray-bg mb-s48">
+          <h4 class="text-information">⚠️ Seulement pour les bizdev</h4>
+          <div class="flex">
+            <LinkButton
+              label="Voir les suggestions de service"
+              to="/tableau-de-bord/service-suggestions"
+              noBackground
+            />
+          </div>
+        </div>
+      {/if}
       {#if pendingStructures.length}
         {#each pendingStructures as structure}
           <PendingNotice {structure} />
@@ -105,7 +119,7 @@
           <h2>Mes Services</h2>
         </div>
         <div class="border-t border-gray-03" />
-        <ServicesList {services} />
+        <ServicesList {services} onRefresh={handleRefresh} />
       {/if}
     </div>
   </CenteredGrid>

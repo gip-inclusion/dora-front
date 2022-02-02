@@ -7,7 +7,7 @@
   import SearchBySiret from "$lib/components/structures/search-by-siret.svelte";
 
   export let servicesOptions, service;
-  let establishment = {};
+  export let establishment;
 
   let subcategories = [];
   function handleCategoryChange(category) {
@@ -33,7 +33,7 @@
 
 <FieldSet
   title="Identifions la structure concernée"
-  description="Merci de renseigner le numéro SIRET de votre structure afin de l’identifier."
+  description="Merci de renseigner le numéro SIRET de la structure afin de l’identifier."
 >
   <SearchBySiret
     bind:establishment
