@@ -10,6 +10,8 @@
   export let establishment;
 
   let subcategories = [];
+  let structuresTab = "siret";
+
   function handleCategoryChange(category) {
     subcategories = category
       ? servicesOptions.subcategories.filter(({ value }) =>
@@ -33,15 +35,43 @@
 
 <FieldSet
   title="Identifions la structure concernée"
-  description="Merci de renseigner le numéro SIRET de la structure afin de l’identifier."
+  headerBg="bg-france-blue"
+  noHeaderBorder
 >
+  <div slot="description">
+    <p class="text-f14 text-white">
+      Choisissez une méthode d'identification. En cas de doute, contactez-nous.
+    </p>
+    <ul class="gap-s8 pt-s16 flex flex-wrap">
+      <li>
+        <button
+          class="p-s16 rounded-t-md {structuresTab === 'siret'
+            ? 'text-france-blue bg-white '
+            : 'bg-magenta-dark text-white '}"
+          on:click={() => {
+            structuresTab = "siret";
+          }}>Son numéro de SIRET</button
+        >
+      </li>
+      <li>
+        <button
+          class="p-s16 rounded-t-md  {structuresTab === 'nom'
+            ? 'text-france-blue bg-white '
+            : 'bg-magenta-dark text-white '}"
+          on:click={() => {
+            structuresTab = "nom";
+          }}>Son nom</button
+        >
+      </li>
+    </ul>
+  </div>
   <SearchBySiret
     bind:establishment
     onCityChange={handleCityChange}
     onEstablishmentChange={handleEstablishmentChange}
   />
   {#if establishment?.siret}
-    <div class="border border-gray-01 p-s24">
+    <div class="border-gray-01 p-s24 border">
       <h4 class="text-gray-text">{establishment.name}</h4>
       <div class="legend">{establishment.siret}</div>
       <div class="legend">{establishment.address1}</div>

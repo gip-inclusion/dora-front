@@ -1,7 +1,6 @@
 <script>
   import Field from "$lib/components/forms/field.svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
-
   import SiretSearch from "./siret-autocomplete.svelte";
 
   export let establishment;
