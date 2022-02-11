@@ -29,6 +29,8 @@
       a.label.localeCompare(b.label, "fr", { numeric: true })
     );
   }
+
+  // export let items = sort ? getSortedChoices(choices) : choices;
 </script>
 
 <AutoComplete
@@ -39,7 +41,8 @@
   {localFiltering}
   {minCharactersToSearch}
   {onChange}
-  items={sort ? getSortedChoices(choices) : choices}
+  bind:items={choices}
+  _items={sort ? getSortedChoices(choices) : choices}
   {initialValue}
   {disabled}
   {readonly}

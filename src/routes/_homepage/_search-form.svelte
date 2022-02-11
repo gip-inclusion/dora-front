@@ -29,7 +29,7 @@
     { value: "100", label: "100 km" },
   ];
 
-  let radius = radiusChoices[0].value;
+  const radius = radiusChoices[0].value;
 
   function handleSearch() {
     const query = getQuery(category, subcategory, cityCode, radius, cityLabel);
@@ -99,7 +99,8 @@
         />
       </Field>
 
-      <div class="basis-s112">
+      <!-- Le rayon reviendra plus tard, quand on aura une recherche par adresse-->
+      <!-- <div class="basis-s112">
         <Field
           type="select"
           name="radius"
@@ -109,7 +110,7 @@
           vertical
           sortSelect
         />
-      </div>
+      </div> -->
 
       <div class="mb-s16 self-end">
         <Button
