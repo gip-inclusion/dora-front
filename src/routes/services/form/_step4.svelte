@@ -13,7 +13,7 @@
   import AdminDivisionSearch from "$lib/components/forms/admin-division-search.svelte";
 
   export let servicesOptions, service;
-  export let choices = [];
+  export let adminDivisionChoices = [];
 
   function handleCityChange(city) {
     const props = city?.properties;
@@ -26,7 +26,7 @@
       service.diffusionZoneType = type;
       service.diffusionZoneDetails = "";
       service.diffusionZoneDetailsDisplay = "";
-      choices = [];
+      adminDivisionChoices = [];
     }
   }
   function handlediffusionZoneDetails(details) {
@@ -263,6 +263,7 @@
         searchType={service.diffusionZoneType}
         handleChange={handlediffusionZoneDetails}
         initialValue={service.diffusionZoneDetailsDisplay}
+        bind:choices={adminDivisionChoices}
       />
     </ModelField>
 
