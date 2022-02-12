@@ -29,7 +29,7 @@
       adminDivisionChoices = [];
     }
   }
-  function handlediffusionZoneDetails(details) {
+  function handlediffusionZoneDetailsChange(details) {
     service.diffusionZoneDetails = details;
   }
 
@@ -261,7 +261,7 @@
         slot="custom-input"
         name="diffusionZoneDetails"
         searchType={service.diffusionZoneType}
-        handleChange={handlediffusionZoneDetails}
+        handleChange={handlediffusionZoneDetailsChange}
         initialValue={service.diffusionZoneDetailsDisplay}
         bind:choices={adminDivisionChoices}
       />
@@ -288,8 +288,8 @@
       <FieldHelp slot="helptext" title="Suspension">
         En configurant la suspension de votre service avec une limite de temps,
         vous pouvez mieux gérer sa visibilité et sa mise à jour.
-      </FieldHelp></Field
-    >
+      </FieldHelp>
+    </Field>
     <ModelField
       label="Oui, à partir d’une date :"
       type="date"
