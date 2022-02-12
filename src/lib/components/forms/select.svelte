@@ -24,13 +24,15 @@
   // https://github.com/sveltejs/svelte/issues/5604
   const hasPrependSlot = $$slots.prepend;
 
-  function getSortedChoices(items) {
-    return items.sort((a, b) =>
-      a.label.localeCompare(b.label, "fr", { numeric: true })
-    );
+  $: {
+    if (sort) {
+      console.log("sorting");
+      choices = choices.sort((a, b) =>
+        a.label.localeCompare(b.label, "fr", { numeric: true })
+      );
+      console.log(choices);
+    }
   }
-
-  // export let items = sort ? getSortedChoices(choices) : choices;
 </script>
 
 <AutoComplete
@@ -42,7 +44,6 @@
   {minCharactersToSearch}
   {onChange}
   bind:items={choices}
-  _items={sort ? getSortedChoices(choices) : choices}
   {initialValue}
   {disabled}
   {readonly}

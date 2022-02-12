@@ -40,7 +40,7 @@
   // all the input keywords should be matched in the item keywords
   export let matchAllKeywords = true;
 
-  // sorts the items by the number of matchink keywords
+  // sorts the items by the number of matching keywords
   export let sortByMatchedKeywords = false;
 
   // allow users to use a custom item filter function
