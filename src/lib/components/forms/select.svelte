@@ -26,11 +26,9 @@
 
   $: {
     if (sort) {
-      console.log("sorting");
       choices = choices.sort((a, b) =>
         a.label.localeCompare(b.label, "fr", { numeric: true })
       );
-      console.log(choices);
     }
   }
 </script>
