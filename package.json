@@ -32,7 +32,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.17.2",
-    "@storybook/addon-actions": "^6.5.0-alpha.39",
+    "@storybook/addon-docs": "^6.5.0-alpha.39",
     "@storybook/addon-essentials": "^6.5.0-alpha.39",
     "@storybook/addon-links": "^6.5.0-alpha.39",
     "@storybook/addon-svelte-csf": "^1.1.0",
@@ -46,6 +46,8 @@
     "eslint": "^8.9.0",
     "eslint-config-eslint": "^7.0.0",
     "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jsdoc": "^37.9.1",
+    "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-svelte3": "^3.4.0",
     "lint-staged": "^12.3.4",
     "postcss": "^8.4.6",
