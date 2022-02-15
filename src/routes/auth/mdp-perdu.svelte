@@ -81,7 +81,6 @@
         <LinkButton
           to="/auth/connexion"
           label="Revenir à la page de connexion"
-          preventDefaultOnMouseDown
         />
       {:else}
         {#if $formErrors.nonFieldErrors}

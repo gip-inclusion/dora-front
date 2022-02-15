@@ -96,7 +96,6 @@
         <LinkButton
           to="/auth/renvoyer-email-validation?email={encodeURIComponent(email)}"
           label="Demander un nouveau lien"
-          preventDefaultOnMouseDown
         />
       {:else}
         {#each $formErrors.nonFieldErrors || [] as msg}

@@ -109,11 +109,7 @@
     >
       {#if !resetToken}
         <Info label="Le lien a expiré ou n’est pas valide" negativeMood />
-        <LinkButton
-          to="/auth/mdp-perdu"
-          label="Demander un nouveau lien"
-          preventDefaultOnMouseDown
-        />
+        <LinkButton to="/auth/mdp-perdu" label="Demander un nouveau lien" />
       {:else if success}
         <Info label="C’est tout bon !" positiveMood>
           <p>
@@ -123,7 +119,6 @@
         <LinkButton
           to="/auth/connexion"
           label="Revenir à la page de connexion"
-          preventDefaultOnMouseDown
         />
       {:else}
         {#if $formErrors.nonFieldErrors}

@@ -34,7 +34,7 @@
         label={flashSaveDraftButton
           ? "Enregistré !"
           : "Enregistrer comme brouillon"}
-        tertiary
+        secondary
       />
     {/if}
     {#if withForward}
