@@ -3,8 +3,7 @@
   export let type = "button";
   export let name = null;
   export let icon = null;
-  export let iconOnLeft = false,
-    iconOnRight = false;
+  export let iconOnRight = false;
   export let disabled = false;
   export let small = false;
   export let secondary = false;
@@ -60,14 +59,14 @@
 <button
   {type}
   {name}
-  class="{px} {py} {ts} {border} {text} {background}  flex flex-row items-center whitespace-nowrap rounded leading-normal outline-none focus:shadow-focus"
+  class="{px} {py} {ts} {border} {text} {background} flex flex-row items-center whitespace-nowrap rounded leading-normal outline-none focus:shadow-focus"
   class:flash-success={flashSuccess}
   class:w-full={wFull}
-  class:justify-center={!iconOnLeft && !iconOnRight}
+  class:justify-center={!icon}
   on:click
   {disabled}
 >
-  {#if iconOnLeft}
+  {#if icon && !iconOnRight}
     <div class="{iw} {ih} mr-s8 shrink-0 fill-current">
       {@html icon}
     </div>

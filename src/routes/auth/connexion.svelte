@@ -99,7 +99,7 @@
         />
       {:else}
         {#each $formErrors.nonFieldErrors || [] as msg}
-          <Alert iconOnLeft label={msg} />
+          <Alert label={msg} />
         {/each}
         <div class="flex flex-col md:flex-row lg:flex-col md:gap-s16">
           <Field

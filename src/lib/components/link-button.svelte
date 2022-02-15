@@ -6,8 +6,7 @@
   export let label = "";
   export let ariaLabel = undefined;
   export let icon = null;
-  export let iconOnLeft = false,
-    iconOnRight = false;
+  export let iconOnRight = false;
   export let small = false;
   export let noBackground = false;
   export let noPadding = false;
@@ -53,10 +52,10 @@
   rel="noopener {nofollow ? 'nofollow' : ''}"
   href={to}
   class="{px} {py} {ts} {border} {text} {background}  flex flex-row items-center whitespace-nowrap rounded leading-normal outline-none focus:shadow-focus"
-  class:justify-center={!iconOnLeft && !iconOnRight}
+  class:justify-center={!icon}
   aria-label={ariaLabel}
 >
-  {#if iconOnLeft}
+  {#if icon && !iconOnRight}
     <div class="{iw} {ih} mr-s8 shrink-0 fill-current">
       {@html icon}
     </div>

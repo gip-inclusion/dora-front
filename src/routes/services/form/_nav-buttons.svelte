@@ -22,7 +22,6 @@
         label="Étape précédente"
         icon={arrowLeftCircleIcon}
         noBackground
-        iconOnLeft
       />
     {/if}
     <div class="grow" />

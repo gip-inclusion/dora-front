@@ -124,7 +124,7 @@
         {#if $formErrors.nonFieldErrors}
           <div>
             {#each $formErrors.nonFieldErrors || [] as msg}
-              <Alert iconOnLeft label={msg} />
+              <Alert label={msg} />
             {/each}
           </div>
         {/if}
