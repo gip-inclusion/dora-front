@@ -14,8 +14,8 @@
     "format": "prettier --write --plugin-search-dir=. . && eslint --ignore-path .gitignore --fix . && svgo --pretty -f src/lib/assets",
     "prepare": "husky install",
     "security-scan": "ggshield scan  path -r . -y",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "sb": "start-storybook -p 6006",
+    "sb-build": "build-storybook"
   },
   "@comment dependencies": {
     "dependencies-vs-devdependencies": "Les librairies qui sont dans dependencies sont utilisées depuis node_modules par le bundle ssr (voir: https://vitejs.dev/guide/ssr.html#ssr-externals). Pour tester: `npm i && npm run build && rm -rf node_modules/ && npm i --production && node build`."
