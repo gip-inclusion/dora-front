@@ -1,4 +1,4 @@
-import { writable } from "svelte/store";
+import { get, writable } from "svelte/store";
 import { browser } from "$app/env";
 import { getApiURL, defaultAcceptHeader } from "$lib/utils/api.js";
 import { log, logException } from "./logger";
@@ -10,7 +10,8 @@ const tokenKey = "token";
  */
 
 export const token = writable(null);
-/** @type {Writable<{firstName: string, lastName: string, fullName: string, shortName: string, email: string, isStaff: boolean} | null>} */
+/** @type {Writable<{firstName: string, lastName: string, fullName: string, shortName: string, email: string, phoneNumber: string, newsletter: boolean,
+            isStaff: boolean, isBizdev: boolean} | null>} */
 export const userInfo = writable(null);
 
 // Rules for auto generation by password managers
@@ -35,13 +36,35 @@ export function clearUserInfo() {
   userInfo.set(null);
 }
 
-export async function getUserInfo() {
+export async function refreshUserInfo() {
+  const url = `${getApiURL()}/auth/user-info/`;
+  try {
+    const result = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: defaultAcceptHeader,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ key: get(token) }),
+    });
+    if (result.status === 200) {
+      userInfo.set(await result.json());
+    } else {
+      log("Unexpected status code", { result });
+    }
+  } catch (err) {
+    logException(err);
+  }
+}
+
+export async function validateCredsAndFillUserInfo() {
   token.set(null);
   userInfo.set(null);
   if (browser) {
     const lsToken = localStorage.getItem(tokenKey);
     if (lsToken) {
-      // Check if the token is still valid
+      // Valide le token actuel, et rempli les informations
+      // utilisateur
       const url = `${getApiURL()}/auth/user-info/`;
       try {
         const result = await fetch(url, {
@@ -56,7 +79,7 @@ export async function getUserInfo() {
           token.set(lsToken);
           userInfo.set(await result.json());
         } else if (result.status === 404) {
-          // The token is invalid, clear localStorage
+          // Le token est invalide, on vide le localStorage
           clearToken();
           clearUserInfo();
         } else {
@@ -73,4 +96,11 @@ export function disconnect() {
   clearToken();
   clearUserInfo();
   localStorage.clear();
+}
+
+export function userInfoIsComplete() {
+  const info = get(userInfo);
+  return (
+    !!info.email && !!info.firstName && !!info.lastName && !!info.phoneNumber
+  );
 }

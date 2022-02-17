@@ -34,6 +34,7 @@ export { default as timerFlashIcon } from "remixicon/icons/System/timer-flash-li
 export { default as uploadCloudIcon } from "remixicon/icons/System/upload-cloud-2-line.svg?raw";
 
 export { default as userIcon } from "remixicon/icons/User/user-2-line.svg?raw";
+export { default as userFillIcon } from "remixicon/icons/User/user-3-fill.svg?raw";
 export { default as userSmileIcon } from "remixicon/icons/User/user-smile-fill.svg?raw";
 export { default as adminIcon } from "remixicon/icons/User/admin-fill.svg?raw";
 export { default as emotionHappyIcon } from "remixicon/icons/User/emotion-happy-fill.svg?raw";
