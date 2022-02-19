@@ -1,16 +1,16 @@
 <script>
   import { userInfo, refreshUserInfo, token } from "$lib/auth";
   import { getApiURL } from "$lib/utils/api.js";
+  import { userProfileSchema } from "$lib/schemas/auth";
+  import { formErrors } from "$lib/validation.js";
 
   import Button from "$lib/components/button.svelte";
   import Fieldset from "$lib/components/forms/fieldset.svelte";
   import Form from "$lib/components/forms/form.svelte";
-  import { userProfileSchema } from "$lib/schemas/auth";
-  import { formErrors } from "$lib/validation.js";
-
   import ModelField from "$lib/components/forms/model-field.svelte";
-  import { arrowRightSIcon, lightBulbIcon } from "$lib/icons";
   import Info from "$lib/components/info.svelte";
+
+  import { arrowRightSIcon, lightBulbIcon } from "$lib/icons";
 
   const authErrors = {};
   let success = false;

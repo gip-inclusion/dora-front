@@ -1,16 +1,17 @@
 <script>
   import { token } from "$lib/auth";
   import { getApiURL } from "$lib/utils/api.js";
+  import { passwordChangeSchema } from "$lib/schemas/auth";
+  import { passwordRules } from "$lib/auth";
+  import { formErrors } from "$lib/validation.js";
 
   import Button from "$lib/components/button.svelte";
   import Fieldset from "$lib/components/forms/fieldset.svelte";
   import Form from "$lib/components/forms/form.svelte";
-  import { passwordChangeSchema } from "$lib/schemas/auth";
-  import { passwordRules } from "$lib/auth";
-  import { formErrors } from "$lib/validation.js";
   import Alert from "$lib/components/forms/alert.svelte";
   import Info from "$lib/components/info.svelte";
   import ModelField from "$lib/components/forms/model-field.svelte";
+
   import { arrowRightSIcon, lightBulbIcon } from "$lib/icons";
 
   const authErrors = {
@@ -68,7 +69,7 @@
     {#if $formErrors.nonFieldErrors}
       <div>
         {#each $formErrors.nonFieldErrors || [] as msg}
-          <Alert iconOnLeft label={msg} />
+          <Alert label={msg} />
         {/each}
       </div>
     {/if}

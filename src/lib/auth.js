@@ -36,17 +36,20 @@ export function clearUserInfo() {
   userInfo.set(null);
 }
 
+async function getUserInfo(authToken) {
+  return await fetch(`${getApiURL()}/auth/user-info/`, {
+    method: "POST",
+    headers: {
+      Accept: defaultAcceptHeader,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ key: authToken }),
+  });
+}
+
 export async function refreshUserInfo() {
-  const url = `${getApiURL()}/auth/user-info/`;
   try {
-    const result = await fetch(url, {
-      method: "POST",
-      headers: {
-        Accept: defaultAcceptHeader,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ key: get(token) }),
-    });
+    const result = await getUserInfo(get(token));
     if (result.status === 200) {
       userInfo.set(await result.json());
     } else {
@@ -65,16 +68,8 @@ export async function validateCredsAndFillUserInfo() {
     if (lsToken) {
       // Valide le token actuel, et rempli les informations
       // utilisateur
-      const url = `${getApiURL()}/auth/user-info/`;
       try {
-        const result = await fetch(url, {
-          method: "POST",
-          headers: {
-            Accept: defaultAcceptHeader,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ key: lsToken }),
-        });
+        const result = await getUserInfo(lsToken);
         if (result.status === 200) {
           token.set(lsToken);
           userInfo.set(await result.json());
