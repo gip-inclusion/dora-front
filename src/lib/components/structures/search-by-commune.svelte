@@ -1,25 +1,38 @@
 <script>
   import { getApiURL } from "$lib/utils/api.js";
-  import Select from "$lib/components/forms/select.svelte";
   import Field from "$lib/components/forms/field.svelte";
+  import CitySearch from "$lib/components/forms/city-search.svelte";
+  import Select from "$lib/components/forms/select.svelte";
 
+  export let establishment;
+
+  let city;
+  export let onCityChange = null;
   export let onEstablishmentChange = null;
-  export let disabled;
+
+  function handleCityChange(newCity) {
+    city = newCity;
+    establishment = null;
+    if (onCityChange) onCityChange(newCity);
+  }
 
   async function handleEstablishmentChange(newEstablishment) {
+    establishment = newEstablishment;
     if (onEstablishmentChange) onEstablishmentChange(newEstablishment);
   }
 
   async function searchSirene(q) {
-    const sireneAPIUrl = `${getApiURL()}/search-all-sirene/?q=${encodeURIComponent(
-      q
-    )}`;
+    const sireneAPIUrl = `${getApiURL()}/search-sirene/${
+      city.properties.citycode
+    }/?q=${encodeURIComponent(q)}`;
+
     const response = await fetch(sireneAPIUrl, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json; version=1.0",
       },
     });
+
     const jsonResponse = await response.json();
 
     const results = jsonResponse.map((result) => {
@@ -33,12 +46,20 @@
   }
 </script>
 
-<Field type="custom" label="Numéro SIRET" required vertical>
+<Field type="custom" label="Commune" required vertical>
+  <CitySearch
+    slot="custom-input"
+    name="city-select"
+    placeholder="Saisissez et sélectionnez le nom de la ville"
+    handleChange={handleCityChange}
+  />
+</Field>
+<Field type="custom" label="Nom de votre structure" required vertical>
   <Select
     slot="custom-input"
-    onChange={handleEstablishmentChange}
-    {disabled}
     name="siret-select"
+    onChange={handleEstablishmentChange}
+    disabled={!city?.properties?.citycode}
     placeholder="Commencez à saisir et choisissez dans la liste"
     hideArrow
     searchFunction={searchSirene}

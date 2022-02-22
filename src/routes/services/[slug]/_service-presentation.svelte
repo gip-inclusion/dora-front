@@ -61,7 +61,7 @@
     d’expérimentation. Vous pouvez revendiquer ces contenus en créant votre
     compte et ainsi avoir la possibilité de mettre à jour les fiches de votre
     établissement.
-    <div class="mt-s16">
+    <div class="mt-s16 flex items-start">
       {#if $userInfo}
         <LinkButton
           label="Demander l’accès"
