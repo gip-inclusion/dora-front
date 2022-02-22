@@ -14,7 +14,7 @@
   let establishment = {};
 
   function handleCityChange(newCity) {
-    establishment = null;
+    establishment = {};
 
     if (onCityChange) onCityChange(newCity);
   }
@@ -29,6 +29,11 @@
     { id: "siret", name: "Son numéro de SIRET" },
     { id: "nom", name: "Son nom" },
   ];
+
+  function handleSelectedTabChange(newTab) {
+    establishment = {};
+    structureSearchTab = newTab;
+  }
 </script>
 
 <FieldSet
@@ -41,7 +46,11 @@
       Choisissez une méthode d'identification. En cas de doute, contactez-nous.
     </p>
 
-    <Tabs items={structureSearchTabs} bind:selected={structureSearchTab} />
+    <Tabs
+      items={structureSearchTabs}
+      onSelectedChange={handleSelectedTabChange}
+      selected={structureSearchTab}
+    />
   </div>
 
   {#if structureSearchTab === "siret"}

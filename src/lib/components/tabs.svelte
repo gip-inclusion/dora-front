@@ -1,6 +1,7 @@
 <script>
-  export let selected = undefined;
+  export let onSelectedChange;
   export let items = [];
+  export let selected = undefined;
 </script>
 
 <ul class="flex flex-wrap gap-s8 pt-s16">
@@ -11,7 +12,7 @@
           ? 'bg-white text-france-blue '
           : 'bg-magenta-dark text-white '}"
         on:click={() => {
-          selected = item.id;
+          onSelectedChange(item.id);
         }}>{item.name}</button
       >
     </li>
