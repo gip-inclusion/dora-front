@@ -43,7 +43,7 @@
       <Input
         type="text"
         name="siret-select"
-        placeholder="Numéro de siret"
+        placeholder="1234567891234"
         bind:value
       />
     </div>

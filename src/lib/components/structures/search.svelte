@@ -43,7 +43,10 @@
 >
   <div slot="description">
     <p class="text-f14 text-white">
-      Choisissez une méthode d'identification. En cas de doute, contactez-nous.
+      Choisissez une méthode d'identification. En cas de doute, <a
+        class="underline"
+        href="https://itou.typeform.com/doracontactsupp">contactez-nous</a
+      >.
     </p>
 
     <Tabs
