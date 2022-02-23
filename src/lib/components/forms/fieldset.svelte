@@ -13,9 +13,9 @@
   <slot name="prefix" />
   {#if title}
     <div
-      class="px-s40 pt-s32 rounded-t-md {headerBg} {noHeaderBorder
+      class="rounded-t-md px-s40 pt-s32 {headerBg} {noHeaderBorder
         ? ''
-        : 'border-gray-01 pb-s24 border-b'}"
+        : 'border-b border-gray-01 pb-s24'}"
     >
       <h3
         class="mb-s8 {headerBg !== 'bg-white'
@@ -31,7 +31,7 @@
       </slot>
     </div>
   {/if}
-  <div class="px-s40 pb-s40 pt-s24" class:pt-s32={!title}>
+  <div class="rounded-b-md bg-white px-s40 pb-s40 pt-s24" class:pt-s32={!title}>
     <slot />
   </div>
 </div>
