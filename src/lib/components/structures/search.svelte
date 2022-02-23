@@ -26,8 +26,8 @@
 
   let structureSearchTab = "siret";
   const structureSearchTabs = [
-    { id: "siret", name: "Son numéro de SIRET" },
-    { id: "nom", name: "Son nom" },
+    { id: "siret", name: "Numéro de SIRET" },
+    { id: "nom", name: "Nom" },
   ];
 
   function handleSelectedTabChange(newTab) {
