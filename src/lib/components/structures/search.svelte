@@ -4,9 +4,6 @@
   import SearchBySiret from "$lib/components/structures/search-by-siret.svelte";
 
   import SearchByCommune from "$lib/components/structures/search-by-commune.svelte";
-  import ModelField from "$lib/components/forms/model-field.svelte";
-  import serviceSchema from "$lib/schemas/service-contrib.js";
-  import { formErrors } from "$lib/validation.js";
 
   export let onCityChange = null;
   export let onEstablishmentChange = null;
@@ -24,15 +21,15 @@
     if (onEstablishmentChange) onEstablishmentChange(newEstablishment);
   }
 
-  let structureSearchTab = "siret";
+  let structureSearchTabId = "siret";
   const structureSearchTabs = [
-    { id: "siret", name: "Numéro de SIRET" },
+    { id: "siret", name: "Siret" },
     { id: "nom", name: "Nom" },
   ];
 
   function handleSelectedTabChange(newTab) {
     establishment = {};
-    structureSearchTab = newTab;
+    structureSearchTabId = newTab;
   }
 </script>
 
@@ -52,13 +49,13 @@
     <Tabs
       items={structureSearchTabs}
       onSelectedChange={handleSelectedTabChange}
-      selected={structureSearchTab}
+      itemId={structureSearchTabId}
     />
   </div>
 
-  {#if structureSearchTab === "siret"}
+  {#if structureSearchTabId === "siret"}
     <SearchBySiret onEstablishmentChange={handleEstablishmentChange} />
-  {:else if structureSearchTab === "nom"}
+  {:else if structureSearchTabId === "nom"}
     <SearchByCommune
       onEstablishmentChange={handleEstablishmentChange}
       onCityChange={handleCityChange}
@@ -77,11 +74,4 @@
       </div>
     </div>
   {/if}
-  <ModelField
-    type="hidden"
-    schema={serviceSchema.siret}
-    name="siret"
-    errorMessages={$formErrors.siret}
-    bind:value={establishment.siret}
-  />
 </FieldSet>

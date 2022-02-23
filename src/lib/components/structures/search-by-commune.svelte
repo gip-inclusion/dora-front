@@ -22,11 +22,11 @@
   }
 
   async function searchSirene(q) {
-    const sireneAPIUrl = `${getApiURL()}/search-sirene/${
+    const url = `${getApiURL()}/search-sirene/${
       city.properties.citycode
     }/?q=${encodeURIComponent(q)}`;
 
-    const response = await fetch(sireneAPIUrl, {
+    const response = await fetch(url, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json; version=1.0",
