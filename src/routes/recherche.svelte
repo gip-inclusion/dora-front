@@ -210,7 +210,7 @@
           </div>
         </div>
         <div class="p-s24 bg-white rounded-md border-gray-01 border lg:flex-1">
-          <h4>Dora évolue rapidement. Vous souhaiter rester informé ?</h4>
+          <h4>Dora évolue rapidement. Vous souhaitez rester informé ?</h4>
           <div>
             <NewsletterButton wFull />
           </div>
