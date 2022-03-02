@@ -57,3 +57,13 @@ export function getDepartmentFromCityCode(cityCode) {
     ? cityCode.slice(0, 3)
     : cityCode.slice(0, 2);
 }
+
+export function addlinkToUrls(text) {
+  const urlRegex = /(https?:\/\/[^\s]+)/gu;
+
+  return text.replace(
+    urlRegex,
+    (url) =>
+      `<a href="${url}" class="underline" target="_blank" rel="noopener nofollow">${url}</a>`
+  );
+}
