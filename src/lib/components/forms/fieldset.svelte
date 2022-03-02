@@ -6,10 +6,7 @@
   export let noHeaderBorder = false;
 </script>
 
-<div
-  class="flex max-w-4xl flex-col rounded-md shadow-md"
-  class:mt-s48={!noTopPadding}
->
+<div class="flex flex-col rounded-md shadow-md" class:mt-s48={!noTopPadding}>
   {#if title}
     <div
       class="rounded-t-md px-s40 pt-s32 {headerBg} {noHeaderBorder

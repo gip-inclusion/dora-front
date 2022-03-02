@@ -1,7 +1,7 @@
-export function getQuery(category, subcategory, cityCode, cityLabel) {
+export function getQuery(categoryId, subCategoryId, cityCode, cityLabel) {
   const parameters = {
-    cat: category,
-    sub: subcategory,
+    cat: categoryId,
+    sub: subCategoryId,
     city: cityCode,
     cl: cityLabel,
   };
