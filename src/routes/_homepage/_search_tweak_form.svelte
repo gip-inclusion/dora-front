@@ -79,6 +79,7 @@
       label="Thématique"
       vertical
       required
+      sortSelect
     />
 
     <Field
