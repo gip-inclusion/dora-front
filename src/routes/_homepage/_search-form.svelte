@@ -40,7 +40,7 @@
   let subCategoryChoices = [];
 
   function handleSearch() {
-    const query = getQuery(categoryId, subCategoryId, cityCode, cityLabel);
+    const query = getQuery({ categoryId, subCategoryId, cityCode, cityLabel });
     goto(`recherche?${query}`);
   }
 
@@ -76,7 +76,7 @@
         name="category"
         bind:value={categoryId}
         onSelectChange={handleCategoryChange}
-        placeholder="Choisissez"
+        placeholder="Sélectionner"
         choices={categoryChoices}
         label="Thématique"
         vertical
@@ -88,7 +88,7 @@
         type="select"
         name="subcategory"
         bind:value={subCategoryId}
-        placeholder="Choisissez"
+        placeholder="Sélectionner"
         choices={subCategoryChoices}
         label="Besoin(s)"
         vertical

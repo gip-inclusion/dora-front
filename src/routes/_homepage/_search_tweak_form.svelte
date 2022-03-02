@@ -14,9 +14,18 @@
   export let subCategoryId;
   export let cityCode;
   export let cityLabel;
+  export let kindId = undefined;
+  export let hasNoFees = undefined;
 
   function handleSearch() {
-    const query = getQuery(categoryId, subCategoryId, cityCode, cityLabel);
+    const query = getQuery({
+      categoryId,
+      subCategoryId,
+      cityCode,
+      cityLabel,
+      kindId,
+      hasNoFees,
+    });
     goto(`recherche?${query}`);
   }
 
@@ -65,7 +74,7 @@
       type="select"
       bind:value={categoryId}
       onSelectChange={handleCategoryChange}
-      placeholder="Choisissez"
+      placeholder="Sélectionner"
       choices={catChoices}
       label="Thématique"
       vertical
@@ -75,9 +84,9 @@
     <Field
       type="select"
       bind:value={subCategoryId}
-      placeholder="Choisissez"
+      placeholder="Sélectionner"
       choices={subCatChoices}
-      label="Besoin(s)"
+      label="Besoin"
       vertical
       sortSelect
     />
@@ -96,6 +105,18 @@
         }}
       />
     </Field>
+
+    <Field
+      type="select"
+      bind:value={kindId}
+      placeholder="Sélectionner"
+      choices={servicesOptions.kinds}
+      label="Type"
+      vertical
+      sortSelect
+    />
+
+    <Field type="toggle" label="Sans frais à charge" bind:value={hasNoFees} />
 
     <Button
       type="submit"

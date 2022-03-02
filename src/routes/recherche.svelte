@@ -3,17 +3,24 @@
   import { getApiURL } from "$lib/utils/api.js";
   import { getQuery } from "./_homepage/_search";
 
-  async function getResults(categoryId, subCategoryId, cityCode) {
-    const url = `${getApiURL()}/search/?${getQuery(
+  async function getResults({
+    categoryId,
+    subCategoryId,
+    cityCode,
+    kindId,
+    hasNoFees,
+  }) {
+    const query = getQuery({
       categoryId,
       subCategoryId,
-      cityCode
-    )}`;
+      cityCode,
+      kindId,
+      hasNoFees,
+    });
+    const url = `${getApiURL()}/search/?${query}`;
 
     const res = await fetch(url, {
-      headers: {
-        Accept: "application/json; version=1.0",
-      },
+      headers: { Accept: "application/json; version=1.0" },
     });
 
     if (res.ok) {
@@ -42,6 +49,8 @@
     const subCategoryId = query.get("sub");
     const cityCode = query.get("city");
     const cityLabel = query.get("cl");
+    const kindId = query.get("kinds");
+    const hasNoFees = query.get("has_fees") === "0";
 
     return {
       props: {
@@ -49,7 +58,15 @@
         subCategoryId,
         cityCode,
         cityLabel,
-        results: await getResults(categoryId, subCategoryId, cityCode),
+        kindId,
+        hasNoFees,
+        results: await getResults({
+          categoryId,
+          subCategoryId,
+          cityCode,
+          kindId,
+          hasNoFees,
+        }),
         servicesOptions: await getServicesOptions(),
       },
     };
@@ -71,13 +88,20 @@
   import Tag from "$lib/components/tag.svelte";
 
   export let servicesOptions;
-  export let categoryId, subCategoryId, cityCode, cityLabel;
+  export let categoryId, subCategoryId, cityCode, cityLabel, kindId, hasNoFees;
   export let results;
 
   onMount(() => {
     if (browser) {
       plausible("recherche", {
-        props: { categoryId, subCategoryId, cityCode, cityLabel },
+        props: {
+          categoryId,
+          subCategoryId,
+          cityCode,
+          cityLabel,
+          kindId,
+          hasNoFees,
+        },
       });
     }
   });
@@ -88,18 +112,39 @@
     tags = [];
 
     if (categoryId) {
-      tags = [servicesOptions.categories.find((c) => c.value === categoryId)];
+      const categoryTag = servicesOptions.categories.find(
+        (c) => c.value === categoryId
+      );
 
-      if (subCategoryId) {
-        tags = [
-          ...tags,
-          servicesOptions.subcategories.find((c) => c.value === subCategoryId),
-        ];
+      if (categoryTag) {
+        tags = [categoryTag];
+      }
+
+      if (categoryTag && subCategoryId) {
+        const subCategoryTag = servicesOptions.subcategories.find(
+          (c) => c.value === subCategoryId
+        );
+
+        if (subCategoryTag) {
+          tags = [...tags, subCategoryTag];
+        }
       }
     }
 
     if (cityLabel) {
       tags = [...tags, { label: cityLabel }];
+    }
+
+    if (kindId) {
+      const kindTag = servicesOptions.kinds.find((c) => c.value === kindId);
+
+      if (kindTag) {
+        tags = [...tags, kindTag];
+      }
+    }
+
+    if (hasNoFees) {
+      tags = [...tags, { label: "Sans frais à charge" }];
     }
   }
 </script>
@@ -127,6 +172,8 @@
       {subCategoryId}
       {cityCode}
       {cityLabel}
+      {hasNoFees}
+      {kindId}
       {servicesOptions}
       {radiusChoices}
     />
@@ -143,7 +190,7 @@
         {/each}
       </div>
     {:else}
-      <p class="text-f16">
+      <p class="text-f16 mt-s32">
         Aucun résultat ne correspond à votre recherche.<br />
         Essayez d’autres filtres.
       </p>
