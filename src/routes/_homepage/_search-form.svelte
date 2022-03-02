@@ -90,7 +90,7 @@
         bind:value={subCategoryId}
         placeholder="Sélectionner"
         choices={subCategoryChoices}
-        label="Besoin(s)"
+        label="Besoin"
         vertical
         sortSelect
       />
