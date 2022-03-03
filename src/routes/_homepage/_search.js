@@ -16,7 +16,7 @@ export function getQuery({
 
   if (hasNoFees) {
     // eslint-disable-next-line camelcase
-    parameters.has_fees = "0";
+    parameters.has_fee = "0";
   }
 
   const query = Object.entries(parameters)

@@ -50,7 +50,7 @@
     const cityCode = query.get("city");
     const cityLabel = query.get("cl");
     const kindId = query.get("kinds");
-    const hasNoFees = query.get("has_fees") === "0";
+    const hasNoFees = query.get("has_fee") === "0";
 
     return {
       props: {
