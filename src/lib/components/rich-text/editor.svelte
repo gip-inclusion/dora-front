@@ -18,8 +18,6 @@
   import Button from "./button.svelte";
   import Separator from "./separator.svelte";
 
-  let element;
-  let editor;
   export let name;
   export let className = "prose bg-white h-s160";
   export let htmlContent = "";
@@ -27,6 +25,16 @@
   export let placeholder = "";
   export let disabled = false;
   export let readonly;
+
+  let element;
+  let editor;
+  let linkDialogIsOpen = false;
+  let linkDialogHref;
+  let linkDialogHrefPrev;
+  let linkDialogButtontext;
+  let linkDialogButtonIsActive = false;
+  let linkDialogText;
+  let linkDialogHasSelection;
 
   onMount(() => {
     editor = new Editor({
@@ -66,21 +74,65 @@
     }
   });
 
+  $: {
+    if (!linkDialogHrefPrev) {
+      linkDialogButtontext = "Ajouter le lien";
+    } else if (!linkDialogHref) {
+      linkDialogButtontext = "Supprimer le lien";
+    } else {
+      linkDialogButtontext = "Modifier le lien";
+    }
+  }
+
+  $: linkDialogButtonIsActive =
+    !!linkDialogHref !== !!linkDialogHrefPrev &&
+    (linkDialogHasSelection || linkDialogText);
+
+  function openLinkDialog() {
+    linkDialogHref = linkDialogHrefPrev = editor.getAttributes("link").href;
+    linkDialogHasSelection = !editor.state.selection.empty;
+    linkDialogIsOpen = true;
+  }
+
+  function closeLinkDialog() {
+    linkDialogIsOpen = false;
+  }
+
   function setLink() {
-    const previousUrl = editor.getAttributes("link").href;
-    // eslint-disable-next-line no-alert
-    const url = window.prompt("URL", previousUrl);
-    // cancelled
-    if (url === null) {
-      return;
-    }
-    // empty
-    if (url === "") {
+    if (linkDialogHref === "") {
       editor.chain().focus().extendMarkRange("link").unsetLink().run();
-      return;
+    } else if (!editor.state.selection.empty) {
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({
+          href: linkDialogHref,
+          target: "_blank",
+          noopener: true,
+          nofollow: true,
+        })
+        .run();
+    } else {
+      editor
+        .chain()
+        .focus()
+        .insertContent(` ${linkDialogText}`)
+        .setTextSelection({
+          from: editor.state.selection.from + 1,
+          to: editor.state.selection.from + 1 + linkDialogText.length,
+        })
+        .extendMarkRange("link")
+        .setLink({
+          href: linkDialogHref,
+          target: "_blank",
+          noopener: true,
+          nofollow: true,
+        })
+        .run();
     }
-    // update link
-    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+
+    linkDialogIsOpen = false;
   }
 </script>
 
@@ -132,13 +184,42 @@
       <Separator />
 
       <Button
-        on:click={setLink}
+        on:click={openLinkDialog}
         active={editor.isActive("link")}
         icon={linkIcon}
       />
     </div>
   {/if}
-  <div>
+  <div class="relative">
+    {#if linkDialogIsOpen}
+      <div class="absolute inset-x-s0 flex gap-s12 bg-gray-01 p-s12">
+        {#if !linkDialogHasSelection}
+          <input
+            type="text"
+            placeholder="lien"
+            class="flex-1 py-s4 px-s8"
+            bind:value={linkDialogText}
+          />
+        {/if}
+        <input
+          type="text"
+          placeholder="http://example.com"
+          class="flex-1 py-s4 px-s8"
+          bind:value={linkDialogHref}
+        />
+        <button
+          class="text-grayborder-gray-text rounded-md border border-gray-text py-s4 px-s8 text-f12 font-bold hover:bg-gray-text hover:text-white disabled:border-gray-03 disabled:bg-gray-01 disabled:text-gray-03"
+          on:click={setLink}
+          disabled={!linkDialogButtonIsActive}
+        >
+          {linkDialogButtontext}</button
+        >
+        <button
+          class="text-grayborder-gray-text rounded-md border border-gray-text py-s4 px-s8 text-f12 font-bold hover:bg-gray-text hover:text-white"
+          on:click={closeLinkDialog}>Annuler</button
+        >
+      </div>
+    {/if}
     <div bind:this={element} />
   </div>
 </div>
