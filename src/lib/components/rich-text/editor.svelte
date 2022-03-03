@@ -3,6 +3,7 @@
   import { Editor } from "@tiptap/core";
   import StarterKit from "@tiptap/starter-kit";
   import Placeholder from "@tiptap/extension-placeholder";
+  import Link from "@tiptap/extension-link";
 
   import {
     boldIcon,
@@ -11,6 +12,7 @@
     h1Icon,
     h2Icon,
     liIcon,
+    linkIcon,
   } from "$lib/icons.js";
 
   import Button from "./button.svelte";
@@ -29,7 +31,16 @@
   onMount(() => {
     editor = new Editor({
       element,
-      extensions: [StarterKit, Placeholder.configure({ placeholder })],
+      extensions: [
+        StarterKit,
+        Placeholder.configure({ placeholder }),
+        Link.configure({
+          HTMLAttributes: {
+            class: "underline",
+          },
+          openOnClick: false,
+        }),
+      ],
       content: initialContent,
       injectCSS: false,
       onTransaction: () => {
@@ -54,11 +65,28 @@
       editor.destroy();
     }
   });
+
+  function setLink() {
+    const previousUrl = editor.getAttributes("link").href;
+    // eslint-disable-next-line no-alert
+    const url = window.prompt("URL", previousUrl);
+    // cancelled
+    if (url === null) {
+      return;
+    }
+    // empty
+    if (url === "") {
+      editor.chain().focus().extendMarkRange("link").unsetLink().run();
+      return;
+    }
+    // update link
+    editor.chain().focus().extendMarkRange("link").setLink({ href: url }).run();
+  }
 </script>
 
 <div class="flex w-full flex-col border border-gray-03">
   {#if editor}
-    <div class="flex flex-row items-center bg-gray-03 p-s12">
+    <div class="flex flex-row items-center gap-s8 bg-gray-03 p-s12">
       <Button
         on:click={() => editor.chain().focus().toggleBold().run()}
         active={editor.isActive("bold")}
@@ -102,6 +130,12 @@
       />
 
       <Separator />
+
+      <Button
+        on:click={setLink}
+        active={editor.isActive("link")}
+        icon={linkIcon}
+      />
     </div>
   {/if}
   <div>
