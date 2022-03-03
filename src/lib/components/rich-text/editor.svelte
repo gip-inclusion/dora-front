@@ -74,6 +74,11 @@
     }
   });
 
+  $: linkDialogButtonIsActive =
+    linkDialogHref !== linkDialogHrefPrev &&
+    !(linkDialogHref === "" && linkDialogHrefPrev === undefined) &&
+    (linkDialogHasSelection || linkDialogText);
+
   $: {
     if (!linkDialogHrefPrev) {
       linkDialogButtontext = "Ajouter le lien";
@@ -83,10 +88,6 @@
       linkDialogButtontext = "Modifier le lien";
     }
   }
-
-  $: linkDialogButtonIsActive =
-    !!linkDialogHref !== !!linkDialogHrefPrev &&
-    (linkDialogHasSelection || linkDialogText);
 
   function openLinkDialog() {
     linkDialogHref = linkDialogHrefPrev = editor.getAttributes("link").href;
@@ -101,35 +102,29 @@
   function setLink() {
     if (linkDialogHref === "") {
       editor.chain().focus().extendMarkRange("link").unsetLink().run();
-    } else if (!editor.state.selection.empty) {
-      editor
-        .chain()
-        .focus()
-        .extendMarkRange("link")
-        .setLink({
-          href: linkDialogHref,
-          target: "_blank",
-          noopener: true,
-          nofollow: true,
-        })
-        .run();
     } else {
-      editor
-        .chain()
-        .focus()
-        .insertContent(` ${linkDialogText}`)
-        .setTextSelection({
-          from: editor.state.selection.from + 1,
-          to: editor.state.selection.from + 1 + linkDialogText.length,
-        })
-        .extendMarkRange("link")
-        .setLink({
-          href: linkDialogHref,
-          target: "_blank",
-          noopener: true,
-          nofollow: true,
-        })
-        .run();
+      const link = {
+        href: linkDialogHref,
+        target: "_blank",
+        noopener: true,
+        nofollow: true,
+      };
+
+      if (!editor.state.selection.empty) {
+        editor.chain().focus().extendMarkRange("link").setLink(link).run();
+      } else {
+        editor
+          .chain()
+          .focus()
+          .insertContent(` ${linkDialogText}`)
+          .setTextSelection({
+            from: editor.state.selection.from + 1,
+            to: editor.state.selection.from + 1 + linkDialogText.length,
+          })
+          .extendMarkRange("link")
+          .setLink(link)
+          .run();
+      }
     }
 
     linkDialogIsOpen = false;
