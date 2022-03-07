@@ -60,14 +60,14 @@ export function getDepartmentFromCityCode(cityCode) {
 }
 
 export function addlinkToUrls(text) {
-  const urlRegex = /(https?:\/\/[^\s]+)/gu;
+  const urlRegex = /((https?|mailto):\/\/[^\s]+\.[^\s]+)/gu;
 
   return insane(
     text.replace(
       urlRegex,
       (url) =>
-        `<a href="${url}" class="underline" target="_blank" rel="noopener nofollow">${url}</a>`
+        `<a href="${url}" class="underline" rel="noopener nofollow">${url}</a>`
     ),
-    { allowedTags: ["a"] }
+    { allowedTags: ["a"], allowedAttributes: { a: ["class", "rel", "href"] } }
   );
 }
