@@ -7,7 +7,7 @@ import { token } from "$lib/auth";
 import { defaultAcceptHeader } from "$lib/utils/api";
 
 export function markdownToHTML(md) {
-  const converter = new showdown.Converter();
+  const converter = new showdown.Converter({ openLinksInNewWindow: true });
   return converter.makeHtml(md);
 }
 

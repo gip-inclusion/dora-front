@@ -102,29 +102,25 @@
   function setLink() {
     if (linkDialogHref === "") {
       editor.chain().focus().extendMarkRange("link").unsetLink().run();
+    } else if (!editor.state.selection.empty) {
+      editor
+        .chain()
+        .focus()
+        .extendMarkRange("link")
+        .setLink({ href: linkDialogHref })
+        .run();
     } else {
-      const link = {
-        href: linkDialogHref,
-        target: "_blank",
-        noopener: true,
-        nofollow: true,
-      };
-
-      if (!editor.state.selection.empty) {
-        editor.chain().focus().extendMarkRange("link").setLink(link).run();
-      } else {
-        editor
-          .chain()
-          .focus()
-          .insertContent(` ${linkDialogText}`)
-          .setTextSelection({
-            from: editor.state.selection.from + 1,
-            to: editor.state.selection.from + 1 + linkDialogText.length,
-          })
-          .extendMarkRange("link")
-          .setLink(link)
-          .run();
-      }
+      editor
+        .chain()
+        .focus()
+        .insertContent(` ${linkDialogText}`)
+        .setTextSelection({
+          from: editor.state.selection.from + 1,
+          to: editor.state.selection.from + 1 + linkDialogText.length,
+        })
+        .extendMarkRange("link")
+        .setLink({ href: linkDialogHref })
+        .run();
     }
 
     linkDialogIsOpen = false;
