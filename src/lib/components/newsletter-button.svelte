@@ -5,7 +5,7 @@
 </script>
 
 <LinkButton
-  label="S'abonner à la newsletter"
+  label="S’abonner à la newsletter"
   icon={newspaperIcon}
   iconOnRight
   secondary
