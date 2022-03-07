@@ -168,7 +168,7 @@
 </CenteredGrid>
 
 <CenteredGrid roundedbg>
-  <div class="col-span-12 mt-s56 mb-s48 lg:col-span-4">
+  <div class="col-span-12 lg:col-span-4 lg:mt-s56 lg:mb-s48">
     <SearchTweakForm
       {categoryId}
       {subCategoryId}
@@ -180,7 +180,7 @@
       {radiusChoices}
     />
   </div>
-  <div class="col-span-12 mt-s56 lg:col-span-8">
+  <div class="col-span-12 lg:col-span-8 lg:mt-s56">
     <div class="mt-s16 text-f14 text-gray-text-alt2">
       {results.length} résultat{#if results.length > 1}s{/if}
     </div>
@@ -197,7 +197,9 @@
         Essayez d’autres filtres.
       </p>
       <div class="lg:flex lg:gap-s24 mt-s48">
-        <div class="p-s24 bg-white rounded-md border-gray-01 border lg:flex-1">
+        <div
+          class="p-s24 bg-white rounded-md border-gray-01 border lg:flex-1 mb-s24"
+        >
           <h4>
             Vous connaissez un service d'insertion qui n'est pas référencé ?
           </h4>
@@ -211,7 +213,9 @@
             <ShareButton wFull />
           </div>
         </div>
-        <div class="p-s24 bg-white rounded-md border-gray-01 border lg:flex-1">
+        <div
+          class="p-s24 bg-white rounded-md border-gray-01 border lg:flex-1 mb-s24"
+        >
           <h4>Dora évolue rapidement. Vous souhaitez rester informé ?</h4>
           <div>
             <NewsletterButton wFull />

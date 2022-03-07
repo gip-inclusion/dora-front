@@ -216,3 +216,24 @@
 .flash-success:focus {
   box-shadow: none;
 }
+
+.breakpoint-hack::before {
+  display: none;
+  content: "xs";
+  visibility: hidden;
+}
+@screen md {
+  .breakpoint-hack::before {
+    content: "md";
+  }
+}
+@screen lg {
+  .breakpoint-hack::before {
+    content: "lg";
+  }
+}
+@screen xl {
+  .breakpoint-hack::before {
+    content: "xl";
+  }
+}

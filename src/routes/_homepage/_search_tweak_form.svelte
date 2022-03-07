@@ -68,7 +68,12 @@
   }
 </script>
 
-<FieldSet title="Filtres" description="Affinez votre recherche." noTopPadding>
+<FieldSet
+  title="Filtres"
+  description="Affinez votre recherche."
+  noTopPadding
+  collapsable
+>
   <form on:submit|preventDefault={handleSearch} class="flex flex-col gap-s16">
     <Field
       type="select"
