@@ -35,6 +35,8 @@
   let linkDialogButtonIsActive = false;
   let linkDialogText;
   let linkDialogHasSelection;
+  let linkDialogTextInput;
+  let linkDialogUrlInput;
 
   onMount(() => {
     editor = new Editor({
@@ -87,7 +89,7 @@
     }
   }
 
-  async function openLinkDialog() {
+  async function linkDialogOpen() {
     linkDialogHref = linkDialogHrefPrev = editor.getAttributes("link").href;
     linkDialogHasSelection = !editor.state.selection.empty;
     linkDialogIsOpen = true;
@@ -95,14 +97,22 @@
     await tick();
 
     if (linkDialogHasSelection) {
-      document.getElementById("link-url").focus();
+      linkDialogUrlInput.focus();
     } else {
-      document.getElementById("link-text").focus();
+      linkDialogTextInput.focus();
     }
   }
 
-  function closeLinkDialog() {
+  function linkDialogClose() {
     linkDialogIsOpen = false;
+  }
+
+  async function linkDialogToggle() {
+    if (linkDialogIsOpen) {
+      linkDialogClose();
+    } else {
+      linkDialogOpen();
+    }
   }
 
   function setLink() {
@@ -181,7 +191,7 @@
       <Separator />
 
       <Button
-        on:click={openLinkDialog}
+        on:click={linkDialogToggle}
         active={editor.isActive("link")}
         icon={linkIcon}
       />
@@ -192,7 +202,7 @@
       <div class="absolute inset-x-s0 flex gap-s12 bg-gray-01 p-s12">
         {#if !linkDialogHasSelection}
           <input
-            id="link-text"
+            bind:this={linkDialogTextInput}
             type="text"
             placeholder="lien"
             class="flex-1 py-s4 px-s8"
@@ -200,7 +210,7 @@
           />
         {/if}
         <input
-          id="link-url"
+          bind:this={linkDialogUrlInput}
           type="text"
           placeholder="http://example.com"
           class="flex-1 py-s4 px-s8"
@@ -215,7 +225,7 @@
         >
         <button
           class="text-grayborder-gray-text rounded-md border border-gray-text py-s4 px-s8 text-f12 font-bold hover:bg-gray-text hover:text-white"
-          on:click={closeLinkDialog}>Annuler</button
+          on:click={linkDialogClose}>Annuler</button
         >
       </div>
     {/if}
