@@ -1,5 +1,5 @@
 <script>
-  import { onMount, onDestroy } from "svelte";
+  import { onMount, onDestroy, tick } from "svelte";
   import { Editor } from "@tiptap/core";
   import StarterKit from "@tiptap/starter-kit";
   import Placeholder from "@tiptap/extension-placeholder";
@@ -43,9 +43,7 @@
         StarterKit,
         Placeholder.configure({ placeholder }),
         Link.configure({
-          HTMLAttributes: {
-            class: "underline",
-          },
+          HTMLAttributes: { class: "underline" },
           openOnClick: false,
         }),
       ],
@@ -89,10 +87,18 @@
     }
   }
 
-  function openLinkDialog() {
+  async function openLinkDialog() {
     linkDialogHref = linkDialogHrefPrev = editor.getAttributes("link").href;
     linkDialogHasSelection = !editor.state.selection.empty;
     linkDialogIsOpen = true;
+
+    await tick();
+
+    if (linkDialogHasSelection) {
+      document.getElementById("link-url").focus();
+    } else {
+      document.getElementById("link-text").focus();
+    }
   }
 
   function closeLinkDialog() {
@@ -186,6 +192,7 @@
       <div class="absolute inset-x-s0 flex gap-s12 bg-gray-01 p-s12">
         {#if !linkDialogHasSelection}
           <input
+            id="link-text"
             type="text"
             placeholder="lien"
             class="flex-1 py-s4 px-s8"
@@ -193,6 +200,7 @@
           />
         {/if}
         <input
+          id="link-url"
           type="text"
           placeholder="http://example.com"
           class="flex-1 py-s4 px-s8"
