@@ -8,16 +8,17 @@
   export let onCityChange = null;
   export let onEstablishmentChange = null;
 
-  export let establishment = {};
+  export let establishment = null;
 
   function handleCityChange(newCity) {
-    establishment = {};
+    establishment = null;
 
     if (onCityChange) onCityChange(newCity);
   }
 
   async function handleEstablishmentChange(newEstablishment) {
     establishment = newEstablishment;
+
     if (onEstablishmentChange) onEstablishmentChange(newEstablishment);
   }
 
@@ -28,8 +29,10 @@
   ];
 
   function handleSelectedTabChange(newTab) {
-    establishment = {};
+    establishment = null;
     structureSearchTabId = newTab;
+
+    if (onEstablishmentChange) onEstablishmentChange(establishment);
   }
 </script>
 
@@ -57,6 +60,7 @@
     <SearchBySiret onEstablishmentChange={handleEstablishmentChange} />
   {:else if structureSearchTabId === "nom"}
     <SearchByCommune
+      bind:establishment
       onEstablishmentChange={handleEstablishmentChange}
       onCityChange={handleCityChange}
     />

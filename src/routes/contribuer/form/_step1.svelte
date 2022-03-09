@@ -8,6 +8,7 @@
 
   export let servicesOptions, service;
   export let establishment;
+  export let onServiceReset = null;
 
   let subcategories = [];
 
@@ -24,11 +25,19 @@
   }
 
   function handleCityChange() {
-    service.siret = null;
+    if (onServiceReset) {
+      onServiceReset();
+    }
   }
 
   async function handleEstablishmentChange(newEstablishment) {
-    service.siret = newEstablishment?.siret;
+    if (newEstablishment) {
+      service.siret = newEstablishment?.siret;
+    } else {
+      if (onServiceReset) {
+        onServiceReset();
+      }
+    }
   }
 </script>
 

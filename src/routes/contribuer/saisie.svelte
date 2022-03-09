@@ -17,12 +17,17 @@
   import serviceSchema from "$lib/schemas/service-contrib";
 
   export let servicesOptions;
-  let service = Object.fromEntries(
-    Object.entries(serviceSchema).map(([fieldName, props]) => [
-      fieldName,
-      props.default,
-    ])
-  );
+
+  function serviceInit() {
+    return Object.fromEntries(
+      Object.entries(serviceSchema).map(([fieldName, props]) => [
+        fieldName,
+        props.default,
+      ])
+    );
+  }
+
+  let service = serviceInit();
   let establishment = null;
 
   let currentStep = 1;
@@ -31,6 +36,10 @@
     [1, Step1],
     [2, Step2],
   ]);
+
+  function handleServiceReset() {
+    service = serviceInit();
+  }
 
   $: currentStepComponent = steps.get(currentStep);
 </script>
@@ -45,5 +54,6 @@
     bind:service
     bind:establishment
     {servicesOptions}
+    onServiceReset={handleServiceReset}
   />
 </FormWrapper>
