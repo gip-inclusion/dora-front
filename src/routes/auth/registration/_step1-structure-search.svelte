@@ -10,7 +10,7 @@
 
   function handleJoin() {
     $registrationInfo.siret = establishment.siret;
-    $registrationInfo.isPoleEmploi = tabId === "siret";
+    $registrationInfo.isPoleEmploi = tabId === "safir";
     currentStep = 2;
   }
 </script>

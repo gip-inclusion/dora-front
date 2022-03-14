@@ -9,6 +9,7 @@
   import Button from "$lib/components/button.svelte";
   import Input from "$lib/components/forms/input.svelte";
   import Form from "$lib/components/forms/form.svelte";
+  import { safirRegexp } from "$lib/schemas/utils";
 
   export let onEstablishmentChange = null;
 
@@ -16,7 +17,7 @@
   let searching = false;
   let safirIsValid = false;
 
-  $: safirIsValid = !!safirCode.match(/^\d{5}$/u);
+  $: safirIsValid = !!safirCode.match(safirRegexp);
 
   const serverErrors = {
     // eslint-disable-next-line

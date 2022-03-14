@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { getApiURL } from "$lib/utils/api.js";
   import { formErrors } from "$lib/validation.js";
-  import * as v from "$lib/schemas/utils";
+  import { siretRegexp, isString, isSiret, trim } from "$lib/schemas/utils";
 
   import Field from "$lib/components/forms/field.svelte";
   import Alert from "$lib/components/forms/alert.svelte";
@@ -16,14 +16,14 @@
   let searching = false;
   let siretIsValid = false;
 
-  $: siretIsValid = !!siret?.match(/^\d{14}$/u);
+  $: siretIsValid = !!siret?.match(siretRegexp);
 
   const siretSearchSchema = {
     siret: {
       default: "",
       required: true,
-      rules: [v.isString(), v.isSiret()],
-      post: [v.trim],
+      rules: [isString(), isSiret()],
+      post: [trim],
     },
   };
 
