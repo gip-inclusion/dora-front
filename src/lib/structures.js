@@ -41,6 +41,7 @@ export async function getStructures() {
 
 export async function getMyStructures() {
   const url = `${getApiURL()}/structures/?mine=1`;
+
   return (await fetchData(url)).data;
 }
 

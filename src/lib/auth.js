@@ -2,7 +2,6 @@ import { get, writable } from "svelte/store";
 import { browser } from "$app/env";
 import { getApiURL, defaultAcceptHeader } from "$lib/utils/api.js";
 import { log, logException } from "./logger";
-import { getMyStructures } from "./structures";
 
 const tokenKey = "token";
 
@@ -50,13 +49,29 @@ async function getUserInfo(authToken) {
   });
 }
 
+async function getUserStructures(authToken) {
+  const url = `${getApiURL()}/structures/?mine=1`;
+  const headers = {
+    Accept: defaultAcceptHeader,
+    "Content-Type": "application/json",
+  };
+
+  if (authToken) {
+    headers.Authorization = `Token ${authToken}`;
+  }
+
+  const response = await fetch(url, { headers });
+
+  return await response.json();
+}
+
 export async function refreshUserInfo() {
   try {
     const result = await getUserInfo(get(token));
     if (result.status === 200) {
       userInfo.set(await result.json());
 
-      const structures = await getMyStructures();
+      const structures = await getUserStructures(get(token));
 
       userStructures.set(structures || []);
     } else {
@@ -70,6 +85,8 @@ export async function refreshUserInfo() {
 export async function validateCredsAndFillUserInfo() {
   token.set(null);
   userInfo.set(null);
+  userStructures.set(null);
+
   if (browser) {
     const lsToken = localStorage.getItem(tokenKey);
     if (lsToken) {
@@ -81,7 +98,7 @@ export async function validateCredsAndFillUserInfo() {
           token.set(lsToken);
           userInfo.set(await result.json());
 
-          const structures = await getMyStructures();
+          const structures = await getUserStructures(get(token));
 
           userStructures.set(structures || []);
         } else if (result.status === 404) {
