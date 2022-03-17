@@ -10,26 +10,43 @@
   import HamburgerMenu from "$lib/components/hamburger.svelte";
   import TopLinks from "./_top-links.svelte";
   import HeaderMenu from "./_header-menu.svelte";
+
+  export let structures;
 </script>
 
 {#if browser}
   <HamburgerMenu>
     {#if $userInfo}
-      <div class="hidden md:block">
-        <ButtonMenu label="Mon compte" icon={userSmileIcon}>
-          <HeaderMenu />
-        </ButtonMenu>
-      </div>
-      <div class="block md:hidden">
-        <HeaderMenu />
+      <div class="block lg:hidden">
+        <HeaderMenu {structures} />
       </div>
       <div class="hidden lg:block">
-        <LinkButton
-          icon={addCircleIcon}
-          to={`/services/creer`}
-          ariaLabel="Référencer un service"
-        />
+        <ButtonMenu label={$userInfo.shortName} icon={userSmileIcon}>
+          <HeaderMenu {structures} />
+        </ButtonMenu>
       </div>
+      {#if !!structures?.length}
+        <div class="hidden lg:block">
+          {#if structures.length === 1}
+            <LinkButton
+              label={`${structures[0].name.slice(0, 16)}…`}
+              to={`/structures/${structures[0].slug}`}
+              noBackground
+            />
+          {:else}
+            <ButtonMenu label="Structures">
+              {#each structures as structure}
+                <LinkButton
+                  label={structure.name}
+                  to={`/structures/${structure.slug}`}
+                  noBackground
+                  small
+                />
+              {/each}
+            </ButtonMenu>
+          {/if}
+        </div>
+      {/if}
     {:else}
       {#if $page.url.pathname !== "/auth/inscription"}
         <LinkButton
@@ -48,7 +65,7 @@
           to={`/auth/connexion?next=${encodeURIComponent($page.url.pathname)}`}
         />
       {/if}
-      <div class="block md:hidden">
+      <div class="block lg:hidden">
         <div class="border-t border-gray-01" />
         <div class="p-s24 text-right">
           <TopLinks />

@@ -1,4 +1,5 @@
 <script context="module">
+  import { getMyStructures } from "$lib/structures";
   import { validateCredsAndFillUserInfo } from "$lib/auth";
 
   import * as Sentry from "@sentry/browser";
@@ -15,7 +16,14 @@
 
   export async function load() {
     await validateCredsAndFillUserInfo();
-    return {};
+
+    const structures = await getMyStructures();
+
+    return {
+      props: {
+        structures,
+      },
+    };
   }
 </script>
 
@@ -37,6 +45,8 @@
     tarteaucitron.user.hotjarId = HOTJAR_ID;
     tarteaucitron.user.HotjarSv = HOTJAR_SV;
   });
+
+  export let structures;
 </script>
 
 <svelte:head>
@@ -60,7 +70,7 @@
     <meta name="robots" content="noindex" />
   {/if}
 </svelte:head>
-<Header />
+<Header {structures} />
 
 <main>
   <slot />

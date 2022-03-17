@@ -74,7 +74,7 @@
     }
   }
 
-  @screen md {
+  @screen lg {
     .roundedbg {
       background-color: var(--col-content-bg, var(--col-gray-bg));
       border-top-left-radius: var(--s40);
