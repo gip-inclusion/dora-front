@@ -9,15 +9,18 @@
   export let readOnly = false;
 </script>
 
-<div class="wrapper" class:is-own={isMyself}>
+<div
+  class="flex items-center gap-s16 rounded-md border border-gray-01 py-s16 px-s24"
+  class:is-own={isMyself}
+>
   <div class="flex flex-col">
-    <h5>{member.user.fullName}</h5>
-    <div class="text-f14 text-gray-text-alt">{member.user.email}</div>
+    <h4>{member.user.fullName}</h4>
+    <p class="mb-s0 text-f14 text-gray-text-alt">{member.user.email}</p>
   </div>
   <div class="grow" />
   <slot name="label" />
 
-  {#if !readOnly}
+  {#if !readOnly && !isMyself}
     <div>
       <ButtonMenu
         icon={moreIcon}
@@ -31,16 +34,6 @@
 </div>
 
 <style lang="postcss">
-  .wrapper {
-    display: flex;
-    align-items: center;
-    padding: 6px 16px;
-    background-color: var(--col-white);
-    border-radius: var(--s8);
-    box-shadow: var(--shadow-sm);
-    gap: var(--s16);
-  }
-
   .is-own {
     background-color: var(--col-gray-01);
   }
