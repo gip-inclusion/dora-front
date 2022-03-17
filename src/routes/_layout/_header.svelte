@@ -8,8 +8,6 @@
 
   import HeaderActions from "./_header-actions.svelte";
   import TopLinks from "./_top-links.svelte";
-
-  export let structures;
 </script>
 
 <header
@@ -32,7 +30,7 @@
       </a>
       <div class="grow" />
       <div class="flex flex-row">
-        <HeaderActions {structures} />
+        <HeaderActions />
       </div>
     </div>
   </CenteredGrid>

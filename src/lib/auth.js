@@ -2,6 +2,7 @@ import { get, writable } from "svelte/store";
 import { browser } from "$app/env";
 import { getApiURL, defaultAcceptHeader } from "$lib/utils/api.js";
 import { log, logException } from "./logger";
+import { getMyStructures } from "./structures";
 
 const tokenKey = "token";
 
@@ -13,6 +14,8 @@ export const token = writable(null);
 /** @type {Writable<{firstName: string, lastName: string, fullName: string, shortName: string, email: string, phoneNumber: string, newsletter: boolean,
             isStaff: boolean, isBizdev: boolean} | null>} */
 export const userInfo = writable(null);
+
+export const userStructures = writable(null);
 
 // Rules for auto generation by password managers
 // https://developer.apple.com/password-rules/
@@ -52,6 +55,10 @@ export async function refreshUserInfo() {
     const result = await getUserInfo(get(token));
     if (result.status === 200) {
       userInfo.set(await result.json());
+
+      const structures = await getMyStructures();
+
+      userStructures.set(structures || []);
     } else {
       log("Unexpected status code", { result });
     }
@@ -73,6 +80,10 @@ export async function validateCredsAndFillUserInfo() {
         if (result.status === 200) {
           token.set(lsToken);
           userInfo.set(await result.json());
+
+          const structures = await getMyStructures();
+
+          userStructures.set(structures || []);
         } else if (result.status === 404) {
           // Le token est invalide, on vide le localStorage
           clearToken();

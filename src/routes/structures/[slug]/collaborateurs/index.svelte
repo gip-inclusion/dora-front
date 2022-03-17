@@ -5,17 +5,17 @@
     getStructure,
     getMembers,
     getPutativeMembers,
-    getMyStructures,
   } from "$lib/structures";
-  import { userInfo } from "$lib/auth";
+  import { userInfo, userStructures } from "$lib/auth";
 
   export async function load({ params }) {
     const info = get(userInfo);
 
     const structureSlug = params.slug;
 
-    const myStructures = await getMyStructures();
-    const canSeeStructure = myStructures.find((s) => (s.slug = structureSlug));
+    const structures = get(userStructures);
+
+    const canSeeStructure = structures.find((s) => (s.slug = structureSlug));
 
     const structMembers = await getMembers(structureSlug);
     const userIsAdminOfStruct = structMembers?.find(

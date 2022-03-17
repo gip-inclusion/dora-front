@@ -53,7 +53,7 @@
 
 <CenteredGrid topPadded>
   <div class="col-span-full col-start-1 mb-s48 text-center">
-    <h1 class="text-france-blue">Se connecter à DORA</h1>
+    <h1 class="text-france-blue">Mot de passe</h1>
   </div>
 </CenteredGrid>
 
@@ -68,20 +68,17 @@
     bind:requesting
   >
     <Fieldset
-      title="Mot de passe oublié ?"
-      description="Pour réinitialiser votre mot de passe, saisissez l’adresse email que vous avez utilisé lors de l’inscription."
+      title="Rénitialisation"
+      description="Saisissez l’adresse email que vous avez utilisé lors de l’inscription."
     >
       {#if success}
-        <Info label="C’est tout bon !" positiveMood>
+        <Info label="E-mail envoyé" positiveMood>
           <p>
             Si vous avez un compte DORA avec cette adresse, vous allez recevoir
             un e-mail avec un lien pour réinitialiser votre mot de passe.
           </p>
         </Info>
-        <LinkButton
-          to="/auth/connexion"
-          label="Revenir à la page de connexion"
-        />
+        <LinkButton to="/auth/connexion" label="Connexion" />
       {:else}
         {#if $formErrors.nonFieldErrors}
           <div>

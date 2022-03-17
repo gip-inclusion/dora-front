@@ -3,39 +3,37 @@
   import { page } from "$app/stores";
 
   import { addCircleIcon, userSmileIcon, loginIcon } from "$lib/icons.js";
-  import { userInfo } from "$lib/auth";
+  import { userInfo, userStructures } from "$lib/auth";
 
   import LinkButton from "$lib/components/link-button.svelte";
   import ButtonMenu from "$lib/components/button-menu.svelte";
   import HamburgerMenu from "$lib/components/hamburger.svelte";
   import TopLinks from "./_top-links.svelte";
   import HeaderMenu from "./_header-menu.svelte";
-
-  export let structures;
 </script>
 
 {#if browser}
   <HamburgerMenu>
     {#if $userInfo}
       <div class="block lg:hidden">
-        <HeaderMenu {structures} />
+        <HeaderMenu structures={$userStructures} />
       </div>
       <div class="hidden lg:block">
         <ButtonMenu label={$userInfo.shortName} icon={userSmileIcon}>
-          <HeaderMenu {structures} />
+          <HeaderMenu structures={$userStructures} />
         </ButtonMenu>
       </div>
-      {#if !!structures?.length}
+      {#if !!$userStructures?.length}
         <div class="hidden lg:block">
-          {#if structures.length === 1}
+          {#if $userStructures.length === 1}
             <LinkButton
-              label={`${structures[0].name.slice(0, 16)}…`}
-              to={`/structures/${structures[0].slug}`}
+              label={`${$userStructures[0].name.slice(0, 16)}…`}
+              to={`/structures/${$userStructures[0].slug}`}
               noBackground
             />
           {:else}
             <ButtonMenu label="Structures">
-              {#each structures as structure}
+              {#each $userStructures as structure}
                 <LinkButton
                   label={structure.name}
                   to={`/structures/${structure.slug}`}
