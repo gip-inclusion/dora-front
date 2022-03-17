@@ -12,8 +12,8 @@
 </svelte:head>
 
 <EnsureLoggedIn>
-  <div class="col-span-full flex md:items-center md:justify-between">
-    <h2 class="mb-s24 text-france-blue">Informations</h2>
+  <div class="col-span-full md:flex md:items-center md:justify-between">
+    <h2 class="mb-s24 text-france-blue">Mon compte</h2>
     <div class="flex gap-s16">
       <LinkButton label="Modifier…" to="/mon-compte/editer" small />
 
@@ -26,10 +26,16 @@
     </div>
   </div>
 
-  <div class="col-span-full md:flex md:flex-row-reverse md:gap-s24">
+  <div class="col-span-full md:flex md:gap-s24">
+    <div class="mb-s24 flex-1 rounded-md bg-gray-00 p-s24">
+      <h3>{$userInfo.fullName}</h3>
+      <p>{$userInfo.phoneNumber}</p>
+      <p>{$userInfo.email}</p>
+    </div>
+
     <div class="flex-1">
       <div
-        class="mb-s24 rounded-md bg-gray-00 p-s24 lg:flex lg:flex-row lg:justify-between lg:gap-s16"
+        class="mb-s24 rounded-md border border-gray-03 p-s24 lg:flex lg:flex-row lg:justify-between lg:gap-s16"
       >
         {#if !userInfoIsComplete()}
           <UpdateProfileNotif />
@@ -39,8 +45,8 @@
       </div>
 
       {#if $userInfo.isStaff || $userInfo.isBizdev}
-        <div class="mb-s24 rounded-md bg-gray-00 p-s24">
-          <h4 class="text-information">Raccourcis</h4>
+        <div class="mb-s24 rounded-md  border border-gray-03 p-s24">
+          <h4>Raccourcis</h4>
           <p class="text-f14">Pour l’équipe DORA.</p>
           <div class="flex flex-col gap-s8 lg:flex-row">
             <LinkButton
@@ -53,6 +59,7 @@
             <LinkButton label="Structures" to="/structures" secondary small />
 
             <LinkButton label="Services" to="/services" secondary small />
+
             <LinkButton
               label="Suggestions de service"
               to="/services/suggestions"
@@ -62,12 +69,6 @@
           </div>
         </div>
       {/if}
-    </div>
-
-    <div class="mb-s24 flex-1 rounded-md bg-gray-00 p-s24">
-      <h3>{$userInfo.fullName}</h3>
-      <p>{$userInfo.phoneNumber}</p>
-      <p>{$userInfo.email}</p>
     </div>
   </div>
 </EnsureLoggedIn>

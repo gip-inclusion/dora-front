@@ -5,15 +5,13 @@
     const slug = params.slug;
     const structure = await getStructure(slug);
     const services = await getStructureServices(slug, {
-      publishedOnly: true,
+      publishedOnly: !structure.canWrite,
     });
-
-    const hasServices = !!services.length;
 
     return {
       props: {
         structure,
-        hasServices,
+        services,
       },
       stuff: {
         structure,
@@ -28,12 +26,12 @@
   import Header from "./_header.svelte";
 
   export let structure;
-  export let hasServices;
+  export let services;
 </script>
 
 <CenteredGrid --col-bg="var(--col-magenta-brand)" topPadded>
   <div class="col-span-full">
-    <Header {structure} {hasServices} />
+    <Header {structure} hasServices={!!services?.length} />
   </div>
 </CenteredGrid>
 

@@ -1,8 +1,22 @@
 <script context="module">
+  import { browser } from "$app/env";
   import { getService } from "$lib/services";
 
   export async function load({ params }) {
     const service = await getService(params.slug);
+
+    if (!service) {
+      // sur le serveur, info est toujours null,
+      // donc on ne veut retourner une 404 que sur le client
+      if (browser) {
+        return {
+          status: 404,
+          error: "Page Not Found",
+        };
+      }
+
+      return {};
+    }
     return {
       props: {
         service,
@@ -13,7 +27,6 @@
 
 <script>
   import { onMount } from "svelte";
-  import { browser } from "$app/env";
   import ServiceCard from "./_service-card.svelte";
 
   export let service;

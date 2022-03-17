@@ -142,7 +142,7 @@
       <Button
         type="submit"
         disabled={!newPassword1 || !newPassword2}
-        label="Validez le changement"
+        label="Valider"
         iconOnRight
         icon={arrowRightSIcon}
         preventDefaultOnMouseDown

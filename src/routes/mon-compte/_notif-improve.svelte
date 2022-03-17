@@ -3,7 +3,7 @@
 </script>
 
 <div class="lg:mb-s0">
-  <h4 class="text-magenta-cta">Aidez-nous à améliorer DORA</h4>
+  <h4>Aidez-nous à améliorer DORA</h4>
   <p class="text-f14">
     Partagez votre expérience, des problèmes que vous rencontrez ou des
     propositions d’amélioration.
@@ -15,5 +15,7 @@
     label="Participer (3min.)…"
     otherTab
     nofollow
+    small
+    secondary
   />
 </div>

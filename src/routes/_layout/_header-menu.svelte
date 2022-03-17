@@ -16,7 +16,7 @@
 />
 
 <LinkButton
-  label="Deconnexion"
+  label="Déconnexion"
   to={`/auth/deconnexion`}
   icon={loginIcon}
   iconOnRight

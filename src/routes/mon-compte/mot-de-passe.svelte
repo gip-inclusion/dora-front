@@ -4,7 +4,7 @@
 </script>
 
 <svelte:head>
-  <title>Mon compte | Éditer | DORA</title>
+  <title>Mon compte | Mot de passe | DORA</title>
 </svelte:head>
 
 <EnsureLoggedIn>

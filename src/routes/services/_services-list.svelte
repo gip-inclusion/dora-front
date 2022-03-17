@@ -1,47 +1,17 @@
 <script>
-  import {
-    convertSuggestionToDraft,
-    deleteService,
-    unPublishService,
-  } from "$lib/services";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import {
-    checkBoxBlankIcon,
-    homeIcon,
-    eyeIcon,
-    fileCloudIcon,
-    fileEditIcon,
-    moreIcon,
-    checkIcon,
-    deleteBinIcon,
-  } from "$lib/icons";
+  import { homeIcon, eyeIcon } from "$lib/icons";
+  import { shortenString } from "$lib/utils";
+
   import Label from "$lib/components/label.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
-  import Button from "$lib/components/button.svelte";
-  import ButtonMenu from "$lib/components/button-menu.svelte";
-  import { shortenString } from "$lib/utils";
+  import ServiceMenu from "$lib/components/services/menu.svelte";
+  import ServiceStateLabel from "$lib/components/services/state-label.svelte";
 
   export let services = [];
   export let onRefresh;
   export let showStructure = true;
   export let readOnly = false;
-
-  async function handleUnpublish(service) {
-    await unPublishService(service.slug);
-    await onRefresh();
-  }
-
-  async function handleConvertToDraft(service) {
-    await convertSuggestionToDraft(service.slug);
-    await onRefresh();
-  }
-
-  async function handleDelete(service) {
-    if (confirm(`Supprimer la suggestion ${service.name} ?`)) {
-      await deleteService(service.slug);
-      await onRefresh();
-    }
-  }
 </script>
 
 <CenteredGrid --col-bg="var(--col-gray-00)" topPadded>
@@ -70,31 +40,7 @@
           <Label label={service.diffusionZoneDetailsDisplay} bold />
         </div>
         <div class="flex-none basis-s112 items-center  self-center">
-          {#if service.isSuggestion}
-            <Label
-              label="Suggestion"
-              icon={checkBoxBlankIcon}
-              smallIcon
-              error
-              bold
-            />
-          {:else if service.isDraft}
-            <Label
-              label="Brouillon"
-              icon={checkBoxBlankIcon}
-              smallIcon
-              wait
-              bold
-            />
-          {:else}
-            <Label
-              label="Publié"
-              icon={checkBoxBlankIcon}
-              smallIcon
-              success
-              bold
-            />
-          {/if}
+          <ServiceStateLabel {service} />
         </div>
         <div class="flex-none basis-s32 self-center">
           <Label
@@ -108,66 +54,7 @@
             noBackground
           />
         </div>
-        {#if !readOnly}
-          <div class="flex-none basis-s32 self-center">
-            <ButtonMenu icon={moreIcon} let:onClose={onCloseParent}>
-              {#if service.isSuggestion}
-                <div>
-                  <Button
-                    label="Convertir en brouillon"
-                    on:click={() => {
-                      handleConvertToDraft(service);
-                      onCloseParent();
-                    }}
-                    icon={checkIcon}
-                    iconOnRight
-                    small
-                    noBackground
-                  />
-                </div>
-                <div>
-                  <Button
-                    label="Rejeter"
-                    on:click={() => {
-                      handleDelete(service);
-                      onCloseParent();
-                    }}
-                    icon={deleteBinIcon}
-                    iconOnRight
-                    small
-                    noBackground
-                  />
-                </div>
-              {:else}
-                {#if !service.isDraft}
-                  <div>
-                    <Button
-                      label="Désactiver"
-                      on:click={() => {
-                        handleUnpublish(service);
-                        onCloseParent();
-                      }}
-                      icon={fileCloudIcon}
-                      iconOnRight
-                      small
-                      noBackground
-                    />
-                  </div>
-                {/if}
-                <div>
-                  <LinkButton
-                    label="Modifier"
-                    to="/services/{service.slug}/editer"
-                    icon={fileEditIcon}
-                    iconOnRight
-                    small
-                    noBackground
-                  />
-                </div>
-              {/if}
-            </ButtonMenu>
-          </div>
-        {/if}
+        <ServiceMenu {service} {readOnly} {onRefresh} />
       </div>
     {/each}
   </div>

@@ -7,7 +7,6 @@
     homeIcon,
     // briefcaseIcon,
     addCircleIcon,
-    settingsIcon,
   } from "$lib/icons";
 
   export let structures;
@@ -45,22 +44,12 @@
             iconOnRight
             noBackground
           />
-          <LinkButton
-            label="Gérer"
-            to="/structures/{structure.slug}"
-            iconOnRight
-            icon={settingsIcon}
-            noBackground
-          />
-        {:else}
-          <LinkButton
-            label="Voir"
-            to="/structures/{structure.slug}"
-            iconOnRight
-            icon={settingsIcon}
-            noBackground
-          />
         {/if}
+        <LinkButton
+          label="Voir"
+          to="/structures/{structure.slug}"
+          noBackground
+        />
       </div>
     {/each}
   </div>
