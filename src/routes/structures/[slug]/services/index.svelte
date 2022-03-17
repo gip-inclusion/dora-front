@@ -10,14 +10,14 @@
 </script>
 
 <script>
-  import AllServices from "./_all_services.svelte";
+  import List from "./_list.svelte";
 
   export let structure, services;
 </script>
 
 <svelte:head>
-  <title>Les services | {structure.name} | DORA</title>
+  <title>{structure.name} | Services | DORA</title>
   <meta name="description" content={structure.shortDesc} />
 </svelte:head>
 
-<AllServices {services} />
+<List {services} {structure} />

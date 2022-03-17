@@ -1,4 +1,5 @@
 <script>
+  import { goto } from "$app/navigation";
   import { token } from "$lib/auth";
   import { getApiURL } from "$lib/utils/api.js";
   import { passwordChangeSchema } from "$lib/schemas/auth";
@@ -53,6 +54,8 @@
   function handleSuccess(_result) {
     success = true;
     currentPassword = newPassword1 = newPassword2 = "";
+
+    goto("/mon-compte");
   }
 </script>
 
@@ -65,7 +68,7 @@
   onSuccess={handleSuccess}
   bind:requesting
 >
-  <Fieldset title="Modifier votre mot de passe">
+  <Fieldset title="Mot de passe">
     {#if $formErrors.nonFieldErrors}
       <div>
         {#each $formErrors.nonFieldErrors || [] as msg}

@@ -84,7 +84,7 @@
       Cette structure a déjà été saisie dans DORA. Vous pouvez la
       <a
         class="underline"
-        href="/tableau-de-bord/structures/{alreadyClaimedEstablishment?.slug}"
+        href="/structures/{alreadyClaimedEstablishment?.slug}"
       >
         visualiser
       </a>.
@@ -95,6 +95,6 @@
 <StructureFormWrapper
   {structure}
   {structuresOptions}
-  formTitle="Présentez votre structure"
+  formTitle="Pésentation"
   visible={structure.siret}
 />

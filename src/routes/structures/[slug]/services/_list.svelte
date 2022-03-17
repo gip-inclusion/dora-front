@@ -6,18 +6,26 @@
   import { mapPinIcon } from "$lib/icons";
 
   export let structure, services;
+  export let hasButton = false;
 </script>
 
-<div class="col-span-full mt-s32">
-  <div class="flex flex-col justify-between md:flex-row">
-    <h2 class="text-france-blue">Derniers services ajoutés</h2>
-    <LinkButton
-      label="Voir tout"
-      to="/structures/{structure.slug}/services"
-      small
-    />
+<div class="col-span-full md:flex md:items-center md:justify-between">
+  <h2 class="mb-s24 text-france-blue">Services</h2>
+  <div class="flex gap-s16">
+    {#if structure.canWrite}
+      <LinkButton label="Ajouter un service…" to="/services/creer" small />
+    {/if}
+    {#if !!services.length && hasButton}
+      <LinkButton
+        label={`Voir tous les services (${services.length})`}
+        to="/structures/{structure.slug}/services"
+        small
+      />
+    {/if}
   </div>
-  <div class="md:grid-cols-s16 lg:grid-cols-s24 mt-s24 mb-s48 grid gap-s16">
+</div>
+<div class="col-span-full">
+  <div class="lg:grid-cols-s24 mb-s48 grid gap-s16 md:grid-cols-2">
     {#each services as service}
       <div class="rounded-md px-s20 py-s24 shadow-md">
         <h4><a href="/services/{service.slug}">{service.name}</a></h4>

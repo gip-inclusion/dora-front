@@ -7,9 +7,6 @@
   <CenteredGrid topPadded>
     <div class="col-span-full col-start-1 mb-s48 text-center">
       <h1 class="text-france-blue">Création d’une structure</h1>
-      <p class="text-f16">
-        Rendez visible vos offres de services sur la plateforme DORA.
-      </p>
     </div>
   </CenteredGrid>
 

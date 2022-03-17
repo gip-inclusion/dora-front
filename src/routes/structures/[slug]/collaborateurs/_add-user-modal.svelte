@@ -11,7 +11,7 @@
   import Fieldset from "$lib/components/forms/fieldset.svelte";
   import Form from "$lib/components/forms/form.svelte";
   import Modal from "$lib/components/modal.svelte";
-  import ConfirmationModal from "./_confirmation_modal.svelte";
+  import ConfirmationModal from "./_confirmation-modal.svelte";
 
   const levelChoices = [
     {
@@ -91,15 +91,11 @@
     onSuccess={handleSuccess}
     bind:requesting
   >
-    <Fieldset
-      title="Ajouter des collaborateurs"
-      description="Merci de renseigner les informations de contact de l’utilisateur que vous souhaitez inviter."
-      noTopPadding
-    >
+    <Fieldset title="Nouveau collaborateur" noTopPadding>
       <Field
         name="firstName"
         errorMessages={$formErrors.firstName}
-        label="Son prénom"
+        label="Prénom"
         vertical
         type="text"
         placeholder="Aurélien"
@@ -109,7 +105,7 @@
       <Field
         name="lastName"
         errorMessages={$formErrors.lastName}
-        label="Son nom"
+        label="Nom"
         vertical
         type="text"
         placeholder="Durand"

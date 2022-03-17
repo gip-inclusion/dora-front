@@ -3,6 +3,7 @@
   import { getApiURL } from "$lib/utils/api.js";
   import { userProfileSchema } from "$lib/schemas/auth";
   import { formErrors } from "$lib/validation.js";
+  import { goto } from "$app/navigation";
 
   import Button from "$lib/components/button.svelte";
   import Fieldset from "$lib/components/forms/fieldset.svelte";
@@ -41,6 +42,7 @@
   async function handleSuccess(_result) {
     success = true;
     await refreshUserInfo();
+    goto("/mon-compte");
   }
 
   let requesting = false;
@@ -65,7 +67,7 @@
   onSuccess={handleSuccess}
   bind:requesting
 >
-  <Fieldset title="Vos informations et coordonnées">
+  <Fieldset title="Informations">
     <ModelField
       name="firstName"
       errorMessages={$formErrors.firstName}
@@ -120,7 +122,7 @@
     <div class="self-end">
       <Button
         type="submit"
-        label="Validez les informations"
+        label="Valider"
         disabled={requesting || infoIsMissing || !infoChanged}
         iconOnRight
         icon={arrowRightSIcon}

@@ -7,11 +7,13 @@
   import { userInfo } from "$lib/auth";
 
   export async function load() {
+    const user = get(userInfo);
+
     return {
       props: {
         lastDraft: await getLastDraft(),
         servicesOptions: await getServicesOptions(),
-        structures: get(userInfo)?.isStaff
+        structures: user?.isStaff
           ? await getStructures()
           : await getMyStructures(),
       },

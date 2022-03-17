@@ -11,7 +11,7 @@
   } from "$lib/icons";
 
   export let structures;
-  export let readOnly = false;
+  export let readOnly = true;
 </script>
 
 <CenteredGrid --col-bg="var(--col-gray-00)" topPadded>
@@ -19,7 +19,7 @@
     {#each structures as structure}
       <div class="flex flex-row gap-s16 rounded-md bg-white p-s16">
         <div class="flex grow flex-row items-center">
-          <a href="/tableau-de-bord/structures/{structure.slug}">
+          <a href="/structures/{structure.slug}">
             <h5>
               {shortenString(structure.name)}
               {#if structure.typologyDisplay}({structure.typologyDisplay}){/if}
@@ -47,7 +47,7 @@
           />
           <LinkButton
             label="Gérer"
-            to="/tableau-de-bord/structures/{structure.slug}"
+            to="/structures/{structure.slug}"
             iconOnRight
             icon={settingsIcon}
             noBackground
@@ -55,7 +55,7 @@
         {:else}
           <LinkButton
             label="Voir"
-            to="/tableau-de-bord/structures/{structure.slug}"
+            to="/structures/{structure.slug}"
             iconOnRight
             icon={settingsIcon}
             noBackground

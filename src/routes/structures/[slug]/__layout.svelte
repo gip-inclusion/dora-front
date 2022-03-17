@@ -2,13 +2,18 @@
   import { getStructure, getStructureServices } from "$lib/structures";
 
   export async function load({ params }) {
-    const structure = await getStructure(params.slug);
-    const services = await getStructureServices(params.slug, {
+    const slug = params.slug;
+    const structure = await getStructure(slug);
+    const services = await getStructureServices(slug, {
       publishedOnly: true,
     });
+
+    const hasServices = !!services.length;
+
     return {
       props: {
         structure,
+        hasServices,
       },
       stuff: {
         structure,
@@ -19,18 +24,16 @@
 </script>
 
 <script>
-  import { page } from "$app/stores";
-
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import StructureHeader from "./_structure-header.svelte";
+  import Header from "./_header.svelte";
 
   export let structure;
-  $: currentTab = $page.url.pathname.endsWith("/services") ? 2 : 1;
+  export let hasServices;
 </script>
 
 <CenteredGrid --col-bg="var(--col-magenta-brand)" topPadded>
   <div class="col-span-full">
-    <StructureHeader {structure} {currentTab} />
+    <Header {structure} {hasServices} />
   </div>
 </CenteredGrid>
 
@@ -38,6 +41,7 @@
   roundedbg
   --col-under-bg="var(--col-magenta-brand)"
   --col-content-bg="var(--col-bg)"
+  topPadded
 >
   <slot />
 </CenteredGrid>

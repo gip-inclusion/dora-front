@@ -1,10 +1,10 @@
 <script context="module">
-  import { getServices } from "$lib/services";
+  import { getStructures } from "$lib/structures";
 
   export async function load() {
     return {
       props: {
-        services: await getServices(),
+        structures: await getStructures(),
       },
     };
   }
@@ -12,34 +12,23 @@
 
 <script>
   import { userInfo } from "$lib/auth";
-
   import EnsureStaffOrBizdev from "$lib/components/ensure-staff-or-bizdev.svelte";
-  import ServicesList from "../_services-list.svelte";
+  import StructuresList from "./_structures-list.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  export let services;
-
-  async function handleRefresh() {
-    services = await getServices();
-  }
+  export let structures;
 </script>
 
 <svelte:head>
-  <title>Tous les services | DORA</title>
+  <title>Structures | DORA</title>
 </svelte:head>
 
 <EnsureStaffOrBizdev>
   <CenteredGrid --col-bg="var(--col-gray-00)" topPadded>
     <div class="col-span-full col-start-1 text-left">
       <div class="mb-s8">
-        <h2>Tous les services</h2>
+        <h1>Structures</h1>
       </div>
-      <div class="border-t border-gray-03" />
-      <ServicesList
-        {services}
-        onRefresh={handleRefresh}
-        showStructure
-        readOnly={!$userInfo?.isStaff}
-      />
+      <StructuresList {structures} readOnly={!$userInfo?.isStaff} />
     </div>
   </CenteredGrid>
 </EnsureStaffOrBizdev>
