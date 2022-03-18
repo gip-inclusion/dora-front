@@ -5,7 +5,7 @@
   } from "$lib/services";
 
   import Button from "$lib/components/button.svelte";
-  import ServiceSuggestionModal from "./_service-suggestion-modal.svelte";
+  import Modal from "./_modal.svelte";
 
   import { arrowRightSIcon, closeCircleIcon } from "$lib/icons";
 
@@ -32,7 +32,7 @@
   }
 </script>
 
-<ServiceSuggestionModal
+<Modal
   bind:isOpen={modalIsOpen}
   suggestion={currentSuggestion}
   onAccept={(s) => handleAccept(s)}

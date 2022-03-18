@@ -62,7 +62,7 @@
 
             <LinkButton
               label="Suggestions de service"
-              to="/services/suggestions"
+              to="/services-suggestions"
               secondary
               small
             />

@@ -2,7 +2,7 @@
   import Button from "$lib/components/button.svelte";
 
   import Modal from "$lib/components/modal.svelte";
-  import SuggestionLine from "./_suggestion-line.svelte";
+  import Line from "./_line.svelte";
 
   export let suggestion;
   export let isOpen = false;
@@ -13,10 +13,7 @@
   <Modal bind:isOpen>
     <div class="min-w-[80vw] rounded-md bg-white p-s40 shadow-md">
       <div class="flex flex-col gap-s8">
-        <SuggestionLine
-          label="Nom de la structure"
-          data={suggestion.structureInfo.name}
-        >
+        <Line label="Nom de la structure" data={suggestion.structureInfo.name}>
           {suggestion.structureInfo.name}
           ({suggestion.structureInfo.department})
           {#if suggestion.structureInfo.new}
@@ -25,25 +22,22 @@
             >
               NOUV.
             </div>
-          {/if}</SuggestionLine
+          {/if}</Line
         >
 
-        <SuggestionLine label="Soumis par" data={suggestion.creator}>
+        <Line label="Soumis par" data={suggestion.creator}>
           {suggestion.creator?.getFullName} ({suggestion.creator?.email})
-        </SuggestionLine>
+        </Line>
 
         {#if suggestion.serviceInfo.name}
-          <SuggestionLine
-            label="Titre du service"
-            data={suggestion.serviceInfo.name}
-          />
+          <Line label="Titre du service" data={suggestion.serviceInfo.name} />
 
-          <SuggestionLine
+          <Line
             label="Présentation résumée"
             data={suggestion.serviceInfo.shortDesc}
           />
 
-          <SuggestionLine
+          <Line
             label="Descriptif complet du service"
             data={suggestion.serviceInfo.fullDesc}
             verticalLayout
@@ -51,56 +45,56 @@
             <div class="m-s16 border-l-8 border-gray-02 pl-s16">
               {@html suggestion.serviceInfo.fullDesc}
             </div>
-          </SuggestionLine>
+          </Line>
 
-          <SuggestionLine
+          <Line
             label="Thématique"
             data={suggestion.serviceInfo.categoryDisplay}
           />
 
-          <SuggestionLine
+          <Line
             label="Besoin(s) auxquels ce service répond"
             data={suggestion.serviceInfo.subcategoriesDisplay}
             isList
           />
 
-          <SuggestionLine
+          <Line
             label="Type de service"
             data={suggestion.serviceInfo.kindsDisplay}
             isList
           />
 
-          <SuggestionLine
+          <Line
             label="Critères d’accès"
             data={suggestion.serviceInfo.accessConditionsDisplay}
             isList
           />
 
-          <SuggestionLine
+          <Line
             label="Publics concernés"
             data={suggestion.serviceInfo.concernedPublicDisplay}
             isList
           />
 
-          <SuggestionLine
+          <Line
             label="Pré-requis"
             data={suggestion.serviceInfo.requirementsDisplay}
             isList
           />
 
-          <SuggestionLine
+          <Line
             label="Service cumulable"
             data={suggestion.serviceInfo.isCumulative}
             isBool
           />
 
-          <SuggestionLine
+          <Line
             label="Frais à charge du bénéficiaire"
             data={suggestion.serviceInfo.hasFee}
             isBool
           />
 
-          <SuggestionLine
+          <Line
             label="Détail des frais"
             verticalLayout
             data={suggestion.serviceInfo.feeDetails}
@@ -108,50 +102,41 @@
             <div class="m-s16 border-l-8 border-gray-02 pl-s16">
               {suggestion.serviceInfo.feeDetails}
             </div>
-          </SuggestionLine>
+          </Line>
 
-          <SuggestionLine
+          <Line
             label="Nom du contact"
             data={suggestion.serviceInfo.contactName}
           />
 
-          <SuggestionLine
+          <Line
             label="Numéro de téléphone"
             data={suggestion.serviceInfo.contactPhone}
           />
 
-          <SuggestionLine
-            label="Courriel"
-            data={suggestion.serviceInfo.contactEmail}
-          />
+          <Line label="Courriel" data={suggestion.serviceInfo.contactEmail} />
 
-          <SuggestionLine
+          <Line
             label="Lieu de déroulement"
             data={suggestion.serviceInfo.locationKindsDisplay}
             isList
           />
 
-          <SuggestionLine
+          <Line
             label="Lien visioconférence"
             data={suggestion.serviceInfo.remoteUrl}
           />
 
-          <SuggestionLine label="Ville" data={suggestion.serviceInfo.city} />
+          <Line label="Ville" data={suggestion.serviceInfo.city} />
 
-          <SuggestionLine
-            label="Adresse"
-            data={suggestion.serviceInfo.address1}
-          />
+          <Line label="Adresse" data={suggestion.serviceInfo.address1} />
 
-          <SuggestionLine
+          <Line
             label="Complément d’adresse"
             data={suggestion.serviceInfo.address2}
           />
 
-          <SuggestionLine
-            label="Code postal"
-            data={suggestion.serviceInfo.postalCode}
-          />
+          <Line label="Code postal" data={suggestion.serviceInfo.postalCode} />
         {:else}
           Contenu invalide
         {/if}

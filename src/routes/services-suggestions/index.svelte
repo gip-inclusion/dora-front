@@ -14,7 +14,7 @@
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
 
-  import SuggestionsList from "./_suggestions-list.svelte";
+  import List from "./_list.svelte";
 
   export let suggestions;
 
@@ -35,7 +35,7 @@
       <div class="border-t border-gray-03" />
       <div class="mt-s32 mb-s48 rounded-md bg-gray-bg p-s16">
         <div class="flex">
-          <SuggestionsList {suggestions} onRefresh={handleRefresh} />
+          <List {suggestions} onRefresh={handleRefresh} />
         </div>
       </div>
     </div>
