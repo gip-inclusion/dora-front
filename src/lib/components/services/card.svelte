@@ -12,7 +12,9 @@
 <div class="rounded-md px-s20 py-s12 shadow-md">
   <div class="flex items-center justify-between">
     <StateLabel {service} />
-    <Menu {service} {readOnly} {onRefresh} />
+    {#if !readOnly}
+      <Menu {service} {onRefresh} />
+    {/if}
   </div>
   <hr class="mt-s8 border-t border-gray-03 " />
   <div class="my-s8 flex flex-col gap-s16">
