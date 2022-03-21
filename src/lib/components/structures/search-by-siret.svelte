@@ -17,6 +17,7 @@
   let siretIsValid = false;
 
   $: siretIsValid = !!siret?.match(siretRegexp);
+  $: searching = !!$formErrors.length;
 
   const siretSearchSchema = {
     siret: {
@@ -29,7 +30,7 @@
 
   const serverErrors = {
     // eslint-disable-next-line
-    nonFieldErrors: { not_found: "Numéro SIRET non reconnu." },
+    nonFieldErrors: { not_found: "Numéro Siret non reconnu." },
   };
 
   async function siretSearch(s) {
@@ -45,6 +46,7 @@
 
   async function handleSubmit(validatedData) {
     searching = true;
+    $formErrors = [];
     if (onEstablishmentChange) onEstablishmentChange({});
 
     return siretSearch(validatedData.siret);

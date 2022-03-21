@@ -18,6 +18,7 @@
   let safirIsValid = false;
 
   $: safirIsValid = !!safirCode.match(safirRegexp);
+  $: searching = !!$formErrors.length;
 
   const serverErrors = {
     // eslint-disable-next-line
@@ -26,6 +27,7 @@
 
   function handleSubmit(validatedData) {
     searching = true;
+    $formErrors = [];
 
     const url = `${getApiURL()}/search-safir/?safir=${validatedData.safirCode}`;
     return fetch(url, {
