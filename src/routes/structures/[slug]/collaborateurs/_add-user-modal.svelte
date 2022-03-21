@@ -121,7 +121,7 @@
         type="email"
         bind:value={email}
         required
-        placeholder="email_pro@e-mail.com"
+        placeholder="nom@domaine.tld"
       />
 
       <Field

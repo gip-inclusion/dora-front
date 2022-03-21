@@ -96,7 +96,7 @@
       vertical
       type="email"
       bind:value={email}
-      placeholder="email_pro@e-mail.com"
+      placeholder="nom@domaine.tld"
       disabled
     />
 

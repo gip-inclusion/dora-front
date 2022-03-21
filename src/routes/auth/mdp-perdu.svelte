@@ -48,12 +48,12 @@
 </script>
 
 <svelte:head>
-  <title>Mot de passe oublié | DORA</title>
+  <title>Rappel du mot de passe | DORA</title>
 </svelte:head>
 
 <CenteredGrid topPadded>
   <div class="col-span-full col-start-1 mb-s48 text-center">
-    <h1 class="text-france-blue">Mot de passe</h1>
+    <h1 class="text-france-blue">Rappel du mot de passe</h1>
   </div>
 </CenteredGrid>
 
@@ -72,10 +72,10 @@
       description="Saisissez l’adresse email que vous avez utilisé lors de l’inscription."
     >
       {#if success}
-        <Info label="E-mail envoyé" positiveMood>
+        <Info label="Courriel envoyé" positiveMood>
           <p>
             Si vous avez un compte DORA avec cette adresse, vous allez recevoir
-            un e-mail avec un lien pour réinitialiser votre mot de passe.
+            un courriel avec un lien pour réinitialiser votre mot de passe.
           </p>
         </Info>
         <LinkButton to="/auth/connexion" label="Connexion" />
@@ -103,7 +103,7 @@
         <Button
           type="submit"
           disabled={!email || requesting}
-          label="Envoyer un mail de récupération"
+          label="Envoyer"
           preventDefaultOnMouseDown
         />
         <p class=" text-center text-gray-text-alt2 text-f12">

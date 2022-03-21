@@ -91,7 +91,7 @@
     <Fieldset title="Votre compte">
       {#if invalidUser}
         <Info
-          label="Votre adresse email n’a pas encore été validée"
+          label="Votre adresse courriel n’a pas encore été validée"
           negativeMood
         />
         <LinkButton
