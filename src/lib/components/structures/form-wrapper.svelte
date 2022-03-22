@@ -237,7 +237,7 @@
       />
       <ModelField
         type="richtext"
-        label="Pésentation"
+        label="Présentation"
         description="Présentation résumée des missions de votre structure"
         placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant votre structure et ses spécificités."
         schema={structureSchema.fullDesc}

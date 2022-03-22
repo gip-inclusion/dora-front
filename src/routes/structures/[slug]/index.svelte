@@ -10,6 +10,8 @@
 </script>
 
 <script>
+  import { userInfo } from "$lib/auth";
+
   import ServicesList from "./services/_list.svelte";
   import Informations from "./_informations.svelte";
 
@@ -23,7 +25,7 @@
 
 <Informations {structure} />
 
-{#if !!services.length || structure.canWrite}
+{#if !!services.length || structure.isMember || $userInfo.isStaff}
   <div class="col-span-full mb-s24 border-b border-b-gray-03" />
   <ServicesList {structure} services={services.slice(0, 3)} hasButton />
 {/if}

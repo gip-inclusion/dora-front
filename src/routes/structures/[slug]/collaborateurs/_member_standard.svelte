@@ -9,7 +9,7 @@
 
   export let member;
   export let onRefresh;
-  export let readOnly = false;
+  export let readOnly = true;
   export let isMyself, isOnlyAdmin;
 
   let changeUserModalIsOpen = false;
@@ -23,7 +23,6 @@
 </script>
 
 <ChangeUserModal bind:isOpen={changeUserModalIsOpen} bind:member {onRefresh} />
-
 <Member {isOnlyAdmin} {member} {isMyself} {readOnly}>
   <div slot="label">
     <Label label={userLevel} smallIcon icon={userIcon} />

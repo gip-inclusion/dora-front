@@ -1,56 +1,55 @@
 <script context="module">
-  import { get } from "svelte/store";
   import { browser } from "$app/env";
+  import { get } from "svelte/store";
+  import { userInfo } from "$lib/auth";
   import {
     getStructure,
     getMembers,
     getPutativeMembers,
   } from "$lib/structures";
-  import { userInfo, userStructures } from "$lib/auth";
 
   export async function load({ params }) {
-    const info = get(userInfo);
-
-    const structureSlug = params.slug;
-
-    const structures = get(userStructures);
-
-    const canSeeStructure = structures.find((s) => (s.slug = structureSlug));
-
-    const structMembers = await getMembers(structureSlug);
-    const userIsAdminOfStruct = structMembers?.find(
-      (m) => m.user.email === info.email && m.isAdmin
-    );
-
-    const structure = await getStructure(structureSlug);
-
-    if (!structure || (!canSeeStructure && !info?.isBizdev && !info?.isStaff)) {
-      // sur le serveur, info est toujours null,
-      // donc on ne veut retourner une 404 que sur le client
-      if (browser) {
-        return {
-          status: 404,
-          error: "Page Not Found",
-        };
-      }
-
+    // sur le serveur, info est toujours null,
+    // on retourne une 404 uniquement sur le client
+    if (!browser) {
       return {};
     }
 
-    const canSeeMembers =
-      userIsAdminOfStruct || info?.isBizdev || info?.isStaff;
+    const info = get(userInfo);
+
+    if (!info) {
+      return {
+        status: 404,
+        error: "Page Not Found",
+      };
+    }
+
+    const slug = params.slug;
+    const structure = await getStructure(slug);
+    const isMember = info.structures.some((s) => (s.slug = slug));
+    const members = await getMembers(slug);
+    const isAdmin = members?.some(
+      (m) => m.user.email === info.email && m.isAdmin
+    );
+
+    if (!structure || !(isMember || info.isBizdev || info.isStaff)) {
+      return {
+        status: 404,
+        error: "Page Not Found",
+      };
+    }
+
+    const canSeeMembers = isAdmin || info?.isBizdev || info?.isStaff;
+    const putativeMembers = canSeeMembers ? await getPutativeMembers(slug) : [];
 
     return {
       props: {
         structure,
-        members: structMembers,
-        putativeMembers: canSeeMembers
-          ? await getPutativeMembers(structureSlug)
-          : [],
+        members,
+        putativeMembers,
         canSeeMembers,
-        canEditMembers: userIsAdminOfStruct || info?.isStaff,
-        canInviteMembers:
-          userIsAdminOfStruct || info?.isStaff || info?.isBizdev,
+        canEditMembers: isAdmin || info?.isStaff,
+        canInviteMembers: isAdmin || info?.isStaff || info?.isBizdev,
       },
     };
   }
@@ -99,7 +98,7 @@
   <div class="col-span-full md:flex md:items-center md:justify-between">
     <h2 class="mb-s24 text-france-blue">Collaborateurs</h2>
 
-    {#if structure.canWrite && canInviteMembers}
+    {#if canInviteMembers}
       <Button
         to={`/structures/${structure.slug}/editer`}
         label="Inviter un collaborateur…"

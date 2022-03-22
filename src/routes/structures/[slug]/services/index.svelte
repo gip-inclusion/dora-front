@@ -16,7 +16,7 @@
 </script>
 
 <svelte:head>
-  <title>{structure.name} | Services | DORA</title>
+  <title>Services | {structure.name} | DORA</title>
   <meta name="description" content={structure.shortDesc} />
 </svelte:head>
 

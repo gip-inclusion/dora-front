@@ -105,7 +105,7 @@
     <ModelField
       type="email"
       label="Courriel"
-      placeholder="nom@domaine.tld"
+      placeholder="nom@exemple.org"
       schema={serviceSchema.contactEmail}
       name="contactEmail"
       errorMessages={$formErrors.contactEmail}
@@ -176,7 +176,7 @@
         name="address1"
         disabled={!service.cityCode}
         cityCode={service.cityCode}
-        placeholder="1 rue exemple"
+        placeholder="3 rue du parc"
         initialValue={service.address1}
         handleChange={handleAddressChange}
       />

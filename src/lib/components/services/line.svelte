@@ -13,38 +13,43 @@
   export let onRefresh;
 </script>
 
-<div class="flex flex-row gap-s16 rounded-md bg-white p-s16">
-  <div class="flex-auto basis-1/3 self-center">
+<div class="flex flex-row items-center gap-s16 rounded-md bg-white p-s16">
+  <div class="flex-auto basis-1/3">
     <a href="/services/{service.slug}">
-      <h5>{shortenString(service.name)}</h5>
+      <h5 class="mb-s0">{shortenString(service.name)}</h5>
     </a>
-  </div>
-  {#if showStructure}
-    <div class="flex-none basis-s160 self-center">
+
+    {#if showStructure}
       <Label
         label={`${service.structureInfo.name}`}
         smallIcon
         icon={homeIcon}
       />
-    </div>
-  {/if}
-  <div class="flex flex-none basis-1/6 flex-col items-center">
-    <Label label="Diffusion:" italic light />
+    {/if}
+  </div>
+  <div class="flex flex-none basis-1/6 flex-col">
     {#if service.diffusionZoneType !== "country"}
       <Label label={service.diffusionZoneTypeDisplay} />
     {/if}
     <Label label={service.diffusionZoneDetailsDisplay} bold />
   </div>
-  <div class="flex-none basis-s112 items-center  self-center">
+  <div class="flex-none basis-s112">
     <ServiceStateLabel {service} />
   </div>
-  <div class="flex-none basis-s32 self-center">
-    <Label label={`${new Date(service.modificationDate).toLocaleString()}`} />
+  <div class="flex-none basis-s40">
+    <Label
+      label={`${new Date(service.modificationDate).toLocaleDateString(
+        "fr",
+        "short"
+      )}`}
+    />
   </div>
-  <div class="flex-none basis-s32 self-center">
+  <div class="flex-none basis-s32">
     <LinkButton to="/services/{service.slug}" icon={eyeIcon} noBackground />
   </div>
   {#if !readOnly}
-    <ServiceMenu {service} {onRefresh} />
+    <div class="flex-none basis-s32">
+      <ServiceMenu {service} {onRefresh} />
+    </div>
   {/if}
 </div>

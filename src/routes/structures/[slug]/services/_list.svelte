@@ -1,4 +1,6 @@
 <script>
+  import { userInfo } from "$lib/auth";
+
   import LinkButton from "$lib/components/link-button.svelte";
   import ServiceCard from "$lib/components/services/card.svelte";
   import { addCircleIcon } from "$lib/icons";
@@ -6,10 +8,11 @@
 
   export let structure, services;
   export let hasButton = false;
+  const canEdit = structure.isMember || $userInfo?.isStaff;
 
   async function handleRefresh() {
     services = await getStructureServices(structure.slug, {
-      publishedOnly: !structure.canWrite,
+      publishedOnly: !canEdit,
     });
   }
 </script>
@@ -28,7 +31,7 @@
 </div>
 <div class="col-span-full">
   <div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-4">
-    {#if structure.canWrite}
+    {#if canEdit}
       <div
         class="flex items-center justify-center rounded-md px-s20 py-s24 shadow-md"
       >
@@ -41,11 +44,7 @@
       </div>
     {/if}
     {#each services as service}
-      <ServiceCard
-        {service}
-        readOnly={!structure.canWrite}
-        onRefresh={handleRefresh}
-      />
+      <ServiceCard {service} readOnly={!canEdit} onRefresh={handleRefresh} />
     {/each}
   </div>
 </div>

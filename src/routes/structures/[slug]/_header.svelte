@@ -3,6 +3,7 @@
   import Label from "$lib/components/label.svelte";
   import { mapPinIcon } from "$lib/icons";
   import Tabs from "$lib/components/tabs-links.svelte";
+  import { userInfo } from "$lib/auth";
 
   export let structure;
   export let tabId = "informations";
@@ -37,7 +38,7 @@
     });
   }
 
-  if (hasServices || structure.canWrite) {
+  if (hasServices || structure.isMember || $userInfo?.isStaff) {
     tabs.splice(1, 0, {
       id: "services",
       name: "Services",
@@ -45,7 +46,7 @@
     });
   }
 
-  if (structure.canWrite) {
+  if (structure.isMember || $userInfo?.isStaff) {
     tabs.splice(1, 0, {
       id: "collaborateurs",
       name: "Collaborateurs",
@@ -64,6 +65,15 @@
   darkBg
   smallIcon
 />
-<div class="mt-s24">
+
+<div class="noprint mt-s24">
   <Tabs items={tabs} itemId={tabId} />
 </div>
+
+<style lang="postcss">
+  @media print {
+    h1 {
+      color: var(--col-magenta-brand);
+    }
+  }
+</style>

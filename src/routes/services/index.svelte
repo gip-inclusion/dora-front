@@ -30,10 +30,9 @@
 <EnsureStaffOrBizdev>
   <CenteredGrid --col-bg="var(--col-gray-00)" topPadded>
     <div class="col-span-full col-start-1 text-left">
-      <div class="mb-s8">
-        <h2>Services</h2>
-      </div>
-      <div class="border-t border-gray-03" />
+      <h2>Services</h2>
+
+      <div class="mb-s16 border-t border-gray-03" />
       <ServicesList
         {services}
         onRefresh={handleRefresh}

@@ -20,7 +20,7 @@
   <div class="grow" />
   <slot name="label" />
 
-  {#if !readOnly && !isMyself}
+  {#if !readOnly}
     <div>
       <ButtonMenu
         icon={moreIcon}

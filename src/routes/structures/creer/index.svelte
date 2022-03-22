@@ -95,6 +95,6 @@
 <StructureFormWrapper
   {structure}
   {structuresOptions}
-  formTitle="Pésentation"
+  formTitle="Présentation"
   visible={structure.siret}
 />

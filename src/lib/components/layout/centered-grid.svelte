@@ -53,7 +53,6 @@
 
   .top-padded {
     padding-top: var(--s40);
-    background-color: var(--col-bg);
   }
 
   @media print {

@@ -5,18 +5,19 @@
   export async function load({ params }) {
     const service = await getService(params.slug);
 
-    if (!service) {
-      // sur le serveur, info est toujours null,
-      // donc on ne veut retourner une 404 que sur le client
-      if (browser) {
-        return {
-          status: 404,
-          error: "Page Not Found",
-        };
-      }
-
+    // sur le serveur, info est toujours null,
+    // on ne retourne une 404 que sur le client
+    if (!service && !browser) {
       return {};
     }
+
+    if (!service) {
+      return {
+        status: 404,
+        error: "Page Not Found",
+      };
+    }
+
     return {
       props: {
         service,

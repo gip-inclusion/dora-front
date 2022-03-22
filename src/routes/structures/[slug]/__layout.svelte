@@ -1,11 +1,15 @@
 <script context="module">
+  import { get } from "svelte/store";
+  import { userInfo } from "$lib/auth";
   import { getStructure, getStructureServices } from "$lib/structures";
 
   export async function load({ params }) {
     const slug = params.slug;
     const structure = await getStructure(slug);
+    const info = get(userInfo);
+    const canEdit = structure.isMember || info?.isStaff;
     const services = await getStructureServices(slug, {
-      publishedOnly: !structure.canWrite,
+      publishedOnly: !canEdit,
     });
 
     return {

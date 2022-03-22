@@ -1,5 +1,5 @@
 <script>
-  import { token } from "$lib/auth";
+  import { token, userInfo } from "$lib/auth";
   import LinkButton from "$lib/components/link-button.svelte";
   import {
     computerIcon,
@@ -15,7 +15,7 @@
 <div class="col-span-full md:flex md:items-center md:justify-between">
   <h2 class="mb-s24 text-france-blue">Informations</h2>
 
-  {#if $token && structure.canWrite}
+  {#if $token && (structure.isAdmin || $userInfo.isStaff)}
     <LinkButton
       to={`/structures/${structure.slug}/editer`}
       label="Modifier…"

@@ -14,8 +14,6 @@ export const token = writable(null);
             isStaff: boolean, isBizdev: boolean} | null>} */
 export const userInfo = writable(null);
 
-export const userStructures = writable(null);
-
 // Rules for auto generation by password managers
 // https://developer.apple.com/password-rules/
 // https://support.1password.com/compatible-website-design/
@@ -49,31 +47,11 @@ async function getUserInfo(authToken) {
   });
 }
 
-async function getUserStructures(authToken) {
-  const url = `${getApiURL()}/structures/?mine=1`;
-  const headers = {
-    Accept: defaultAcceptHeader,
-    "Content-Type": "application/json",
-  };
-
-  if (authToken) {
-    headers.Authorization = `Token ${authToken}`;
-  }
-
-  const response = await fetch(url, { headers });
-
-  return await response.json();
-}
-
 export async function refreshUserInfo() {
   try {
     const result = await getUserInfo(get(token));
     if (result.status === 200) {
       userInfo.set(await result.json());
-
-      const structures = await getUserStructures(get(token));
-
-      userStructures.set(structures || []);
     } else {
       log("Unexpected status code", { result });
     }
@@ -85,7 +63,6 @@ export async function refreshUserInfo() {
 export async function validateCredsAndFillUserInfo() {
   token.set(null);
   userInfo.set(null);
-  userStructures.set(null);
 
   if (browser) {
     const lsToken = localStorage.getItem(tokenKey);
@@ -97,10 +74,6 @@ export async function validateCredsAndFillUserInfo() {
         if (result.status === 200) {
           token.set(lsToken);
           userInfo.set(await result.json());
-
-          const structures = await getUserStructures(get(token));
-
-          userStructures.set(structures || []);
         } else if (result.status === 404) {
           // Le token est invalide, on vide le localStorage
           clearToken();

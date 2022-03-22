@@ -3,7 +3,8 @@
   import { page } from "$app/stores";
 
   import { addCircleIcon, userSmileIcon, loginIcon } from "$lib/icons.js";
-  import { userInfo, userStructures } from "$lib/auth";
+  import { userInfo } from "$lib/auth";
+  import { shortenString } from "$lib/utils";
 
   import LinkButton from "$lib/components/link-button.svelte";
   import ButtonMenu from "$lib/components/button-menu.svelte";
@@ -16,24 +17,24 @@
   <HamburgerMenu>
     {#if $userInfo}
       <div class="block lg:hidden">
-        <HeaderMenu structures={$userStructures} />
+        <HeaderMenu structures={$userInfo.structures} />
       </div>
       <div class="hidden lg:block">
         <ButtonMenu label={$userInfo.shortName} icon={userSmileIcon}>
-          <HeaderMenu structures={$userStructures} />
+          <HeaderMenu structures={$userInfo.structures} />
         </ButtonMenu>
       </div>
-      {#if !!$userStructures?.length}
+      {#if !!$userInfo.structures?.length}
         <div class="hidden lg:block">
-          {#if $userStructures.length === 1}
+          {#if $userInfo.structures.length === 1}
             <LinkButton
-              label={`${$userStructures[0].name.slice(0, 16)}…`}
-              to={`/structures/${$userStructures[0].slug}`}
+              label={`${shortenString($userInfo.structures[0].name, 16)}`}
+              to={`/structures/${$userInfo.structures[0].slug}`}
               noBackground
             />
           {:else}
             <ButtonMenu label="Structures">
-              {#each $userStructures as structure}
+              {#each $userInfo.structures as structure}
                 <LinkButton
                   label={structure.name}
                   to={`/structures/${structure.slug}`}
