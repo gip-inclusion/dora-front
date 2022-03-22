@@ -11,32 +11,40 @@
   import HamburgerMenu from "$lib/components/hamburger.svelte";
   import TopLinks from "./_top-links.svelte";
   import HeaderMenu from "./_header-menu.svelte";
+
+  let structures = [];
+  if ($userInfo) {
+    structures = structures.concat(
+      $userInfo.structures,
+      $userInfo.pendingStructures
+    );
+  }
 </script>
 
 {#if browser}
   <HamburgerMenu>
     {#if $userInfo}
       <div class="block lg:hidden">
-        <HeaderMenu structures={$userInfo.structures} />
+        <HeaderMenu {structures} />
       </div>
       <div class="hidden lg:block">
         <ButtonMenu label={$userInfo.shortName} icon={userSmileIcon}>
-          <HeaderMenu structures={$userInfo.structures} />
+          <HeaderMenu {structures} />
         </ButtonMenu>
       </div>
-      {#if !!$userInfo.structures?.length}
+      {#if !!structures?.length}
         <div class="hidden lg:block">
-          {#if $userInfo.structures.length === 1}
+          {#if structures.length === 1}
             <LinkButton
-              label={`${shortenString($userInfo.structures[0].name, 16)}`}
-              to={`/structures/${$userInfo.structures[0].slug}`}
+              label={`${shortenString(structures[0].name, 16)}`}
+              to={`/structures/${structures[0].slug}`}
               noBackground
             />
           {:else}
             <ButtonMenu label="Structures">
-              {#each $userInfo.structures as structure}
+              {#each structures as structure}
                 <LinkButton
-                  label={structure.name}
+                  label={shortenString(structure.name, 32)}
                   to={`/structures/${structure.slug}`}
                   noBackground
                   small
