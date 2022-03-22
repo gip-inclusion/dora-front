@@ -69,7 +69,7 @@
   >
     <Fieldset
       title="Rénitialisation"
-      description="Saisissez l'adresse courriel que vous avez utilisé lors de l’inscription."
+      description="Saisissez l'adresse courriel que vous avez utilisée lors de l’inscription."
     >
       {#if success}
         <Info label="Courriel envoyé" positiveMood>

@@ -25,6 +25,7 @@
         label={`Voir tous les services (${services.length})`}
         to="/structures/{structure.slug}/services"
         small
+        secondary
       />
     {/if}
   </div>
