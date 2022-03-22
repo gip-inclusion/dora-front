@@ -4,6 +4,7 @@
       props: {
         structure: stuff.structure,
         services: stuff.services,
+        antennes: stuff.antennes,
       },
     };
   }
@@ -12,10 +13,11 @@
 <script>
   import { userInfo } from "$lib/auth";
 
-  import ServicesList from "./services/_list.svelte";
   import Informations from "./_informations.svelte";
+  import ServicesList from "./services/_list.svelte";
+  import AntennesList from "./antennes/_list.svelte";
 
-  export let structure, services;
+  export let structure, services, antennes;
 </script>
 
 <svelte:head>
@@ -28,4 +30,9 @@
 {#if !!services.length || structure.isMember || $userInfo?.isStaff}
   <div class="col-span-full mb-s24 border-b border-b-gray-03" />
   <ServicesList {structure} services={services.slice(0, 3)} hasButton />
+{/if}
+
+{#if !!antennes.length || structure.canWrite}
+  <div class="col-span-full mb-s24 border-b border-b-gray-03" />
+  <AntennesList {structure} antennes={antennes.slice(0, 3)} hasButton />
 {/if}

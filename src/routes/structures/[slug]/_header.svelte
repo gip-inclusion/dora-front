@@ -30,7 +30,7 @@
     },
   ];
 
-  if (hasAntennes) {
+  if (hasAntennes || structure.isMember || $userInfo?.isStaff) {
     tabs.splice(1, 0, {
       id: "antennes",
       name: "Antennes",
