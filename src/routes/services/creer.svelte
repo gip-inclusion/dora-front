@@ -12,7 +12,7 @@
     if (user?.isStaff) {
       structures = await getStructures();
     } else if (user) {
-      structures = await user.structures;
+      structures = user.structures;
     }
 
     return {
