@@ -13,11 +13,10 @@
   export let onEstablishmentChange = null;
   export let siret = "";
 
-  let searching = false;
+  let requesting = false;
   let siretIsValid = false;
 
   $: siretIsValid = !!siret?.match(siretRegexp);
-  $: searching = !!$formErrors.length;
 
   const siretSearchSchema = {
     siret: {
@@ -45,8 +44,6 @@
   }
 
   async function handleSubmit(validatedData) {
-    searching = true;
-    $formErrors = [];
     if (onEstablishmentChange) onEstablishmentChange({});
 
     return siretSearch(validatedData.siret);
@@ -54,13 +51,11 @@
 
   function handleSuccess(establishment) {
     if (onEstablishmentChange) onEstablishmentChange(establishment);
-
-    searching = false;
   }
 
   onMount(async () => {
     if (siret) {
-      searching = true;
+      requesting = true;
       const response = await siretSearch(siret);
 
       if (response.status === 200) {
@@ -79,6 +74,7 @@
   serverErrorsDict={serverErrors}
   onSubmit={handleSubmit}
   onSuccess={handleSuccess}
+  bind:requesting
 >
   {#if $formErrors.nonFieldErrors?.length}
     <div>
@@ -103,7 +99,7 @@
           bind:value={siret}
         />
       </div>
-      {#if searching}
+      {#if requesting}
         <p class="py-s12 px-s8 lg:px-s20">Chargement…</p>
       {:else}
         <Button label="Rechercher" disabled={!siretIsValid} type="submit" />
