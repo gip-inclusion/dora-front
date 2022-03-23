@@ -3,7 +3,6 @@
     return {
       props: {
         structure: stuff.structure,
-        services: stuff.services,
       },
     };
   }
@@ -12,7 +11,7 @@
 <script>
   import List from "./_list.svelte";
 
-  export let structure, services;
+  export let structure;
 </script>
 
 <svelte:head>
@@ -20,4 +19,4 @@
   <meta name="description" content={structure.shortDesc} />
 </svelte:head>
 
-<List {services} {structure} />
+<List services={structure.services || []} {structure} />

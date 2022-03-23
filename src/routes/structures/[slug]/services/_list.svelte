@@ -4,16 +4,16 @@
   import LinkButton from "$lib/components/link-button.svelte";
   import ServiceCard from "$lib/components/services/card.svelte";
   import { addCircleIcon } from "$lib/icons";
-  import { getStructureServices } from "$lib/structures";
 
   export let structure, services;
   export let hasButton = false;
+  export let onRefresh;
   const canEdit = structure.isMember || $userInfo?.isStaff;
 
   async function handleRefresh() {
-    services = await getStructureServices(structure.slug, {
-      publishedOnly: !canEdit,
-    });
+    if (onRefresh) {
+      onRefresh();
+    }
   }
 </script>
 

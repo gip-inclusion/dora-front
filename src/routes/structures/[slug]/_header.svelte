@@ -4,6 +4,7 @@
   import { mapPinIcon } from "$lib/icons";
   import Tabs from "$lib/components/tabs-links.svelte";
   import { userInfo } from "$lib/auth";
+  import PendingNotice from "../_pending-notice.svelte";
 
   export let structure;
   export let tabId = "informations";
@@ -65,6 +66,10 @@
   darkBg
   smallIcon
 />
+
+{#if structure.isPendingMember}
+  <div class="mt-s24"><PendingNotice {structure} /></div>
+{/if}
 
 <div class="noprint mt-s24">
   <Tabs items={tabs} itemId={tabId} />
