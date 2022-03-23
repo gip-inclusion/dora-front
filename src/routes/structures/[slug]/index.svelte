@@ -42,7 +42,7 @@
   />
 {/if}
 
-{#if !!structure.branches?.length || structure.canWrite}
+{#if !!structure.branches?.length || structure.isAdmin || $userInfo?.isStaff}
   <div class="col-span-full mb-s24 border-b border-b-gray-03" />
   <AntennesList
     {structure}
