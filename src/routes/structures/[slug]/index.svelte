@@ -3,8 +3,6 @@
     return {
       props: {
         structure: stuff.structure,
-        services: stuff.services,
-        antennes: stuff.antennes,
       },
     };
   }
@@ -37,7 +35,7 @@
   <ServicesList
     {structure}
     services={structure.services.slice(0, 3)}
-    hasButton
+    hasListLink
     onRefresh={handleRefresh}
   />
 {/if}
@@ -46,7 +44,7 @@
   <div class="col-span-full mb-s24 border-b border-b-gray-03" />
   <AntennesList
     {structure}
-    antennes={structure.branches?.slice(0, 3) || []}
-    hasButton
+    branches={structure.branches?.slice(0, 3) || []}
+    hasListLink
   />
 {/if}

@@ -35,7 +35,7 @@
     <Header
       {structure}
       hasServices={!!structure?.services?.length}
-      hasAntennes={!!structure?.antennes?.length}
+      hasBranches={!!structure?.branches?.length}
     />
   </div>
 </CenteredGrid>

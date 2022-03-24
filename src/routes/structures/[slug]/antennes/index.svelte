@@ -3,7 +3,6 @@
     return {
       props: {
         structure: stuff.structure,
-        antennes: stuff.antennes,
       },
     };
   }

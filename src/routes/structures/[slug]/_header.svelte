@@ -4,12 +4,12 @@
   import { mapPinIcon } from "$lib/icons";
   import Tabs from "$lib/components/tabs-links.svelte";
   import { userInfo } from "$lib/auth";
-  import PendingNotice from "../_pending-notice.svelte";
+  import PendingNotice from "./_pending-notice.svelte";
 
   export let structure;
   export let tabId = "informations";
   export let hasServices = false;
-  export let hasAntennes = false;
+  export let hasBranches = false;
 
   $: {
     if ($page.url.pathname.endsWith("/services")) {
@@ -31,7 +31,7 @@
     },
   ];
 
-  if (hasAntennes || structure.isMember || $userInfo?.isStaff) {
+  if (hasBranches || structure.isMember || $userInfo?.isStaff) {
     tabs.splice(1, 0, {
       id: "antennes",
       name: "Antennes",

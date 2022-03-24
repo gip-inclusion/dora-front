@@ -3,17 +3,16 @@
   import LinkButton from "$lib/components/link-button.svelte";
   import StructureCard from "$lib/components/structures/card.svelte";
   import { addCircleIcon } from "$lib/icons";
-  export let structure, antennes;
-  export let hasButton = false;
-  console.log(structure);
+  export let structure, branches;
+  export let hasListLink = false;
 </script>
 
 <div class="col-span-full md:flex md:items-center md:justify-between">
   <h2 class="mb-s24 text-france-blue">Antennes</h2>
   <div class="flex gap-s16">
-    {#if !!antennes.length && hasButton}
+    {#if !!branches.length && hasListLink}
       <LinkButton
-        label={`Voir toutes les antennes (${antennes.length})`}
+        label={`Voir toutes les antennes (${branches.length})`}
         to="/structures/{structure.slug}/antennes"
         small
         secondary
@@ -37,8 +36,8 @@
         />
       </div>
     {/if}
-    {#each antennes as antenne}
-      <StructureCard structure={antenne} readOnly={!structure.canWrite} />
+    {#each branches as branch}
+      <StructureCard structure={branch} />
     {/each}
   </div>
 </div>

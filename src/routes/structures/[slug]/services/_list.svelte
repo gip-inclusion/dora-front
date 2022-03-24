@@ -6,7 +6,7 @@
   import { addCircleIcon } from "$lib/icons";
 
   export let structure, services;
-  export let hasButton = false;
+  export let hasListLink = false;
   export let onRefresh;
   const canEdit = structure.isMember || $userInfo?.isStaff;
 
@@ -20,7 +20,7 @@
 <div class="col-span-full md:flex md:items-center md:justify-between">
   <h2 class="mb-s24 text-france-blue">Services</h2>
   <div class="flex gap-s16">
-    {#if !!services.length && hasButton}
+    {#if !!services.length && hasListLink}
       <LinkButton
         label={`Voir tous les services (${services.length})`}
         to="/structures/{structure.slug}/services"
