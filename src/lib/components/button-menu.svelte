@@ -28,15 +28,13 @@
 </script>
 
 <div class="wrapper">
-  <div class="title">
-    <Button
-      {icon}
-      {label}
-      noBackground
-      {disabled}
-      on:click={() => (isOpen = !isOpen)}
-    />
-  </div>
+  <Button
+    {icon}
+    {label}
+    noBackground
+    {disabled}
+    on:click={() => (isOpen = !isOpen)}
+  />
   <div
     class="children"
     class:open={isOpen}
