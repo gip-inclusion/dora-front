@@ -37,7 +37,7 @@
     <hr class="my-s8 self-stretch border-t-gray-03" />
   {/if}
   <MenuAide />
-  <div slot="lg" class="flex">
+  <div slot="lg" class="flex gap-s40">
     <ButtonMenu icon={questionFillIcon}>
       <MenuAide />
     </ButtonMenu>

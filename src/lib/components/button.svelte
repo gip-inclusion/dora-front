@@ -67,8 +67,6 @@
   class="{px} {py} {ts} {border} {text} {background} whitespace-nowrap rounded leading-normal outline-none focus:shadow-focus"
   class:flash-success={flashSuccess}
   class:w-full={wFull}
-  class:text-center={!icon}
-  class:justify-center={icon}
   class:flex={icon}
   class:flex-row={icon}
   class:items-center={icon}
