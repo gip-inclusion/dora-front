@@ -20,9 +20,11 @@
 </script>
 
 <CenteredGrid --col-bg="var(--col-magenta-10)" topPadded roundedBottom>
-  <div class="col-span-full mb-s40 flex flex-col gap-s40">
+  <div class="col-span-full mb-s40 flex flex-col gap-s24">
     <div class="text-center">
-      <h1>Donnez de la visibilité <br />à votre offre d’insertion</h1>
+      <h1 class="text-france-blue">
+        Donnez de la visibilité <br />à votre offre d’insertion
+      </h1>
       <p class="mb-s0">
         Publiez et mettez à jour vos services en toute simplicité.
       </p>
@@ -38,7 +40,7 @@
       />
     </div>
 
-    <div>
+    <div class="mt-s16">
       <p class="text-center text-f12">
         Plus de 450 structures ont déjà référencé leurs services sur DORA.
       </p>
@@ -70,7 +72,7 @@
 
 <CenteredGrid --col-bg="var(--col-transparent)" topPadded>
   <div class="col-span-full mb-s40">
-    <h2 class="text-center">
+    <h2 class="mb-s32 text-center text-france-blue">
       Tous les services d’insertion sur votre territoire
     </h2>
     <SearchForm {servicesOptions} />
@@ -79,7 +81,7 @@
 
 <CenteredGrid --col-bg="var(--col-transparent)" topPadded>
   <div class="col-span-full mb-s40">
-    <h2 class="text-center">Comment ça fonctionne</h2>
+    <h2 class="mb-s32 text-center text-france-blue">Comment ça fonctionne</h2>
     <div class="flex flex-col gap-s24 md:flex-row">
       <div class="md:flex-1">
         <img
@@ -130,72 +132,11 @@
     <div>
       <h3 class="mb-s8 text-gray-dark">Infolettre</h3>
       <p class="max-w-2xl text-f12 leading-relaxed text-gray-dark">
-        En renseignant votre adresse courriel, vous acceptez de recevoir nos
-        actualités. Vous pouvez vous désinscrire à l’aide des liens de
-        désinscription ou en <a
-          target="_blank"
-          rel="noopener nofollow"
-          class="underline"
-          href="https://itou.typeform.com/doracontactsupp">nous contactant</a
-        >.
+        Une fois par mois, recevez un courriel pour être informé des évolutions
+        de DORA.
       </p>
     </div>
 
     <NewsletterButton />
   </div>
 </CenteredGrid>
-
-<style lang="postcss">
-  h1,
-  h2 {
-    color: var(--col-france-blue);
-  }
-
-  h1 {
-    margin-bottom: var(--s24);
-  }
-
-  h2 {
-    margin-top: var(--s24);
-    margin-bottom: var(--s24);
-    line-height: var(--s40);
-  }
-
-  p {
-    color: var(--col-text);
-  }
-
-  .content-mission {
-    margin-top: var(--s32);
-  }
-
-  .content-mission h2,
-  .content-mission h5 {
-    color: var(--col-white);
-  }
-
-  .content-mission p,
-  .content-mission li {
-    color: var(--col-gray-02);
-  }
-
-  .content-mission ul {
-    margin-top: var(--s16);
-    margin-bottom: var(--s16);
-  }
-
-  .content-mission li {
-    margin-bottom: var(--s8);
-
-    /* base64 encoded from remixicon/icons/System/check-line.svg,
-       adding stroke="white" on the 2nd path */
-    list-style-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCI+CiAgICA8Zz4KICAgICAgICA8cGF0aCBmaWxsPSJub25lIiBkPSJNMCAwaDI0djI0SDB6Ii8+CiAgICAgICAgPHBhdGggc3Ryb2tlPSJ3aGl0ZSIgZD0iTTEwIDE1LjE3Mmw5LjE5Mi05LjE5MyAxLjQxNSAxLjQxNEwxMCAxOGwtNi4zNjQtNi4zNjQgMS40MTQtMS40MTR6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=");
-    list-style-position: inside;
-  }
-
-  @screen lg {
-    h1 {
-      line-height: var(--s56);
-    }
-  }
-</style>
