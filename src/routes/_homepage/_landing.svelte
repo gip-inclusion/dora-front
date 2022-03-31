@@ -91,8 +91,8 @@
         />
         <h3>Recensement de l’offre d’insertion</h3>
         <p class="text-f16">
-          Les structures qui offrent des services d’insertion renseignent toutes
-          les informations nécessaires et gagnent en visibilité.
+          Vous proposez des services d'insertion ? Renseignez votre offre sur
+          DORA et touchez les acteurs de l'insertion de votre territoire.
         </p>
       </div>
       <div class="md:flex-1">
@@ -103,9 +103,9 @@
         />
         <h3>Mobilisation de service d’insertion</h3>
         <p class="text-f16">
-          Les acteurs de l'insertion trouvent rapidement et facilement les
-          services adaptés à leurs bénéficiaires, le bon contact, les bons
-          documents.
+          Vous accompagnez des bénéficiaire ? Retrouvez facilement et rapidement
+          les services adaptés à vos bénéficiaires, les modalités, le bon
+          contact et les bons documents à fournir.
         </p>
       </div>
       <div class="md:flex-1">
@@ -116,9 +116,8 @@
         />
         <h3>Accompagnement des bénéficiaires</h3>
         <p class="text-f16">
-          Les acteurs de l'insertion trouvent rapidement et facilement les
-          services adaptés à leurs bénéficiaires, le bon contact, les bons
-          documents.
+          Nous sommes tous acteurs de l'insertion ! Simplifions le retour vers
+          un emploi durable des personnes qui en ont besoin.
         </p>
       </div>
     </div>
