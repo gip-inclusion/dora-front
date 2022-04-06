@@ -160,7 +160,9 @@
       serviceSchema,
       { skipDependenciesCheck: true, noScroll: false }
     );
-
+    // debugger;
+    console.log(JSON.parse(JSON.stringify(validatedData)));
+    console.log("validatedData", validatedData, validatedData.categories);
     if (valid) {
       assert(service.slug);
 
