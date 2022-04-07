@@ -62,7 +62,7 @@
     bind:value={service.categories}
     choices={servicesOptions.categories}
     name="categories"
-    errorMessages={$formErrors.category}
+    errorMessages={$formErrors.categories}
     onSelectChange={handleCategoryChange}
     placeholder="Choisissez la thématique principale"
     sortSelect

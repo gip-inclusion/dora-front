@@ -13,7 +13,7 @@ const shape1 = {
   categories: {
     default: [],
     required: true,
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
+    rules: [v.isArray([v.isString(), v.maxStrLength(255)]), v.arrNotEmpty()],
   },
   subcategories: {
     default: [],

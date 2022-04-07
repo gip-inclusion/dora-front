@@ -97,8 +97,8 @@
       schema={serviceSchema.categories}
       bind:value={service.categories}
       choices={servicesOptions.categories}
-      name="category"
-      errorMessages={$formErrors.category}
+      name="categories"
+      errorMessages={$formErrors.categories}
       onSelectChange={handleCategoriesChange}
       placeholder="Choisissez la thématique principale"
       sortSelect
