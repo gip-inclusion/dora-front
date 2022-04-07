@@ -57,7 +57,7 @@
 <FieldSet title="Typologie de service">
   <ModelField
     type="multiselect"
-    label="Thématique"
+    label="Thématiques"
     schema={serviceSchema.categories}
     bind:value={service.categories}
     choices={servicesOptions.categories}
