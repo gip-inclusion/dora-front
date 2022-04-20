@@ -20,8 +20,8 @@
     "security-scan": "ggshield scan  path -r . -y",
     "commit": "cz",
     "release": "git pull --rebase --tags origin main && standard-version && git push --follow-tags origin main",
-    "sb": "start-storybook -p 6006",
-    "sb-build": "build-storybook -o design-system"
+    "ds": "start-storybook -p 6006",
+    "ds-build": "build-storybook -o design-system"
   },
   "@comment dependencies": {
     "dependencies-vs-devdependencies": "Les librairies qui sont dans dependencies sont utilisées depuis node_modules par le bundle ssr (voir: https://vitejs.dev/guide/ssr.html#ssr-externals). Pour tester: `npm i && npm run build && rm -rf node_modules/ && npm i --production && node build`."
