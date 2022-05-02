@@ -28,15 +28,6 @@ export function setToken(t) {
   localStorage.setItem(tokenKey, t);
 }
 
-export function clearToken() {
-  token.set(null);
-  localStorage.removeItem(tokenKey);
-}
-
-export function clearUserInfo() {
-  userInfo.set(null);
-}
-
 async function getUserInfo(authToken) {
   return await fetch(`${getApiURL()}/auth/user-info/`, {
     method: "POST",
@@ -63,6 +54,13 @@ export async function refreshUserInfo() {
   }
 }
 
+export function disconnect() {
+  token.set(null);
+  userInfo.set(null);
+  localStorage.clear();
+  tarteaucitron.userInterface.toggle();
+}
+
 export async function validateCredsAndFillUserInfo() {
   token.set(null);
   userInfo.set(null);
@@ -81,8 +79,7 @@ export async function validateCredsAndFillUserInfo() {
           userPreferencesSet([...info.structures, ...info.pendingStructures]);
         } else if (result.status === 404) {
           // Le token est invalide, on vide le localStorage
-          clearToken();
-          clearUserInfo();
+          disconnect();
         } else {
           log("Unexpected status code", { result });
         }
@@ -91,12 +88,6 @@ export async function validateCredsAndFillUserInfo() {
       }
     }
   }
-}
-
-export function disconnect() {
-  clearToken();
-  clearUserInfo();
-  localStorage.removeItem(tokenKey);
 }
 
 export function userInfoIsComplete() {
