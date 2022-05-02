@@ -3,11 +3,7 @@
 
   import { goto } from "$app/navigation";
 
-  import {
-    modifyStructure,
-    createStructure,
-    getStructure,
-  } from "$lib/structures.js";
+  import { modifyStructure, createStructure } from "$lib/structures.js";
 
   import structureSchema from "$lib/schemas/structure.js";
   import {
@@ -27,11 +23,13 @@
   import Button from "$lib/components/button.svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
   import AddressSearch from "$lib/components/forms/street-search.svelte";
+  import { refreshUserInfo } from "$lib/auth";
 
   export let structure, structuresOptions, formTitle;
 
   export let modify = false;
   export let visible;
+  export let onRefresh;
 
   let errorDiv;
 
@@ -91,9 +89,11 @@
       }
 
       if (result?.ok) {
-        if (modify) {
-          structure = await getStructure(structure.slug);
+        if (modify && onRefresh) {
+          await onRefresh();
+          await refreshUserInfo();
         }
+
         goto(`/structures/${result.result.slug}`);
       } else {
         injectAPIErrors(
