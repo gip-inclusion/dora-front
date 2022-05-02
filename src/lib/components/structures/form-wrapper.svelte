@@ -23,7 +23,6 @@
   import Button from "$lib/components/button.svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
   import AddressSearch from "$lib/components/forms/street-search.svelte";
-  import { refreshUserInfo } from "$lib/auth";
 
   export let structure, structuresOptions, formTitle;
 
@@ -91,7 +90,6 @@
       if (result?.ok) {
         if (modify && onRefresh) {
           await onRefresh();
-          await refreshUserInfo();
         }
 
         goto(`/structures/${result.result.slug}`);

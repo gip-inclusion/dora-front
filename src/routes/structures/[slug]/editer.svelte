@@ -15,11 +15,14 @@
   import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
   import StructureFormWrapper from "$lib/components/structures/form-wrapper.svelte";
   import { structure } from "./_store";
+  import { refreshUserInfo } from "$lib/auth";
 
   export let structuresOptions;
 
   async function handleRefresh() {
     $structure = await getStructure($structure.slug);
+
+    await refreshUserInfo();
   }
 </script>
 
