@@ -62,7 +62,20 @@ export function deleteCookies() {
     return acc;
   }, []);
 
-  tarteaucitron.cookie.purge(cookies);
+  const cookieNames = Object.keys(tarteaucitron.services).reduce(
+    (acc, name) => {
+      acc.push(...tarteaucitron.services[name].cookies);
+
+      return acc;
+    },
+    ["tarteaucitron"]
+  );
+
+  cookieNames.forEach((n) => {
+    const name = cookies.find((c) => c.includes(n));
+
+    document.cookie = `${name}=; Max-Age=0; path=/; domain=${location.hostname}`;
+  });
 }
 
 export function disconnect() {
