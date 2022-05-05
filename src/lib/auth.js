@@ -54,11 +54,22 @@ export async function refreshUserInfo() {
   }
 }
 
+export function deleteCookies() {
+  const cookies = document.cookie.split(";").reduce((acc, cookie) => {
+    const [name] = cookie.split("=").map((c) => c.trim());
+    acc.push(name);
+
+    return acc;
+  }, []);
+
+  tarteaucitron.cookie.purge(cookies);
+}
+
 export function disconnect() {
   token.set(null);
   userInfo.set(null);
   localStorage.clear();
-  tarteaucitron.userInterface.toggle();
+  deleteCookies();
 }
 
 export async function validateCredsAndFillUserInfo() {
@@ -78,7 +89,7 @@ export async function validateCredsAndFillUserInfo() {
           userInfo.set(info);
           userPreferencesSet([...info.structures, ...info.pendingStructures]);
         } else if (result.status === 404) {
-          // Le token est invalide, on vide le localStorage
+          // Le token est invalide, on déconnecte l'utilisateur
           disconnect();
         } else {
           log("Unexpected status code", { result });
