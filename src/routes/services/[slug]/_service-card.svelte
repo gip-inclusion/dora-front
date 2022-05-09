@@ -14,7 +14,7 @@
 </script>
 
 <CenteredGrid --col-bg="var(--col-france-blue)">
-  <ServiceHeader {service} {isPreview} />
+  <ServiceHeader {service} />
 </CenteredGrid>
 
 <CenteredGrid
@@ -23,9 +23,11 @@
   --col-content-bg="var(--col-bg)"
   topPadded
 >
-  <div class="col-span-full">
-    <Toolbar {service} />
-  </div>
+  {#if !isPreview}
+    <div class="col-span-full">
+      <Toolbar {service} />
+    </div>
+  {/if}
   <div class="col-span-full flex flex-col gap-s24 lg:flex-row-reverse">
     <div class="lg:w-1/3">
       {#if service.locationKinds.length}

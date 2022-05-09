@@ -23,12 +23,10 @@
       });
     }
   }
-
-  export let isPreview = false;
 </script>
 
 <div class="inline-flex flex-wrap gap-s8">
-  {#if $token && service.canWrite && !isPreview}
+  {#if $token && service.canWrite}
     <Menu {service} secondary />
   {:else}
     <SuggestionModal {service} bind:isOpen={suggestionModalIsOpen} />
