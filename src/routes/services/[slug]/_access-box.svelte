@@ -4,6 +4,16 @@
 
 <div>
   <h2>Publics</h2>
+
+  <h4>Profils</h4>
+  <ul class="mb-s24 list-inside list-disc">
+    {#each service.concernedPublicDisplay as pub}
+      <li><span>{pub}</span></li>
+    {:else}
+      <li><span>Tout le monde</span></li>
+    {/each}
+  </ul>
+
   <h4>Critères</h4>
   <ul class="mb-s24 list-inside list-disc">
     {#each service.accessConditionsDisplay as condition}
@@ -14,15 +24,6 @@
     {#if service.qpvOrZrr}
       <li>uniquement QPV + ZRR</li>
     {/if}
-  </ul>
-
-  <h4>Profils</h4>
-  <ul class="mb-s24 list-inside list-disc">
-    {#each service.concernedPublicDisplay as pub}
-      <li><span>{pub}</span></li>
-    {:else}
-      <li><span>Tout le monde</span></li>
-    {/each}
   </ul>
 
   <h4>Pré-requis, compétences</h4>

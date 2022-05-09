@@ -5,6 +5,7 @@
   import Tag from "$lib/components/tag.svelte";
   import { mapPinIcon } from "$lib/icons";
   import StateLabel from "$lib/components/services/state-label.svelte";
+  import AdminNotice from "$lib/components/structures/admin-notice.svelte";
 
   export let service;
 </script>
@@ -54,6 +55,8 @@
         />
       </div>
     </div>
+
+    <div class="mt-s24"><AdminNotice structure={service.structureInfo} /></div>
   </div>
 </div>
 
