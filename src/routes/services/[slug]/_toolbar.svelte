@@ -28,7 +28,7 @@
 </script>
 
 <div class="inline-flex flex-wrap gap-s8">
-  {#if $token && service.canWrite && !isPreview && false}
+  {#if $token && service.canWrite && !isPreview}
     <Menu {service} secondary />
   {:else}
     <SuggestionModal {service} bind:isOpen={suggestionModalIsOpen} />
