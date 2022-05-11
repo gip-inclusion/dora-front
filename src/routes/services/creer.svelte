@@ -45,6 +45,7 @@
 
   if (structures.length === 1) {
     service.structure = structures[0].slug;
+    service.structureInfo = structures[0];
   } else {
     // si la structure est renseignée dans l'URL, force celle-là
     const structureSlug = $page.url.searchParams.get("structure");
