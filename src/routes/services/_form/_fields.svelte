@@ -1,6 +1,5 @@
 <script>
   import FieldSet from "$lib/components/forms/fieldset.svelte";
-  import FieldHelp from "$lib/components/forms/field-help.svelte";
   import ModelField from "$lib/components/forms/model-field.svelte";
   import { formErrors } from "$lib/validation.js";
   import serviceSchema from "$lib/schemas/service.js";
@@ -131,6 +130,23 @@
 {/if}
 
 <FieldSet title="Présentation">
+  <div slot="help">
+    <p>
+      Le <b>Résumé</b> présente le service en une phrase courte. Il apparait dans
+      les résultats de recherche.
+    </p>
+    <p>
+      <strong>Exemple</strong> :
+      <i>
+        Faciliter vos déplacements en cas de reprise d'emploi ou de formation
+        (entretien d'embauche, concours public...)
+      </i>
+    </p>
+    <p>
+      Si besoin, détaillez dans la partie
+      <b>Description</b>.
+    </p>
+  </div>
   <ModelField
     label="Nom"
     type="text"
@@ -149,19 +165,7 @@
     name="shortDesc"
     errorMessages={$formErrors.shortDesc}
     bind:value={service.shortDesc}
-  >
-    <FieldHelp slot="helptext" title="Résumé">
-      <p>
-        Le résumé expose en une phrase les besoins auxquels le service répond.
-        Il apparait dans les résultats de recherche. Si besoin, détaillez dans
-        la partie Description.
-      </p>
-      <p>
-        <strong>Exemple</strong> : Faciliter vos déplacements en cas de reprise d'emploi
-        ou de formation (entretien d'embauche, concours public...)
-      </p>
-    </FieldHelp>
-  </ModelField>
+  />
   <ModelField
     label="Description"
     placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant votre service et ses spécificités."
@@ -175,6 +179,12 @@
 </FieldSet>
 
 <FieldSet title="Typologie">
+  <div slot="help">
+    <p>
+      Classez les services par thématiques et besoins pour faciliter le
+      référencement et la mise en avant du service.
+    </p>
+  </div>
   <ModelField
     type="multiselect"
     label="Thématiques"
@@ -198,13 +208,7 @@
     placeholder="Sélectionner…"
     placeholderMulti="Sélectionner…"
     sortSelect
-  >
-    <FieldHelp slot="helptext" title="Catégorisation">
-      Pour faciliter le référencement et la mise en avant de votre service, il
-      est nécessaire de classer les services par thématiques et besoins auxquels
-      ils répondent.
-    </FieldHelp>
-  </ModelField>
+  />
 
   <ModelField
     type="checkboxes"
@@ -228,6 +232,9 @@
 </FieldSet>
 
 <FieldSet title="Diffusion">
+  <div slot="help">
+    <p>Territoire sur lequel le service est accessible.</p>
+  </div>
   <ModelField
     type="select"
     label="Territoire"
@@ -237,15 +244,7 @@
     errorMessages={$formErrors.diffusionZoneType}
     onSelectChange={handleDiffusionZoneTypeChange}
     initialValue={service.diffusionZoneTypeDisplay}
-  >
-    <FieldHelp slot="helptext" title="Zone de difusion">
-      <p>
-        Avec cette option, vous pouvez régler le niveau de visibilité de votre
-        service au niveau du territoire, et ainsi obtenir des candidatures
-        qualifiées.
-      </p>
-    </FieldHelp>
-  </ModelField>
+  />
 
   <ModelField
     type="custom"
@@ -268,6 +267,21 @@
 </FieldSet>
 
 <FieldSet title="Publics">
+  <div slot="help">
+    <p>
+      Publics auxquels le service s’adresse. Vous pouvez ajouter vos propres
+      valeurs avec le bouton « Ajouter une autre option ». Si votre service est
+      ouvert à tous, sans critères ou prérequis, laissez les champs avec les
+      options par défaut.
+    </p>
+
+    <h4>QPV et ZRR</h4>
+    <p>
+      Activez cette option si votre offre s’adresse uniquement aux bénéficiaires
+      résidants dans des Quartiers Prioritaires de la politique de la Ville ou
+      des Zones de Revitalisation Rurale.
+    </p>
+  </div>
   <AddableMultiselect
     bind:values={service.concernedPublic}
     structure={service.structure}
@@ -294,19 +308,7 @@
     schema={serviceSchema.accessConditions}
     sortSelect
     description="Plusieurs choix possibles."
-  >
-    <FieldHelp slot="helptext" title="Critères">
-      <p>
-        <strong>Critères d’éligibilité</strong><br />
-        Définissez le type de publics auxquels votre service s’adresse. Si parmi
-        les choix proposés pour les « critères d’accès », pour les « publics concernés »
-        ou pour « les prérequis ou compétences » vous pouvez ajouter vos propres
-        critères grâce au bouton « Ajouter une autre option ». Si votre service est
-        ouvert à tout le monde, sans critères ou prérequis, laissez les champs avec
-        les options par défaut.
-      </p>
-    </FieldHelp>
-  </AddableMultiselect>
+  />
 
   <ModelField
     label="Uniquement QPV + ZRR ?"
@@ -315,16 +317,7 @@
     schema={serviceSchema.qpvOrZrr}
     errorMessages={$formErrors.qpvOrZrr}
     bind:value={service.qpvOrZrr}
-  >
-    <FieldHelp slot="helptext" title="Zone de difusion">
-      <p>
-        <strong>QPV et ZRR</strong><br />
-        Votre offre s’adresse uniquement aux bénéficiaires résidants dans des Quartiers
-        Prioritaires de la politique de la Ville ou des Zones de Revitalisation Rurale ?
-        Si oui, activez cette option.
-      </p>
-    </FieldHelp></ModelField
-  >
+  />
 
   <AddableMultiselect
     bind:values={service.requirements}
@@ -342,6 +335,7 @@
 </FieldSet>
 
 <FieldSet title="Modalités">
+  <div slot="help"><p>Modalités pour mobiliser le service.</p></div>
   <ModelField
     label="Pour l'accompagnateur"
     type="checkboxes"
@@ -379,11 +373,7 @@
     name="beneficiariesAccessModes"
     errorMessages={$formErrors.beneficiariesAccessModes}
     bind:value={service.beneficiariesAccessModes}
-  >
-    <FieldHelp slot="helptext" title="Comment mobiliser ce service">
-      Quelles sont les modalités à suivre pour pouvoir mobiliser votre service ?
-    </FieldHelp></ModelField
-  >
+  />
   <ModelField
     visible={service.beneficiariesAccessModes.includes("autre")}
     hideLabel
@@ -407,7 +397,7 @@
   <ModelField
     type="textarea"
     hideLabel
-    placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
+    placeholder="Adhésion, frais de location, frais de garde, etc., et les montants."
     visible={!!service.hasFee}
     schema={serviceSchema.feeDetails}
     name="feeDetails"
@@ -417,18 +407,18 @@
 </FieldSet>
 
 <Fieldset title="Documents">
+  <div slot="help">
+    <p>
+      Justificatifs à fournir et documents à compléter pour postuler. Le lien
+      redirige vers une page web qui présente le service (formulaire, fiche de
+      prescription, simulateurs, etc.)
+    </p>
+  </div>
   <Field
     type="custom"
     label="Documents à compléter"
     errorMessages={$formErrors.forms}
   >
-    <FieldHelp slot="helptext" title="Documents requis">
-      Listez les justificatifs à fournir et mettez à disposition les documents à
-      compléter afin de recevoir des candidatures complètes, avec moins
-      d’aller-retour. Utilisez la section liens pratiques pour rediriger vers
-      plus d’informations concernant la mobilisation de votre service
-      (formulaire, fiche de prescription, simulateurs, etc.)..
-    </FieldHelp>
     <Uploader
       slot="custom-input"
       structureSlug={service.structure}
@@ -476,13 +466,7 @@
         "value",
         "a-distance"
       )}
-    >
-      <FieldHelp slot="helptext" title="Lieu de déroulement">
-        Merci de préciser si le service ou l’accompagnement se déroule en
-        présentiel ou bien à distance. Si c’est à distance, merci de préciser le
-        lien de la visioconférence.
-      </FieldHelp></ModelField
-    >
+    />
     <ModelField
       placeholder="https://"
       type="url"
@@ -569,6 +553,12 @@
   </FieldSet>
 
   <FieldSet title="Périodicité">
+    <div slot="help">
+      <p>
+        La durée limitée permet de supendre automatiquement la visibilité du
+        service dans les résultat de recherche.
+      </p>
+    </div>
     <ModelField
       label="Fréquence et horaires"
       type="text"
@@ -585,12 +575,7 @@
       name="isTimeLimited"
       bind:value={isTimeLimited}
       on:change={handleCheckTimeLimited}
-    >
-      <FieldHelp slot="helptext" title="Suspension">
-        En configurant la suspension de votre service avec une limite de temps,
-        vous pouvez mieux gérer sa visibilité et sa mise à jour.
-      </FieldHelp>
-    </Field>
+    />
     <ModelField
       label="Date de fin"
       type="date"
@@ -603,6 +588,16 @@
   </FieldSet>
 
   <FieldSet title="Contact">
+    <div slot="help">
+      <p>
+        Coordonnées de la personne responsable de la réception et du traitement
+        des demandes d’orientation. À défaut, renseignez le courriel et le
+        numéro de téléphone de votre structure. Par défaut, ces informations
+        sont disponibles uniquement aux accompagnateurs qui ont un compte DORA.
+        En cochant la case « Rendre les informations publiques », les
+        informations seront rendues disponibles à tous les visiteurs du site.
+      </p>
+    </div>
     <ModelField
       label="Prénom et Nom"
       placeholder="Prénom et nom"
@@ -611,17 +606,7 @@
       name="contactName"
       errorMessages={$formErrors.contactName}
       bind:value={service.contactName}
-    >
-      <FieldHelp slot="helptext" title="Contact référent">
-        Merci de préciser les coordonnées de la personne responsable de la
-        réception et du traitement des demandes d’orientation. À défaut,
-        renseignez le courriel et le numéro de téléphone de votre structure.Par
-        défaut, ces informations sont disponibles uniquement aux accompagnateurs
-        qui ont un compte DORA. En cochant la case « Rendre les informations
-        publiques », les informations seront rendues disponibles à tous les
-        visiteurs du site.
-      </FieldHelp></ModelField
-    >
+    />
     <ModelField
       type="tel"
       label="Téléphone"

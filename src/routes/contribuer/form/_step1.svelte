@@ -1,6 +1,5 @@
 <script>
   import FieldSet from "$lib/components/forms/fieldset.svelte";
-  import FieldHelp from "$lib/components/forms/field-help.svelte";
   import ModelField from "$lib/components/forms/model-field.svelte";
   import { formErrors } from "$lib/validation.js";
   import serviceSchema from "$lib/schemas/service-contrib.js";
@@ -39,27 +38,40 @@
 />
 
 {#if service.siret}
-  <FieldSet title="Présentez le service">
+  <FieldSet title="Présentation">
+    <div slot="help">
+      <p>
+        Le <b>Résumé</b> présente le service en une phrase courte. Il apparait dans
+        les résultats de recherche.
+      </p>
+      <p>
+        <strong>Exemple</strong> :
+        <i>
+          Faciliter vos déplacements en cas de reprise d'emploi ou de formation
+          (entretien d'embauche, concours public...)
+        </i>
+      </p>
+      <p>
+        Si besoin, détaillez dans la partie
+        <b>Description</b>.
+      </p>
+    </div>
+
     <ModelField
-      label="Titre du service"
+      label="Nom"
       type="text"
       placeholder="Ex. Aide aux frais liés à…"
       schema={serviceSchema.name}
       name="name"
       errorMessages={$formErrors.name}
       bind:value={service.name}
-    >
-      <FieldHelp slot="helptext" title="Titre du service">
-        Le nom de ce service, tel qu’il va être affiché dans les résultats de
-        recherche et les fiches détail.
-      </FieldHelp>
-    </ModelField>
+    />
 
     <ModelField
       description="280 caractères maximum"
       placeholder="Décrivez brièvement ce service"
       type="textarea"
-      label="Présentation résumée"
+      label="Résumé"
       schema={serviceSchema.shortDesc}
       name="shortDesc"
       errorMessages={$formErrors.shortDesc}
@@ -67,7 +79,7 @@
     />
 
     <ModelField
-      label="Descriptif complet du service"
+      label="Description"
       placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant ce service et ses spécificités."
       type="richtext"
       vertical
@@ -75,22 +87,16 @@
       name="fullDesc"
       errorMessages={$formErrors.fullDesc}
       bind:value={service.fullDesc}
-      ><FieldHelp slot="helptext" title="Présentation résumée">
-        <p>
-          Contenu de présentation court qui apparait dans les résultats de
-          recherche du site DORA. Résumez en une phrase les besoins auxquels ce
-          service répond et apportez plus de détails dans la partie
-          «&nbsp;Descriptif complet&nbsp;», si besoin est.
-        </p>
-        <p>
-          <strong>Exemple de résumé :</strong> Faciliter vos déplacements en cas
-          de reprise d'emploi ou de formation (entretien d'embauche, concours public...)
-        </p>
-      </FieldHelp></ModelField
-    >
+    />
   </FieldSet>
 
-  <FieldSet title="Typologie de service">
+  <FieldSet title="Typologie">
+    <div slot="help">
+      <p>
+        Classez les services par thématiques et besoins pour faciliter le
+        référencement et la mise en avant du service.
+      </p>
+    </div>
     <ModelField
       type="multiselect"
       label="Thématiques"
@@ -102,13 +108,7 @@
       onSelectChange={handleCategoriesChange}
       placeholderMulti="Choisissez la ou les thématiques"
       sortSelect
-    >
-      <FieldHelp slot="helptext" title="Catégorisation">
-        Pour faciliter le référencement et la mise en avant de votre service, il
-        est nécessaire de classer les services par thématiques et besoins
-        auxquels ils répondent.
-      </FieldHelp>
-    </ModelField>
+    />
 
     <ModelField
       type="multiselect"

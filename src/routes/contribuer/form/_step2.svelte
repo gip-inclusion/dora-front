@@ -1,6 +1,5 @@
 <script>
   import FieldSet from "$lib/components/forms/fieldset.svelte";
-  import FieldHelp from "$lib/components/forms/field-help.svelte";
   import ModelField from "$lib/components/forms/model-field.svelte";
   import { formErrors } from "$lib/validation.js";
   import serviceSchema from "$lib/schemas/service-contrib.js";
@@ -48,31 +47,18 @@
 </Info>
 
 <FieldSet title="Conditions d'accès pour le bénéficiaire">
-  <ModelField
-    type="multiselect"
-    label="Critères d’accès"
-    description="Précisez les critères d’éligibilité du public afin de recevoir des orientations adéquates. Plusieurs choix possibles."
-    schema={serviceSchema.accessConditions}
-    name="accessConditions"
-    errorMessages={$formErrors.accessConditions}
-    bind:value={service.accessConditions}
-    choices={servicesOptions.accessConditions}
-    placeholder="Aucun critère spécifique"
-    placeholderMulti="Choisir un autre critères d’admission"
-    sortSelect
-  >
-    <FieldHelp slot="helptext" title="Critères d’éligibilité">
-      <p>Définissez le type de publics auxquels ce service s’adresse.</p>
-      <p>
-        Si le service est ouvert à tout le monde, sans critères ou prérequis,
-        laissez les champs avec les options par défaut.
-      </p>
-    </FieldHelp>
-  </ModelField>
+  <div slot="help">
+    <p>
+      Publics auxquels le service s’adresse. Vous pouvez ajouter vos propres
+      valeurs avec le bouton « Ajouter une autre option ». Si votre service est
+      ouvert à tous, sans critères ou prérequis, laissez les champs avec les
+      options par défaut.
+    </p>
+  </div>
 
   <ModelField
     type="multiselect"
-    label="Publics concernés"
+    label="Profils"
     description="Ces critères permettent d’orienter le bon public vers ce service. Plusieurs choix possibles."
     schema={serviceSchema.concernedPublic}
     name="concernedPublic"
@@ -80,19 +66,33 @@
     bind:value={service.concernedPublic}
     choices={servicesOptions.concernedPublic}
     placeholder="Tous publics"
-    placeholderMulti="Choisir un autre type de publics"
+    placeholderMulti="Sélectionner…"
     sortSelect
   />
 
   <ModelField
     type="multiselect"
-    label="Quels sont les pré-requis ou compétences ?"
+    label="Critères"
+    description="Plusieurs choix possibles."
+    schema={serviceSchema.accessConditions}
+    name="accessConditions"
+    errorMessages={$formErrors.accessConditions}
+    bind:value={service.accessConditions}
+    choices={servicesOptions.accessConditions}
+    placeholder="Aucun"
+    placeholderMulti="Choisir un autre critères d’admission"
+    sortSelect
+  />
+
+  <ModelField
+    type="multiselect"
     description="Plusieurs choix possibles."
     schema={serviceSchema.requirements}
     name="requirements"
     errorMessages={$formErrors.requirements}
     bind:value={service.requirements}
     choices={servicesOptions.requirements}
+    label="Pré-requis ou compétences"
     placeholder="Aucun"
     placeholderMulti="Choisir un autre pré-requis"
     sortSelect
@@ -101,12 +101,12 @@
   <ModelField
     type="toggle"
     label="Service cumulable"
-    description="Ce service est cumulable avec d’autres services ? "
     schema={serviceSchema.isCumulative}
     name="isCumulative"
     errorMessages={$formErrors.isCumulative}
     bind:value={service.isCumulative}
   />
+
   <ModelField
     type="toggle"
     label="Frais à charge du bénéficiaire"
@@ -119,7 +119,7 @@
   <ModelField
     type="textarea"
     hideLabel
-    placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
+    placeholder="Adhésion, frais de location, frais de garde, etc., et les montants."
     visible={!!service.hasFee}
     schema={serviceSchema.feeDetails}
     name="feeDetails"
@@ -128,23 +128,26 @@
   />
 </FieldSet>
 
-<FieldSet title="Personne à contacter">
+<FieldSet title="Contact">
+  <div slot="help">
+    <p>
+      Coordonnées de la personne responsable de la réception et du traitement
+      des demandes d’orientation. À défaut, renseignez le courriel et le numéro
+      de téléphone de votre structure. Par défaut, ces informations sont
+      disponibles uniquement aux accompagnateurs qui ont un compte DORA. En
+      cochant la case « Rendre les informations publiques », les informations
+      seront rendues disponibles à tous les visiteurs du site.
+    </p>
+  </div>
   <ModelField
-    label="Nom du contact"
+    label="Prénom et nom"
     placeholder="Prénom et nom"
     type="text"
     schema={serviceSchema.contactName}
     name="contactName"
     errorMessages={$formErrors.contactName}
     bind:value={service.contactName}
-  >
-    <FieldHelp slot="helptext" title="Contact">
-      Si vous les connaissez, merci de renseigner les coordonnées de la personne
-      responsable de la réception et du traitement des demandes d’orientation,
-      pour ce service. À défaut, renseignez le courriel et le numéro de
-      téléphone de la personne avec qui vous êtes en contact.
-    </FieldHelp></ModelField
-  >
+  />
   <ModelField
     type="tel"
     label="Numéro de téléphone"
@@ -174,13 +177,7 @@
     errorMessages={$formErrors.locationKinds}
     bind:value={service.locationKinds}
     choices={moveToTheEnd(servicesOptions.locationKinds, "value", "a-distance")}
-  >
-    <FieldHelp slot="helptext" title="Lieu de déroulement">
-      Merci de préciser si le service ou l’accompagnement se déroule en
-      présentiel ou bien à distance. Si c’est à distance, merci de préciser le
-      lien de la visioconférence.
-    </FieldHelp></ModelField
-  >
+  />
   <ModelField
     placeholder="https://"
     type="url"
