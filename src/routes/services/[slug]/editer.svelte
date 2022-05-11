@@ -30,27 +30,11 @@
 
 <script>
   import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
-  import ServiceFormWrapper from "../form/_service-form-wrapper.svelte";
+  import ServiceFormWrapper from "../_form/_service-form-wrapper.svelte";
 
-  import Step1 from "../form/_step1.svelte";
-  import Step2 from "../form/_step2.svelte";
-  import Step3 from "../form/_step3.svelte";
-  import Step4 from "../form/_step4.svelte";
-  import Preview from "../form/_preview.svelte";
+  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 
   export let service, servicesOptions, structures;
-
-  let currentStep = 1;
-
-  const steps = new Map([
-    [1, Step1],
-    [2, Step2],
-    [3, Step3],
-    [4, Step4],
-    [5, Preview],
-  ]);
-
-  $: currentStepComponent = steps.get(currentStep);
 </script>
 
 <svelte:head>
@@ -59,18 +43,12 @@
 
 <EnsureLoggedIn>
   {#if service}
-    <ServiceFormWrapper
-      bind:currentStep
-      bind:service
-      bind:servicesOptions
-      title="Modifier un service"
-    >
-      <svelte:component
-        this={currentStepComponent}
-        bind:service
-        {servicesOptions}
-        {structures}
-      />
-    </ServiceFormWrapper>
+    <CenteredGrid>
+      <div class="col-span-full pt-s48 pb-s24">
+        <h1>Modification du service</h1>
+      </div>
+    </CenteredGrid>
+
+    <ServiceFormWrapper bind:service {servicesOptions} {structures} />
   {/if}
 </EnsureLoggedIn>

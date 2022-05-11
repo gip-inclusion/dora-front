@@ -8,9 +8,15 @@
   import { shortenString } from "$lib/utils";
   import Tag from "$lib/components/tag.svelte";
   import Toolbar from "./_toolbar.svelte";
+  import AdminNotice from "$lib/components/structures/admin-notice.svelte";
+  import { getService } from "$lib/services";
 
   export let service;
   export let isPreview = false;
+
+  async function handleRefresh() {
+    service = await getService(service.slug);
+  }
 </script>
 
 <CenteredGrid --col-bg="var(--col-france-blue)">
@@ -24,8 +30,8 @@
   topPadded
 >
   {#if !isPreview}
-    <div class="col-span-full">
-      <Toolbar {service} />
+    <div class="noprint col-span-full">
+      <Toolbar {service} onRefresh={handleRefresh} />
     </div>
   {/if}
   <div class="col-span-full flex flex-col gap-s24 lg:flex-row-reverse">
@@ -40,7 +46,6 @@
           </p>
         {/if}
         {#if service.locationKinds.includes("a-distance")}
-          <h4 class="pt-s16 pb-s8">À distance</h4>
           <p class="pb-s16 text-f14">
             <a target="_blank" rel="noopener nofollow" href={service.remoteUrl}
               >{shortenString(service.remoteUrl, 35)}</a
@@ -50,7 +55,13 @@
       {/if}
 
       {#if service.recurrence}
-        <p class="legend">{service.recurrence}</p>
+        <p class="text-f14">{service.recurrence}</p>
+      {/if}
+
+      {#if !isPreview && !service.structureInfo.hasAdmin}
+        <div class="noprint mb-s24">
+          <AdminNotice structure={service.structureInfo} />
+        </div>
       {/if}
     </div>
     <div class="lg:w-2/3">
@@ -71,6 +82,11 @@
         {#if service.hasFee}
           <Tag bgColorClass="bg-warning" textColorClass="text-white"
             >Frais à charge du bénéficiaire</Tag
+          >
+        {/if}
+        {#if service.locationKinds.includes("a-distance")}
+          <Tag bgColorClass="bg-info" textColorClass="text-white"
+            >À distance</Tag
           >
         {/if}
       </div>
