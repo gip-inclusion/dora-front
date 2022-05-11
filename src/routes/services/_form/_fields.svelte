@@ -131,18 +131,18 @@
 
 <FieldSet title="Présentation">
   <div slot="help">
-    <p>
+    <p class="text-f14">
       Le <b>Résumé</b> présente le service en une phrase courte. Il apparait dans
       les résultats de recherche.
     </p>
-    <p>
+    <p class="text-f14">
       <strong>Exemple</strong> :
       <i>
         Faciliter vos déplacements en cas de reprise d'emploi ou de formation
         (entretien d'embauche, concours public...)
       </i>
     </p>
-    <p>
+    <p class="text-f14">
       Si besoin, détaillez dans la partie
       <b>Description</b>.
     </p>
@@ -180,7 +180,7 @@
 
 <FieldSet title="Typologie">
   <div slot="help">
-    <p>
+    <p class="text-f14">
       Classez le service par thématiques et besoins pour faciliter son
       référencement et sa mise en avant.
     </p>
@@ -233,7 +233,7 @@
 
 <FieldSet title="Diffusion">
   <div slot="help">
-    <p>Territoire sur lequel le service est accessible.</p>
+    <p class="text-f14">Territoire sur lequel le service est accessible.</p>
   </div>
   <ModelField
     type="select"
@@ -268,15 +268,15 @@
 
 <FieldSet title="Publics">
   <div slot="help">
-    <p>
+    <p class="text-f14">
       Publics auxquels le service s’adresse. Vous pouvez ajouter vos propres
       valeurs avec le bouton « Ajouter une autre option ». Si votre service est
       ouvert à tous, sans critères ou prérequis, laissez les champs avec les
       options par défaut.
     </p>
 
-    <h4>QPV et ZRR</h4>
-    <p>
+    <h5>QPV et ZRR</h5>
+    <p class="text-f14">
       Activez cette option si votre offre s’adresse uniquement aux bénéficiaires
       résidants dans des Quartiers Prioritaires de la politique de la Ville ou
       des Zones de Revitalisation Rurale.
@@ -335,7 +335,9 @@
 </FieldSet>
 
 <FieldSet title="Modalités">
-  <div slot="help"><p>Modalités pour mobiliser le service.</p></div>
+  <div slot="help">
+    <p class="text-f14">Modalités pour mobiliser le service.</p>
+  </div>
   <ModelField
     label="Pour l'accompagnateur"
     type="checkboxes"
@@ -408,7 +410,7 @@
 
 <Fieldset title="Documents">
   <div slot="help">
-    <p>
+    <p class="text-f14">
       Justificatifs à fournir et documents à compléter pour postuler. Le lien
       redirige vers une page web qui présente le service (formulaire, fiche de
       prescription, simulateurs, etc.)
@@ -554,7 +556,7 @@
 
   <FieldSet title="Périodicité">
     <div slot="help">
-      <p>
+      <p class="text-f14">
         La durée limitée permet de supendre automatiquement la visibilité du
         service dans les résultat de recherche.
       </p>
@@ -589,7 +591,7 @@
 
   <FieldSet title="Contact">
     <div slot="help">
-      <p>
+      <p class="text-f14">
         Coordonnées de la personne responsable de la réception et du traitement
         des demandes d’orientation. À défaut, renseignez le courriel et le
         numéro de téléphone de votre structure. Par défaut, ces informations

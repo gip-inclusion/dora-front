@@ -8,8 +8,6 @@
 </script>
 
 <Notice title="Vous gérez cette structure ?">
-  <p class="text-f14">Mettez à jour vos services.</p>
-
   <div slot="button">
     {#if $userInfo}
       <LinkButton

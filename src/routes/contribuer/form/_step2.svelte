@@ -48,7 +48,7 @@
 
 <FieldSet title="Conditions d'accès pour le bénéficiaire">
   <div slot="help">
-    <p>
+    <p class="text-f14">
       Publics auxquels le service s’adresse. Vous pouvez ajouter vos propres
       valeurs avec le bouton « Ajouter une autre option ». Si votre service est
       ouvert à tous, sans critères ou prérequis, laissez les champs avec les
@@ -130,7 +130,7 @@
 
 <FieldSet title="Contact">
   <div slot="help">
-    <p>
+    <p class="text-f14">
       Coordonnées de la personne responsable de la réception et du traitement
       des demandes d’orientation. À défaut, renseignez le courriel et le numéro
       de téléphone de votre structure. Par défaut, ces informations sont

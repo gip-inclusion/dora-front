@@ -130,7 +130,7 @@
   <form novalidate on:submit|preventDefault={handleSubmit}>
     <FieldSet title={formTitle}>
       <div slot="help">
-        <p>
+        <p class="text-f14">
           Vérifiez l’exactitude des informations récupérées et complétez les
           autres.
         </p>
