@@ -74,7 +74,9 @@
     <div class="col-span-full pt-s48 pb-s24">
       <div class="flex flex-wrap justify-between">
         <div class="w-2/3"><h1>Création du service</h1></div>
-        <div class="w-1/3"><Card structure={service.structureInfo} /></div>
+        {#if service.structureInfo}
+          <div class="w-1/3"><Card structure={service.structureInfo} /></div>
+        {/if}
       </div>
 
       {#if !structures.length}
