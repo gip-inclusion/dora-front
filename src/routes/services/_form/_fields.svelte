@@ -181,8 +181,8 @@
 <FieldSet title="Typologie">
   <div slot="help">
     <p>
-      Classez les services par thématiques et besoins pour faciliter le
-      référencement et la mise en avant du service.
+      Classez le service par thématiques et besoins pour faciliter son
+      référencement et sa mise en avant.
     </p>
   </div>
   <ModelField

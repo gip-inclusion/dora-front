@@ -82,7 +82,7 @@
   {/if}
 
   {#if $$slots.help && showHelp}
-    <div class="border-l-8 border-info bg-info-light px-s32  pt-s16">
+    <div class="border-l-8 border-info bg-info-light  pl-s24 pr-s32  pt-s16">
       <slot name="help" />
     </div>
   {/if}

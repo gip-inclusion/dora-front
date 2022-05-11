@@ -133,7 +133,7 @@
 <svelte:window bind:scrollY />
 
 <CenteredGrid topPadded>
-  <div class="col-span-full col-start-1 mb-s48 text-center">
+  <div class="col-span-full mb-s48 text-center">
     <div class="mx-auto">
       <h1 class="text-f45 text-france-blue">Proposez un service</h1>
       <div class="paragraph-small mt-s16">
@@ -147,7 +147,7 @@
   </div>
 </CenteredGrid>
 <CenteredGrid roundedTop>
-  <div class="col-span-8 col-start-1 mb-s64">
+  <div class="col-span-full mb-s64 lg:col-span-8 lg:col-start-1">
     <div bind:this={errorDiv}>
       {#each $formErrors.nonFieldErrors || [] as msg}
         <Alert label={msg} />

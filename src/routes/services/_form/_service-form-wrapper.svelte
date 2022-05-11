@@ -171,7 +171,7 @@
 <svelte:window bind:scrollY />
 
 <CenteredGrid roundedTop>
-  <div class="col-span-8 col-start-1 mb-s64">
+  <div class="col-span-full mb-s64 lg:col-span-8 lg:col-start-1">
     <div bind:this={errorDiv}>
       {#each $formErrors.nonFieldErrors || [] as msg}
         <Alert label={msg} />

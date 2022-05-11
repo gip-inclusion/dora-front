@@ -37,6 +37,7 @@
 
   import { getNewService } from "./_form/_stores.js";
   import ServiceFormWrapper from "./_form/_service-form-wrapper.svelte";
+  import Card from "$lib/components/structures/card.svelte";
 
   export let servicesOptions, structures, lastDraft;
 
@@ -47,12 +48,10 @@
   } else {
     // si la structure est renseignée dans l'URL, force celle-là
     const structureSlug = $page.url.searchParams.get("structure");
-
-    if (
-      structureSlug &&
-      structures.map((s) => s.slug).includes(structureSlug)
-    ) {
+    const structure = structures.find((s) => s.slug === structureSlug);
+    if (structureSlug && structure) {
       service.structure = structureSlug;
+      service.structureInfo = structure;
     }
   }
 
@@ -72,7 +71,10 @@
 <EnsureLoggedIn>
   <CenteredGrid>
     <div class="col-span-full pt-s48 pb-s24">
-      <h1>Création d'un service</h1>
+      <div class="flex flex-wrap justify-between">
+        <div class="w-2/3"><h1>Création du service</h1></div>
+        <div class="w-1/3"><Card structure={service.structureInfo} /></div>
+      </div>
 
       {#if !structures.length}
         <Notice title="Impossible de créer un nouveau service" type="error">

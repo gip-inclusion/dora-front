@@ -33,6 +33,7 @@
   import ServiceFormWrapper from "../_form/_service-form-wrapper.svelte";
 
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
+  import Card from "$lib/components/structures/card.svelte";
 
   export let service, servicesOptions, structures;
 </script>
@@ -44,8 +45,9 @@
 <EnsureLoggedIn>
   {#if service}
     <CenteredGrid>
-      <div class="col-span-full pt-s48 pb-s24">
-        <h1>Modification du service</h1>
+      <div class="col-span-full flex flex-wrap justify-between pt-s48 pb-s24">
+        <div class="w-2/3"><h1>Modification du service</h1></div>
+        <div class="w-1/3"><Card structure={service.structureInfo} /></div>
       </div>
     </CenteredGrid>
 
