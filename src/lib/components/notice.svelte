@@ -70,9 +70,11 @@
     <div class="flex flex-row flex-wrap items-start justify-between gap-s12">
       <slot />
 
-      <div class="mb-s24 self-end">
-        <slot name="button" />
-      </div>
+      {#if $$slots.button}
+        <div class="mb-s24 self-end">
+          <slot name="button" />
+        </div>
+      {/if}
     </div>
   </div>
 {/if}

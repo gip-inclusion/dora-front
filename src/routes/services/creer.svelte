@@ -49,8 +49,8 @@
   } else {
     // si la structure est renseignée dans l'URL, force celle-là
     const structureSlug = $page.url.searchParams.get("structure");
-    const structure = structures.find((s) => s.slug === structureSlug);
-    if (structureSlug && structure) {
+    if (structureSlug) {
+      const structure = structures.find((s) => s.slug === structureSlug);
       service.structure = structureSlug;
       service.structureInfo = structure;
     }

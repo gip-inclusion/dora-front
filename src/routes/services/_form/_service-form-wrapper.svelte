@@ -28,6 +28,7 @@
   export let servicesOptions;
   export let service;
   export let structures;
+  export let structure;
 
   onMount(() => {
     $formErrors = {};
@@ -69,7 +70,6 @@
     onChange: handleEltChange,
   });
 
-  let scrollY;
   let errorDiv;
   let isValid = false;
 
@@ -135,21 +135,21 @@
       service = result.data;
 
       goto(`/services/${service.slug}`);
+    } else {
+      injectAPIErrors(
+        result.error || {
+          nonFieldErrors: [
+            {
+              code: "fetch-error",
+              message: "Erreur de connexion au serveur",
+            },
+          ],
+        },
+        {}
+      );
+
+      errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
     }
-
-    injectAPIErrors(
-      result.error || {
-        nonFieldErrors: [
-          {
-            code: "fetch-error",
-            message: "Erreur de connexion au serveur",
-          },
-        ],
-      },
-      {}
-    );
-
-    errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
   }
 
   async function handlePublish() {
@@ -168,8 +168,6 @@
   }
 </script>
 
-<svelte:window bind:scrollY />
-
 <CenteredGrid roundedTop>
   <div class="col-span-full mb-s64 lg:col-span-8 lg:col-start-1">
     <div bind:this={errorDiv}>
@@ -177,7 +175,7 @@
         <Alert label={msg} />
       {/each}
     </div>
-    <Fields bind:service {servicesOptions} {structures} />
+    <Fields bind:service {servicesOptions} {structures} {structure} />
   </div>
 </CenteredGrid>
 

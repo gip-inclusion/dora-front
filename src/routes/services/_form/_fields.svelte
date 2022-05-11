@@ -7,14 +7,15 @@
   import { moveToTheEnd } from "$lib/utils";
   import Field from "$lib/components/forms/field.svelte";
   import Uploader from "$lib/components/uploader.svelte";
-  import { getStructure } from "$lib/structures";
   import { onMount } from "svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
   import AddressSearch from "$lib/components/forms/street-search.svelte";
   import AdminDivisionSearch from "$lib/components/forms/admin-division-search.svelte";
   import Fieldset from "$lib/components/forms/fieldset.svelte";
+  import Button from "$lib/components/button.svelte";
+  import { getStructure } from "$lib/structures";
 
-  export let servicesOptions, service, structures;
+  export let servicesOptions, service, structures, structure;
   let subcategories = [];
 
   function handleCategoryChange(categories) {
@@ -29,28 +30,26 @@
     );
   }
 
-  function cleanOptions(field, structure) {
+  function cleanOptions(field, slug) {
     const flatChoices = servicesOptions[field]
-      .filter((c) => c.structure == null || c.structure === structure)
+      .filter((c) => c.structure == null || c.structure === slug)
       .map((c) => c.value);
+
     service[field] = service[field].filter((value) =>
       flatChoices.includes(value)
     );
   }
 
-  function handleStructureChange(structure) {
-    cleanOptions("accessConditions", structure);
-    cleanOptions("concernedPublic", structure);
-    cleanOptions("requirements", structure);
-    cleanOptions("credentials", structure);
+  async function handleStructureChange(slug) {
+    cleanOptions("accessConditions", slug);
+    cleanOptions("concernedPublic", slug);
+    cleanOptions("requirements", slug);
+    cleanOptions("credentials", slug);
+    structure = await getStructure(slug);
   }
 
-  let showStructures = structures.length > 1;
-  if (service.structure) {
-    // Il s'agit d'une édition de service existant, ou alors la structure
-    // est renseignée dans l'URL: ne pas montrer le selecteur
-    showStructures = false;
-  }
+  // Il s'agit d'une édition de service existant, ou alors la structure
+  const showStructures = service.structure ? false : structures.length > 1;
 
   export let adminDivisionChoices = [];
 
@@ -67,6 +66,7 @@
       adminDivisionChoices = [];
     }
   }
+
   function handlediffusionZoneDetailsChange(details) {
     service.diffusionZoneDetails = details;
   }
@@ -82,22 +82,6 @@
     service.latitude = lat;
   }
 
-  let promise;
-
-  if (!service.city && !service.address1 && !service.postalCode) {
-    promise = getStructure(service.structure);
-    promise.then((structure) => {
-      service.city = structure.city;
-      service.address1 = structure.address1;
-      service.address2 = structure.address2;
-      service.postalCode = structure.postalCode;
-      service.cityCode = structure.cityCode;
-      service.latitude = structure.latitude;
-      service.longitude = structure.longitude;
-    });
-  } else {
-    promise = Promise.resolve();
-  }
   let isTimeLimited;
 
   onMount(() => {
@@ -110,24 +94,35 @@
       service.suspensionDate = null;
     }
   }
-</script>
 
-{#if showStructures}
-  <FieldSet title="">
-    <ModelField
-      type="select"
-      schema={serviceSchema.structure}
-      label="Structure"
-      choices={structures.map((s) => ({ value: s.slug, label: s.name }))}
-      name="structure"
-      errorMessages={$formErrors.structure}
-      bind:value={service.structure}
-      onSelectChange={handleStructureChange}
-      sortSelect
-      placeholder="Sélectionner…"
-    />
-  </FieldSet>
-{/if}
+  let showServiceAddress = true;
+
+  function fillAdress() {
+    showServiceAddress = false;
+    console.log(structure);
+    if (structure) {
+      const {
+        city,
+        address1,
+        address2,
+        postalCode,
+        cityCode,
+        latitude,
+        longitude,
+      } = structure;
+      service.city = city;
+      service.address1 = address1;
+      service.address2 = address2;
+      service.postalCode = postalCode;
+      service.cityCode = cityCode;
+      service.latitude = latitude;
+      service.longitude = longitude;
+    }
+    setTimeout(() => {
+      showServiceAddress = true;
+    }, 0);
+  }
+</script>
 
 <FieldSet title="Présentation">
   <div slot="help">
@@ -138,8 +133,8 @@
     <p class="text-f14">
       <strong>Exemple</strong> :
       <i>
-        Faciliter vos déplacements en cas de reprise d'emploi ou de formation
-        (entretien d'embauche, concours public...)
+        Faciliter vos déplacements en cas de reprise d’emploi ou de formation
+        (entretien d’embauche, concours public…)
       </i>
     </p>
     <p class="text-f14">
@@ -147,6 +142,21 @@
       <b>Description</b>.
     </p>
   </div>
+
+  <ModelField
+    type="select"
+    schema={serviceSchema.structure}
+    label="Structure"
+    choices={structures.map((s) => ({ value: s.slug, label: s.name }))}
+    name="structure"
+    errorMessages={$formErrors.structure}
+    bind:value={service.structure}
+    onSelectChange={handleStructureChange}
+    sortSelect
+    placeholder="Sélectionner…"
+    disabled={!showStructures}
+  />
+
   <ModelField
     label="Nom"
     type="text"
@@ -454,7 +464,7 @@
   />
 </Fieldset>
 
-{#await promise then structure}
+{#if structure}
   <FieldSet title="Lieu">
     <ModelField
       type="checkboxes"
@@ -480,78 +490,95 @@
       bind:value={service.remoteUrl}
     />
 
-    <ModelField
-      name="city"
-      type="custom"
-      label="Ville"
-      errorMessages={$formErrors.city}
-      schema={serviceSchema.city}
-    >
-      <CitySearch
-        slot="custom-input"
+    {#if service.locationKinds.includes("en-presentiel")}
+      <Button
+        on:click={fillAdress(structure)}
+        secondary
+        small
+        label="Utiliser l'adresse de la structure"
+      />
+    {/if}
+    {#if showServiceAddress}
+      <ModelField
         name="city"
-        placeholder="Saisissez et validez votre ville"
-        initialValue={service.city}
-        onChange={handleCityChange}
-      />
-    </ModelField>
+        type="custom"
+        label="Ville"
+        errorMessages={$formErrors.city}
+        schema={serviceSchema.city}
+        visible={service.locationKinds.includes("en-presentiel")}
+      >
+        <CitySearch
+          slot="custom-input"
+          name="city"
+          placeholder="Saisissez et validez votre ville"
+          initialValue={service.city}
+          onChange={handleCityChange}
+        />
+      </ModelField>
 
-    <ModelField
-      type="custom"
-      name="address1"
-      label="Adresse"
-      errorMessages={$formErrors.address1}
-      schema={serviceSchema.address1}
-    >
-      <AddressSearch
-        slot="custom-input"
+      <ModelField
+        type="custom"
         name="address1"
-        disabled={!service.cityCode}
-        cityCode={service.cityCode}
-        placeholder="3 rue du parc"
-        initialValue={service.address1}
-        handleChange={handleAddressChange}
+        label="Adresse"
+        errorMessages={$formErrors.address1}
+        schema={serviceSchema.address1}
+        visible={service.locationKinds.includes("en-presentiel")}
+      >
+        <AddressSearch
+          slot="custom-input"
+          name="address1"
+          disabled={!service.cityCode}
+          cityCode={service.cityCode}
+          placeholder="3 rue du parc"
+          initialValue={service.address1}
+          handleChange={handleAddressChange}
+        />
+      </ModelField>
+      <ModelField
+        type="text"
+        label="Complément d’adresse"
+        placeholder="batiment, escalier, etc."
+        schema={serviceSchema.address2}
+        name="address2"
+        errorMessages={$formErrors.address2}
+        bind:value={service.address2}
+        visible={service.locationKinds.includes("en-presentiel")}
       />
-    </ModelField>
-    <ModelField
-      type="text"
-      label="Complément d’adresse"
-      placeholder="batiment, escalier, etc."
-      schema={serviceSchema.address2}
-      name="address2"
-      errorMessages={$formErrors.address2}
-      bind:value={service.address2}
-    />
-    <ModelField
-      type="text"
-      label="Code postal"
-      placeholder="00000"
-      schema={serviceSchema.postalCode}
-      name="postalCode"
-      errorMessages={$formErrors.postalCode}
-      bind:value={service.postalCode}
-    />
-    <ModelField
-      type="hidden"
-      schema={serviceSchema.cityCode}
-      name="cityCode"
-      errorMessages={$formErrors.cityCode}
-      bind:value={service.cityCode}
-    />
-    <ModelField
-      type="hidden"
-      schema={serviceSchema.longitude}
-      name="longitude"
-      errorMessages={$formErrors.longitude}
-      bind:value={service.longitude}
-    />
-    <ModelField
-      type="hidden"
-      schema={serviceSchema.latitude}
-      name="latitude"
-      errorMessages={$formErrors.latitude}
-      bind:value={service.latitude}
-    />
+      <ModelField
+        type="text"
+        label="Code postal"
+        placeholder="00000"
+        schema={serviceSchema.postalCode}
+        name="postalCode"
+        errorMessages={$formErrors.postalCode}
+        bind:value={service.postalCode}
+        visible={service.locationKinds.includes("en-presentiel")}
+      />
+      <ModelField
+        type="hidden"
+        schema={serviceSchema.cityCode}
+        name="cityCode"
+        errorMessages={$formErrors.cityCode}
+        bind:value={service.cityCode}
+        visible={service.locationKinds.includes("en-presentiel")}
+      />
+      <ModelField
+        type="hidden"
+        schema={serviceSchema.longitude}
+        name="longitude"
+        errorMessages={$formErrors.longitude}
+        bind:value={service.longitude}
+        visible={service.locationKinds.includes("en-presentiel")}
+      />
+      <ModelField
+        type="hidden"
+        schema={serviceSchema.latitude}
+        name="latitude"
+        errorMessages={$formErrors.latitude}
+        bind:value={service.latitude}
+        visible={service.locationKinds.includes("en-presentiel")}
+      />
+    {/if}
   </FieldSet>
 
   <FieldSet title="Périodicité">
@@ -636,4 +663,4 @@
       bind:value={service.isContactInfoPublic}
     />
   </FieldSet>
-{/await}
+{/if}

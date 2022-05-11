@@ -76,7 +76,7 @@ ${service.credentialsDisplay.map((s) => `- ${s}`).join("\n")}
     </ul>
   {/if}
 
-  {#if showContact || $userInfo}
+  {#if showContact}
     {#if service.contactName || service.contactPhone || service.contactEmail}
       <h4>Contact</h4>
       <p class="text-f14">
@@ -105,7 +105,7 @@ ${service.credentialsDisplay.map((s) => `- ${s}`).join("\n")}
     </div>
   {/if}
 
-  {#if service.contactEmail && $userInfo}
+  {#if service.contactEmail && showContact}
     <div class="noprint">
       <LinkButton
         on:click={trackClick}

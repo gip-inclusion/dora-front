@@ -12,22 +12,20 @@
   } from "$lib/validation.js";
 
   import NavButtons from "./_nav-buttons.svelte";
+  import Fields from "./_fields.svelte";
 
-  import serviceSchema, {
-    step1Schema,
-    step2Schema,
-  } from "$lib/schemas/service-contrib.js";
+  import serviceSchema from "$lib/schemas/service-contrib.js";
 
   import Alert from "$lib/components/forms/alert.svelte";
   import { publishServiceSuggestion } from "$lib/services";
 
-  const schemas = new Map([
-    [1, step1Schema],
-    [2, step2Schema],
-  ]);
-
-  export let currentStep;
-  export let service;
+  export let servicesOptions;
+  let service = Object.fromEntries(
+    Object.entries(serviceSchema).map(([fieldName, props]) => [
+      fieldName,
+      props.default,
+    ])
+  );
 
   onMount(() => {
     $formErrors = {};
@@ -69,11 +67,9 @@
     onChange: handleEltChange,
   });
 
-  let navInfo = {};
-  let scrollY;
   let errorDiv;
-  const requiredFields = Object.keys(step1Schema).filter(
-    (k) => step1Schema[k].required
+  const requiredFields = Object.keys(serviceSchema).filter(
+    (k) => serviceSchema[k].required
   );
 
   let currentPageIsValid = false;
@@ -81,36 +77,6 @@
   $: currentPageIsValid = requiredFields.every((f) =>
     Array.isArray(service[f]) ? service[f].length : service[f]
   );
-
-  $: switch (currentStep) {
-    case 1:
-      navInfo = {
-        next: 2,
-      };
-      break;
-    case 2:
-      navInfo = {};
-      break;
-
-    default:
-      console.warn("?");
-  }
-
-  function goToPage(number) {
-    currentStep = number;
-    scrollY = 0;
-  }
-
-  async function handleGoForward() {
-    if (
-      validate(service, schemas.get(currentStep), serviceSchema, {
-        skipDependenciesCheck: true,
-        noScroll: false,
-      }).valid
-    ) {
-      goToPage(navInfo.next);
-    }
-  }
 
   async function handlePublish() {
     // Validate the whole form
@@ -129,8 +95,6 @@
     }
   }
 </script>
-
-<svelte:window bind:scrollY />
 
 <CenteredGrid topPadded>
   <div class="col-span-full mb-s48 text-center">
@@ -153,17 +117,12 @@
         <Alert label={msg} />
       {/each}
     </div>
-    <slot />
+    <Fields bind:service {servicesOptions} />
   </div>
 </CenteredGrid>
 
 {#if service.siret}
-  <CenteredGrid sticky>
-    <NavButtons
-      {currentPageIsValid}
-      onGoForward={handleGoForward}
-      onPublish={handlePublish}
-      withForward={!!navInfo?.next && !navInfo?.showPreview}
-    />
+  <CenteredGrid>
+    <NavButtons {currentPageIsValid} onPublish={handlePublish} />
   </CenteredGrid>
 {/if}
