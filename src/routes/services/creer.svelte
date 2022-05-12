@@ -55,8 +55,7 @@
       service.structureInfo = structure;
     }
   }
-
-  if (service.structure && lastDraft.structure !== service.structure) {
+  if (service.structure && lastDraft?.structure !== service.structure) {
     lastDraft = null;
   }
 

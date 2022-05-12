@@ -7,7 +7,7 @@
   import { moveToTheEnd } from "$lib/utils";
   import Field from "$lib/components/forms/field.svelte";
   import Uploader from "$lib/components/uploader.svelte";
-  import { onMount } from "svelte";
+  import { onMount, tick } from "svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
   import AddressSearch from "$lib/components/forms/street-search.svelte";
   import AdminDivisionSearch from "$lib/components/forms/admin-division-search.svelte";
@@ -45,7 +45,9 @@
     cleanOptions("concernedPublic", slug);
     cleanOptions("requirements", slug);
     cleanOptions("credentials", slug);
-    structure = await getStructure(slug);
+    if (slug) {
+      structure = await getStructure(slug);
+    }
   }
 
   // Il s'agit d'une édition de service existant, ou alors la structure
@@ -97,9 +99,9 @@
 
   let showServiceAddress = true;
 
-  function fillAdress() {
+  async function fillAdress() {
     showServiceAddress = false;
-    console.log(structure);
+
     if (structure) {
       const {
         city,
@@ -118,9 +120,8 @@
       service.latitude = latitude;
       service.longitude = longitude;
     }
-    setTimeout(() => {
-      showServiceAddress = true;
-    }, 0);
+    await tick();
+    showServiceAddress = true;
   }
 </script>
 

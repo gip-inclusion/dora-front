@@ -10,6 +10,7 @@
   import { moveToTheEnd } from "$lib/utils";
   import Notice from "$lib/components/notice.svelte";
   import Button from "$lib/components/button.svelte";
+  import { tick } from "svelte";
 
   export let servicesOptions, service;
   let establishment = null;
@@ -53,7 +54,7 @@
     service.latitude = lat;
   }
 
-  function fillAdress() {
+  async function fillAdress() {
     showServiceAddress = false;
     if (establishment) {
       const {
@@ -73,9 +74,8 @@
       service.latitude = latitude;
       service.longitude = longitude;
     }
-    setTimeout(() => {
-      showServiceAddress = true;
-    }, 0);
+    await tick();
+    showServiceAddress = true;
   }
 </script>
 

@@ -10,6 +10,7 @@
   import Toolbar from "./_toolbar.svelte";
   import AdminNotice from "$lib/components/structures/admin-notice.svelte";
   import { getService } from "$lib/services";
+  import { browser } from "$app/env";
 
   export let service;
   export let isPreview = false;
@@ -29,11 +30,12 @@
   --col-content-bg="var(--col-bg)"
   topPadded
 >
-  {#if !isPreview}
-    <div class="noprint col-span-full">
+  <div class="noprint col-span-full h-s40">
+    {#if browser && !isPreview}
       <Toolbar {service} onRefresh={handleRefresh} />
-    </div>
-  {/if}
+    {/if}
+  </div>
+
   <div class="col-span-full flex flex-col gap-s24 lg:flex-row-reverse">
     <div class="lg:w-1/3">
       {#if service.locationKinds.length}

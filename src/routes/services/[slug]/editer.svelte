@@ -9,7 +9,7 @@
   export async function load({ params }) {
     const user = get(userInfo);
     const service = await getService(params.slug);
-    const structure = await getStructure(service.structure);
+    const structure = service ? await getStructure(service.structure) : null;
 
     let structures = [];
 
