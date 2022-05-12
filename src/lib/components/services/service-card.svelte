@@ -1,7 +1,6 @@
 <script>
   import { checkBoxBlankIcon, mapPinIcon } from "$lib/icons";
   import Label from "$lib/components/label.svelte";
-  import StateLabel from "./state-label.svelte";
   import ButtonMenu from "./button-menu.svelte";
   import StateButtonMenu from "./state-button-menu.svelte";
   export let service;
@@ -51,10 +50,9 @@
     {/if}
   </div>
   {#if !readOnly}
-    <div class="flex h-s80 items-center justify-between px-s20">
-      <div class="flex gap-s12 px-s12">
-        <StateLabel {service} /><StateButtonMenu {service} {onRefresh} />
-      </div>
+    <div class="flex items-center justify-between p-s20">
+      <StateButtonMenu {service} {onRefresh} />
+
       {#if !service.isSuggestion}
         <ButtonMenu {service} {onRefresh} />
       {/if}

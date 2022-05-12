@@ -62,8 +62,10 @@
         <h1>Modification du service</h1>
         {#if !validation?.valid}
           <Notice
-            title={`Information${validation?.errorFields ? "s" : ""} manquante${
-              validation?.errorFields ? "s" : ""
+            title={`Information${
+              validation?.errorFields.length > 1 ? "s" : ""
+            } manquante${
+              validation?.errorFields.length > 1 ? "s" : ""
             } pour publier`}
             type="warning"
           >

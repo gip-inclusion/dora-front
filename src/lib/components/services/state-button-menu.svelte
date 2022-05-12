@@ -3,17 +3,22 @@
 
   import ButtonMenu from "$lib/components/button-menu.svelte";
   import StateMenu from "./state-menu.svelte";
+  import StateLabel from "./state-label.svelte";
 
   export let service;
   export let onRefresh;
 </script>
 
-<ButtonMenu icon={arrowDownSIcon} let:onClose={onCloseParent}>
-  <StateMenu
-    {service}
-    onRefresh={async () => {
-      await onCloseParent();
-      await onRefresh();
-    }}
-  />
-</ButtonMenu>
+<div class="flex gap-s12 rounded border border-gray-01 px-s12">
+  <StateLabel {service} />
+
+  <ButtonMenu icon={arrowDownSIcon} let:onClose={onCloseParent}>
+    <StateMenu
+      {service}
+      onRefresh={async () => {
+        await onCloseParent();
+        await onRefresh();
+      }}
+    />
+  </ButtonMenu>
+</div>
