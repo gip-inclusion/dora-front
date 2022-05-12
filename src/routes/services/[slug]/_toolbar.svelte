@@ -6,6 +6,8 @@
 
   import SuggestionModal from "./_suggestion-modal.svelte";
   import Menu from "$lib/components/services/menu.svelte";
+  import StateLabel from "$lib/components/services/state-label.svelte";
+  import StateButtonMenu from "$lib/components/services/state-button-menu.svelte";
 
   export let service;
   export let onRefresh;
@@ -28,6 +30,9 @@
 
 <div class="inline-flex flex-wrap gap-s8">
   {#if $token && service.canWrite}
+    <div class="flex gap-s12 px-s12">
+      <StateLabel {service} /><StateButtonMenu {service} {onRefresh} />
+    </div>
     <Menu {service} secondary {onRefresh} />
   {:else}
     <SuggestionModal {service} bind:isOpen={suggestionModalIsOpen} />
