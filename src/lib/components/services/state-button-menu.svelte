@@ -9,8 +9,9 @@
   export let onRefresh;
 </script>
 
-<div class="flex gap-s12 rounded border border-gray-01 px-s12">
-  <StateLabel {service} />
+<div class="flex items-center rounded border border-gray-01">
+  <div class="px-s12"><StateLabel {service} /></div>
+  <div class="text-gray-02">|</div>
 
   <ButtonMenu icon={arrowDownSIcon} let:onClose={onCloseParent}>
     <StateMenu

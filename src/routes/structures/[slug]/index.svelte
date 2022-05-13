@@ -6,6 +6,7 @@
   import Informations from "./_informations.svelte";
   import ServicesList from "./services/_list.svelte";
   import BranchesList from "./antennes/_list.svelte";
+  import { capitalize } from "$lib/utils.js";
 
   async function handleRefresh() {
     $structure = await getStructure($structure.slug);
@@ -13,7 +14,9 @@
 </script>
 
 <svelte:head>
-  <title>{$structure.name} | DORA</title>
+  <title>
+    {capitalize($structure.name)} | DORA
+  </title>
   <meta name="description" content={$structure.shortDesc} />
 </svelte:head>
 

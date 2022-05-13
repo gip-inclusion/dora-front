@@ -63,7 +63,9 @@
   }
 </script>
 
-<h1 class="mb-s24 text-white">{structure.name}</h1>
+<h1 class="mb-s24 lowercase text-white first-line:capitalize">
+  {structure.name}
+</h1>
 
 <Label
   label={`${structure.address1}${

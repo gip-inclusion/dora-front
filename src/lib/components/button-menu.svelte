@@ -33,7 +33,6 @@
     {label}
     noBackground
     {disabled}
-    noPadding
     small
     on:click={() => (isOpen = !isOpen)}
   />

@@ -64,13 +64,13 @@
           <Notice
             title={`Information${
               validation?.errorFields.length > 1 ? "s" : ""
-            } manquante${
+            } requise${
               validation?.errorFields.length > 1 ? "s" : ""
             } pour publier`}
             type="warning"
           >
-            <p class="text-f14 capitalize">
-              {validation?.errorFields.join(", ")}
+            <p class="text-f14 first-letter:capitalize">
+              {validation?.errorFields.join(", ")}.
             </p>
           </Notice>
         {/if}

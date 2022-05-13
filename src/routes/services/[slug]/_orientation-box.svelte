@@ -123,7 +123,6 @@ ${service.credentialsDisplay.map((s) => `- ${s}`).join("\n")}
       secondary
       wFull
       small
-      noPadding
       label="Télécharger la page (.pdf)"
       to={pdfUrl}
       nofollow
