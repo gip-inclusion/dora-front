@@ -49,6 +49,9 @@
       noScroll: true,
       showErrors: false,
     });
+
+  let errors;
+  $: errors = validation?.errorFields.length > 1;
 </script>
 
 <svelte:head>
@@ -62,10 +65,8 @@
         <h1>Modification du service</h1>
         {#if !validation?.valid}
           <Notice
-            title={`Information${
-              validation?.errorFields.length > 1 ? "s" : ""
-            } requise${
-              validation?.errorFields.length > 1 ? "s" : ""
+            title={`Information${errors ? "s" : ""} requise${
+              errors ? "s" : ""
             } pour publier`}
             type="warning"
           >

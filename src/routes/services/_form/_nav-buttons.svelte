@@ -17,6 +17,6 @@
         ]}
       />
     </div>
-    <Button on:click={onSave} name="validate" label="Enregistrer" iconOnRight />
+    <Button on:click={onSave} name="validate" label="Enregistrer" />
   </div>
 </div>
