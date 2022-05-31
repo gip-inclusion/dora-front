@@ -278,7 +278,7 @@ export async function acceptServiceSuggestion(suggestion) {
   return result;
 }
 
-export async function publishServiceSuggestion(suggestion) {
+export async function publishServiceSuggestion(suggestion, source) {
   const url = `${getApiURL()}/services-suggestions/`;
   const method = "POST";
   const { siret, name, ...contents } = serviceSuggestiontoBack(suggestion);
@@ -294,6 +294,7 @@ export async function publishServiceSuggestion(suggestion) {
       siret,
       name,
       contents,
+      source,
     }),
   });
 
