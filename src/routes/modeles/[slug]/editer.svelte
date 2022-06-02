@@ -49,7 +49,7 @@
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 
   import Fields from "$lib/components/services/form/fields.svelte";
-  import ServiceNavButtons from "$lib/components/services/form/model-nav-buttons.svelte";
+  import ModelNavButtons from "$lib/components/services/form/model-nav-buttons.svelte";
   import Errors from "$lib/components/services/form/errors.svelte";
 
   export let model, servicesOptions, structures, structure;
@@ -73,7 +73,13 @@
   {#if model}
     <div bind:this={errorDiv} />
     <Errors />
-    <Fields bind:service={model} {servicesOptions} {structures} {structure} />
-    <ServiceNavButtons {onError} bind:model />
+    <Fields
+      bind:service={model}
+      {servicesOptions}
+      {structures}
+      {structure}
+      isModel
+    />
+    <ModelNavButtons {onError} bind:model />
   {/if}
 </EnsureLoggedIn>

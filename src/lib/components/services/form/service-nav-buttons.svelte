@@ -2,25 +2,23 @@
   import { goto } from "$app/navigation";
 
   import { validate, injectAPIErrors } from "$lib/validation.js";
-  import serviceSchema, { draftServiceSchema } from "$lib/schemas/service.js";
+  import ss from "$lib/schemas/service.js";
   import { createOrModifyService, publishDraft } from "$lib/services";
   import { assert, logException } from "$lib/logger";
 
   import Button from "$lib/components/button.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
+  import { formatSchema } from "$lib/schemas/utils";
 
   export let onError, service;
+  const serviceSchema = formatSchema(ss, "service");
+  const draftServiceSchema = formatSchema(ss, "draft");
 
   async function publish() {
     service.isDraft = false;
 
     // Validate the whole form
-    const { validatedData, valid } = validate(
-      service,
-      serviceSchema,
-      serviceSchema,
-      { skipDependenciesCheck: true, noScroll: false }
-    );
+    const { validatedData, valid } = validate(service, serviceSchema);
 
     if (valid) {
       // Validation OK, let's send it to the API endpoint
@@ -44,12 +42,7 @@
       service.category = "";
     }
 
-    const { validatedData, valid } = validate(
-      service,
-      draftServiceSchema,
-      draftServiceSchema,
-      { skipDependenciesCheck: true, noScroll: false }
-    );
+    const { validatedData, valid } = validate(service, draftServiceSchema);
 
     if (!valid) {
       return;
@@ -80,7 +73,7 @@
       );
 
       if (onError) {
-        onerror();
+        onError();
       }
     }
   }

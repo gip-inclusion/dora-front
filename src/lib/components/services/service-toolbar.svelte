@@ -6,8 +6,8 @@
   import Button from "$lib/components/button.svelte";
 
   import SuggestionModal from "./suggestion-modal.svelte";
-  import ServiceMenu from "$lib/components/services/service-menu.svelte";
-  import StateButtonMenu from "$lib/components/services/state-button-menu.svelte";
+  import ServiceMenu from "./service-menu.svelte";
+  import StateButtonMenu from "./state-button-menu.svelte";
 
   export let service;
   export let onRefresh;

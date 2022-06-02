@@ -40,20 +40,18 @@
     // supposed to happen. This setTimeout is a unsatisfying workaround to that.
     await new Promise((resolve) => {
       setTimeout(() => {
-        const filteredSchema = Object.fromEntries(
-          Object.entries(structureSchema).filter(
-            ([name, _rules]) => name === fieldname
-          )
-        );
-        const { validatedData, valid } = validate(
-          structure,
-          filteredSchema,
-          structureSchema,
-          { skipDependenciesCheck: false, noScroll: true }
-        );
+        const filteredSchema = structureSchema[fieldname]
+          ? { [fieldname]: structureSchema[fieldname] }
+          : {};
+        const { validatedData, valid } = validate(structure, filteredSchema, {
+          fullSchema: structureSchema,
+          noScroll: true,
+        });
+
         if (valid) {
           structure = { ...structure, ...validatedData };
         }
+
         resolve();
       }, 200);
     });
@@ -71,12 +69,7 @@
 
   async function handleSubmit() {
     $formErrors = {};
-    const { validatedData, valid } = validate(
-      structure,
-      structureSchema,
-      structureSchema,
-      { skipDependenciesCheck: true, noScroll: false }
-    );
+    const { validatedData, valid } = validate(structure, structureSchema);
     if (valid) {
       // Validation OK, let's send it to the API endpoint
       let result;

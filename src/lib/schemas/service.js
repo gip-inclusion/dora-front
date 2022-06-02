@@ -1,46 +1,50 @@
 import * as v from "./utils";
 
-const shape1 = {
+export default {
   isDraft: {
     name: "brouillon",
     default: true,
     rules: [v.isBool()],
   },
+  siret: {
+    default: "",
+    required: ["contrib"],
+    rules: [v.isSiret()],
+  },
   structure: {
     name: "structure",
-    default: null,
-    required: true,
+    default: "",
+    required: ["model", "service", "draft"],
     rules: [v.isString(), v.maxStrLength(50)],
   },
   categories: {
     name: "thématiques",
     default: [],
-    required: true,
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)]), v.arrNotEmpty()],
+    required: ["model", "service", "contrib"],
+    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
   },
   subcategories: {
     name: "besoins",
     default: [],
-    required: false,
     rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
   },
   kinds: {
     name: "types",
     default: [],
-    required: true,
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)]), v.arrNotEmpty()],
+    required: ["model", "service", "contrib"],
+    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
   },
   name: {
     name: "nom",
     default: "",
-    required: true,
+    required: ["model", "service", "draft", "contrib"],
     rules: [v.isString(), v.maxStrLength(140)],
     post: [v.trim],
   },
   shortDesc: {
     name: "résumé",
     default: "",
-    required: true,
+    required: ["model", "service", "contrib"],
     rules: [v.isString(), v.maxStrLength(280)],
     post: [v.trim],
   },
@@ -56,9 +60,6 @@ const shape1 = {
     rules: [v.isString()],
     post: [v.trim],
   },
-};
-
-const shape2 = {
   accessConditions: {
     name: "critères",
     default: [],
@@ -96,9 +97,6 @@ const shape2 = {
       }),
     ],
   },
-};
-
-const shape3 = {
   beneficiariesAccessModes: {
     name: "pour les bénéficiaires",
     default: [],
@@ -121,8 +119,9 @@ const shape3 = {
   coachOrientationModes: {
     name: "pour les accompagnateurs",
     default: [],
-    required: true,
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)]), v.arrNotEmpty()],
+
+    required: ["model", "service"],
+    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
   },
   coachOrientationModesOther: {
     name: "pour les accompagnateurs (autre)",
@@ -155,9 +154,6 @@ const shape3 = {
     rules: [v.isURL(), v.maxStrLength(200)],
     post: [v.trim],
   },
-};
-
-const shape4 = {
   contactName: {
     name: "prénom et nom",
     default: "",
@@ -185,8 +181,8 @@ const shape4 = {
   locationKinds: {
     name: "lieu de déroulement",
     default: [],
-    required: true,
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)]), v.arrNotEmpty()],
+    required: ["service"],
+    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
   },
   remoteUrl: {
     name: "lien visioconférence",
@@ -247,7 +243,7 @@ const shape4 = {
   diffusionZoneType: {
     name: "habitants de",
     default: "",
-    required: true,
+    required: ["service"],
     rules: [v.isString(), v.maxStrLength(10)],
   },
 
@@ -258,7 +254,10 @@ const shape4 = {
       v.isString(),
       v.maxStrLength(9),
       (name, value, data) => ({
-        valid: data.diffusionZoneType !== "country" ? !!value.length : true,
+        valid:
+          data.diffusionZoneType && data.diffusionZoneType !== "country"
+            ? !!value.length
+            : true,
         msg: `Information requise`,
       }),
     ],
@@ -292,204 +291,6 @@ const shape4 = {
   suspensionDate: {
     name: "date de fin",
     default: null,
-    nullable: true,
-    rules: [v.isDate()],
-    post: [v.nullEmpty],
-  },
-};
-
-export const step1Schema = shape1;
-export const step2Schema = shape2;
-export const step3Schema = shape3;
-export const step4Schema = shape4;
-
-export default {
-  ...shape1,
-  ...shape2,
-  ...shape3,
-  ...shape4,
-};
-
-export const draftServiceSchema = {
-  structure: {
-    name: "structure",
-    required: true,
-    rules: [v.isString(), v.maxStrLength(50)],
-  },
-  name: {
-    name: "nom",
-    required: true,
-    rules: [v.isString(), v.maxStrLength(140)],
-    post: [v.trim],
-  },
-  categories: {
-    name: "thématiques",
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-  },
-  subcategories: {
-    name: "besoins",
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-  },
-  kinds: {
-    name: "types",
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-  },
-  shortDesc: {
-    name: "résumé",
-    rules: [v.isString(), v.maxStrLength(280)],
-    post: [v.trim],
-  },
-  recurrence: {
-    name: "fréquence et horaires",
-    rules: [v.isString(), v.maxStrLength(140)],
-    post: [v.trim],
-  },
-  fullDesc: { name: "description", rules: [v.isString()], post: [v.trim] },
-
-  accessConditions: {
-    name: "critères",
-    rules: [v.isArray([v.isCustomizablePK()])],
-  },
-  concernedPublic: {
-    name: "profils",
-    rules: [v.isArray([v.isCustomizablePK()])],
-  },
-  requirements: {
-    name: "pré-requis ou compétences",
-    rules: [v.isArray([v.isCustomizablePK()])],
-  },
-  isCumulative: {
-    name: "cumulable",
-    rules: [v.isBool()],
-  },
-  hasFee: {
-    name: "frais à charge",
-    rules: [v.isBool()],
-  },
-  feeDetails: {
-    name: "détail des frais",
-    post: [v.trim],
-    rules: [v.isString()],
-  },
-
-  beneficiariesAccessModes: {
-    name: "pour le bénéficiaire",
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-  },
-  beneficiariesAccessModesOther: {
-    name: "pour le bénéficiaire (autre)",
-    rules: [v.isString(), v.maxStrLength(280)],
-  },
-  coachOrientationModes: {
-    name: "pour l'accompagnateur",
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-  },
-  coachOrientationModesOther: {
-    name: "pour l'accompagnateur (autre)",
-    rules: [v.isString(), v.maxStrLength(280)],
-  },
-
-  credentials: {
-    name: "justificatifs à fournir",
-    rules: [v.isArray([v.isCustomizablePK()])],
-  },
-  forms: {
-    name: "documents à compléter",
-    rules: [v.isArray([v.isString(), v.maxStrLength(1024)])],
-  },
-  onlineForm: {
-    name: "lien",
-    rules: [v.isURL(), v.maxStrLength(200)],
-    post: [v.trim],
-  },
-
-  contactName: {
-    name: "prénom et nom",
-    rules: [v.isString(), v.maxStrLength(140)],
-    post: [v.trim],
-  },
-  contactPhone: {
-    name: "téléphone",
-    pre: [v.removeAllNonDigits],
-    rules: [v.isPhone()],
-  },
-  contactEmail: {
-    name: "email",
-    rules: [v.isEmail(), v.maxStrLength(255)],
-    post: [v.lower, v.trim],
-  },
-  isContactInfoPublic: {
-    name: "rendre public",
-    rules: [v.isBool()],
-  },
-
-  locationKinds: {
-    name: "lieu de déroulement",
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-  },
-  remoteUrl: {
-    name: "lien visioconférence",
-    rules: [v.isURL(), v.maxStrLength(200)],
-    post: [v.trim],
-  },
-  city: {
-    name: "ville",
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  address1: {
-    name: "adresse",
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-    dependents: ["postalCode"],
-  },
-  address2: {
-    name: "complément d’adresse",
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  postalCode: {
-    name: "code postal",
-    rules: [v.isPostalCode()],
-  },
-  diffusionZoneType: {
-    name: "habitants de",
-    default: "",
-    rules: [v.isString(), v.maxStrLength(10)],
-  },
-  diffusionZoneDetails: {
-    name: "nom du territoire",
-    default: "",
-    rules: [
-      v.isString(),
-      v.maxStrLength(9),
-      (name, value, data) => ({
-        valid:
-          data.diffusionZoneType === "" ||
-          (data.diffusionZoneType !== "country" ? !!value.length : true),
-        msg: `Information requise`,
-      }),
-    ],
-  },
-  qpvOrZrr: {
-    name: "uniquement QPV ou ZRR",
-    default: false,
-    rules: [v.isBool()],
-  },
-  startDate: {
-    name: "date de début",
-    nullable: true,
-    rules: [v.isDate()],
-    post: [v.nullEmpty],
-  },
-  endDate: {
-    name: "date de fin",
-    nullable: true,
-    rules: [v.isDate()],
-    post: [v.nullEmpty],
-  },
-  suspensionDate: {
-    name: "date de fin",
     nullable: true,
     rules: [v.isDate()],
     post: [v.nullEmpty],

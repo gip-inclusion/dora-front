@@ -2,7 +2,7 @@
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import ModelField from "$lib/components/forms/model-field.svelte";
   import { formErrors } from "$lib/validation.js";
-  import serviceSchema from "$lib/schemas/service-contrib.js";
+  import ss from "$lib/schemas/service.js";
   import StructureSearch from "$lib/components/structures/search.svelte";
   import Field from "$lib/components/forms/field.svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
@@ -11,12 +11,15 @@
   import Notice from "$lib/components/notice.svelte";
   import Button from "$lib/components/button.svelte";
   import { tick } from "svelte";
+  import { formatSchema } from "$lib/schemas/utils";
 
   export let servicesOptions, service;
   let establishment = null;
 
   let subcategories = [];
   let showServiceAddress = true;
+
+  const serviceSchema = formatSchema(ss, "contrib");
 
   function handleCategoriesChange(categories) {
     subcategories = categories.length

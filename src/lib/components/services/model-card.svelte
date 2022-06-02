@@ -1,11 +1,8 @@
 <script>
-  import { checkBoxBlankIcon } from "$lib/icons";
   import Label from "$lib/components/label.svelte";
-  import ServiceButtonMenu from "./service-button-menu.svelte";
-  import StateButtonMenu from "./state-button-menu.svelte";
-  export let service;
+  import ModelMenu from "./model-button-menu.svelte";
+  export let model;
   export let readOnly = true;
-  export let onRefresh;
 </script>
 
 <div class="flex flex-col justify-between rounded-md bg-white shadow-md">
@@ -15,13 +12,8 @@
   >
     <div>
       <div class="mb-s8 flex items-center">
-        {#if !service.isDraft && !service.isSuggestion}
-          <div class="mr-s8">
-            <Label icon={checkBoxBlankIcon} success bold smallIcon />
-          </div>
-        {/if}
         <p class="mb-s0 text-f12 text-gray-text">
-          Mis à jour le {new Date(service.modificationDate).toLocaleDateString(
+          Mis à jour le {new Date(model.modificationDate).toLocaleDateString(
             "fr-FR",
             {
               year: "numeric",
@@ -32,21 +24,17 @@
         </p>
       </div>
       <h4 class="mb-s8 text-france-blue">
-        <a href="/services/{service.slug}">{service.name}</a>
+        <a href="/modeles/{model.slug}">{model.name}</a>
       </h4>
     </div>
-    {#if service.diffusionZoneDetailsDisplay}
-      <Label label={service.diffusionZoneDetailsDisplay} />
+    {#if model.diffusionZoneDetailsDisplay}
+      <Label label={model.diffusionZoneDetailsDisplay} />
     {/if}
   </div>
   {#if !readOnly}
     <hr class="self-stretch border-t-gray-03" />
     <div class="flex items-center justify-between  p-s20">
-      <StateButtonMenu {service} {onRefresh} />
-
-      {#if !service.isSuggestion}
-        <ServiceButtonMenu {service} />
-      {/if}
+      <div class="ml-auto self-end"><ModelMenu {model} /></div>
     </div>
   {/if}
 </div>

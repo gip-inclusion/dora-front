@@ -1,19 +1,18 @@
 <script>
   import { validate } from "$lib/validation.js";
-  import serviceSchema from "$lib/schemas/service.js";
+  import ss from "$lib/schemas/service.js";
 
   import Notice from "$lib/components/notice.svelte";
+  import { formatSchema } from "$lib/schemas/utils";
 
   export let service;
+
+  const serviceSchema = formatSchema(ss, "service");
 
   let validation;
   $: validation =
     service &&
-    validate(service, serviceSchema, serviceSchema, {
-      skipDependenciesCheck: true,
-      noScroll: true,
-      showErrors: false,
-    });
+    validate(service, serviceSchema, { noScroll: true, showErrors: false });
 
   let errors;
   $: errors = validation?.errorFields.length > 1;

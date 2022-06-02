@@ -36,7 +36,7 @@
   import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import Fields from "$lib/components/services/form/fields.svelte";
-  import NavButtons from "$lib/components/services/form/service-nav-buttons.svelte";
+  import ModelNavButtons from "$lib/components/services/form/model-nav-buttons.svelte";
   import Errors from "$lib/components/services/form/errors.svelte";
 
   import Notice from "$lib/components/notice.svelte";
@@ -85,7 +85,7 @@
   <div bind:this={errorDiv} />
   {#if structures.length}
     <Errors />
-    <Fields bind:service {servicesOptions} {structures} {structure} />
-    <NavButtons {onError} bind:service />
+    <Fields bind:service {servicesOptions} {structures} {structure} isModel />
+    <ModelNavButtons {onError} bind:service />
   {/if}
 </EnsureLoggedIn>

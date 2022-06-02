@@ -64,7 +64,7 @@
 <CenteredGrid bordertop noPadding>
   <div class="noprint py-s24">
     {#if browser}
-      <ModelToolbar service={model} onRefresh={handleRefresh} />
+      <ModelToolbar {model} onRefresh={handleRefresh} />
     {/if}
   </div>
 </CenteredGrid>

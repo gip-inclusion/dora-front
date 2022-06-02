@@ -138,6 +138,7 @@ export async function createOrModifyModel(model) {
     ok: response.ok,
     status: response.status,
   };
+
   if (response.ok) {
     result.data = serviceToFront(await response.json());
   } else {
@@ -147,6 +148,7 @@ export async function createOrModifyModel(model) {
       console.error(err);
     }
   }
+
   return result;
 }
 

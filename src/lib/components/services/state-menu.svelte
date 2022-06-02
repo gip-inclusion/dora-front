@@ -10,11 +10,14 @@
 
   import Button from "$lib/components/button.svelte";
   import { validate } from "$lib/validation";
-  import serviceSchema from "$lib/schemas/service.js";
+  import ss from "$lib/schemas/service.js";
+  import { formatSchema } from "$lib/schemas/utils";
 
   export let service;
   export let onRefresh;
   export let secondary = false;
+
+  const serviceSchema = formatSchema(ss, "service");
 
   async function handleUnpublish() {
     await unPublishService(service.slug);
@@ -31,8 +34,7 @@
       serviceFull = await getService(service.slug);
     }
 
-    const isValid = validate(serviceFull, serviceSchema, serviceSchema, {
-      skipDependenciesCheck: true,
+    const isValid = validate(serviceFull, serviceSchema, {
       noScroll: true,
       showErrors: false,
     }).valid;
