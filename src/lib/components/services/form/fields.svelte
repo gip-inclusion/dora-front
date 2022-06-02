@@ -1,21 +1,27 @@
 <script>
+  import { onMount, tick, setContext } from "svelte";
+
+  import { getServicesOptions } from "$lib/services";
+  import { getStructure } from "$lib/structures";
+  import {
+    formErrors,
+    validate,
+    contextValidationKey,
+  } from "$lib/validation.js";
+  import serviceSchema from "$lib/schemas/service.js";
+  import { moveToTheEnd } from "$lib/utils";
+
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import ModelField from "$lib/components/forms/model-field.svelte";
-  import { formErrors } from "$lib/validation.js";
-  import serviceSchema from "$lib/schemas/service.js";
   import AddableMultiselect from "$lib/components/forms/addable-multiselect.svelte";
-  import { moveToTheEnd } from "$lib/utils";
   import Field from "$lib/components/forms/field.svelte";
   import Uploader from "$lib/components/uploader.svelte";
-  import { onMount, tick } from "svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
   import AddressSearch from "$lib/components/forms/street-search.svelte";
   import AdminDivisionSearch from "$lib/components/forms/admin-division-search.svelte";
   import Fieldset from "$lib/components/forms/fieldset.svelte";
   import Button from "$lib/components/button.svelte";
-  import { getStructure } from "$lib/structures";
-  import { getServicesOptions } from "$lib/services";
 
   export let servicesOptions, service, structures, structure;
   let subcategories = [];
@@ -37,6 +43,7 @@
       .filter((c) => c.structure == null || c.structure === slug)
       .map((c) => c.value);
 
+    console.log(service, field);
     service[field] = service[field].filter((value) =>
       flatChoices.includes(value)
     );
@@ -95,6 +102,7 @@
 
   function handleCheckTimeLimited(evt) {
     const checked = evt.target.checked;
+
     if (!checked) {
       service.suspensionDate = null;
     }
@@ -126,6 +134,42 @@
     await tick();
     showServiceAddress = true;
   }
+
+  async function handleEltChange(evt) {
+    // We want to listen to both DOM and component events
+    const fieldname = evt.target?.name || evt.detail;
+
+    // Sometimes (particularly with Select components), the event is received
+    // before the field value is updated in `service`, although it's not
+    // supposed to happen. This setTimeout is a unsatisfying workaround to that.
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        const filteredSchema = Object.fromEntries(
+          Object.entries(serviceSchema).filter(
+            ([name, _rules]) => name === fieldname
+          )
+        );
+
+        const { validatedData, valid } = validate(
+          service,
+          filteredSchema,
+          serviceSchema,
+          { skipDependenciesCheck: false, noScroll: true }
+        );
+
+        if (valid) {
+          service = { ...service, ...validatedData };
+        }
+
+        resolve();
+      }, 200);
+    });
+  }
+
+  setContext(contextValidationKey, {
+    onBlur: handleEltChange,
+    onChange: handleEltChange,
+  });
 </script>
 
 <CenteredGrid --col-bg="var(--col-gray-bg)">
@@ -498,6 +542,7 @@
         bind:value={isTimeLimited}
         on:change={handleCheckTimeLimited}
       />
+
       <ModelField
         label={serviceSchema.suspensionDate.name}
         type="date"

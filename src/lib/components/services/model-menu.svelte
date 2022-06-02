@@ -9,7 +9,7 @@
 <div class:flex={inline} class:gap-s8={inline} class:items-start={inline}>
   <LinkButton
     label="Modifier"
-    to="/services/{service.slug}/editer"
+    to="/modeles/{service.slug}/editer"
     small
     noBackground={!secondary}
     {secondary}

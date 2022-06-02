@@ -2,10 +2,15 @@
   import { get } from "svelte/store";
   import { userInfo } from "$lib/auth";
 
-  import { getLastDraft, getServicesOptions } from "$lib/services";
+  import { getNewService } from "$lib/components/services/form/utils.js";
+  import { getService, getServicesOptions } from "$lib/services";
   import { getStructures } from "$lib/structures";
 
-  export async function load() {
+  export async function load({ url }) {
+    const serviceSlug = url.searchParams.get("service");
+    const service = serviceSlug
+      ? await getService(serviceSlug)
+      : getNewService();
     const user = get(userInfo);
     let structures = [];
 
@@ -17,7 +22,7 @@
 
     return {
       props: {
-        lastDraft: await getLastDraft(),
+        service,
         servicesOptions: await getServicesOptions(),
         structures,
       },
@@ -26,22 +31,18 @@
 </script>
 
 <script>
-  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { getNewService } from "$lib/components/services/form/utils.js";
 
   import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import Fields from "$lib/components/services/form/fields.svelte";
-  import ServiceNavButtons from "$lib/components/services/form/service-nav-buttons.svelte";
+  import NavButtons from "$lib/components/services/form/service-nav-buttons.svelte";
   import Errors from "$lib/components/services/form/errors.svelte";
 
   import Notice from "$lib/components/notice.svelte";
-  import Button from "$lib/components/button.svelte";
 
-  export let servicesOptions, structures, lastDraft;
+  export let servicesOptions, structures, service;
 
-  let service = getNewService();
   let structure;
 
   if (structures.length === 1) {
@@ -56,14 +57,6 @@
     }
   }
 
-  if (service.structure && lastDraft?.structure !== service.structure) {
-    lastDraft = null;
-  }
-
-  function handleOpenLastDraft() {
-    goto(`/services/${lastDraft.slug}/editer`);
-  }
-
   let errorDiv;
 
   function onError() {
@@ -72,31 +65,19 @@
 </script>
 
 <svelte:head>
-  <title>Création d'un service | DORA</title>
+  <title>Création d'un modèle de service | DORA</title>
 </svelte:head>
 
 <EnsureLoggedIn>
   <CenteredGrid>
-    <h1>Création d'un service</h1>
+    <h1>Création d'un modèle de service</h1>
 
     {#if !structures.length}
-      <Notice title="Impossible de créer un nouveau service" type="error">
-        <p class="text-f14">Vous n’êtes rattaché à aucune structure.</p>
-      </Notice>
-    {:else if lastDraft}
       <Notice
-        title="Vous n’avez pas finalisé votre précédente saisie"
-        hasCloseButton
+        title="Impossible de créer un nouveau modèle de service"
+        type="error"
       >
-        <p class="text-f14">Souhaitez-vous continuer la saisie du service ?</p>
-
-        <Button
-          on:click={handleOpenLastDraft}
-          slot="button"
-          small
-          secondary
-          label="Reprendre"
-        />
+        <p class="text-f14">Vous n’êtes rattaché à aucune structure.</p>
       </Notice>
     {/if}
   </CenteredGrid>
@@ -105,6 +86,6 @@
   {#if structures.length}
     <Errors />
     <Fields bind:service {servicesOptions} {structures} {structure} />
-    <ServiceNavButtons {onError} bind:service />
+    <NavButtons {onError} bind:service />
   {/if}
 </EnsureLoggedIn>

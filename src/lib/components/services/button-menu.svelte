@@ -2,7 +2,7 @@
   import { moreIcon } from "$lib/icons";
 
   import ButtonMenu from "$lib/components/button-menu.svelte";
-  import Menu from "./menu.svelte";
+  import Menu from "./service-menu.svelte";
 
   export let service;
 </script>
