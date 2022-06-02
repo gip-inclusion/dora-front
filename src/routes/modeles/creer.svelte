@@ -8,9 +8,7 @@
 
   export async function load({ url }) {
     const serviceSlug = url.searchParams.get("service");
-    const service = serviceSlug
-      ? await getService(serviceSlug)
-      : getNewService();
+    const model = serviceSlug ? await getService(serviceSlug) : getNewService();
     const user = get(userInfo);
     let structures = [];
 
@@ -22,7 +20,7 @@
 
     return {
       props: {
-        service,
+        model,
         servicesOptions: await getServicesOptions(),
         structures,
       },
@@ -41,19 +39,19 @@
 
   import Notice from "$lib/components/notice.svelte";
 
-  export let servicesOptions, structures, service;
+  export let servicesOptions, structures, model;
 
   let structure;
 
   if (structures.length === 1) {
-    service.structure = structures[0].slug;
+    model.structure = structures[0].slug;
     structure = structures[0];
   } else {
     // si la structure est renseignée dans l'URL, force celle-là
     const structureSlug = $page.url.searchParams.get("structure");
     if (structureSlug) {
       structure = structures.find((s) => s.slug === structureSlug);
-      service.structure = structureSlug;
+      model.structure = structureSlug;
     }
   }
 
@@ -85,7 +83,13 @@
   <div bind:this={errorDiv} />
   {#if structures.length}
     <Errors />
-    <Fields bind:service {servicesOptions} {structures} {structure} isModel />
-    <ModelNavButtons {onError} bind:service />
+    <Fields
+      bind:service={model}
+      {servicesOptions}
+      {structures}
+      {structure}
+      isModel
+    />
+    <ModelNavButtons {onError} bind:model />
   {/if}
 </EnsureLoggedIn>
