@@ -26,6 +26,7 @@ export default {
   subcategories: {
     name: "besoins",
     default: [],
+    required: ["model", "service", "contrib"],
     rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
   },
   kinds: {
