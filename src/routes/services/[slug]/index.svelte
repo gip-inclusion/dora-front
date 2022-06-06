@@ -57,11 +57,11 @@
   <meta name="description" content={service?.shortDesc} />
 </svelte:head>
 
-<CenteredGrid --col-bg="var(--col-gray-00)">
+<CenteredGrid bgColor="bg-gray-bg">
   <ServiceHeader {service} />
 </CenteredGrid>
 
-<CenteredGrid bordertop noPadding>
+<CenteredGrid borderTop noPadding>
   <div class="noprint py-s24">
     {#if browser}
       <ServiceToolbar {service} onRefresh={handleRefresh} />

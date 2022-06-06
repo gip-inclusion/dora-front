@@ -78,6 +78,14 @@ export async function getModel(slug) {
   return null;
 }
 
+export async function getServiceDiff(slug) {
+  const url = `${getApiURL()}/services/${slug}/`;
+  const data = (await fetchData(url)).data;
+  if (data) return serviceToFront(data);
+  // TODO: 404
+  return null;
+}
+
 export async function createOrModifyService(service) {
   let method, url;
   if (service.slug) {

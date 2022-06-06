@@ -1,7 +1,7 @@
 <script>
   import { onMount, tick, setContext } from "svelte";
 
-  import { getServicesOptions } from "$lib/services";
+  import { getServiceDiff, getServicesOptions } from "$lib/services";
   import { getStructure } from "$lib/structures";
   import {
     formErrors,
@@ -23,6 +23,8 @@
   import Fieldset from "$lib/components/forms/fieldset.svelte";
   import Button from "$lib/components/button.svelte";
   import { formatSchema } from "$lib/schemas/utils";
+  import Toggle from "$lib/components/toggle.svelte";
+  import FieldModel from "./field-model.svelte";
 
   export let servicesOptions, service, structures, structure;
   export let isModel = false;
@@ -169,9 +171,24 @@
     onBlur: handleEltChange,
     onChange: handleEltChange,
   });
+
+  let diff = null;
+  let diffIsVisible = false;
+
+  async function getDiff(visible) {
+    diff = visible ? await getServiceDiff(service.slug) : null;
+  }
+
+  $: getDiff(diffIsVisible);
+
+  function useModelValue(propName) {
+    return () => {
+      service[propName] = diff[propName];
+    };
+  }
 </script>
 
-<CenteredGrid --col-bg="var(--col-gray-bg)">
+<CenteredGrid bgColor="bg-gray-bg">
   <div class="lg:w-2/3">
     <FieldSet noTopPadding>
       <ModelField
@@ -188,7 +205,26 @@
         disabled={!showStructures}
       />
     </FieldSet>
+  </div>
+</CenteredGrid>
 
+<CenteredGrid
+  bgColor={service.model ? "bg-info-light" : "bg-gray-bg"}
+  borderTop={!!service.model}
+>
+  {#if service.model}
+    <h2>Modèle</h2>
+    <div class="flex flex-col lg:flex-row">
+      <div class="lg:w-2/3">
+        <Button label="Détacher du modèle" secondary small />
+      </div>
+      <div class="lg:w-1/3">
+        <Toggle label="Afficher les différences" bind:checked={diffIsVisible} />
+      </div>
+    </div>
+  {/if}
+
+  <div class="{diff ? '' : 'lg:w-2/3'} class">
     <FieldSet title="Présentation">
       <div slot="help">
         <p class="text-f14">
@@ -208,35 +244,56 @@
         </p>
       </div>
 
-      <ModelField
-        label={serviceSchema.name.name}
-        type="text"
-        placeholder="Compléter"
-        schema={serviceSchema.name}
-        name="name"
-        errorMessages={$formErrors.name}
-        bind:value={service.name}
-      />
-      <ModelField
-        description="280 caractères maximum"
-        placeholder="Compléter"
-        type="textarea"
-        label={serviceSchema.shortDesc.name}
-        schema={serviceSchema.shortDesc}
-        name="shortDesc"
-        errorMessages={$formErrors.shortDesc}
-        bind:value={service.shortDesc}
-      />
-      <ModelField
-        label={serviceSchema.fullDesc.name}
-        placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant votre service et ses spécificités."
-        type="richtext"
-        vertical
-        schema={serviceSchema.fullDesc}
-        name="fullDesc"
-        errorMessages={$formErrors.fullDesc}
-        bind:value={service.fullDesc}
-      />
+      <FieldModel
+        showDiff={!!diff}
+        value={diff?.name}
+        useValue={useModelValue("name")}
+      >
+        <ModelField
+          label={serviceSchema.name.name}
+          type="text"
+          placeholder="Compléter"
+          schema={serviceSchema.name}
+          name="name"
+          errorMessages={$formErrors.name}
+          bind:value={service.name}
+        />
+      </FieldModel>
+
+      <FieldModel
+        showDiff={!!diff}
+        value={diff?.shortDesc}
+        useValue={useModelValue("shortDesc")}
+      >
+        <ModelField
+          description="280 caractères maximum"
+          placeholder="Compléter"
+          type="textarea"
+          label={serviceSchema.shortDesc.name}
+          schema={serviceSchema.shortDesc}
+          name="shortDesc"
+          errorMessages={$formErrors.shortDesc}
+          bind:value={service.shortDesc}
+        />
+      </FieldModel>
+
+      <FieldModel
+        showDiff={!!diff}
+        value={diff?.fullDesc}
+        useValue={useModelValue("fullDesc")}
+        paddingTop
+      >
+        <ModelField
+          label={serviceSchema.fullDesc.name}
+          placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant votre service et ses spécificités."
+          type="richtext"
+          vertical
+          schema={serviceSchema.fullDesc}
+          name="fullDesc"
+          errorMessages={$formErrors.fullDesc}
+          bind:value={service.fullDesc}
+        />
+      </FieldModel>
     </FieldSet>
 
     <FieldSet title="Typologie">

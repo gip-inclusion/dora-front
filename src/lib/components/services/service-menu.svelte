@@ -28,5 +28,15 @@
     {secondary}
   />
   <!-- ajouter une condition pour n'afficher le bouton que si le service n'est pas lié à un modèle -->
-  <Button label="Créer un modèle" small {secondary} on:click={createModel} />
+  {#if service.model}
+    <LinkButton
+      label="Voir le modèle"
+      to="/modeles/{service.model}"
+      small
+      noBackground={!secondary}
+      {secondary}
+    />
+  {:else}
+    <Button label="Créer un modèle" small {secondary} on:click={createModel} />
+  {/if}
 </div>

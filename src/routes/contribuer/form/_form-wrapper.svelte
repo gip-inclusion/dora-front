@@ -106,7 +106,7 @@
   </div>
 </CenteredGrid>
 
-<CenteredGrid --col-bg="var(--col-gray-00)">
+<CenteredGrid bgColor="bg-gray-bg">
   <div class="lg:w-2/3">
     <div bind:this={errorDiv}>
       {#each $formErrors.nonFieldErrors || [] as msg}

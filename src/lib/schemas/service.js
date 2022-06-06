@@ -36,7 +36,7 @@ export default {
     rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
   },
   name: {
-    name: "nom",
+    name: "titre",
     default: "",
     required: ["model", "service", "draft", "contrib"],
     rules: [v.isString(), v.maxStrLength(140)],

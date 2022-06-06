@@ -15,7 +15,7 @@
 </script>
 
 {#if $formErrors?.nonFieldErrors?.length}
-  <CenteredGrid --col-bg="var(--col-gray-bg)">
+  <CenteredGrid bgColor="bg-gray-bg">
     {#each $formErrors.nonFieldErrors as error}
       <Alert label={error} />
     {/each}

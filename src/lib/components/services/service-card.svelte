@@ -6,6 +6,8 @@
   export let service;
   export let readOnly = true;
   export let onRefresh;
+
+  console.log(service);
 </script>
 
 <div class="flex flex-col justify-between rounded-md bg-white shadow-md">
