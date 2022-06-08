@@ -75,6 +75,7 @@
       </div>
       <div class="flex flex-row gap-s16 " class:hidden={!textInputVisible}>
         <Field
+          {name}
           type="text"
           bind:value={newValue}
           on:input={handleChangeValue}

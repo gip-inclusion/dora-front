@@ -262,7 +262,7 @@
     <SchemaField
       type="multiselect"
       label="Profils"
-      description="Plusieurs choix possibles."
+      description="Plusieurs choix possibles"
       schema={contribSchema.concernedPublic}
       name="concernedPublic"
       errorMessages={$formErrors.concernedPublic}
@@ -276,7 +276,7 @@
     <SchemaField
       type="multiselect"
       label="Critères"
-      description="Plusieurs choix possibles."
+      description="Plusieurs choix possibles"
       schema={contribSchema.accessConditions}
       name="accessConditions"
       errorMessages={$formErrors.accessConditions}
@@ -289,7 +289,7 @@
 
     <SchemaField
       type="multiselect"
-      description="Plusieurs choix possibles."
+      description="Plusieurs choix possibles"
       schema={contribSchema.requirements}
       name="requirements"
       errorMessages={$formErrors.requirements}

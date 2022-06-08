@@ -422,7 +422,7 @@
           placeholderMulti="Sélectionner"
           schema={serviceSchema.concernedPublic}
           sortSelect
-          description="Plusieurs choix possibles."
+          description="Plusieurs choix possibles"
         />
       </FieldModel>
 
@@ -444,7 +444,7 @@
           placeholderMulti="Choisir un autre critères d’admission"
           schema={serviceSchema.accessConditions}
           sortSelect
-          description="Plusieurs choix possibles."
+          description="Plusieurs choix possibles"
         />
       </FieldModel>
 
@@ -466,7 +466,7 @@
           placeholderMulti="Choisir un autre pré-requis"
           schema={serviceSchema.requirements}
           sortSelect
-          description="Plusieurs choix possibles."
+          description="Plusieurs choix possibles"
         />
       </FieldModel>
     </FieldSet>
