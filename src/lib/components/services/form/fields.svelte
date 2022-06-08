@@ -29,12 +29,14 @@
   export let isModel = false;
   let subcategories = [];
 
-  function handleCategoryChange(categories) {
+  function handleCategoriesChange(categories) {
     subcategories = categories.length
       ? servicesOptions.subcategories.filter(({ value }) =>
           categories.some((cat) => value.startsWith(cat))
         )
       : [];
+
+    subcategories = moveToTheEnd(subcategories, "label", "Autre", true);
 
     service.subcategories = service.subcategories.filter((scat) =>
       categories.some((cat) => scat.startsWith(cat))
@@ -330,9 +332,8 @@
           choices={servicesOptions.categories}
           name="categories"
           errorMessages={$formErrors.categories}
-          onSelectChange={handleCategoryChange}
+          onSelectChange={handleCategoriesChange}
           placeholderMulti="Sélectionner"
-          sortSelect
         />
       </FieldModel>
 

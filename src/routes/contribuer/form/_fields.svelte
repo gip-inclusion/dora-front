@@ -31,7 +31,7 @@
           categories.some((category) => value.startsWith(category))
         )
       : [];
-
+    subcategories = moveToTheEnd(subcategories, "label", "Autre", true);
     service.subcategories = service.subcategories.filter((scat) =>
       categories.some((category) => scat.startsWith(category))
     );
@@ -184,7 +184,6 @@
       choices={subcategories}
       placeholder="Choisissez les sous-catégories"
       placeholderMulti="Choisissez les sous-catégories"
-      sortSelect
     />
 
     <SchemaField

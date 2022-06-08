@@ -18,7 +18,7 @@
   import Fields from "./_fields.svelte";
   import Alert from "$lib/components/forms/alert.svelte";
 
-  export let servicesOptions;
+  export let servicesOptions, source;
 
   const contribSchema = formatSchema(
     schema,
@@ -86,7 +86,7 @@
     const { valid } = validate(service, contribSchema);
 
     if (valid) {
-      const result = await publishServiceSuggestion(service);
+      const result = await publishServiceSuggestion(service, source);
 
       if (result.ok) {
         goto(`/contribuer/merci`);
