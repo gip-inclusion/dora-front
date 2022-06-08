@@ -8,7 +8,7 @@
   export let type = "text";
   export let options = undefined;
 
-  export let paddingTop;
+  export let paddingTop = false;
   let hasValue;
 
   $: hasValue = value !== null && value !== undefined;
@@ -39,7 +39,7 @@
           {:else if type === "list"}
             <div class="flex flex-wrap gap-s8">
               {#each value as v}
-                <Tag>{v}</Tag>
+                <Tag>{options.find((o) => o.value === v)?.label || v}</Tag>
               {/each}
             </div>
           {:else if type === "html"}
