@@ -217,7 +217,9 @@
   {#if service.model}
     <h3>Synchronisé avec un modèle</h3>
     <hr class="mb-s16" />
-    <div class="flex flex-col items-start gap-s12 lg:flex-row">
+    <div
+      class="flex flex-wrap items-start justify-between gap-s12 lg:flex-nowrap"
+    >
       <div class="flex flex-wrap items-center gap-s8 lg:w-2/3">
         <Button label="Détacher du modèle" secondary small />
       </div>
