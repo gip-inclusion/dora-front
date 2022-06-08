@@ -3,9 +3,15 @@
   import { userInfo } from "$lib/auth";
 
   import { getLastDraft, getServicesOptions } from "$lib/services";
+
+  import { getNewService } from "$lib/components/services/form/utils.js";
   import { getStructures } from "$lib/structures";
 
-  export async function load() {
+  export async function load({ url }) {
+    const query = url.searchParams;
+    const structureSlug = query.get("structure");
+    const modelSlug = query.get("modele");
+
     const user = get(userInfo);
     let structures = [];
 
@@ -15,11 +21,30 @@
       structures = user.structures;
     }
 
+    const service = getNewService();
+
+    if (modelSlug) {
+      service.model = modelSlug;
+    }
+
+    let structure;
+
+    if (structures.length === 1) {
+      service.structure = structures[0].slug;
+      structure = structures[0];
+    } else if (structureSlug) {
+      // si la structure est renseignée dans l'URL, force celle-là
+      structure = structures.find((s) => s.slug === structureSlug);
+      service.structure = structureSlug;
+    }
+
     return {
       props: {
         lastDraft: await getLastDraft(),
         servicesOptions: await getServicesOptions(),
         structures,
+        structure,
+        service,
       },
     };
   }
@@ -27,34 +52,15 @@
 
 <script>
   import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
-  import { getNewService } from "$lib/components/services/form/utils.js";
-
   import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import Fields from "$lib/components/services/form/fields.svelte";
   import ServiceNavButtons from "$lib/components/services/form/service-nav-buttons.svelte";
   import Errors from "$lib/components/services/form/errors.svelte";
-
   import Notice from "$lib/components/notice.svelte";
   import Button from "$lib/components/button.svelte";
 
-  export let servicesOptions, structures, lastDraft;
-
-  let service = getNewService();
-  let structure;
-
-  if (structures.length === 1) {
-    service.structure = structures[0].slug;
-    structure = structures[0];
-  } else {
-    // si la structure est renseignée dans l'URL, force celle-là
-    const structureSlug = $page.url.searchParams.get("structure");
-    if (structureSlug) {
-      structure = structures.find((s) => s.slug === structureSlug);
-      service.structure = structureSlug;
-    }
-  }
+  export let servicesOptions, structures, lastDraft, service, structure;
 
   if (service.structure && lastDraft?.structure !== service.structure) {
     lastDraft = null;
@@ -68,12 +74,6 @@
 
   function onError() {
     errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
-  }
-
-  const modelSlug = $page.url.searchParams.get("model");
-
-  if (modelSlug) {
-    service.model = modelSlug;
   }
 </script>
 

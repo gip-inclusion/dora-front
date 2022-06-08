@@ -120,6 +120,7 @@ export async function createOrModifyService(service) {
     ok: response.ok,
     status: response.status,
   };
+
   if (response.ok) {
     result.data = serviceToFront(await response.json());
   } else {

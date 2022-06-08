@@ -11,11 +11,6 @@
 
   async function handleRefresh() {
     $structure = await getStructure($structure.slug);
-    $structure.services = $structure.services.map((s) => {
-      s.structure = $structure.slug;
-
-      return s;
-    });
   }
 </script>
 

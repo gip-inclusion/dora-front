@@ -25,6 +25,7 @@
 
   async function publish() {
     service.isDraft = false;
+    service.markSynced = true;
 
     // Validate the whole form
     const { validatedData, valid } = validate(service, serviceSchema);
@@ -43,6 +44,8 @@
 
   async function saveDraft() {
     service.isDraft = true;
+    service.markSynced = true;
+
     // eslint-disable-next-line no-warning-comments
     // HACK: Empty <Select> are casted to null for now
     // but the server wants an empty string
