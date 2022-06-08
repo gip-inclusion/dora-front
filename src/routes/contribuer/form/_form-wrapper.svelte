@@ -49,9 +49,10 @@
     // supposed to happen. This setTimeout is a unsatisfying workaround to that.
     await new Promise((resolve) => {
       setTimeout(() => {
-        const filteredSchema = contribSchema[fieldname]
-          ? { [fieldname]: contribSchema[fieldname] }
-          : {};
+        const filteredSchema =
+          fieldname && contribSchema[fieldname]
+            ? { [fieldname]: contribSchema[fieldname] }
+            : {};
 
         const { validatedData, valid } = validate(service, filteredSchema, {
           fullSchema: contribSchema,

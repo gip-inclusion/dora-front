@@ -193,6 +193,22 @@
 
   function useModelValue(propName) {
     return () => {
+      // ajoute les champs spécifiques du modèle dans les options du service
+      if (Array.isArray(model[propName])) {
+        const serviceOptionsValues = servicesOptions[propName].map(
+          (p) => p.value
+        );
+
+        model[propName].forEach((value) => {
+          if (!serviceOptionsValues.includes(value)) {
+            servicesOptions[propName] = [
+              ...servicesOptions[propName],
+              { value, label: value },
+            ];
+          }
+        });
+      }
+
       service[propName] = model[propName];
     };
   }

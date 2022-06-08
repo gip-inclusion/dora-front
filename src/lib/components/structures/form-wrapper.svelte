@@ -40,9 +40,11 @@
     // supposed to happen. This setTimeout is a unsatisfying workaround to that.
     await new Promise((resolve) => {
       setTimeout(() => {
-        const filteredSchema = structureSchema[fieldname]
-          ? { [fieldname]: structureSchema[fieldname] }
-          : {};
+        const filteredSchema =
+          fieldname && structureSchema[fieldname]
+            ? { [fieldname]: structureSchema[fieldname] }
+            : {};
+
         const { validatedData, valid } = validate(structure, filteredSchema, {
           fullSchema: structureSchema,
           noScroll: true,

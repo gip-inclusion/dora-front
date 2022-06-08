@@ -29,9 +29,8 @@
     // We want to listen to both DOM and component events
     const fieldname = evt.target?.name || evt.detail;
 
-    const filteredSchema = schema[fieldname]
-      ? { [fieldname]: schema[fieldname] }
-      : {};
+    const filteredSchema =
+      fieldname && schema[fieldname] ? { [fieldname]: schema[fieldname] } : {};
 
     const { validatedData, valid } = validate(data, filteredSchema, {
       fullSchema: schema,
