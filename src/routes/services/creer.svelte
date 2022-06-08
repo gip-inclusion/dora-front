@@ -69,6 +69,12 @@
   function onError() {
     errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
   }
+
+  const modelSlug = $page.url.searchParams.get("model");
+
+  if (modelSlug) {
+    service.model = modelSlug;
+  }
 </script>
 
 <svelte:head>

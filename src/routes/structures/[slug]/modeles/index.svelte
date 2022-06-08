@@ -1,6 +1,35 @@
+<script context="module">
+  import { browser } from "$app/env";
+  import { get } from "svelte/store";
+  import { userInfo } from "$lib/auth";
+  import { structure } from "../_store";
+
+  export async function load() {
+    // sur le serveur, info est toujours null,
+    // on retourne une 404 uniquement sur le client
+    if (!browser) {
+      return {};
+    }
+
+    const info = get(userInfo);
+    const struct = get(structure);
+
+    // const canSeeMembers = struct.isMember || info?.isBizdev || info?.isStaff;
+    const isMember = struct.isAdmin || info?.isBizdev || info?.isStaff;
+
+    if (!info || !struct || !isMember) {
+      return {
+        status: 404,
+        error: "Page Not Found",
+      };
+    }
+
+    return {};
+  }
+</script>
+
 <script>
   import { capitalize } from "$lib/utils.js";
-  import { structure } from "../_store.js";
 
   import List from "./_list.svelte";
 </script>

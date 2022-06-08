@@ -34,11 +34,7 @@
       });
     }
 
-    if (
-      !!structure.models?.length ||
-      structure.isMember ||
-      $userInfo?.isStaff
-    ) {
+    if (structure.isMember || $userInfo?.isStaff) {
       tabs.splice(1, 0, {
         id: "modeles",
         name: "Modèles de service",

@@ -51,7 +51,7 @@
   />
 {/if}
 
-{#if !!$structure.models?.length || $structure.isMember || $userInfo?.isStaff}
+{#if $structure.isMember || $userInfo?.isStaff}
   <hr class="mb-s24" />
   <ModelesList
     structure={$structure}
