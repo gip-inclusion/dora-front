@@ -65,25 +65,28 @@ export async function getMyServices() {
 export async function getService(slug) {
   const url = `${getApiURL()}/services/${slug}/`;
   const data = (await fetchData(url)).data;
-  if (data) return serviceToFront(data);
+  if (!data) return null;
   // TODO: 404
-  return null;
+
+  return serviceToFront(data);
 }
 
 export async function getModel(slug) {
   const url = `${getApiURL()}/models/${slug}/`;
   const data = (await fetchData(url)).data;
-  if (data) return serviceToFront(data);
+  if (!data) return null;
   // TODO: 404
-  return null;
+
+  return serviceToFront(data);
 }
 
 export async function getServiceDiff(slug) {
-  const url = `${getApiURL()}/services/${slug}/`;
+  const url = `${getApiURL()}/services/${slug}/diff`;
   const data = (await fetchData(url)).data;
-  if (data) return serviceToFront(data);
+  if (!data) return null;
   // TODO: 404
-  return null;
+
+  return serviceToFront(data);
 }
 
 export async function createOrModifyService(service) {

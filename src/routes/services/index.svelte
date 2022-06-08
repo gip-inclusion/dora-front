@@ -31,7 +31,7 @@
   <CenteredGrid bgColor="bg-gray-bg">
     <h1>Services</h1>
 
-    <hr class="border-t border-gray-03" />
+    <hr />
 
     <ServicesList
       {services}

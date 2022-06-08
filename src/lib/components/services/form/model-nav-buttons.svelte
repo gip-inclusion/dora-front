@@ -22,7 +22,6 @@
       // Validation OK, let's send it to the API endpoint
       try {
         const result = await createOrModifyModel(validatedData);
-
         goto(`/modeles/${result.data.slug}`);
       } catch (error) {
         logException(error);

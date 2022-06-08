@@ -24,7 +24,7 @@
 <Informations structure={$structure} />
 
 {#if !!$structure.services?.length || $structure.isMember || $userInfo?.isStaff}
-  <hr class="mb-s24 border-t border-t-gray-03" />
+  <hr class="mb-s24" />
   <ServicesList
     structure={$structure}
     services={$structure.services}
@@ -36,7 +36,7 @@
 {/if}
 
 {#if !$structure.parent && ($structure.branches?.length || $structure.isAdmin || $userInfo?.isStaff)}
-  <hr class="mb-s24 border-t border-t-gray-03" />
+  <hr class="mb-s24" />
   <BranchesList
     structure={$structure}
     branches={$structure.branches || []}
@@ -47,7 +47,7 @@
 {/if}
 
 {#if !!$structure.models?.length || $structure.isMember || $userInfo?.isStaff}
-  <hr class="mb-s24 border-t border-t-gray-03" />
+  <hr class="mb-s24" />
   <ModelesList
     structure={$structure}
     models={$structure.models}

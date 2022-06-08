@@ -1,6 +1,6 @@
 <script>
   import FieldSet from "$lib/components/forms/fieldset.svelte";
-  import ModelField from "$lib/components/forms/model-field.svelte";
+  import SchemaField from "$lib/components/forms/schema-field.svelte";
   import { formErrors } from "$lib/validation.js";
   import ss from "$lib/schemas/service.js";
   import StructureSearch from "$lib/components/structures/search.svelte";
@@ -108,7 +108,7 @@
       </p>
     </div>
 
-    <ModelField
+    <SchemaField
       label="Nom"
       type="text"
       placeholder="Ex. Aide aux frais liés à…"
@@ -118,7 +118,7 @@
       bind:value={service.name}
     />
 
-    <ModelField
+    <SchemaField
       description="280 caractères maximum"
       placeholder="Décrivez brièvement ce service"
       type="textarea"
@@ -129,7 +129,7 @@
       bind:value={service.shortDesc}
     />
 
-    <ModelField
+    <SchemaField
       label="Description"
       placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant ce service et ses spécificités."
       type="richtext"
@@ -140,7 +140,7 @@
       bind:value={service.fullDesc}
     />
 
-    <ModelField
+    <SchemaField
       type="toggle"
       label="Service cumulable"
       schema={serviceSchema.isCumulative}
@@ -154,10 +154,10 @@
     <div slot="help">
       <p class="text-f14">
         Classez le service par thématiques et besoins pour faciliter son
-        référencement et sa mise en avant.
+        référencement.
       </p>
     </div>
-    <ModelField
+    <SchemaField
       type="multiselect"
       label="Thématiques"
       schema={serviceSchema.categories}
@@ -170,7 +170,7 @@
       sortSelect
     />
 
-    <ModelField
+    <SchemaField
       type="multiselect"
       label="Besoin(s) auxquels ce service répond"
       schema={serviceSchema.subcategories}
@@ -183,7 +183,7 @@
       sortSelect
     />
 
-    <ModelField
+    <SchemaField
       type="checkboxes"
       label="Type de service"
       schema={serviceSchema.kinds}
@@ -213,7 +213,7 @@
       </p>
     </div>
 
-    <ModelField
+    <SchemaField
       label="Prénom et nom"
       placeholder="Prénom et nom"
       type="text"
@@ -222,7 +222,7 @@
       errorMessages={$formErrors.contactName}
       bind:value={service.contactName}
     />
-    <ModelField
+    <SchemaField
       type="tel"
       label="Numéro de téléphone"
       placeholder="05 ou 06 00 00 00 00"
@@ -231,7 +231,7 @@
       errorMessages={$formErrors.contactPhone}
       bind:value={service.contactPhone}
     />
-    <ModelField
+    <SchemaField
       type="email"
       label="Courriel"
       placeholder="Courriel de la personne à contacter"
@@ -256,7 +256,7 @@
       <p class="text-f14">Publics auxquels le service s’adresse.</p>
     </div>
 
-    <ModelField
+    <SchemaField
       type="multiselect"
       label="Profils"
       description="Plusieurs choix possibles."
@@ -270,7 +270,7 @@
       sortSelect
     />
 
-    <ModelField
+    <SchemaField
       type="multiselect"
       label="Critères"
       description="Plusieurs choix possibles."
@@ -284,7 +284,7 @@
       sortSelect
     />
 
-    <ModelField
+    <SchemaField
       type="multiselect"
       description="Plusieurs choix possibles."
       schema={serviceSchema.requirements}
@@ -298,7 +298,7 @@
       sortSelect
     />
 
-    <ModelField
+    <SchemaField
       type="toggle"
       label="Frais à charge du bénéficiaire"
       schema={serviceSchema.hasFee}
@@ -307,7 +307,7 @@
       bind:value={service.hasFee}
     />
 
-    <ModelField
+    <SchemaField
       type="textarea"
       hideLabel
       placeholder="Adhésion, frais de location, frais de garde, etc., et les montants."
@@ -320,7 +320,7 @@
   </FieldSet>
 
   <FieldSet title="Lieu de déroulement">
-    <ModelField
+    <SchemaField
       type="checkboxes"
       label="Lieu de déroulement"
       schema={serviceSchema.locationKinds}
@@ -333,7 +333,7 @@
         "a-distance"
       )}
     />
-    <ModelField
+    <SchemaField
       placeholder="https://"
       type="url"
       label="Lien visioconférence"
@@ -384,7 +384,7 @@
           handleChange={handleAddressChange}
         />
       </Field>
-      <ModelField
+      <SchemaField
         type="text"
         label="Complément d’adresse"
         placeholder="Compléments d’adresse"
@@ -394,7 +394,7 @@
         bind:value={service.address2}
         visible={service.locationKinds.includes("en-presentiel")}
       />
-      <ModelField
+      <SchemaField
         type="text"
         label="Code postal"
         placeholder="Code postal"
@@ -404,7 +404,7 @@
         bind:value={service.postalCode}
         visible={service.locationKinds.includes("en-presentiel")}
       />
-      <ModelField
+      <SchemaField
         type="hidden"
         schema={serviceSchema.cityCode}
         name="cityCode"
@@ -412,7 +412,7 @@
         bind:value={service.cityCode}
         visible={service.locationKinds.includes("en-presentiel")}
       />
-      <ModelField
+      <SchemaField
         type="hidden"
         schema={serviceSchema.longitude}
         name="longitude"
@@ -420,7 +420,7 @@
         bind:value={service.longitude}
         visible={service.locationKinds.includes("en-presentiel")}
       />
-      <ModelField
+      <SchemaField
         type="hidden"
         schema={serviceSchema.latitude}
         name="latitude"

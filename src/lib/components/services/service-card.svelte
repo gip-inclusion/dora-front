@@ -6,8 +6,6 @@
   export let service;
   export let readOnly = true;
   export let onRefresh;
-
-  console.log(service);
 </script>
 
 <div class="flex flex-col justify-between rounded-md bg-white shadow-md">
@@ -42,8 +40,9 @@
     {/if}
   </div>
   {#if !readOnly}
-    <hr class="self-stretch border-t-gray-03" />
-    <div class="flex items-center justify-between  p-s20">
+    <div
+      class="flex items-center justify-between border-t  border-t-gray-03 p-s20"
+    >
       <StateButtonMenu {service} {onRefresh} />
 
       {#if !service.isSuggestion}

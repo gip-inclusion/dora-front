@@ -13,7 +13,7 @@
     contextValidationKey,
   } from "$lib/validation.js";
 
-  import ModelField from "$lib/components/forms/model-field.svelte";
+  import SchemaField from "$lib/components/forms/schema-field.svelte";
   import FieldSet from "$lib/components/forms/fieldset.svelte";
 
   import Alert from "$lib/components/forms/alert.svelte";
@@ -134,7 +134,7 @@
         {/each}
       </div>
 
-      <ModelField
+      <SchemaField
         type="text"
         label="Siret"
         schema={structureSchema.siret}
@@ -144,7 +144,7 @@
         bind:value={structure.siret}
       />
 
-      <ModelField
+      <SchemaField
         type="text"
         label="Nom"
         schema={structureSchema.name}
@@ -153,7 +153,7 @@
         bind:value={structure.name}
       />
 
-      <ModelField
+      <SchemaField
         type="select"
         label="Typologie"
         placeholder="Sélectionner"
@@ -165,7 +165,7 @@
         choices={structuresOptions.typologies}
       />
 
-      <ModelField
+      <SchemaField
         name="city"
         type="custom"
         label="Ville"
@@ -180,9 +180,9 @@
           onChange={handleCityChange}
           vertical
         />
-      </ModelField>
+      </SchemaField>
 
-      <ModelField
+      <SchemaField
         type="custom"
         name="address1"
         label="Adresse"
@@ -198,9 +198,9 @@
           initialValue={structure.address1}
           handleChange={handleAddressChange}
         />
-      </ModelField>
+      </SchemaField>
 
-      <ModelField
+      <SchemaField
         type="text"
         label="Complément d’adresse"
         schema={structureSchema.address2}
@@ -209,7 +209,7 @@
         bind:value={structure.address2}
       />
 
-      <ModelField
+      <SchemaField
         type="text"
         label="Code postal"
         schema={structureSchema.postalCode}
@@ -218,21 +218,21 @@
         bind:value={structure.postalCode}
       />
 
-      <ModelField
+      <SchemaField
         type="hidden"
         schema={structureSchema.cityCode}
         name="cityCode"
         errorMessages={$formErrors.cityCode}
         bind:value={structure.cityCode}
       />
-      <ModelField
+      <SchemaField
         type="hidden"
         schema={structureSchema.longitude}
         name="longitude"
         errorMessages={$formErrors.longitude}
         bind:value={structure.longitude}
       />
-      <ModelField
+      <SchemaField
         type="hidden"
         schema={structureSchema.latitude}
         name="latitude"
@@ -240,7 +240,7 @@
         bind:value={structure.latitude}
       />
 
-      <ModelField
+      <SchemaField
         type="tel"
         label="Téléphone"
         schema={structureSchema.phone}
@@ -249,7 +249,7 @@
         bind:value={structure.phone}
       />
 
-      <ModelField
+      <SchemaField
         type="email"
         label="Courriel"
         schema={structureSchema.email}
@@ -258,7 +258,7 @@
         bind:value={structure.email}
       />
 
-      <ModelField
+      <SchemaField
         type="url"
         label="Site web"
         placeholder="https://mastructure.fr"
@@ -267,7 +267,7 @@
         errorMessages={$formErrors.url}
         bind:value={structure.url}
       />
-      <ModelField
+      <SchemaField
         type="textarea"
         label="Résumé"
         description="280 caractères maximum"
@@ -277,7 +277,7 @@
         errorMessages={$formErrors.shortDesc}
         bind:value={structure.shortDesc}
       />
-      <ModelField
+      <SchemaField
         type="richtext"
         label="Présentation"
         description="Présentation résumée des missions de votre structure"
@@ -289,14 +289,14 @@
         vertical
       />
 
-      <ModelField
+      <SchemaField
         type="hidden"
         schema={structureSchema.ape}
         name="ape"
         bind:value={structure.ape}
       />
 
-      <hr class="border-b border-gray-01" />
+      <hr />
 
       <div class="flex justify-end">
         <Button

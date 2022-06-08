@@ -60,8 +60,8 @@
 <CenteredGrid bgColor="bg-gray-bg">
   <ServiceHeader {service} />
 </CenteredGrid>
-
-<CenteredGrid borderTop noPadding>
+<hr />
+<CenteredGrid noPadding>
   <div class="noprint py-s24">
     {#if browser}
       <ServiceToolbar {service} onRefresh={handleRefresh} />
