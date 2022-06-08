@@ -37,6 +37,12 @@
       {secondary}
     />
   {:else}
-    <Button label="Créer un modèle" small {secondary} on:click={createModel} />
+    <Button
+      label="Créer un modèle"
+      small
+      {secondary}
+      on:click={createModel}
+      noBackground={!secondary}
+    />
   {/if}
 </div>

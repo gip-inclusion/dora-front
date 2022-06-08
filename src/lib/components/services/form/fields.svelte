@@ -177,6 +177,10 @@
     onChange: handleEltChange,
   });
 
+  async function unsync() {
+    service.model = null;
+  }
+
   let model = null;
 
   // - modelIsVisible: dćlenche l'affichage du modèle (async)
@@ -243,7 +247,7 @@
       class="flex flex-wrap items-start justify-between gap-s12 lg:flex-nowrap"
     >
       <div class="flex flex-wrap items-center gap-s8 lg:w-2/3">
-        <Button label="Détacher du modèle" secondary small />
+        <Button label="Détacher du modèle" secondary small on:click={unsync} />
       </div>
       <div class="lg:w-1/3">
         <h5 class="my-s8">Afficher les différences</h5>

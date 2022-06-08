@@ -49,6 +49,12 @@
       };
     }
 
+    s.services.map((service) => {
+      service.structure = s.slug;
+
+      return s;
+    });
+
     structure.set(s);
 
     return {};

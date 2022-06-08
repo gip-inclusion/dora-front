@@ -89,6 +89,13 @@ export async function getServiceDiff(slug) {
   return serviceToFront(data);
 }
 
+export async function unsyncService(slug) {
+  const url = `${getApiURL()}/services/${slug}/unsync`;
+  const data = (await fetchData(url)).data;
+
+  return data;
+}
+
 export async function createOrModifyService(service) {
   let method, url;
   if (service.slug) {
