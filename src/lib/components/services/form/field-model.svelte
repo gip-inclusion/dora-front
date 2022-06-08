@@ -2,11 +2,11 @@
   import Button from "$lib/components/button.svelte";
   import Tag from "$lib/components/tag.svelte";
 
-  export let showModel = false;
   export let value;
-  export let type = "text";
-
   export let useValue;
+  export let showModel = false;
+  export let type = "text";
+  export let options = undefined;
 
   export let paddingTop;
   let hasValue;

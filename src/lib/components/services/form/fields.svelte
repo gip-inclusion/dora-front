@@ -8,7 +8,7 @@
     validate,
     contextValidationKey,
   } from "$lib/validation.js";
-  import ss from "$lib/schemas/service.js";
+  import schema, { fields, fieldsRequired } from "$lib/schemas/service.js";
   import { moveToTheEnd } from "$lib/utils";
 
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
@@ -137,7 +137,11 @@
     showServiceAddress = true;
   }
 
-  const serviceSchema = formatSchema(ss, isModel ? "model" : "service");
+  const serviceSchema = formatSchema(
+    schema,
+    fields[isModel ? "model" : "service"],
+    fieldsRequired[isModel ? "model" : "service"]
+  );
 
   async function handleEltChange(evt) {
     // We want to listen to both DOM and component events
@@ -313,7 +317,8 @@
 
       <FieldModel
         {showModel}
-        value={model?.categories && model.categories.map((c) => c.label)}
+        value={model?.categories}
+        options={servicesOptions.categories}
         useValue={useModelValue("categories")}
         type="list"
       >
@@ -333,7 +338,8 @@
 
       <FieldModel
         {showModel}
-        value={model?.subcategories && model.subcategories.map((c) => c.label)}
+        value={model?.subcategories}
+        options={servicesOptions.subcategories}
         useValue={useModelValue("subcategories")}
         type="list"
       >
@@ -353,7 +359,8 @@
 
       <FieldModel
         {showModel}
-        value={model?.kinds && model.kinds.map((c) => c.label)}
+        value={model?.kinds}
+        options={servicesOptions.kinds}
         useValue={useModelValue("kinds")}
         type="list"
       >
@@ -398,8 +405,8 @@
 
       <FieldModel
         {showModel}
-        value={model?.concernedPublic &&
-          model.concernedPublic.map((c) => c.label)}
+        value={model?.concernedPublic}
+        options={servicesOptions.concernedPublic}
         useValue={useModelValue("concernedPublic")}
         type="list"
       >
@@ -420,8 +427,8 @@
 
       <FieldModel
         {showModel}
-        value={model?.accessConditions &&
-          model.accessConditions.map((c) => c.label)}
+        value={model?.accessConditions}
+        options={servicesOptions.accessConditions}
         useValue={useModelValue("accessConditions")}
         type="list"
       >
@@ -442,7 +449,8 @@
 
       <FieldModel
         {showModel}
-        value={model?.requirements && model.requirements.map((c) => c.label)}
+        value={model?.requirements}
+        options={servicesOptions.requirements}
         useValue={useModelValue("requirements")}
         type="list"
       >
@@ -469,8 +477,8 @@
 
       <FieldModel
         {showModel}
-        value={model?.coachOrientationModes &&
-          model.coachOrientationModes.map((c) => c.label)}
+        value={model?.coachOrientationModes}
+        options={servicesOptions.coachOrientationModes}
         useValue={useModelValue("coachOrientationModes")}
         type="list"
       >
@@ -508,8 +516,8 @@
 
       <FieldModel
         {showModel}
-        value={model?.beneficiariesAccessModes &&
-          model.beneficiariesAccessModes.map((c) => c.label)}
+        value={model?.beneficiariesAccessModes}
+        options={servicesOptions.beneficiariesAccessModes}
         useValue={useModelValue("beneficiariesAccessModes")}
         type="list"
       >

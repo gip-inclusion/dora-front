@@ -189,21 +189,22 @@ export function nullEmpty(value) {
   return value === "" ? null : value;
 }
 
-export function formatSchema(schema, name) {
+export function formatSchema(schema, fields, fieldsRequired) {
   const schemaFormatted = {};
   Object.entries(schema).forEach(([key, value]) => {
-    schemaFormatted[key] = {
-      name: value.name,
-      default: value.default,
-      rules: value.rules,
-      post: value.post,
-      dependents: value.dependents,
-      nullable: value.nullable,
-      required:
-        (typeof schema[key].required === "boolean" && schema[key].required) ||
-        (Array.isArray(schema[key].required) &&
-          !!schema[key].required.includes(name)),
-    };
+    if (fields.includes(key)) {
+      schemaFormatted[key] = {
+        name: value.name,
+        default: value.default,
+        rules: value.rules,
+        post: value.post,
+        dependents: value.dependents,
+        nullable: value.nullable,
+        required:
+          (typeof schema[key].required === "boolean" && schema[key].required) ||
+          fieldsRequired.includes(key),
+      };
+    }
   });
 
   return schemaFormatted;

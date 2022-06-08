@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
 
   import { validate } from "$lib/validation.js";
-  import serviceSchema from "$lib/schemas/service.js";
+  import schema, { fields, fieldsRequired } from "$lib/schemas/service.js";
   import { createOrModifyModel } from "$lib/services";
   import { logException } from "$lib/logger";
 
@@ -12,7 +12,7 @@
 
   export let model;
 
-  const modelSchema = formatSchema(serviceSchema, "model");
+  const modelSchema = formatSchema(schema, fields.model, fieldsRequired.model);
 
   async function save() {
     // Validate the whole form

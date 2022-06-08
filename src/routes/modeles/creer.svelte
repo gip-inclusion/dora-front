@@ -2,13 +2,13 @@
   import { get } from "svelte/store";
   import { userInfo } from "$lib/auth";
 
-  import { getNewService } from "$lib/components/services/form/utils.js";
+  import { getNewModel } from "$lib/components/services/form/utils.js";
   import { getService, getServicesOptions } from "$lib/services";
   import { getStructures } from "$lib/structures";
 
   export async function load({ url }) {
     const serviceSlug = url.searchParams.get("service");
-    const model = serviceSlug ? await getService(serviceSlug) : getNewService();
+    const model = serviceSlug ? await getService(serviceSlug) : getNewModel();
     const user = get(userInfo);
     let structures = [];
 

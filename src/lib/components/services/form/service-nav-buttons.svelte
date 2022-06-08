@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
 
   import { validate, injectAPIErrors } from "$lib/validation.js";
-  import ss from "$lib/schemas/service.js";
+  import schema, { fields, fieldsRequired } from "$lib/schemas/service.js";
   import { createOrModifyService, publishDraft } from "$lib/services";
   import { assert, logException } from "$lib/logger";
 
@@ -11,8 +11,17 @@
   import { formatSchema } from "$lib/schemas/utils";
 
   export let onError, service;
-  const serviceSchema = formatSchema(ss, "service");
-  const draftServiceSchema = formatSchema(ss, "draft");
+  const serviceSchema = formatSchema(
+    schema,
+    fields.service,
+    fieldsRequired.service
+  );
+
+  const draftSchema = formatSchema(
+    schema,
+    fields.service,
+    fieldsRequired.draft
+  );
 
   async function publish() {
     service.isDraft = false;
@@ -42,7 +51,7 @@
       service.category = "";
     }
 
-    const { validatedData, valid } = validate(service, draftServiceSchema);
+    const { validatedData, valid } = validate(service, draftSchema);
 
     if (!valid) {
       return;

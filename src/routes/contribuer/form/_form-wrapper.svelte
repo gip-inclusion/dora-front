@@ -9,7 +9,7 @@
     contextValidationKey,
     formErrors,
   } from "$lib/validation.js";
-  import ss from "$lib/schemas/service.js";
+  import schema, { fields, fieldsRequired } from "$lib/schemas/service.js";
   import { formatSchema } from "$lib/schemas/utils";
   import { publishServiceSuggestion } from "$lib/services";
 
@@ -20,10 +20,14 @@
 
   export let servicesOptions;
 
-  const serviceSchema = formatSchema(ss, "contrib");
+  const contribSchema = formatSchema(
+    schema,
+    fields.contrib,
+    fieldsRequired.contrib
+  );
 
   let service = Object.fromEntries(
-    Object.entries(serviceSchema).map(([fieldName, props]) => [
+    Object.entries(contribSchema).map(([fieldName, props]) => [
       fieldName,
       props.default,
     ])
@@ -45,12 +49,12 @@
     // supposed to happen. This setTimeout is a unsatisfying workaround to that.
     await new Promise((resolve) => {
       setTimeout(() => {
-        const filteredSchema = serviceSchema[fieldname]
-          ? { [fieldname]: serviceSchema[fieldname] }
+        const filteredSchema = contribSchema[fieldname]
+          ? { [fieldname]: contribSchema[fieldname] }
           : {};
 
         const { validatedData, valid } = validate(service, filteredSchema, {
-          fullSchema: serviceSchema,
+          fullSchema: contribSchema,
           noScroll: true,
         });
         if (valid) {
@@ -67,8 +71,8 @@
   });
 
   let errorDiv;
-  const requiredFields = Object.keys(serviceSchema).filter(
-    (k) => serviceSchema[k].required
+  const requiredFields = Object.keys(contribSchema).filter(
+    (k) => contribSchema[k].required
   );
 
   let currentPageIsValid = false;
@@ -79,7 +83,7 @@
 
   async function handlePublish() {
     // Validate the whole form
-    const { valid } = validate(service, serviceSchema);
+    const { valid } = validate(service, contribSchema);
 
     if (valid) {
       const result = await publishServiceSuggestion(service);

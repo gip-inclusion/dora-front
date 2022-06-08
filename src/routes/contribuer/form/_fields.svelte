@@ -2,7 +2,7 @@
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import SchemaField from "$lib/components/forms/schema-field.svelte";
   import { formErrors } from "$lib/validation.js";
-  import ss from "$lib/schemas/service.js";
+  import schema, { fields, fieldsRequired } from "$lib/schemas/service.js";
   import StructureSearch from "$lib/components/structures/search.svelte";
   import Field from "$lib/components/forms/field.svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
@@ -19,7 +19,11 @@
   let subcategories = [];
   let showServiceAddress = true;
 
-  const serviceSchema = formatSchema(ss, "contrib");
+  const contribSchema = formatSchema(
+    schema,
+    fields.contrib,
+    fieldsRequired.contrib
+  );
 
   function handleCategoriesChange(categories) {
     subcategories = categories.length
@@ -112,7 +116,7 @@
       label="Nom"
       type="text"
       placeholder="Ex. Aide aux frais liés à…"
-      schema={serviceSchema.name}
+      schema={contribSchema.name}
       name="name"
       errorMessages={$formErrors.name}
       bind:value={service.name}
@@ -123,7 +127,7 @@
       placeholder="Décrivez brièvement ce service"
       type="textarea"
       label="Résumé"
-      schema={serviceSchema.shortDesc}
+      schema={contribSchema.shortDesc}
       name="shortDesc"
       errorMessages={$formErrors.shortDesc}
       bind:value={service.shortDesc}
@@ -134,7 +138,7 @@
       placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant ce service et ses spécificités."
       type="richtext"
       vertical
-      schema={serviceSchema.fullDesc}
+      schema={contribSchema.fullDesc}
       name="fullDesc"
       errorMessages={$formErrors.fullDesc}
       bind:value={service.fullDesc}
@@ -143,7 +147,7 @@
     <SchemaField
       type="toggle"
       label="Service cumulable"
-      schema={serviceSchema.isCumulative}
+      schema={contribSchema.isCumulative}
       name="isCumulative"
       errorMessages={$formErrors.isCumulative}
       bind:value={service.isCumulative}
@@ -160,7 +164,7 @@
     <SchemaField
       type="multiselect"
       label="Thématiques"
-      schema={serviceSchema.categories}
+      schema={contribSchema.categories}
       bind:value={service.categories}
       choices={servicesOptions.categories}
       name="categories"
@@ -173,7 +177,7 @@
     <SchemaField
       type="multiselect"
       label="Besoin(s) auxquels ce service répond"
-      schema={serviceSchema.subcategories}
+      schema={contribSchema.subcategories}
       name="subcategories"
       errorMessages={$formErrors.subcategories}
       bind:value={service.subcategories}
@@ -186,7 +190,7 @@
     <SchemaField
       type="checkboxes"
       label="Type de service"
-      schema={serviceSchema.kinds}
+      schema={contribSchema.kinds}
       name="kinds"
       errorMessages={$formErrors.kinds}
       bind:value={service.kinds}
@@ -217,7 +221,7 @@
       label="Prénom et nom"
       placeholder="Prénom et nom"
       type="text"
-      schema={serviceSchema.contactName}
+      schema={contribSchema.contactName}
       name="contactName"
       errorMessages={$formErrors.contactName}
       bind:value={service.contactName}
@@ -226,7 +230,7 @@
       type="tel"
       label="Numéro de téléphone"
       placeholder="05 ou 06 00 00 00 00"
-      schema={serviceSchema.contactPhone}
+      schema={contribSchema.contactPhone}
       name="contactPhone"
       errorMessages={$formErrors.contactPhone}
       bind:value={service.contactPhone}
@@ -235,7 +239,7 @@
       type="email"
       label="Courriel"
       placeholder="Courriel de la personne à contacter"
-      schema={serviceSchema.contactEmail}
+      schema={contribSchema.contactEmail}
       name="contactEmail"
       errorMessages={$formErrors.contactEmail}
       bind:value={service.contactEmail}
@@ -260,7 +264,7 @@
       type="multiselect"
       label="Profils"
       description="Plusieurs choix possibles."
-      schema={serviceSchema.concernedPublic}
+      schema={contribSchema.concernedPublic}
       name="concernedPublic"
       errorMessages={$formErrors.concernedPublic}
       bind:value={service.concernedPublic}
@@ -274,7 +278,7 @@
       type="multiselect"
       label="Critères"
       description="Plusieurs choix possibles."
-      schema={serviceSchema.accessConditions}
+      schema={contribSchema.accessConditions}
       name="accessConditions"
       errorMessages={$formErrors.accessConditions}
       bind:value={service.accessConditions}
@@ -287,7 +291,7 @@
     <SchemaField
       type="multiselect"
       description="Plusieurs choix possibles."
-      schema={serviceSchema.requirements}
+      schema={contribSchema.requirements}
       name="requirements"
       errorMessages={$formErrors.requirements}
       bind:value={service.requirements}
@@ -301,7 +305,7 @@
     <SchemaField
       type="toggle"
       label="Frais à charge du bénéficiaire"
-      schema={serviceSchema.hasFee}
+      schema={contribSchema.hasFee}
       name="hasFee"
       errorMessages={$formErrors.hasFee}
       bind:value={service.hasFee}
@@ -312,7 +316,7 @@
       hideLabel
       placeholder="Adhésion, frais de location, frais de garde, etc., et les montants."
       visible={!!service.hasFee}
-      schema={serviceSchema.feeDetails}
+      schema={contribSchema.feeDetails}
       name="feeDetails"
       errorMessages={$formErrors.feeDetails}
       bind:value={service.feeDetails}
@@ -323,7 +327,7 @@
     <SchemaField
       type="checkboxes"
       label="Lieu de déroulement"
-      schema={serviceSchema.locationKinds}
+      schema={contribSchema.locationKinds}
       name="locationKinds"
       errorMessages={$formErrors.locationKinds}
       bind:value={service.locationKinds}
@@ -338,7 +342,7 @@
       type="url"
       label="Lien visioconférence"
       visible={service.locationKinds.includes("a-distance")}
-      schema={serviceSchema.remoteUrl}
+      schema={contribSchema.remoteUrl}
       name="remoteUrl"
       errorMessages={$formErrors.remoteUrl}
       bind:value={service.remoteUrl}
@@ -388,7 +392,7 @@
         type="text"
         label="Complément d’adresse"
         placeholder="Compléments d’adresse"
-        schema={serviceSchema.address2}
+        schema={contribSchema.address2}
         name="address2"
         errorMessages={$formErrors.address2}
         bind:value={service.address2}
@@ -398,7 +402,7 @@
         type="text"
         label="Code postal"
         placeholder="Code postal"
-        schema={serviceSchema.postalCode}
+        schema={contribSchema.postalCode}
         name="postalCode"
         errorMessages={$formErrors.postalCode}
         bind:value={service.postalCode}
@@ -406,7 +410,7 @@
       />
       <SchemaField
         type="hidden"
-        schema={serviceSchema.cityCode}
+        schema={contribSchema.cityCode}
         name="cityCode"
         errorMessages={$formErrors.cityCode}
         bind:value={service.cityCode}
@@ -414,7 +418,7 @@
       />
       <SchemaField
         type="hidden"
-        schema={serviceSchema.longitude}
+        schema={contribSchema.longitude}
         name="longitude"
         errorMessages={$formErrors.longitude}
         bind:value={service.longitude}
@@ -422,7 +426,7 @@
       />
       <SchemaField
         type="hidden"
-        schema={serviceSchema.latitude}
+        schema={contribSchema.latitude}
         name="latitude"
         errorMessages={$formErrors.latitude}
         bind:value={service.latitude}
