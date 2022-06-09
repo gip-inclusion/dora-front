@@ -6,7 +6,7 @@
   import { formErrors } from "$lib/validation.js";
   import { createServiceFromModel } from "$lib/services";
 
-  // import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   export let structures = [];
   export let modelSlug;
@@ -19,9 +19,10 @@
     if (structureSlug) {
       const service = await createServiceFromModel(modelSlug, structureSlug);
 
-      console.log(service);
-
-      // goto(`/services/${service.slug}/editer/`);
+      if (service.slug) {
+        document.body.style.overflow = "visible";
+        goto(`/services/${service.slug}/editer/`);
+      }
     }
   }
 </script>

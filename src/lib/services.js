@@ -64,29 +64,32 @@ export async function getMyServices() {
 
 export async function getService(slug) {
   const url = `${getApiURL()}/services/${slug}/`;
-  const data = (await fetchData(url)).data;
-  if (!data) return null;
+  const response = await fetchData(url);
+
+  if (!response.data) return null;
   // TODO: 404
 
-  return serviceToFront(data);
+  return serviceToFront(response.data);
 }
 
 export async function getModel(slug) {
   const url = `${getApiURL()}/models/${slug}/`;
-  const data = (await fetchData(url)).data;
-  if (!data) return null;
+  const response = await fetchData(url);
+
+  if (!response.data) return null;
   // TODO: 404
 
-  return serviceToFront(data);
+  return serviceToFront(response.data);
 }
 
 export async function getServiceDiff(slug) {
   const url = `${getApiURL()}/services/${slug}/diff`;
-  const data = (await fetchData(url)).data;
-  if (!data) return null;
+  const response = await fetchData(url);
+
+  if (!response.data) return null;
   // TODO: 404
 
-  return serviceToFront(data);
+  return serviceToFront(response.data);
 }
 
 export async function createServiceFromModel(modelSlug, structureSlug) {
@@ -108,17 +111,16 @@ export async function createServiceFromModel(modelSlug, structureSlug) {
     status: response.status,
   };
 
-  if (response.ok) {
-    result.data = serviceToFront(await response.json());
-  } else {
+  if (!response.ok) {
     try {
       result.error = await response.json();
+      return result;
     } catch (err) {
       console.error(err);
     }
   }
 
-  return result;
+  return serviceToFront(await response.json());
 }
 
 export async function createOrModifyService(service) {

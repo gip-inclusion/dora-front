@@ -50,11 +50,13 @@
       {secondary}
     />
   {/if}
-  <Button
-    label="Copier le lien"
-    on:click={copyLink}
-    small
-    noBackground={!secondary}
-    {secondary}
-  />
+  {#if false}
+    <Button
+      label="Copier le lien"
+      on:click={copyLink}
+      small
+      noBackground={!secondary}
+      {secondary}
+    />
+  {/if}
 </div>
