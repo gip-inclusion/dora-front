@@ -13,11 +13,11 @@
 
   export let isOpen = false;
 
-  let structure;
+  let structureSlug;
 
   async function createService() {
-    if (structure) {
-      const service = await createServiceFromModel(modelSlug, structure.slug);
+    if (structureSlug) {
+      const service = await createServiceFromModel(modelSlug, structureSlug);
 
       console.log(service);
 
@@ -37,12 +37,16 @@
     choices={structures.map((s) => ({ value: s.slug, label: s.name }))}
     name="structure"
     errorMessages={$formErrors.structure}
-    bind:value={structure}
+    bind:value={structureSlug}
     sortSelect
     placeholder="Sélectionner"
   />
 
   <div class="mt-s32 flex flex-row justify-end gap-s16">
-    <Button label="Valider" disabled={!structure} on:click={createService} />
+    <Button
+      label="Valider"
+      disabled={!structureSlug}
+      on:click={createService}
+    />
   </div>
 </Modal>
