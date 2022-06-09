@@ -89,11 +89,36 @@ export async function getServiceDiff(slug) {
   return serviceToFront(data);
 }
 
-export async function unsyncService(slug) {
-  const url = `${getApiURL()}/services/${slug}/unsync`;
-  const data = (await fetchData(url)).data;
+export async function createServiceFromModel(modelSlug, structureSlug) {
+  const method = "POST";
+  const url = `${getApiURL()}/models/${modelSlug}/instantiate/`;
 
-  return data;
+  const response = await fetch(url, {
+    method,
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({ structure: structureSlug }),
+  });
+
+  const result = {
+    ok: response.ok,
+    status: response.status,
+  };
+
+  if (response.ok) {
+    result.data = serviceToFront(await response.json());
+  } else {
+    try {
+      result.error = await response.json();
+    } catch (err) {
+      console.error(err);
+    }
+  }
+
+  return result;
 }
 
 export async function createOrModifyService(service) {
