@@ -12,7 +12,9 @@
 
   <div class="lg:w-2/3">
     <div class="flex items-center">
-      <p class="mb-s0 text-f12 text-gray-text">
+      <p class="mb-s0 text-f14 font-bold text-gray-text">Modèle</p>
+      <p class="mx-s12 mb-s0 text-f14 text-gray-03">|</p>
+      <p class="mb-s0 text-f14 text-gray-text">
         Mis à jour le <Date date={model.modificationDate} />
       </p>
     </div>
