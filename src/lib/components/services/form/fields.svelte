@@ -505,23 +505,24 @@
           />
         </FieldModel>
 
-        <FieldModel
-          {showModel}
-          value={model?.coachOrientationModesOther}
-          serviceValue={service.coachOrientationModesOther}
-          useValue={useModelValue("coachOrientationModesOther")}
-        >
-          <SchemaField
-            visible={service.coachOrientationModes.includes("autre")}
-            hideLabel
-            placeholder="Compléter"
-            type="text"
-            schema={serviceSchema.coachOrientationModesOther}
-            name="coachOrientationModesOther"
-            errorMessages={$formErrors.coachOrientationModesOther}
-            bind:value={service.coachOrientationModesOther}
-          />
-        </FieldModel>
+        {#if service.coachOrientationModes.includes("autre")}
+          <FieldModel
+            {showModel}
+            value={model?.coachOrientationModesOther}
+            serviceValue={service.coachOrientationModesOther}
+            useValue={useModelValue("coachOrientationModesOther")}
+          >
+            <SchemaField
+              hideLabel
+              placeholder="Compléter"
+              type="text"
+              schema={serviceSchema.coachOrientationModesOther}
+              name="coachOrientationModesOther"
+              errorMessages={$formErrors.coachOrientationModesOther}
+              bind:value={service.coachOrientationModesOther}
+            />
+          </FieldModel>
+        {/if}
 
         <FieldModel
           {showModel}
@@ -546,23 +547,24 @@
           />
         </FieldModel>
 
-        <FieldModel
-          {showModel}
-          value={model?.beneficiariesAccessModesOther}
-          serviceValue={service.beneficiariesAccessModesOther}
-          useValue={useModelValue("beneficiariesAccessModesOther")}
-        >
-          <SchemaField
-            visible={service.beneficiariesAccessModes.includes("autre")}
-            hideLabel
-            placeholder="Merci de préciser la modalité"
-            type="text"
-            schema={serviceSchema.beneficiariesAccessModesOther}
-            name="beneficiariesAccessModesOther"
-            errorMessages={$formErrors.beneficiariesAccessModesOther}
-            bind:value={service.beneficiariesAccessModesOther}
-          />
-        </FieldModel>
+        {#if service.beneficiariesAccessModes.includes("autre")}
+          <FieldModel
+            {showModel}
+            value={model?.beneficiariesAccessModesOther}
+            serviceValue={service.beneficiariesAccessModesOther}
+            useValue={useModelValue("beneficiariesAccessModesOther")}
+          >
+            <SchemaField
+              hideLabel
+              placeholder="Merci de préciser la modalité"
+              type="text"
+              schema={serviceSchema.beneficiariesAccessModesOther}
+              name="beneficiariesAccessModesOther"
+              errorMessages={$formErrors.beneficiariesAccessModesOther}
+              bind:value={service.beneficiariesAccessModesOther}
+            />
+          </FieldModel>
+        {/if}
 
         <FieldModel
           {showModel}
@@ -581,23 +583,24 @@
           />
         </FieldModel>
 
-        <FieldModel
-          {showModel}
-          value={model?.feeDetails}
-          serviceValue={service.feeDetails}
-          useValue={useModelValue("feeDetails")}
-        >
-          <SchemaField
-            type="textarea"
-            hideLabel
-            placeholder="Adhésion, frais de location, frais de garde, etc., et les montants."
-            visible={!!service.hasFee}
-            schema={serviceSchema.feeDetails}
-            name="feeDetails"
-            errorMessages={$formErrors.feeDetails}
-            bind:value={service.feeDetails}
-          />
-        </FieldModel>
+        {#if !!service.hasFee}
+          <FieldModel
+            {showModel}
+            value={model?.feeDetails}
+            serviceValue={service.feeDetails}
+            useValue={useModelValue("feeDetails")}
+          >
+            <SchemaField
+              type="textarea"
+              hideLabel
+              placeholder="Adhésion, frais de location, frais de garde, etc., et les montants."
+              schema={serviceSchema.feeDetails}
+              name="feeDetails"
+              errorMessages={$formErrors.feeDetails}
+              bind:value={service.feeDetails}
+            />
+          </FieldModel>
+        {/if}
       </FieldSet>
 
       <FieldSet title="Documents" {showModel}>
@@ -743,24 +746,25 @@
           initialValue={service.diffusionZoneTypeDisplay}
         />
 
-        <SchemaField
-          type="custom"
-          name="diffusionZoneDetails"
-          label={serviceSchema.diffusionZoneDetails.name}
-          description="Commencez à saisir le nom et choisissez dans la liste."
-          errorMessages={$formErrors.diffusionZoneDetails}
-          schema={serviceSchema.diffusionZoneDetails}
-          visible={service.diffusionZoneType !== "country"}
-        >
-          <AdminDivisionSearch
-            slot="custom-input"
+        {#if service.diffusionZoneType !== "country"}
+          <SchemaField
+            type="custom"
             name="diffusionZoneDetails"
-            searchType={service.diffusionZoneType}
-            handleChange={handlediffusionZoneDetailsChange}
-            initialValue={service.diffusionZoneDetailsDisplay}
-            bind:choices={adminDivisionChoices}
-          />
-        </SchemaField>
+            label={serviceSchema.diffusionZoneDetails.name}
+            description="Commencez à saisir le nom et choisissez dans la liste."
+            errorMessages={$formErrors.diffusionZoneDetails}
+            schema={serviceSchema.diffusionZoneDetails}
+          >
+            <AdminDivisionSearch
+              slot="custom-input"
+              name="diffusionZoneDetails"
+              searchType={service.diffusionZoneType}
+              handleChange={handlediffusionZoneDetailsChange}
+              initialValue={service.diffusionZoneDetailsDisplay}
+              bind:choices={adminDivisionChoices}
+            />
+          </SchemaField>
+        {/if}
 
         <SchemaField
           label={serviceSchema.qpvOrZrr.name}
@@ -786,16 +790,18 @@
             "a-distance"
           )}
         />
-        <SchemaField
-          placeholder="https://"
-          type="url"
-          label={serviceSchema.remoteUrl.name}
-          visible={service.locationKinds.includes("a-distance")}
-          schema={serviceSchema.remoteUrl}
-          name="remoteUrl"
-          errorMessages={$formErrors.remoteUrl}
-          bind:value={service.remoteUrl}
-        />
+
+        {#if service.locationKinds.includes("a-distance")}
+          <SchemaField
+            placeholder="https://"
+            type="url"
+            label={serviceSchema.remoteUrl.name}
+            schema={serviceSchema.remoteUrl}
+            name="remoteUrl"
+            errorMessages={$formErrors.remoteUrl}
+            bind:value={service.remoteUrl}
+          />
+        {/if}
 
         {#if structure && service.locationKinds.includes("en-presentiel")}
           <Button
@@ -804,87 +810,86 @@
             small
             label="Utiliser l'adresse de la structure"
           />
-        {/if}
-        {#if showServiceAddress}
-          <SchemaField
-            name="city"
-            type="custom"
-            label={serviceSchema.city.name}
-            errorMessages={$formErrors.city}
-            schema={serviceSchema.city}
-            visible={service.locationKinds.includes("en-presentiel")}
-          >
-            <CitySearch
-              slot="custom-input"
-              name="city"
-              placeholder="Saisissez et validez votre ville"
-              initialValue={service.city}
-              onChange={handleCityChange}
-            />
-          </SchemaField>
 
-          <SchemaField
-            type="custom"
-            name="address1"
-            label={serviceSchema.address1.name}
-            errorMessages={$formErrors.address1}
-            schema={serviceSchema.address1}
-            visible={service.locationKinds.includes("en-presentiel")}
-          >
-            <AddressSearch
-              slot="custom-input"
+          {#if showServiceAddress}
+            <SchemaField
+              name="city"
+              type="custom"
+              label={serviceSchema.city.name}
+              errorMessages={$formErrors.city}
+              schema={serviceSchema.city}
+            >
+              <CitySearch
+                slot="custom-input"
+                name="city"
+                placeholder="Saisissez et validez votre ville"
+                initialValue={service.city}
+                onChange={handleCityChange}
+              />
+            </SchemaField>
+
+            <SchemaField
+              type="custom"
               name="address1"
-              disabled={!service.cityCode}
-              cityCode={service.cityCode}
-              placeholder="3 rue du parc"
-              initialValue={service.address1}
-              handleChange={handleAddressChange}
+              label={serviceSchema.address1.name}
+              errorMessages={$formErrors.address1}
+              schema={serviceSchema.address1}
+            >
+              <AddressSearch
+                slot="custom-input"
+                name="address1"
+                disabled={!service.cityCode}
+                cityCode={service.cityCode}
+                placeholder="3 rue du parc"
+                initialValue={service.address1}
+                handleChange={handleAddressChange}
+              />
+            </SchemaField>
+
+            <SchemaField
+              type="text"
+              label={serviceSchema.address2.name}
+              placeholder="batiment, escalier, etc."
+              schema={serviceSchema.address2}
+              name="address2"
+              errorMessages={$formErrors.address2}
+              bind:value={service.address2}
             />
-          </SchemaField>
-          <SchemaField
-            type="text"
-            label={serviceSchema.address2.name}
-            placeholder="batiment, escalier, etc."
-            schema={serviceSchema.address2}
-            name="address2"
-            errorMessages={$formErrors.address2}
-            bind:value={service.address2}
-            visible={service.locationKinds.includes("en-presentiel")}
-          />
-          <SchemaField
-            type="text"
-            label={serviceSchema.postalCode.name}
-            placeholder="00000"
-            schema={serviceSchema.postalCode}
-            name="postalCode"
-            errorMessages={$formErrors.postalCode}
-            bind:value={service.postalCode}
-            visible={service.locationKinds.includes("en-presentiel")}
-          />
-          <SchemaField
-            type="hidden"
-            schema={serviceSchema.cityCode}
-            name="cityCode"
-            errorMessages={$formErrors.cityCode}
-            bind:value={service.cityCode}
-            visible={service.locationKinds.includes("en-presentiel")}
-          />
-          <SchemaField
-            type="hidden"
-            schema={serviceSchema.longitude}
-            name="longitude"
-            errorMessages={$formErrors.longitude}
-            bind:value={service.longitude}
-            visible={service.locationKinds.includes("en-presentiel")}
-          />
-          <SchemaField
-            type="hidden"
-            schema={serviceSchema.latitude}
-            name="latitude"
-            errorMessages={$formErrors.latitude}
-            bind:value={service.latitude}
-            visible={service.locationKinds.includes("en-presentiel")}
-          />
+
+            <SchemaField
+              type="text"
+              label={serviceSchema.postalCode.name}
+              placeholder="00000"
+              schema={serviceSchema.postalCode}
+              name="postalCode"
+              errorMessages={$formErrors.postalCode}
+              bind:value={service.postalCode}
+            />
+
+            <SchemaField
+              type="hidden"
+              schema={serviceSchema.cityCode}
+              name="cityCode"
+              errorMessages={$formErrors.cityCode}
+              bind:value={service.cityCode}
+            />
+
+            <SchemaField
+              type="hidden"
+              schema={serviceSchema.longitude}
+              name="longitude"
+              errorMessages={$formErrors.longitude}
+              bind:value={service.longitude}
+            />
+
+            <SchemaField
+              type="hidden"
+              schema={serviceSchema.latitude}
+              name="latitude"
+              errorMessages={$formErrors.latitude}
+              bind:value={service.latitude}
+            />
+          {/if}
         {/if}
       </FieldSet>
 
