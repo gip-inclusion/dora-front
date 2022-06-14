@@ -61,6 +61,7 @@
     if (slug) {
       structure = await getStructure(slug);
       servicesOptions = await getServicesOptions();
+      service.structure = slug;
     }
   }
 
@@ -155,7 +156,9 @@
     await new Promise((resolve) => {
       setTimeout(() => {
         const filteredSchema = {
-          [fieldname]: serviceSchema[fieldname],
+          // si le champs n'existe pas dans le schéma (pe: isTimeLimited),
+          // on l'initialise avec une valeur par défaut
+          [fieldname]: serviceSchema[fieldname] || { rules: [] },
         };
 
         const { validatedData, valid } = validate(service, filteredSchema, {
@@ -184,10 +187,10 @@
     showModel = false;
   }
 
-  function useModelValue(propName) {
+  function useModelValue(propName, type) {
     return () => {
       // ajoute les champs spécifiques du modèle dans les options du service
-      if (Array.isArray(model[propName])) {
+      if (type === "array") {
         const serviceOptionsValues = servicesOptions[propName].map(
           (p) => p.value
         );
@@ -325,7 +328,7 @@
         value={model?.categories}
         serviceValue={service.categories}
         options={servicesOptions.categories}
-        useValue={useModelValue("categories")}
+        useValue={useModelValue("categories", "array")}
         type="array"
       >
         <SchemaField
@@ -346,7 +349,7 @@
         value={model?.subcategories}
         serviceValue={service.subcategories}
         options={servicesOptions.subcategories}
-        useValue={useModelValue("subcategories")}
+        useValue={useModelValue("subcategories", "array")}
         type="array"
       >
         <SchemaField
@@ -368,7 +371,7 @@
         value={model?.kinds}
         serviceValue={service.kinds}
         options={servicesOptions.kinds}
-        useValue={useModelValue("kinds")}
+        useValue={useModelValue("kinds", "array")}
         type="array"
       >
         <SchemaField
@@ -401,254 +404,264 @@
       </FieldModel>
     </FieldSet>
 
-    <FieldSet title="Publics" {showModel}>
-      <div slot="help">
-        <p class="text-f14">
-          Publics auxquels le service s’adresse. Vous pouvez ajouter vos propres
-          valeurs avec le bouton « Ajouter une autre option ». Si votre service
-          est ouvert à tous, sans critères ou prérequis, laissez les champs avec
-          les options par défaut.
-        </p>
-      </div>
+    {#if service.structure}
+      <FieldSet title="Publics" {showModel}>
+        <div slot="help">
+          <p class="text-f14">
+            Publics auxquels le service s’adresse. Vous pouvez ajouter vos
+            propres valeurs avec le bouton « Ajouter une autre option ». Si
+            votre service est ouvert à tous, sans critères ou prérequis, laissez
+            les champs avec les options par défaut.
+          </p>
+        </div>
 
-      <FieldModel
-        {showModel}
-        value={model?.concernedPublic}
-        serviceValue={service.concernedPublic}
-        options={servicesOptions.concernedPublic}
-        useValue={useModelValue("concernedPublic")}
-        type="array"
-      >
-        <AddableMultiselect
-          bind:values={service.concernedPublic}
-          structure={service.structure}
-          choices={servicesOptions.concernedPublic}
-          errorMessages={$formErrors.concernedPublic}
-          name="concernedPublic"
-          label={serviceSchema.concernedPublic.name}
-          placeholder="Tous publics"
-          placeholderMulti="Sélectionner"
-          schema={serviceSchema.concernedPublic}
-          sortSelect
-          description="Plusieurs choix possibles"
-        />
-      </FieldModel>
+        <FieldModel
+          {showModel}
+          value={model?.concernedPublic}
+          serviceValue={service.concernedPublic}
+          options={servicesOptions.concernedPublic}
+          useValue={useModelValue("concernedPublic", "array")}
+          type="array"
+        >
+          <AddableMultiselect
+            bind:values={service.concernedPublic}
+            structure={service.structure}
+            choices={servicesOptions.concernedPublic}
+            errorMessages={$formErrors.concernedPublic}
+            name="concernedPublic"
+            label={serviceSchema.concernedPublic.name}
+            placeholder="Tous publics"
+            placeholderMulti="Sélectionner"
+            schema={serviceSchema.concernedPublic}
+            sortSelect
+            description="Plusieurs choix possibles"
+          />
+        </FieldModel>
 
-      <FieldModel
-        {showModel}
-        value={model?.accessConditions}
-        serviceValue={service.accessConditions}
-        options={servicesOptions.accessConditions}
-        useValue={useModelValue("accessConditions")}
-        type="array"
-      >
+        <FieldModel
+          {showModel}
+          value={model?.accessConditions}
+          serviceValue={service.accessConditions}
+          options={servicesOptions.accessConditions}
+          useValue={useModelValue("accessConditions", "array")}
+          type="array"
+        >
+          <AddableMultiselect
+            bind:values={service.accessConditions}
+            structure={service.structure}
+            choices={servicesOptions.accessConditions}
+            errorMessages={$formErrors.accessConditions}
+            name="accessConditions"
+            label={serviceSchema.accessConditions.name}
+            placeholder="Aucun"
+            placeholderMulti="Choisir un autre critères d’admission"
+            schema={serviceSchema.accessConditions}
+            sortSelect
+            description="Plusieurs choix possibles"
+          />
+        </FieldModel>
+
+        <FieldModel
+          {showModel}
+          value={model?.requirements}
+          serviceValue={service.requirements}
+          options={servicesOptions.requirements}
+          useValue={useModelValue("requirements", "array")}
+          type="array"
+        >
+          <AddableMultiselect
+            bind:values={service.requirements}
+            structure={service.structure}
+            choices={servicesOptions.requirements}
+            errorMessages={$formErrors.requirements}
+            name="requirements"
+            label={serviceSchema.requirements.name}
+            placeholder="Aucun"
+            placeholderMulti="Choisir un autre pré-requis"
+            schema={serviceSchema.requirements}
+            sortSelect
+            description="Plusieurs choix possibles"
+          />
+        </FieldModel>
+      </FieldSet>
+
+      <FieldSet title="Modalités" {showModel}>
+        <div slot="help">
+          <p class="text-f14">Modalités pour mobiliser le service.</p>
+        </div>
+
+        <FieldModel
+          {showModel}
+          value={model?.coachOrientationModes}
+          serviceValue={service.coachOrientationModes}
+          options={servicesOptions.coachOrientationModes}
+          useValue={useModelValue("coachOrientationModes", "array")}
+          type="array"
+        >
+          <SchemaField
+            label={serviceSchema.coachOrientationModes.name}
+            type="checkboxes"
+            choices={moveToTheEnd(
+              servicesOptions.coachOrientationModes,
+              "value",
+              "autre"
+            )}
+            schema={serviceSchema.coachOrientationModes}
+            name="coachOrientationModes"
+            errorMessages={$formErrors.coachOrientationModes}
+            bind:value={service.coachOrientationModes}
+          />
+        </FieldModel>
+
+        <FieldModel
+          {showModel}
+          value={model?.coachOrientationModesOther}
+          serviceValue={service.coachOrientationModesOther}
+          useValue={useModelValue("coachOrientationModesOther")}
+        >
+          <SchemaField
+            visible={service.coachOrientationModes.includes("autre")}
+            hideLabel
+            placeholder="Compléter"
+            type="text"
+            schema={serviceSchema.coachOrientationModesOther}
+            name="coachOrientationModesOther"
+            errorMessages={$formErrors.coachOrientationModesOther}
+            bind:value={service.coachOrientationModesOther}
+          />
+        </FieldModel>
+
+        <FieldModel
+          {showModel}
+          value={model?.beneficiariesAccessModes}
+          serviceValue={service.beneficiariesAccessModes}
+          options={servicesOptions.beneficiariesAccessModes}
+          useValue={useModelValue("beneficiariesAccessModes", "array")}
+          type="array"
+        >
+          <SchemaField
+            label={serviceSchema.beneficiariesAccessModes.name}
+            type="checkboxes"
+            choices={moveToTheEnd(
+              servicesOptions.beneficiariesAccessModes,
+              "value",
+              "autre"
+            )}
+            schema={serviceSchema.beneficiariesAccessModes}
+            name="beneficiariesAccessModes"
+            errorMessages={$formErrors.beneficiariesAccessModes}
+            bind:value={service.beneficiariesAccessModes}
+          />
+        </FieldModel>
+
+        <FieldModel
+          {showModel}
+          value={model?.beneficiariesAccessModesOther}
+          serviceValue={service.beneficiariesAccessModesOther}
+          useValue={useModelValue("beneficiariesAccessModesOther")}
+        >
+          <SchemaField
+            visible={service.beneficiariesAccessModes.includes("autre")}
+            hideLabel
+            placeholder="Merci de préciser la modalité"
+            type="text"
+            schema={serviceSchema.beneficiariesAccessModesOther}
+            name="beneficiariesAccessModesOther"
+            errorMessages={$formErrors.beneficiariesAccessModesOther}
+            bind:value={service.beneficiariesAccessModesOther}
+          />
+        </FieldModel>
+
+        <FieldModel
+          {showModel}
+          value={model?.hasFee}
+          serviceValue={service.hasFee}
+          useValue={useModelValue("hasFee")}
+          type="boolean"
+        >
+          <SchemaField
+            type="toggle"
+            label={serviceSchema.hasFee.name}
+            schema={serviceSchema.hasFee}
+            name="hasFee"
+            errorMessages={$formErrors.hasFee}
+            bind:value={service.hasFee}
+          />
+        </FieldModel>
+
+        <FieldModel
+          {showModel}
+          value={model?.feeDetails}
+          serviceValue={service.feeDetails}
+          useValue={useModelValue("feeDetails")}
+        >
+          <SchemaField
+            type="textarea"
+            hideLabel
+            placeholder="Adhésion, frais de location, frais de garde, etc., et les montants."
+            visible={!!service.hasFee}
+            schema={serviceSchema.feeDetails}
+            name="feeDetails"
+            errorMessages={$formErrors.feeDetails}
+            bind:value={service.feeDetails}
+          />
+        </FieldModel>
+      </FieldSet>
+
+      <FieldSet title="Documents">
+        <div slot="help">
+          <p class="text-f14">
+            Justificatifs à fournir et documents à compléter pour postuler. Le
+            lien redirige vers une page web qui présente le service (formulaire,
+            fiche de prescription, simulateurs, etc.)
+          </p>
+        </div>
+        <FieldModel
+          {showModel}
+          value={model?.forms}
+          serviceValue={service.forms}
+          useValue={useModelValue("forms", "files")}
+          type="files"
+        >
+          <Field
+            type="custom"
+            label={serviceSchema.forms.name}
+            errorMessages={$formErrors.forms}
+          >
+            <Uploader
+              slot="custom-input"
+              structureSlug={service.structure}
+              name="forms"
+              on:blur
+              bind:fileKeys={service.forms}
+            />
+          </Field>
+        </FieldModel>
+
         <AddableMultiselect
-          bind:values={service.accessConditions}
+          bind:values={service.credentials}
           structure={service.structure}
-          choices={servicesOptions.accessConditions}
-          errorMessages={$formErrors.accessConditions}
-          name="accessConditions"
-          label={serviceSchema.accessConditions.name}
+          choices={servicesOptions.credentials}
+          errorMessages={$formErrors.credentials}
+          name="credentials"
+          label={serviceSchema.credentials.name}
           placeholder="Aucun"
-          placeholderMulti="Choisir un autre critères d’admission"
-          schema={serviceSchema.accessConditions}
+          placeholderMulti="Choisir un autre justificatif"
+          schema={serviceSchema.credentials}
           sortSelect
-          description="Plusieurs choix possibles"
         />
-      </FieldModel>
 
-      <FieldModel
-        {showModel}
-        value={model?.requirements}
-        serviceValue={service.requirements}
-        options={servicesOptions.requirements}
-        useValue={useModelValue("requirements")}
-        type="array"
-      >
-        <AddableMultiselect
-          bind:values={service.requirements}
-          structure={service.structure}
-          choices={servicesOptions.requirements}
-          errorMessages={$formErrors.requirements}
-          name="requirements"
-          label={serviceSchema.requirements.name}
-          placeholder="Aucun"
-          placeholderMulti="Choisir un autre pré-requis"
-          schema={serviceSchema.requirements}
-          sortSelect
-          description="Plusieurs choix possibles"
-        />
-      </FieldModel>
-    </FieldSet>
-
-    <FieldSet title="Modalités" {showModel}>
-      <div slot="help">
-        <p class="text-f14">Modalités pour mobiliser le service.</p>
-      </div>
-
-      <FieldModel
-        {showModel}
-        value={model?.coachOrientationModes}
-        serviceValue={service.coachOrientationModes}
-        options={servicesOptions.coachOrientationModes}
-        useValue={useModelValue("coachOrientationModes")}
-        type="array"
-      >
         <SchemaField
-          label={serviceSchema.coachOrientationModes.name}
-          type="checkboxes"
-          choices={moveToTheEnd(
-            servicesOptions.coachOrientationModes,
-            "value",
-            "autre"
-          )}
-          schema={serviceSchema.coachOrientationModes}
-          name="coachOrientationModes"
-          errorMessages={$formErrors.coachOrientationModes}
-          bind:value={service.coachOrientationModes}
+          label={serviceSchema.onlineForm.name}
+          placeholder="URL"
+          type="url"
+          schema={serviceSchema.onlineForm}
+          name="onlineForm"
+          errorMessages={$formErrors.onlineForm}
+          bind:value={service.onlineForm}
         />
-      </FieldModel>
-
-      <FieldModel
-        {showModel}
-        value={model?.coachOrientationModesOther}
-        serviceValue={service.coachOrientationModesOther}
-        useValue={useModelValue("coachOrientationModesOther")}
-      >
-        <SchemaField
-          visible={service.coachOrientationModes.includes("autre")}
-          hideLabel
-          placeholder="Compléter"
-          type="text"
-          schema={serviceSchema.coachOrientationModesOther}
-          name="coachOrientationModesOther"
-          errorMessages={$formErrors.coachOrientationModesOther}
-          bind:value={service.coachOrientationModesOther}
-        />
-      </FieldModel>
-
-      <FieldModel
-        {showModel}
-        value={model?.beneficiariesAccessModes}
-        serviceValue={service.beneficiariesAccessModes}
-        options={servicesOptions.beneficiariesAccessModes}
-        useValue={useModelValue("beneficiariesAccessModes")}
-        type="array"
-      >
-        <SchemaField
-          label={serviceSchema.beneficiariesAccessModes.name}
-          type="checkboxes"
-          choices={moveToTheEnd(
-            servicesOptions.beneficiariesAccessModes,
-            "value",
-            "autre"
-          )}
-          schema={serviceSchema.beneficiariesAccessModes}
-          name="beneficiariesAccessModes"
-          errorMessages={$formErrors.beneficiariesAccessModes}
-          bind:value={service.beneficiariesAccessModes}
-        />
-      </FieldModel>
-
-      <FieldModel
-        {showModel}
-        value={model?.beneficiariesAccessModesOther}
-        serviceValue={service.beneficiariesAccessModesOther}
-        useValue={useModelValue("beneficiariesAccessModesOther")}
-      >
-        <SchemaField
-          visible={service.beneficiariesAccessModes.includes("autre")}
-          hideLabel
-          placeholder="Merci de préciser la modalité"
-          type="text"
-          schema={serviceSchema.beneficiariesAccessModesOther}
-          name="beneficiariesAccessModesOther"
-          errorMessages={$formErrors.beneficiariesAccessModesOther}
-          bind:value={service.beneficiariesAccessModesOther}
-        />
-      </FieldModel>
-
-      <FieldModel
-        {showModel}
-        value={model?.hasFee}
-        serviceValue={service.hasFee}
-        useValue={useModelValue("hasFee")}
-        type="boolean"
-      >
-        <SchemaField
-          type="toggle"
-          label={serviceSchema.hasFee.name}
-          schema={serviceSchema.hasFee}
-          name="hasFee"
-          errorMessages={$formErrors.hasFee}
-          bind:value={service.hasFee}
-        />
-      </FieldModel>
-
-      <FieldModel
-        {showModel}
-        value={model?.feeDetails}
-        serviceValue={service.feeDetails}
-        useValue={useModelValue("feeDetails")}
-      >
-        <SchemaField
-          type="textarea"
-          hideLabel
-          placeholder="Adhésion, frais de location, frais de garde, etc., et les montants."
-          visible={!!service.hasFee}
-          schema={serviceSchema.feeDetails}
-          name="feeDetails"
-          errorMessages={$formErrors.feeDetails}
-          bind:value={service.feeDetails}
-        />
-      </FieldModel>
-    </FieldSet>
-
-    <FieldSet title="Documents">
-      <div slot="help">
-        <p class="text-f14">
-          Justificatifs à fournir et documents à compléter pour postuler. Le
-          lien redirige vers une page web qui présente le service (formulaire,
-          fiche de prescription, simulateurs, etc.)
-        </p>
-      </div>
-      <Field
-        type="custom"
-        label={serviceSchema.forms.name}
-        errorMessages={$formErrors.forms}
-      >
-        <Uploader
-          slot="custom-input"
-          structureSlug={service.structure}
-          name="forms"
-          on:blur
-          bind:fileKeys={service.forms}
-        />
-      </Field>
-
-      <AddableMultiselect
-        bind:values={service.credentials}
-        structure={service.structure}
-        choices={servicesOptions.credentials}
-        errorMessages={$formErrors.credentials}
-        name="credentials"
-        label={serviceSchema.credentials.name}
-        placeholder="Aucun"
-        placeholderMulti="Choisir un autre justificatif"
-        schema={serviceSchema.credentials}
-        sortSelect
-      />
-
-      <SchemaField
-        label={serviceSchema.onlineForm.name}
-        placeholder="URL"
-        type="url"
-        schema={serviceSchema.onlineForm}
-        name="onlineForm"
-        errorMessages={$formErrors.onlineForm}
-        bind:value={service.onlineForm}
-      />
-    </FieldSet>
+      </FieldSet>
+    {/if}
 
     <FieldSet title="Périodicité">
       <div slot="help">

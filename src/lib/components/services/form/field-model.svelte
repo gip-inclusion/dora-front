@@ -61,6 +61,12 @@
                 <Tag>{options.find((o) => o.value === v)?.label || v}</Tag>
               {/each}
             </div>
+          {:else if type === "files"}
+            <div class="flex flex-wrap gap-s8">
+              {#each value as v}
+                <Tag>{v}</Tag>
+              {/each}
+            </div>
           {:else if type === "html"}
             {@html value}
           {:else if type === "boolean"}

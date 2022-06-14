@@ -4,9 +4,9 @@
   import { checkBoxBlankIcon } from "$lib/icons";
 
   import StructureCard from "$lib/components/structures/card.svelte";
+  import Date from "../date.svelte";
 
   export let service;
-  export let isModel = false;
 </script>
 
 <div class="flex flex-col gap-s16 lg:flex-row-reverse lg:justify-between">
@@ -16,7 +16,7 @@
 
   <div class="lg:w-2/3">
     <div class="flex items-center">
-      {#if !isModel && !service.isDraft && !service.isSuggestion}
+      {#if !service.isDraft && !service.isSuggestion}
         <Label
           label="Disponible"
           icon={checkBoxBlankIcon}
@@ -28,20 +28,11 @@
       {/if}
 
       <p class="mb-s0 text-f12 text-gray-text">
-        Mis à jour le {new Date(service.modificationDate).toLocaleDateString(
-          "fr-FR",
-          {
-            year: "numeric",
-            month: "long",
-            day: "numeric",
-          }
-        )}
+        Mis à jour le <Date date={service.modificationDate} />
       </p>
     </div>
     <h1 class="text-france-blue">{service.name}</h1>
 
-    {#if !isModel}
-      <Label label={service.diffusionZoneDetailsDisplay} />
-    {/if}
+    <Label label={service.diffusionZoneDetailsDisplay} />
   </div>
 </div>
