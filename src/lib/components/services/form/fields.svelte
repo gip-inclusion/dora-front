@@ -1,5 +1,5 @@
 <script>
-  import { onMount, tick, setContext } from "svelte";
+  import { tick, setContext } from "svelte";
 
   import { getServicesOptions } from "$lib/services";
   import { getStructure } from "$lib/structures";
@@ -99,20 +99,6 @@
     service.latitude = lat;
   }
 
-  let isTimeLimited;
-
-  onMount(() => {
-    isTimeLimited = !!service.suspensionDate;
-  });
-
-  function handleCheckTimeLimited(evt) {
-    const checked = evt.target.checked;
-
-    if (!checked) {
-      service.suspensionDate = null;
-    }
-  }
-
   let showServiceAddress = true;
 
   async function fillAdress() {
@@ -156,7 +142,7 @@
     await new Promise((resolve) => {
       setTimeout(() => {
         const filteredSchema = {
-          // si le champs n'existe pas dans le schéma (pe: isTimeLimited),
+          // si le champs n'existe pas dans le schéma,
           // on l'initialise avec une valeur par défaut
           [fieldname]: serviceSchema[fieldname] || { rules: [] },
         };
@@ -638,28 +624,44 @@
           </Field>
         </FieldModel>
 
-        <AddableMultiselect
-          bind:values={service.credentials}
-          structure={service.structure}
-          choices={servicesOptions.credentials}
-          errorMessages={$formErrors.credentials}
-          name="credentials"
-          label={serviceSchema.credentials.name}
-          placeholder="Aucun"
-          placeholderMulti="Choisir un autre justificatif"
-          schema={serviceSchema.credentials}
-          sortSelect
-        />
+        <FieldModel
+          {showModel}
+          value={model?.credentials}
+          serviceValue={service.credentials}
+          useValue={useModelValue("forms", "array")}
+          options={servicesOptions.credentials}
+          type="array"
+        >
+          <AddableMultiselect
+            bind:values={service.credentials}
+            structure={service.structure}
+            choices={servicesOptions.credentials}
+            errorMessages={$formErrors.credentials}
+            name="credentials"
+            label={serviceSchema.credentials.name}
+            placeholder="Aucun"
+            placeholderMulti="Choisir un autre justificatif"
+            schema={serviceSchema.credentials}
+            sortSelect
+          />
+        </FieldModel>
 
-        <SchemaField
-          label={serviceSchema.onlineForm.name}
-          placeholder="URL"
-          type="url"
-          schema={serviceSchema.onlineForm}
-          name="onlineForm"
-          errorMessages={$formErrors.onlineForm}
-          bind:value={service.onlineForm}
-        />
+        <FieldModel
+          {showModel}
+          value={model?.onlineForm}
+          serviceValue={service.onlineForm}
+          useValue={useModelValue("forms")}
+        >
+          <SchemaField
+            label={serviceSchema.onlineForm.name}
+            placeholder="URL"
+            type="url"
+            schema={serviceSchema.onlineForm}
+            name="onlineForm"
+            errorMessages={$formErrors.onlineForm}
+            bind:value={service.onlineForm}
+          />
+        </FieldModel>
       </FieldSet>
     {/if}
 
@@ -670,33 +672,38 @@
           service dans les résultat de recherche.
         </p>
       </div>
-      <SchemaField
-        label={serviceSchema.recurrence.name}
-        type="text"
-        placeholder="Ex. Tous les jours à 14h, une fois par mois, etc."
-        schema={serviceSchema.recurrence}
-        name="recurrence"
-        errorMessages={$formErrors.recurrence}
-        bind:value={service.recurrence}
-      />
+      <FieldModel
+        {showModel}
+        value={model?.recurrence}
+        serviceValue={service.recurrence}
+        useValue={useModelValue("recurrence")}
+      >
+        <SchemaField
+          label={serviceSchema.recurrence.name}
+          type="text"
+          placeholder="Ex. Tous les jours à 14h, une fois par mois, etc."
+          schema={serviceSchema.recurrence}
+          name="recurrence"
+          errorMessages={$formErrors.recurrence}
+          bind:value={service.recurrence}
+        />
+      </FieldModel>
 
-      <Field
-        label="Durée limitée"
-        type="toggle"
-        name="isTimeLimited"
-        bind:value={isTimeLimited}
-        on:change={handleCheckTimeLimited}
-      />
-
-      <SchemaField
-        label={serviceSchema.suspensionDate.name}
-        type="date"
-        schema={serviceSchema.suspensionDate}
-        name="suspensionDate"
-        errorMessages={$formErrors.suspensionDate}
-        bind:value={service.suspensionDate}
-        visible={isTimeLimited}
-      />
+      <FieldModel
+        {showModel}
+        value={model?.suspensionDate}
+        serviceValue={service.suspensionDate}
+        useValue={useModelValue("suspensionDate")}
+      >
+        <SchemaField
+          label={serviceSchema.suspensionDate.name}
+          type="date"
+          schema={serviceSchema.suspensionDate}
+          name="suspensionDate"
+          errorMessages={$formErrors.suspensionDate}
+          bind:value={service.suspensionDate}
+        />
+      </FieldModel>
     </FieldSet>
   </div>
 </CenteredGrid>

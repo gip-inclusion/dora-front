@@ -53,7 +53,7 @@
         <small class="lg:pt-s8">Pas de différence</small>
       {:else}
         <div class="rounded bg-info-light py-s8 px-s12">
-          {#if value === "" || (Array.isArray(value) && !value.length)}
+          {#if value === "" || value === undefined || (Array.isArray(value) && !value.length)}
             <small class="mb-s8 lg:pt-s8">Champs vide</small>
           {:else if type === "array"}
             <div class="flex flex-wrap gap-s8">
