@@ -1,7 +1,7 @@
 <script>
   import { onMount, tick, setContext } from "svelte";
 
-  import { getServiceDiff, getServicesOptions } from "$lib/services";
+  import { getServicesOptions } from "$lib/services";
   import { getStructure } from "$lib/structures";
   import {
     formErrors,
@@ -22,11 +22,11 @@
   import AdminDivisionSearch from "$lib/components/forms/admin-division-search.svelte";
   import Button from "$lib/components/button.svelte";
   import { formatSchema } from "$lib/schemas/utils";
-  import Toggle from "$lib/components/toggle.svelte";
   import FieldModel from "./field-model.svelte";
 
   export let servicesOptions, service, structures, structure;
   export let isModel = false;
+  export let model = null;
   let subcategories = [];
 
   function handleCategoriesChange(categories) {
@@ -177,23 +177,12 @@
     onChange: handleEltChange,
   });
 
+  let showModel = !!model;
+
   async function unsync() {
     service.model = null;
+    showModel = false;
   }
-
-  let model = null;
-
-  // - modelIsVisible: dćlenche l'affichage du modèle (async)
-  // - showModel: teste si le modèle est chargé et visible
-  let modelIsVisible = false;
-  let showModel;
-
-  async function getDiff(visible) {
-    model = visible ? await getServiceDiff(service.slug) : null;
-  }
-
-  $: getDiff(modelIsVisible);
-  $: showModel = !!model;
 
   function useModelValue(propName) {
     return () => {
@@ -241,18 +230,9 @@
 <hr />
 <CenteredGrid bgColor={service.model ? "bg-info-light" : "bg-gray-bg"}>
   {#if service.model}
-    <h3>Synchronisé avec un modèle</h3>
-    <hr class="mb-s16" />
-    <div
-      class="flex flex-wrap items-start justify-between gap-s12 lg:flex-nowrap"
-    >
-      <div class="flex flex-wrap items-center gap-s8 lg:w-2/3">
-        <Button label="Détacher du modèle" secondary small on:click={unsync} />
-      </div>
-      <div class="lg:w-1/3">
-        <h5 class="my-s8">Afficher les différences</h5>
-        <Toggle bind:checked={modelIsVisible} />
-      </div>
+    <div class="lg:flex lg:items-center lg:justify-between">
+      <h3>Synchronisé avec un modèle</h3>
+      <Button label="Détacher du modèle" secondary small on:click={unsync} />
     </div>
   {/if}
 
@@ -279,6 +259,7 @@
       <FieldModel
         {showModel}
         value={model?.name}
+        serviceValue={service.name}
         useValue={useModelValue("name")}
       >
         <SchemaField
@@ -295,6 +276,7 @@
       <FieldModel
         {showModel}
         value={model?.shortDesc}
+        serviceValue={service.shortDesc}
         useValue={useModelValue("shortDesc")}
       >
         <SchemaField
@@ -312,6 +294,7 @@
       <FieldModel
         {showModel}
         value={model?.fullDesc}
+        serviceValue={service.fullDesc}
         useValue={useModelValue("fullDesc")}
         paddingTop
         type="html"
@@ -340,9 +323,10 @@
       <FieldModel
         {showModel}
         value={model?.categories}
+        serviceValue={service.categories}
         options={servicesOptions.categories}
         useValue={useModelValue("categories")}
-        type="list"
+        type="array"
       >
         <SchemaField
           type="multiselect"
@@ -360,9 +344,10 @@
       <FieldModel
         {showModel}
         value={model?.subcategories}
+        serviceValue={service.subcategories}
         options={servicesOptions.subcategories}
         useValue={useModelValue("subcategories")}
-        type="list"
+        type="array"
       >
         <SchemaField
           type="multiselect"
@@ -381,9 +366,10 @@
       <FieldModel
         {showModel}
         value={model?.kinds}
+        serviceValue={service.kinds}
         options={servicesOptions.kinds}
         useValue={useModelValue("kinds")}
-        type="list"
+        type="array"
       >
         <SchemaField
           type="checkboxes"
@@ -399,6 +385,7 @@
       <FieldModel
         {showModel}
         value={model?.isCumulative}
+        serviceValue={service.isCumulative}
         useValue={useModelValue("isCumulative")}
         type="boolean"
       >
@@ -427,9 +414,10 @@
       <FieldModel
         {showModel}
         value={model?.concernedPublic}
+        serviceValue={service.concernedPublic}
         options={servicesOptions.concernedPublic}
         useValue={useModelValue("concernedPublic")}
-        type="list"
+        type="array"
       >
         <AddableMultiselect
           bind:values={service.concernedPublic}
@@ -449,9 +437,10 @@
       <FieldModel
         {showModel}
         value={model?.accessConditions}
+        serviceValue={service.accessConditions}
         options={servicesOptions.accessConditions}
         useValue={useModelValue("accessConditions")}
-        type="list"
+        type="array"
       >
         <AddableMultiselect
           bind:values={service.accessConditions}
@@ -471,9 +460,10 @@
       <FieldModel
         {showModel}
         value={model?.requirements}
+        serviceValue={service.requirements}
         options={servicesOptions.requirements}
         useValue={useModelValue("requirements")}
-        type="list"
+        type="array"
       >
         <AddableMultiselect
           bind:values={service.requirements}
@@ -499,9 +489,10 @@
       <FieldModel
         {showModel}
         value={model?.coachOrientationModes}
+        serviceValue={service.coachOrientationModes}
         options={servicesOptions.coachOrientationModes}
         useValue={useModelValue("coachOrientationModes")}
-        type="list"
+        type="array"
       >
         <SchemaField
           label={serviceSchema.coachOrientationModes.name}
@@ -521,6 +512,7 @@
       <FieldModel
         {showModel}
         value={model?.coachOrientationModesOther}
+        serviceValue={service.coachOrientationModesOther}
         useValue={useModelValue("coachOrientationModesOther")}
       >
         <SchemaField
@@ -538,9 +530,10 @@
       <FieldModel
         {showModel}
         value={model?.beneficiariesAccessModes}
+        serviceValue={service.beneficiariesAccessModes}
         options={servicesOptions.beneficiariesAccessModes}
         useValue={useModelValue("beneficiariesAccessModes")}
-        type="list"
+        type="array"
       >
         <SchemaField
           label={serviceSchema.beneficiariesAccessModes.name}
@@ -560,6 +553,7 @@
       <FieldModel
         {showModel}
         value={model?.beneficiariesAccessModesOther}
+        serviceValue={service.beneficiariesAccessModesOther}
         useValue={useModelValue("beneficiariesAccessModesOther")}
       >
         <SchemaField
@@ -577,6 +571,7 @@
       <FieldModel
         {showModel}
         value={model?.hasFee}
+        serviceValue={service.hasFee}
         useValue={useModelValue("hasFee")}
         type="boolean"
       >
@@ -593,6 +588,7 @@
       <FieldModel
         {showModel}
         value={model?.feeDetails}
+        serviceValue={service.feeDetails}
         useValue={useModelValue("feeDetails")}
       >
         <SchemaField

@@ -1,5 +1,4 @@
 <script>
-  import Label from "$lib/components/label.svelte";
   import ModelMenu from "./model-button-menu.svelte";
   export let model;
   export let readOnly = true;
@@ -27,15 +26,16 @@
         <a href="/modeles/{model.slug}">{model.name}</a>
       </h4>
     </div>
-    {#if model.diffusionZoneDetailsDisplay}
-      <Label label={model.diffusionZoneDetailsDisplay} />
+    {#if model.numServices}
+      <p class="mb-s0 text-f14">
+        {model.numServices} service{model.numServices > 1 ? "s" : ""}
+      </p>
     {/if}
   </div>
-  {#if !readOnly}
-    <div
-      class="flex items-center justify-between border-t border-t-gray-03 p-s20"
-    >
-      <div class="ml-auto self-end"><ModelMenu {model} /></div>
-    </div>
-  {/if}
+
+  <div
+    class="flex items-center justify-between border-t border-t-gray-03 p-s20"
+  >
+    <div class="ml-auto self-end"><ModelMenu {model} /></div>
+  </div>
 </div>
