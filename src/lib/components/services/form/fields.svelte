@@ -1,7 +1,7 @@
 <script>
   import { tick, setContext, onMount } from "svelte";
 
-  import { getServicesOptions } from "$lib/services";
+  import { getModel, getServicesOptions } from "$lib/services";
   import { getStructure } from "$lib/structures";
   import {
     formErrors,
@@ -28,6 +28,12 @@
   export let isModel = false;
   export let model = null;
   let subcategories = [];
+  const propsWithSpecificFields = [
+    "accessConditions",
+    "concernedPublic",
+    "requirements",
+    "credentials",
+  ];
 
   function handleCategoriesChange(categories) {
     subcategories = categories.length
@@ -43,28 +49,51 @@
     );
   }
 
-  function updateServicesOptions(propName) {
-    const serviceOptionsValues = servicesOptions[propName].map(
-      (p) => (!structure?.slug || p.structure === structure.slug) && p.value
-    );
+  // met à jour les options de service et le modèle en fonction des champs spécifiques
+  function updateServiceOptions() {
+    propsWithSpecificFields.forEach((propName) => {
+      // options de services qui appartiennent à la structure courante
+      const structureServicesOptions = servicesOptions[propName].filter(
+        (o) =>
+          !o.structure || (structure?.slug && o.structure === structure.slug)
+      );
 
-    model[propName].forEach((value) => {
-      if (!serviceOptionsValues.includes(value)) {
-        servicesOptions[propName] = [
-          ...servicesOptions[propName],
-          { value, label: value.toString() },
-        ];
+      if (!isModel && service.model && model) {
+        // si ce champs spécifique existe dans les options de service
+        // -> on modifie le modèle avec l'id du champs spécifique
+        // sinon (le champs spécifique n'existe pas dans les options de service)
+        // -> on l'ajoute dans les options de service
+        model[propName].forEach((value, i) => {
+          // si le type est une string, c'est un champs spécifique
+          if (typeof value === "string") {
+            const option = structureServicesOptions.find(
+              (o) => o.label === value
+            );
+
+            if (option) {
+              model[propName][i] = option.value;
+            } else {
+              servicesOptions[propName] = [
+                ...servicesOptions[propName],
+                { value, label: value, structure: structure.slug },
+              ];
+            }
+          }
+        });
+      }
+
+      // sur le service,
+      // suprimme les champs spécifiques qui n'aapartiennent pas à la structure
+      if (structure) {
+        const structureOptionsValues = servicesOptions[propName]
+          .filter((c) => !c.structure || c.structure === structure.slug)
+          .map((c) => c.value);
+
+        service[propName] = service[propName].filter((value) =>
+          structureOptionsValues.includes(value)
+        );
       }
     });
-  }
-
-  // met a jour les options de service
-  // avec les champs spécifique du modèle
-  function updateModelOptions() {
-    updateServicesOptions("accessConditions");
-    updateServicesOptions("concernedPublic");
-    updateServicesOptions("requirements");
-    updateServicesOptions("credentials");
   }
 
   async function handleStructureChange(slug) {
@@ -72,7 +101,10 @@
       structure = await getStructure(slug);
       servicesOptions = await getServicesOptions();
       service.structure = slug;
-      updateModelOptions();
+      if (!isModel && service.model) {
+        model = await getModel(model.slug);
+      }
+      updateServiceOptions();
     }
   }
 
@@ -184,21 +216,14 @@
     showModel = false;
   }
 
-  function useModelValue(propName, type) {
+  function useModelValue(propName) {
     return () => {
-      // ajoute les champs spécifiques du modèle dans les options du service
-      if (type === "array") {
-        updateServicesOptions(propName);
-      }
-
       service[propName] = model[propName];
     };
   }
 
   onMount(() => {
-    if (!isModel) {
-      updateModelOptions();
-    }
+    updateServiceOptions();
   });
 </script>
 
@@ -320,7 +345,7 @@
         value={model?.categories}
         serviceValue={service.categories}
         options={servicesOptions.categories}
-        useValue={useModelValue("categories", "array")}
+        useValue={useModelValue("categories")}
         type="array"
       >
         <SchemaField
@@ -341,7 +366,7 @@
         value={model?.subcategories}
         serviceValue={service.subcategories}
         options={servicesOptions.subcategories}
-        useValue={useModelValue("subcategories", "array")}
+        useValue={useModelValue("subcategories")}
         type="array"
       >
         <SchemaField
@@ -363,7 +388,7 @@
         value={model?.kinds}
         serviceValue={service.kinds}
         options={servicesOptions.kinds}
-        useValue={useModelValue("kinds", "array")}
+        useValue={useModelValue("kinds")}
         type="array"
       >
         <SchemaField
@@ -412,7 +437,7 @@
           value={model?.concernedPublic}
           serviceValue={service.concernedPublic}
           options={servicesOptions.concernedPublic}
-          useValue={useModelValue("concernedPublic", "array")}
+          useValue={useModelValue("concernedPublic")}
           type="array"
         >
           <AddableMultiselect
@@ -435,7 +460,7 @@
           value={model?.accessConditions}
           serviceValue={service.accessConditions}
           options={servicesOptions.accessConditions}
-          useValue={useModelValue("accessConditions", "array")}
+          useValue={useModelValue("accessConditions")}
           type="array"
         >
           <AddableMultiselect
@@ -458,7 +483,7 @@
           value={model?.requirements}
           serviceValue={service.requirements}
           options={servicesOptions.requirements}
-          useValue={useModelValue("requirements", "array")}
+          useValue={useModelValue("requirements")}
           type="array"
         >
           <AddableMultiselect
@@ -487,7 +512,7 @@
           value={model?.coachOrientationModes}
           serviceValue={service.coachOrientationModes}
           options={servicesOptions.coachOrientationModes}
-          useValue={useModelValue("coachOrientationModes", "array")}
+          useValue={useModelValue("coachOrientationModes")}
           type="array"
         >
           <SchemaField
@@ -529,7 +554,7 @@
           value={model?.beneficiariesAccessModes}
           serviceValue={service.beneficiariesAccessModes}
           options={servicesOptions.beneficiariesAccessModes}
-          useValue={useModelValue("beneficiariesAccessModes", "array")}
+          useValue={useModelValue("beneficiariesAccessModes")}
           type="array"
         >
           <SchemaField
@@ -615,7 +640,7 @@
           {showModel}
           value={model?.forms}
           serviceValue={service.forms}
-          useValue={useModelValue("forms", "files")}
+          useValue={useModelValue("forms")}
           type="files"
         >
           <Field
@@ -637,7 +662,7 @@
           {showModel}
           value={model?.credentials}
           serviceValue={service.credentials}
-          useValue={useModelValue("forms", "array")}
+          useValue={useModelValue("credentials")}
           options={servicesOptions.credentials}
           type="array"
         >
