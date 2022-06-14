@@ -1,5 +1,5 @@
 <script>
-  import { tick, setContext } from "svelte";
+  import { tick, setContext, onMount } from "svelte";
 
   import { getServicesOptions } from "$lib/services";
   import { getStructure } from "$lib/structures";
@@ -43,29 +43,40 @@
     );
   }
 
-  function cleanOptions(field, slug) {
-    const flatChoices = servicesOptions[field]
-      .filter((c) => c.structure == null || c.structure === slug)
-      .map((c) => c.value);
-
-    service[field] = service[field].filter((value) =>
-      flatChoices.includes(value)
+  function updateServicesOptions(propName) {
+    const serviceOptionsValues = servicesOptions[propName].map(
+      (p) => (!structure?.slug || p.structure === structure.slug) && p.value
     );
+
+    model[propName].forEach((value) => {
+      if (!serviceOptionsValues.includes(value)) {
+        servicesOptions[propName] = [
+          ...servicesOptions[propName],
+          { value, label: value.toString() },
+        ];
+      }
+    });
+  }
+
+  // met a jour les options de service
+  // avec les champs spécifique du modèle
+  function updateModelOptions() {
+    updateServicesOptions("accessConditions");
+    updateServicesOptions("concernedPublic");
+    updateServicesOptions("requirements");
+    updateServicesOptions("credentials");
   }
 
   async function handleStructureChange(slug) {
-    cleanOptions("accessConditions", slug);
-    cleanOptions("concernedPublic", slug);
-    cleanOptions("requirements", slug);
-    cleanOptions("credentials", slug);
     if (slug) {
       structure = await getStructure(slug);
       servicesOptions = await getServicesOptions();
       service.structure = slug;
+      updateModelOptions();
     }
   }
 
-  // Il s'agit d'une édition de service existant, ou alors la structure
+  // Il s'agit d'une édition de service existant
   const showStructures = service.structure ? false : structures.length > 1;
 
   export let adminDivisionChoices = [];
@@ -177,23 +188,18 @@
     return () => {
       // ajoute les champs spécifiques du modèle dans les options du service
       if (type === "array") {
-        const serviceOptionsValues = servicesOptions[propName].map(
-          (p) => p.value
-        );
-
-        model[propName].forEach((value) => {
-          if (!serviceOptionsValues.includes(value)) {
-            servicesOptions[propName] = [
-              ...servicesOptions[propName],
-              { value, label: value },
-            ];
-          }
-        });
+        updateServicesOptions(propName);
       }
 
       service[propName] = model[propName];
     };
   }
+
+  onMount(() => {
+    if (!isModel) {
+      updateModelOptions();
+    }
+  });
 </script>
 
 <CenteredGrid bgColor="bg-gray-bg">
@@ -594,7 +600,7 @@
         </FieldModel>
       </FieldSet>
 
-      <FieldSet title="Documents">
+      <FieldSet title="Documents" {showModel}>
         <div slot="help">
           <p class="text-f14">
             Justificatifs à fournir et documents à compléter pour postuler. Le
@@ -665,7 +671,7 @@
       </FieldSet>
     {/if}
 
-    <FieldSet title="Périodicité">
+    <FieldSet title="Périodicité" {showModel}>
       <div slot="help">
         <p class="text-f14">
           La durée limitée permet de supendre automatiquement la visibilité du
