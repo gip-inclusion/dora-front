@@ -5,6 +5,7 @@ import { markdownToHTML, htmlToMarkdown, fetchData } from "$lib/utils.js";
 import { getApiURL } from "$lib/utils/api.js";
 import { token } from "$lib/auth";
 import { logException } from "./logger";
+import { SERVICE_STATUSES } from "./schemas/service";
 
 function serviceToBack(service) {
   if (service.fullDesc) service.fullDesc = htmlToMarkdown(service.fullDesc);
@@ -192,7 +193,7 @@ export async function publishDraft(serviceSlug) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ isDraft: false }),
+    body: JSON.stringify({ status: SERVICE_STATUSES.published }),
   });
 
   if (!response.ok) {
@@ -211,7 +212,7 @@ export async function unPublishService(serviceSlug) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ isDraft: true }),
+    body: JSON.stringify({ status: SERVICE_STATUSES.draft }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
@@ -229,7 +230,7 @@ export async function publishService(serviceSlug) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ isDraft: false }),
+    body: JSON.stringify({ status: SERVICE_STATUSES.published }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
@@ -247,7 +248,7 @@ export async function convertSuggestionToDraft(serviceSlug) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ isDraft: true, isSuggestion: false }),
+    body: JSON.stringify({ status: SERVICE_STATUSES.draft }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
