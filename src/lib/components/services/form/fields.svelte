@@ -235,7 +235,7 @@
       service[propName] = model[propName];
 
       if (propName === "fullDesc") {
-        fullDesc.udpateValue(service.fullDesc);
+        fullDesc.updateValue(service.fullDesc);
       }
     };
   }
