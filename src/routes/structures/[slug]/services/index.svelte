@@ -5,8 +5,8 @@
 
   import List from "./_list.svelte";
 
-  async function handleRefresh() {
-    $structure = await getStructure($structure.slug);
+  async function handleRefresh(archiveOnly = false) {
+    $structure = await getStructure($structure.slug, archiveOnly);
   }
 </script>
 

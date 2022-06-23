@@ -40,6 +40,13 @@ export async function getMyServices() {
   return (await fetchData(url)).data;
 }
 
+export async function getArchivedServices(structure) {
+  const url = `${getApiURL()}/services/?archived-only=1&structure=${
+    structure.slug
+  }`;
+  return (await fetchData(url)).data;
+}
+
 export async function getService(slug) {
   const url = `${getApiURL()}/services/${slug}/`;
   const response = await fetchData(url);
@@ -190,6 +197,24 @@ export async function unPublishService(serviceSlug) {
       Authorization: `Token ${get(token)}`,
     },
     body: JSON.stringify({ status: SERVICE_STATUSES.draft }),
+  });
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return await response.json();
+}
+
+export async function archiveService(serviceSlug) {
+  const url = `${getApiURL()}/services/${serviceSlug}/`;
+  const method = "PATCH";
+  const response = await fetch(url, {
+    method,
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({ status: SERVICE_STATUSES.archived }),
   });
   if (!response.ok) {
     throw Error(response.statusText);

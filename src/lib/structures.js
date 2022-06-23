@@ -37,8 +37,10 @@ export async function getStructures() {
   return (await fetchData(url)).data;
 }
 
-export async function getStructure(slug) {
-  const url = `${getApiURL()}/structures/${slug}/`;
+export async function getStructure(slug, archiveOnly = false) {
+  const url = `${getApiURL()}/structures/${slug}/${
+    archiveOnly ? "?archive-only=1" : ""
+  }`;
   const result = (await fetchData(url)).data;
 
   return result;
