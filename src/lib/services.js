@@ -183,6 +183,7 @@ export async function publishDraft(serviceSlug) {
   if (!response.ok) {
     throw Error(response.statusText);
   }
+
   return await response.json();
 }
 

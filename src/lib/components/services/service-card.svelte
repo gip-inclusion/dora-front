@@ -13,7 +13,7 @@
 
 <div class="flex flex-col justify-between rounded-md bg-white shadow-md">
   <div
-    class="rounded-t-md bg-gray-00 px-s20 py-s12"
+    class="grow rounded-t-md bg-gray-00 px-s20 py-s12"
     class:rounded-b-md={readOnly}
   >
     <p class="mb-s8 text-f14 text-gray-text">
@@ -36,12 +36,16 @@
     </div>
   </div>
   {#if !readOnly}
-    <div class="flex grow flex-col justify-end border-t border-t-gray-03 p-s20">
-      {#if service.model}
-        <div class="mb-s24">
+    <div class="flex flex-col justify-end border-t border-t-gray-03 p-s20">
+      <div class="mb-s24">
+        {#if service.model}
           <ServiceSync modelChanged={service.modelChanged} border={false} />
-        </div>
-      {/if}
+        {:else}
+          <div class="flex text-f14">
+            <span>&nbsp;</span>
+          </div>
+        {/if}
+      </div>
       <div class="flex items-center justify-between">
         <StateButtonMenu {service} {onRefresh} />
 
