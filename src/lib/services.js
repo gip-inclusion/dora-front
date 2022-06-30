@@ -40,13 +40,6 @@ export async function getMyServices() {
   return (await fetchData(url)).data;
 }
 
-export async function getArchivedServices(structure) {
-  const url = `${getApiURL()}/services/?archived-only=1&structure=${
-    structure.slug
-  }`;
-  return (await fetchData(url)).data;
-}
-
 export async function getService(slug) {
   const url = `${getApiURL()}/services/${slug}/`;
   const response = await fetchData(url);

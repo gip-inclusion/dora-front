@@ -1,9 +1,7 @@
 <script>
   import { userInfo } from "$lib/auth";
-  import { getArchivedServices } from "$lib/services";
 
-  import Button from "$lib/components/button.svelte";
-
+  import Tabs from "$lib/components/tabs-light.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
   import ServiceCard from "$lib/components/services/service-card.svelte";
   import { SERVICE_STATUSES } from "$lib/schemas/service";
@@ -58,10 +56,22 @@
     return ss;
   }
 
-  async function handleArchiveButtonClick() {
-    console.log(structure);
-    services = await getArchivedServices(structure);
+  let tabId = "default";
+
+  async function handleTabChange(newTab) {
+    tabId = newTab;
+
+    if (tabId === "archived") {
+      services = structure.archivedServices;
+    } else {
+      services = structure.services;
+    }
   }
+
+  const tabs = [
+    { id: "default", name: "Défaut" },
+    { id: "archived", name: "Archivés" },
+  ];
 
   $: canEdit = structure.isMember || $userInfo?.isStaff;
   $: servicesDisplayed = serviceOrder(services);
@@ -92,15 +102,7 @@
     class=" mb-s24 flex h-s72 flex-row items-center gap-s16 rounded-md bg-white px-s12 shadow-md"
   >
     <div class="text-f16 font-bold">Filtrer par&nbsp;:</div>
-    <Button small secondary label="Défaut" />
-    <Button small secondary label="Publiés" />
-    <Button small secondary label="Brouillon" />
-    <Button
-      small
-      secondary
-      label="Archivés"
-      on:click={handleArchiveButtonClick}
-    />
+    <Tabs items={tabs} onSelectedChange={handleTabChange} itemId={tabId} />
   </div>
 {/if}
 
