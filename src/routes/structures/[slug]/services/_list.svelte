@@ -60,12 +60,6 @@
 
   async function handleTabChange(newTab) {
     tabId = newTab;
-
-    if (tabId === "archived") {
-      services = structure.archivedServices;
-    } else {
-      services = structure.services;
-    }
   }
 
   const tabs = [
@@ -75,6 +69,13 @@
 
   $: canEdit = structure.isMember || $userInfo?.isStaff;
   $: servicesDisplayed = serviceOrder(services);
+  $: {
+    if (tabId === "archived") {
+      services = structure.archivedServices;
+    } else {
+      services = structure.services;
+    }
+  }
 </script>
 
 <div class="mb-s24 md:flex md:items-center md:justify-between">

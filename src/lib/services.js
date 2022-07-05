@@ -216,6 +216,24 @@ export async function archiveService(serviceSlug) {
   return await response.json();
 }
 
+export async function unarchiveService(serviceSlug) {
+  const url = `${getApiURL()}/services/${serviceSlug}/`;
+  const method = "PATCH";
+  const response = await fetch(url, {
+    method,
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({ status: SERVICE_STATUSES.draft }),
+  });
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+  return await response.json();
+}
+
 export async function publishService(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
