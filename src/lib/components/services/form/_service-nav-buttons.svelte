@@ -11,9 +11,9 @@
   import { assert, logException } from "$lib/logger";
 
   import Button from "$lib/components/button.svelte";
-  import { duration, serviceSlug } from "./_store";
+  import { formTrackStore } from "$lib/stores/form-track";
 
-  export let onError, service, durationCounter;
+  export let onError, service;
 
   async function publish() {
     service.status = SERVICE_STATUSES.published;
@@ -24,12 +24,16 @@
 
     if (valid) {
       try {
-        let result = await createOrModifyService(validatedData);
+        let result = await createOrModifyService({
+          ...validatedData,
+          durationToAdd: $formTrackStore.duration,
+        });
         result = await publishDraft(result.data.slug);
-        $serviceSlug = result.slug;
-        $duration = durationCounter;
-        // TODO: réactiver le formulaire de satisfaction après correction
-        // goto(`/services/${result.slug}/avis`);
+
+        // For feedback modal
+        formTrackStore.setId(result.slug);
+        formTrackStore.enableFeedbackModal();
+
         goto(`/services/${result.slug}`);
       } catch (error) {
         logException(error);
@@ -58,10 +62,15 @@
     assert(service.slug);
 
     // Validation OK, let's send it to the API endpoint
-    const result = await createOrModifyService(validatedData);
+    const result = await createOrModifyService({
+      ...validatedData,
+      durationToAdd: $formTrackStore.duration,
+    });
 
     if (result.ok) {
       // We might have added options to the editable multiselect
+
+      formTrackStore.clear();
 
       service = result.data;
       goto(`/services/${service.slug}`);

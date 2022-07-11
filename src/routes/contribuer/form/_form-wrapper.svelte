@@ -1,7 +1,7 @@
 <script>
   import { setContext, onMount, onDestroy } from "svelte";
-
   import { goto } from "$app/navigation";
+  import debounce from "lodash/debounce";
 
   import {
     validate,
@@ -16,7 +16,7 @@
   import NavButtons from "./_nav-buttons.svelte";
   import Fields from "./_fields.svelte";
   import Alert from "$lib/components/forms/alert.svelte";
-  import { id, duration } from "../_store";
+  import { formTrackStore } from "$lib/stores/form-track";
 
   export let servicesOptions, source;
 
@@ -68,8 +68,6 @@
     Array.isArray(service[f]) ? service[f].length : service[f]
   );
 
-  let durationCounter = 0;
-
   async function handlePublish() {
     // Validate the whole form
     const { valid } = validate(service, contribSchema);
@@ -78,8 +76,7 @@
       const result = await publishServiceSuggestion(service, source);
 
       if (result.ok && result.data) {
-        $id = result.data.id;
-        $duration = durationCounter;
+        formTrackStore.setId(result.data.id);
         goto(`/contribuer/merci`);
       } else {
         injectAPIErrors(result.error, {});
@@ -87,22 +84,37 @@
     }
   }
 
+  // Counter for filling duration
   let intervalId;
+  let lastUserActivity;
+  $: userIsInactive = (lastUserActivity - Date.now()) / 1000 > 120000; // 2 minutes
+
+  // Note: we use debounce to limit update frequency
+  const updateLastUserActivity = debounce(() => {
+    lastUserActivity = Date.now();
+  }, 500);
 
   onMount(() => {
     $formErrors = {};
+    lastUserActivity = Date.now();
     intervalId = setInterval(() => {
-      if (document.hasFocus()) {
-        durationCounter++;
+      if (document.hasFocus() && !userIsInactive) {
+        formTrackStore.incrementDuration();
       }
     }, 1000);
   });
 
   onDestroy(() => {
     $formErrors = {};
+    formTrackStore.clear();
     clearInterval(intervalId);
   });
 </script>
+
+<svelte:window
+  on:keydown={updateLastUserActivity}
+  on:mousemove={updateLastUserActivity}
+/>
 
 <CenteredGrid>
   <div class="text-center">

@@ -2,10 +2,13 @@
   import { browser } from "$app/env";
   import { closeLineIcon } from "$lib/icons";
   import Button from "./button.svelte";
+  import { createEventDispatcher } from "svelte";
 
   export let isOpen;
   export let overflow = false;
   export let title = undefined;
+
+  const dispatch = createEventDispatcher();
 
   $: {
     // Prevent scrolling the background while the modal is open
@@ -23,6 +26,7 @@
   }
   function handleClose() {
     isOpen = false;
+    dispatch("close");
   }
 </script>
 
@@ -41,7 +45,7 @@
   >
     <div class="mb-s24 flex justify-between">
       {#if title}
-        <h2>{title}</h2>
+        <h1 class="h2">{title}</h1>
       {/if}
 
       <div class="ml-auto">
