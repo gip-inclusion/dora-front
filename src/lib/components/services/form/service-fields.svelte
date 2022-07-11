@@ -36,8 +36,7 @@
 
   // Counter for filling duration
   let intervalId;
-  let lastUserActivity;
-  $: userIsInactive = (lastUserActivity - Date.now()) / 1000 > 120000; // 2 minutes
+  let lastUserActivity, userIsInactive;
 
   // Note: we use debounce to limit update frequency
   const updateLastUserActivity = debounce(() => {
@@ -46,7 +45,10 @@
 
   onMount(() => {
     lastUserActivity = Date.now();
+    formTrackStore.clear(); // reset tracking values
+
     intervalId = setInterval(() => {
+      userIsInactive = (Date.now() - lastUserActivity) / 1000 > 120; // 2 minutes
       if (document.hasFocus() && !userIsInactive) {
         formTrackStore.incrementDuration();
       }
