@@ -37,6 +37,7 @@
   import ServiceBody from "$lib/components/services/service-body.svelte";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import FeedbackModal from "./_feedback-modal.svelte";
+  import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
 
   export let service;
   let showFeedbackModal = false;
@@ -96,4 +97,9 @@
   </CenteredGrid>
 
   <FeedbackModal bind:isOpen={showFeedbackModal} {service} />
+
+  <!-- Do not display NPS to the service contributor -->
+  {#if !service.canWrite}
+    <TallyNpsPopup />
+  {/if}
 {/if}

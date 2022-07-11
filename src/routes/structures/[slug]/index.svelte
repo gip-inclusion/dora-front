@@ -8,7 +8,6 @@
   import BranchesList from "./antennes/_list.svelte";
   import ModelesList from "./modeles/_list.svelte";
   import { capitalize } from "$lib/utils.js";
-  import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
 
   async function handleRefresh() {
     $structure = await getStructure($structure.slug);
@@ -57,5 +56,3 @@
     limit={4}
   />
 {/if}
-
-<TallyNpsPopup />
