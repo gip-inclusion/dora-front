@@ -86,6 +86,7 @@
   import EmailButton from "$lib/components/email-button.svelte";
   import NewsletterButton from "$lib/components/newsletter-button.svelte";
   import Tag from "$lib/components/tag.svelte";
+  import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
 
   export let servicesOptions;
   export let categoryId, subCategoryId, cityCode, cityLabel, kindId, hasNoFees;
@@ -230,3 +231,5 @@
     </div>
   </div>
 </CenteredGrid>
+
+<TallyNpsPopup />
