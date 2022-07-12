@@ -17,16 +17,12 @@
     }
   }
 
-  function handleKeydown(event) {
-    if (event.key === "Escape") isOpen = false;
-  }
-
-  function handleBackgroundClick() {
-    isOpen = false;
-  }
   function handleClose() {
     isOpen = false;
     dispatch("close");
+  }
+  function handleKeydown(event) {
+    if (event.key === "Escape") handleClose();
   }
 </script>
 
@@ -36,7 +32,7 @@
   id="background"
   class="flex items-center justify-center"
   class:hidden={!isOpen}
-  on:click={handleBackgroundClick}
+  on:click={handleClose}
 >
   <div
     class="max-h-screen min-w-[80vw] rounded-md bg-white p-s24 shadow-md"
@@ -45,7 +41,7 @@
   >
     <div class="mb-s24 flex justify-between">
       {#if title}
-        <h1 class="h2">{title}</h1>
+        <h1 class="blue-title">{title}</h1>
       {/if}
 
       <div class="ml-auto">
