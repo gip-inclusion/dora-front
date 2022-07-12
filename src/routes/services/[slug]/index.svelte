@@ -38,6 +38,7 @@
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import FeedbackModal from "./_feedback-modal.svelte";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
+  import { NPS_FORM_ID } from "$lib/const";
 
   export let service;
   let showFeedbackModal = false;
@@ -100,6 +101,6 @@
 
   <!-- Do not display NPS to the service contributor -->
   {#if !service.canWrite}
-    <TallyNpsPopup formId="3xXVJ5" />
+    <TallyNpsPopup formId={NPS_FORM_ID} />
   {/if}
 {/if}

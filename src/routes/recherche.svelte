@@ -87,6 +87,7 @@
   import NewsletterButton from "$lib/components/newsletter-button.svelte";
   import Tag from "$lib/components/tag.svelte";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
+  import { NPS_FORM_ID } from "$lib/const";
 
   export let servicesOptions;
   export let categoryId, subCategoryId, cityCode, cityLabel, kindId, hasNoFees;
@@ -232,4 +233,4 @@
   </div>
 </CenteredGrid>
 
-<TallyNpsPopup formId="3xXVJ5" />
+<TallyNpsPopup formId={NPS_FORM_ID} />
