@@ -4,9 +4,14 @@
   import { formTrackStore } from "$lib/stores/form-track";
 
   export let service;
+  export let isOpen = false;
 </script>
 
-<Modal title="Donnez votre avis" isOpen on:close={() => formTrackStore.clear()}>
+<Modal
+  title="Donnez votre avis"
+  bind:isOpen
+  on:close={() => formTrackStore.clear()}
+>
   <CenteredGrid bgColor="bg-gray-bg">
     <div class="h-s512">
       <iframe

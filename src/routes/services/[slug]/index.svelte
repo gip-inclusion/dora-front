@@ -95,7 +95,5 @@
     <ServiceBody {service} />
   </CenteredGrid>
 
-  {#if showFeedbackModal}
-    <FeedbackModal {service} />
-  {/if}
+  <FeedbackModal bind:isOpen={showFeedbackModal} {service} />
 {/if}
