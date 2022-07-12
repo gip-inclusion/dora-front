@@ -1,7 +1,7 @@
 <script>
   import { onDestroy, onMount } from "svelte";
   import { serviceSchema } from "$lib/schemas/service";
-  import debounce from "lodash/debounce";
+  import debounce from "lodash.debounce";
 
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import Button from "$lib/components/button.svelte";
@@ -63,6 +63,7 @@
 <svelte:window
   on:keydown={updateLastUserActivity}
   on:mousemove={updateLastUserActivity}
+  on:touchmove={updateLastUserActivity}
 />
 
 <hr />

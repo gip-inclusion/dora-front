@@ -1,7 +1,7 @@
 <script>
   import { setContext, onMount, onDestroy } from "svelte";
   import { goto } from "$app/navigation";
-  import debounce from "lodash/debounce";
+  import debounce from "lodash.debounce";
 
   import {
     validate,
@@ -116,6 +116,7 @@
 <svelte:window
   on:keydown={updateLastUserActivity}
   on:mousemove={updateLastUserActivity}
+  on:touchmove={updateLastUserActivity}
 />
 
 <CenteredGrid>
