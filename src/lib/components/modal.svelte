@@ -41,7 +41,11 @@
   >
     <div class="mb-s24 flex justify-between">
       {#if title}
-        <h1 class="blue-title">{title}</h1>
+        <h1
+          class="text-f22 leading-32 text-france-blue md:text-f24 lg:text-f28 lg:leading-40 xl:text-f32"
+        >
+          {title}
+        </h1>
       {/if}
 
       <div class="ml-auto">
