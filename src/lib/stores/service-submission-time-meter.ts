@@ -59,4 +59,4 @@ function createFormTrack(): FormTrack {
   };
 }
 
-export const formTrackStore = createFormTrack();
+export const serviceSubmissionTimeMeter = createFormTrack();

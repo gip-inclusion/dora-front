@@ -1,7 +1,7 @@
 <script>
   import Modal from "$lib/components/modal.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import { formTrackStore } from "$lib/stores/form-track";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
 
   export let service;
   export let isOpen = false;
@@ -10,7 +10,7 @@
 <Modal
   title="Donnez votre avis"
   bind:isOpen
-  on:close={() => formTrackStore.clear()}
+  on:close={() => serviceSubmissionTimeMeter.clear()}
 >
   <CenteredGrid bgColor="bg-gray-bg">
     <div class="h-s512">

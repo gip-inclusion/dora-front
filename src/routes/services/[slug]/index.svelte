@@ -35,7 +35,7 @@
   import ServiceHeader from "$lib/components/services/service-header.svelte";
   import ServiceToolbar from "$lib/components/services/service-toolbar.svelte";
   import ServiceBody from "$lib/components/services/service-body.svelte";
-  import { formTrackStore } from "$lib/stores/form-track";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import FeedbackModal from "./_feedback-modal.svelte";
 
   export let service;
@@ -55,8 +55,8 @@
 
       // Show feedback modal after 15 seconds (if needed)
       if (
-        $formTrackStore.showFeedbackModal &&
-        $formTrackStore.id === service.slug
+        $serviceSubmissionTimeMeter.showFeedbackModal &&
+        $serviceSubmissionTimeMeter.id === service.slug
       ) {
         feedbackTimeout = setTimeout(() => (showFeedbackModal = true), 15000);
       }
@@ -65,7 +65,7 @@
 
   onDestroy(() => {
     clearTimeout(feedbackTimeout);
-    formTrackStore.clear();
+    serviceSubmissionTimeMeter.clear();
   });
 
   async function handleRefresh() {

@@ -7,10 +7,10 @@
   import { addCircleIcon } from "$lib/icons";
   import EmailButton from "$lib/components/email-button.svelte";
 
-  import { formTrackStore } from "$lib/stores/form-track";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
 
   onDestroy(() => {
-    formTrackStore.clear();
+    serviceSubmissionTimeMeter.clear();
   });
 </script>
 
@@ -49,9 +49,9 @@
         <EmailButton />
       </div>
 
-      {#if $formTrackStore.id && $formTrackStore.duration}
+      {#if $serviceSubmissionTimeMeter.id && $serviceSubmissionTimeMeter.duration}
         <iframe
-          src="https://tally.so/embed/n0Q749?alignLeft=1&hideTitle=1&transparentBackground=1&service={$formTrackStore.id}&temps={$formTrackStore.duration}"
+          src="https://tally.so/embed/n0Q749?alignLeft=1&hideTitle=1&transparentBackground=1&service={$serviceSubmissionTimeMeter.id}&temps={$serviceSubmissionTimeMeter.duration}"
           width="100%"
           height="512"
           frameborder="0"

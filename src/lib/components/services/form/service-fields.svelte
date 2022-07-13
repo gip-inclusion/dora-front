@@ -12,7 +12,7 @@
   import FieldsService from "./_fields-service.svelte";
   import ServiceNavButtons from "./_service-nav-buttons.svelte";
   import Errors from "./_errors.svelte";
-  import { formTrackStore } from "$lib/stores/form-track";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
 
   export let service, servicesOptions, structures, structure, model;
 
@@ -45,12 +45,12 @@
 
   onMount(() => {
     lastUserActivity = Date.now();
-    formTrackStore.clear(); // reset tracking values
+    serviceSubmissionTimeMeter.clear(); // reset tracking values
 
     intervalId = setInterval(() => {
       userIsInactive = (Date.now() - lastUserActivity) / 1000 > 120; // 2 minutes
       if (document.hasFocus() && !userIsInactive) {
-        formTrackStore.incrementDuration();
+        serviceSubmissionTimeMeter.incrementDuration();
       }
     }, 1000);
   });

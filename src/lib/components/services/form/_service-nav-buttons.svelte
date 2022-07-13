@@ -11,7 +11,7 @@
   import { assert, logException } from "$lib/logger";
 
   import Button from "$lib/components/button.svelte";
-  import { formTrackStore } from "$lib/stores/form-track";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
 
   export let onError, service;
 
@@ -26,13 +26,13 @@
       try {
         let result = await createOrModifyService({
           ...validatedData,
-          durationToAdd: $formTrackStore.duration,
+          durationToAdd: $serviceSubmissionTimeMeter.duration,
         });
         result = await publishDraft(result.data.slug);
 
         // For feedback modal
-        formTrackStore.setId(result.slug);
-        formTrackStore.enableFeedbackModal();
+        serviceSubmissionTimeMeter.setId(result.slug);
+        serviceSubmissionTimeMeter.enableFeedbackModal();
 
         goto(`/services/${result.slug}`);
       } catch (error) {
@@ -64,13 +64,13 @@
     // Validation OK, let's send it to the API endpoint
     const result = await createOrModifyService({
       ...validatedData,
-      durationToAdd: $formTrackStore.duration,
+      durationToAdd: $serviceSubmissionTimeMeter.duration,
     });
 
     if (result.ok) {
       // We might have added options to the editable multiselect
 
-      formTrackStore.clear();
+      serviceSubmissionTimeMeter.clear();
 
       service = result.data;
       goto(`/services/${service.slug}`);

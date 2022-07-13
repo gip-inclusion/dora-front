@@ -16,7 +16,7 @@
   import NavButtons from "./_nav-buttons.svelte";
   import Fields from "./_fields.svelte";
   import Alert from "$lib/components/forms/alert.svelte";
-  import { formTrackStore } from "$lib/stores/form-track";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
 
   export let servicesOptions, source;
 
@@ -76,7 +76,7 @@
       const result = await publishServiceSuggestion(service, source);
 
       if (result.ok && result.data) {
-        formTrackStore.setId(result.data.id);
+        serviceSubmissionTimeMeter.setId(result.data.id);
         goto(`/contribuer/merci`);
       } else {
         injectAPIErrors(result.error, {});
@@ -95,20 +95,20 @@
 
   onMount(() => {
     $formErrors = {};
-    formTrackStore.clear(); // reset tracking values
+    serviceSubmissionTimeMeter.clear(); // reset tracking values
     lastUserActivity = Date.now();
 
     intervalId = setInterval(() => {
       userIsInactive = (Date.now() - lastUserActivity) / 1000 > 120; // 2 minutes
       if (document.hasFocus() && !userIsInactive) {
-        formTrackStore.incrementDuration();
+        serviceSubmissionTimeMeter.incrementDuration();
       }
     }, 1000);
   });
 
   onDestroy(() => {
     $formErrors = {};
-    formTrackStore.clear();
+    serviceSubmissionTimeMeter.clear();
     clearInterval(intervalId);
   });
 </script>
