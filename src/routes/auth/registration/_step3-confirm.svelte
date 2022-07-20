@@ -22,6 +22,7 @@
       <a
         class="underline"
         target="_blank"
+        title="Ouverture dans une nouvelle fenêtre"
         rel="noopener nofollow"
         href="https://itou.typeform.com/doracontactsupp">contactez-nous</a
       >.
