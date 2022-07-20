@@ -21,7 +21,7 @@
           <img
             class="inline"
             src={LogoMinistere}
-            alt="Ministère du Travail, du Plein emploi et de l'Insertion"
+            alt="Ministère du Travail, du Plein emploi et de l’Insertion"
             width="114"
             height="89"
           />
