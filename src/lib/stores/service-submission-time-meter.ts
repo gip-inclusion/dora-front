@@ -30,7 +30,7 @@ function createFormTrack(): FormTrack {
      * Add one second to duration
      */
     incrementDuration() {
-      update((s) => ({
+      -update((s) => ({
         ...s,
         duration: s.duration ? s.duration + 1 : 1,
       }));
@@ -50,12 +50,13 @@ function createFormTrack(): FormTrack {
       }));
     },
 
-    clear: () =>
+    clear: () => {
       set({
         id: null,
         duration: null,
-        showFeedbackModal: true,
-      }),
+        showFeedbackModal: false,
+      });
+    },
   };
 }
 
