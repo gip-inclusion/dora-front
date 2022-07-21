@@ -4,7 +4,6 @@ import { writable } from "svelte/store";
 type FormTrackValues = {
   id: string | null; // slug or uuid
   duration: number | null; // in seconds
-  showFeedbackModal: boolean;
 };
 
 type FormTrack = {
@@ -12,7 +11,6 @@ type FormTrack = {
 
   incrementDuration: () => void;
   setId: (slug: string) => void;
-  enableFeedbackModal: () => void;
   clear: () => void;
 };
 
@@ -20,7 +18,6 @@ function createFormTrack(): FormTrack {
   const { subscribe, set, update }: Writable<FormTrackValues> = writable({
     id: null,
     duration: null,
-    showFeedbackModal: false,
   });
 
   return {
@@ -30,7 +27,7 @@ function createFormTrack(): FormTrack {
      * Add one second to duration
      */
     incrementDuration() {
-      -update((s) => ({
+      update((s) => ({
         ...s,
         duration: s.duration ? s.duration + 1 : 1,
       }));
@@ -43,18 +40,10 @@ function createFormTrack(): FormTrack {
       }));
     },
 
-    enableFeedbackModal() {
-      update((s) => ({
-        ...s,
-        showFeedbackModal: true,
-      }));
-    },
-
     clear: () => {
       set({
         id: null,
         duration: null,
-        showFeedbackModal: false,
       });
     },
   };
