@@ -336,9 +336,16 @@ export async function acceptServiceSuggestion(suggestion) {
     ok: res.ok,
     status: res.status,
   };
+
   if (!res.ok) {
     try {
       result.error = await res.json();
+    } catch (err) {
+      logException(err);
+    }
+  } else {
+    try {
+      result.body = await res.json();
     } catch (err) {
       logException(err);
     }
