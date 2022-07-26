@@ -26,9 +26,9 @@
       // On confirme que la suggestion a bien été transformé en service
       if (!result.ok) {
         // eslint-disable-next-line no-alert
-        alert(result.error.detail.message); // FIXME: message 'Pas trouvé.' peu pertinent
+        alert(result.error.detail.message); // FIXME: message "Pas trouvé." peu pertinent
       } else {
-        emailsContacted = result?.body?.emailsContacted ?? [];
+        emailsContacted = result?.data?.emailsContacted ?? [];
         suggestionModalIsOpen = false;
         confirmationModalIsOpen = true;
       }
@@ -118,13 +118,13 @@
   {#if emailsContacted}
     {#if emailsContacted.length === 0}
       <p>
-        Toutefois, aucun courriel n'a été envoyé car aucun destinataire n'a pu
-        être déterminé...
+        Toutefois, aucun courriel n’a été envoyé car aucun destinataire n’a pu
+        être déterminé…
       </p>
     {:else}
       <p>
-        La ou les personnes suivantes ont reçus un courriel les invitant à
-        prendre connaissance de ce nouveau service :
+        La ou les personnes suivantes ont reçu un courriel les invitant à
+        prendre connaissance de ce nouveau service&nbsp;:
       </p>
       <ul class="list-disc pl-s32">
         {#each emailsContacted as mail}

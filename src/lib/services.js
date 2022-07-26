@@ -345,7 +345,7 @@ export async function acceptServiceSuggestion(suggestion) {
     }
   } else {
     try {
-      result.body = await res.json();
+      result.data = await res.json();
     } catch (err) {
       logException(err);
     }
