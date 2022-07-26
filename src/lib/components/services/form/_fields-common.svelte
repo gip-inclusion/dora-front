@@ -318,6 +318,7 @@
       schema={serviceSchema.accessConditions}
       sortSelect
       description="Plusieurs choix possibles"
+      canAdd={!model?.customizableChoicesSet.accessConditions?.length}
     />
   </FieldModel>
 
