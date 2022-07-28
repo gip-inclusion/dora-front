@@ -86,7 +86,9 @@
       if (!isModel && service.model) {
         model = await getModel(model.slug);
       }
-      servicesOptions = await getServicesOptions({ model });
+      servicesOptions = isModel
+        ? await getServicesOptions({ model: service })
+        : await getServicesOptions({ model });
 
       updateServiceOptions();
     }

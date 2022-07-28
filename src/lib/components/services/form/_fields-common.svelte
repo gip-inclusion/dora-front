@@ -19,7 +19,7 @@
   import Uploader from "$lib/components/uploader.svelte";
   import FieldModel from "./_field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service;
+  export let servicesOptions, serviceSchema, service, canAddChoices;
   export let model = null;
 
   let subcategories = [];
@@ -295,7 +295,7 @@
         schema={serviceSchema.concernedPublic}
         sortSelect
         description="Plusieurs choix possibles"
-        canAdd={!model?.customizableChoicesSet?.concernedPublic?.length}
+        canAdd={canAddChoices}
       />
     </FieldModel>
   {/if}
@@ -321,7 +321,7 @@
         schema={serviceSchema.accessConditions}
         sortSelect
         description="Plusieurs choix possibles"
-        canAdd={!model?.customizableChoicesSet?.accessConditions?.length}
+        canAdd={canAddChoices}
       />
     </FieldModel>
   {/if}
@@ -347,7 +347,7 @@
         schema={serviceSchema.requirements}
         sortSelect
         description="Plusieurs choix possibles"
-        canAdd={!model?.customizableChoicesSet?.requirements?.length}
+        canAdd={canAddChoices}
       />
     </FieldModel>
   {/if}
@@ -529,7 +529,7 @@
         placeholderMulti="Choisir un autre justificatif"
         schema={serviceSchema.credentials}
         sortSelect
-        canAdd={!model?.customizableChoicesSet?.credentials?.length}
+        canAdd={canAddChoices}
       />
     </FieldModel>
   {/if}
