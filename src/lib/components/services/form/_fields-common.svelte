@@ -295,6 +295,7 @@
         schema={serviceSchema.concernedPublic}
         sortSelect
         description="Plusieurs choix possibles"
+        canAdd={!model?.customizableChoicesSet?.concernedPublic?.length}
       />
     </FieldModel>
   {/if}
@@ -320,7 +321,7 @@
         schema={serviceSchema.accessConditions}
         sortSelect
         description="Plusieurs choix possibles"
-        canAdd={!model?.customizableChoicesSet.accessConditions?.length}
+        canAdd={!model?.customizableChoicesSet?.accessConditions?.length}
       />
     </FieldModel>
   {/if}
@@ -346,6 +347,7 @@
         schema={serviceSchema.requirements}
         sortSelect
         description="Plusieurs choix possibles"
+        canAdd={!model?.customizableChoicesSet?.requirements?.length}
       />
     </FieldModel>
   {/if}
@@ -527,6 +529,7 @@
         placeholderMulti="Choisir un autre justificatif"
         schema={serviceSchema.credentials}
         sortSelect
+        canAdd={!model?.customizableChoicesSet?.credentials?.length}
       />
     </FieldModel>
   {/if}
