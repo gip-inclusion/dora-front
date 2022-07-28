@@ -264,7 +264,6 @@
     />
   </FieldModel>
 </FieldSet>
-
 <FieldSet title="Publics" {showModel}>
   <div slot="help">
     <p class="text-f14">
@@ -275,75 +274,81 @@
     </p>
   </div>
 
-  <FieldModel
-    {showModel}
-    value={model?.concernedPublic}
-    serviceValue={service.concernedPublic}
-    options={servicesOptions.concernedPublic}
-    useValue={useModelValue("concernedPublic")}
-    type="array"
-  >
-    <AddableMultiselect
-      bind:values={service.concernedPublic}
-      structure={service.structure}
-      choices={servicesOptions.concernedPublic}
-      errorMessages={$formErrors.concernedPublic}
-      name="concernedPublic"
-      label={serviceSchema.concernedPublic.name}
-      placeholder="Tous publics"
-      placeholderMulti="Sélectionner"
-      schema={serviceSchema.concernedPublic}
-      sortSelect
-      description="Plusieurs choix possibles"
-    />
-  </FieldModel>
+  {#if servicesOptions.concernedPublic.length}
+    <FieldModel
+      {showModel}
+      value={model?.concernedPublic}
+      serviceValue={service.concernedPublic}
+      options={servicesOptions.concernedPublic}
+      useValue={useModelValue("concernedPublic")}
+      type="array"
+    >
+      <AddableMultiselect
+        bind:values={service.concernedPublic}
+        structure={service.structure}
+        choices={servicesOptions.concernedPublic}
+        errorMessages={$formErrors.concernedPublic}
+        name="concernedPublic"
+        label={serviceSchema.concernedPublic.name}
+        placeholder="Tous publics"
+        placeholderMulti="Sélectionner"
+        schema={serviceSchema.concernedPublic}
+        sortSelect
+        description="Plusieurs choix possibles"
+      />
+    </FieldModel>
+  {/if}
 
-  <FieldModel
-    {showModel}
-    value={model?.accessConditions}
-    serviceValue={service.accessConditions}
-    options={servicesOptions.accessConditions}
-    useValue={useModelValue("accessConditions")}
-    type="array"
-  >
-    <AddableMultiselect
-      bind:values={service.accessConditions}
-      structure={service.structure}
-      choices={servicesOptions.accessConditions}
-      errorMessages={$formErrors.accessConditions}
-      name="accessConditions"
-      label={serviceSchema.accessConditions.name}
-      placeholder="Aucun"
-      placeholderMulti="Choisir un autre critères d’admission"
-      schema={serviceSchema.accessConditions}
-      sortSelect
-      description="Plusieurs choix possibles"
-      canAdd={!model?.customizableChoicesSet.accessConditions?.length}
-    />
-  </FieldModel>
+  {#if servicesOptions.accessConditions.length}
+    <FieldModel
+      {showModel}
+      value={model?.accessConditions}
+      serviceValue={service.accessConditions}
+      options={servicesOptions.accessConditions}
+      useValue={useModelValue("accessConditions")}
+      type="array"
+    >
+      <AddableMultiselect
+        bind:values={service.accessConditions}
+        structure={service.structure}
+        choices={servicesOptions.accessConditions}
+        errorMessages={$formErrors.accessConditions}
+        name="accessConditions"
+        label={serviceSchema.accessConditions.name}
+        placeholder="Aucun"
+        placeholderMulti="Choisir un autre critères d’admission"
+        schema={serviceSchema.accessConditions}
+        sortSelect
+        description="Plusieurs choix possibles"
+        canAdd={!model?.customizableChoicesSet.accessConditions?.length}
+      />
+    </FieldModel>
+  {/if}
 
-  <FieldModel
-    {showModel}
-    value={model?.requirements}
-    serviceValue={service.requirements}
-    options={servicesOptions.requirements}
-    useValue={useModelValue("requirements")}
-    type="array"
-  >
-    <AddableMultiselect
-      bind:values={service.requirements}
-      structure={service.structure}
-      choices={servicesOptions.requirements}
-      errorMessages={$formErrors.requirements}
-      name="requirements"
-      label={serviceSchema.requirements.name}
-      placeholder="Aucun"
-      placeholderMulti="Choisir un autre pré-requis"
-      schema={serviceSchema.requirements}
-      sortSelect
-      description="Plusieurs choix possibles"
-    />
-  </FieldModel>
+  {#if servicesOptions.requirements.length}
+    <FieldModel
+      {showModel}
+      value={model?.requirements}
+      serviceValue={service.requirements}
+      options={servicesOptions.requirements}
+      useValue={useModelValue("requirements")}
+      type="array"
+    >
+      <AddableMultiselect
+        bind:values={service.requirements}
+        structure={service.structure}
+        choices={servicesOptions.requirements}
+        errorMessages={$formErrors.requirements}
+        name="requirements"
+        label={serviceSchema.requirements.name}
+        placeholder="Aucun"
+        placeholderMulti="Choisir un autre pré-requis"
+        schema={serviceSchema.requirements}
+        sortSelect
+        description="Plusieurs choix possibles"
+      />
+    </FieldModel>
+  {/if}
 </FieldSet>
 
 <FieldSet title="Modalités" {showModel}>
@@ -502,27 +507,29 @@
     </Field>
   </FieldModel>
 
-  <FieldModel
-    {showModel}
-    value={model?.credentials}
-    serviceValue={service.credentials}
-    useValue={useModelValue("credentials")}
-    options={servicesOptions.credentials}
-    type="array"
-  >
-    <AddableMultiselect
-      bind:values={service.credentials}
-      structure={service.structure}
-      choices={servicesOptions.credentials}
-      errorMessages={$formErrors.credentials}
-      name="credentials"
-      label={serviceSchema.credentials.name}
-      placeholder="Aucun"
-      placeholderMulti="Choisir un autre justificatif"
-      schema={serviceSchema.credentials}
-      sortSelect
-    />
-  </FieldModel>
+  {#if servicesOptions.credentials.length}
+    <FieldModel
+      {showModel}
+      value={model?.credentials}
+      serviceValue={service.credentials}
+      useValue={useModelValue("credentials")}
+      options={servicesOptions.credentials}
+      type="array"
+    >
+      <AddableMultiselect
+        bind:values={service.credentials}
+        structure={service.structure}
+        choices={servicesOptions.credentials}
+        errorMessages={$formErrors.credentials}
+        name="credentials"
+        label={serviceSchema.credentials.name}
+        placeholder="Aucun"
+        placeholderMulti="Choisir un autre justificatif"
+        schema={serviceSchema.credentials}
+        sortSelect
+      />
+    </FieldModel>
+  {/if}
 
   <FieldModel
     {showModel}

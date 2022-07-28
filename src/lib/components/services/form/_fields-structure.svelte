@@ -81,21 +81,13 @@
   async function handleStructureChange(slug) {
     if (slug) {
       structure = await getStructure(slug);
-      servicesOptions = await getServicesOptions();
 
       service.structure = slug;
       if (!isModel && service.model) {
         model = await getModel(model.slug);
-
-        if (model?.customizableChoicesSet) {
-          servicesOptions.accessConditions =
-            servicesOptions.accessConditions.filter((option) =>
-              model.customizableChoicesSet.accessConditions.includes(
-                option.value
-              )
-            );
-        }
       }
+      servicesOptions = await getServicesOptions({ model });
+
       updateServiceOptions();
     }
   }

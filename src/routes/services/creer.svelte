@@ -45,14 +45,7 @@
       structure = structures.find((s) => s.slug === structureSlug);
       service.structure = structureSlug;
     }
-    const servicesOptions = await getServicesOptions();
-    if (model?.customizableChoicesSet) {
-      servicesOptions.accessConditions =
-        servicesOptions.accessConditions.filter((option) =>
-          model.customizableChoicesSet.accessConditions.includes(option.value)
-        );
-    }
-    console.log(servicesOptions);
+    const servicesOptions = await getServicesOptions({ model });
 
     return {
       props: {

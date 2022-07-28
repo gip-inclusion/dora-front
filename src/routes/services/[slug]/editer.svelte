@@ -12,7 +12,7 @@
     let structure = {};
     let structures = [];
     let model = null;
-    const servicesOptions = await getServicesOptions();
+    let servicesOptions = {};
 
     // on ne retourne une 404 que sur le client
     if (!browser) {
@@ -37,6 +37,8 @@
     if (service.model) {
       model = await getModel(service.model);
     }
+
+    servicesOptions = await getServicesOptions({ model });
 
     return {
       props: {
