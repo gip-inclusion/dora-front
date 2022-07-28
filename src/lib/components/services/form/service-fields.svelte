@@ -129,7 +129,7 @@
         {servicesOptions}
         {model}
         {serviceSchema}
-        canAddChoices={!model.customizableChoicesSet}
+        canAddChoices={!model?.customizableChoicesSet}
       />
     </div>
   </CenteredGrid>
