@@ -12,11 +12,10 @@
     let structure = {};
     let structures = [];
     let model = null;
-    let servicesOptions = {};
 
     // on ne retourne une 404 que sur le client
     if (!browser) {
-      return { structure, structures, service, servicesOptions };
+      return { structure, structures, service, servicesOptions: {} };
     }
 
     if (!service) {
@@ -38,12 +37,10 @@
       model = await getModel(service.model);
     }
 
-    servicesOptions = await getServicesOptions({ model });
-
     return {
       props: {
         service,
-        servicesOptions,
+        servicesOptions: await getServicesOptions({ model }),
         structures,
         structure,
         model,

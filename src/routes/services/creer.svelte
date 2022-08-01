@@ -45,12 +45,11 @@
       structure = structures.find((s) => s.slug === structureSlug);
       service.structure = structureSlug;
     }
-    const servicesOptions = await getServicesOptions({ model });
 
     return {
       props: {
         lastDraft: await getLastDraft(),
-        servicesOptions,
+        servicesOptions: await getServicesOptions({ model }),
         structures,
         structure,
         service,
