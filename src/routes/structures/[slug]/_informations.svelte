@@ -18,11 +18,9 @@
   let fullDesc;
 
   $: fullDesc = markdownToHTML(structure.fullDesc);
-
-  const flexCommonCss = "flex gap-s40 md:gap-s40 lg:gap-s96";
 </script>
 
-<div class={`${flexCommonCss} flex-col-reverse md:flex-row`}>
+<div class="flex-common-css flex-col-reverse md:flex-row">
   <div class="flex-[1]">
     <div class="flex flex-col md:flex-row">
       <div class="mb-s24 md:mb-s0">
@@ -123,7 +121,7 @@
   </div>
 </div>
 
-<div class={flexCommonCss}>
+<div class="flex-common-css">
   <div class="hidden flex-[1] md:block" />
   <div class="mb-s24 flex-[3] md:mt-s24">
     <p class="mb-s24 font-bold">{structure.shortDesc}</p>
@@ -144,5 +142,9 @@
 
   .icon {
     @apply relative top-s2 h-s16 w-s16 flex-none fill-current;
+  }
+
+  .flex-common-css {
+    @apply flex gap-s40 md:gap-s40 lg:gap-s96;
   }
 </style>
