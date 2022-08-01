@@ -10,7 +10,7 @@
     mapPinIcon,
     phoneIcon,
   } from "$lib/icons";
-  import { structureInformationsIsComplete } from "$lib/structures";
+  import { isStructureInformationsComplete } from "$lib/structures";
   import { markdownToHTML } from "$lib/utils";
 
   export let structure;
@@ -90,7 +90,7 @@
 
   <div class="flex-[3]">
     {#if $token && (structure.isAdmin || $userInfo?.isStaff)}
-      {#if !structureInformationsIsComplete(structure)}
+      {#if !isStructureInformationsComplete(structure)}
         <Notice
           title="Les informations de votre structure ne sont pas complètes"
           type="warning"

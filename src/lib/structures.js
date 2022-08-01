@@ -254,6 +254,6 @@ export async function rejectMembershipRequest(uuid) {
   return result;
 }
 
-export function structureInformationsIsComplete(structure) {
+export function isStructureInformationsComplete(structure) {
   return validate(structure, structureSchema).valid;
 }
