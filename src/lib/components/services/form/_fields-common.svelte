@@ -67,6 +67,7 @@
         const { validatedData, valid } = validate(service, filteredSchema, {
           fullSchema: serviceSchema,
           noScroll: true,
+          extraData: servicesOptions,
         });
 
         if (valid) {

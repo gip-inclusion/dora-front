@@ -148,7 +148,28 @@ const schema = {
   subcategories: {
     name: "besoins",
     default: [],
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
+    rules: [
+      v.isArray([v.isString(), v.maxStrLength(255)]),
+      (name, value, data, extraData) => {
+        console.log(data, extraData);
+        const subcatRoots = new Set(
+          data.subcategories.map((value) => value.split("--")[0])
+        );
+        console.log(data.categories, data.subcategories, subcatRoots);
+        const catWithoutSubCat = data.categories
+          .filter((value) => !subcatRoots.has(value))
+          .map(
+            (value) =>
+              extraData.categories.find((cat) => cat.value === value).label
+          );
+        return {
+          valid: catWithoutSubCat.length === 0,
+          msg: `Ces thématiques n’ont pas de besoin associé: ${catWithoutSubCat.join(
+            ", "
+          )} `,
+        };
+      },
+    ],
   },
   kinds: {
     name: "types",

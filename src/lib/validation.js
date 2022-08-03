@@ -23,7 +23,7 @@ function clearError(fieldname) {
   });
 }
 
-function validateField(fieldname, shape, data) {
+function validateField(fieldname, shape, data, extraData) {
   const originalValue = data[fieldname];
 
   let value = originalValue;
@@ -47,7 +47,7 @@ function validateField(fieldname, shape, data) {
   }
 
   for (const rule of shape.rules) {
-    const result = rule(`${fieldname}`, value, data);
+    const result = rule(`${fieldname}`, value, data, extraData);
 
     if (!result.valid) {
       return { originalValue, valid: false, msg: result.msg };
@@ -71,7 +71,7 @@ function scrollToField(fieldname) {
 export function validate(
   data,
   schema,
-  { noScroll = false, fullSchema, showErrors = true } = {}
+  { noScroll = false, fullSchema, showErrors = true, extraData = {} } = {}
 ) {
   let validatedData = {};
   let isValid = true;
@@ -84,7 +84,12 @@ export function validate(
   }
 
   Object.entries(schema).forEach(([fieldname, shape]) => {
-    const { value, valid, msg } = validateField(fieldname, shape, data);
+    const { value, valid, msg } = validateField(
+      fieldname,
+      shape,
+      data,
+      extraData
+    );
 
     isValid &&= valid;
     validatedData[fieldname] = value;
@@ -114,7 +119,7 @@ export function validate(
           value: depValue,
           valid: depValid,
           msg: depMsg,
-        } = validateField(depName, fullSchema[depName], data);
+        } = validateField(depName, fullSchema[depName], data, extraData);
 
         isValid &&= depValid;
         validatedData[depName] = depValue;
