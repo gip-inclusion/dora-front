@@ -153,7 +153,6 @@ const schema = {
     rules: [
       v.isArray([v.isString(), v.maxStrLength(255)]),
       (name, value, data, extraData) => {
-        console.log("extra", extraData);
         const subcatRoots = new Set(
           data.subcategories.map((value) => value.split("--")[0])
         );
