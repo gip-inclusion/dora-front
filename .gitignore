@@ -4,5 +4,7 @@ node_modules
 /.svelte-kit
 /package
 .env
+.env.*
+!.env.test
 !.env.example
 .cache_ggshield
