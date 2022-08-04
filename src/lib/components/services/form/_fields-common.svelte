@@ -64,7 +64,6 @@
           // on l'initialise avec une valeur par défaut
           [fieldname]: serviceSchema[fieldname] || { rules: [] },
         };
-        console.log("validating");
         const { validatedData, valid } = validate(service, filteredSchema, {
           fullSchema: serviceSchema,
           noScroll: true,
