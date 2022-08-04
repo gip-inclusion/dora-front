@@ -71,7 +71,7 @@ function scrollToField(fieldname) {
 export function validate(
   data,
   schema,
-  { noScroll = false, fullSchema, showErrors = true, extraData = {} } = {}
+  { noScroll = false, fullSchema, showErrors = true, extraData } = {}
 ) {
   let validatedData = {};
   let isValid = true;
@@ -111,10 +111,9 @@ export function validate(
       }
     }
 
-    // si un schema complet est passé en paramètre.
-    // on vérifie les dépendances
-    if (fullSchema) {
-      shape.dependents?.forEach((depName) => {
+    // Vérification des dépendances
+    if (shape.dependents?.length && fullSchema) {
+      shape.dependents.forEach((depName) => {
         const {
           value: depValue,
           valid: depValid,
@@ -123,14 +122,14 @@ export function validate(
 
         isValid &&= depValid;
         validatedData[depName] = depValue;
-
-        if (!valid) {
+        if (!depValid) {
           errorFields.push(fullSchema[depName].name);
         }
 
         if (showErrors) {
-          if (!valid) {
-            addError(fieldname, depMsg);
+          if (!depValid) {
+            clearError(depName);
+            addError(depName, depMsg);
           }
           if (!noScroll && !doneOnce && !depValid) {
             scrollToField(depName);

@@ -1,3 +1,4 @@
+import { log } from "$lib/logger";
 import * as v from "./utils";
 
 export const SERVICE_STATUSES = {
@@ -144,6 +145,7 @@ const schema = {
     name: "thématiques",
     default: [],
     rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
+    dependents: ["subcategories"],
   },
   subcategories: {
     name: "besoins",
@@ -151,11 +153,15 @@ const schema = {
     rules: [
       v.isArray([v.isString(), v.maxStrLength(255)]),
       (name, value, data, extraData) => {
-        console.log(data, extraData);
         const subcatRoots = new Set(
           data.subcategories.map((value) => value.split("--")[0])
         );
-        console.log(data.categories, data.subcategories, subcatRoots);
+        if (!extraData) {
+          log("Missing servicesOptions in rules check");
+          return {
+            valid: true,
+          };
+        }
         const catWithoutSubCat = data.categories
           .filter((value) => !subcatRoots.has(value))
           .map(
@@ -317,7 +323,7 @@ const schema = {
   },
 
   locationKinds: {
-    name: "Mode d’accueil",
+    name: "mode d’accueil",
     default: [],
     rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
   },
