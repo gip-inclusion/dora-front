@@ -84,7 +84,7 @@
 </svelte:head>
 
 {#if service}
-  <CenteredGrid bgColor="bg-gray-bg">
+  <CenteredGrid bgColor="bg-france-blue">
     <ServiceHeader {service} />
   </CenteredGrid>
   <hr />

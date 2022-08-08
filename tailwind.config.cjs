@@ -36,6 +36,9 @@ const config = {
       available: { DEFAULT: "#008941", dark: "#1cda76" },
       na: { DEFAULT: "#e10600", dark: "#ff504c" },
       wait: { DEFAULT: "#f29023", dark: "#fe9800" },
+
+      "available-service": "#86F3A2",
+      "unavailable-service": "#FF9A6C",
     },
     fontFamily: {
       sans: ["Marianne"],

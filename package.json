@@ -22,6 +22,7 @@
     "check:watch": "svelte-check --tsconfig ./tsconfig.json --watch",
     "lint": "prettier --check --plugin-search-dir=. . && eslint .",
     "format": "prettier --write --plugin-search-dir=. . && eslint --fix . && svgo --pretty -f src/lib/assets",
+    "svg-optimize": "svgo --pretty -f src/lib/assets",
     "prepare": "husky install",
     "security-scan": "ggshield scan  path -r . -y"
   },
