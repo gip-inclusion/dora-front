@@ -1,7 +1,7 @@
 # Commandes disponibles
 
-`npm run test` : lance les tests en mode headless
-`npm run test-debug` : lance les tests en liaison avec avec le Playwright Inspector, permettant de faire du pas-à-pas : https://playwright.dev/docs/debug
+`npm run test-e2e` : lance les tests en mode headless
+`npm run test-e2e-debug` : lance les tests en liaison avec avec le Playwright Inspector, permettant de faire du pas-à-pas : https://playwright.dev/docs/debug
 
 # Philosophie des tests
 
