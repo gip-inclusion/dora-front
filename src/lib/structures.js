@@ -35,14 +35,21 @@ export async function siretWasAlreadyClaimed(siret) {
   return result;
 }
 
-export async function getStructures() {
+export async function getStructures({ kitFetch } = {}) {
   const url = `${getApiURL()}/structures/`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, { kitFetch })).data;
 }
 
 export async function getStructure(slug) {
   const url = `${getApiURL()}/structures/${slug}/`;
   const result = (await fetchData(url)).data;
+
+  return result;
+}
+
+export async function getStructureMod(slug, { kitFetch } = {}) {
+  const url = `${getApiURL()}/structures/${slug}/moderation-info/`;
+  const result = (await fetchData(url, { kitFetch })).data;
 
   return result;
 }

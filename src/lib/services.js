@@ -30,9 +30,9 @@ function serviceToFront(service) {
   return service;
 }
 
-export async function getServices() {
-  const url = `${getApiURL()}/services/`;
-  return (await fetchData(url)).data;
+export async function getPublishedServices({ kitFetch } = {}) {
+  const url = `${getApiURL()}/services/?published=1`;
+  return (await fetchData(url, { kitFetch })).data;
 }
 
 export async function getMyServices() {
@@ -48,6 +48,13 @@ export async function getService(slug) {
   // TODO: 404
 
   return serviceToFront(response.data);
+}
+
+export async function getServiceMod(slug, { kitFetch } = {}) {
+  const url = `${getApiURL()}/services/${slug}/moderation-info/`;
+  const result = (await fetchData(url, { kitFetch })).data;
+
+  return result;
 }
 
 export async function getModel(slug) {
