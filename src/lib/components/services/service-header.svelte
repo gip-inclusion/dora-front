@@ -1,43 +1,51 @@
-<script>
-  import Label from "$lib/components/label.svelte";
+<script lang="ts">
+  import Breadcrumb from "$lib/components/breadcrumb.svelte";
+  import type { Service } from "$lib/types";
+  import { capitalize } from "$lib/utils";
 
-  import { checkBoxBlankIcon } from "$lib/icons";
+  import AvailableIcon from "$lib/assets/services/availability/available.svg";
+  import UnavailableIcon from "$lib/assets/services/availability/unavailable.svg";
 
-  import StructureCard from "$lib/components/structures/card.svelte";
-  import Date from "../date.svelte";
-  import { SERVICE_STATUSES } from "$lib/schemas/service";
-
-  export let service;
+  export let service: Service;
 </script>
 
-<div class="flex flex-col gap-s16 lg:flex-row-reverse lg:justify-between">
-  <div class="mb-s24 lg:mb-s0 lg:w-1/3 lg:self-end">
-    <StructureCard structure={service.structureInfo} showAddress={false} />
+<div id="service-header" class="gap-s16 lg:flex-row-reverse lg:justify-between">
+  <div class="mb-s48">
+    <Breadcrumb
+      serviceInfo={service}
+      structureInfo={service.structureInfo}
+      currentLocation="service"
+    />
+  </div>
+  <h1 class="mb-s14 text-f45 leading-[3rem] text-white">{service.name}</h1>
+
+  <div
+    class="mb-s48 flex flex-col text-f18 text-white md:flex-row md:items-center"
+  >
+    <div><strong>{capitalize(service.structureInfo.name)}</strong></div>
+    <div class="mx-s8 hidden font-bold md:block" aria-hidden="true">·</div>
+    <div>
+      <a class="underline" href="/structures/{service.structureInfo.slug}"
+        >Voir les autres services ({service.structureInfo.numServices})</a
+      >
+    </div>
   </div>
 
-  <div class="lg:w-2/3">
-    <div class="flex items-center">
-      <p class="mb-s0 text-f14 font-bold text-gray-text">Service</p>
-      <p class="mx-s12 mb-s0 text-f14 text-gray-03">|</p>
-
-      <p class="mb-s0 text-f14 text-gray-text">
-        Mis à jour le <Date date={service.modificationDate} />
-      </p>
-    </div>
-    <h1 class="text-france-blue">{service.name}</h1>
-    <div class="flex items-center">
-      {#if service.status === SERVICE_STATUSES.published}
-        <Label
-          label="Disponible"
-          icon={checkBoxBlankIcon}
-          success
-          bold
-          smallIcon
-        />
-        <p class="mx-s12 mb-s0 text-f14 text-gray-03">|</p>
+  <div
+    class="mb-s32 flex flex-col text-f18  text-white md:flex-row md:items-center"
+  >
+    <div id="service-availability" class="mb-s10 flex items-center md:mb-s0">
+      {#if service.isAvailable}
+        <img src={AvailableIcon} alt="" class="mr-s6" />
+        <span class="text-service-available">Service disponible</span>
+      {:else}
+        <img src={UnavailableIcon} alt="" class="mr-s6" />
+        <span class="text-service-unavailable">Service indisponible</span>
       {/if}
-
-      <Label label={service.diffusionZoneDetailsDisplay} />
+    </div>
+    <div class="mx-s8 hidden font-bold md:block" aria-hidden="true">·</div>
+    <div>
+      Périmètre : <strong>{service.diffusionZoneDetailsDisplay}</strong>
     </div>
   </div>
 </div>
