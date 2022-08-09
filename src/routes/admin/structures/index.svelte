@@ -5,7 +5,7 @@
   import { capitalize, shortenString } from "$lib/utils";
   import Label from "$lib/components/label.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
-  import { homeIcon } from "$lib/icons";
+  import { eyeIcon, homeIcon } from "$lib/icons";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 
   let structures, filteredStructures;
@@ -81,8 +81,8 @@
           {/if}
 
           <LinkButton
-            label="Voir"
             to="/structures/{structure.slug}"
+            icon={eyeIcon}
             noBackground
             otherTab
           />

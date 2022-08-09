@@ -1,21 +1,24 @@
 <script>
   import Date from "$lib/components/date.svelte";
-  import CopyableText from "./_copyable-text.svelte";
+  import EmailLine from "./_email-line.svelte";
 
   import WebSearchLink from "./_web-search-link.svelte";
 
-  export let user;
+  export let user, structure;
 </script>
 
 <div>
-  {user.firstName}
-  {user.lastName}
-  <br />
-  {user.email}
-  <a class="text-f12 underline" href="mailto:{user.email}">mailto</a>
-  <WebSearchLink searchString={user.email} />
-  <CopyableText text={user.email} />
-  <br />
+  <strong>
+    {user.firstName}
+    {user.lastName}
+  </strong>
+
+  <WebSearchLink
+    searchString="{user.firstName} {user.lastName} {structure.name}"
+  />
+
+  <EmailLine email={user.email} />
+
   {#if user.phoneNumber}
     tel: {user.phoneNumber}
     <br />

@@ -6,7 +6,6 @@
   import { eyeIcon, homeIcon } from "$lib/icons";
   import Label from "$lib/components/label.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
-  import ServiceStateLabel from "$lib/components/services/state-label.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 
   let services, filteredServices;
@@ -88,16 +87,14 @@
             {/if}
             <Label label={service.diffusionZoneDetailsDisplay} bold />
           </div>
-          <div class="flex-none basis-s112">
-            <ServiceStateLabel {service} />
-          </div>
+
           <div class="flex-none basis-s40">
-            <Label
+            <!-- <Label
               label={`${new Date(service.modificationDate).toLocaleDateString(
                 "fr",
                 "short"
               )}`}
-            />
+            /> -->
           </div>
           <div class="flex-none basis-s32">
             <LinkButton

@@ -34,10 +34,7 @@
   <meta name="robots" content="noindex" />
 </svelte:head>
 
-<CenteredGrid
-  ><h1><a href="/admin">Interface d'administration</a></h1></CenteredGrid
->
-
 <CenteredGrid>
+  <h1><a href="/admin">Interface d'administration</a></h1>
   <slot />
 </CenteredGrid>

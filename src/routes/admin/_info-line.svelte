@@ -3,7 +3,7 @@
 </script>
 
 {#if condition}
-  <div class="mb-s24">
+  <div class="mb-s16 pl-s16">
     <slot />
   </div>
 {/if}
