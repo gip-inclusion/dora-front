@@ -8,6 +8,31 @@ export const SERVICE_STATUSES = {
   archived: "ARCHIVED",
 };
 
+export function allCategoriesHaveSubcategories() {
+  return (name, value, data, extraData) => {
+    const subcatRoots = new Set(
+      data.subcategories.map((value) => value.split("--")[0])
+    );
+    if (!extraData) {
+      log("Missing servicesOptions in rules check");
+      return {
+        valid: true,
+      };
+    }
+    const catWithoutSubCat = data.categories
+      .filter((value) => !subcatRoots.has(value))
+      .map(
+        (value) => extraData.categories.find((cat) => cat.value === value).label
+      );
+    return {
+      valid: catWithoutSubCat.length === 0,
+      msg: `Ces thématiques n’ont pas de besoin associé: ${catWithoutSubCat.join(
+        ", "
+      )} `,
+    };
+  };
+}
+
 const fields = {
   contrib: [
     "siret",
@@ -152,29 +177,7 @@ const schema = {
     default: [],
     rules: [
       v.isArray([v.isString(), v.maxStrLength(255)]),
-      (name, value, data, extraData) => {
-        const subcatRoots = new Set(
-          data.subcategories.map((value) => value.split("--")[0])
-        );
-        if (!extraData) {
-          log("Missing servicesOptions in rules check");
-          return {
-            valid: true,
-          };
-        }
-        const catWithoutSubCat = data.categories
-          .filter((value) => !subcatRoots.has(value))
-          .map(
-            (value) =>
-              extraData.categories.find((cat) => cat.value === value).label
-          );
-        return {
-          valid: catWithoutSubCat.length === 0,
-          msg: `Ces thématiques n’ont pas de besoin associé: ${catWithoutSubCat.join(
-            ", "
-          )} `,
-        };
-      },
+      allCategoriesHaveSubcategories(),
     ],
   },
   kinds: {
