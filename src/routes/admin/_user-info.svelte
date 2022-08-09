@@ -16,8 +16,10 @@
   <WebSearchLink searchString={user.email} />
   <CopyableText text={user.email} />
   <br />
-  tel: {user.phoneNumber}
-  <br />
+  {#if user.phoneNumber}
+    tel: {user.phoneNumber}
+    <br />
+  {/if}
   actif: {user.isActive ? "oui" : "non"} valide: {user.isValid ? "oui" : "non"} infolettre:
   {user.newsletter ? "oui" : "non"}
   <br />

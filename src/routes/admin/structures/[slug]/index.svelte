@@ -38,25 +38,56 @@
   <title>Administration | {capitalize(structure.name)} | DORA</title>
 </svelte:head>
 
-<h1>{structure.name} <WebSearchLink searchString={structure.name} /></h1>
-
-Contacts • Collaborateurs•trices • Antennes • Modèles •<a href="#services"
-  >Services</a
->
-
-<div class="mb-s32 flex flex-row gap-s24">
-  <a class="underline" href="/structures/{structure.slug}" target="_blank">
-    Lien front
-  </a>
-
+<h1>
+  {structure.name}
+  <WebSearchLink searchString={structure.name} />
   <a
-    class="underline"
-    href="{getApiURL()}/admin/structures/structure/{structure.id}/"
-    target="_blank">Lien back</a
+    class="text-f12 underline"
+    href="/structures/{structure.slug}"
+    target="_blank">front</a
   >
-</div>
+  <a
+    class="text-f12 underline"
+    href="{getApiURL()}/admin/structures/structure/{structure.id}/"
+    target="_blank">back</a
+  >
+</h1>
+{#if structure.parent.slug}
+  <InfoLine>
+    Antenne de <strong>{structure.parent.name}</strong>
+    {structure.parent.slug}
+    <a
+      class="text-f12 underline"
+      href="/structures/{structure.parent.slug}"
+      target="_blank">front</a
+    >
+    <a
+      class="text-f12 underline"
+      href="/admin/structures/{structure.parent.slug}"
+      target="_blank">admin</a
+    >
+    <a
+      class="text-f12 underline"
+      href="{getApiURL()}/admin/structures/structure/{structure.parent.id}/"
+      target="_blank">back</a
+    >
+  </InfoLine>
+{/if}
 
-<h2>Contacts</h2>
+<nav class="my-s24 flex flex-row gap-s10 text-f12 uppercase italic underline">
+  <a href="#contacts">Contacts</a> |
+  <a href="#infos">Informations</a>
+  {#if structure.members.length}| <a href="#collabs">Collaborateurs•trices</a
+    >{/if}
+  {#if structure.pendingMembers.length}| <a href="#pending-collabs"
+      >Collaborateurs•trices en attente</a
+    >{/if}
+  {#if structure.branches.length}| <a href="#branches">Antennes</a>{/if}
+  {#if structure.models.length}| <a href="#models">Modèles</a>{/if}
+  {#if structure.services.length}| <a href="#services">Services</a>{/if}
+</nav>
+
+<h2 id="contacts">Contacts</h2>
 
 <InfoLine condition={structure.phone}>
   téléphone: {structure.phone}
@@ -85,7 +116,7 @@ Contacts • Collaborateurs•trices • Antennes • Modèles •<a href="#serv
   {/each}
 {/if}
 
-<h2>Informations</h2>
+<h2 id="infos">Informations</h2>
 
 <InfoLine condition={structure.url}>
   <a
@@ -115,11 +146,11 @@ Contacts • Collaborateurs•trices • Antennes • Modèles •<a href="#serv
 </InfoLine>
 
 <InfoLine condition={structure.shortDesc}>
-  Description courte: {structure.shortDesc}
+  {structure.shortDesc}
 </InfoLine>
 <InfoLine condition={structure.fullDesc}>
   Description longue:
-  <div class="rounded-md border-2 border-gray-02 p-s16">
+  <div class="prose-sm rounded-md border-2 border-gray-02 p-s16">
     <TextClamp text={description} />
   </div>
 </InfoLine>
@@ -128,34 +159,30 @@ Contacts • Collaborateurs•trices • Antennes • Modèles •<a href="#serv
   Département: {structure.department}
 </InfoLine>
 
-<InfoLine condition={structure.address1}>
-  Adresse: {structure.address1}
-  {structure.address2}
-</InfoLine>
-<InfoLine condition={structure.postalCode}>
-  Code postal: {structure.postalCode}
-</InfoLine>
-<InfoLine condition={structure.city}>
-  Ville: {structure.city}
-</InfoLine>
-{#if structure.longitude && structure.latitude}
-  <a
-    class="text-f12 underline"
-    href="https://www.google.com/maps/search/?api=1&query={structure.latitude},{structure.longitude}"
-    target="_blank"
-    rel="noopener nofollow noreferrer">google map</a
-  >
-
-  <InfoLine condition={structure.ape}>
-    Code APE: {structure.ape}
-
+<InfoLine>
+  Adresse: {#if structure.longitude && structure.latitude}
     <a
       class="text-f12 underline"
-      href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/{structure.ape}"
-      target="_blank">description</a
+      href="https://www.google.com/maps/search/?api=1&query={structure.latitude},{structure.longitude}"
+      target="_blank"
+      rel="noopener nofollow noreferrer">google map</a
     >
-  </InfoLine>
-{/if}
+  {/if}<br />
+  {#if structure.address1}{structure.address1} <br />{/if}
+  {#if structure.address2}{structure.address2}<br />{/if}
+  {#if structure.postalCode}{structure.postalCode}<br />{/if}
+  {#if structure.city}{structure.city}<br />{/if}
+</InfoLine>
+
+<InfoLine condition={structure.ape}>
+  Code APE: {structure.ape}
+
+  <a
+    class="text-f12 underline"
+    href="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/{structure.ape}"
+    target="_blank">description</a
+  >
+</InfoLine>
 
 <InfoLine>
   Date de création: <Date date={structure.creationDate} />
@@ -164,8 +191,8 @@ Contacts • Collaborateurs•trices • Antennes • Modèles •<a href="#serv
   Date de dernière modification: <Date date={structure.modificationDate} />
 </InfoLine>
 
-{#if structure.members}
-  <h2>Collaborateurs•trices</h2>
+{#if structure.members.length}
+  <h2 id="collabs">Collaborateurs•trices</h2>
 
   {#each structure.members as member}
     <InfoLine>
@@ -175,8 +202,8 @@ Contacts • Collaborateurs•trices • Antennes • Modèles •<a href="#serv
   {/each}
 {/if}
 
-{#if structure.pendingMembers}
-  <h2>Collaborateurs•trices en attente</h2>
+{#if structure.pendingMembers.length}
+  <h2 id="pending-collabs">Collaborateurs•trices en attente</h2>
   {#each structure.pendingMembers as member}
     <InfoLine>
       <UserInfo user={member.user} />
@@ -186,97 +213,79 @@ Contacts • Collaborateurs•trices • Antennes • Modèles •<a href="#serv
   {/each}
 {/if}
 
-# TODO: format parent: {structure.parent} # TODO: link, is it a branch
-
 {#if structure.branches.length}
-  <h2>Antennes</h2>
+  <h2 id="branches">Antennes</h2>
   {#each structure.branches as branch}
-    slug: {branch.slug} # TODO: link, link back name: {branch.name}
-    department: {branch.department}
-    typologyDisplay: {branch.typologyDisplay}
-    modificationDate: {branch.modificationDate} # TODO: format numServices: {branch.numServices}
+    <InfoLine>
+      <h3>{branch.name}</h3>
+
+      <a
+        class="text-f12 underline"
+        href="/structures/{branch.slug}"
+        target="_blank">front</a
+      >
+      <a
+        class="text-f12 underline"
+        href="/admin/structures/{branch.slug}"
+        target="_blank">admin</a
+      >
+      <a
+        class="text-f12 underline"
+        href="{getApiURL()}/admin/structures/structure/{branch.id}/"
+        target="_blank">back</a
+      >
+    </InfoLine>
+    <InfoLine condition={branch.shortDesc}>
+      {branch.shortDesc}
+    </InfoLine>
   {/each}
 {/if}
 
 {#if structure.models.length}
-  <h2>Modèles</h2>
-  numModels : {structure.numModels}
+  <h2 id="models">Modèles</h2>
 
   {#each structure.models as model}
     <h3>
       name: {model.name}
-      <a class="text-f12 underline" target="_blank" href="/modeles/{model.slug}"
-        >ouvrir</a
+      <a class="text-f12 underline" href="/modeles/{model.slug}" target="_blank"
+        >front</a
+      >
+      <a
+        class="text-f12 underline"
+        href="{getApiURL()}/admin/services/servicemodel/{model.id}/"
+        target="_blank">back</a
       >
     </h3>
-    # TODO link, link back slug: {model.slug}
-    name: {model.name}
-    department: {model.department}
-    modificationDate: {model.modificationDate}
-    categoriesDisplay: {model.categoriesDisplay}
-    shortDesc: {model.shortDesc}
-    structure: {model.structure}
-    numServices: {model.numServices}
+    <InfoLine condition={model.shortDesc}>
+      {model.shortDesc}
+    </InfoLine>
   {/each}
 {/if}
 
 {#if structure.services.length}
   <h2 id="services">Services</h2>
-  numServices : {structure.numServices}
 
   {#each structure.services as service}
     <h3>
       name: {service.name}
       <a
         class="text-f12 underline"
-        target="_blank"
-        href="/services/{service.slug}">ouvrir</a
+        href="/services/{service.slug}"
+        target="_blank">front</a
       >
       <a
         class="text-f12 underline"
-        target="_blank"
-        href="/admin/services/{service.slug}">admin</a
+        href="/admin/services/{service.slug}"
+        target="_blank">admin</a
+      >
+      <a
+        class="text-f12 underline"
+        href="{getApiURL()}/admin/services/service/{service.id}/"
+        target="_blank">back</a
       >
     </h3>
-    # TODO link, link back category: {service.category}
-    categoryDisplay: {service.categoryDisplay}
-    slug: {service.slug}
-
-    postalCode: {service.postalCode}
-    city: {service.city}
-    department: {service.department}
-    status: {service.status}
-    modificationDate: {service.modificationDate}
-    categoriesDisplay: {service.categoriesDisplay}
-    shortDesc: {service.shortDesc}
-    diffusionZoneType: {service.diffusionZoneType}
-    diffusionZoneTypeDisplay: {service.diffusionZoneTypeDisplay}
-    diffusionZoneDetailsDisplay: {service.diffusionZoneDetailsDisplay}
-    modelChanged: {service.modelChanged}
-    model: {service.model}
-    structure: {service.structure}
-  {/each}
-{/if}
-
-{#if structure.archivedServices.length}
-  <h2 id="archived-services">Services archivés</h2>
-  {#each structure.archivedServices as service}
-    <h3>name: {service.name}</h3>
-    # TODO link, link back category: {service.category}
-    categoryDisplay: {service.categoryDisplay}
-    slug: {service.slug}
-    postalCode: {service.postalCode}
-    city: {service.city}
-    department: {service.department}
-    status: {service.status}
-    modificationDate: {service.modificationDate}
-    categoriesDisplay: {service.categoriesDisplay}
-    shortDesc: {service.shortDesc}
-    diffusionZoneType: {service.diffusionZoneType}
-    diffusionZoneTypeDisplay: {service.diffusionZoneTypeDisplay}
-    diffusionZoneDetailsDisplay: {service.diffusionZoneDetailsDisplay}
-    modelChanged: {service.modelChanged}
-    model: {service.model}
-    structure: {service.structure}
+    <InfoLine condition={service.shortDesc}>
+      {service.shortDesc}
+    </InfoLine>
   {/each}
 {/if}
