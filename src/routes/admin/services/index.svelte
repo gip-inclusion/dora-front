@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getServicesAdmin } from "$lib/services";
+  import { getServicesAdmin } from "$lib/admin";
 
   import { shortenString } from "$lib/utils";
   import { eyeIcon, homeIcon } from "$lib/icons";
@@ -11,7 +11,7 @@
   let services, filteredServices;
 
   onMount(async () => {
-    services = await getServicesAdmin({ kitFetch: fetch });
+    services = await getServicesAdmin();
     filteredServices = services;
   });
 

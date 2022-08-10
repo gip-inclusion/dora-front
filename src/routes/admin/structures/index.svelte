@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getStructuresAdmin } from "$lib/structures";
+  import { getStructuresAdmin } from "$lib/admin";
 
   import { capitalize, shortenString } from "$lib/utils";
   import Label from "$lib/components/label.svelte";
@@ -11,7 +11,7 @@
   let structures, filteredStructures;
 
   onMount(async () => {
-    structures = await getStructuresAdmin({ kitFetch: fetch });
+    structures = await getStructuresAdmin();
     filteredStructures = structures;
   });
 
@@ -27,6 +27,7 @@
           )
         : structures
     )
+      // On n'affiche pas les antennes
       .filter((s) => !s.parent)
       .sort((s1, s2) =>
         s1.department === s2.department
