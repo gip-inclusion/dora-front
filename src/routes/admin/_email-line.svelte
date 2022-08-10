@@ -9,7 +9,7 @@
 
 {#if email}
   <div>
-    {email}
+    ✉️ {email}
     <SmallLink link="mailto:{email}" label="mailto" />
     <WebSearchLink searchString={email} />
     <CopyableText text={email} />

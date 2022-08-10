@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getStructures } from "$lib/structures";
+  import { getStructuresAdmin } from "$lib/structures";
 
   import { capitalize, shortenString } from "$lib/utils";
   import Label from "$lib/components/label.svelte";
@@ -11,7 +11,7 @@
   let structures, filteredStructures;
 
   onMount(async () => {
-    structures = await getStructures({ kitFetch: fetch });
+    structures = await getStructuresAdmin({ kitFetch: fetch });
     filteredStructures = structures;
   });
 
@@ -39,7 +39,7 @@
 </script>
 
 <svelte:head>
-  <title>Administration | Structures | DORA</title>
+  <title>Admin | Structures | DORA</title>
 </svelte:head>
 
 <CenteredGrid bgColor="bg-gray-bg">

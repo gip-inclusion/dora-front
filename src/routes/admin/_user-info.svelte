@@ -20,11 +20,11 @@
   <EmailLine email={user.email} />
 
   {#if user.phoneNumber}
-    tel: {user.phoneNumber}
+    📞 {user.phoneNumber}
     <br />
   {/if}
-  actif: {user.isActive ? "oui" : "non"} valide: {user.isValid ? "oui" : "non"} infolettre:
-  {user.newsletter ? "oui" : "non"}
+  actif: {user.isActive ? "✅" : "❌"} valide: {user.isValid ? "✅" : "❌"} infolettre:
+  {user.newsletter ? "✅" : "❌"}
   <br />
   inscription: <Date date={user.dateJoined} />
 </div>

@@ -1,8 +1,8 @@
 <script context="module">
-  import { getServiceMod } from "$lib/services";
+  import { getServiceAdmin } from "$lib/services";
 
   export async function load({ params, fetch }) {
-    const service = await getServiceMod(params.slug, { kitFetch: fetch });
+    const service = await getServiceAdmin(params.slug, { kitFetch: fetch });
     if (!service) {
       return {
         status: 404,
@@ -30,7 +30,6 @@
 
   import Date from "$lib/components/date.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import { getApiURL } from "$lib/utils/api";
 
   export let service;
   const structure = service.structure;
@@ -39,8 +38,7 @@
 
 <svelte:head>
   <title
-    >Administration | {capitalize(service.name)} | {capitalize(structure.name)} |
-    DORA</title
+    >Admin | {capitalize(service.name)} | {capitalize(structure.name)} | DORA</title
   >
 </svelte:head>
 
@@ -58,10 +56,6 @@
       {service.name}
       <SmallLink link="/services/{service.slug}" label="front" />
       <SmallLink link="/admin/services/{service.slug}" label="admin" />
-      <SmallLink
-        link="{getApiURL()}/admin/services/service/{service.id}/"
-        label="back"
-      />
       <WebSearchLink searchString="{service.name} {structure.name}" />
     </h3>
 
@@ -69,24 +63,26 @@
       Structure : <strong>{structure.name}</strong>
       <SmallLink link="/structures/{structure.slug}" label="front" />
       <SmallLink link="/admin/structures/{structure.slug}" label="admin" />
-      <SmallLink
-        link="{getApiURL()}/admin/structures/structure/{structure.id}/"
-        label="back"
-      />
     </InfoLine>
 
     <h4 id="contacts">Contacts</h4>
 
     <h5>Contact du service</h5>
     <InfoLine>
+      {#if service.contactName}<div>
+          <strong>{service.contactName}</strong>
+          <WebSearchLink
+            searchString="{service.contactName} {structure.name}"
+          />
+        </div>
+      {/if}
+      {#if service.contactPhone}
+        <div>📞 {service.contactPhone}</div>
+      {/if}{#if service.contactcontactEmailName}
+        <EmailLine email={service.contactEmail} />
+      {/if}
       <div>
-        <strong>{service.contactName}</strong>
-        <WebSearchLink searchString="{service.contactName} {structure.name}" />
-      </div>
-      <div>téléphone: {service.contactPhone}</div>
-      <EmailLine email={service.contactEmail} />
-      <div>
-        informations publiques ? {service.isContactInfoPublic ? "oui" : "non"}
+        informations publiques ? {service.isContactInfoPublic ? "✅" : "❌"}
       </div>
     </InfoLine>
 
@@ -129,7 +125,7 @@
     </InfoLine>
 
     <InfoLine>
-      frais à charge : {service.hasFee ? "oui – " : "non"}
+      frais à charge : {service.hasFee ? "✅ – " : "❌"}
       {#if service.hasFee}
         <span class="italic">{service.feeDetails}</span>
       {/if}
@@ -146,10 +142,6 @@
       {#if service.model.slug}
         Model : name: {service.model.name}
         <SmallLink link="/models/{service.model.slug}" label="front" />
-        <SmallLink
-          link="{getApiURL()}/admin/services/servicemodel/{service.model.id}/"
-          label="back"
-        />
       {/if}
     </InfoLine>
 

@@ -1,8 +1,8 @@
 <script context="module">
-  import { getStructureMod } from "$lib/structures";
+  import { getStructureAdmin } from "$lib/structures";
 
   export async function load({ params, fetch }) {
-    const structure = await getStructureMod(params.slug, { kitFetch: fetch });
+    const structure = await getStructureAdmin(params.slug, { kitFetch: fetch });
     if (!structure) {
       return {
         status: 404,
@@ -22,7 +22,6 @@
   import TextClamp from "$lib/components/text-clamp.svelte";
   import WebSearchLink from "../../_web-search-link.svelte";
   import { capitalize, markdownToHTML } from "$lib/utils";
-  import { getApiURL } from "$lib/utils/api";
   import UserInfo from "../../_user-info.svelte";
   import InfoLine from "../../_info-line.svelte";
   import StructureContacts from "../../_structure-contacts.svelte";
@@ -36,7 +35,7 @@
 </script>
 
 <svelte:head>
-  <title>Administration | {capitalize(structure.name)} | DORA</title>
+  <title>Admin | {capitalize(structure.name)} | DORA</title>
 </svelte:head>
 
 <CenteredGrid bgColor="bg-gray-bg">
@@ -61,10 +60,6 @@
     <h3>
       {structure.name}
       <SmallLink link="/structures/{structure.slug}" label="front" />
-      <SmallLink
-        link="{getApiURL()}/admin/structures/structure/{structure.id}/"
-        label="back"
-      />
       <WebSearchLink searchString={structure.name} />
     </h3>
 
@@ -75,10 +70,6 @@
         <SmallLink
           link="/admin/structures/{structure.parent.slug}"
           label="admin"
-        />
-        <SmallLink
-          link="{getApiURL()}/admin/structures/structure/{structure.parent.id}/"
-          label="back"
         />
       </InfoLine>
     {/if}
@@ -116,22 +107,22 @@
     </InfoLine>
 
     <InfoLine condition={structure.typologyDisplay}>
-      Typologie: {structure.typologyDisplay}
+      typologie: {structure.typologyDisplay}
     </InfoLine>
 
     <InfoLine condition={structure.fullDesc}>
-      Description longue:
+      description longue:
       <div class="prose-sm rounded-md border-2 border-gray-02 p-s16">
         <TextClamp text={description} />
       </div>
     </InfoLine>
 
     <InfoLine condition={structure.department}>
-      Département: {structure.department}
+      département: {structure.department}
     </InfoLine>
 
     <InfoLine>
-      Adresse: {#if structure.longitude && structure.latitude}
+      adresse: {#if structure.longitude && structure.latitude}
         <SmallLink
           link="https://www.google.com/maps/search/?api=1&query={structure.latitude},{structure.longitude}"
           label="google map"
@@ -144,7 +135,7 @@
     </InfoLine>
 
     <InfoLine condition={structure.ape}>
-      Code APE: {structure.ape}
+      code APE: {structure.ape}
       <SmallLink
         link="https://www.insee.fr/fr/metadonnees/nafr2/sousClasse/{structure.ape}"
         label="insee"
@@ -152,10 +143,8 @@
     </InfoLine>
 
     <InfoLine>
-      Date de création: <Date date={structure.creationDate} />
-    </InfoLine>
-    <InfoLine>
-      Date de dernière modification: <Date date={structure.modificationDate} />
+      date de création: <Date date={structure.creationDate} /><br />
+      date de dernière modification: <Date date={structure.modificationDate} />
     </InfoLine>
 
     {#if structure.members.length}
@@ -183,20 +172,18 @@
     {#if structure.branches.length}
       <h4 id="branches">Antennes</h4>
       {#each structure.branches as branch}
-        <h5>
-          {branch.name}
+        <div class="ml-s16">
+          <h5>
+            {branch.name}
 
-          <SmallLink link="/structures/{branch.slug}" label="front" />
-          <SmallLink link="/admin/structures/{branch.slug}" label="admin" />
-          <SmallLink
-            link="{getApiURL()}/admin/structures/structure/{branch.id}/"
-            label="back"
-          />
-        </h5>
+            <SmallLink link="/structures/{branch.slug}" label="front" />
+            <SmallLink link="/admin/structures/{branch.slug}" label="admin" />
+          </h5>
 
-        <InfoLine condition={branch.shortDesc}>
-          {branch.shortDesc}
-        </InfoLine>
+          <InfoLine condition={branch.shortDesc}>
+            <span class="italic">{branch.shortDesc}</span>
+          </InfoLine>
+        </div>
       {/each}
     {/if}
 
@@ -204,18 +191,16 @@
       <h4 id="models">Modèles</h4>
 
       {#each structure.models as model}
-        <h5>
-          name: {model.name}
+        <div class="ml-s16">
+          <h5>
+            {model.name}
 
-          <SmallLink link="/models/{model.slug}" label="front" />
-          <SmallLink
-            link="{getApiURL()}/admin/services/servicemodel/{model.id}/"
-            label="back"
-          />
-        </h5>
-        <InfoLine condition={model.shortDesc}>
-          {model.shortDesc}
-        </InfoLine>
+            <SmallLink link="/models/{model.slug}" label="front" />
+          </h5>
+          <InfoLine condition={model.shortDesc}>
+            <span class="italic">{model.shortDesc}</span>
+          </InfoLine>
+        </div>
       {/each}
     {/if}
 
@@ -223,19 +208,17 @@
       <h4 id="services">Services</h4>
 
       {#each structure.services as service}
-        <h5>
-          name: {service.name}
+        <div class="ml-s16">
+          <h5>
+            {service.name}
 
-          <SmallLink link="/services/{service.slug}" label="front" />
-          <SmallLink link="/admin/services/{service.slug}" label="admin" />
-          <SmallLink
-            link="{getApiURL()}/admin/services/service/{service.id}/"
-            label="back"
-          />
-        </h5>
-        <InfoLine condition={service.shortDesc}>
-          {service.shortDesc}
-        </InfoLine>
+            <SmallLink link="/services/{service.slug}" label="front" />
+            <SmallLink link="/admin/services/{service.slug}" label="admin" />
+          </h5>
+          <InfoLine condition={service.shortDesc}>
+            <span class="italic">{service.shortDesc}</span>
+          </InfoLine>
+        </div>
       {/each}
     {/if}
   </div>

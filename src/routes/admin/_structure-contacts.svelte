@@ -8,11 +8,10 @@
   const administrators = structure.members.filter((m) => m.isAdmin);
 </script>
 
-<InfoLine condition={structure.phone}>
-  téléphone: {structure.phone}
+<InfoLine condition={structure.phone || structure.email}>
+  {#if structure.phone}📞 {structure.phone}{/if}
+  {#if structure.email}<EmailLine email={structure.email} />{/if}
 </InfoLine>
-
-<EmailLine email={structure.email} />
 
 <InfoLine>
   créée par: <UserInfo user={structure.creator} {structure} />
@@ -27,7 +26,7 @@
 
 <div class="ml-s16">
   {#if administrators.length}
-    <h6>Administrateurs•trices</h6>
+    <h6>administrateurs•trices</h6>
     {#each administrators as administrator}
       <InfoLine>
         <UserInfo user={administrator.user} {structure} />

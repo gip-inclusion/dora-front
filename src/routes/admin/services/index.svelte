@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getPublishedServices } from "$lib/services";
+  import { getServicesAdmin } from "$lib/services";
 
   import { shortenString } from "$lib/utils";
   import { eyeIcon, homeIcon } from "$lib/icons";
@@ -11,7 +11,7 @@
   let services, filteredServices;
 
   onMount(async () => {
-    services = await getPublishedServices({ kitFetch: fetch });
+    services = await getServicesAdmin({ kitFetch: fetch });
     filteredServices = services;
   });
 
@@ -23,19 +23,17 @@
         ? services.filter(
             (s) =>
               s.name.toLowerCase().includes(searchString) ||
-              s.structureInfo.name.toLowerCase().includes(searchString)
+              s.structureName.toLowerCase().includes(searchString)
           )
         : services
     )
       .filter((s) => !s.parent)
       .sort((s1, s2) =>
-        s1.structureInfo.name.toLowerCase() ===
-        s2.structureInfo.name.toLowerCase()
+        s1.structureName.toLowerCase() === s2.structureName.toLowerCase()
           ? s1.name.toLowerCase() > s2.name.toLowerCase()
             ? 1
             : -1
-          : s1.structureInfo.name.toLowerCase() >
-            s2.structureInfo.name.toLowerCase()
+          : s1.structureName.toLowerCase() > s2.structureName.toLowerCase()
           ? 1
           : -1
       );
@@ -43,7 +41,7 @@
 </script>
 
 <svelte:head>
-  <title>Administration | Services | DORA</title>
+  <title>Admin | Services | DORA</title>
 </svelte:head>
 
 <CenteredGrid bgColor="bg-gray-bg">
@@ -76,7 +74,7 @@
             </a>
 
             <Label
-              label={`${service.structureInfo.name}`}
+              label={`${service.structureName}`}
               smallIcon
               icon={homeIcon}
             />
