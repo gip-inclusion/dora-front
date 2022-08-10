@@ -86,14 +86,6 @@
             <Label label={service.diffusionZoneDetailsDisplay} bold />
           </div>
 
-          <div class="flex-none basis-s40">
-            <!-- <Label
-              label={`${new Date(service.modificationDate).toLocaleDateString(
-                "fr",
-                "short"
-              )}`}
-            /> -->
-          </div>
           <div class="flex-none basis-s32">
             <LinkButton
               to="/services/{service.slug}"

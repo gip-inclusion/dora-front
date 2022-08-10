@@ -18,7 +18,7 @@
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 
   export let status, error, notFound, forbidden;
-  console.log(status, error, notFound, forbidden);
+
   onMount(() => {
     if (browser) {
       plausible(`${status}`, { props: { path: document.location.pathname } });

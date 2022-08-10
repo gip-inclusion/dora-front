@@ -11,19 +11,16 @@ function toISODate(apiDate) {
 async function getAllServices() {
   const response = await getPublishedServices();
 
-  return (
-    response
-      // Pas indispensable, mais c'est une sécurité supplémentaire
-      .filter((s) => (s.status = SERVICE_STATUSES.published))
-      .map((s) =>
-        `<url>
+  return response
+    .filter((s) => (s.status = SERVICE_STATUSES.published)) // Pas indispensable, mais c'est une sécurité supplémentaire
+    .map((s) =>
+      `<url>
       <loc>${CANONICAL_URL}/services/${s.slug}</loc>
       <lastmod>${toISODate(s.modificationDate)}</lastmod>
       <priority>0.5</priority>
     </url>`.trim()
-      )
-      .join("\n")
-  );
+    )
+    .join("\n");
 }
 
 async function getAllStructures() {

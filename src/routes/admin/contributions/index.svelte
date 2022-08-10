@@ -25,13 +25,9 @@
 <CenteredGrid bgColor="bg-gray-bg">
   <h2>Contributions</h2>
 
-  <!-- <div class="mt-s32 mb-s48 rounded-md bg-gray-bg p-s16"> -->
-  <!-- <div class="flex"> -->
   {#if suggestions}
     <List {suggestions} onRefresh={handleRefresh} />
   {:else}
     Chargement…
   {/if}
-  <!-- </div> -->
-  <!-- </div> -->
 </CenteredGrid>
