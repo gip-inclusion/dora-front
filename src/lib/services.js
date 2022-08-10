@@ -45,6 +45,11 @@ export async function getService(slug) {
   return serviceToFront(response.data);
 }
 
+export async function getPublishedServices({ kitFetch } = {}) {
+  const url = `${getApiURL()}/services/?published=1`;
+  return (await fetchData(url, { kitFetch })).data;
+}
+
 export async function getServicesAdmin({ kitFetch } = {}) {
   const url = `${getApiURL()}/services-admin/`;
   return (await fetchData(url, { kitFetch })).data;
