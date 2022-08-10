@@ -36,13 +36,11 @@
   >
     <div class="mb-s10 flex items-center md:mb-s0">
       {#if service.isAvailable}
-        <img src={AvailableIcon} alt="" class="mr-s6" />&nbsp;<span
-          class="text-service-available">Service disponible</span
-        >
+        <img src={AvailableIcon} alt="" class="mr-s6" />
+        <span class="text-service-available">Service disponible</span>
       {:else}
-        <img src={UnavailableIcon} alt="" class="mr-s6" />&nbsp;<span
-          class="text-service-unavailable">Service indisponible</span
-        >
+        <img src={UnavailableIcon} alt="" class="mr-s6" />
+        <span class="text-service-unavailable">Service indisponible</span>
       {/if}
     </div>
     <div class="mx-s8 hidden font-bold md:block" aria-hidden="true">·</div>
