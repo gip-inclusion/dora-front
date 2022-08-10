@@ -6,6 +6,13 @@ const config = {
     colors: {
       transparent: "transparent",
       current: "currentColor",
+
+      "service-green": { DEFAULT: "#E6F3EC", dark: "#B3DCC6" },
+      "service-orange": { DEFAULT: "#FFE9C9", dark: "#FFD79D" },
+      "service-red": { DEFAULT: "#FCE6E6", dark: "#E10600" },
+      "service-gray": { DEFAULT: "#F5F5F5", dark: "#D5D5D5" },
+      "service-violet": { DEFAULT: "#F5F0FD", dark: "#EBE3FB" },
+
       gray: {
         bg: "#F8F8F8",
         "00": "#F5F5F5",
@@ -37,8 +44,8 @@ const config = {
       na: { DEFAULT: "#e10600", dark: "#ff504c" },
       wait: { DEFAULT: "#f29023", dark: "#fe9800" },
 
-      "available-service": "#86F3A2",
-      "unavailable-service": "#FF9A6C",
+      "service-available": "#86F3A2",
+      "service-unavailable": "#FF9A6C",
     },
     fontFamily: {
       sans: ["Marianne"],

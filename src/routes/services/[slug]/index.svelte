@@ -41,17 +41,20 @@
   }
 </script>
 
-<script>
+<script lang="ts">
   import { onDestroy, onMount } from "svelte";
   import ServiceHeader from "$lib/components/services/service-header.svelte";
-  import ServiceToolbar from "$lib/components/services/service-toolbar.svelte";
+  import ServiceUpdateToolbar from "$lib/components/services/service-update-toolbar.svelte";
   import ServiceBody from "$lib/components/services/service-body.svelte";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
   import { NPS_FORM_ID, SERVICE_CREATION_FORM_ID } from "$lib/const";
   import { isAfter } from "$lib/utils/date";
+  import type { Service } from "$lib/types";
 
-  export let service, servicesOptions;
+  export let service: Service;
+  export let servicesOptions;
+
   // Nous ne voulons pas afficher le formulaire sur les services avant cette date
   // afin de ne pas avoir une durée de contribution fausse
   const MIN_DATE_FOR_SERVICE_FEEDBACK_FROM = new Date("2022-07-21");
@@ -91,7 +94,7 @@
   <CenteredGrid noPadding>
     <div class="noprint py-s24">
       {#if browser}
-        <ServiceToolbar {service} {servicesOptions} onRefresh={handleRefresh} />
+        <ServiceToolbar {service} onRefresh={handleRefresh} />
       {/if}
     </div>
   </CenteredGrid>
