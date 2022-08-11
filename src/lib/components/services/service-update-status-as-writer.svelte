@@ -6,8 +6,7 @@
   import NoUpdateNeededIcon from "$lib/assets/services/update-status/no-update-needed.svg";
   import UpdateNeededIcon from "$lib/assets/services/update-status/update-needed.svg";
   import UpdateRequiredIcon from "$lib/assets/services/update-status/update-required.svg";
-  import { checkboxCircleFill, editIcon } from "$lib/icons";
-  import Button from "../button.svelte";
+  import { editIcon } from "$lib/icons";
 
   export let service: Service;
 
@@ -35,8 +34,6 @@
           <div class="text-f14">
             Vérifiez et/ou actualisez les informations de ce service dès
             maintenant pour qu’il reste visible.
-            <br />
-            <a href={"#TODO"} class="underline">En savoir plus</a>
           </div>
         </div>
       </div>
@@ -56,15 +53,6 @@
     {/if}
   </div>
   <div class="flex w-full flex-[2] flex-col justify-end md:mt-s0 lg:flex-row">
-    {#if updateStatus !== SERVICE_UPDATE_STATUS.NOT_NEEDED}
-      <!-- TODO -->
-      <Button
-        extraClass="mb-s10 lg:mb-s0 lg:mr-s16"
-        label="Marquer comme à jour"
-        icon={checkboxCircleFill}
-      />
-    {/if}
-
     <LinkButton
       label="Modifier"
       to="/services/{service.slug}/editer"
