@@ -70,7 +70,8 @@
       <SmallLink link="/structures/{structure.slug}" label="front" />
       <WebSearchLink searchString={structure.name} />
     </h3>
-
+    <h4>Historique</h4>
+    <pre>{structure.notes}</pre>
     {#if structure.parent.slug}
       <InfoLine>
         Antenne de <strong>{structure.parent.name}</strong>

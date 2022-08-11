@@ -65,7 +65,8 @@
       <SmallLink link="/admin/services/{service.slug}" label="admin" />
       <WebSearchLink searchString="{service.name} {structure.name}" />
     </h3>
-
+    <h4>Historique</h4>
+    <pre>{service.notes}</pre>
     <InfoLine>
       Structure : <strong>{structure.name}</strong>
       <SmallLink link="/structures/{structure.slug}" label="front" />
