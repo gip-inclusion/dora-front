@@ -21,7 +21,7 @@
   } from "$lib/utils/service";
   import { validate } from "$lib/validation";
   import { serviceSchema } from "$lib/schemas/service.js";
-  import { arrowDownSIcon, arrowUpSIcon } from "$lib/icons";
+  import { arrowDownSIcon, arrowUpSIcon, deleteBinIcon } from "$lib/icons";
   import { clickOutside } from "../use/click-outside";
 
   export let service: Service;
@@ -186,11 +186,17 @@
     {#each availableOptions as option, index (option)}
       {#if option === "DELETE"}
         <div
+          class={`mb-s10 flex items-center rounded p-s10 ${
+            selectedOption === option ? "bg-service-red" : "bg-transparent"
+          }`}
           on:mouseenter={() => setAsSelected(option, index)}
           role="option"
           on:click={() => updateServiceStatus(option)}
         >
-          Supprimé
+          <span class="mr-s10 h-s24 w-s24 fill-current text-service-red-dark">
+            {@html deleteBinIcon}
+          </span>
+          <span>Supprimer</span>
         </div>
       {:else}
         {@const data = SERVICE_STATUS_PRESENTATION[option]}
