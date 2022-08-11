@@ -6,8 +6,8 @@
   import { getService, getServicesOptions, getModel } from "$lib/services";
   import { token } from "$lib/auth";
 
-  export async function load({ url, params }) {
-    const service = await getService(params.slug);
+  export async function load({ url, params, fetch }) {
+    const service = await getService(params.slug, { kitFetch: fetch });
     // si le service est en brouillon il faut un token pour y accéder
     // on renvoit donc un objet vide côté serveur
     if (!service) {

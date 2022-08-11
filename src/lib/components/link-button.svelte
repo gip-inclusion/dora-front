@@ -6,6 +6,7 @@
   export let label = "";
   export let extraClass = "";
   export let ariaLabel: string | undefined | null = undefined;
+  export let id: string | undefined | null = undefined;
   export let icon: string | undefined | null = null;
   export let iconOnRight = false;
   export let small = false;
@@ -59,6 +60,7 @@
 </script>
 
 <a
+  {id}
   target={otherTab ? "_blank" : ""}
   title={otherTab ? "Ouverture dans une nouvelle fenêtre" : ""}
   rel="noopener {nofollow ? 'nofollow' : ''}"

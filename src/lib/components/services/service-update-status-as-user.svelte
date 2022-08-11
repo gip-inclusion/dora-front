@@ -37,7 +37,7 @@
 <div
   class="flex w-full flex-col place-content-between items-center gap-s24 text-gray-text md:flex-row"
 >
-  <div>
+  <div id="label-container">
     {#if updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
       <div class="flex items-center">
         <img src={NoUpdateNeededIcon} alt="" class="mr-s16" />
@@ -75,6 +75,7 @@
   <div>
     <SuggestionModal {service} bind:isOpen={suggestionModalIsOpen} />
     <Button
+      id="suggest-update"
       label="Suggérer une modification"
       icon={editIcon}
       secondary

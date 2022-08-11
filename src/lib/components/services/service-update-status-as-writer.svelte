@@ -18,7 +18,7 @@
 <div
   class="flex w-full flex-col place-content-between items-center gap-s24 text-gray-text sm:flex-row"
 >
-  <div class="flex-[3]">
+  <div id="label-container" class="flex-[3]">
     {#if updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
       <div class="flex items-center">
         <img src={NoUpdateNeededIcon} alt="" class="mr-s16" />
@@ -54,6 +54,7 @@
   </div>
   <div class="flex w-full flex-[2] flex-col justify-end md:mt-s0 lg:flex-row">
     <LinkButton
+      id="update"
       label="Modifier"
       to="/services/{service.slug}/editer"
       icon={editIcon}

@@ -9,7 +9,7 @@
   export let service: Service;
 </script>
 
-<div class="gap-s16 lg:flex-row-reverse lg:justify-between">
+<div id="service-header" class="gap-s16 lg:flex-row-reverse lg:justify-between">
   <div class="mb-s48">
     <Breadcrumb
       serviceInfo={service}
@@ -34,7 +34,7 @@
   <div
     class="mb-s32 flex flex-col text-f18  text-white md:flex-row md:items-center"
   >
-    <div class="mb-s10 flex items-center md:mb-s0">
+    <div id="service-availability" class="mb-s10 flex items-center md:mb-s0">
       {#if service.isAvailable}
         <img src={AvailableIcon} alt="" class="mr-s6" />
         <span class="text-service-available">Service disponible</span>

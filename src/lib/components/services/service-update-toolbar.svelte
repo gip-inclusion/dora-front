@@ -26,7 +26,7 @@
   }
 </script>
 
-<div>
+<div id="service-update-status">
   <div class={updateStatus}>
     <CenteredGrid
       extraClass={`

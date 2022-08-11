@@ -1,6 +1,7 @@
 <script lang="ts">
   export let label = "";
   export let type = "button";
+  export let id: string | undefined | null = null;
   export let name: string | undefined | null = null;
   export let icon: string | undefined | null = null;
   export let extraClass = "";
@@ -62,6 +63,7 @@
 </script>
 
 <button
+  {id}
   {type}
   {name}
   class="{px} {py} {ts} {border} {text} {extraClass} {background} whitespace-nowrap rounded leading-normal outline-none focus:shadow-focus"

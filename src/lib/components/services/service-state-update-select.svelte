@@ -141,6 +141,7 @@
 </script>
 
 <div
+  id="service-state-update"
   class={`relative flex cursor-pointer items-center rounded-md font-bold text-gray-dark ${currentStatusPresentation.bgClass} hover:${currentStatusPresentation.hoverBgClass}`}
   use:clickOutside
   on:click_outside={() => toggleCombobox(false)}
