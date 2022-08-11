@@ -152,7 +152,7 @@ describe("computeUpdateStatusData", () => {
 
     const res = computeUpdateStatusData(service);
 
-    // ALORS l'actualisation est demandé et il est considéré comme actualisé il y a 10 mois
+    // ALORS l'actualisation est demandée et il est considéré comme actualisé il y a 10 mois
     expect(res).toStrictEqual({
       dayDiff: 190,
       weekDiff: 27,

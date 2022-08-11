@@ -94,7 +94,11 @@
   <CenteredGrid noPadding>
     <div class="noprint py-s24">
       {#if browser}
-        <ServiceToolbar {service} onRefresh={handleRefresh} />
+        <ServiceUpdateToolbar
+          {service}
+          {servicesOptions}
+          onRefresh={handleRefresh}
+        />
       {/if}
     </div>
   </CenteredGrid>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  // Accessibility guideline : https://www.w3.org/WAI/ARIA/apg/example-index/combobox/combobox-select-only.html
+  // Source pour l'accessibilité : https://www.w3.org/WAI/ARIA/apg/example-index/combobox/combobox-select-only.html
 
   import { goto } from "$app/navigation";
   import { uid } from "uid";
@@ -25,18 +25,19 @@
   import { clickOutside } from "../use/click-outside";
 
   export let service: Service;
+  export let servicesOptions;
   export let onRefresh: () => void;
   export let hideLabel = true;
 
-  // *** Compute values for presentation
+  // *** Valeurs pour l'affichage
   $: currentStatusPresentation = SERVICE_STATUS_PRESENTATION[service.status];
   $: availableOptions = getAvailableOptionsForStatus(service.status);
 
-  // *** Accessibility
-  const uuid: string = uid(); // Avoid ids conflict with multiple ServiceStateUpdateSelect on one page
+  // *** Accessibilité
+  const uuid: string = uid(); // Pour éviter les conflits d'id si le composant est présent plusieurs fois sur la page
   let isDropdownOpen = false;
 
-  // Handle outline manually with keyboard
+  // Gestion de l'outline avec la navigation au clavier
   let selectedOptionIndex: number | null = null;
   let selectedOption: SERVICE_STATUSES | "DELETE" | null = null;
 
@@ -69,7 +70,6 @@
       }
     }
 
-    // Navigate throw options with keyboard
     if (event.code === "ArrowDown") {
       selectedOptionIndex = (selectedOptionIndex || 0) + 1;
       selectedOptionIndex = selectedOptionIndex % availableOptions.length;
@@ -92,7 +92,7 @@
     selectedOption = hoveredStatus;
   }
 
-  // Actions available
+  // Actions disponibles
   async function updateServiceStatus(newStatus: SERVICE_STATUSES | "DELETE") {
     if (newStatus === SERVICE_STATUSES.DRAFT) {
       if (service.status === SERVICE_STATUSES.SUGGESTION) {
@@ -130,6 +130,7 @@
     const isValid = validate(serviceFull, serviceSchema, {
       noScroll: true,
       showErrors: false,
+      extraData: servicesOptions,
     }).valid;
 
     if (isValid) {

@@ -8,9 +8,7 @@ SERVICE_SELECTORS.UPDATE_STATUS_SUGGEST_BUTTON = `${SERVICE_SELECTORS.UPDATE_STA
 SERVICE_SELECTORS.UPDATE_BUTTON = `${SERVICE_SELECTORS.UPDATE_STATUS} #update`;
 SERVICE_SELECTORS.SERVICE_STATE_UPDATE = `${SERVICE_SELECTORS.UPDATE_STATUS} #service-state-update`;
 
-// HELPERS
-export async function mockServiceRequest(context, service) {
-  // Note : the '/' at the end of the URL is VERY IMPORTANT
+export async function mockGetServiceResponse(context, service) {
   await context.route(`**/services/${service.slug}/`, (route) => {
     return route.fulfill({
       body: JSON.stringify(service),

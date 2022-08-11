@@ -13,6 +13,7 @@
   import { copyIcon } from "$lib/icons";
 
   export let service: Service;
+  export let servicesOptions;
   export let onRefresh: () => void;
 
   let updateStatusData = computeUpdateStatusData(service);
@@ -75,7 +76,12 @@
         class="flex w-full flex-col place-content-between items-center gap-s24 py-s32 sm:flex-row"
       >
         <div>
-          <ServiceStateUpdateSelect {service} {onRefresh} hideLabel={false} />
+          <ServiceStateUpdateSelect
+            {service}
+            {servicesOptions}
+            {onRefresh}
+            hideLabel={false}
+          />
         </div>
         <div class="flex h-s48 items-center md:self-end">
           {#if service.model}

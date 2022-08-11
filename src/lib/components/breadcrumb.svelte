@@ -1,16 +1,16 @@
 <script lang="ts">
+  // Source pour l'accessibilité : https://www.w3.org/WAI/ARIA/apg/example-index/breadcrumb/index.html
   import type { Structure, Service } from "$lib/types";
   import { CANONICAL_URL } from "$lib/env";
 
   type BreadcrumbLocation = "home" | "structure" | "service";
 
-  // https://www.w3.org/WAI/ARIA/apg/example-index/breadcrumb/index.html
   export let structureInfo: Structure;
   export let serviceInfo: Service;
   export let currentLocation: BreadcrumbLocation;
 </script>
 
-<nav aria-label="Breadcrumb">
+<nav aria-label="Fil d'ariane">
   <ol class="text-f14">
     <li class="inline">
       <a
