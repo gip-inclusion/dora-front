@@ -91,17 +91,15 @@
     <ServiceHeader {service} />
   </CenteredGrid>
   <hr />
-  <CenteredGrid noPadding>
-    <div class="noprint py-s24">
-      {#if browser}
-        <ServiceUpdateToolbar
-          {service}
-          {servicesOptions}
-          onRefresh={handleRefresh}
-        />
-      {/if}
-    </div>
-  </CenteredGrid>
+  <div class="noprint">
+    {#if browser}
+      <ServiceUpdateToolbar
+        {service}
+        {servicesOptions}
+        onRefresh={handleRefresh}
+      />
+    {/if}
+  </div>
 
   <CenteredGrid>
     <ServiceBody {service} />
