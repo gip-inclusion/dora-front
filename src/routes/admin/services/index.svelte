@@ -22,8 +22,8 @@
       searchString
         ? services.filter(
             (s) =>
-              s.name.toLowerCase().includes(searchString) ||
-              s.structureName.toLowerCase().includes(searchString)
+              s.name.toLowerCase().includes(searchString.toLowerCase()) ||
+              s.structureName.toLowerCase().includes(searchString.toLowerCase())
           )
         : services
     )

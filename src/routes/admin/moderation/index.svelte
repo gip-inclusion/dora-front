@@ -32,7 +32,7 @@
       searchString
         ? structures.filter(
             (s) =>
-              s.name.toLowerCase().includes(searchString) ||
+              s.name.toLowerCase().includes(searchString.toLowerCase()) ||
               s.department === searchString
           )
         : structures
