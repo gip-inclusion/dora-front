@@ -48,7 +48,11 @@
   import ServiceBody from "$lib/components/services/service-body.svelte";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
-  import { NPS_FORM_ID, SERVICE_CREATION_FORM_ID } from "$lib/const";
+  import {
+    NPS_FORM_DEPARTMENTS,
+    NPS_FORM_ID,
+    SERVICE_CREATION_FORM_ID,
+  } from "$lib/const";
   import { isAfter } from "$lib/utils/date";
 
   export let service, servicesOptions;
@@ -111,8 +115,7 @@
     />
   {/if}
 
-  <!-- Do not display NPS to the service contributor -->
-  {#if !service.canWrite}
+  {#if !service.canWrite && NPS_FORM_DEPARTMENTS.includes(service.department)}
     <TallyNpsPopup formId={NPS_FORM_ID} />
   {/if}
 {/if}
