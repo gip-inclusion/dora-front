@@ -7,7 +7,7 @@
   import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
 
   import ServiceUpdateStatusAsContributor from "./service-update-status-as-contributor.svelte";
-  import ServiceUpdateStatus from "./service-update-status.svelte";
+  import ServiceUpdateStatusAsReader from "./service-update-status-as-reader.svelte";
   import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
   import {
     computeUpdateStatusData,
@@ -58,7 +58,12 @@
           {service}
         />
       {:else}
-        <ServiceUpdateStatus {label} {monthDiff} {updateStatus} {service} />
+        <ServiceUpdateStatusAsReader
+          {label}
+          {monthDiff}
+          {updateStatus}
+          {service}
+        />
       {/if}
     </CenteredGrid>
   </div>
