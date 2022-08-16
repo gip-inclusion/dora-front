@@ -1,6 +1,5 @@
 <script lang="ts">
   import { SERVICE_UPDATE_STATUS, type Service } from "$lib/types";
-  import { token } from "$lib/auth";
   import LinkButton from "../link-button.svelte";
 
   import CenteredGrid from "../layout/centered-grid.svelte";
@@ -49,7 +48,7 @@
       `}
       noPadding
     >
-      {#if $token && service.canWrite}
+      {#if service.canWrite}
         <ServiceUpdateStatusAsContributor
           {monthDiff}
           {label}
@@ -74,7 +73,7 @@
     />
   {/if}
 
-  {#if $token && service.canWrite}
+  {#if service.canWrite}
     <CenteredGrid extraClass="w-full" noPadding>
       <div
         class="flex w-full flex-col place-content-between items-center gap-s24 py-s32 sm:flex-row"
