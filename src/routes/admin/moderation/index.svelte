@@ -95,7 +95,11 @@
                   <span class="text-f12">{entity.department}</span>
                 </a>
               </div>
-              <ModerationLabel moderationStatus={entity.moderationStatus} />
+
+              <ModerationLabel
+                status={entity.moderationStatus}
+                date={entity.moderationDate}
+              />
               <LinkButton
                 to="/structures/{entity.slug}"
                 icon={eyeIcon}
@@ -113,7 +117,10 @@
                   >
                 </a>
               </div>
-              <ModerationLabel moderationStatus={entity.moderationStatus} />
+              <ModerationLabel
+                status={entity.moderationStatus}
+                date={entity.moderationDate}
+              />
               <div class="flex-none basis-s32">
                 <LinkButton
                   to="/services/{entity.slug}"

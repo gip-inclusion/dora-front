@@ -83,7 +83,10 @@
     {/if}
 
     <h4>Historique</h4>
-    <pre>{structure.notes}</pre>
+    <pre>{#each structure.notes as note}<Date date={note.date} /> par {note.user
+          .email} | {note.message}<br />
+      {/each}
+  </pre>
 
     <h4 id="contacts">Contacts</h4>
 

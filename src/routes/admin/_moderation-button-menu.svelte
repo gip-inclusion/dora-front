@@ -12,7 +12,10 @@
   Modération :
   <div class="flex items-center rounded border border-gray-01">
     <div class="px-s12 py-s6">
-      <ModerationLabel moderationStatus={entity.moderationStatus} />
+      <ModerationLabel
+        status={entity.moderationStatus}
+        date={entity.moderationDate}
+      />
     </div>
     <div class="text-gray-02">|</div>
     <ButtonMenu icon={arrowDownSIcon} let:onClose={onCloseParent} small>

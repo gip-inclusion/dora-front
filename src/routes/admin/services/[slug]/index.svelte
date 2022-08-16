@@ -72,7 +72,10 @@
     </InfoLine>
 
     <h4>Historique</h4>
-    <pre>{service.notes}</pre>
+    <pre>{#each service.notes as note}<Date date={note.date} /> par {note.user
+          .email} | {note.message}<br />
+      {/each}
+      </pre>
 
     <h4 id="contacts">Contacts</h4>
 

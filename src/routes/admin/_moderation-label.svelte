@@ -1,16 +1,21 @@
 <script lang="ts">
+  import Date from "$lib/components/date.svelte";
+
   import Label from "$lib/components/label.svelte";
   import type { ModerationStatus } from "$lib/enums";
 
-  export let moderationStatus: ModerationStatus;
+  export let status: ModerationStatus;
+  export let date: string;
 </script>
 
-{#if moderationStatus === "NEED_INITIAL_MODERATION"}
+{#if status === "NEED_INITIAL_MODERATION"}
   <Label label="Première modération nécessaire" bold error />
-{:else if moderationStatus === "NEED_NEW_MODERATION"}
+{:else if status === "NEED_NEW_MODERATION"}
   <Label label="Nouvelle modération nécessaire" bold error />
-{:else if moderationStatus === "IN_PROGRESS"}
-  <Label label="En cours" bold wait />
-{:else if moderationStatus === "VALIDATED"}
+{:else if status === "IN_PROGRESS"}
+  <Label bold wait>
+    En cours depuis le <Date {date} />
+  </Label>
+{:else if status === "VALIDATED"}
   <Label label="Validé" bold success />
 {/if}
