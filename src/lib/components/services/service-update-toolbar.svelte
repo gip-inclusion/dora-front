@@ -4,12 +4,15 @@
   import LinkButton from "../link-button.svelte";
 
   import CenteredGrid from "../layout/centered-grid.svelte";
-  import SynchronizedIcon from "$lib/assets/services/service-synchronized.svg";
+  import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
 
   import ServiceUpdateStatusAsWriter from "./service-update-status-as-writer.svelte";
   import ServiceUpdateStatusAsUser from "./service-update-status-as-user.svelte";
   import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
-  import { computeUpdateStatusData } from "$lib/utils/service";
+  import {
+    computeUpdateStatusData,
+    computeUpdateStatusLabel,
+  } from "$lib/utils/service";
   import { copyIcon } from "$lib/icons";
 
   export let service: Service;
@@ -17,13 +20,14 @@
   export let onRefresh: () => void;
 
   let updateStatusData = computeUpdateStatusData(service);
-  let { updateStatus, monthDiff, label } = updateStatusData;
+  let { updateStatus, monthDiff } = updateStatusData;
+  let label = computeUpdateStatusLabel(updateStatusData);
 
   $: {
     updateStatusData = computeUpdateStatusData(service);
     updateStatus = updateStatusData.updateStatus;
     monthDiff = updateStatusData.monthDiff;
-    label = updateStatusData.label;
+    label = computeUpdateStatusLabel(updateStatusData);
   }
 </script>
 
@@ -86,8 +90,8 @@
         <div class="flex h-s48 items-center md:self-end">
           {#if service.model}
             <div class="flex items-center text-f14 italic text-gray-text">
-              <img class="mr-s10" src={SynchronizedIcon} alt="" /> Synchronisé avec
-              un modèle
+              <span class="mr-s10"><SynchronizedIcon /></span>
+              Synchronisé avec un modèle
             </div>
           {:else}
             <LinkButton
