@@ -1,12 +1,11 @@
 <script lang="ts">
   // Source pour l'accessibilité : https://www.w3.org/WAI/ARIA/apg/example-index/breadcrumb/index.html
   import type { Structure, Service } from "$lib/types";
-  import { CANONICAL_URL } from "$lib/env";
 
   type BreadcrumbLocation = "home" | "structure" | "service";
 
-  export let structureInfo: Structure;
-  export let serviceInfo: Service;
+  export let structure: Structure;
+  export let service: Service;
   export let currentLocation: BreadcrumbLocation;
 </script>
 
@@ -14,29 +13,29 @@
   <ol class="text-f14">
     <li class="inline">
       <a
-        href={CANONICAL_URL}
+        href={"/"}
         aria-current={currentLocation === "home" ? "page" : null}
         class:current={currentLocation === "home"}
         title="Retour à l'accueil du site">Accueil</a
       >
     </li>
-    <li class="inline">
+    <li class="inline before:content-['/']">
       <a
-        href="/structures/{structureInfo.slug}"
+        href="/structures/{structure.slug}"
         class:current={currentLocation === "structure"}
         aria-current={currentLocation === "structure" ? "page" : null}
-        ><span class="hidden lg:inline">Structure&nbsp;·&nbsp;</span
-        >{structureInfo.name}</a
+        ><span class="hidden lg:inline">Structure&nbsp;•&nbsp;</span
+        >{structure.name}</a
       >
     </li>
-    {#if serviceInfo}
-      <li class="inline">
+    {#if service}
+      <li class="inline before:content-['/']">
         <a
-          href="/services/{serviceInfo.slug}"
+          href="/services/{service.slug}"
           class:current={currentLocation === "service"}
           aria-current={currentLocation === "service" ? "page" : null}
-          ><span class="hidden lg:inline">Service&nbsp;·&nbsp;</span
-          >{serviceInfo.name}</a
+          ><span class="hidden lg:inline">Service&nbsp;•&nbsp;</span
+          >{service.name}</a
         >
       </li>
     {/if}
@@ -54,6 +53,5 @@
 
   nav li + li::before {
     @apply ml-s8 mr-s8 inline text-magenta-40;
-    content: "/";
   }
 </style>
