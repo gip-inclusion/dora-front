@@ -5,50 +5,6 @@ import {
 } from "$lib/types";
 import dayjs from "dayjs";
 
-import { earthFill, fileEditFill, folderFill, draftFill } from "$lib/icons";
-
-type ServiceStatusPresentation = {
-  bgClass: string;
-  iconClass: string;
-  hoverBgClass: string;
-  icon: string;
-  label: string;
-};
-
-export const SERVICE_STATUS_PRESENTATION: Record<
-  SERVICE_STATUSES,
-  ServiceStatusPresentation
-> = {
-  [SERVICE_STATUSES.SUGGESTION]: {
-    bgClass: "bg-service-violet",
-    iconClass: "text-service-violet-darker",
-    hoverBgClass: "bg-service-violet-dark",
-    icon: fileEditFill,
-    label: "Suggestion",
-  },
-  [SERVICE_STATUSES.DRAFT]: {
-    bgClass: "bg-service-orange",
-    iconClass: "text-service-orange-darker",
-    hoverBgClass: "bg-service-orange-dark",
-    icon: draftFill,
-    label: "Brouillon",
-  },
-  [SERVICE_STATUSES.PUBLISHED]: {
-    bgClass: "bg-service-green",
-    iconClass: "text-service-green-darker",
-    hoverBgClass: "bg-service-green-dark",
-    icon: earthFill,
-    label: "Publié",
-  },
-  [SERVICE_STATUSES.ARCHIVED]: {
-    bgClass: "bg-service-gray",
-    iconClass: "text-gray-darker",
-    hoverBgClass: "bg-service-gray-dark",
-    icon: folderFill,
-    label: "Archivé",
-  },
-};
-
 export function getAvailableOptionsForStatus(
   status: SERVICE_STATUSES
 ): (SERVICE_STATUSES | "DELETE")[] {
