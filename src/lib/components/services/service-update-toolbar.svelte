@@ -6,8 +6,8 @@
   import CenteredGrid from "../layout/centered-grid.svelte";
   import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
 
-  import ServiceUpdateStatusAsWriter from "./service-update-status-as-writer.svelte";
-  import ServiceUpdateStatusAsUser from "./service-update-status-as-user.svelte";
+  import ServiceUpdateStatusAsContributor from "./service-update-status-as-contributor.svelte";
+  import ServiceUpdateStatus from "./service-update-status.svelte";
   import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
   import {
     computeUpdateStatusData,
@@ -50,7 +50,7 @@
       noPadding
     >
       {#if $token && service.canWrite}
-        <ServiceUpdateStatusAsWriter
+        <ServiceUpdateStatusAsContributor
           {monthDiff}
           {label}
           {updateStatus}
@@ -58,12 +58,7 @@
           {service}
         />
       {:else}
-        <ServiceUpdateStatusAsUser
-          {label}
-          {monthDiff}
-          {updateStatus}
-          {service}
-        />
+        <ServiceUpdateStatus {label} {monthDiff} {updateStatus} {service} />
       {/if}
     </CenteredGrid>
   </div>
