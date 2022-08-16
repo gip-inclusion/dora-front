@@ -44,7 +44,7 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
   import ServiceHeader from "$lib/components/services/service-header.svelte";
-  import ServiceUpdateToolbar from "$lib/components/services/service-update-toolbar.svelte";
+  import ServiceToolbar from "$lib/components/services/service-toolbar.svelte";
   import ServiceBody from "$lib/components/services/service-body.svelte";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
@@ -61,7 +61,7 @@
 
   onMount(() => {
     if (browser) {
-      plausible("service", {
+      window.plausible("service", {
         props: {
           service: service.name,
           slug: service.slug,
@@ -93,11 +93,7 @@
   <hr />
   <div class="noprint">
     {#if browser}
-      <ServiceUpdateToolbar
-        {service}
-        {servicesOptions}
-        onRefresh={handleRefresh}
-      />
+      <ServiceToolbar {service} {servicesOptions} onRefresh={handleRefresh} />
     {/if}
   </div>
 
