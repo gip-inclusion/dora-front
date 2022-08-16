@@ -21,21 +21,27 @@
   });
 
   function handleFilterChange(event) {
-    const searchString = event.target.value;
+    const searchString = event.target.value.toLowerCase().trim();
     // TODO:
     // order by moderation status, structures first, then name
     // for services: group them by structures
-
-    // TODO:
-    // make filter work on both structures and services
     filteredEntities = (
       searchString
-        ? structures.filter(
-            (s) =>
-              s.name.toLowerCase().includes(searchString.toLowerCase()) ||
-              s.department === searchString
-          )
-        : structures
+        ? entities.filter((s) => {
+            if (s.isStructure) {
+              return (
+                s.name.toLowerCase().includes(searchString) ||
+                s.department === searchString
+              );
+            } else {
+              return (
+                s.name.toLowerCase().includes(searchString) ||
+                s.structureName.toLowerCase().includes(searchString) ||
+                s.structureDept === searchString
+              );
+            }
+          })
+        : entities
     )
       .filter((s) => !s.parent)
       .sort((s1, s2) =>
@@ -61,7 +67,7 @@
         <input
           on:input={handleFilterChange}
           class="w-full border border-gray-02 p-s8"
-          placeholder="rechercher (nom du service, de la structure ou du département)…"
+          placeholder="rechercher (nom du service, de la structure ou numéro du département)…"
         />
       </div>
 
@@ -102,7 +108,9 @@
                   <span class="mb-s0 font-bold">
                     {shortenString(entity.name)}
                   </span><br />
-                  <span class="text-f12">{entity.structureName}</span>
+                  <span class="text-f12"
+                    >{entity.structureName} ({entity.structureDept})</span
+                  >
                 </a>
               </div>
               <ModerationLabel moderationStatus={entity.moderationStatus} />

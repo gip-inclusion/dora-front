@@ -16,14 +16,15 @@
   });
 
   function handleFilterChange(event) {
-    const searchString = event.target.value;
+    const searchString = event.target.value.toLowerCase().trim();
 
     filteredServices = (
       searchString
         ? services.filter(
             (s) =>
-              s.name.toLowerCase().includes(searchString.toLowerCase()) ||
-              s.structureName.toLowerCase().includes(searchString.toLowerCase())
+              s.name.toLowerCase().includes(searchString) ||
+              s.structureName.toLowerCase().includes(searchString) ||
+              s.structureDept === searchString
           )
         : services
     )
@@ -53,7 +54,7 @@
         <input
           on:input={handleFilterChange}
           class="w-full border border-gray-02 p-s8"
-          placeholder="rechercher (nom du service ou de sa structure)…"
+          placeholder="rechercher (nom du service, de sa structure, numéro du département)…"
         />
       </div>
       {#if services?.length !== filteredServices?.length}
@@ -74,7 +75,7 @@
             </a>
 
             <Label
-              label={`${service.structureName}`}
+              label="{service.structureName} ({service.structureDept})"
               smallIcon
               icon={homeIcon}
             />

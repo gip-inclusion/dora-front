@@ -16,13 +16,13 @@
   });
 
   function handleFilterChange(event) {
-    const searchString = event.target.value;
+    const searchString = event.target.value.toLowerCase().trim();
 
     filteredStructures = (
       searchString
         ? structures.filter(
             (s) =>
-              s.name.toLowerCase().includes(searchString.toLowerCase()) ||
+              s.name.toLowerCase().includes(searchString) ||
               s.department === searchString
           )
         : structures
