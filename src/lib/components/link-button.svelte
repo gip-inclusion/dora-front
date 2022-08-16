@@ -6,7 +6,7 @@
   export let label = "";
   export let extraClass = "";
   export let ariaLabel: string | undefined | null = undefined;
-  export let id: string | undefined | null = undefined;
+  export let id: string | undefined;
   export let icon: string | undefined | null = null;
   export let iconOnRight = false;
   export let small = false;
