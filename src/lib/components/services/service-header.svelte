@@ -10,8 +10,8 @@
 <div id="service-header" class="gap-s16 lg:flex-row-reverse lg:justify-between">
   <div class="mb-s48">
     <Breadcrumb
-      serviceInfo={service}
-      structureInfo={service.structureInfo}
+      {service}
+      structure={service.structureInfo}
       currentLocation="service"
     />
   </div>
@@ -21,7 +21,7 @@
     class="mb-s48 flex flex-col text-f18 text-white md:flex-row md:items-center"
   >
     <div><strong>{capitalize(service.structureInfo.name)}</strong></div>
-    <div class="mx-s8 hidden font-bold md:block" aria-hidden="true">·</div>
+    <div class="mx-s8 hidden font-bold md:block" aria-hidden="true">•</div>
     <div>
       <a class="underline" href="/structures/{service.structureInfo.slug}"
         >Voir les autres services ({service.structureInfo.numServices})</a
@@ -46,7 +46,7 @@
         <span class="text-service-unavailable">Service indisponible</span>
       {/if}
     </div>
-    <div class="mx-s8 hidden font-bold md:block" aria-hidden="true">·</div>
+    <div class="mx-s8 hidden font-bold md:block" aria-hidden="true">•</div>
     <div>
       Périmètre : <strong>{service.diffusionZoneDetailsDisplay}</strong>
     </div>
