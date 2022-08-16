@@ -164,7 +164,13 @@
     on:keydown={handleKeydown}
   >
     <span class:hidden={hideLabel} class="mr-s10">Statut du service :</span>
-    <img src={currentStatusPresentation.icon} alt="" class="mr-s10" />
+
+    <span
+      class={`${currentStatusPresentation.iconClass} mr-s8 h-s24 w-s24 fill-current`}
+    >
+      {@html currentStatusPresentation.icon}
+    </span>
+
     <span>{currentStatusPresentation.label}</span>
     <span class="ml-s10 h-s24 w-s24 fill-current text-magenta-cta">
       {#if isDropdownOpen}
@@ -193,7 +199,7 @@
           role="option"
           on:click={() => updateServiceStatus(option)}
         >
-          <span class="mr-s10 h-s24 w-s24 fill-current text-service-red-dark">
+          <span class="mr-s8 h-s24 w-s24 fill-current text-service-red-dark">
             {@html deleteBinIcon}
           </span>
           <span>Supprimer</span>
@@ -209,7 +215,9 @@
           on:mouseenter={() => setAsSelected(option, index)}
           on:click={() => updateServiceStatus(option)}
         >
-          <img src={data.icon} alt="" class="mr-s10" />
+          <span class={`${data.iconClass} mr-s8 h-s24 w-s24 fill-current`}>
+            {@html data.icon}
+          </span>
           <span>{data.label}</span>
         </div>
       {/if}

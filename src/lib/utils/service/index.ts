@@ -5,13 +5,11 @@ import {
 } from "$lib/types";
 import dayjs from "dayjs";
 
-import ArchivedIcon from "$lib/assets/services/status/service-archived.svg";
-import DraftIcon from "$lib/assets/services/status/service-draft.svg";
-import PublishedIcon from "$lib/assets/services/status/service-published.svg";
-import SuggestionIcon from "$lib/assets/services/status/service-suggestion.svg";
+import { earthFill, fileEditFill, folderFill, draftFill } from "$lib/icons";
 
 type ServiceStatusPresentation = {
   bgClass: string;
+  iconClass: string;
   hoverBgClass: string;
   icon: string;
   label: string;
@@ -23,26 +21,30 @@ export const SERVICE_STATUS_PRESENTATION: Record<
 > = {
   [SERVICE_STATUSES.SUGGESTION]: {
     bgClass: "bg-service-violet",
+    iconClass: "text-service-violet-darker",
     hoverBgClass: "bg-service-violet-dark",
-    icon: SuggestionIcon,
+    icon: fileEditFill,
     label: "Suggestion",
   },
   [SERVICE_STATUSES.DRAFT]: {
     bgClass: "bg-service-orange",
+    iconClass: "text-service-orange-darker",
     hoverBgClass: "bg-service-orange-dark",
-    icon: DraftIcon,
+    icon: draftFill,
     label: "Brouillon",
   },
   [SERVICE_STATUSES.PUBLISHED]: {
     bgClass: "bg-service-green",
+    iconClass: "text-service-green-darker",
     hoverBgClass: "bg-service-green-dark",
-    icon: PublishedIcon,
+    icon: earthFill,
     label: "Publié",
   },
   [SERVICE_STATUSES.ARCHIVED]: {
     bgClass: "bg-service-gray",
+    iconClass: "text-gray-darker",
     hoverBgClass: "bg-service-gray-dark",
-    icon: ArchivedIcon,
+    icon: folderFill,
     label: "Archivé",
   },
 };
@@ -71,8 +73,8 @@ type ServiceUpdateStatusData = {
   dayDiff: number;
   weekDiff: number;
   monthDiff: number;
+  yearDiff: number;
   updateStatus: SERVICE_UPDATE_STATUS;
-  label: string;
 };
 export function computeUpdateStatusData(
   service: Service
@@ -88,6 +90,26 @@ export function computeUpdateStatusData(
     updateStatus = SERVICE_UPDATE_STATUS.NEEDED;
   if (monthDiff >= 8) updateStatus = SERVICE_UPDATE_STATUS.REQUIRED;
 
+  return {
+    dayDiff,
+    weekDiff,
+    monthDiff,
+    yearDiff,
+    updateStatus,
+  };
+}
+
+export function computeUpdateStatusLabel({
+  dayDiff,
+  weekDiff,
+  monthDiff,
+  yearDiff,
+}: {
+  dayDiff: number;
+  weekDiff: number;
+  monthDiff: number;
+  yearDiff: number;
+}) {
   let label = "";
   if (dayDiff < 1) {
     label = "Actualisé aujourd'hui";
@@ -100,12 +122,5 @@ export function computeUpdateStatusData(
   } else {
     label = `Actualisé il y a plus de ${yearDiff} an${yearDiff > 1 ? "s" : ""}`;
   }
-
-  return {
-    dayDiff,
-    weekDiff,
-    monthDiff,
-    updateStatus,
-    label,
-  };
+  return label;
 }

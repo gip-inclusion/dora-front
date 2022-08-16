@@ -3,9 +3,10 @@
   import { SERVICE_UPDATE_STATUS } from "$lib/types";
   import LinkButton from "../link-button.svelte";
 
-  import NoUpdateNeededIcon from "$lib/assets/services/update-status/no-update-needed.svg";
-  import UpdateNeededIcon from "$lib/assets/services/update-status/update-needed.svg";
-  import UpdateRequiredIcon from "$lib/assets/services/update-status/update-required.svg";
+  import NoUpdateNeededIcon from "$lib/components/services/icons/no-update-needed.svelte";
+  import UpdateNeededIcon from "$lib/components/services/icons/update-needed.svelte";
+  import UpdateRequiredIcon from "$lib/components/services/icons/update-required.svelte";
+
   import { editIcon } from "$lib/icons";
 
   export let service: Service;
@@ -21,12 +22,16 @@
   <div id="label-container" class="flex-[3]">
     {#if updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
       <div class="flex items-center">
-        <img src={NoUpdateNeededIcon} alt="" class="mr-s16" />
+        <div class="mr-s16">
+          <NoUpdateNeededIcon />
+        </div>
         <span>{label}</span>
       </div>
     {:else if updateStatus === SERVICE_UPDATE_STATUS.NEEDED}
       <div class="flex items-center">
-        <img src={UpdateNeededIcon} alt="Attention" class="mr-s16" />
+        <span class="mr-s16">
+          <UpdateNeededIcon />
+        </span>
         <div>
           <div class="text-f18">
             <strong>{label}</strong>
@@ -39,7 +44,9 @@
       </div>
     {:else}
       <div class="flex items-center">
-        <img src={UpdateRequiredIcon} alt="Attention" class="mr-s16" />
+        <span class="mr-s16">
+          <UpdateRequiredIcon />
+        </span>
         <div>
           <div class="text-f18">
             <strong>Service en attente d’actualisation</strong>
@@ -54,7 +61,6 @@
   </div>
   <div class="flex w-full flex-[2] flex-col justify-end md:mt-s0 lg:flex-row">
     <LinkButton
-      id="update"
       label="Modifier"
       to="/services/{service.slug}/editer"
       icon={editIcon}

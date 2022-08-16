@@ -7,11 +7,14 @@ const config = {
       transparent: "transparent",
       current: "currentColor",
 
-      "service-green": { DEFAULT: "#E6F3EC", dark: "#B3DCC6" },
-      "service-orange": { DEFAULT: "#FFE9C9", dark: "#FFD79D" },
-      "service-red": { DEFAULT: "#FCE6E6", dark: "#E10600" },
-      "service-gray": { DEFAULT: "#F5F5F5", dark: "#D5D5D5" },
-      "service-violet": { DEFAULT: "#F5F0FD", dark: "#EBE3FB" },
+      service: {
+        green: { DEFAULT: "#E6F3EC", dark: "#B3DCC6", darker: "#008941" },
+        orange: { DEFAULT: "#FFE9C9", dark: "#FFD79D", darker: "#f29023" },
+        red: { DEFAULT: "#FCE6E6", dark: "#E10600" },
+        gray: { DEFAULT: "#F5F5F5", dark: "#D5D5D5", darker: "#2E2E2E" },
+        violet: { DEFAULT: "#F5F0FD", dark: "#EBE3FB", darker: "#5B12EB" },
+        blue: { DEFAULT: "#DBF0FF", dark: "#000091" },
+      },
 
       gray: {
         bg: "#F8F8F8",

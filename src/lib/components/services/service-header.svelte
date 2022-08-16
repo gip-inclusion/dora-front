@@ -1,10 +1,8 @@
 <script lang="ts">
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
+  import { emotionHappyIcon, closeCircleFill } from "$lib/icons";
   import type { Service } from "$lib/types";
   import { capitalize } from "$lib/utils";
-
-  import AvailableIcon from "$lib/assets/services/availability/available.svg";
-  import UnavailableIcon from "$lib/assets/services/availability/unavailable.svg";
 
   export let service: Service;
 </script>
@@ -36,10 +34,15 @@
   >
     <div id="service-availability" class="mb-s10 flex items-center md:mb-s0">
       {#if service.isAvailable}
-        <img src={AvailableIcon} alt="" class="mr-s6" />
+        <div class="mr-s8 h-s32 w-s32 fill-current text-service-available">
+          {@html emotionHappyIcon}
+        </div>
+
         <span class="text-service-available">Service disponible</span>
       {:else}
-        <img src={UnavailableIcon} alt="" class="mr-s6" />
+        <div class="mr-s8 h-s32 w-s32 fill-current text-service-unavailable">
+          {@html closeCircleFill}
+        </div>
         <span class="text-service-unavailable">Service indisponible</span>
       {/if}
     </div>
