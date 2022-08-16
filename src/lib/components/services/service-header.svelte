@@ -1,6 +1,6 @@
 <script lang="ts">
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
-  import { emotionHappyIcon, closeCircleFill } from "$lib/icons";
+  import { emotionHappyIcon, closeCircleFillIcon } from "$lib/icons";
   import type { Service } from "$lib/types";
   import { capitalize } from "$lib/utils";
 
@@ -41,7 +41,7 @@
         <span class="text-service-available">Service disponible</span>
       {:else}
         <div class="mr-s8 h-s32 w-s32 fill-current text-service-unavailable">
-          {@html closeCircleFill}
+          {@html closeCircleFillIcon}
         </div>
         <span class="text-service-unavailable">Service indisponible</span>
       {/if}

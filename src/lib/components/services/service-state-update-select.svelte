@@ -22,10 +22,10 @@
     arrowDownSIcon,
     arrowUpSIcon,
     deleteBinIcon,
-    earthFill,
-    fileEditFill,
-    folderFill,
-    draftFill,
+    earthFillIcon,
+    fileEditFillIcon,
+    folderFillIcon,
+    draftFillIcon,
   } from "$lib/icons";
   import { clickOutside } from "../use/click-outside";
 
@@ -45,28 +45,28 @@
       bgClass: "bg-service-violet",
       iconClass: "text-service-violet-darker",
       hoverBgClass: "bg-service-violet-dark",
-      icon: fileEditFill,
+      icon: fileEditFillIcon,
       label: "Suggestion",
     },
     [SERVICE_STATUSES.DRAFT]: {
       bgClass: "bg-service-orange",
       iconClass: "text-service-orange-darker",
       hoverBgClass: "bg-service-orange-dark",
-      icon: draftFill,
+      icon: draftFillIcon,
       label: "Brouillon",
     },
     [SERVICE_STATUSES.PUBLISHED]: {
       bgClass: "bg-service-green",
       iconClass: "text-service-green-darker",
       hoverBgClass: "bg-service-green-dark",
-      icon: earthFill,
+      icon: earthFillIcon,
       label: "Publié",
     },
     [SERVICE_STATUSES.ARCHIVED]: {
       bgClass: "bg-service-gray",
       iconClass: "text-gray-darker",
       hoverBgClass: "bg-service-gray-dark",
-      icon: folderFill,
+      icon: folderFillIcon,
       label: "Archivé",
     },
   };

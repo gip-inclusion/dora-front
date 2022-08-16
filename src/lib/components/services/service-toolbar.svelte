@@ -12,7 +12,7 @@
     computeUpdateStatusData,
     computeUpdateStatusLabel,
   } from "$lib/utils/service";
-  import { copyIcon } from "$lib/icons";
+  import { copyIconIcon } from "$lib/icons";
 
   export let service: Service;
   export let servicesOptions;
@@ -95,7 +95,7 @@
           {:else}
             <LinkButton
               label="Utiliser comme modèle"
-              icon={copyIcon}
+              icon={copyIconIcon}
               iconOnRight
               secondary
               to={`/modeles/creer?service=${service.slug}&structure=${service.structure}`}
