@@ -50,7 +50,6 @@
     "@sveltejs/adapter-node": "next",
     "@sveltejs/kit": "next",
     "@tailwindcss/typography": "^0.5.2",
-    "@types/sinonjs__fake-timers": "^8.1.2",
     "@typescript-eslint/eslint-plugin": "^5.27.0",
     "@typescript-eslint/parser": "^5.27.0",
     "autoprefixer": "^10.4.7",
