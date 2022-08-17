@@ -29,6 +29,7 @@
   import SmallLink from "../../_small-link.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import ModerationButtonMenu from "../../_moderation-button-menu.svelte";
+  import History from "../../_history.svelte";
 
   export let structure;
 
@@ -83,10 +84,7 @@
     {/if}
 
     <h4>Historique</h4>
-    <pre>{#each structure.notes as note}<Date date={note.date} /> par {note.user
-          .email} | {note.message}<br />
-      {/each}
-  </pre>
+    <History notes={structure.notes} />
 
     <h4 id="contacts">Contacts</h4>
 

@@ -31,6 +31,7 @@
   import Date from "$lib/components/date.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import ModerationButtonMenu from "../../_moderation-button-menu.svelte";
+  import History from "../../_history.svelte";
 
   export let service;
   const structure = service.structure;
@@ -72,10 +73,7 @@
     </InfoLine>
 
     <h4>Historique</h4>
-    <pre>{#each service.notes as note}<Date date={note.date} /> par {note.user
-          .email} | {note.message}<br />
-      {/each}
-      </pre>
+    <History notes={service.notes} />
 
     <h4 id="contacts">Contacts</h4>
 
