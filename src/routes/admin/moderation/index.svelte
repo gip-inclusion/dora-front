@@ -7,25 +7,26 @@
   import { eyeIcon } from "$lib/icons";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import ModerationLabel from "../_moderation-label.svelte";
+  import { ModerationStatus } from "$lib/enums";
+  let services, structures, entities;
+  let filteredEntities = [];
 
-  let services, structures, entities, filteredEntities;
-
+  const STATUS_VALUE = {
+    [ModerationStatus.NEED_INITIAL_MODERATION]: 1,
+    [ModerationStatus.NEED_NEW_MODERATION]: 2,
+    [ModerationStatus.IN_PROGRESS]: 3,
+    [ModerationStatus.VALIDATED]: 4,
+  };
   onMount(async () => {
     structures = await getStructuresToModerate();
     structures.forEach((s) => (s.isStructure = true));
-    console.log(structures[0]);
     services = await getServicesToModerate();
-    console.log(services[0]);
     entities = [...structures, ...services];
-    filteredEntities = entities;
+    filteredEntities = filterAndSortEntities("");
   });
 
-  function handleFilterChange(event) {
-    const searchString = event.target.value.toLowerCase().trim();
-    // TODO:
-    // order by moderation status, structures first, then name
-    // for services: group them by structures
-    filteredEntities = (
+  function filterAndSortEntities(searchString) {
+    let result = (
       searchString
         ? entities.filter((s) => {
             if (s.isStructure) {
@@ -44,13 +45,35 @@
         : entities
     )
       .filter((s) => !s.parent)
-      .sort((s1, s2) =>
-        s1.department === s2.department
-          ? s1.name.toLowerCase() > s2.name.toLowerCase()
-            ? 1
-            : -1
-          : s1.department - s2.department
-      );
+      .sort((s1, s2) => {
+        // On tri d'abord par statut de modération
+        const val1 = s1.moderationStatus
+          ? STATUS_VALUE[s1.moderationStatus]
+          : 999;
+        const val2 = s2.moderationStatus
+          ? STATUS_VALUE[s2.moderationStatus]
+          : 999;
+        if (val1 !== val2) return val1 - val2;
+        // Puis les structures en premier
+        if (s1.isStructure && !s2.isStructure) return -1;
+        if (s2.isStructure && !s1.isStructure) return 1;
+        // Puis par dept de structure
+        const sdept1 = s1.isStructure ? s1.department : s1.structureDept;
+        const sdept2 = s1.isStructure ? s1.department : s1.structureDept;
+        if (sdept1 !== sdept2) return sdept1 > sdept2;
+        // Puis par nom de structure
+        const sname1 = s1.isStructure ? s1.name : s1.structureName;
+        const sname2 = s1.isStructure ? s1.name : s1.structureName;
+        if (sname1 !== sname2) return sname1 > sname2;
+        // Finalement par nom
+        return s1.name > s2.name;
+      });
+    return result;
+  }
+
+  function handleFilterChange(event) {
+    const searchString = event.target.value.toLowerCase().trim();
+    filteredEntities = filterAndSortEntities(searchString);
   }
 </script>
 
@@ -71,7 +94,7 @@
         />
       </div>
 
-      {#if entities?.length !== filteredEntities?.length}
+      {#if entities && filteredEntities && entities?.length !== filteredEntities?.length}
         <div class="text-gray-text">
           ({filteredEntities.length} / {entities.length})
         </div>
