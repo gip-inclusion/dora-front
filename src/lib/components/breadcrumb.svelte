@@ -44,14 +44,14 @@
 
 <style lang="postcss">
   a {
-    @apply text-magenta-40;
+    @apply text-magenta-40 print:text-france-blue;
   }
 
   .current {
-    @apply font-bold text-white;
+    @apply font-bold text-white print:text-france-blue;
   }
 
   nav li + li::before {
-    @apply ml-s8 mr-s8 inline text-magenta-40;
+    @apply ml-s8 mr-s8 inline text-magenta-40 print:text-france-blue;
   }
 </style>

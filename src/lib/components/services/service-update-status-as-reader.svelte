@@ -79,7 +79,7 @@
     {/if}
   </div>
 
-  <div>
+  <div class="noprint">
     <SuggestionModal {service} bind:isOpen={suggestionModalIsOpen} />
     <Button
       id="suggest-update"

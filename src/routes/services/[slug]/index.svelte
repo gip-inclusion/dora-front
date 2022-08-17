@@ -91,7 +91,7 @@
     <ServiceHeader {service} />
   </CenteredGrid>
   <hr />
-  <div class="noprint">
+  <div>
     {#if browser}
       <ServiceToolbar {service} {servicesOptions} onRefresh={handleRefresh} />
     {/if}

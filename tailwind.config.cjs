@@ -14,6 +14,9 @@ const config = {
         gray: { DEFAULT: "#F5F5F5", dark: "#D5D5D5", darker: "#2E2E2E" },
         violet: { DEFAULT: "#F5F0FD", dark: "#EBE3FB", darker: "#5B12EB" },
         blue: { DEFAULT: "#DBF0FF", dark: "#000091" },
+
+        available: { DEFAULT: "#86F3A2", dark: "#005B17" },
+        unavailable: { DEFAULT: "#FF9A6C", dark: "#AF0000" },
       },
 
       gray: {
@@ -46,9 +49,6 @@ const config = {
       available: { DEFAULT: "#008941", dark: "#1cda76" },
       na: { DEFAULT: "#e10600", dark: "#ff504c" },
       wait: { DEFAULT: "#f29023", dark: "#fe9800" },
-
-      "service-available": "#86F3A2",
-      "service-unavailable": "#FF9A6C",
     },
     fontFamily: {
       sans: ["Marianne"],
