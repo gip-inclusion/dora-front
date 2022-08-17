@@ -2,7 +2,7 @@
   import Button from "$lib/components/button.svelte";
   import { clickOutside } from "./use/click-outside";
 
-  export let icon;
+  export let icon = undefined;
   export let label = undefined;
   export let disabled = false;
   export let small = false;

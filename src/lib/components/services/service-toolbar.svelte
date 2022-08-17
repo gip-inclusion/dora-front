@@ -18,30 +18,24 @@
   export let servicesOptions;
   export let onRefresh: () => void;
 
-  let updateStatusData = computeUpdateStatusData(service);
-  let { updateStatus, monthDiff } = updateStatusData;
-  let label = computeUpdateStatusLabel(updateStatusData);
-
-  $: {
-    updateStatusData = computeUpdateStatusData(service);
-    updateStatus = updateStatusData.updateStatus;
-    monthDiff = updateStatusData.monthDiff;
-    label = computeUpdateStatusLabel(updateStatusData);
-  }
+  $: updateStatusData = computeUpdateStatusData(service);
+  $: label = computeUpdateStatusLabel(updateStatusData);
 </script>
 
 <div id="service-update-status">
-  <div class={updateStatus}>
+  <div class={updateStatusData.updateStatus}>
     <CenteredGrid
       extraClass={`
         py-s32 mb-s14 w-full
         ${
-          service.canWrite && updateStatus === SERVICE_UPDATE_STATUS.NEEDED
+          service.canWrite &&
+          updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NEEDED
             ? "bg-service-orange"
             : ""
         }
         ${
-          service.canWrite && updateStatus === SERVICE_UPDATE_STATUS.REQUIRED
+          service.canWrite &&
+          updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.REQUIRED
             ? "bg-service-red"
             : ""
         }
@@ -50,24 +44,23 @@
     >
       {#if service.canWrite}
         <ServiceUpdateStatusAsContributor
-          {monthDiff}
+          monthDiff={updateStatusData.monthDiff}
           {label}
-          {updateStatus}
-          {onRefresh}
+          updateStatus={updateStatusData.updateStatus}
           {service}
         />
       {:else}
         <ServiceUpdateStatusAsReader
           {label}
-          {monthDiff}
-          {updateStatus}
+          monthDiff={updateStatusData.monthDiff}
+          updateStatus={updateStatusData.updateStatus}
           {service}
         />
       {/if}
     </CenteredGrid>
   </div>
 
-  {#if !service.canWrite || updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
+  {#if !service.canWrite || updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
     <div
       class="m-auto max-w-6xl border border-t-0 border-r-0 border-l-0 border-gray-02"
     />

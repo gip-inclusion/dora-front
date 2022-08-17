@@ -1,9 +1,9 @@
 <script lang="ts">
   export let label = "";
   export let type = "button";
-  export let id: string | undefined;
-  export let name: string | undefined | null = null;
-  export let icon: string | undefined | null = null;
+  export let id: string | undefined = undefined;
+  export let name: string | undefined = undefined;
+  export let icon: string | undefined = undefined;
   export let extraClass = "";
   export let iconOnRight = false;
   export let disabled = false;
