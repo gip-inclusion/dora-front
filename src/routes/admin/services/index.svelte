@@ -12,13 +12,11 @@
 
   onMount(async () => {
     services = await getServicesAdmin();
-    filteredServices = services;
+    filteredServices = filterAndSortEntities("");
   });
 
-  function handleFilterChange(event) {
-    const searchString = event.target.value.toLowerCase().trim();
-
-    filteredServices = (
+  function filterAndSortEntities(searchString) {
+    return (
       searchString
         ? services.filter(
             (s) =>
@@ -29,15 +27,26 @@
         : services
     )
       .filter((s) => !s.parent)
-      .sort((s1, s2) =>
-        s1.structureName.toLowerCase() === s2.structureName.toLowerCase()
-          ? s1.name.toLowerCase() > s2.name.toLowerCase()
-            ? 1
-            : -1
-          : s1.structureName.toLowerCase() > s2.structureName.toLowerCase()
-          ? 1
-          : -1
-      );
+      .sort((s1, s2) => {
+        if (s1.structureDept !== s2.structureDept) {
+          return s1.structureDept.localeCompare(s2.structureDept, "fr", {
+            numeric: true,
+          });
+        }
+
+        if (s1.structureName.toLowerCase() !== s2.structureName.toLowerCase()) {
+          return s1.structureName
+            .toLowerCase()
+            .localeCompare(s2.structureName.toLowerCase(), "fr");
+        }
+
+        return s1.name.toLowerCase().localeCompare(s2.name.toLowerCase(), "fr");
+      });
+  }
+
+  function handleFilterChange(event) {
+    const searchString = event.target.value.toLowerCase().trim();
+    filteredServices = filterAndSortEntities(searchString);
   }
 </script>
 

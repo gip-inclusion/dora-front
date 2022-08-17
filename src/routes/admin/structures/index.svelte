@@ -12,13 +12,11 @@
 
   onMount(async () => {
     structures = await getStructuresAdmin();
-    filteredStructures = structures;
+    filteredStructures = filterAndSortEntities("");
   });
 
-  function handleFilterChange(event) {
-    const searchString = event.target.value.toLowerCase().trim();
-
-    filteredStructures = (
+  function filterAndSortEntities(searchString) {
+    return (
       searchString
         ? structures.filter(
             (s) =>
@@ -26,16 +24,18 @@
               s.department === searchString
           )
         : structures
-    )
-      // On n'affiche pas les antennes
-      .filter((s) => !s.parent)
-      .sort((s1, s2) =>
-        s1.department === s2.department
-          ? s1.name.toLowerCase() > s2.name.toLowerCase()
-            ? 1
-            : -1
-          : s1.department - s2.department
-      );
+    ).sort((s1, s2) =>
+      s1.department === s2.department
+        ? s1.name.toLowerCase().localeCompare(s2.name.toLowerCase(), "fr")
+        : s1.department.localeCompare(s2.department, "fr", {
+            numeric: true,
+          })
+    );
+  }
+
+  function handleFilterChange(event) {
+    const searchString = event.target.value.toLowerCase().trim();
+    filteredStructures = filterAndSortEntities(searchString);
   }
 </script>
 
