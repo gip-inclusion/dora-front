@@ -25,21 +25,18 @@
 <div id="service-update-status">
   <div class={updateStatusData.updateStatus}>
     <CenteredGrid
-      extraClass={`
+      extraClass="
         py-s32 mb-s14 w-full
-        ${
-          service.canWrite &&
-          updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NEEDED
-            ? "bg-service-orange"
-            : ""
-        }
-        ${
-          service.canWrite &&
-          updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.REQUIRED
-            ? "bg-service-red"
-            : ""
-        }
-      `}
+        {service.canWrite &&
+      updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NEEDED
+        ? 'bg-service-orange'
+        : ''}
+
+        {service.canWrite &&
+      updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.REQUIRED
+        ? 'bg-service-red'
+        : ''}
+      "
       noPadding
     >
       {#if service.canWrite}

@@ -39,9 +39,7 @@
       </span>
       Frais à charge du bénéficiaire
     </div>
-  {/if}
 
-  {#if service.hasFee}
     <div>
       <h3>
         <span class="mr-s8 h-s24 w-s24 fill-current">

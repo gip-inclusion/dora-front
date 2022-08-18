@@ -194,7 +194,7 @@
 
 <div
   id="service-state-update"
-  class={`relative flex cursor-pointer items-center rounded-md font-bold text-gray-dark ${currentStatusPresentation.bgClass} hover:${currentStatusPresentation.hoverBgClass}`}
+  class="relative flex cursor-pointer items-center rounded-md font-bold text-gray-dark {currentStatusPresentation.bgClass} hover:{currentStatusPresentation.hoverBgClass}"
   use:clickOutside
   on:click_outside={() => toggleCombobox(false)}
 >
@@ -217,7 +217,7 @@
     <span class:hidden={hideLabel} class="mr-s10">Statut du service :</span>
 
     <span
-      class={`${currentStatusPresentation.iconClass} mr-s8 h-s24 w-s24 fill-current`}
+      class="{currentStatusPresentation.iconClass} mr-s8 h-s24 w-s24 fill-current"
     >
       {@html currentStatusPresentation.icon}
     </span>
@@ -243,9 +243,10 @@
     {#each availableOptions as option, index (option)}
       {#if option === "DELETE"}
         <div
-          class={`mb-s10 flex items-center rounded p-s10 ${
-            selectedOption === option ? "bg-service-red" : "bg-transparent"
-          }`}
+          class="mb-s10 flex items-center rounded p-s10 {selectedOption ===
+          option
+            ? 'bg-service-red'
+            : 'bg-transparent'}"
           on:mouseenter={() => setAsSelected(option, index)}
           role="option"
           on:click={() => updateServiceStatus(option)}
@@ -258,15 +259,16 @@
       {:else}
         {@const data = SERVICE_STATUS_PRESENTATION[option]}
         <div
-          class={`mb-s10 flex items-center rounded p-s10 ${
-            selectedOption === option ? data.hoverBgClass : "bg-transparent"
-          }`}
+          class="mb-s10 flex items-center rounded p-s10 {selectedOption ===
+          option
+            ? data.hoverBgClass
+            : 'bg-transparent'}"
           role="option"
           id={option}
           on:mouseenter={() => setAsSelected(option, index)}
           on:click={() => updateServiceStatus(option)}
         >
-          <span class={`${data.iconClass} mr-s8 h-s24 w-s24 fill-current`}>
+          <span class="{data.iconClass} mr-s8 h-s24 w-s24 fill-current">
             {@html data.icon}
           </span>
           <span>{data.label}</span>

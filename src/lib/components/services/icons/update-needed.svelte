@@ -7,8 +7,8 @@
   const padding = small ? "p-s8" : "p-s12";
 </script>
 
-<div class={`rounded-full bg-wait-dark ${padding}`}>
-  <div class={`${dimension} fill-current text-white`}>
+<div class="rounded-full bg-wait-dark {padding}">
+  <div class="{dimension} fill-current text-white">
     {@html errorWarningLineIcon}
   </div>
 </div>

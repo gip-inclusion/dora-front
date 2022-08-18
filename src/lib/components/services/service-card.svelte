@@ -74,7 +74,7 @@
     {#if !readOnly && service.model}
       <div class="flex items-center text-f14">
         {#if service.modelChanged}
-          <span class="mr-s8"><SynchronizedIcon orange /></span>
+          <span class="mr-s8"><SynchronizedIcon warning /></span>
           <span class="font-bold">Mise à jour disponible</span>
         {:else}
           <span class="mr-s8"><SynchronizedIcon /></span>

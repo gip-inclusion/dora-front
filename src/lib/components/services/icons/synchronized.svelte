@@ -1,15 +1,20 @@
 <script lang="ts">
   import { copyIcon } from "$lib/icons";
 
-  export let orange = false;
-
-  const presentation = orange
-    ? "bg-service-orange-darker text-white"
-    : "bg-service-blue text-service-blue-dark";
+  export let warning = false;
 </script>
 
-<div class={`rounded-full p-s8 ${presentation}`}>
+<div
+  class="rounded-full bg-service-blue p-s8 text-service-blue-dark"
+  class:warning
+>
   <div class="h-s16 w-s16 fill-current ">
     {@html copyIcon}
   </div>
 </div>
+
+<style class="postcss">
+  .warning {
+    @apply bg-service-orange-darker text-white;
+  }
+</style>

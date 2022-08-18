@@ -7,8 +7,8 @@
   const padding = small ? "p-s8" : "p-s12";
 </script>
 
-<div class={`rounded-full bg-service-blue ${padding}`}>
-  <div class={`${dimension} fill-current text-service-blue-dark`}>
+<div class="rounded-full bg-service-blue {padding}">
+  <div class="{dimension} fill-current text-service-blue-dark">
     {@html historyLineIcon}
   </div>
 </div>

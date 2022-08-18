@@ -15,7 +15,7 @@
   }
 </script>
 
-<div class={`wrapper ${wrapperExtraClass}`}>
+<div class="wrapper {wrapperExtraClass}">
   <Button
     {icon}
     {label}
