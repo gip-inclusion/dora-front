@@ -7,6 +7,6 @@
   export let service;
 </script>
 
-<ButtonMenu icon={moreIcon} small>
+<ButtonMenu icon={moreIcon} small extraClass="border border-magenta-cta">
   <ServiceMenu {service} />
 </ButtonMenu>

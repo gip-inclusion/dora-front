@@ -6,6 +6,7 @@
   export let label = undefined;
   export let disabled = false;
   export let small = false;
+  export let extraClass = "";
   let isOpen = false;
 
   function handleClickOutside(_event) {
@@ -20,6 +21,7 @@
     noBackground
     {disabled}
     {small}
+    {extraClass}
     on:click={() => (isOpen = !isOpen)}
   />
   <div

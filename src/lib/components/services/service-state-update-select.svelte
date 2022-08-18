@@ -14,7 +14,11 @@
     unPublishService,
   } from "$lib/services";
 
-  import { SERVICE_STATUSES, type Service } from "$lib/types";
+  import {
+    SERVICE_STATUSES,
+    type DashboardService,
+    type Service,
+  } from "$lib/types";
   import { getAvailableOptionsForStatus } from "$lib/utils/service";
   import { validate } from "$lib/validation";
   import { serviceSchema } from "$lib/schemas/service.js";
@@ -71,7 +75,7 @@
     },
   };
 
-  export let service: Service;
+  export let service: Service | DashboardService;
   export let servicesOptions;
   export let onRefresh: () => void;
   export let hideLabel = true;

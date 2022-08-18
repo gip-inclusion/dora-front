@@ -1,58 +1,81 @@
-<script>
-  import { checkBoxBlankIcon } from "$lib/icons";
-  import Label from "$lib/components/label.svelte";
+<script lang="ts">
   import ServiceButtonMenu from "./service-button-menu.svelte";
   import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
-  import Date from "../date.svelte";
-  import ServiceSync from "./service-sync.svelte";
-  import { SERVICE_STATUSES } from "$lib/schemas/service";
-  export let service, servicesOptions;
+  import ServiceAvailability from "./body/service-availability.svelte";
+  import {
+    SERVICE_STATUSES,
+    SERVICE_UPDATE_STATUS,
+    type DashboardService,
+  } from "$lib/types";
+  import {
+    computeUpdateStatusData,
+    computeUpdateStatusLabel,
+  } from "$lib/utils/service";
+
+  import NoUpdateNeededIcon from "$lib/components/services/icons/no-update-needed.svelte";
+  import UpdateNeededIcon from "$lib/components/services/icons/update-needed.svelte";
+  import UpdateRequiredIcon from "$lib/components/services/icons/update-required.svelte";
+  import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
+
+  export let service: DashboardService;
+  export let servicesOptions;
   export let readOnly = true;
   export let onRefresh;
+
+  $: updateStatusData = computeUpdateStatusData(service);
 </script>
 
 <div class="flex flex-col justify-between rounded-md bg-white shadow-md">
-  <div
-    class="grow rounded-t-md bg-gray-00 px-s20 py-s12"
-    class:rounded-b-md={readOnly}
-  >
-    <p class="mb-s8 text-f14 text-gray-text">
-      Mis à jour le <Date date={service.modificationDate} />
-    </p>
+  <div class="mb-s32 grow rounded-t-md p-s24">
+    <div class="mb-s24 flex items-center justify-between">
+      <ServiceStateUpdateSelect {service} {servicesOptions} {onRefresh} />
 
-    <h4 class="mb-s8 text-france-blue">
+      {#if service.status !== SERVICE_STATUSES.SUGGESTION && service.status !== SERVICE_STATUSES.ARCHIVED}
+        <ServiceButtonMenu {service} {servicesOptions} />
+      {/if}
+    </div>
+
+    <h3 class="mb-s24 text-france-blue">
       <a href="/services/{service.slug}">{service.name}</a>
-    </h4>
+    </h3>
 
     <div class="mb-s8 flex items-center">
-      {#if service.status === SERVICE_STATUSES.published}
-        <div class="mr-s8">
-          <Label icon={checkBoxBlankIcon} success bold smallIcon />
-        </div>
-      {/if}
-      {#if service.diffusionZoneDetailsDisplay}
-        <Label label={service.diffusionZoneDetailsDisplay} />
-      {/if}
+      <ServiceAvailability {service} small dark bold />
     </div>
-  </div>
-  {#if !readOnly}
-    <div class="flex flex-col justify-end border-t border-t-gray-03 p-s20">
-      <div class="mb-s24">
-        {#if service.model}
-          <ServiceSync modelChanged={service.modelChanged} border={false} />
-        {:else}
-          <div class="flex text-f14">
-            <span>&nbsp;</span>
-          </div>
-        {/if}
-      </div>
-      <div class="flex items-center justify-between">
-        <ServiceStateUpdateSelect {service} {servicesOptions} {onRefresh} />
 
-        {#if service.status !== SERVICE_STATUSES.suggestion && service.status !== SERVICE_STATUSES.archived}
-          <ServiceButtonMenu {service} {servicesOptions} />
+    {#if service.diffusionZoneDetailsDisplay}
+      <div class="mb-s8 flex items-center text-france-blue">
+        Périmètre&nbsp;:&nbsp;<strong
+          >{service.diffusionZoneDetailsDisplay}</strong
+        >
+      </div>
+    {/if}
+  </div>
+
+  <div class="flex flex-col gap-s16 border-t border-t-gray-03 py-s16 px-s20">
+    <div class="flex items-center text-f14 text-gray-text">
+      {#if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
+        <span class="mr-s8"><NoUpdateNeededIcon small /></span>
+        {computeUpdateStatusLabel(updateStatusData)}
+      {:else if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NEEDED}
+        <span class="mr-s8"><UpdateNeededIcon small /></span>
+        <span class="font-bold">Actualisation conseillée</span>
+      {:else if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.REQUIRED}
+        <span class="mr-s8"><UpdateRequiredIcon small /></span>
+        <span class="font-bold">Actualisation requise</span>
+      {/if}
+    </div>
+
+    {#if !readOnly && service.model}
+      <div class="flex items-center text-f14">
+        {#if service.modelChanged}
+          <span class="mr-s8"><SynchronizedIcon orange /></span>
+          <span class="font-bold">Mise à jour disponible</span>
+        {:else}
+          <span class="mr-s8"><SynchronizedIcon /></span>
+          <span class="italic text-gray-text">Synchronisé avec un modèle</span>
         {/if}
       </div>
-    </div>
-  {/if}
+    {/if}
+  </div>
 </div>

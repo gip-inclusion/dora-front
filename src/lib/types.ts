@@ -39,6 +39,7 @@ export type Service = {
   structure: string;
   status: SERVICE_STATUSES;
   model: string | undefined;
+  modelChanged: boolean | undefined;
   shortDesc: string | undefined;
   hasAlreadyBeenUnpublished: boolean;
   isCumulative: boolean;
@@ -49,3 +50,20 @@ export type Service = {
   modificationDate: string | undefined;
   diffusionZoneDetailsDisplay: string | undefined;
 };
+
+export type DashboardService = Pick<
+  Service,
+  | "slug"
+  | "name"
+  | "postalCode"
+  | "city"
+  | "department"
+  | "status"
+  | "modificationDate"
+  | "shortDesc"
+  | "diffusionZoneDetailsDisplay"
+  | "modelChanged"
+  | "isAvailable"
+  | "model"
+  | "structure"
+>;
