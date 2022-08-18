@@ -36,7 +36,7 @@
   on:click={handleClose}
 >
   <div
-    class="max-h-screen min-w-[80vw] overflow-auto rounded-md bg-white p-s24  shadow-md"
+    class="max-h-screen min-w-[80vw] overflow-auto rounded-md bg-white p-s24 shadow-md"
     class:overflow-y-auto={overflow}
     on:click|stopPropagation
   >
