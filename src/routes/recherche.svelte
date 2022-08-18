@@ -20,7 +20,7 @@
     });
     const url = `${getApiURL()}/search/?${query}`;
 
-    const res = await (kitFetch || fetch)(url, {
+    const res = await kitFetch(url, {
       headers: { Accept: "application/json; version=1.0" },
     });
 
