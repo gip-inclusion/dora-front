@@ -29,19 +29,20 @@
 
 <svelte:window on:keydown={handleKeydown} />
 
-<div
-  id="background"
-  class="flex items-center justify-center"
-  class:hidden={!isOpen}
-  on:click={handleClose}
->
+{#if isOpen}
   <div
-    class="max-h-screen min-w-[80vw] overflow-auto overflow-auto rounded-md bg-white p-s24  shadow-md"
-    class:overflow-y-auto={overflow}
-    on:click|stopPropagation
+    id="background"
+    class="flex items-center justify-center"
+    on:click={handleClose}
   >
-    <div class="mb-s24 border border-l-0 border-r-0 border-t-0 border-gray-02">
-      <div class="border border-l-0 border-r-0 border-t-0 border-gray-02">
+    <div
+      class="max-h-screen min-w-[80vw] overflow-auto rounded-md bg-white p-s24  shadow-md"
+      class:overflow-y-auto={overflow}
+      on:click|stopPropagation
+    >
+      <div
+        class="mb-s24 border border-l-0 border-r-0 border-t-0 border-gray-02"
+      >
         <div class="flex justify-between">
           {#if title}
             <h1
@@ -67,16 +68,10 @@
         {/if}
       </div>
 
-      {#if subtitle}
-        <div>
-          <p class="text-f14 text-gray-text">{subtitle}</p>
-        </div>
-      {/if}
+      <slot />
     </div>
-
-    <slot />
   </div>
-</div>
+{/if}
 
 <style lang="postcss">
   #background {

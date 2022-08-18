@@ -7,6 +7,7 @@
   export let disabled = false;
   export let small = false;
   export let extraClass = "";
+  export let wrapperExtraClass = "";
   let isOpen = false;
 
   function handleClickOutside(_event) {
@@ -14,7 +15,7 @@
   }
 </script>
 
-<div class="wrapper">
+<div class={`wrapper ${wrapperExtraClass}`}>
   <Button
     {icon}
     {label}

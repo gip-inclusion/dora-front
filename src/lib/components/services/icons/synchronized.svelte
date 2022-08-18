@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { copyIcon } from "$lib/icons";
 
   export let orange = false;

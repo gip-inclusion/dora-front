@@ -20,18 +20,23 @@
   export let service: DashboardService;
   export let servicesOptions;
   export let readOnly = true;
-  export let onRefresh;
+  export let onRefresh: () => void;
 
   $: updateStatusData = computeUpdateStatusData(service);
 </script>
 
 <div class="flex flex-col justify-between rounded-md bg-white shadow-md">
-  <div class="mb-s32 grow rounded-t-md p-s24">
+  <div class="g row mb-s32 rounded-t-md p-s24">
     <div class="mb-s24 flex items-center justify-between">
       <ServiceStateUpdateSelect {service} {servicesOptions} {onRefresh} />
 
       {#if service.status !== SERVICE_STATUSES.SUGGESTION && service.status !== SERVICE_STATUSES.ARCHIVED}
-        <ServiceButtonMenu {service} {servicesOptions} />
+        <ServiceButtonMenu
+          {service}
+          {servicesOptions}
+          {onRefresh}
+          updateStatus={updateStatusData.updateStatus}
+        />
       {/if}
     </div>
 

@@ -20,18 +20,15 @@ export enum SERVICE_UPDATE_STATUS {
 export type Service = {
   name: string;
   slug: string;
-
   contactName: string | undefined;
   contactPhone: string | undefined;
   contactEmail: string | undefined;
-
   locationKinds: string[] | undefined;
   remoteUrl: string | undefined;
   postalCode: string | undefined;
   address1: string | undefined;
   address2: string | undefined;
   city: string | undefined;
-
   department: string;
   isAvailable: boolean;
   structureInfo: Structure;
@@ -53,8 +50,11 @@ export type Service = {
 
 export type DashboardService = Pick<
   Service,
-  | "slug"
   | "name"
+  | "slug"
+  | "contactName"
+  | "contactPhone"
+  | "contactEmail"
   | "postalCode"
   | "city"
   | "department"
@@ -64,6 +64,14 @@ export type DashboardService = Pick<
   | "diffusionZoneDetailsDisplay"
   | "modelChanged"
   | "isAvailable"
+  | "isCumulative"
+  | "feeDetails"
+  | "recurrence"
+  | "locationKinds"
+  | "address1"
+  | "address2"
+  | "remoteUrl"
+  | "hasFee"
   | "model"
   | "structure"
 >;

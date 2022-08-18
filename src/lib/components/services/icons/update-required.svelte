@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { alertLine } from "$lib/icons";
 
   export let small = false;

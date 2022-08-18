@@ -66,7 +66,7 @@
   rel="noopener {nofollow ? 'nofollow' : ''}"
   href={to}
   on:click
-  class="{px} {py} {ts} {border} {text} {background} {extraClass} inline-flex items-center justify-center whitespace-nowrap rounded leading-normal outline-none focus:shadow-focus"
+  class="{px} {py} {ts} {border} {text} {background} {extraClass} inline-flex items-center justify-center whitespace-nowrap rounded leading-normal hover:underline focus:shadow-focus"
   class:w-full={wFull}
   aria-label={ariaLabel}
 >

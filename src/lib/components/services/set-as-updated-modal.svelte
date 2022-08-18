@@ -1,6 +1,6 @@
 <script lang="ts">
   import Modal from "$lib/components/modal.svelte";
-  import type { Service } from "$lib/types";
+  import type { DashboardService, Service } from "$lib/types";
   import LinkButton from "$lib/components/link-button.svelte";
   import Button from "$lib/components/button.svelte";
 
@@ -10,7 +10,7 @@
   import { createOrModifyService } from "$lib/services";
 
   export let isOpen = false;
-  export let service: Service;
+  export let service: Service | DashboardService;
   export let onRefresh: () => void;
 
   async function setAsUpdated() {
