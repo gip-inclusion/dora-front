@@ -23,28 +23,34 @@
   $: updateStatusData = computeUpdateStatusData(service);
 </script>
 
-<div class="flex flex-col justify-between rounded-md bg-white shadow-md">
+<div
+  class="relative flex flex-col justify-between rounded-md bg-white shadow-md"
+>
   <div class="g row mb-s32 rounded-t-md p-s24">
     <div class="mb-s24 flex items-center justify-between">
-      <ServiceStateUpdateSelect
-        {service}
-        {servicesOptions}
-        {onRefresh}
-        fullWidth
-      />
-
-      {#if service.status !== SERVICE_STATUSES.SUGGESTION && service.status !== SERVICE_STATUSES.ARCHIVED}
-        <ServiceButtonMenu
+      <div class="relative z-10">
+        <ServiceStateUpdateSelect
           {service}
           {servicesOptions}
           {onRefresh}
-          updateStatus={updateStatusData.updateStatus}
+          fullWidth
         />
+      </div>
+
+      {#if service.status !== SERVICE_STATUSES.SUGGESTION && service.status !== SERVICE_STATUSES.ARCHIVED}
+        <div class="relative z-10">
+          <ServiceButtonMenu
+            {service}
+            {servicesOptions}
+            {onRefresh}
+            updateStatus={updateStatusData.updateStatus}
+          />
+        </div>
       {/if}
     </div>
 
     <h3 class="mb-s24 text-france-blue">
-      <a class="hover:underline" href="/services/{service.slug}"
+      <a class="full-card-link hover:underline" href="/services/{service.slug}"
         >{service.name}</a
       >
     </h3>
@@ -94,18 +100,34 @@
       <div class="flex items-center text-f14">
         {#if service.modelChanged}
           <span class="mr-s8"><SynchronizedIcon warning small /></span>
-          <a href="/services/{service.slug}/editer" class="hover:underline">
+          <a
+            href="/services/{service.slug}/editer"
+            class="relative hover:underline"
+          >
             <span class="font-bold">Mise à jour disponible</span>
           </a>
         {:else}
           <span class="mr-s8"><SynchronizedIcon small /></span>
-          <a href="/modeles/{service.model}" class="underline">
-            <span class="italic text-gray-text">
-              Synchronisé avec un modèle
-            </span>
-          </a>
+          <span class="italic text-gray-text">
+            Synchronisé avec un modèle
+          </span>
         {/if}
       </div>
     {/if}
   </div>
 </div>
+
+<style lang="postcss">
+  /*
+  * Link is on <h2> but we want all the card clickable (in an accessible way)
+  * Source: http://inclusive-components.design/cards/
+  */
+  .full-card-link::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+  }
+</style>
