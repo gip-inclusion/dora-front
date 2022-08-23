@@ -69,7 +69,7 @@
   on:click
   class="{px} {py} {ts} {border} {text} {background} {extraClass} inline-flex items-center justify-center whitespace-nowrap rounded leading-normal focus:shadow-focus"
   class:w-full={wFull}
-  class:hover-underline={hoverUnderline}
+  class:hover:underline={hoverUnderline}
   aria-label={ariaLabel}
 >
   {#if icon && !iconOnRight}
@@ -90,9 +90,3 @@
     </i>
   {/if}
 </a>
-
-<style>
-  .hover-underline:hover {
-    @apply underline;
-  }
-</style>

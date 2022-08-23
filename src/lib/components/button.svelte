@@ -69,7 +69,7 @@
   {name}
   class="{px} {py} {ts} {border} {text} {extraClass} {background} whitespace-nowrap rounded leading-normal outline-none focus:shadow-focus"
   class:w-full={wFull}
-  class:hover-underline={hoverUnderline}
+  class:hover:underline={hoverUnderline}
   class:flex={icon}
   class:flex-row={icon}
   class:items-center={icon}
@@ -95,9 +95,3 @@
     </span>
   {/if}
 </button>
-
-<style>
-  .hover-underline:hover {
-    @apply underline;
-  }
-</style>
