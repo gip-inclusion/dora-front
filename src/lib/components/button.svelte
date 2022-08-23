@@ -11,6 +11,7 @@
   export let secondary = false;
   export let noBackground = false;
   export let noPadding = false;
+  export let hoverUnderline = false;
   export let wFull = false;
   export let preventDefaultOnMouseDown = false;
 
@@ -54,8 +55,8 @@
     }
   }
 
-  const iw = "w-s24";
-  const ih = "h-s24";
+  const iw = "w-s32";
+  const ih = "h-s32";
 
   function handleMouseDown(evt) {
     if (preventDefaultOnMouseDown) evt.preventDefault();
@@ -66,8 +67,9 @@
   {id}
   {type}
   {name}
-  class="{px} {py} {ts} {border} {text} {extraClass} {background} whitespace-nowrap rounded leading-normal outline-none hover:underline focus:shadow-focus"
+  class="{px} {py} {ts} {border} {text} {extraClass} {background} whitespace-nowrap rounded leading-normal outline-none focus:shadow-focus"
   class:w-full={wFull}
+  class:hover-underline={hoverUnderline}
   class:flex={icon}
   class:flex-row={icon}
   class:items-center={icon}
@@ -93,3 +95,9 @@
     </span>
   {/if}
 </button>
+
+<style>
+  .hover-underline:hover {
+    @apply underline;
+  }
+</style>

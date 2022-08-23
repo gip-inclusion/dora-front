@@ -12,9 +12,7 @@
     computeUpdateStatusLabel,
   } from "$lib/utils/service";
 
-  import NoUpdateNeededIcon from "$lib/components/services/icons/no-update-needed.svelte";
-  import UpdateNeededIcon from "$lib/components/services/icons/update-needed.svelte";
-  import UpdateRequiredIcon from "$lib/components/services/icons/update-required.svelte";
+  import UpdateStatusIcon from "$lib/components/services/icons/update-status.svelte";
   import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
 
   export let service: DashboardService;
@@ -28,7 +26,12 @@
 <div class="flex flex-col justify-between rounded-md bg-white shadow-md">
   <div class="g row mb-s32 rounded-t-md p-s24">
     <div class="mb-s24 flex items-center justify-between">
-      <ServiceStateUpdateSelect {service} {servicesOptions} {onRefresh} />
+      <ServiceStateUpdateSelect
+        {service}
+        {servicesOptions}
+        {onRefresh}
+        fullWidth
+      />
 
       {#if service.status !== SERVICE_STATUSES.SUGGESTION && service.status !== SERVICE_STATUSES.ARCHIVED}
         <ServiceButtonMenu
@@ -41,7 +44,9 @@
     </div>
 
     <h3 class="mb-s24 text-france-blue">
-      <a href="/services/{service.slug}">{service.name}</a>
+      <a class="hover:underline" href="/services/{service.slug}"
+        >{service.name}</a
+      >
     </h3>
 
     <div class="mb-s8 flex items-center">
@@ -57,16 +62,30 @@
     {/if}
   </div>
 
-  <div class="flex flex-col gap-s16 border-t border-t-gray-03 py-s16 px-s20">
+  <div
+    class="flex min-h-[100px] flex-col justify-center gap-s10 border-t border-t-gray-03 py-s12 px-s20"
+  >
     <div class="flex items-center text-f14 text-gray-text">
       {#if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
-        <span class="mr-s8"><NoUpdateNeededIcon small /></span>
+        <span class="mr-s8">
+          <UpdateStatusIcon
+            updateStatus={SERVICE_UPDATE_STATUS.NOT_NEEDED}
+            small
+          />
+        </span>
         {computeUpdateStatusLabel(updateStatusData)}
       {:else if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NEEDED}
-        <span class="mr-s8"><UpdateNeededIcon small /></span>
+        <span class="mr-s8">
+          <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.NEEDED} small />
+        </span>
         <span class="font-bold">Actualisation conseillée</span>
       {:else if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.REQUIRED}
-        <span class="mr-s8"><UpdateRequiredIcon small /></span>
+        <span class="mr-s8">
+          <UpdateStatusIcon
+            updateStatus={SERVICE_UPDATE_STATUS.REQUIRED}
+            small
+          />
+        </span>
         <span class="font-bold">Actualisation requise</span>
       {/if}
     </div>
@@ -74,11 +93,17 @@
     {#if !readOnly && service.model}
       <div class="flex items-center text-f14">
         {#if service.modelChanged}
-          <span class="mr-s8"><SynchronizedIcon warning /></span>
-          <span class="font-bold">Mise à jour disponible</span>
+          <span class="mr-s8"><SynchronizedIcon warning small /></span>
+          <a href="/services/{service.slug}/editer" class="hover:underline">
+            <span class="font-bold">Mise à jour disponible</span>
+          </a>
         {:else}
-          <span class="mr-s8"><SynchronizedIcon /></span>
-          <span class="italic text-gray-text">Synchronisé avec un modèle</span>
+          <span class="mr-s8"><SynchronizedIcon small /></span>
+          <a href="/modeles/{service.model}" class="underline">
+            <span class="italic text-gray-text">
+              Synchronisé avec un modèle
+            </span>
+          </a>
         {/if}
       </div>
     {/if}

@@ -79,6 +79,7 @@
   export let servicesOptions;
   export let onRefresh: () => void;
   export let hideLabel = true;
+  export let fullWidth = false;
 
   // *** Valeurs pour l'affichage
   $: currentStatusPresentation = SERVICE_STATUS_PRESENTATION[service.status];
@@ -234,7 +235,8 @@
 
   <div
     class:hidden={!isDropdownOpen}
-    class="absolute top-s48 right-s0 z-20 rounded border border-gray-00 bg-white py-s12 px-s10 shadow-md"
+    class:w-full={fullWidth}
+    class="absolute top-s48 right-s0 z-20 min-w-[150px] rounded border border-gray-00 bg-white py-s12 px-s12 shadow-md"
     role="listbox"
     id={`listbox-values-${uuid}`}
     aria-labelledby={`button-label-${uuid}`}
@@ -243,10 +245,8 @@
     {#each availableOptions as option, index (option)}
       {#if option === "DELETE"}
         <div
-          class="mb-s10 flex items-center rounded p-s10 {selectedOption ===
-          option
-            ? 'bg-service-red'
-            : 'bg-transparent'}"
+          class="mb-s10 flex items-center rounded bg-transparent p-s10"
+          class:bg-service-red={selectedOption === option}
           on:mouseenter={() => setAsSelected(option, index)}
           role="option"
           on:click={() => updateServiceStatus(option)}

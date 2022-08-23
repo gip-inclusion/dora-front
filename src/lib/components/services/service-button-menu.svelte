@@ -14,10 +14,8 @@
   export let onRefresh: () => void | undefined;
 </script>
 
-<ButtonMenu
-  icon={moreIcon}
-  small
-  wrapperExtraClass="border border-magenta-cta rounded py-s4"
->
-  <ServiceMenu {service} {updateStatus} {onRefresh} />
-</ButtonMenu>
+<div class="rounded border border-magenta-cta py-s4">
+  <ButtonMenu icon={moreIcon} small>
+    <ServiceMenu {service} {updateStatus} {onRefresh} />
+  </ButtonMenu>
+</div>

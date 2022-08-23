@@ -7,7 +7,6 @@
   export let dark = false;
   export let bold = false;
 
-  const dimension = small ? "h-s20 w-s20" : "h-s32 w-s32";
   const availableColor = dark
     ? "text-service-available-dark"
     : "text-service-available";
@@ -16,10 +15,14 @@
     : "text-service-unavailable";
 </script>
 
-<div id="service-availability" class="mb-s10 flex items-center md:mb-s0">
+<div
+  id="service-availability"
+  class="mb-s10 flex items-center font-bold md:mb-s0"
+>
   {#if service.isAvailable}
     <div
-      class="{availableColor} {dimension} mr-s8 fill-current print:text-service-available-dark"
+      class="icon h-s32 w-s32 {availableColor} mr-s8 fill-current print:text-service-available-dark"
+      class:small
     >
       {@html emotionHappyIcon}
     </div>
@@ -32,7 +35,8 @@
     </span>
   {:else}
     <div
-      class="{unavailableColor} {dimension} mr-s8 fill-current print:text-service-unavailable-dark"
+      class="icon h-s32 w-s32 {unavailableColor} mr-s8 fill-current print:text-service-unavailable-dark"
+      class:small
     >
       {@html closeCircleFillIcon}
     </div>
@@ -44,3 +48,9 @@
     </span>
   {/if}
 </div>
+
+<style>
+  .icon.small {
+    @apply h-s20 w-s20;
+  }
+</style>
