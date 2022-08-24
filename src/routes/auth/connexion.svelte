@@ -1,73 +1,96 @@
-<script>
-  import { onMount } from "svelte";
-  import { page } from "$app/stores";
-  import { goto } from "$app/navigation";
-
-  import { getApiURL } from "$lib/utils/api.js";
+<script context="module">
   import { token, setToken, validateCredsAndFillUserInfo } from "$lib/auth";
-  import { formErrors } from "$lib/validation.js";
-  import { loginSchema } from "$lib/schemas/auth.js";
+  import { goto } from "$app/navigation";
+  import { get } from "svelte/store";
+  import { getApiURL, defaultAcceptHeader } from "$lib/utils/api";
 
-  import Button from "$lib/components/button.svelte";
-  import Fieldset from "$lib/components/forms/fieldset.svelte";
-  import Field from "$lib/components/forms/field.svelte";
-  import Alert from "$lib/components/forms/alert.svelte";
-  import Form from "$lib/components/forms/form.svelte";
+  export async function load({ url, fetch }) {
+    function getNextPage() {
+      const next = url.searchParams.get("next");
+      if (next && next.startsWith("/") && !next.startsWith("/auth/"))
+        return next;
+      return "/";
+    }
+
+    // if we already have a token, bypass the page altogether
+    if (get(token)) {
+      goto(getNextPage());
+      // TODO: what should I return here?
+    }
+
+    const query = url.searchParams;
+    const code = query.get("code");
+    if (!code) {
+      // First arrival on the page
+      const targetUrl = `${getApiURL()}/inclusion-connect-login-info/`;
+      const result = await fetch(targetUrl, {
+        method: "GET",
+      });
+
+      if (result.ok) {
+        let { url: icRootUrl, state } = await result.json();
+        window.localStorage.setItem("oidcState", state);
+        const icUrl = `${icRootUrl}&state=${state}&redirect_uri=${url.href}`;
+        return {
+          props: {
+            icUrl,
+          },
+        };
+      }
+      // TODO return errors
+    } else {
+      // back from IC, with a code
+      const state = query.get("state");
+      const storedState = window.localStorage.getItem("oidcState");
+      window.localStorage.removeItem("oidcState");
+      if (!state || !storedState || state !== storedState) {
+        // TODO: raise error
+        // redirect to login page
+      }
+
+      const targetUrl = `${getApiURL()}/inclusion-connect-user-info/`;
+      const result = await fetch(targetUrl, {
+        method: "POST",
+        headers: {
+          Accept: defaultAcceptHeader,
+          "Content-Type": "application/json",
+        },
+
+        body: JSON.stringify({
+          code,
+          state,
+          // TODO: get it from localstorage?
+          redirect_uri: url.href.split("&")[0],
+        }),
+      });
+
+      let jsonResult = {};
+
+      if (result.ok) {
+        jsonResult = await result.json();
+        setToken(jsonResult.token);
+        await validateCredsAndFillUserInfo();
+        goto(getNextPage());
+
+        return {
+          props: {},
+        };
+      }
+      // TODO return error
+    }
+  }
+</script>
+
+<script>
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
 
-  import Info from "$lib/components/info.svelte";
   import AuthLayout from "./_auth_layout.svelte";
   import Notice from "$lib/components/notice.svelte";
 
-  let email = "";
-  let password = "";
-  let invalidUser = false;
+  import logoIC from "$lib/assets/inclusion_connect_button.svg";
 
-  const authErrors = {
-    _default: {},
-    nonFieldErrors: { authorization: "Courriel ou mot de passe incorrects" },
-  };
-
-  function handleChange(_validatedData) {}
-
-  function handleSubmit(validatedData) {
-    const url = `${getApiURL()}/auth/login/`;
-    return fetch(url, {
-      method: "POST",
-      body: JSON.stringify({
-        email: validatedData.email,
-        password: validatedData.password,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json; version=1.0",
-      },
-    });
-  }
-
-  function getNextPage() {
-    const next = $page.url.searchParams.get("next");
-    if (next && next.startsWith("/") && !next.startsWith("/auth/")) return next;
-    return "/";
-  }
-
-  async function handleSuccess(jsonResult) {
-    if (jsonResult.validUser) {
-      setToken(jsonResult.token);
-      await validateCredsAndFillUserInfo();
-
-      goto(getNextPage() || "/");
-    } else {
-      invalidUser = true;
-    }
-  }
-
-  onMount(() => {
-    if ($token && $page.url.pathname === "/auth/connexion") {
-      goto(getNextPage());
-    }
-  });
+  export let icUrl;
 </script>
 
 <svelte:head>
@@ -82,72 +105,9 @@
 
 <AuthLayout>
   <div class="mb-s40">
-    <Form
-      data={{ email, password }}
-      schema={loginSchema}
-      serverErrorsDict={authErrors}
-      onChange={handleChange}
-      onSubmit={handleSubmit}
-      onSuccess={handleSuccess}
-    >
-      <Fieldset title="Votre compte">
-        {#if invalidUser}
-          <Info
-            label="Votre adresse courriel n’a pas encore été validée"
-            negativeMood
-          />
-          <LinkButton
-            to="/auth/renvoyer-email-validation?email={encodeURIComponent(
-              email
-            )}"
-            label="Demander un nouveau lien"
-          />
-        {:else}
-          {#each $formErrors.nonFieldErrors || [] as msg}
-            <Alert label={msg} />
-          {/each}
-          <div class="mb-s16 flex flex-col md:flex-row md:gap-s16 lg:flex-col">
-            <Field
-              name="email"
-              errorMessages={$formErrors.email}
-              label="Courriel"
-              vertical
-              type="email"
-              bind:value={email}
-              required
-              placeholder="Courriel utilisé lors de l’inscription"
-              autocomplete="email"
-            />
-            <Field
-              name="password"
-              errorMessages={$formErrors.password}
-              label="Mot de passe"
-              vertical
-              type="password"
-              placeholder="••••••••"
-              bind:value={password}
-              autocomplete="current-password"
-              required
-            />
-          </div>
-
-          <div class="flex flex-col">
-            <Button
-              type="submit"
-              disabled={!email || !password}
-              label="Se connecter"
-              preventDefaultOnMouseDown
-            />
-          </div>
-          <div class="mt-s16">
-            <a
-              class="text-center text-f12 text-gray-text-alt2 underline"
-              href="/auth/mdp-perdu">Mot de passe oublié ?</a
-            >
-          </div>
-        {/if}
-      </Fieldset>
-    </Form>
+    <a href={icUrl}>
+      <img src={logoIC} alt="Se connecter avec Inclusion Connect" />
+    </a>
   </div>
 
   <Notice title="Vous n'avez pas encore de compte ?">
