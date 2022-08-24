@@ -87,12 +87,22 @@
         </div>
         <div class="flex h-s48 items-center md:self-end">
           {#if service.model}
-            <div class="flex items-center text-f14 italic text-gray-text">
-              <span class="mr-s10"><SynchronizedIcon /></span>
-              <a href="/modeles/{service.model}" class="underline">
-                Synchronisé avec un modèle
-              </a>
-            </div>
+            {#if service.modelChanged}
+              <LinkButton
+                label="Mise à jour disponible"
+                icon={copyIcon}
+                noBackground
+                hoverUnderline
+                to="/services/{service.slug}/editer"
+              />
+            {:else}
+              <div class="flex items-center text-f14 italic text-gray-text">
+                <span class="mr-s10"><SynchronizedIcon /></span>
+                <a href="/modeles/{service.model}" class="underline">
+                  Synchronisé avec un modèle
+                </a>
+              </div>
+            {/if}
           {:else}
             <LinkButton
               label="Utiliser comme modèle"
