@@ -2,7 +2,7 @@
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
   import type { Service } from "$lib/types";
   import { capitalize } from "$lib/utils";
-  import ServiceAvailability from "./body/service-availability.svelte";
+  import ServiceAvailability from "./service-availability.svelte";
 
   export let service: Service;
 </script>

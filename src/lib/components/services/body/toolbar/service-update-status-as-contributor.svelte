@@ -1,47 +1,33 @@
 <script lang="ts">
-  import { browser } from "$app/env";
-
-  import { type Service, SERVICE_UPDATE_STATUS } from "$lib/types";
-  import Button from "$lib/components/button.svelte";
-  import SuggestionModal from "./suggestion-modal.svelte";
+  import type { Service } from "$lib/types";
+  import { SERVICE_UPDATE_STATUS } from "$lib/types";
+  import LinkButton from "$lib/components/link-button.svelte";
+  import SetAsUpdatedModal from "$lib/components/services/set-as-updated-modal.svelte";
 
   import UpdateStatusIcon from "$lib/components/services/icons/update-status.svelte";
 
-  import { editIcon } from "$lib/icons";
+  import { checkboxCircleFillIcon, editIcon } from "$lib/icons";
+  import Button from "$lib/components/button.svelte";
 
   export let service: Service;
 
   export let label: string;
   export let monthDiff: number;
   export let updateStatus: SERVICE_UPDATE_STATUS;
+  export let onRefresh: () => void;
 
-  // Suggestion modal
-  let suggestionModalIsOpen = false;
-
-  function handleSuggestion() {
-    suggestionModalIsOpen = true;
-    if (browser) {
-      window.plausible("suggestion", {
-        props: {
-          service: service.name,
-          slug: service.slug,
-          structure: service.structureInfo.name,
-          departement: service.department,
-        },
-      });
-    }
-  }
+  let setAsUpdatedModalOpen = false;
 </script>
 
 <div
-  class="flex w-full flex-col place-content-between items-center gap-s24 text-gray-text md:flex-row"
+  class="flex w-full flex-col place-content-between items-center gap-s24 text-gray-text sm:flex-row"
 >
-  <div id="label-container">
+  <div id="label-container" class="flex-[3]">
     {#if updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
       <div class="flex items-center">
-        <span class="mr-s16">
+        <div class="mr-s16">
           <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.NOT_NEEDED} />
-        </span>
+        </div>
         <span>{label}</span>
       </div>
     {:else if updateStatus === SERVICE_UPDATE_STATUS.NEEDED}
@@ -54,8 +40,8 @@
             <strong>{label}</strong>
           </div>
           <div class="text-f14">
-            Ce service n’a pas été actualisé depuis longtemps, certaines
-            informations peuvent ne pas être à jour.
+            Vérifiez et/ou actualisez les informations de ce service dès
+            maintenant pour qu’il reste visible.
           </div>
         </div>
       </div>
@@ -76,15 +62,28 @@
       </div>
     {/if}
   </div>
+  <div class="flex w-full flex-[2] flex-col justify-end md:mt-s0 lg:flex-row">
+    {#if updateStatus !== SERVICE_UPDATE_STATUS.NOT_NEEDED}
+      <Button
+        id="set-as-updated"
+        extraClass="mb-s10 lg:mb-s0 lg:mr-s16 justify-center"
+        label="Marquer comme à jour"
+        icon={checkboxCircleFillIcon}
+        on:click={() => (setAsUpdatedModalOpen = true)}
+      />
 
-  <div class="noprint">
-    <SuggestionModal {service} bind:isOpen={suggestionModalIsOpen} />
-    <Button
-      id="suggest-update"
-      label="Suggérer une modification"
+      <SetAsUpdatedModal
+        bind:isOpen={setAsUpdatedModalOpen}
+        {service}
+        {onRefresh}
+      />
+    {/if}
+
+    <LinkButton
+      id="update"
+      label="Modifier"
+      to="/services/{service.slug}/editer"
       icon={editIcon}
-      secondary
-      on:click={handleSuggestion}
     />
   </div>
 </div>

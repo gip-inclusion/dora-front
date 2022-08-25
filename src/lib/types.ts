@@ -23,6 +23,23 @@ export type Service = {
   contactName: string | undefined;
   contactPhone: string | undefined;
   contactEmail: string | undefined;
+
+  subcategories: string[] | undefined;
+
+  beneficiariesAccessModesDisplay: string[] | undefined;
+  beneficiariesAccessModesOther: string | undefined;
+
+  coachOrientationModesDisplay: string[] | undefined;
+  coachOrientationModesOther: string | undefined;
+
+  accessConditions: string[] | undefined;
+  accessConditionsDisplay: string[] | undefined;
+
+  credentialsDisplay: string[] | undefined;
+
+  concernedPublicDisplay: string[] | undefined;
+  requirementsDisplay: string[] | undefined;
+
   locationKinds: string[] | undefined;
   remoteUrl: string | undefined;
   postalCode: string | undefined;
@@ -30,14 +47,15 @@ export type Service = {
   address2: string | undefined;
   city: string | undefined;
   department: string;
+
   isAvailable: boolean;
+  qpvOrZrr: boolean;
   structureInfo: Structure;
   canWrite: boolean;
   structure: string;
   status: SERVICE_STATUSES;
   model: string | undefined;
   modelChanged: boolean | undefined;
-  shortDesc: string | undefined;
   hasAlreadyBeenUnpublished: boolean;
   isCumulative: boolean;
   hasFee: boolean;
@@ -46,6 +64,15 @@ export type Service = {
   creationDate: string;
   modificationDate: string | undefined;
   diffusionZoneDetailsDisplay: string | undefined;
+
+  onlineForm: string | undefined;
+
+  formsInfo: { url: string; name: string }[] | undefined;
+
+  kindsDisplay: string[] | undefined;
+
+  shortDesc: string | undefined;
+  fullDesc: string | undefined;
 };
 
 export type DashboardService = Pick<
@@ -75,3 +102,8 @@ export type DashboardService = Pick<
   | "model"
   | "structure"
 >;
+
+export type ServicesOptions = {
+  categories: { value: string; label: string }[];
+  subcategories: { value: string; label: string }[];
+};

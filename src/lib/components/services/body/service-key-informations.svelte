@@ -11,9 +11,10 @@
   import { shortenString } from "$lib/utils";
 
   export let service: Service | DashboardService;
+  export let display: "sidebar" | "full" = "full";
 </script>
 
-<h2>Informations clés</h2>
+<h2 class:text-f23={display === "sidebar"}>Informations clés</h2>
 
 <div class="flex flex-col gap-s12">
   {#if service.isCumulative}
@@ -39,6 +40,10 @@
       </span>
       Frais à charge du bénéficiaire
     </div>
+
+    {#if display === "sidebar"}
+      <hr class="mt-s20 mb-s10" />
+    {/if}
 
     <div>
       <h3>

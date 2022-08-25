@@ -1,16 +1,16 @@
 <script lang="ts">
   import { SERVICE_UPDATE_STATUS, type Service } from "$lib/types";
-  import LinkButton from "../link-button.svelte";
+  import LinkButton from "$lib/components/link-button.svelte";
 
   import cornerLeftImg from "$lib/assets/corner-left.png";
   import cornerRightImg from "$lib/assets/corner-right.png";
 
-  import CenteredGrid from "../layout/centered-grid.svelte";
+  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
 
   import ServiceUpdateStatusAsContributor from "./service-update-status-as-contributor.svelte";
   import ServiceUpdateStatusAsReader from "./service-update-status-as-reader.svelte";
-  import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
+  import ServiceStateUpdateSelect from "../../service-state-update-select.svelte";
   import {
     computeUpdateStatusData,
     computeUpdateStatusLabel,
@@ -68,8 +68,16 @@
   {/if}
 
   {#if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
-    <img src={cornerLeftImg} alt="" class="absolute -top-[1px] left-s0" />
-    <img src={cornerRightImg} alt="" class="absolute -top-[1px] right-s0" />
+    <img
+      src={cornerLeftImg}
+      alt=""
+      class="noprint absolute -top-[1px] left-s0"
+    />
+    <img
+      src={cornerRightImg}
+      alt=""
+      class="noprint absolute -top-[1px] right-s0"
+    />
   {/if}
 
   {#if service.canWrite}

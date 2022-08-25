@@ -1,0 +1,49 @@
+<script lang="ts">
+  import type { Service, ServicesOptions } from "$lib/types";
+  import ServiceDescription from "./service-description.svelte";
+  import SubCategoryListItem from "./subcategory-list-item.svelte";
+
+  export let service: Service;
+  export let servicesOptions: ServicesOptions;
+</script>
+
+<h2 class="mb-s40">Présentation du service</h2>
+
+<p class="mb-s40 text-f18">
+  <strong>{service.shortDesc}</strong>
+</p>
+
+<div class="mb-s40">
+  <h3 class="text-f17">Ce service répond aux besoins</h3>
+
+  <ul>
+    {#each service.subcategories as subCategory (subCategory)}
+      <li class="mb-s8">
+        <SubCategoryListItem subCategorySlug={subCategory} {servicesOptions} />
+      </li>
+    {/each}
+  </ul>
+</div>
+
+<div class="mb-s40">
+  <h3 class="text-f17">Type de service</h3>
+  <ul class="inline-flex text-f18 text-gray-text">
+    {#each service.kindsDisplay as kind, index (kind)}
+      <li class:separator={index > 0}>{kind}</li>
+    {/each}
+  </ul>
+</div>
+
+{#if service.fullDesc}
+  <div class="mb-s40">
+    <h3 class="text-f17">Description du service</h3>
+    <ServiceDescription {service} />
+  </div>
+{/if}
+
+<style lang="postcss">
+  li.separator::before {
+    content: "•";
+    @apply mx-s6;
+  }
+</style>
