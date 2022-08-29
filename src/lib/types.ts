@@ -47,6 +47,7 @@ export type Service = {
   address2: string | undefined;
   city: string | undefined;
   department: string;
+  isContactInfoPublic: boolean;
 
   isAvailable: boolean;
   qpvOrZrr: boolean;

@@ -5,20 +5,26 @@
   import { formatPhoneNumber } from "$lib/utils/phone";
 
   export let service: Service | DashboardService;
+  export let presentation: "inline" | "block" = "block";
+
+  const isInline = presentation === "inline";
 </script>
 
 <div>
-  <h2 class="mb-s24">Contact</h2>
+  <h2 class="mb-s24" class:inline-title={isInline}>Contact</h2>
 
-  <div class="flex  flex-col gap-s4 text-f14 md:flex-row md:gap-s32">
+  <div
+    class="flex flex-col gap-s4 text-f14 md:flex-row md:gap-s32"
+    class:inline-container={isInline}
+  >
     {#if service.contactName || service.contactPhone || service.contactEmail}
       {#if service.contactName}
-        <p class="mb-s6 mr-s24 text-gray-dark">
+        <p class="mb-s6 mr-s24 text-gray-dark" class:!mb-s0={isInline}>
           <strong>{service.contactName}</strong>
         </p>
       {/if}
       {#if service.contactPhone}
-        <p class="mb-s6 mr-s24">
+        <p class="mb-s6 mr-s24" class:!mb-s0={isInline}>
           <a
             class="flex items-center text-f16"
             href="tel:{service.contactPhone}"
@@ -34,7 +40,7 @@
         </p>
       {/if}
       {#if service.contactEmail}
-        <p>
+        <p class:!mb-s0={isInline}>
           <a
             class="flex items-center text-f16 underline"
             href="mailto:{service.contactEmail}"
@@ -51,3 +57,15 @@
     {/if}
   </div>
 </div>
+
+<style lang="postcss">
+  .inline-title {
+    @apply mr-s48 mb-s0 inline-flex text-f23;
+  }
+  .inline-container {
+    @apply inline-flex items-center md:gap-s24 lg:gap-s32;
+  }
+  .inline-container p {
+    @apply m-s0 mr-s10;
+  }
+</style>

@@ -13,7 +13,12 @@ const config = {
         red: { DEFAULT: "#FCE6E6", dark: "#E10600" },
         gray: { DEFAULT: "#F5F5F5", dark: "#D5D5D5", darker: "#2E2E2E" },
         violet: { DEFAULT: "#F5F0FD", dark: "#EBE3FB", darker: "#5B12EB" },
-        blue: { DEFAULT: "#DBF0FF", dark: "#000091", light: "#F0F8FF" },
+        blue: {
+          DEFAULT: "#DBF0FF",
+          dark: "#000091",
+          light: "#F0F8FF",
+          info: "#0762c8",
+        },
 
         available: { DEFAULT: "#86F3A2", dark: "#005B17" },
         unavailable: { DEFAULT: "#FF9A6C", dark: "#AF0000" },

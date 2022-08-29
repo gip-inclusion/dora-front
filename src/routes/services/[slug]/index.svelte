@@ -55,9 +55,15 @@
   import ServiceShare from "$lib/components/services/body/service-share.svelte";
   import ServiceBeneficiaries from "$lib/components/services/body/service-beneficiaries.svelte";
   import ServiceMobilize from "$lib/components/services/body/service-mobilize.svelte";
+  import ServiceMobilisation from "$lib/components/services/body/service-mobilisation.svelte";
+  import ServiceContact from "$lib/components/services/body/service-contact.svelte";
+  import ServiceLoginNotice from "$lib/components/services/body/service-login-notice.svelte";
 
   export let service: Service;
   export let servicesOptions;
+
+  $: showLoginNotice = true; // !$token && !service?.isContactInfoPublic;
+  let isNoticeOpen = true;
 
   // Nous ne voulons pas afficher le formulaire sur les services avant cette date
   // afin de ne pas avoir une durée de contribution fausse
@@ -116,6 +122,11 @@
       </div>
 
       <div class="sidebar flex flex-col gap-y-s40">
+        <div
+          class="block rounded-lg border border-gray-02 p-s24 px-s32 md:hidden"
+        >
+          <ServiceContact {service} />
+        </div>
         <div class="rounded-lg border border-gray-02 p-s32 pb-s48">
           <ServiceKeyInformations {service} display="sidebar" />
         </div>
@@ -124,9 +135,29 @@
         </div>
       </div>
     </div>
-
-    <!-- TODO : contact box -->
   </CenteredGrid>
+
+  {#if isNoticeOpen}
+    <div
+      class="sticky bottom-s0 left-s0 right-s0 w-[100vw] bg-white px-s40 shadow-md"
+      class:bg-service-blue-light={showLoginNotice}
+    >
+      <div
+        class="mx-auto flex max-w-6xl items-center justify-end py-s20 sm:py-s12 md:justify-between"
+      >
+        {#if showLoginNotice}
+          <ServiceLoginNotice bind:isOpen={isNoticeOpen} />
+        {:else}
+          <div class="hidden md:block">
+            <ServiceContact {service} presentation="inline" />
+          </div>
+          {#if !service.model}
+            <ServiceMobilisation {service} />
+          {/if}
+        {/if}
+      </div>
+    </div>
+  {/if}
 
   {#if $serviceSubmissionTimeMeter.id && $serviceSubmissionTimeMeter.duration && isAfter(new Date(service.creationDate), MIN_DATE_FOR_SERVICE_FEEDBACK_FROM) && !service.hasAlreadyBeenUnpublished}
     <TallyNpsPopup
