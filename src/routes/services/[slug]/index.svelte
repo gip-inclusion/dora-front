@@ -122,11 +122,13 @@
       </div>
 
       <div class="sidebar flex flex-col gap-y-s40">
-        <div
-          class="block rounded-lg border border-gray-02 p-s24 px-s32 md:hidden"
-        >
-          <ServiceContact {service} />
-        </div>
+        {#if service?.isContactInfoPublic}
+          <div
+            class="block rounded-lg border border-gray-02 p-s24 px-s32 md:hidden"
+          >
+            <ServiceContact {service} />
+          </div>
+        {/if}
         <div class="rounded-lg border border-gray-02 p-s32 pb-s48">
           <ServiceKeyInformations {service} display="sidebar" />
         </div>
@@ -147,7 +149,7 @@
       >
         {#if showLoginNotice}
           <ServiceLoginNotice bind:isOpen={isNoticeOpen} />
-        {:else}
+        {:else if service?.isContactInfoPublic}
           <div class="hidden md:block">
             <ServiceContact {service} presentation="inline" />
           </div>
