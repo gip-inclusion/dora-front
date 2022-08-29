@@ -62,7 +62,7 @@
   export let service: Service;
   export let servicesOptions;
 
-  $: showLoginNotice = true; // !$token && !service?.isContactInfoPublic;
+  $: showLoginNotice = !$token && !service?.isContactInfoPublic;
   let isNoticeOpen = true;
 
   // Nous ne voulons pas afficher le formulaire sur les services avant cette date
