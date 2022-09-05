@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Service } from "$lib/types";
-  import Accordeon from "$lib/components/common/accordeon.svelte";
+  import Accordeon from "$lib/components/common/accordion.svelte";
 
   export let service: Service;
 </script>
@@ -45,6 +45,6 @@
 
 <style lang="postcss">
   ul {
-    @apply mb-s24 list-disc pl-s20 text-f18 text-gray-text;
+    @apply mb-s24 list-disc break-all pl-s20 text-f18 leading-32 text-gray-text;
   }
 </style>

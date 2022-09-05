@@ -3,7 +3,7 @@
   import { uid } from "uid";
 
   export let title: string;
-  let expanded = true;
+  export let expanded = true;
 
   const id = uid();
 </script>
@@ -19,9 +19,9 @@
 
     <span class="ml-s10 h-s24 w-s24 fill-current text-magenta-cta">
       {#if expanded}
-        {@html arrowDownSIcon}
-      {:else}
         {@html arrowUpSIcon}
+      {:else}
+        {@html arrowDownSIcon}
       {/if}
     </span>
   </button>

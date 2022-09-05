@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Service, ServicesOptions } from "$lib/types";
   import ServiceDescription from "./service-description.svelte";
-  import SubCategoryListItem from "./subcategory-list-item.svelte";
+  import SubcategoryList from "./subcategory-list.svelte";
 
   export let service: Service;
   export let servicesOptions: ServicesOptions;
@@ -15,14 +15,7 @@
 
 <div class="mb-s40">
   <h3 class="text-f17">Ce service répond aux besoins</h3>
-
-  <ul>
-    {#each service.subcategories as subCategory (subCategory)}
-      <li class="mb-s8">
-        <SubCategoryListItem subCategorySlug={subCategory} {servicesOptions} />
-      </li>
-    {/each}
-  </ul>
+  <SubcategoryList {service} {servicesOptions} />
 </div>
 
 <div class="mb-s40">

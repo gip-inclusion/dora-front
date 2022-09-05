@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div class="w-full pr-s64 sm:w-auto">
+  <div class="w-full sm:w-auto sm:pr-s80">
     <LinkButton
       wFull
       label="Se connecter"

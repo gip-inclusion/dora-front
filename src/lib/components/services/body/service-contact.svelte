@@ -19,12 +19,12 @@
   >
     {#if service.contactName || service.contactPhone || service.contactEmail}
       {#if service.contactName}
-        <p class="mb-s6 mr-s24 text-gray-dark" class:!mb-s0={isInline}>
+        <p class="mb-s6 mr-s24 text-gray-dark">
           <strong>{service.contactName}</strong>
         </p>
       {/if}
       {#if service.contactPhone}
-        <p class="mb-s6 mr-s24" class:!mb-s0={isInline}>
+        <p class="mb-s6 mr-s24">
           <a
             class="flex items-center text-f16"
             href="tel:{service.contactPhone}"
@@ -40,7 +40,7 @@
         </p>
       {/if}
       {#if service.contactEmail}
-        <p class:!mb-s0={isInline}>
+        <p>
           <a
             class="flex items-center text-f16 underline"
             href="mailto:{service.contactEmail}"

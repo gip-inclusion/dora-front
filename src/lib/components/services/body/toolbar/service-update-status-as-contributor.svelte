@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Service } from "$lib/types";
-  import { SERVICE_UPDATE_STATUS } from "$lib/types";
+  import { SERVICE_UPDATE_STATUS, SERVICE_STATUSES } from "$lib/types";
   import LinkButton from "$lib/components/link-button.svelte";
   import SetAsUpdatedModal from "$lib/components/services/set-as-updated-modal.svelte";
 
@@ -23,47 +23,49 @@
   class="flex w-full flex-col place-content-between items-center gap-s24 text-gray-text sm:flex-row"
 >
   <div id="label-container" class="flex-[3]">
-    {#if updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
-      <div class="flex items-center">
-        <div class="mr-s16">
-          <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.NOT_NEEDED} />
+    {#if service.status === SERVICE_STATUSES.PUBLISHED}
+      {#if updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
+        <div class="flex items-center">
+          <div class="mr-s16">
+            <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.NOT_NEEDED} />
+          </div>
+          <span>{label}</span>
         </div>
-        <span>{label}</span>
-      </div>
-    {:else if updateStatus === SERVICE_UPDATE_STATUS.NEEDED}
-      <div class="flex items-center">
-        <span class="mr-s16">
-          <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.NEEDED} />
-        </span>
-        <div>
-          <div class="text-f18">
-            <strong>{label}</strong>
-          </div>
-          <div class="text-f14">
-            Vérifiez et/ou actualisez les informations de ce service dès
-            maintenant pour qu’il reste visible.
-          </div>
-        </div>
-      </div>
-    {:else}
-      <div class="flex items-center">
-        <span class="mr-s16">
-          <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.REQUIRED} />
-        </span>
-        <div>
-          <div class="text-f18">
-            <strong>Service en attente d’actualisation</strong>
-          </div>
-          <div class="text-f14">
-            Les informations sur ce service ne sont plus mis à jour par la
-            structure depuis {monthDiff} mois.
+      {:else if updateStatus === SERVICE_UPDATE_STATUS.NEEDED}
+        <div class="flex items-center">
+          <span class="mr-s16">
+            <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.NEEDED} />
+          </span>
+          <div>
+            <div class="text-f18">
+              <strong>{label}</strong>
+            </div>
+            <div class="text-f14">
+              Vérifiez et/ou actualisez les informations de ce service dès
+              maintenant pour qu’il reste visible.
+            </div>
           </div>
         </div>
-      </div>
+      {:else}
+        <div class="flex items-center">
+          <span class="mr-s16">
+            <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.REQUIRED} />
+          </span>
+          <div>
+            <div class="text-f18">
+              <strong>Service en attente d’actualisation</strong>
+            </div>
+            <div class="text-f14">
+              Les informations sur ce service n’ont plus été mises à jour depuis {monthDiff}
+              mois.
+            </div>
+          </div>
+        </div>
+      {/if}
     {/if}
   </div>
   <div class="flex w-full flex-[2] flex-col justify-end md:mt-s0 lg:flex-row">
-    {#if updateStatus !== SERVICE_UPDATE_STATUS.NOT_NEEDED}
+    {#if updateStatus !== SERVICE_UPDATE_STATUS.NOT_NEEDED && service.status === SERVICE_STATUSES.PUBLISHED}
       <Button
         id="set-as-updated"
         extraClass="mb-s10 lg:mb-s0 lg:mr-s16 justify-center"

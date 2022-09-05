@@ -88,16 +88,19 @@
 
         {#if service.locationKinds.includes("a-distance")}
           <p>
-            <strong>À distance&nbsp;•&nbsp;</strong>
-            <a
-              target="_blank"
-              rel="noopener nofollow"
-              href={service.remoteUrl}
-              class="underline"
-              title="Ouverture dans une nouvelle fenêtre"
-            >
-              {shortenString(service.remoteUrl, 35)}
-            </a>
+            <strong>À distance</strong>
+            {#if service.remoteUrl}
+              <strong>&nbsp;•&nbsp;</strong>
+              <a
+                target="_blank"
+                rel="noopener nofollow"
+                href={service.remoteUrl}
+                class="underline"
+                title="Ouverture dans une nouvelle fenêtre"
+              >
+                {shortenString(service.remoteUrl, 35)}
+              </a>
+            {/if}
           </p>
         {/if}
       </div>

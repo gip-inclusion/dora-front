@@ -27,27 +27,29 @@
   class="relative flex flex-col justify-between rounded-md bg-white shadow-md"
 >
   <div class="g row mb-s32 rounded-t-md p-s24">
-    <div class="mb-s24 flex items-center justify-between">
-      <div class="relative z-10">
-        <ServiceStateUpdateSelect
-          {service}
-          {servicesOptions}
-          {onRefresh}
-          fullWidth
-        />
-      </div>
-
-      {#if service.status !== SERVICE_STATUSES.SUGGESTION && service.status !== SERVICE_STATUSES.ARCHIVED}
+    {#if !readOnly}
+      <div class="mb-s24 flex items-center justify-between">
         <div class="relative z-10">
-          <ServiceButtonMenu
+          <ServiceStateUpdateSelect
             {service}
             {servicesOptions}
             {onRefresh}
-            updateStatus={updateStatusData.updateStatus}
+            fullWidth
           />
         </div>
-      {/if}
-    </div>
+
+        {#if service.status !== SERVICE_STATUSES.SUGGESTION && service.status !== SERVICE_STATUSES.ARCHIVED}
+          <div class="relative z-10">
+            <ServiceButtonMenu
+              {service}
+              {servicesOptions}
+              {onRefresh}
+              updateStatus={updateStatusData.updateStatus}
+            />
+          </div>
+        {/if}
+      </div>
+    {/if}
 
     <h3 class="mb-s24 text-france-blue">
       <a class="full-card-link hover:underline" href="/services/{service.slug}"

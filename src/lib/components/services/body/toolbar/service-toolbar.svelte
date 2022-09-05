@@ -16,6 +16,7 @@
     computeUpdateStatusLabel,
   } from "$lib/utils/service";
   import { copyIcon } from "$lib/icons";
+  import { SERVICE_STATUSES } from "$lib/schemas/service";
 
   export let service: Service;
   export let servicesOptions;
@@ -31,11 +32,13 @@
       extraClass="
         py-s32 mb-s14 w-full
         {service.canWrite &&
+      service.status === SERVICE_STATUSES.PUBLISHED &&
       updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NEEDED
         ? 'bg-service-orange'
         : ''}
 
         {service.canWrite &&
+      service.status === SERVICE_STATUSES.PUBLISHED &&
       updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.REQUIRED
         ? 'bg-service-red'
         : ''}
@@ -61,7 +64,7 @@
     </CenteredGrid>
   </div>
 
-  {#if !service.canWrite || updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
+  {#if !service.canWrite || updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED || service.status !== SERVICE_STATUSES.PUBLISHED}
     <div
       class="m-auto max-w-6xl border border-t-0 border-r-0 border-l-0 border-gray-02"
     />

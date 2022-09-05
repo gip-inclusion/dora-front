@@ -121,7 +121,7 @@
         <ServiceMobilize {service} />
       </div>
 
-      <div class="sidebar flex flex-col gap-y-s40">
+      <div class="sidebar flex flex-col gap-y-s24">
         {#if service?.isContactInfoPublic}
           <div
             class="block rounded-lg border border-gray-02 p-s24 px-s32 md:hidden"
@@ -139,13 +139,13 @@
     </div>
   </CenteredGrid>
 
-  {#if isNoticeOpen}
+  {#if isNoticeOpen && browser}
     <div
       class="sticky bottom-s0 left-s0 right-s0 w-[100vw] bg-white px-s40 shadow-md"
       class:bg-service-blue-light={showLoginNotice}
     >
       <div
-        class="mx-auto flex max-w-6xl items-center justify-end py-s20 sm:py-s12 md:justify-between"
+        class="mx-auto flex max-w-6xl items-center justify-end py-s20 sm:py-s28 md:justify-between"
       >
         {#if showLoginNotice}
           <ServiceLoginNotice bind:isOpen={isNoticeOpen} />
@@ -153,9 +153,7 @@
           <div class="hidden md:block">
             <ServiceContact {service} presentation="inline" />
           </div>
-          {#if !service.model}
-            <ServiceMobilisation {service} />
-          {/if}
+          <ServiceMobilisation {service} />
         {/if}
       </div>
     </div>
