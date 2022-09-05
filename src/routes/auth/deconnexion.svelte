@@ -5,7 +5,7 @@
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api.js";
 
   export async function load() {
-    const targetUrl = `${getApiURL()}/inclusion-connect-logout-info/`;
+    const targetUrl = `${getApiURL()}/inclusion-connect-get-logout-info/`;
     const result = await fetch(targetUrl, {
       method: "POST",
       headers: {

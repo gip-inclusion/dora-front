@@ -14,7 +14,7 @@
 
     // if we already have a token, bypass the page altogether
     if (get(token)) {
-      goto(getNextPage());
+      await goto(getNextPage());
       // TODO: what should I return here?
     }
 
@@ -22,15 +22,21 @@
     const code = query.get("code");
     if (!code) {
       // First arrival on the page
-      const targetUrl = `${getApiURL()}/inclusion-connect-login-info/`;
+      const targetUrl = `${getApiURL()}/inclusion-connect-get-login-info/`;
       const result = await fetch(targetUrl, {
-        method: "GET",
+        method: "POST",
+        headers: {
+          Accept: defaultAcceptHeader,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          redirect_uri: url.href,
+        }),
       });
 
       if (result.ok) {
-        let { url: icRootUrl, state } = await result.json();
+        let { url: icUrl, state } = await result.json();
         window.localStorage.setItem("oidcState", state);
-        const icUrl = `${icRootUrl}&state=${state}&redirect_uri=${url.href}`;
         return {
           props: {
             icUrl,
@@ -43,12 +49,8 @@
       const state = query.get("state");
       const storedState = window.localStorage.getItem("oidcState");
       window.localStorage.removeItem("oidcState");
-      if (!state || !storedState || state !== storedState) {
-        // TODO: raise error
-        // redirect to login page
-      }
 
-      const targetUrl = `${getApiURL()}/inclusion-connect-user-info/`;
+      const targetUrl = `${getApiURL()}/inclusion-connect-authenticate/`;
       const result = await fetch(targetUrl, {
         method: "POST",
         headers: {
@@ -59,8 +61,7 @@
         body: JSON.stringify({
           code,
           state,
-          // TODO: get it from localstorage?
-          redirect_uri: url.href.split("&")[0],
+          frontendState: storedState,
         }),
       });
 
