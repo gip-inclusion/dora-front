@@ -62,7 +62,7 @@
   export let service: Service;
   export let servicesOptions;
 
-  $: showLoginNotice = !$token && !service?.isContactInfoPublic;
+  $: showContactInfo = $token || service?.isContactInfoPublic;
   let isNoticeOpen = true;
 
   // Nous ne voulons pas afficher le formulaire sur les services avant cette date
@@ -142,18 +142,18 @@
   {#if isNoticeOpen && browser}
     <div
       class="sticky bottom-s0 left-s0 right-s0 w-[100vw] bg-white px-s40 shadow-md"
-      class:bg-service-blue-light={showLoginNotice}
+      class:bg-service-blue-light={!showContactInfo}
     >
       <div
         class="mx-auto flex max-w-6xl items-center justify-end py-s20 sm:py-s28 md:justify-between"
       >
-        {#if showLoginNotice}
-          <ServiceLoginNotice bind:isOpen={isNoticeOpen} />
-        {:else if service?.isContactInfoPublic}
+        {#if showContactInfo}
           <div class="hidden md:block">
             <ServiceContact {service} presentation="inline" />
           </div>
           <ServiceMobilisation {service} />
+        {:else}
+          <ServiceLoginNotice bind:isOpen={isNoticeOpen} />
         {/if}
       </div>
     </div>
