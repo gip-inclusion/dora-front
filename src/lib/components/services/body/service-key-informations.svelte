@@ -5,6 +5,7 @@
     euroLineIcon,
     timeLineIcon,
     mapPinUserFillIcon,
+    informationIcon,
   } from "$lib/icons";
 
   import type { DashboardService, Service } from "$lib/types";
@@ -40,11 +41,22 @@
       </span>
       Frais à charge du bénéficiaire
     </div>
+  {/if}
 
-    {#if display === "sidebar"}
-      <hr class="mt-s20 mb-s10" />
-    {/if}
+  {#if service.qpvOrZrr}
+    <div class="bold flex items-center font-bold text-info">
+      <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
+        {@html informationIcon}
+      </span>
+      Uniquement QPV + ZRR
+    </div>
+  {/if}
 
+  {#if display === "sidebar"}
+    <hr class="mt-s20 mb-s10" />
+  {/if}
+
+  {#if service.hasFee}
     <div>
       <h3>
         <span class="mr-s8 h-s24 w-s24 fill-current">

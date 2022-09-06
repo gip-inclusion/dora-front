@@ -2,7 +2,6 @@
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
   import type { Service } from "$lib/types";
   import { capitalize } from "$lib/utils";
-  import ServiceAvailability from "./service-availability.svelte";
 
   export let service: Service;
 </script>
@@ -39,8 +38,6 @@
   <div
     class="mb-s32 flex flex-col text-f18  text-white print:text-france-blue md:flex-row md:items-center"
   >
-    <ServiceAvailability {service} />
-    <div class="mx-s8 hidden font-bold md:block" aria-hidden="true">•</div>
     <div>
       Périmètre : <strong>{service.diffusionZoneDetailsDisplay}</strong>
     </div>

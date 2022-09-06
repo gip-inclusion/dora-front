@@ -12,7 +12,7 @@
   <button
     aria-expanded={expanded}
     aria-controls={id}
-    class="flex w-full items-center justify-between"
+    class="flex h-[45px] w-full items-center justify-between"
     on:click={() => (expanded = !expanded)}
   >
     {title}

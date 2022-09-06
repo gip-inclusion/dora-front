@@ -1,7 +1,6 @@
 <script lang="ts">
   import ServiceButtonMenu from "./service-button-menu.svelte";
   import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
-  import ServiceAvailability from "./body/service-availability.svelte";
   import {
     SERVICE_STATUSES,
     SERVICE_UPDATE_STATUS,
@@ -57,10 +56,6 @@
       >
     </h3>
 
-    <div class="mb-s8 flex items-center">
-      <ServiceAvailability {service} small dark bold />
-    </div>
-
     {#if service.diffusionZoneDetailsDisplay}
       <div class="mb-s8 flex items-center text-france-blue">
         Périmètre&nbsp;:&nbsp;<strong
@@ -74,7 +69,7 @@
     class="flex min-h-[100px] flex-col justify-center gap-s10 border-t border-t-gray-03 py-s12 px-s20"
   >
     <div class="flex items-center text-f14 text-gray-text">
-      {#if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
+      {#if service.status !== SERVICE_STATUSES.PUBLISHED || updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
         <span class="mr-s8">
           <UpdateStatusIcon
             updateStatus={SERVICE_UPDATE_STATUS.NOT_NEEDED}
@@ -106,7 +101,7 @@
             href="/services/{service.slug}/editer"
             class="relative hover:underline"
           >
-            <span class="font-bold">Mise à jour disponible</span>
+            <span class="font-bold">Mise à jour du modèle disponible</span>
           </a>
         {:else}
           <span class="mr-s8"><SynchronizedIcon small /></span>

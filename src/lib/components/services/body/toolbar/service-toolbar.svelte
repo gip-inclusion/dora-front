@@ -1,5 +1,10 @@
 <script lang="ts">
-  import { SERVICE_UPDATE_STATUS, type Service } from "$lib/types";
+  import {
+    SERVICE_STATUSES,
+    SERVICE_UPDATE_STATUS,
+    type Service,
+  } from "$lib/types";
+  import { token } from "$lib/auth";
   import LinkButton from "$lib/components/link-button.svelte";
 
   import cornerLeftImg from "$lib/assets/corner-left.png";
@@ -16,7 +21,6 @@
     computeUpdateStatusLabel,
   } from "$lib/utils/service";
   import { copyIcon } from "$lib/icons";
-  import { SERVICE_STATUSES } from "$lib/schemas/service";
 
   export let service: Service;
   export let servicesOptions;
@@ -70,7 +74,7 @@
     />
   {/if}
 
-  {#if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
+  {#if updateStatusData.updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED || !$token}
     <img
       src={cornerLeftImg}
       alt=""
@@ -99,13 +103,12 @@
         <div class="flex h-s48 items-center md:self-end">
           {#if service.model}
             {#if service.modelChanged}
-              <LinkButton
-                label="Mise à jour disponible"
-                icon={copyIcon}
-                noBackground
-                hoverUnderline
-                to="/services/{service.slug}/editer"
-              />
+              <div class="flex items-center text-f14 font-bold text-gray-text">
+                <span class="mr-s10"><SynchronizedIcon warning /></span>
+                <a href="/services/{service.slug}/editer" class="underline">
+                  Mise à jour du modèle disponible
+                </a>
+              </div>
             {:else}
               <div class="flex items-center text-f14 italic text-gray-text">
                 <span class="mr-s10"><SynchronizedIcon /></span>

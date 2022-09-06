@@ -18,10 +18,12 @@
   .markdown-wrapper :global(h1),
   .markdown-wrapper :global(h2),
   .markdown-wrapper :global(h3) {
-    color: var(--col-france-blue);
+    color: var(--col-gray-dark);
   }
 
-  .markdown-wrapper :global(p) {
+  .markdown-wrapper :global(p),
+  .markdown-wrapper :global(strong),
+  .markdown-wrapper :global(li) {
     color: var(--col-text);
   }
 

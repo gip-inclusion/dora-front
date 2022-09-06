@@ -102,6 +102,7 @@ export type DashboardService = Pick<
   | "hasFee"
   | "model"
   | "structure"
+  | "qpvOrZrr"
 >;
 
 export type ServicesOptions = {
