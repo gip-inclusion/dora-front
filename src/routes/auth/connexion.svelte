@@ -54,9 +54,14 @@
       <a href="/auth/ic-connect?next={encodeURIComponent(getNextPage())}">
         <img src={logoIC} alt="Se connecter avec Inclusion Connect" />
       </a>
-      <a href="" class=" text-f12 text-gray-text-alt2 underline"
-        >Qu’est-ce que Inclusion Connect&nbsp;?</a
+      <a
+        href="https://kindly-sunscreen-95c.notion.site/Simplifions-l-utilisation-des-services-destination-des-professionnels-de-l-inclusion-ded9135197654da590f5dde41d8bb68b"
+        class=" text-f12 text-gray-text-alt2 underline"
+        target="_blank"
+        rel="noopener nofollow"
       >
+        Qu’est-ce que Inclusion Connect&nbsp;?
+      </a>
     </div>
   </Fieldset>
 
