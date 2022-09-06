@@ -3,45 +3,64 @@
 
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
-
+  import Fieldset from "$lib/components/forms/fieldset.svelte";
+  import Info from "$lib/components/info.svelte";
   import AuthLayout from "./_auth_layout.svelte";
-  import Notice from "$lib/components/notice.svelte";
 
   import logoIC from "$lib/assets/inclusion_connect_button.svg";
+  import { get } from "svelte/store";
+  import { token } from "$lib/auth.js";
+  import { goto } from "$app/navigation";
+  import { informationLineIcon } from "$lib/icons.js";
 
   // TODO: factorize
+
+  // if we already have a token, bypass the page altogether
+
   function getNextPage() {
     const next = $page.url.searchParams.get("next");
     if (next && next.startsWith("/") && !next.startsWith("/auth/")) return next;
     return "/";
   }
+
+  if (get(token)) {
+    goto(getNextPage());
+    // TODO: what should I return here?
+  }
 </script>
 
 <svelte:head>
-  <title>Se connecter | DORA</title>
+  <title>Accédez à votre compte | DORA</title>
 </svelte:head>
 
 <CenteredGrid>
   <div class="text-center">
-    <h1 class="text-france-blue">Connexion</h1>
+    <h1 class="text-france-blue">Accédez à votre compte</h1>
   </div>
 </CenteredGrid>
 
 <AuthLayout>
-  <div class="mb-s40">
-    <a href="/auth/ic-connect?next={encodeURIComponent(getNextPage())}">
-      <img src={logoIC} alt="Se connecter avec Inclusion Connect" />
-    </a>
-  </div>
+  <Fieldset title="Connexion">
+    <Info
+      label="DORA passe à Inclusion Connect&nbsp;!"
+      leftBorder
+      info
+      icon={informationLineIcon}
+    >
+      Si vous avez déjà un compte DORA, créez un compte Inclusion Connect avec
+      la même adresse e-mail.
+    </Info>
+    <div class="mb-s40">
+      <a href="/auth/ic-connect?next={encodeURIComponent(getNextPage())}">
+        <img src={logoIC} alt="Se connecter avec Inclusion Connect" />
+      </a>
+      <a href="" class=" text-f12 text-gray-text-alt2 underline"
+        >Qu’est-ce que Inclusion Connect&nbsp;?</a
+      >
+    </div>
+  </Fieldset>
 
-  <Notice title="Vous n'avez pas encore de compte ?">
-    <LinkButton
-      slot="button"
-      label="Créer un compte"
-      secondary
-      nofollow
-      small
-      to={`/auth/inscription`}
-    />
-  </Notice>
+  <Fieldset title="S’inscrire">
+    <LinkButton label="Créer un compte" nofollow to={`/auth/inscription`} />
+  </Fieldset>
 </AuthLayout>
