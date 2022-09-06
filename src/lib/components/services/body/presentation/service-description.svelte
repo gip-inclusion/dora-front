@@ -1,11 +1,13 @@
 <script>
+  import TextClamp from "$lib/components/text-clamp.svelte";
+
   import { markdownToHTML } from "$lib/utils";
 
   export let service;
 </script>
 
 <div class="markdown-wrapper prose mb-s24 w-full">
-  {@html markdownToHTML(service.fullDesc)}
+  <TextClamp text={markdownToHTML(service.fullDesc)} />
 </div>
 
 <style lang="postcss">

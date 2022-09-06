@@ -23,9 +23,9 @@
   {/each}
 </ul>
 
-{#if !expanded && service.subcategories.length >= numberOfSubcategories}
+{#if !expanded && service.subcategories.length > numberOfSubcategories}
   <Button
-    label="Voir tout les besoins"
+    label="Voir tous les besoins"
     on:click={() => (expanded = true)}
     noBackground
     small

@@ -74,6 +74,9 @@
           </span>
         </li>
       {/if}
+      {#if service.formsInfo.length === 0 && !service.onlineForm}
+        <li>Aucun</li>
+      {/if}
     </ul>
 
     <h4 class="text-f17">Justificatifs à fournir</h4>

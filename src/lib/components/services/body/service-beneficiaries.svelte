@@ -23,9 +23,11 @@
       {#each service.accessConditionsDisplay as condition (condition)}
         <li>{condition}</li>
       {:else}
-        <li>Aucun</li>
+        {#if !service.qpvOrZrr}
+          <li>Aucun</li>
+        {/if}
       {/each}
-      {#if service.qpvOrZrr && !service.model}
+      {#if service.qpvOrZrr}
         <li>uniquement QPV + ZRR</li>
       {/if}
     </ul>
