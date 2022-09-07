@@ -23,7 +23,8 @@
     if (
       currentUserInfo &&
       !currentUserInfo.structures.length &&
-      !url.pathname.startsWith("/auth/")
+      !url.pathname.startsWith("/auth/") &&
+      !url.pathname.startsWith("/rattachement")
     ) {
       console.log("No structure");
       await goto("/rattachement");
