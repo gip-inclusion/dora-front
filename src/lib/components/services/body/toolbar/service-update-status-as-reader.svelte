@@ -59,8 +59,8 @@
               <strong>{label}</strong>
             </div>
             <div class="text-f14">
-              Ce service n’a pas été actualisé depuis longtemps, certaines
-              informations peuvent ne pas être à jour.
+              Ce service n’a pas été actualisé récemment, certaines informations
+              peuvent ne pas être à jour.
             </div>
           </div>
         </div>
@@ -90,6 +90,8 @@
       label="Suggérer une modification"
       icon={editIcon}
       secondary
+      small
+      extraClass="py-s9"
       on:click={handleSuggestion}
     />
   </div>

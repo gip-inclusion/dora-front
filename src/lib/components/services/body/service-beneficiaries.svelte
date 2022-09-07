@@ -7,7 +7,7 @@
 
 <Accordeon title="Qui peut bénéficier de ce service ?">
   <div class="mb-s32">
-    <h3 class="text-f17">Le public concerné</h3>
+    <h3>Le public concerné</h3>
     <ul>
       {#each service.concernedPublicDisplay as pub (pub)}
         <li>{pub}</li>
@@ -18,7 +18,7 @@
   </div>
 
   <div class="mb-s32">
-    <h3 class="text-f17">Les critères d’admission</h3>
+    <h3>Les critères d’admission</h3>
     <ul>
       {#each service.accessConditionsDisplay as condition (condition)}
         <li>{condition}</li>
@@ -34,7 +34,7 @@
   </div>
 
   <div class="mb-s32">
-    <h3 class="text-f17">Les pré-requis, compétences</h3>
+    <h3>Les pré-requis, compétences</h3>
     <ul>
       {#each service.requirementsDisplay as reqs}
         <li>{reqs}</li>

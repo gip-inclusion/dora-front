@@ -102,6 +102,7 @@ const config = {
       s4: "0.25rem",
       s6: "0.375rem",
       s8: "0.5rem",
+      s9: "0.5625rem",
       s10: "0.625rem",
       s12: "0.75rem",
       s16: "1rem",

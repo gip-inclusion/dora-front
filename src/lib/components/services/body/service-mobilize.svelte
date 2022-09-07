@@ -9,9 +9,9 @@
 
 <Accordeon title="Comment mobiliser ce service ?">
   <div class="mb-s32">
-    <h3 class="text-f23">Les démarches à réaliser</h3>
+    <h3>Les démarches à réaliser</h3>
 
-    <h4 class="text-f17">Pour les accompagnateurs</h4>
+    <h4>Pour les accompagnateurs</h4>
     <ul>
       {#each service.coachOrientationModesDisplay as mode (mode)}
         <li>
@@ -26,7 +26,7 @@
       {/each}
     </ul>
 
-    <h4 class="text-f17">Pour les bénéficiaires</h4>
+    <h4>Pour les bénéficiaires</h4>
     <ul>
       {#each service.beneficiariesAccessModesDisplay as mode (mode)}
         <li>
@@ -43,9 +43,9 @@
   </div>
 
   <div class="mb-s32">
-    <h3 class="text-f23">Les documents à fournir</h3>
+    <h3>Les documents à fournir</h3>
 
-    <h4 class="text-f17">Documents à compléter</h4>
+    <h4>Documents à compléter</h4>
     <ul>
       {#each service.formsInfo as form}
         <li>
@@ -79,7 +79,7 @@
       {/if}
     </ul>
 
-    <h4 class="text-f17">Justificatifs à fournir</h4>
+    <h4>Justificatifs à fournir</h4>
     <ul>
       {#each service.credentialsDisplay as creds}
         <li><span>{creds}</span></li>

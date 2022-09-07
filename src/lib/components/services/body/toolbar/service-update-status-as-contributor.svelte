@@ -56,8 +56,8 @@
               <strong>Service en attente d’actualisation</strong>
             </div>
             <div class="text-f14">
-              Les informations sur ce service n’ont plus été mises à jour depuis {monthDiff}
-              mois.
+              Ce service n’est plus visible dans les résultats de recherche, il
+              doit être actualisé pour être à nouveau disponible
             </div>
           </div>
         </div>

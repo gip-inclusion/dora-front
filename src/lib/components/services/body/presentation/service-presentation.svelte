@@ -9,8 +9,8 @@
 
 <h2 class="mb-s40">Présentation du service</h2>
 
-<p class="mb-s40 text-f18">
-  <strong>{service.shortDesc}</strong>
+<p class="mb-s40 font-bold">
+  {service.shortDesc}
 </p>
 
 <div class="mb-s40">
@@ -19,7 +19,7 @@
 </div>
 
 <div class="mb-s40">
-  <h3 class="text-f17">Type de service</h3>
+  <h3>Type de service</h3>
   <ul class="inline-flex text-f18 text-gray-text">
     {#each service.kindsDisplay as kind, index (kind)}
       <li class:separator={index > 0}>{kind}</li>
@@ -29,7 +29,7 @@
 
 {#if service.fullDesc}
   <div class="mb-s40">
-    <h3 class="text-f17">Description du service</h3>
+    <h3>Description du service</h3>
     <ServiceDescription {service} />
   </div>
 {/if}

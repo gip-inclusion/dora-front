@@ -17,7 +17,7 @@
       currentLocation="service"
     />
   </div>
-  <h1 class="mb-s14 text-f45 leading-[3rem] text-white print:text-france-blue">
+  <h1 class="mb-s14 leading-[3rem] text-white print:text-france-blue">
     {service.name}
   </h1>
 

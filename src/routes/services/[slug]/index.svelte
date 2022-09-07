@@ -122,7 +122,7 @@
       </div>
 
       <div class="sidebar flex flex-col gap-y-s24">
-        {#if service?.isContactInfoPublic}
+        {#if service?.isContactInfoPublic || $token}
           <div
             class="block rounded-lg border border-gray-02 p-s24 px-s32 md:hidden"
           >
