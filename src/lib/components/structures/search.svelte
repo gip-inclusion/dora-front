@@ -3,7 +3,6 @@
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import SearchByCommune from "$lib/components/structures/search-by-commune.svelte";
   import SearchBySiret from "$lib/components/structures/search-by-siret.svelte";
-  import SearchBySafir from "$lib/components/structures/search-by-safir.svelte";
   import Button from "../button.svelte";
 
   export let onCityChange = null;
@@ -11,7 +10,6 @@
   export let onValidate = null;
   export let establishment = null;
   export let hasValidation = false;
-  export let hasSafir = false;
   export let siret = "";
 
   export let tabId = "nom";
@@ -39,10 +37,6 @@
     { id: "nom", name: "Nom" },
     { id: "siret", name: "Siret" },
   ];
-
-  if (hasSafir) {
-    tabs.push({ id: "safir", name: "Safir" });
-  }
 
   if (siret) {
     tabId = "siret";
@@ -74,12 +68,6 @@
     <SearchBySiret onEstablishmentChange={handleEstablishmentChange} {siret} />
   {:else if tabId === "nom"}
     <SearchByCommune
-      bind:establishment
-      onEstablishmentChange={handleEstablishmentChange}
-      onCityChange={handleCityChange}
-    />
-  {:else if hasSafir && tabId === "safir"}
-    <SearchBySafir
       bind:establishment
       onEstablishmentChange={handleEstablishmentChange}
       onCityChange={handleCityChange}

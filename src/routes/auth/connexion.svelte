@@ -2,17 +2,13 @@
   import { page } from "$app/stores";
 
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import LinkButton from "$lib/components/link-button.svelte";
-  import Fieldset from "$lib/components/forms/fieldset.svelte";
-  import Info from "$lib/components/info.svelte";
-  import AuthLayout from "./_auth_layout.svelte";
 
-  import logoIC from "$lib/assets/inclusion_connect_button.svg";
+  import connexionPic from "$lib/assets/illu_connexion-optimise.svg";
+  import boutonIC from "$lib/assets/inclusion_connect_button.png";
+  import logosICPartners from "$lib/assets/logos-partenaires-inclusion-connect.png";
   import { get } from "svelte/store";
   import { token } from "$lib/auth.js";
   import { goto } from "$app/navigation";
-  import { informationLineIcon } from "$lib/icons.js";
-
   // TODO: factorize
 
   // if we already have a token, bypass the page altogether
@@ -20,6 +16,7 @@
   function getNextPage() {
     const next = $page.url.searchParams.get("next");
     if (next && next.startsWith("/") && !next.startsWith("/auth/")) return next;
+    console.log(next);
     return "/";
   }
 
@@ -30,42 +27,44 @@
 </script>
 
 <svelte:head>
-  <title>Accédez à votre compte | DORA</title>
+  <title>Connexion / Inscription | DORA</title>
 </svelte:head>
 
-<CenteredGrid>
-  <div class="text-center">
-    <h1 class="text-france-blue">Accédez à votre compte</h1>
+<CenteredGrid extraClass="bg-gradient-to-b from-magenta-10 to-magenta-10/0">
+  <div class="flex gap-s40">
+    <img class="flex-none" src={connexionPic} width="587" height="532" alt="" />
+    <div class="flex-1">
+      <h1 class="text-france-blue">DORA passe à Inclusion Connect&nbsp;!</h1>
+
+      <p class="mt-s24 mb-s24">
+        Lorem ipsum <strong>Inclusion Connect</strong> dolor sit amet, consectetur
+        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+        aliqua. Sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum.
+        Sollicitudin tempor id eu nisl nunc. Egestas maecenas pharetra convallis
+        posuere morbi.
+      </p>
+      <img
+        src={logosICPartners}
+        alt="Les emplois de l'inclusion, la communauté de l'inclusion, DORA"
+      />
+      <p class="mt-s24 mb-s24">
+        <strong>
+          Si vous avez déjà un compte DORA, vous pouvez recréer un compte
+          Inclusion Connect avec la même adresse e-mail, et conserver toutes vos
+          données Dora.
+        </strong>
+      </p>
+
+      <div class="mb-s40">
+        <a href="/auth/ic-connect?next={encodeURIComponent(getNextPage())}">
+          <img
+            src={boutonIC}
+            alt="S’identifier avec Inclusion Connect"
+            width="516"
+            height="59"
+          />
+        </a>
+      </div>
+    </div>
   </div>
 </CenteredGrid>
-
-<AuthLayout>
-  <Fieldset title="Connexion">
-    <Info
-      label="DORA passe à Inclusion Connect&nbsp;!"
-      leftBorder
-      info
-      icon={informationLineIcon}
-    >
-      Si vous avez déjà un compte DORA, créez un compte Inclusion Connect avec
-      la même adresse e-mail.
-    </Info>
-    <div class="mb-s40">
-      <a href="/auth/ic-connect?next={encodeURIComponent(getNextPage())}">
-        <img src={logoIC} alt="Se connecter avec Inclusion Connect" />
-      </a>
-      <a
-        href="https://kindly-sunscreen-95c.notion.site/Simplifions-l-utilisation-des-services-destination-des-professionnels-de-l-inclusion-ded9135197654da590f5dde41d8bb68b"
-        class=" text-f12 text-gray-text-alt2 underline"
-        target="_blank"
-        rel="noopener nofollow"
-      >
-        Qu’est-ce que Inclusion Connect&nbsp;?
-      </a>
-    </div>
-  </Fieldset>
-
-  <Fieldset title="S’inscrire">
-    <LinkButton label="Créer un compte" nofollow to={`/auth/inscription`} />
-  </Fieldset>
-</AuthLayout>
