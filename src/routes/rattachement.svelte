@@ -66,7 +66,6 @@
   </CenteredGrid>
 
   <AuthLayout>
-    siret: {siret}
     <StructureSearch
       hasValidation
       onValidate={handleJoin}
