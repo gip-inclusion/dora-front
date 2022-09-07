@@ -45,14 +45,14 @@
       {#if updateStatus === SERVICE_UPDATE_STATUS.NOT_NEEDED}
         <div class="flex items-center">
           <span class="mr-s16">
-            <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.NOT_NEEDED} />
+            <UpdateStatusIcon {updateStatus} />
           </span>
           <span>{label}</span>
         </div>
       {:else if updateStatus === SERVICE_UPDATE_STATUS.NEEDED}
         <div class="flex items-center">
           <span class="mr-s16">
-            <UpdateStatusIcon updateStatus={SERVICE_UPDATE_STATUS.NEEDED} />
+            <UpdateStatusIcon {updateStatus} />
           </span>
           <div>
             <div class="text-f18">
