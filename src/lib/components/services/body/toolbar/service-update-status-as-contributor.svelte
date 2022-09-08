@@ -53,7 +53,7 @@
           </span>
           <div>
             <div class="text-f18">
-              <strong>Service en attente d’actualisation</strong>
+              <strong>Actualisation requise</strong>
             </div>
             <div class="text-f14">
               Ce service est dépriorisé dans les résultats de recherche, il doit
