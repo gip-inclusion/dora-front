@@ -16,9 +16,21 @@
   function getNextPage() {
     const next = $page.url.searchParams.get("next");
     if (next && next.startsWith("/") && !next.startsWith("/auth/")) return next;
-    console.log(next);
     return "/";
   }
+
+  function getLoginHint() {
+    const loginHint = $page.url.searchParams.get("login_hint");
+
+    if (loginHint) {
+      $page.url.searchParams.delete("login_hint");
+      return `&login_hint=${encodeURIComponent(loginHint)}`;
+    }
+    return "";
+  }
+
+  const loginHint = getLoginHint();
+  const nextPage = getNextPage();
 
   if (get(token)) {
     goto(getNextPage());
@@ -56,7 +68,9 @@
       </p>
 
       <div class="mb-s40">
-        <a href="/auth/ic-connect?next={encodeURIComponent(getNextPage())}">
+        <a
+          href="/auth/ic-connect?next={encodeURIComponent(nextPage)}{loginHint}"
+        >
           <img
             src={boutonIC}
             alt="S’identifier avec Inclusion Connect"

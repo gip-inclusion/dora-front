@@ -7,11 +7,15 @@
 
   onMount(() => {
     if (!$token) {
-      console.log($page.url.pathname + $page.url.search);
+      let searchParams = $page.url.searchParams;
+      const loginHint = searchParams.get("login_hint");
+      if (loginHint) {
+        searchParams.delete("login_hint");
+      }
       goto(
         `/auth/connexion?next=${encodeURIComponent(
           $page.url.pathname + $page.url.search
-        )}`
+        )}&login_hint=${encodeURIComponent(loginHint)}`
       );
     }
   });

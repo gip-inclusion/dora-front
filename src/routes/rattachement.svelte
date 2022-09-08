@@ -47,10 +47,6 @@
       }
     }
     return result;
-    // TODO
-    // call new endpoint which associates the current user and the structure
-    // returns the structure slug
-    // then await goto("/structures/{structure.slug})
   }
 </script>
 

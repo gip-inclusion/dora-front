@@ -1,12 +1,11 @@
 <script context="module">
   import { CANONICAL_URL } from "$lib/env.js";
-
-  export const ssr = false;
-
   import { token } from "$lib/auth";
   import { goto } from "$app/navigation";
   import { get } from "svelte/store";
-  import { getApiURL, defaultAcceptHeader } from "$lib/utils/api";
+  import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
+
+  export const ssr = false;
 
   function getNextPage(url) {
     const next = url.searchParams.get("next");
@@ -35,6 +34,7 @@
         redirect_uri: `${CANONICAL_URL}/auth/ic-callback?next=${encodeURIComponent(
           nextPage
         )}`,
+        loginHint: url.searchParams.get("login_hint"),
       }),
     });
 
