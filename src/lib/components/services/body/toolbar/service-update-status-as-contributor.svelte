@@ -56,8 +56,8 @@
               <strong>Service en attente d’actualisation</strong>
             </div>
             <div class="text-f14">
-              Ce service n’est plus visible dans les résultats de recherche, il
-              doit être actualisé pour être à nouveau disponible
+              Ce service est dépriorisé dans les résultats de recherche, il doit
+              être actualisé pour gagner à nouveau en visibilité
             </div>
           </div>
         </div>
