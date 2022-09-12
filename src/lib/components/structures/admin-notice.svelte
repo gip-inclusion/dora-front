@@ -9,7 +9,7 @@
   <div slot="button">
     <LinkButton
       label="Demander l’accès"
-      to="/rattachement?siret={structure.siret}"
+      to="/auth/rattachement?siret={structure.siret}"
       otherTab
       nofollow
       secondary

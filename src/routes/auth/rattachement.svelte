@@ -1,15 +1,15 @@
 <script>
-  import { page } from "$app/stores.js";
+  import { page } from "$app/stores";
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api.js";
   import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
 
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 
-  import AuthLayout from "./auth/_auth_layout.svelte";
+  import AuthLayout from "./_auth_layout.svelte";
   import StructureSearch from "$lib/components/structures/search.svelte";
   import { get } from "svelte/store";
   import { token } from "$lib/auth";
-  import { goto } from "$app/navigation.js";
+  import { goto } from "$app/navigation";
 
   let siret = $page.url.searchParams.get("siret");
 

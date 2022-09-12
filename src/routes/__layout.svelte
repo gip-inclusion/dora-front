@@ -1,7 +1,6 @@
 <script context="module">
   import { get } from "svelte/store";
   import { browser } from "$app/env";
-  import { goto } from "$app/navigation";
   import { CRISP_ID } from "$lib/env";
   import { userInfo, validateCredsAndFillUserInfo } from "$lib/auth";
 
@@ -23,13 +22,13 @@
     if (
       currentUserInfo &&
       !currentUserInfo.structures.length &&
-      !url.pathname.startsWith("/auth/") &&
-      !url.pathname.startsWith("/rattachement")
+      !url.pathname.startsWith("/auth/rattachement")
     ) {
-      console.log("No structure");
-      await goto("/rattachement");
+      return {
+        status: 302,
+        redirect: "/auth/rattachement",
+      };
     }
-
     return {};
   }
 
