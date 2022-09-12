@@ -1,8 +1,5 @@
 // STRUCTURE
 export type Structure = {
-  nationalLabels: string[];
-  otherLabels: string;
-  ape: string;
   name: string;
   slug: string;
   siret: string;
@@ -22,6 +19,10 @@ export type Structure = {
   postalCode: number;
   cityCode: number;
   city: string;
+
+  nationalLabels: string[];
+  otherLabels: string;
+  ape: string;
 
   typologyDisplay: string;
   numServices: number;
