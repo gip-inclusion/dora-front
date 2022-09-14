@@ -24,6 +24,16 @@
     value = fromJsonToOsmString(data);
     dispatch("change", name);
   }
+
+  const weekDays: { label: string; day: Day }[] = [
+    { label: "Lundi", day: "monday" },
+    { label: "Mardi", day: "tuesday" },
+    { label: "Mercredi", day: "wednesday" },
+    { label: "Jeudi", day: "thursday" },
+    { label: "Vendredi", day: "friday" },
+    { label: "Samedi", day: "saturday" },
+    { label: "Dimanche", day: "sunday" },
+  ];
 </script>
 
 <fieldset>
@@ -43,238 +53,40 @@
     </div>
 
     <!-- Lundi -->
-    <div class="day-grid day">
-      <div class="self-center font-bold text-gray-dark">Lundi</div>
-      <div class="!mb-s10 block text-center font-bold md:hidden">Matin</div>
+    {#each weekDays as { label, day }}
+      <div class="day-grid day">
+        <div class="self-center font-bold text-gray-dark">{label}</div>
+        <div class="!mb-s10 block text-center font-bold md:hidden">Matin</div>
 
-      <div class="mr-s0 md:mr-s8">
-        <DayField
-          bind:isOpen={data.monday.morning.isOpen}
-          bind:touched={data.monday.morning.touched}
-          bind:openAt={data.monday.morning.openAt}
-          bind:closeAt={data.monday.morning.closeAt}
-          label="lundi matin"
-          day="monday"
-          dayPeriod="morning"
-          on:change={() => handleHourChange("monday", "morning")}
-        />
-      </div>
-      <div>
-        <div class="mb-s10 block text-center font-bold md:hidden">
-          Après-midi
+        <div class="mr-s0 md:mr-s8">
+          <DayField
+            bind:isOpen={data[day].morning.isOpen}
+            bind:touched={data[day].morning.touched}
+            bind:openAt={data[day].morning.openAt}
+            bind:closeAt={data[day].morning.closeAt}
+            label="{label.toLowerCase()} matin"
+            {day}
+            dayPeriod="morning"
+            on:change={() => handleHourChange(day, "morning")}
+          />
         </div>
-        <DayField
-          bind:isOpen={data.monday.afternoon.isOpen}
-          bind:openAt={data.monday.afternoon.openAt}
-          bind:touched={data.monday.afternoon.touched}
-          bind:closeAt={data.monday.afternoon.closeAt}
-          label="lundi après-midi"
-          day="monday"
-          dayPeriod="afternoon"
-          on:change={() => handleHourChange("monday", "afternoon")}
-        />
-      </div>
-    </div>
-
-    <!-- Mardi -->
-    <div class="day-grid day">
-      <div class="self-center font-bold text-gray-dark">Mardi</div>
-      <div class="!mb-s10 block text-center font-bold md:hidden">Matin</div>
-
-      <div class="mr-s0 md:mr-s8">
-        <DayField
-          bind:isOpen={data.tuesday.morning.isOpen}
-          bind:touched={data.tuesday.morning.touched}
-          bind:openAt={data.tuesday.morning.openAt}
-          bind:closeAt={data.tuesday.morning.closeAt}
-          label="mardi matin"
-          day="tuesday"
-          dayPeriod="morning"
-          on:change={() => handleHourChange("tuesday", "morning")}
-        />
-      </div>
-      <div>
-        <div class="mb-s10 block text-center font-bold md:hidden">
-          Après-midi
+        <div>
+          <div class="mb-s10 block text-center font-bold md:hidden">
+            Après-midi
+          </div>
+          <DayField
+            bind:isOpen={data[day].afternoon.isOpen}
+            bind:openAt={data[day].afternoon.openAt}
+            bind:touched={data[day].afternoon.touched}
+            bind:closeAt={data[day].afternoon.closeAt}
+            label="{label.toLowerCase()}  après-midi"
+            {day}
+            dayPeriod="afternoon"
+            on:change={() => handleHourChange(day, "afternoon")}
+          />
         </div>
-        <DayField
-          bind:isOpen={data.tuesday.afternoon.isOpen}
-          bind:openAt={data.tuesday.afternoon.openAt}
-          bind:touched={data.tuesday.afternoon.touched}
-          bind:closeAt={data.tuesday.afternoon.closeAt}
-          label="mardi après-midi"
-          day="tuesday"
-          dayPeriod="afternoon"
-          on:change={() => handleHourChange("tuesday", "afternoon")}
-        />
       </div>
-    </div>
-
-    <!-- Mercredi -->
-    <div class="day-grid day">
-      <div class="self-center font-bold text-gray-dark">Mercredi</div>
-      <div class="!mb-s10 block text-center font-bold md:hidden">Matin</div>
-
-      <div class="mr-s0 md:mr-s8">
-        <DayField
-          bind:isOpen={data.wednesday.morning.isOpen}
-          bind:touched={data.wednesday.morning.touched}
-          bind:openAt={data.wednesday.morning.openAt}
-          bind:closeAt={data.wednesday.morning.closeAt}
-          label="mercredi matin"
-          day="wednesday"
-          dayPeriod="morning"
-          on:change={() => handleHourChange("wednesday", "morning")}
-        />
-      </div>
-      <div>
-        <div class="mb-s10 block text-center font-bold md:hidden">
-          Après-midi
-        </div>
-
-        <DayField
-          bind:isOpen={data.wednesday.afternoon.isOpen}
-          bind:openAt={data.wednesday.afternoon.openAt}
-          bind:touched={data.wednesday.afternoon.touched}
-          bind:closeAt={data.wednesday.afternoon.closeAt}
-          label="mercredi après-midi"
-          day="wednesday"
-          dayPeriod="afternoon"
-          on:change={() => handleHourChange("wednesday", "afternoon")}
-        />
-      </div>
-    </div>
-
-    <!-- Jeudi -->
-    <div class="day-grid day">
-      <div class="self-center font-bold text-gray-dark">Jeudi</div>
-      <div class="!mb-s10 block text-center font-bold md:hidden">Matin</div>
-
-      <div class="mr-s0 md:mr-s8">
-        <DayField
-          bind:isOpen={data.thursday.morning.isOpen}
-          bind:touched={data.thursday.morning.touched}
-          bind:openAt={data.thursday.morning.openAt}
-          bind:closeAt={data.thursday.morning.closeAt}
-          label="jeudi matin"
-          day="thursday"
-          dayPeriod="morning"
-          on:change={() => handleHourChange("thursday", "morning")}
-        />
-      </div>
-      <div>
-        <div class="mb-s10 block text-center font-bold md:hidden">
-          Après-midi
-        </div>
-
-        <DayField
-          bind:isOpen={data.thursday.afternoon.isOpen}
-          bind:openAt={data.thursday.afternoon.openAt}
-          bind:touched={data.thursday.afternoon.touched}
-          bind:closeAt={data.thursday.afternoon.closeAt}
-          label="jeudi après-midi"
-          day="thursday"
-          dayPeriod="afternoon"
-          on:change={() => handleHourChange("thursday", "afternoon")}
-        />
-      </div>
-    </div>
-  </div>
-
-  <!-- Vendredi -->
-  <div class="day-grid day">
-    <div class="self-center font-bold text-gray-dark">Vendredi</div>
-    <div class="!mb-s10 block text-center font-bold md:hidden">Matin</div>
-
-    <div class="mr-s0 md:mr-s8">
-      <DayField
-        bind:isOpen={data.friday.morning.isOpen}
-        bind:touched={data.friday.morning.touched}
-        bind:openAt={data.friday.morning.openAt}
-        bind:closeAt={data.friday.morning.closeAt}
-        label="vendredi matin"
-        day="friday"
-        dayPeriod="morning"
-        on:change={() => handleHourChange("friday", "morning")}
-      />
-    </div>
-    <div>
-      <div class="mb-s10 block text-center font-bold md:hidden">Après-midi</div>
-      <DayField
-        bind:isOpen={data.friday.afternoon.isOpen}
-        bind:openAt={data.friday.afternoon.openAt}
-        bind:touched={data.friday.afternoon.touched}
-        bind:closeAt={data.friday.afternoon.closeAt}
-        label="vendredi après-midi"
-        day="friday"
-        dayPeriod="afternoon"
-        on:change={() => handleHourChange("friday", "afternoon")}
-      />
-    </div>
-  </div>
-
-  <!-- Samedi -->
-  <div class="day-grid day">
-    <div class="self-center font-bold text-gray-dark">Samedi</div>
-    <div class="!mb-s10 block text-center font-bold md:hidden">Matin</div>
-
-    <div class="mr-s0 md:mr-s8">
-      <DayField
-        bind:isOpen={data.saturday.morning.isOpen}
-        bind:touched={data.saturday.morning.touched}
-        bind:openAt={data.saturday.morning.openAt}
-        bind:closeAt={data.saturday.morning.closeAt}
-        label="samedi matin"
-        day="saturday"
-        dayPeriod="morning"
-        on:change={() => handleHourChange("saturday", "morning")}
-      />
-    </div>
-    <div>
-      <div class="mb-s10 block text-center font-bold md:hidden">Après-midi</div>
-      <DayField
-        bind:isOpen={data.saturday.afternoon.isOpen}
-        bind:openAt={data.saturday.afternoon.openAt}
-        bind:touched={data.saturday.afternoon.touched}
-        bind:closeAt={data.saturday.afternoon.closeAt}
-        label="samedi après-midi"
-        day="saturday"
-        dayPeriod="afternoon"
-        on:change={() => handleHourChange("saturday", "afternoon")}
-      />
-    </div>
-  </div>
-
-  <!-- Dimanche -->
-  <div class="day-grid day">
-    <div class="self-center font-bold text-gray-dark">Dimanche</div>
-    <div class="!mb-s10 block text-center font-bold md:hidden">Matin</div>
-
-    <div class="mr-s0 md:mr-s8">
-      <DayField
-        bind:isOpen={data.sunday.morning.isOpen}
-        bind:touched={data.sunday.morning.touched}
-        bind:openAt={data.sunday.morning.openAt}
-        bind:closeAt={data.sunday.morning.closeAt}
-        label="dimanche matin"
-        day="sunday"
-        dayPeriod="morning"
-        on:change={() => handleHourChange("sunday", "morning")}
-      />
-    </div>
-    <div>
-      <div class="mb-s10 block text-center font-bold md:hidden">Après-midi</div>
-      <DayField
-        bind:isOpen={data.sunday.afternoon.isOpen}
-        bind:openAt={data.sunday.afternoon.openAt}
-        bind:touched={data.sunday.afternoon.touched}
-        bind:closeAt={data.sunday.afternoon.closeAt}
-        label="dimanche après-midi"
-        day="sunday"
-        dayPeriod="afternoon"
-        on:change={() => handleHourChange("sunday", "afternoon")}
-      />
-    </div>
+    {/each}
   </div>
 </fieldset>
 
