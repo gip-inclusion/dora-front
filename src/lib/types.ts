@@ -8,7 +8,6 @@ export type Structure = {
   phone: string | undefined;
   openingHours: string | undefined;
   openingHoursDetails: string | undefined;
-
   shortDesc: string;
   fullDesc: string;
 

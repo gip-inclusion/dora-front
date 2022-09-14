@@ -154,7 +154,7 @@
         </div>
       {/if}
 
-      {#if structure.osmHours}
+      {#if structure.openingHours}
         <div>
           <h4 class="mb-s8 flex items-center">
             <span class="mr-s8 h-s24 w-s24 fill-current">
@@ -164,7 +164,7 @@
           </h4>
 
           <ul class="text-f16">
-            {#each formatOsmHours(structure.osmHours) as [prefix, hourStr]}
+            {#each formatOsmHours(structure.openingHours) as [prefix, hourStr]}
               <li class="mb-s8 flex items-center text-gray-text">
                 <span class="mr-s16 w-s35">{prefix}</span>
                 <span>{hourStr}</span>
@@ -172,10 +172,10 @@
             {/each}
           </ul>
 
-          {#if structure.hoursDetails}
+          {#if structure.openingHoursDetails}
             <p class="mt-s16 mb-s0 italic text-gray-text">
               <up>*</up>
-              {structure.hoursDetails}
+              {structure.openingHoursDetails}
             </p>
           {/if}
         </div>
