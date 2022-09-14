@@ -63,8 +63,8 @@ export function getHoursFromStr(value: string): OsmOpeningHours {
   const baseObject = returnEmptyHoursData();
   baseObject.monday.morning.isOpen = false;
   baseObject.monday.afternoon.isOpen = false;
-  baseObject.thursday.morning.isOpen = false;
-  baseObject.thursday.morning.isOpen = false;
+  baseObject.tuesday.morning.isOpen = false;
+  baseObject.tuesday.afternoon.isOpen = false;
   baseObject.wednesday.morning.isOpen = false;
   baseObject.wednesday.afternoon.isOpen = false;
   baseObject.thursday.morning.isOpen = false;
