@@ -34,8 +34,8 @@ export function formatOsmHours(value: string) {
 
 // 09:00-12:00,14:00-18:30 => 09h00 - 12:00 / 14h00 - 18h30
 function formatHour(hour: string) {
-  hour = hour.replaceAll("-", " - ");
-  hour = hour.replaceAll(":", "h");
-  hour = hour.replaceAll(",", " / ");
+  hour = hour.replace(/-/g, " - ");
+  hour = hour.replace(/:/g, "h");
+  hour = hour.replace(/,/g, " / ");
   return hour;
 }
