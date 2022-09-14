@@ -345,19 +345,19 @@
 
   <OpeningHoursField
     label="Horaires de la structure"
-    name="osmHours"
+    name="openingHours"
     on:change={handleEltChange}
-    errorMessages={$formErrors.osmHours}
-    bind:value={structure.osmHours}
+    errorMessages={$formErrors.openingHours}
+    bind:value={structure.openingHours}
   />
 
   <TextField
-    name="hoursDetails"
+    name="openingHoursDetails"
     label="Détail horaires"
     helper="Vous pouvez renseigner des informations spécifiques concernant les horaires dans ce champs"
-    bind:value={structure.hoursDetails}
+    bind:value={structure.openingHoursDetails}
     on:blur={handleEltChange}
-    errorMessages={$formErrors.hoursDetails}
+    errorMessages={$formErrors.openingHoursDetails}
     maxlength={255}
   />
 

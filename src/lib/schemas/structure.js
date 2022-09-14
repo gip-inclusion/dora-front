@@ -93,15 +93,15 @@ export default {
     rules: [v.isString(), v.maxStrLength(255)],
     post: [v.trim],
   },
-  osmHours: {
+  openingHours: {
     default: "",
-    name: "osmHours",
+    name: "openingHours",
     rules: [v.isString(), v.isNotStringInvalid(), v.maxStrLength(255)],
     post: [v.trim],
   },
-  hoursDetails: {
+  openingHoursDetails: {
     default: "",
-    name: "hoursDetails",
+    name: "openingHoursDetails",
     rules: [v.isString(), v.maxStrLength(255)],
     post: [v.trim],
   },

@@ -9,8 +9,8 @@ export type Structure = {
   url: string | undefined;
   email: string | undefined;
   phone: string | undefined;
-  osmHours: string | undefined;
-  hoursDetails: string | undefined;
+  openingHours: string | undefined;
+  openingHoursDetails: string | undefined;
 
   shortDesc: string;
   fullDesc: string;
