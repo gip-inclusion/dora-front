@@ -108,14 +108,14 @@ export async function modifyStructure(structure) {
   return result;
 }
 
-let structureOptions;
+let structuresOptions;
 export async function getStructuresOptions() {
-  if (!structureOptions) {
+  if (!structuresOptions) {
     const url = `${getApiURL()}/structures-options/`;
     const res = await fetchData(url);
-    structureOptions = res.data;
+    structuresOptions = res.data;
   }
-  return structureOptions;
+  return structuresOptions;
 }
 
 export async function getMembers(slug) {
