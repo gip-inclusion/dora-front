@@ -3,8 +3,6 @@
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api.js";
   import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
 
-  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-
   import AuthLayout from "./_auth_layout.svelte";
   import StructureSearch from "$lib/components/structures/search.svelte";
   import { get } from "svelte/store";
@@ -55,12 +53,6 @@
 </svelte:head>
 
 <EnsureLoggedIn>
-  <CenteredGrid>
-    <div class="text-center">
-      <h1 class="text-france-blue">Rattachement à votre structure</h1>
-    </div>
-  </CenteredGrid>
-
   <AuthLayout>
     <StructureSearch
       hasValidation

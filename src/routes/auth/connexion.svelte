@@ -1,9 +1,8 @@
 <script>
   import { page } from "$app/stores";
-
-  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-
-  import connexionPic from "$lib/assets/illu_connexion-optimise.svg";
+  import FieldSet from "$lib/components/forms/fieldset.svelte";
+  import AuthLayout from "./_auth_layout.svelte";
+  import { informationLineIcon } from "$lib/icons.js";
   import boutonIC from "$lib/assets/inclusion_connect_button.png";
   import logosICPartners from "$lib/assets/logos-partenaires-inclusion-connect.png";
   import { get } from "svelte/store";
@@ -42,31 +41,26 @@
   <title>Connexion / Inscription | DORA</title>
 </svelte:head>
 
-<CenteredGrid extraClass="bg-gradient-to-b from-magenta-10 to-magenta-10/0">
-  <div class="flex gap-s40">
-    <img class="flex-none" src={connexionPic} width="587" height="532" alt="" />
+<AuthLayout>
+  <FieldSet headerBg="bg-magenta-brand" noHeaderBorder noTopPadding>
     <div class="flex-1">
-      <h1 class="text-france-blue">DORA passe à Inclusion Connect&nbsp;!</h1>
+      <h2 class="mb-s32 text-france-blue">Accédez à votre compte</h2>
 
-      <p class="mt-s24 mb-s24">
-        Lorem ipsum <strong>Inclusion Connect</strong> dolor sit amet, consectetur
-        adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-        aliqua. Sem nulla pharetra diam sit amet nisl suscipit adipiscing bibendum.
-        Sollicitudin tempor id eu nisl nunc. Egestas maecenas pharetra convallis
-        posuere morbi.
-      </p>
-      <img
-        src={logosICPartners}
-        alt="Les emplois de l'inclusion, la communauté de l'inclusion, DORA"
-      />
-      <p class="mt-s24 mb-s24">
-        <strong>
-          Si vous avez déjà un compte DORA, vous pouvez recréer un compte
-          Inclusion Connect avec la même adresse e-mail, et conserver toutes vos
-          données Dora.
-        </strong>
-      </p>
+      <div class="rounded-lg bg-info-light p-s16">
+        <h4 class="flex text-info">
+          <div class="mr-s8 inline-block h-s24 w-s24 fill-current">
+            {@html informationLineIcon}
+          </div>
+          <div>DORA passe à Inclusion Connect&nbsp!</div>
+        </h4>
+        <div class="legend mb-s16 text-gray-text">
+          Si vous avez un Compte DORA, il vous suffit de créer un compte
+          Inclusion Connect avec la même adresse e-mail afin de retrouver les
+          mêmes droits et données.
+        </div>
+      </div>
 
+      <p class="mt-s24 mb-s24" />
       <div class="mb-s40">
         <a
           href="/auth/ic-connect?next={encodeURIComponent(nextPage)}{loginHint}"
@@ -78,7 +72,38 @@
             height="59"
           />
         </a>
+        <div class="my-s24 text-center">
+          <a
+            class="text-magenta-cta underline"
+            target="_blank"
+            title="Ouverture dans une nouvelle fenêtre"
+            rel="noopener nofollow noreferrer"
+            href="https://aide.dora.fabrique.social.gouv.fr/fr/"
+          >
+            Besoin d’aide&nbsp;? Contactez-nous</a
+          >
+        </div>
+
+        <hr class="my-s24 " />
+        <img
+          src={logosICPartners}
+          alt="Les emplois de l'inclusion, la communauté de l'inclusion, DORA"
+        />
+        <div class="my-s24 text-center">
+          Avec <strong>Inclusion Connect</strong> vous pouvez accéder aux différents
+          services partenaires avec le même identifiant et mot de passe.
+        </div>
+        <div class="text-center">
+          <a
+            class="text-magenta-cta underline"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+            href="https://kindly-sunscreen-95c.notion.site/Simplifions-l-utilisation-des-services-destination-des-professionnels-de-l-inclusion-ded9135197654da590f5dde41d8bb68b"
+          >
+            En savoir plus
+          </a>
+        </div>
       </div>
     </div>
-  </div>
-</CenteredGrid>
+  </FieldSet>
+</AuthLayout>
