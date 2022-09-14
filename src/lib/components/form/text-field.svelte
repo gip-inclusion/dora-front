@@ -10,6 +10,7 @@
   export let maxlength: number | undefined = undefined;
   export let disabled = false;
   export let required = false;
+  export let rows: number | undefined = 3;
   export let inputType:
     | "text"
     | "textarea"
@@ -54,7 +55,7 @@
   hidden={inputType === "hidden"}
 >
   {#if inputType === "textarea"}
-    <textarea bind:value on:blur on:input {...props} rows="3" />
+    <textarea bind:value on:blur on:input {...props} {rows} />
   {:else if inputType === "url"}
     <input type="url" bind:value on:blur on:input {...props} />
   {:else if inputType === "email"}
