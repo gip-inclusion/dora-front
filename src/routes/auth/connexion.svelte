@@ -3,8 +3,9 @@
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import AuthLayout from "./_auth_layout.svelte";
   import { informationLineIcon } from "$lib/icons.js";
-  import logoIC from "$lib/assets/logo-inclusion-connect.svg";
-  import logosICPartners from "$lib/assets/logos-partenaires-inclusion-connect.png";
+  import logoIC from "$lib/assets/inclusion-connect/logo-inclusion-connect.svg";
+  import logoC1 from "$lib/assets/inclusion-connect/logo-c1.svg";
+  import logoDora from "$lib/assets/inclusion-connect/logo_dora.svg";
   import { get } from "svelte/store";
   import { token } from "$lib/auth.js";
   import { goto } from "$app/navigation";
@@ -86,11 +87,22 @@
         </div>
 
         <hr class="my-s24 " />
-        <img
-          src={logosICPartners}
-          alt="Les emplois de l'inclusion, la communauté de l'inclusion, DORA"
-        />
-        <div class="my-s24 text-center">
+
+        <div class="flex h-s35 items-center justify-center gap-s48 ">
+          <img
+            width="126"
+            height="36"
+            src={logoC1}
+            alt="Les emplois de l'inclusion, la communauté de l'inclusion, DORA"
+          />
+          <img
+            width="126"
+            height="36"
+            src={logoDora}
+            alt="Les emplois de l'inclusion, la communauté de l'inclusion, DORA"
+          />
+        </div>
+        <div class="mt-s24 text-center">
           Avec <strong>Inclusion Connect</strong> vous pouvez accéder aux différents
           services partenaires avec le même identifiant et mot de passe.
         </div>
