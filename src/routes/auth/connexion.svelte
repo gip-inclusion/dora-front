@@ -9,15 +9,9 @@
   import { get } from "svelte/store";
   import { token } from "$lib/auth.js";
   import { goto } from "$app/navigation";
-  // TODO: factorize
+  import { getNextPage } from "./utils.js";
 
   // if we already have a token, bypass the page altogether
-
-  function getNextPage() {
-    const next = $page.url.searchParams.get("next");
-    if (next && next.startsWith("/") && !next.startsWith("/auth/")) return next;
-    return "/";
-  }
 
   function getLoginHint() {
     const loginHint = $page.url.searchParams.get("login_hint");
@@ -30,10 +24,10 @@
   }
 
   const loginHint = getLoginHint();
-  const nextPage = getNextPage();
+  const nextPage = getNextPage($page.url);
 
   if (get(token)) {
-    goto(getNextPage());
+    goto(nextPage);
     // TODO: what should I return here?
   }
 </script>

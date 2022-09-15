@@ -4,14 +4,9 @@
   import { goto } from "$app/navigation";
   import { get } from "svelte/store";
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
+  import { getNextPage } from "./utils.js";
 
   export const ssr = false;
-
-  function getNextPage(url) {
-    const next = url.searchParams.get("next");
-    if (next && next.startsWith("/") && !next.startsWith("/auth/")) return next;
-    return "/";
-  }
 
   export async function load({ url, fetch }) {
     const nextPage = getNextPage(url);

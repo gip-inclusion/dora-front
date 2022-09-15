@@ -3,12 +3,7 @@
 
   import { setToken, validateCredsAndFillUserInfo } from "$lib/auth";
   import { getApiURL, defaultAcceptHeader } from "$lib/utils/api";
-
-  function getNextPage(url) {
-    const next = url.searchParams.get("next");
-    if (next && next.startsWith("/") && !next.startsWith("/auth/")) return next;
-    return "/";
-  }
+  import { getNextPage } from "./utils.js";
 
   export async function load({ url, fetch }) {
     const nextPage = getNextPage(url);
