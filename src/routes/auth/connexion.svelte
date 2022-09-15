@@ -3,7 +3,7 @@
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import AuthLayout from "./_auth_layout.svelte";
   import { informationLineIcon } from "$lib/icons.js";
-  import boutonIC from "$lib/assets/inclusion_connect_button.png";
+  import logoIC from "$lib/assets/logo-inclusion-connect.svg";
   import logosICPartners from "$lib/assets/logos-partenaires-inclusion-connect.png";
   import { get } from "svelte/store";
   import { token } from "$lib/auth.js";
@@ -65,13 +65,14 @@
         <a
           href="/auth/ic-connect?next={encodeURIComponent(nextPage)}{loginHint}"
         >
-          <img
-            src={boutonIC}
-            alt="S’identifier avec Inclusion Connect"
-            width="516"
-            height="59"
-          />
+          <div
+            class="mx-auto flex items-center justify-center rounded bg-[#000638] px-s12 py-s12 text-f16 font-bold text-white "
+          >
+            <img src={logoIC} alt="" width="32" height="35" />
+            <div class="ml-s10">S’identifier avec Inclusion Connect</div>
+          </div>
         </a>
+
         <div class="my-s24 text-center">
           <a
             class="text-magenta-cta underline"
@@ -80,8 +81,8 @@
             rel="noopener nofollow noreferrer"
             href="https://aide.dora.fabrique.social.gouv.fr/fr/"
           >
-            Besoin d’aide&nbsp;? Contactez-nous</a
-          >
+            Besoin d’aide&nbsp;? Contactez-nous
+          </a>
         </div>
 
         <hr class="my-s24 " />
