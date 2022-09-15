@@ -1,5 +1,4 @@
 <script context="module">
-  import { goto } from "$app/navigation";
   import { CANONICAL_URL } from "$lib/env";
   import { disconnect } from "$lib/auth";
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api.js";
@@ -22,9 +21,10 @@
       jsonResult = await result.json();
 
       disconnect();
-      // TODO: real redirect, external
-      await goto(jsonResult.url);
-      // TODO: return something here
+      return {
+        status: 302,
+        redirect: jsonResult.url,
+      };
     }
     // TODO: surface error
   }

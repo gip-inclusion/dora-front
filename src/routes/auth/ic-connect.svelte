@@ -1,7 +1,6 @@
 <script context="module">
   import { CANONICAL_URL } from "$lib/env.js";
   import { token } from "$lib/auth";
-  import { goto } from "$app/navigation";
   import { get } from "svelte/store";
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
   import { getNextPage } from "./utils.js";
@@ -10,12 +9,12 @@
 
   export async function load({ url, fetch }) {
     const nextPage = getNextPage(url);
-
-    // if we already have a token, bypass the page altogether
+    // Si on a déjà un token, on redirige directement sur la destination
     if (get(token)) {
-      await goto(nextPage);
-      // TODO: what should I return here?
-      return;
+      return {
+        status: 302,
+        redirect: nextPage,
+      };
     }
 
     const targetUrl = `${getApiURL()}/inclusion-connect-get-login-info/`;

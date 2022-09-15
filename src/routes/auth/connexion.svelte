@@ -1,3 +1,23 @@
+<script context="module">
+  export const ssr = false;
+
+  import { get } from "svelte/store";
+  import { token } from "$lib/auth";
+  import { getNextPage } from "./utils.js";
+
+  export async function load({ url }) {
+    const nextPage = getNextPage(url);
+    // Si on a déjà un token, on redirige directement sur la destination
+    if (get(token)) {
+      return {
+        status: 302,
+        redirect: nextPage,
+      };
+    }
+    return {};
+  }
+</script>
+
 <script>
   import { page } from "$app/stores";
   import FieldSet from "$lib/components/forms/fieldset.svelte";
@@ -6,12 +26,6 @@
   import logoIC from "$lib/assets/inclusion-connect/logo-inclusion-connect.svg";
   import logoC1 from "$lib/assets/inclusion-connect/logo-c1.svg";
   import logoDora from "$lib/assets/inclusion-connect/logo_dora.svg";
-  import { get } from "svelte/store";
-  import { token } from "$lib/auth.js";
-  import { goto } from "$app/navigation";
-  import { getNextPage } from "./utils.js";
-
-  // if we already have a token, bypass the page altogether
 
   function getLoginHint() {
     const loginHint = $page.url.searchParams.get("login_hint");
@@ -25,11 +39,6 @@
 
   const loginHint = getLoginHint();
   const nextPage = getNextPage($page.url);
-
-  if (get(token)) {
-    goto(nextPage);
-    // TODO: what should I return here?
-  }
 </script>
 
 <svelte:head>
