@@ -9,14 +9,14 @@
     subCategoryId,
     cityCode,
     kindId,
-    hasNoFees,
+    fee,
   }) {
     const query = getQuery({
       categoryId,
       subCategoryId,
       cityCode,
       kindId,
-      hasNoFees,
+      fee,
     });
     const url = `${getApiURL()}/search/?${query}`;
 
@@ -51,7 +51,7 @@
     const cityCode = query.get("city");
     const cityLabel = query.get("cl");
     const kindId = query.get("kinds");
-    const hasNoFees = query.get("has_fee") === "0";
+    const fee = query.get("fee");
 
     const services = await getResults({
       categoryId,
@@ -76,8 +76,14 @@
         cityCode,
         cityLabel,
         kindId,
-        hasNoFees,
-        services,
+        fee,
+        services: await getResults({
+          categoryId,
+          subCategoryId,
+          cityCode,
+          kindId,
+          fee,
+        }),
         servicesOptions: await getServicesOptions(),
       },
     };
@@ -99,8 +105,23 @@
   import { NPS_FORM_ID } from "$lib/const";
 
   export let servicesOptions;
-  export let categoryId, subCategoryId, cityCode, cityLabel, kindId, hasNoFees;
+  export let categoryId, subCategoryId, cityCode, cityLabel, kindId, fee;
   export let services;
+
+  onMount(() => {
+    if (browser) {
+      plausible("recherche", {
+        props: {
+          categoryId,
+          subCategoryId,
+          cityCode,
+          cityLabel,
+          kindId,
+          fee,
+        },
+      });
+    }
+  });
 
   let tags = [];
 
@@ -139,8 +160,8 @@
       }
     }
 
-    if (hasNoFees) {
-      tags = [...tags, { label: "Sans frais à charge" }];
+    if (fee) {
+      tags = [...tags, { label: "Frais à charge" }];
     }
   }
 </script>
@@ -172,7 +193,7 @@
         {subCategoryId}
         {cityCode}
         {cityLabel}
-        {hasNoFees}
+        {fee}
         {kindId}
         {servicesOptions}
         {radiusChoices}
