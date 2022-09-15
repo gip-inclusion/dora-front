@@ -13,7 +13,7 @@
   export let hasValidation = false;
   export let siret = "";
 
-  export let tabId = "pe";
+  export let tabId = "nom";
 
   function handleCityChange(newCity) {
     establishment = null;
