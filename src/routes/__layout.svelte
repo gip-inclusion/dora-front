@@ -21,7 +21,10 @@
     const currentUserInfo = get(userInfo);
     if (
       currentUserInfo &&
-      !currentUserInfo.structures.length &&
+      !(
+        currentUserInfo.structures.length ||
+        currentUserInfo.pendingStructures.length
+      ) &&
       !url.pathname.startsWith("/auth/rattachement") &&
       !url.pathname.startsWith("/auth/deconnexion")
     ) {
