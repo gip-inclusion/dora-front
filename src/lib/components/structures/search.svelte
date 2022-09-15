@@ -4,13 +4,11 @@
   import SearchByCommune from "$lib/components/structures/search-by-commune.svelte";
   import SearchBySiret from "$lib/components/structures/search-by-siret.svelte";
   import PoleEmploiWarning from "./_pole-emploi-warning.svelte";
-  import Button from "../button.svelte";
 
+  export let blockPoleEmploi = false;
   export let onCityChange = null;
   export let onEstablishmentChange = null;
-  export let onValidate = null;
   export let establishment = null;
-  export let hasValidation = false;
   export let siret = "";
 
   export let tabId = "nom";
@@ -37,8 +35,11 @@
   const tabs = [
     { id: "nom", name: "Nom" },
     { id: "siret", name: "Siret" },
-    { id: "pe", name: "Pôle emploi" },
   ];
+
+  if (blockPoleEmploi) {
+    tabs.push({ id: "pe", name: "Pôle emploi" });
+  }
 
   if (siret) {
     tabId = "siret";
@@ -78,7 +79,7 @@
     <PoleEmploiWarning />
   {/if}
 
-  {#if tabId !== "pe" && establishment?.isPoleEmploi}
+  {#if blockPoleEmploi && tabId !== "pe" && establishment?.isPoleEmploi}
     <PoleEmploiWarning />
   {:else}
     {#if establishment?.siret}
@@ -93,23 +94,6 @@
         </div>
       </div>
     {/if}
-
-    {#if establishment?.siret && hasValidation}
-      <div class="mt-s24">
-        <div class="legend">
-          En cliquant sur <span class="italic">Adhérer à la structure</span>, je
-          déclare faire partie de la structure mentionnée ci-dessus et j’atteste
-          connaître les risques encourus en cas de faux et d’usage de faux.
-        </div>
-
-        <div class="mt-s24 flex justify-end">
-          <Button
-            label="Adhérer à la structure"
-            on:click={onValidate}
-            preventDefaultOnMouseDown
-          />
-        </div>
-      </div>
-    {/if}
+    <slot name="cta" />
   {/if}
 </FieldSet>
