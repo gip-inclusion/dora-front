@@ -20,7 +20,7 @@
 
   $: {
     if (isOpen && touched) {
-      inError = !closeAt || !openAt;
+      inError = !closeAt || !openAt || openAt >= closeAt;
       if (inError) {
         ariaDescribedBy = `error-${day}—${dayPeriod}`;
       }
@@ -86,7 +86,9 @@
   >
     <label class="flex justify-center">
       <span class="sr-only">
-        Ouvert {dayPeriod === "morning" ? "le matin" : "l'après-midi"}
+        {dayPeriod === "timeSlot1"
+          ? "Ouvrir sur une première plage horaire"
+          : "Ouvrir une seconde plage horaire"}
       </span>
 
       <ToggleCheckboxInput
@@ -108,7 +110,7 @@
     <span class="mr-s4 h-s16 w-s16 fill-current">
       {@html alertIcon}
     </span>
-    <span> Horaire incomplète </span>
+    <span> Horaire incomplète ou incohérente.</span>
   </div>
 {/if}
 

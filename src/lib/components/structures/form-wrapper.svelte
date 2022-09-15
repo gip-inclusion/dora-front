@@ -354,7 +354,7 @@
   <TextField
     name="openingHoursDetails"
     label="Détail horaires"
-    helper="Vous pouvez renseigner des informations spécifiques concernant les horaires dans ce champs"
+    helper="Vous pouvez renseigner des informations spécifiques concernant les horaires dans ce champ"
     bind:value={structure.openingHoursDetails}
     on:blur={handleEltChange}
     errorMessages={$formErrors.openingHoursDetails}
