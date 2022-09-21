@@ -4,6 +4,7 @@
   export let id: string | undefined = undefined;
   export let name: string | undefined = undefined;
   export let icon: string | undefined = undefined;
+  export let dataDismissId: string | undefined = undefined;
   export let extraClass = "";
   export let iconOnRight = false;
   export let disabled = false;
@@ -75,6 +76,7 @@
   class:items-center={icon}
   on:click
   on:mousedown={handleMouseDown}
+  data-dismiss={dataDismissId}
   {disabled}
 >
   {#if icon && !iconOnRight}

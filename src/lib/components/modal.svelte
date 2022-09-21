@@ -1,4 +1,6 @@
 <script lang="ts">
+  import "wicg-inert";
+
   import { browser } from "$app/env";
   import { closeLineIcon } from "$lib/icons";
   import Button from "./button.svelte";
@@ -14,16 +16,40 @@
 
   const dispatch = createEventDispatcher();
 
+  const appSelector = "body > div:first-child";
+
+  let activeElementSave;
+  let modalEl;
+
   $: {
     // Prevent scrolling the background while the modal is open
     if (browser) {
-      document.body.style.overflow = isOpen ? "hidden" : "visible";
+      if (isOpen) {
+        document.body.style.overflow = "hidden";
+        // Sauvegarde du bouton à l'origine de la modale
+        activeElementSave = document.activeElement;
+
+        setTimeout(() => {
+          modalEl.focus();
+
+          // On limite le parcours clavier à la modale en excluant la div immédiatement après le body
+          document.querySelector(appSelector).setAttribute("inert", "");
+        }, 10);
+      } else {
+        if (modalEl) {
+          document.querySelector(appSelector).removeAttribute("inert");
+        }
+
+        // Reotur du focus sur le bouton d'ouverture
+        if (activeElementSave) activeElementSave.focus();
+      }
     }
   }
 
   function handleClose() {
     isOpen = false;
     dispatch("close");
+    // Retour du focus sur le bouton d'ouverture
   }
   function handleKeydown(event) {
     if (event.key === "Escape") handleClose();
@@ -40,6 +66,12 @@
       on:click={handleClose}
     >
       <div
+        id="modal"
+        role="dialog"
+        aria-labelledby={title}
+        aria-modal="true"
+        tabindex="-1"
+        bind:this={modalEl}
         class="max-h-screen min-w-[80vw] rounded-md bg-white p-s24 shadow-md"
         class:small-width={smallWidth}
         class:overflow-y-auto={overflow}
@@ -57,6 +89,7 @@
 
             <div class="ml-auto">
               <Button
+                dataDismissId="modal"
                 icon={closeLineIcon}
                 on:click={handleClose}
                 noBackground
