@@ -10,18 +10,14 @@ import { defaultAcceptHeader } from "$lib/utils/api";
 export function markdownToHTML(md, titleLevel) {
   const converter = new showdown.Converter({
     headerLevelStart: titleLevel ?? 2,
-    extensions: [
-      () => ({
-        type: "output",
-        filter(html) {
-          return html.replace(/\bhref=/gi, 'rel="nofollow" href=');
-        },
-      }),
-    ],
   });
 
   return insane(converter.makeHtml(md), {
     allowedAttributes: { a: ["class", "rel", "href"] },
+    filter: (token) => {
+      if (token.tag === "a") token.attrs["rel"] = "nofollow";
+      return token;
+    },
   });
 }
 
