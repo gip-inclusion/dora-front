@@ -9,24 +9,11 @@ import { defaultAcceptHeader } from "$lib/utils/api";
 
 export function markdownToHTML(md, titleLevel) {
   const converter = new showdown.Converter({
+    headerLevelStart: titleLevel ?? 2,
     extensions: [
       () => ({
         type: "output",
         filter(html) {
-          if (titleLevel && titleLevel === 3) {
-            // h3 & h4
-            html = html.replace(/h3/gi, "h4");
-            html = html.replace(/h2/gi, "h3");
-          } else if (titleLevel && titleLevel === 4) {
-            // h4 & h5
-            html = html.replace(/h3/gi, "h5");
-            html = html.replace(/h2/gi, "h4");
-          } else if (titleLevel && titleLevel === 5) {
-            // h5 & h6
-            html = html.replace(/h3/gi, "h6");
-            html = html.replace(/h2/gi, "h5");
-          }
-
           return html.replace(/\bhref=/gi, 'rel="nofollow" href=');
         },
       }),
