@@ -11,7 +11,7 @@
   import type { DashboardService, Service, ServicesOptions } from "$lib/types";
   import { shortenString } from "$lib/utils";
   import { getLabelFromValue } from "$lib/utils/choice";
-  import { hasFee } from "$lib/utils/service";
+  import { isNotFreeService } from "$lib/utils/service";
 
   export let service: Service | DashboardService;
   export let servicesOptions: ServicesOptions;
@@ -37,7 +37,7 @@
     </div>
   {/if}
 
-  {#if hasFee(service.feeCondition)}
+  {#if service.feeCondition && isNotFreeService(service.feeCondition)}
     <div class="bold flex items-center font-bold text-error">
       <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
         {@html errorWarningIcon}
@@ -59,7 +59,7 @@
     <hr class="mt-s20 mb-s10" />
   {/if}
 
-  {#if hasFee(service.feeCondition)}
+  {#if service.feeCondition && isNotFreeService(service.feeCondition)}
     <div>
       <h3>
         <span class="mr-s8 h-s24 w-s24 fill-current">

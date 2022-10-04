@@ -13,7 +13,7 @@
   import { tick } from "svelte";
   import SelectField from "$lib/components/form/select-field.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
-  import { hasFee } from "$lib/utils/service";
+  import { isNotFreeService } from "$lib/utils/service";
 
   export let servicesOptions: ServicesOptions;
   export let service: Service;
@@ -314,7 +314,7 @@
       display="vertical"
     />
 
-    {#if hasFee(service.feeCondition)}
+    {#if isNotFreeService(service.feeCondition)}
       <SchemaField
         type="textarea"
         label="Détails des frais à charge"

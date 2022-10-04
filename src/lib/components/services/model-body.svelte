@@ -2,7 +2,7 @@
   import ServicePresentation from "./body/presentation/service-description.svelte";
   import { addlinkToUrls } from "$lib/utils";
   import Tag from "$lib/components/tag.svelte";
-  import { formatFilePath, hasFee } from "$lib/utils/service";
+  import { formatFilePath, isNotFreeService } from "$lib/utils/service";
   import type { Service, ServicesOptions } from "$lib/types";
   import { getLabelFromValue } from "$lib/utils/choice";
 
@@ -22,7 +22,7 @@
           >Service non cumulable
         </Tag>
       {/if}
-      {#if hasFee(service.feeCondition)}
+      {#if isNotFreeService(service.feeCondition)}
         <Tag bgColorClass="bg-warning" textColorClass="text-white"
           >Frais à charge du bénéficiaire
         </Tag>
@@ -115,7 +115,7 @@
           {/each}
         </ul>
 
-        {#if hasFee(service.feeCondition)}
+        {#if service.feeCondition && isNotFreeService(service.feeCondition)}
           <div class="mb-s24">
             <h4>Frais à charge</h4>
             <p class="block text-f14">

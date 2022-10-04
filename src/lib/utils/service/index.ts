@@ -149,6 +149,6 @@ export function formatFilePath(filePath: string) {
   return `${name} (${extension})`;
 }
 
-export function hasFee(feeConditionValue: FeeCondition): boolean {
-  return feeConditionValue && feeConditionValue !== "gratuit";
+export function isNotFreeService(feeConditionValue: FeeCondition): boolean {
+  return feeConditionValue !== "gratuit";
 }

@@ -19,7 +19,7 @@
   import Uploader from "$lib/components/uploader.svelte";
   import FieldModel from "./_field-model.svelte";
   import SelectField from "$lib/components/form/select-field.svelte";
-  import { hasFee } from "$lib/utils/service";
+  import { isNotFreeService } from "$lib/utils/service";
 
   export let servicesOptions, serviceSchema, service, canAddChoices;
   export let model = null;
@@ -466,7 +466,7 @@
     />
   </FieldModel>
 
-  {#if hasFee(service.feeCondition)}
+  {#if isNotFreeService(service.feeCondition)}
     <FieldModel
       {showModel}
       value={model?.feeDetails}
