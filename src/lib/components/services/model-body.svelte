@@ -115,7 +115,7 @@
           {/each}
         </ul>
 
-        {#if service.feeCondition && hasFee(service.feeCondition)}
+        {#if hasFee(service.feeCondition)}
           <div class="mb-s24">
             <h4>Frais à charge</h4>
             <p class="block text-f14">

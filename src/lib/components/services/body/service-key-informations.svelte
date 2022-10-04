@@ -59,7 +59,7 @@
     <hr class="mt-s20 mb-s10" />
   {/if}
 
-  {#if service.feeCondition && hasFee(service.feeCondition)}
+  {#if hasFee(service.feeCondition)}
     <div>
       <h3>
         <span class="mr-s8 h-s24 w-s24 fill-current">
