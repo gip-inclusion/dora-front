@@ -249,7 +249,7 @@ const schema = {
     rules: [
       v.isString(),
       (name, value, data) => ({
-        valid: !data.feeCondition !== "gratuit",
+        valid: data.feeCondition === "gratuit",
         msg: `Information requise`,
       }),
     ],

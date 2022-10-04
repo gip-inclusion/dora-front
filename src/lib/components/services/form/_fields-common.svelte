@@ -476,7 +476,7 @@
       <SchemaField
         type="textarea"
         label="Détails des frais à charge"
-        placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants. "
+        placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
         schema={serviceSchema.feeDetails}
         name="feeDetails"
         errorMessages={$formErrors.feeDetails}
