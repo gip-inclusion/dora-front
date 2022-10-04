@@ -40,7 +40,7 @@
           document.querySelector(appSelector).removeAttribute("inert");
         }
 
-        // Reotur du focus sur le bouton d'ouverture
+        // Retour du focus sur le bouton d'ouverture
         if (activeElementSave) activeElementSave.focus();
       }
     }
@@ -49,7 +49,6 @@
   function handleClose() {
     isOpen = false;
     dispatch("close");
-    // Retour du focus sur le bouton d'ouverture
   }
   function handleKeydown(event) {
     if (event.key === "Escape") handleClose();
@@ -89,7 +88,6 @@
 
             <div class="ml-auto">
               <Button
-                dataDismissId="modal"
                 icon={closeLineIcon}
                 on:click={handleClose}
                 noBackground
