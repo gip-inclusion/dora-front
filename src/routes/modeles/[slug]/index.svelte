@@ -65,5 +65,5 @@
 </CenteredGrid>
 
 <CenteredGrid>
-  <ServiceBody service={model} {servicesOptions} isModel />
+  <ModelBody service={model} />
 </CenteredGrid>

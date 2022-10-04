@@ -58,7 +58,7 @@
       subCategoryId,
       cityCode,
       kindId,
-      hasNoFees,
+      fee,
     });
     trackSearch(
       categoryId,
@@ -66,7 +66,7 @@
       cityCode,
       cityLabel,
       kindId,
-      hasNoFees,
+      fee,
       services.length
     );
     return {
@@ -91,6 +91,7 @@
 </script>
 
 <script>
+  import { browser } from "$app/env";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
 
@@ -108,20 +109,18 @@
   export let categoryId, subCategoryId, cityCode, cityLabel, kindId, fee;
   export let services;
 
-  onMount(() => {
-    if (browser) {
-      plausible("recherche", {
-        props: {
-          categoryId,
-          subCategoryId,
-          cityCode,
-          cityLabel,
-          kindId,
-          fee,
-        },
-      });
-    }
-  });
+  if (browser) {
+    window.plausible("recherche", {
+      props: {
+        categoryId,
+        subCategoryId,
+        cityCode,
+        cityLabel,
+        kindId,
+        fee,
+      },
+    });
+  }
 
   let tags = [];
 
