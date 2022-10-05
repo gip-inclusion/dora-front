@@ -77,13 +77,7 @@
         cityLabel,
         kindId,
         fee,
-        services: await getResults({
-          categoryId,
-          subCategoryId,
-          cityCode,
-          kindId,
-          fee,
-        }),
+        services,
         servicesOptions: await getServicesOptions(),
       },
     };
@@ -91,7 +85,6 @@
 </script>
 
 <script>
-  import { browser } from "$app/env";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
 
@@ -108,19 +101,6 @@
   export let servicesOptions;
   export let categoryId, subCategoryId, cityCode, cityLabel, kindId, fee;
   export let services;
-
-  if (browser) {
-    window.plausible("recherche", {
-      props: {
-        categoryId,
-        subCategoryId,
-        cityCode,
-        cityLabel,
-        kindId,
-        fee,
-      },
-    });
-  }
 
   let tags = [];
 
