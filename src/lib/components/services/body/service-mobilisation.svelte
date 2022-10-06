@@ -20,7 +20,7 @@
 <h2 class="text-f23">Mobiliser le service</h2>
 
 {#if showContact}
-  <div class="noprint w-full sm:w-auto">
+  <div class="w-full print:hidden sm:w-auto">
     {#if !contactOpen}
       <div class="mb-s16">
         <Button

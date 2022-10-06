@@ -113,7 +113,7 @@
 
       <div class="sidebar flex flex-col gap-y-s24">
         <div
-          class="noprint block rounded-lg border border-gray-02 p-s24 px-s32"
+          class="block rounded-lg border border-gray-02 p-s24 px-s32 print:hidden"
         >
           <ServiceMobilisation {service} />
         </div>
@@ -124,7 +124,7 @@
             display="sidebar"
           />
         </div>
-        <div class="noprint rounded-lg border border-gray-02 p-s32 pb-s48">
+        <div class="rounded-lg border border-gray-02 p-s32 pb-s48 print:hidden">
           <ServiceShare {service} />
         </div>
       </div>
