@@ -8,11 +8,11 @@
 
   import { checkboxCircleFillIcon, editIcon } from "$lib/icons";
   import Button from "$lib/components/button.svelte";
+  import Date from "$lib/components/date.svelte";
 
   export let service: Service;
 
   export let label: string;
-  export let monthDiff: number;
   export let updateStatus: SERVICE_UPDATE_STATUS;
   export let onRefresh: () => void;
 
@@ -29,7 +29,11 @@
           <div class="mr-s16">
             <UpdateStatusIcon {updateStatus} />
           </div>
-          <span>{label}</span>
+
+          <span class="hidden print:inline">
+            Mis à jour le <Date date={service.modificationDate} />
+          </span>
+          <span class="print:hidden">{label}</span>
         </div>
       {:else if updateStatus === SERVICE_UPDATE_STATUS.NEEDED}
         <div class="flex items-center">
@@ -38,7 +42,10 @@
           </span>
           <div>
             <div class="text-f18">
-              <strong>{label}</strong>
+              <strong class="hidden print:inline">
+                Mis à jour le <Date date={service.modificationDate} />
+              </strong>
+              <strong class="print:hidden">{label}</strong>
             </div>
             <div class="text-f14">
               Vérifiez et/ou actualisez les informations de ce service dès
