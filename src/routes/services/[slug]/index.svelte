@@ -94,9 +94,7 @@
   </CenteredGrid>
   <hr />
   <div>
-    {#if browser}
-      <ServiceToolbar {service} {servicesOptions} onRefresh={handleRefresh} />
-    {/if}
+    <ServiceToolbar {service} {servicesOptions} onRefresh={handleRefresh} />
   </div>
 
   <CenteredGrid>
