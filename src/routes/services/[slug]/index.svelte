@@ -79,6 +79,8 @@
   async function handleRefresh() {
     service = await getService(service.slug);
   }
+
+  $: showContact = service?.isContactInfoPublic || $token;
 </script>
 
 <svelte:head>
@@ -113,9 +115,10 @@
 
       <div class="sidebar flex flex-col gap-y-s24">
         <div
-          class="block rounded-lg border border-gray-02 p-s24 px-s32 print:hidden"
+          class="block rounded-lg border border-gray-02 p-s24 px-s32"
+          class:print:hidden={!showContact}
         >
-          <ServiceMobilisation {service} />
+          <ServiceMobilisation {service} {showContact} />
         </div>
         <div class="rounded-lg border border-gray-02 p-s32 pb-s48">
           <ServiceKeyInformations
