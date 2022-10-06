@@ -8,7 +8,7 @@
 
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import { getQuery } from "./_search";
-  import SelectField from "$lib/components/form/select-field.svelte";
+  import SelectField from "$lib/components/form/select/select-field.svelte";
   import type { FeeCondition, ServicesOptions } from "$lib/types";
 
   export let servicesOptions: ServicesOptions;
