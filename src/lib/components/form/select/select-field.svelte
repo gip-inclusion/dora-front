@@ -131,7 +131,7 @@
     aria-expanded={expanded}
     aria-haspopup="listbox"
     aria-labelledby={`button-label-${uuid}`}
-    class="combobox relative w-full border border-gray-03 bg-white p-s12 font-sans disabled:bg-gray-bg disabled:text-gray-text-alt {display}"
+    class="combobox relative w-full rounded border border-gray-03 bg-white p-s12 font-sans disabled:bg-gray-bg disabled:text-gray-text-alt {display}"
     class:filter-style={style === "filter"}
     class:expanded
     class:has-value={value}
@@ -184,7 +184,7 @@
           ? value.includes(option.value)
           : option.value === value}
         <div
-          class="flex min-h-[36px] cursor-pointer items-center justify-between p-s6 text-gray-text-alt"
+          class="flex min-h-[36px] cursor-pointer items-center justify-between p-s6 text-gray-dark"
           role="option"
           id={option.value}
           class:hover={option.value === selectedOption?.value}
@@ -216,17 +216,8 @@
     }
   }
 
-  .hover:not(.selected) {
-    @apply text-gray-text;
-  }
   .hover {
     @apply bg-gray-bg;
-  }
-  .placeholder {
-    @apply text-gray-text-alt;
-  }
-  .combobox {
-    @apply rounded;
   }
 
   /* As filter */
