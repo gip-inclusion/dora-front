@@ -133,6 +133,11 @@
     if (isMultiple) {
       if (value.includes(newValue)) {
         value = (value as string[]).filter((v) => v !== newValue);
+
+        // Diminution du décompte
+        if (optGroups) {
+          decrementValuesSelectedInOptGroup(optGroup);
+        }
       } else {
         // Gestion du bouton "Tous"
         if (optGroups) {
@@ -146,10 +151,25 @@
         }
 
         value = [...value, newValue];
+
+        // Augmentation du décompte => TODO: update
+        if (optGroups) {
+          incrementValuesSelectedInOptGroup(optGroup);
+        }
       }
     } else {
       // As string
       value = newValue;
+
+      // Mise à jour du décompte
+      if (optGroups) {
+        optGroups.forEach(({ value }) => (valuesSelectedInOptGroup[value] = 0));
+        valuesSelectedInOptGroup[optGroup] += 1;
+        valuesSelectedInOptGroup = {
+          ...valuesSelectedInOptGroup,
+          [optGroup]: (valuesSelectedInOptGroup[optGroup] += 1),
+        };
+      }
     }
     if (onChange) onChange({ detail: name, value });
     if (!isMultiple) toggleCombobox(false);
