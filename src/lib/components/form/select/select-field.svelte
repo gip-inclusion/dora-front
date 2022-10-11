@@ -156,7 +156,7 @@
             showIcon={showIconForSelectedOption}
           />
         {:else}
-          <span>{placeholder}</span>
+          <span class="placeholder text-gray-text-alt">{placeholder}</span>
         {/if}
       </div>
 
@@ -173,7 +173,7 @@
 
     <div
       class:hidden={!expanded}
-      class="absolute top-[52px] left-s0 z-20 flex max-h-s512 flex-col gap-s10 overflow-y-scroll rounded border border-gray-00 bg-white p-s12 shadow-md {minDropdownWidth}"
+      class="absolute top-[52px] left-s0 z-20 flex max-h-s512 flex-col gap-s10 rounded border border-gray-00 bg-white p-s12 shadow-md {minDropdownWidth}"
       role="listbox"
       id={`listbox-values-${uuid}`}
       aria-labelledby={`button-label-${uuid}`}
@@ -184,7 +184,7 @@
           ? value.includes(option.value)
           : option.value === value}
         <div
-          class="flex min-h-[36px] cursor-pointer items-center justify-between p-s6 text-gray-dark"
+          class="flex min-h-[36px] w-full cursor-pointer items-center justify-between p-s6 text-gray-dark"
           role="option"
           id={option.value}
           class:hover={option.value === selectedOption?.value}
@@ -194,11 +194,11 @@
         >
           <SelectLabel choice={getChoiceFromValue(option.value, choices)} />
 
-          {#if selected && option.value}
-            <span class="h-s24 w-s24 fill-current">
+          <span class="h-s24 w-s24 fill-current">
+            {#if selected}
               {@html checkIcon}
-            </span>
-          {/if}
+            {/if}
+          </span>
         </div>
       {/each}
     </div>
@@ -227,11 +227,13 @@
   .filter-style .chevron {
     @apply text-gray-text;
   }
+  .filter-style .placeholder,
   .filter-style .current-value {
     @apply font-bold text-gray-text;
   }
 
   .filter-style.has-value .chevron,
+  .filter-style.has-value .placeholder,
   .filter-style.has-value .current-value {
     @apply text-magenta-dark;
   }
@@ -239,6 +241,7 @@
   .filter-style:hover {
     @apply bg-magenta-10;
   }
+  .filter-style:hover .placeholder,
   .filter-style:hover .current-value {
     @apply text-magenta-hover;
   }
@@ -252,6 +255,7 @@
   .filter-style.expanded.has-value {
     @apply bg-magenta-dark;
   }
+  .filter-style.expanded .placeholder,
   .filter-style.expanded .current-value,
   .filter-style.expanded .chevron {
     @apply text-white;

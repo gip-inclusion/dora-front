@@ -17,7 +17,7 @@
 </script>
 
 <span
-  class="flex min-w-[88%] items-center gap-s4"
+  class="flex w-full items-center gap-s4"
   class:justify-between={icon && showIcon && iconOnRight}
 >
   {#if icon && showIcon && !iconOnRight}
@@ -29,7 +29,7 @@
   {label}
 
   {#if icon && showIcon && iconOnRight}
-    <span class="ml-s4 h-s24 w-s24 fill-current">
+    <span class="mr-s4 h-s24 w-s24 fill-current">
       {@html icon}
     </span>
   {/if}

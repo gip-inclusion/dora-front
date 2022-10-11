@@ -116,7 +116,10 @@
       name="fee"
       placeholder="Choississez"
       bind:value={fee}
-      choices={[{ value: "", label: "" }, ...servicesOptions.feeConditions]}
+      choices={[
+        { value: "", label: "Indifférent" },
+        ...servicesOptions.feeConditions,
+      ]}
     />
 
     <Button
