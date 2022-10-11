@@ -1,20 +1,22 @@
-<script context="module">
+<script context="module" lang="ts">
   import { getServicesOptions } from "$lib/services";
   import { getApiURL } from "$lib/utils/api.js";
   import { getQuery } from "./_homepage/_search";
   import { trackSearch } from "$lib/utils/plausible.js";
 
   async function getResults({
-    categoryId,
-    subCategoryId,
+    categoryIds,
+    subCategoryIds,
     cityCode,
+    cityLabel,
     kindId,
     fee,
   }) {
     const query = getQuery({
-      categoryId,
-      subCategoryId,
+      categoryIds,
+      subCategoryIds,
       cityCode,
+      cityLabel,
       kindId,
       fee,
     });
@@ -36,33 +38,26 @@
     }
     return [];
   }
-
-  const radiusChoices = [
-    { value: "10", label: "10 km" },
-    { value: "20", label: "20 km" },
-    { value: "50", label: "50 km" },
-    { value: "100", label: "100 km" },
-  ];
-
   export async function load({ url }) {
     const query = url.searchParams;
-    const categoryId = query.get("cat");
-    const subCategoryId = query.get("sub");
+    const categoryIds = query.get("cat") ? query.get("cat").split(",") : [];
+    const subCategoryIds = query.get("sub") ? query.get("sub").split(",") : [];
     const cityCode = query.get("city");
     const cityLabel = query.get("cl");
     const kindId = query.get("kinds");
     const fee = query.get("fee") ? query.get("fee").split(",") : [];
 
     const services = await getResults({
-      categoryId,
-      subCategoryId,
+      categoryIds,
+      subCategoryIds,
       cityCode,
+      cityLabel,
       kindId,
       fee,
     });
     trackSearch(
-      categoryId,
-      subCategoryId,
+      categoryIds,
+      subCategoryIds,
       cityCode,
       cityLabel,
       kindId,
@@ -71,8 +66,8 @@
     );
     return {
       props: {
-        categoryId,
-        subCategoryId,
+        categoryIds,
+        subCategoryIds,
         cityCode,
         cityLabel,
         kindId,
@@ -84,7 +79,7 @@
   }
 </script>
 
-<script>
+<script lang="ts">
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
 
@@ -97,28 +92,47 @@
   import Tag from "$lib/components/tag.svelte";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
   import { NPS_SEEKER_FORM_ID } from "$lib/const";
+  import type { FeeCondition, ServicesOptions } from "$lib/types";
 
-  export let servicesOptions;
-  export let categoryId, subCategoryId, cityCode, cityLabel, kindId, fee;
+  export let servicesOptions: ServicesOptions;
+  export let categoryIds: string[];
+  export let subCategoryIds: string[];
+  export let cityCode: string;
+  export let cityLabel: string;
+  export let kindId: string;
+  export let fee: FeeCondition[];
   export let services;
 
   let tags = [];
 
+  function computeCategoryId(
+    categoryIds: string[],
+    subCategoryIds: string[]
+  ): string | undefined {
+    if (categoryIds.length) return categoryIds[0]; // TODO: fix later
+
+    if (subCategoryIds.length) {
+      return subCategoryIds[0].split("--")[0];
+    }
+  }
+
   $: {
     tags = [];
 
-    if (categoryId) {
+    if (categoryIds.length) {
+      let categoryValue = computeCategoryId(categoryIds, subCategoryIds);
+
       const categoryTag = servicesOptions.categories.find(
-        (c) => c.value === categoryId
+        (c) => c.value === categoryValue
       );
 
       if (categoryTag) {
         tags = [categoryTag];
       }
 
-      if (categoryTag && subCategoryId) {
+      if (categoryTag && subCategoryIds) {
         const subCategoryTag = servicesOptions.subcategories.find(
-          (c) => c.value === subCategoryId
+          (c) => c.value === subCategoryIds[0] // TODO: fix search
         );
 
         if (subCategoryTag) {
@@ -139,7 +153,7 @@
       }
     }
 
-    if (fee) {
+    if (fee.length) {
       tags = [...tags, { label: "Frais à charge" }];
     }
   }
@@ -168,14 +182,13 @@
   <div class="flex flex-col gap-s24 lg:flex-row">
     <div class="lg:mb-s48 lg:w-1/3">
       <SearchTweakForm
-        {categoryId}
-        {subCategoryId}
+        categoryId={computeCategoryId(categoryIds, subCategoryIds)}
+        subCategoryId={subCategoryIds[0]}
         {cityCode}
         {cityLabel}
         {fee}
         {kindId}
         {servicesOptions}
-        {radiusChoices}
       />
     </div>
     <div class="lg:w-2/3">
@@ -222,7 +235,7 @@
           </div>
         </div>
       {/if}
-      {#if ["famille--garde-enfants", "famille--accompagnement-parents"].includes(subCategoryId)}
+      {#if subCategoryIds.includes("famille--garde-enfants") || subCategoryIds.includes("famille--accompagnement-parents")}
         <SearchPromo />
       {/if}
     </div>

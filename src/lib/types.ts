@@ -207,6 +207,7 @@ export type ServicesOptions = {
 export type Choice = {
   value: string;
   label: string;
+  optGroupKey?: string;
   selectedLabel?: string;
   icon?: string;
   iconOnRight?: boolean;

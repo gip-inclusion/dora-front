@@ -18,12 +18,14 @@ import {
 import {
   SERVICE_STATUSES,
   SERVICE_UPDATE_STATUS,
+  type Choice,
   type DashboardService,
   type FeeCondition,
   type Service,
   type ServicesOptions,
 } from "$lib/types";
 import dayjs from "dayjs";
+import { getChoicesFromKey } from "../choice";
 
 export function getAvailableOptionsForStatus(
   status: SERVICE_STATUSES
@@ -153,4 +155,36 @@ export function formatFilePath(filePath: string) {
 
 export function isNotFreeService(feeConditionValue: FeeCondition): boolean {
   return feeConditionValue !== "gratuit";
+}
+
+export function associateIconToCategory(choices: Choice[]): Choice[] {
+  choices.forEach((choice) => {
+    choice.icon = getCategoryIcon(choice.value);
+  });
+  return choices;
+}
+
+function sortSubcategory(subcategories: Choice[]) {
+  return subcategories.sort((a, b) => {
+    if (a.value.endsWith("--autre")) return 1;
+    if (b.value.endsWith("--autre")) return -1;
+
+    if (a.value.endsWith("--all")) return -1;
+    if (b.value.endsWith("--all")) return 1;
+
+    return a.label.localeCompare(b.label, "fr", { numeric: true });
+  });
+}
+
+export function sortByCategories(
+  categories: Choice[],
+  subcategories: Choice[]
+) {
+  const result: Choice[] = [];
+
+  categories.forEach(({ value }) => {
+    const subCategoriesForCategory = getChoicesFromKey(value, subcategories);
+    result.push(...sortSubcategory(subCategoriesForCategory));
+  });
+  return result;
 }
