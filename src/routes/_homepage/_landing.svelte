@@ -125,13 +125,13 @@
     </div>
   </div>
 
-  <div class="flex gap-s24 rounded-md bg-magenta-10 p-s24">
+  <div class="flex flex-col gap-s24 rounded-md bg-magenta-10 p-s24 md:flex-row">
     <div class="w-1/3 self-center text-center">
       <a href="https://www.data.inclusion.beta.gouv.fr/">
         <img src={logoDataInclusion} alt="logo data inclusion" class="inline" />
       </a>
     </div>
-    <div class="w-2/3">
+    <div class="md:w-2/3">
       <h4>Dites-le-nous une fois</h4>
       <p class="text-f16">
         Nous sommes engagés dans une démarche d’Open Data et rendons disponibles
