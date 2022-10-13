@@ -58,15 +58,8 @@
         à l'Open Data.
       </p>
     </div>
-    <div class="flex flex-col justify-center gap-s16 md:flex-row">
+    <div class="flex justify-center">
       <LinkButton label="Référencer un service" to={`/services/creer`} />
-      <LinkButton
-        label="Participer à un webinaire"
-        secondary
-        nofollow
-        otherTab
-        to={`https://app.livestorm.co/dora-1 `}
-      />
     </div>
 
     <div class="mt-s16">
