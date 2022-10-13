@@ -40,7 +40,7 @@
   <div class="under mt-s8 mb-s16 text-center text-f16">
     <LinkButton
       extraClass="font-normal underline"
-      label="Découvrez DORA en participant à un de nos ateliers d’appropriation."
+      label="Découvrez DORA en participant à un de nos webinaires d’appropriation."
       to="https://app.livestorm.co/dora-1"
       noBackground
       nofollow
