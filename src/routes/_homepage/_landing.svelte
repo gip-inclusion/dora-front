@@ -43,6 +43,7 @@
       label="Découvrez DORA en participant à un de nos ateliers d’appropriation."
       to="https://app.livestorm.co/dora-1"
       noBackground
+      nofollow
     />
   </div>
 </CenteredGrid>
