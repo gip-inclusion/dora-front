@@ -20,14 +20,41 @@
   export let servicesOptions;
 </script>
 
-<CenteredGrid bgColor="bg-magenta-10">
+<CenteredGrid
+  bgColor="bg-magenta-10 mb-s32 rounded-bl-[64px] rounded-rl-[64px]"
+>
+  <h1 class="mb-s16 text-center text-france-blue">
+    Identifiez rapidement les services d’insertion adaptés aux besoins de vos
+    bénéficiaires
+  </h1>
+
+  <div class="mb-s32">
+    <p class="text-center text-f16 text-gray-text">
+      DORA vous aide dans la levée des freins périphériques bloquant le retour à
+      l'emploi des bénéficiaires.
+    </p>
+  </div>
+
+  <SearchForm {servicesOptions} />
+
+  <div class="under mt-s8 mb-s16 text-center text-f16">
+    <LinkButton
+      extraClass="font-normal underline"
+      label="Découvrez DORA en participant à un de nos ateliers d’appropriation."
+      to="https://app.livestorm.co/dora-1"
+      noBackground
+    />
+  </div>
+</CenteredGrid>
+
+<CenteredGrid>
   <div class="flex flex-col gap-s24">
     <div class="text-center">
-      <h1 class="text-france-blue">
-        Donnez de la visibilité <br />à votre offre d’insertion
-      </h1>
+      <h2 class="text-france-blue">
+        Donnez de la visibilité à votre offre d’insertion
+      </h2>
       <p class="mb-s0">
-        Publiez, mettez à jour et rendez vos services disponibles partout grace
+        Publiez, mettez à jour et rendez vos services disponibles partout grâce
         à l'Open Data.
       </p>
     </div>
@@ -44,7 +71,7 @@
 
     <div class="mt-s16">
       <p class="text-center text-f12">
-        Plus de 450 structures ont déjà référencé leurs services sur DORA.
+        Plus de 2000 structures ont déjà référencé leurs services sur DORA.
       </p>
       <div class="flex flex-col justify-center gap-s24 md:flex-row">
         <div class="flex justify-center gap-s24">
@@ -73,13 +100,6 @@
 </CenteredGrid>
 
 <CenteredGrid>
-  <h2 class="mb-s32 text-center text-france-blue">
-    Tous les services d’insertion sur votre territoire
-  </h2>
-  <SearchForm {servicesOptions} />
-</CenteredGrid>
-
-<CenteredGrid>
   <h2 class="mb-s32 text-center text-france-blue">Comment cela fonctionne</h2>
   <div class="mb-s24 flex flex-col gap-s24 md:flex-row">
     <div class="md:flex-1">
@@ -87,7 +107,7 @@
       <h3>Recensement de l’offre d’insertion</h3>
       <p class="text-f16">
         Vous proposez des services d'insertion ? Rendez les visibles sur votre
-        territoire et sur tous les sites partenaires grace à notre démarche
+        territoire et sur tous les sites partenaires grâce à notre démarche
         collective d'open data.
       </p>
     </div>
