@@ -88,6 +88,7 @@
 
       <div class="self-end md:col-span-2 lg:col-span-2">
         <Button
+          extraClass="h-s48"
           type="submit"
           label="Rechercher"
           icon={searchIcon}
