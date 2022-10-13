@@ -21,7 +21,7 @@
 </script>
 
 <CenteredGrid
-  bgColor="bg-magenta-10 mb-s32 rounded-bl-[64px] rounded-rl-[64px]"
+  bgColor="bg-magenta-10 mb-s32 rounded-bl-[64px] rounded-br-[64px]"
 >
   <h1 class="mb-s16 text-center text-france-blue">
     Identifiez rapidement les services d’insertion adaptés aux besoins de vos
@@ -39,7 +39,7 @@
 
   <div class="under mt-s8 mb-s16 text-center text-f16">
     <LinkButton
-      extraClass="font-normal underline"
+      extraClass="font-normal underline whitespace-pre-wrap"
       label="Découvrez DORA en participant à un de nos webinaires d’appropriation."
       to="https://app.livestorm.co/dora-1"
       noBackground
