@@ -3,6 +3,7 @@
   import LinkButton from "$lib/components/link-button.svelte";
   import Notice from "$lib/components/notice.svelte";
   import TextClamp from "$lib/components/text-clamp.svelte";
+  import DataInclusionNotice from "./_data-inclusion-notice.svelte";
   import { token, userInfo } from "$lib/auth";
 
   import {
@@ -65,6 +66,11 @@
       Informations sur la structure mises à jour le
       <Date date={structure.modificationDate} />
     </p>
+  {/if}
+  {#if canManageStructure}
+    <div>
+      <DataInclusionNotice {structure} />
+    </div>
   {/if}
 </div>
 
@@ -243,15 +249,19 @@
   .notice {
     grid-area: notice;
   }
+
   .data {
     grid-area: data;
   }
+
   .separator {
     grid-area: separator;
   }
+
   .presentation {
     grid-area: presentation;
   }
+
   .sidebar {
     grid-area: sidebar;
   }
