@@ -9,6 +9,7 @@
 
   import FieldsStructure from "./_fields-structure.svelte";
   import FieldsCommon from "./_fields-common.svelte";
+  import FieldsInclusionNumerique from "./_fields-inclusion-numerique.svelte";
   import FieldsService from "./_fields-service.svelte";
   import ServiceNavButtons from "./_service-nav-buttons.svelte";
   import Errors from "./_errors.svelte";
@@ -17,6 +18,7 @@
   export let service, servicesOptions, structures, structure, model;
 
   let errorDiv;
+  let inclusionNumeriqueForm = false;
 
   function onError() {
     errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -131,6 +133,8 @@
         {serviceSchema}
         canAddChoices={!model?.customizableChoicesSet}
         typologyFieldDisabled={model && model.canUpdateCategories === false}
+        on:activateInclusionNumeriqueForm={(event) =>
+          (inclusionNumeriqueForm = event.detail)}
       />
     </div>
   </CenteredGrid>
@@ -139,12 +143,21 @@
 
   <CenteredGrid bgColor="bg-gray-bg">
     <div class="lg:w-2/3">
-      <FieldsService
-        bind:service
-        {servicesOptions}
-        {serviceSchema}
-        {structure}
-      />
+      {#if inclusionNumeriqueForm}
+        <FieldsInclusionNumerique
+          bind:service
+          {servicesOptions}
+          {serviceSchema}
+          {structure}
+        />
+      {:else}
+        <FieldsService
+          bind:service
+          {servicesOptions}
+          {serviceSchema}
+          {structure}
+        />
+      {/if}
     </div>
   </CenteredGrid>
   <hr />
