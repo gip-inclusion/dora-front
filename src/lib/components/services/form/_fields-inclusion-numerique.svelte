@@ -1,5 +1,5 @@
 <script>
-  import { setContext } from "svelte";
+  import { onMount, setContext } from "svelte";
 
   import {
     formErrors,
@@ -108,15 +108,23 @@
   }
 
   function setContact() {
-    service.contactPhone = structure.phone;
-    service.contactEmail = structure.email;
+    if (structure.phone) {
+      service.contactPhone = structure.phone;
+    }
+
+    if (structure.email) {
+      service.contactEmail = structure.email;
+    }
   }
 
   setCategories();
-  setModalites();
-  setDiffusionZone();
-  setLocationKinds();
-  setContact();
+
+  onMount(() => {
+    setModalites();
+    setDiffusionZone();
+    setLocationKinds();
+    setContact();
+  });
 
   async function handleEltChange(evt) {
     // We want to listen to both DOM and component events
@@ -132,6 +140,7 @@
           // on l'initialise avec une valeur par défaut
           [fieldname]: serviceSchema[fieldname] || { rules: [] },
         };
+
         const { validatedData, valid } = validate(service, filteredSchema, {
           fullSchema: serviceSchema,
           noScroll: true,
