@@ -615,6 +615,15 @@
     </p>
   </div>
   <SchemaField
+    label={serviceSchema.contactName.name}
+    placeholder="Prénom et nom"
+    type="text"
+    schema={serviceSchema.contactName}
+    name="contactName"
+    errorMessages={$formErrors.contactName}
+    bind:value={service.contactName}
+  />
+  <SchemaField
     type="tel"
     label={serviceSchema.contactPhone.name}
     placeholder="00 00 00 00 00"
@@ -631,5 +640,13 @@
     name="contactEmail"
     errorMessages={$formErrors.contactEmail}
     bind:value={service.contactEmail}
+  />
+  <SchemaField
+    label={serviceSchema.isContactInfoPublic.name}
+    type="toggle"
+    schema={serviceSchema.isContactInfoPublic}
+    name="isContactInfoPublic"
+    errorMessages={$formErrors.isContactInfoPublic}
+    bind:value={service.isContactInfoPublic}
   />
 </FieldSet>
