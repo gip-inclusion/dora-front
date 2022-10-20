@@ -41,14 +41,14 @@
   let inclusionNumeriqueFormActiveNotice = {
     title: "Formulaire de l'inclusion numérique actif",
     description:
-      "Vous pouvez néanmoins basculer vers un formulaire de service non standardisé si vous souhaitez référencer un service précis comme un atelier, une formation, etc.",
+      "Si néanmoins vous souhaitez renseigner un atelier, une formation ou tout autre accompagnement, vous pouvez basculer vers le formulaire classique.",
     buttonLabel: "Basculer sur le formulaire classique",
   };
 
   let inclusionNumeriqueFormAvailableNotice = {
     title: "Formulaire de l'inclusion numérique disponible",
     description:
-      'Pour compléter ce formulaire standardisé, "Numérique" doit être la seule thématique sélectionnée.',
+      "Pour compléter ce formulaire spécifique, le thème numérique doit être le seul sélectionné.",
     buttonLabel: "Basculer sur le formulaire inclusion numérique",
   };
 
@@ -183,8 +183,8 @@
   {#if displayInclusionNumeriqueFormNotice}
     <Notice title={selectedInclusionNumeriqueFormNotice.title} type="info">
       <p class="text-f14">
-        Les formulaires de services numériques suivent désormais un "standard"
-        afin de favoriser l'harmonie entre différents acteurs.
+        Les services d'inclusion numérique répondent à un formulaire spécifique
+        permettant une harmonie entre tous les acteurs du secteur.
         <br />
         {selectedInclusionNumeriqueFormNotice.description}
       </p>
