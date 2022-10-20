@@ -22,6 +22,7 @@
   import { isNotFreeService } from "$lib/utils/service";
   import Button from "$lib/components/button.svelte";
   import Notice from "$lib/components/notice.svelte";
+  import Modal from "$lib/components/modal.svelte";
 
   export let servicesOptions, serviceSchema, service, canAddChoices;
   export let model = null;
@@ -83,7 +84,7 @@
     ) {
       inclusionNumeriqueForm = true;
       triggerActivateInclusionNumeriqueForm(inclusionNumeriqueForm);
-    } else if (categories.length > 1) {
+    } else if (categories.length !== 1) {
       inclusionNumeriqueForm = false;
       triggerActivateInclusionNumeriqueForm(inclusionNumeriqueForm);
     }
@@ -163,7 +164,38 @@
       }
     };
   }
+
+  let isOpen = false;
+
+  function openModal() {
+    isOpen = true;
+  }
+
+  function onReject() {
+    isOpen = false;
+  }
+
+  function onAccept() {
+    isOpen = false;
+    toggleInclusionNumeriqueForm();
+  }
 </script>
+
+<Modal bind:isOpen title="Attention !" smallWidth="true">
+  Le passage du formulaire classique vers le formulaire de l'inclusion numérique
+  peut entraîner la perte de données déjà enregistrées dans ce service.
+  <div class="mt-s32 flex flex-row justify-end gap-s16">
+    <Button
+      label="Rester sur le formulaire classique"
+      secondary
+      on:click={() => onReject()}
+    />
+    <Button
+      label="Passer au formulaire de l'inclusion numérique"
+      on:click={async () => onAccept()}
+    />
+  </div>
+</Modal>
 
 <FieldSet noTopPadding {showModel}>
   <FieldModel
@@ -203,7 +235,9 @@
           small
           noBackground
           noPadding
-          on:click={toggleInclusionNumeriqueForm}
+          on:click={inclusionNumeriqueForm
+            ? toggleInclusionNumeriqueForm
+            : openModal}
         />
       </p>
     </Notice>
