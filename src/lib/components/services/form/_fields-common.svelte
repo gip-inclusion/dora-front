@@ -37,6 +37,7 @@
 
   let subcategories = [];
   let showModelSubcategoriesUseValue = true;
+  let isPristine = service.subcategories.length === 0;
 
   let inclusionNumeriqueFormActiveNotice = {
     title: "Formulaire de l'inclusion numérique actif",
@@ -48,12 +49,13 @@
   let inclusionNumeriqueFormAvailableNotice = {
     title: "Formulaire de l'inclusion numérique disponible",
     description:
-      "Pour compléter ce formulaire spécifique, le thème numérique doit être le seul sélectionné.",
+      "Pour compléter ce formulaire spécifique, seule la thématique numérique doit être sélectionnée.",
     buttonLabel: "Basculer sur le formulaire inclusion numérique",
   };
 
-  let inclusionNumeriqueForm = false;
-  let toggling = false;
+  let inclusionNumeriqueForm = service.useInclusionNumeriqueScheme;
+  let previousCategories = [];
+  let toggling = undefined;
 
   $: displayInclusionNumeriqueFormNotice =
     service.categories.includes("numerique");
@@ -74,12 +76,19 @@
   }
 
   function handleCategoriesChange(categories) {
-    if (!toggling) {
-      inclusionNumeriqueForm =
-        categories.length === 1 && categories[0] === "numerique";
+    if (
+      isPristine &&
+      categories.length === 1 &&
+      categories[0] === "numerique"
+    ) {
+      inclusionNumeriqueForm = true;
+      triggerActivateInclusionNumeriqueForm(inclusionNumeriqueForm);
+    } else if (categories.length > 1) {
+      inclusionNumeriqueForm = false;
       triggerActivateInclusionNumeriqueForm(inclusionNumeriqueForm);
     }
-    toggling = false;
+    if (toggling === true) toggling = false;
+    previousCategories = categories;
 
     subcategories = categories.length
       ? servicesOptions.subcategories.filter(({ value }) =>
