@@ -35,6 +35,7 @@
     })
     .join(", ");
   $: canManageStructure = $token && (structure.isAdmin || $userInfo?.isStaff);
+  $: dataInclusionStructure = structure.source?.value.startsWith("di-");
   $: structureHasInfo =
     structure.phone ||
     structure.email ||
@@ -67,7 +68,7 @@
       <Date date={structure.modificationDate} />
     </p>
   {/if}
-  {#if canManageStructure}
+  {#if canManageStructure && dataInclusionStructure}
     <div>
       <DataInclusionNotice {structure} />
     </div>
