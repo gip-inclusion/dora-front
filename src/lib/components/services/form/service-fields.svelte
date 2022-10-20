@@ -18,7 +18,7 @@
   export let service, servicesOptions, structures, structure, model;
 
   let errorDiv;
-  let inclusionNumeriqueForm = false;
+  let inclusionNumeriqueForm = service.useInclusionNumeriqueScheme;
 
   function onError() {
     errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });

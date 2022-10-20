@@ -292,6 +292,8 @@
       .map((genericKindsOption) => genericKindsOption.value)
       .includes(kindsOption.value)
   );
+
+  service.useInclusionNumeriqueScheme = true;
 </script>
 
 <FieldSet noTopPadding title="Service de l'inclusion numérique" {showModel}>
