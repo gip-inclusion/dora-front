@@ -68,7 +68,7 @@
       <Date date={structure.modificationDate} />
     </p>
   {/if}
-  {#if canManageStructure && sourceIsDataInclusion}
+  {#if canManageStructure && sourceIsDataInclusion && !structure.hasBeenEdited}
     <div>
       <DataInclusionNotice {structure} />
     </div>

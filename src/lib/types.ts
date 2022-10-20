@@ -27,9 +27,12 @@ export type Structure = {
   typologyDisplay: string;
   numServices: number;
   accesslibreUrl: string | undefined;
+  creationDate: string;
   modificationDate: string;
 
   source: StructureSource | undefined;
+
+  hasBeenEdited: boolean | undefined;
 };
 
 export type StructuresOptions = {
