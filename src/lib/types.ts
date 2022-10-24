@@ -18,6 +18,7 @@ export type Structure = {
   postalCode: number;
   cityCode: number;
   city: string;
+  department: string;
 
   nationalLabels: string[];
   otherLabels: string;
@@ -98,6 +99,7 @@ export type Service = {
   beneficiariesAccessModesDisplay: string[] | undefined;
   beneficiariesAccessModesOther: string | undefined;
 
+  coachOrientationModes: string[];
   coachOrientationModesDisplay: string[] | undefined;
   coachOrientationModesOther: string | undefined;
 
@@ -143,6 +145,11 @@ export type Service = {
 
   shortDesc: string | undefined;
   fullDesc: string | undefined;
+
+  diffusionZoneType: string | undefined;
+  diffusionZoneDetails: string | undefined;
+
+  useInclusionNumeriqueScheme: boolean | undefined;
 };
 
 export type DashboardService = Pick<

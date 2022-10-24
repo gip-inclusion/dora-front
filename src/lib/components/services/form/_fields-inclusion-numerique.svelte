@@ -1,4 +1,4 @@
-<script>
+<script lang="ts">
   import { onMount, setContext } from "svelte";
 
   import {
@@ -21,8 +21,12 @@
   import AdminDivisionSearch from "$lib/components/forms/admin-division-search.svelte";
   import FieldModel from "./_field-model.svelte";
   import SelectField from "$lib/components/form/select/select-field.svelte";
+  import type { Service, ServicesOptions, Structure } from "$lib/types";
 
-  export let servicesOptions, serviceSchema, service, structure;
+  export let servicesOptions: ServicesOptions;
+  export let service: Service;
+  export let structure: Structure;
+  export let serviceSchema;
   export let model = null;
 
   let subcategories = [];
@@ -81,8 +85,8 @@
       service.city = city;
       service.address1 = address1;
       service.address2 = address2;
-      service.postalCode = postalCode;
-      service.cityCode = cityCode;
+      service.postalCode = postalCode.toString();
+      service.cityCode = cityCode.toString();
       service.latitude = latitude;
       service.longitude = longitude;
     }
