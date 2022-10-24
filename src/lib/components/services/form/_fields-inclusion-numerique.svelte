@@ -34,6 +34,87 @@
 
   let showServiceAddress = true;
 
+  const concernedPublicOptions = [
+    {
+      value: 67,
+      label: "Familles/enfants",
+      structure: null,
+    },
+    {
+      value: 257,
+      label: "Jeunes (16-26 ans)",
+      structure: null,
+    },
+    {
+      value: 263,
+      label: "Adultes",
+      structure: null,
+    },
+    {
+      value: 256,
+      label: "Seniors (+ 65 ans)",
+      structure: null,
+    },
+
+    {
+      value: 258,
+      label: "Public langues étrangères",
+      structure: null,
+    },
+    {
+      value: 259,
+      label: "Déficience visuelle",
+      structure: null,
+    },
+    {
+      value: 260,
+      label: "Surdité",
+      structure: null,
+    },
+    {
+      value: 261,
+      label:
+        "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales",
+      structure: null,
+    },
+    {
+      value: 262,
+      label:
+        "Handicaps mentaux : déficiences limitant les activités d’une personne",
+      structure: null,
+    },
+  ].filter((concernedPublicOption) =>
+    servicesOptions.concernedPublic
+      .map((genericConcernedPublicOption) => genericConcernedPublicOption.value)
+      .includes(concernedPublicOption.value)
+  );
+
+  const kindsOptions = [
+    {
+      value: "autonomie",
+      label: "Seul : j’ai accès à du matériel et une connexion",
+    },
+    {
+      value: "accompagnement",
+      label:
+        "Avec de l’aide : je suis accompagné seul dans l’usage du numérique",
+    },
+    {
+      value: "atelier",
+      label:
+        "Dans un atelier : j’apprends collectivement à utiliser le numérique",
+    },
+    {
+      value: "delegation",
+      label:
+        "À ma place : une personne habilitée fait les démarches à ma place",
+    },
+  ].filter((kindsOption) =>
+    servicesOptions.kinds
+      .map((genericKindsOption) => genericKindsOption.value)
+      .includes(kindsOption.value)
+  );
+
   function updateServicePresentation(subcategories) {
     service.name = "Médiation numérique";
     service.shortDesc = `${
@@ -121,7 +202,17 @@
     }
   }
 
+  function setConcernedPublic() {
+    service.concernedPublic = service.concernedPublic.filter(
+      (concernedPublicValue: string) =>
+        concernedPublicOptions
+          .map((concernedPublicOption) => concernedPublicOption.value)
+          .includes(concernedPublicValue)
+    );
+  }
+
   setCategories();
+  setConcernedPublic();
 
   onMount(() => {
     setModalites();
@@ -215,87 +306,6 @@
       }
     };
   }
-
-  const concernedPublicOptions = [
-    {
-      value: 67,
-      label: "Familles/enfants",
-      structure: null,
-    },
-    {
-      value: 257,
-      label: "Jeunes (16-26 ans)",
-      structure: null,
-    },
-    {
-      value: 263,
-      label: "Adultes",
-      structure: null,
-    },
-    {
-      value: 256,
-      label: "Seniors (+ 65 ans)",
-      structure: null,
-    },
-
-    {
-      value: 258,
-      label: "Public langues étrangères",
-      structure: null,
-    },
-    {
-      value: 259,
-      label: "Déficience visuelle",
-      structure: null,
-    },
-    {
-      value: 260,
-      label: "Surdité",
-      structure: null,
-    },
-    {
-      value: 261,
-      label:
-        "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales",
-      structure: null,
-    },
-    {
-      value: 262,
-      label:
-        "Handicaps mentaux : déficiences limitant les activités d’une personne",
-      structure: null,
-    },
-  ].filter((concernedPublicOption) =>
-    servicesOptions.concernedPublic
-      .map((genericConcernedPublicOption) => genericConcernedPublicOption.value)
-      .includes(concernedPublicOption.value)
-  );
-
-  const kindsOptions = [
-    {
-      value: "autonomie",
-      label: "Seul : j’ai accès à du matériel et une connexion",
-    },
-    {
-      value: "accompagnement",
-      label:
-        "Avec de l’aide : je suis accompagné seul dans l’usage du numérique",
-    },
-    {
-      value: "atelier",
-      label:
-        "Dans un atelier : j’apprends collectivement à utiliser le numérique",
-    },
-    {
-      value: "delegation",
-      label:
-        "À ma place : une personne habilitée fait les démarches à ma place",
-    },
-  ].filter((kindsOption) =>
-    servicesOptions.kinds
-      .map((genericKindsOption) => genericKindsOption.value)
-      .includes(kindsOption.value)
-  );
 
   service.useInclusionNumeriqueScheme = true;
 </script>
