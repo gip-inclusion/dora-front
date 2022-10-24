@@ -83,6 +83,7 @@
       categories[0] === "numerique"
     ) {
       inclusionNumeriqueForm = true;
+      isPristine = false;
       triggerActivateInclusionNumeriqueForm(inclusionNumeriqueForm);
     } else if (categories.length !== 1) {
       inclusionNumeriqueForm = false;
