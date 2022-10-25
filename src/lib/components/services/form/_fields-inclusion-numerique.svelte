@@ -34,6 +34,12 @@
 
   let showServiceAddress = true;
 
+  function existInServicesOptionsConcernedPublic(concernedPublicOption) {
+    return servicesOptions.concernedPublic
+      .map((genericConcernedPublicOption) => genericConcernedPublicOption.value)
+      .includes(concernedPublicOption.value);
+  }
+
   const concernedPublicOptions = [
     {
       value: 67,
@@ -83,11 +89,13 @@
         "Handicaps mentaux : déficiences limitant les activités d’une personne",
       structure: null,
     },
-  ].filter((concernedPublicOption) =>
-    servicesOptions.concernedPublic
-      .map((genericConcernedPublicOption) => genericConcernedPublicOption.value)
-      .includes(concernedPublicOption.value)
-  );
+  ].filter(existInServicesOptionsConcernedPublic);
+
+  function existInServicesOptionsKinds(kindsOption) {
+    return servicesOptions.kinds
+      .map((genericKindsOption) => genericKindsOption.value)
+      .includes(kindsOption.value);
+  }
 
   const kindsOptions = [
     {
@@ -109,11 +117,7 @@
       label:
         "À ma place : une personne habilitée fait les démarches à ma place",
     },
-  ].filter((kindsOption) =>
-    servicesOptions.kinds
-      .map((genericKindsOption) => genericKindsOption.value)
-      .includes(kindsOption.value)
-  );
+  ].filter(existInServicesOptionsKinds);
 
   function updateServicePresentation(subcategories) {
     service.name = "Médiation numérique";
