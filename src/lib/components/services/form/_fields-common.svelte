@@ -32,6 +32,10 @@
   let showModelSubcategoriesUseValue = true;
   let isPristine = service.subcategories.length === 0;
 
+  const feeConditions = servicesOptions.feeConditions.filter(
+    (feeCondition) => feeCondition.value !== "pass-numerique"
+  );
+
   let inclusionNumeriqueFormActiveNotice = {
     title: "Formulaire de l'inclusion numérique actif",
     description:
@@ -569,7 +573,7 @@
         placeholder="Choississez..."
         errorMessages={$formErrors.feeCondition}
         bind:value={service.feeCondition}
-        choices={servicesOptions.feeConditions}
+        choices={feeConditions}
         display="vertical"
       />
     </FieldModel>
