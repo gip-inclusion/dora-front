@@ -311,7 +311,11 @@
     };
   }
 
-  service.useInclusionNumeriqueScheme = true;
+  function useInclusionNumeriqueSchemeInInclusionNumeriqueForm() {
+    service.useInclusionNumeriqueScheme = true;
+  }
+
+  useInclusionNumeriqueSchemeInInclusionNumeriqueForm();
 </script>
 
 <FieldSet noTopPadding title="Service de l'inclusion numérique" {showModel}>
