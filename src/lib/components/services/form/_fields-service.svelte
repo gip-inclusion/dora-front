@@ -110,12 +110,6 @@
     onBlur: handleEltChange,
     onChange: handleEltChange,
   });
-
-  function doNotUseInclusionNumeriqueSchemeInClassicForm() {
-    service.useInclusionNumeriqueScheme = false;
-  }
-
-  doNotUseInclusionNumeriqueSchemeInClassicForm();
 </script>
 
 <FieldSet title="Périmètre géographique d’intervention" noTopPadding>
