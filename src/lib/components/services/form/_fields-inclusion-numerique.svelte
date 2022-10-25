@@ -21,7 +21,7 @@
   import AdminDivisionSearch from "$lib/components/forms/admin-division-search.svelte";
   import FieldModel from "./_field-model.svelte";
   import SelectField from "$lib/components/form/select/select-field.svelte";
-  import type { Service, ServicesOptions, Structure } from "$lib/types";
+  import type { Choice, Service, ServicesOptions, Structure } from "$lib/types";
 
   export let servicesOptions: ServicesOptions;
   export let service: Service;
@@ -37,14 +37,21 @@
   function existInServicesOptionsConcernedPublic(concernedPublicOption) {
     return servicesOptions.concernedPublic
       .filter(
-        (genericConcernedPublicOption) =>
+        (genericConcernedPublicOption): boolean =>
           genericConcernedPublicOption.structure == null
       )
-      .map((genericConcernedPublicOption) => genericConcernedPublicOption.label)
+      .map(
+        (genericConcernedPublicOption: Choice): string =>
+          genericConcernedPublicOption.label
+      )
       .includes(concernedPublicOption.labelFormulaireClassique);
   }
 
-  const concernedPublicOptions = [
+  const concernedPublicOptions: {
+    label: string;
+    labelFormulaireClassique: string;
+    structure: null;
+  }[] = [
     {
       labelFormulaireClassique: "Famille",
       label: "Familles/enfants",
@@ -98,7 +105,7 @@
 
   function existInServicesOptionsKinds(kindsOption) {
     return servicesOptions.kinds
-      .map((genericKindsOption) => genericKindsOption.value)
+      .map((genericKindsOption: Choice): string => genericKindsOption.value)
       .includes(kindsOption.value);
   }
 
@@ -213,9 +220,9 @@
 
   function setConcernedPublic() {
     service.concernedPublic = service.concernedPublic.filter(
-      (concernedPublicValue: string) =>
+      (concernedPublicValue: string): boolean =>
         concernedPublicOptions
-          .map((concernedPublicOption) => concernedPublicOption.value)
+          .map((concernedPublicOption): string => concernedPublicOption.label)
           .includes(concernedPublicValue)
     );
   }

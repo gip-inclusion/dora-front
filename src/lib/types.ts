@@ -150,6 +150,9 @@ export type Service = {
   diffusionZoneDetails: string | undefined;
 
   useInclusionNumeriqueScheme: boolean | undefined;
+
+  diffusionZoneTypeDisplay: string | undefined;
+  beneficiariesAccessModes: string[] | undefined;
 };
 
 export type DashboardService = Pick<
@@ -182,14 +185,15 @@ export type DashboardService = Pick<
 >;
 
 export type ServicesOptions = {
-  requirements: string[];
-  locationKinds: string[];
+  beneficiariesAccessModes: Choice[];
+  requirements: (Choice & { structure: string | null })[];
+  locationKinds: Choice[];
   feeConditions: Choice[];
-  concernedPublic: string[];
-  kinds: string[];
-  accessConditions: string[];
-  categories: { value: string; label: string }[];
-  subcategories: { value: string; label: string }[];
+  concernedPublic: (Choice & { structure: string | null })[];
+  kinds: Choice[];
+  accessConditions: (Choice & { structure: string | null })[];
+  categories: Choice[];
+  subcategories: Choice[];
 };
 
 // FORM
