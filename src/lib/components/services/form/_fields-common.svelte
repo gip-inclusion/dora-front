@@ -28,13 +28,14 @@
   export let model = null;
   export let typologyFieldDisabled = false;
 
+  let feeConditionClassic =
+    service.feeCondition === "pass-numerique"
+      ? "gratuit"
+      : service.feeCondition;
+
   let subcategories = [];
   let showModelSubcategoriesUseValue = true;
   let isPristine = service.subcategories.length === 0;
-
-  const feeConditions = servicesOptions.feeConditions.filter(
-    (feeCondition) => feeCondition.value !== "pass-numerique"
-  );
 
   let inclusionNumeriqueFormActiveNotice = {
     title: "Formulaire de l'inclusion numérique actif",
@@ -106,6 +107,10 @@
         model.categories
       );
     }
+  }
+
+  function handleFeeConditionChange(feeCondition) {
+    this.service.feeCondition = feeCondition;
   }
 
   async function handleEltChange(evt) {
@@ -572,8 +577,11 @@
         name="feeCondition"
         placeholder="Choississez..."
         errorMessages={$formErrors.feeCondition}
-        bind:value={service.feeCondition}
-        choices={feeConditions}
+        bind:value={feeConditionClassic}
+        choices={servicesOptions.feeConditions.filter(
+          (fee) => fee.value !== "pass-numerique"
+        )}
+        onSelectChange={handleFeeConditionChange}
         display="vertical"
       />
     </FieldModel>

@@ -65,7 +65,6 @@
       label: "Seniors (+ 65 ans)",
       structure: null,
     },
-
     {
       labelFormulaireClassique: "Publics langues étrangères",
       label: "Public langues étrangères",
