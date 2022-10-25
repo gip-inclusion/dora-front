@@ -44,61 +44,57 @@
         (genericConcernedPublicOption: Choice): string =>
           genericConcernedPublicOption.label
       )
-      .includes(concernedPublicOption.labelFormulaireClassique);
+      .includes(concernedPublicOption.label);
   }
 
   const concernedPublicOptions: {
     label: string;
-    labelFormulaireClassique: string;
     structure: null;
   }[] = [
     {
-      labelFormulaireClassique: "Famille",
       label: "Familles/enfants",
       structure: null,
     },
     {
-      labelFormulaireClassique: "Jeunes (16-26 ans)",
       label: "Jeunes (16-26 ans)",
       structure: null,
     },
     {
-      labelFormulaireClassique: "Adulte",
       label: "Adultes",
       structure: null,
     },
     {
-      labelFormulaireClassique: "Senior (+65 ans)",
-      label: "Seniors (+ 65 ans)",
+      label: "Femmes",
       structure: null,
     },
     {
-      labelFormulaireClassique: "Publics langues étrangères",
-      label: "Public langues étrangères",
+      label: "Seniors (+65 ans)",
       structure: null,
     },
     {
-      labelFormulaireClassique: "Déficience visuelle",
+      label: "Publics langues étrangères",
+      structure: null,
+    },
+    {
       label: "Déficience visuelle",
       structure: null,
     },
     {
-      labelFormulaireClassique: "Surdité",
       label: "Surdité",
       structure: null,
     },
     {
-      labelFormulaireClassique:
-        "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales",
       label:
         "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales",
       structure: null,
     },
     {
-      labelFormulaireClassique:
-        "Handicaps mentaux : déficiences limitant les activités d'une personne",
       label:
         "Handicaps mentaux : déficiences limitant les activités d’une personne",
+      structure: null,
+    },
+    {
+      label: "Personnes en situation d’illettrisme",
       structure: null,
     },
   ].filter(existInServicesOptionsConcernedPublic);
