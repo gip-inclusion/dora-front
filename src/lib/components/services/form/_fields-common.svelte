@@ -28,14 +28,6 @@
   export let model = null;
   export let typologyFieldDisabled = false;
 
-  import { createEventDispatcher } from "svelte";
-
-  const dispatch = createEventDispatcher();
-
-  function triggerActivateInclusionNumeriqueForm(isActive) {
-    dispatch("activateInclusionNumeriqueForm", isActive);
-  }
-
   let subcategories = [];
   let showModelSubcategoriesUseValue = true;
   let isPristine = service.subcategories.length === 0;
@@ -54,22 +46,20 @@
     buttonLabel: "Basculer sur le formulaire inclusion numérique",
   };
 
-  let inclusionNumeriqueForm = service.useInclusionNumeriqueScheme;
   let previousCategories = [];
   let toggling = undefined;
 
   $: displayInclusionNumeriqueFormNotice =
     service.categories.includes("numerique");
 
-  $: selectedInclusionNumeriqueFormNotice = inclusionNumeriqueForm
+  $: selectedInclusionNumeriqueFormNotice = service.useInclusionNumeriqueScheme
     ? inclusionNumeriqueFormActiveNotice
     : inclusionNumeriqueFormAvailableNotice;
 
   function toggleInclusionNumeriqueForm() {
-    inclusionNumeriqueForm = !inclusionNumeriqueForm;
-    triggerActivateInclusionNumeriqueForm(inclusionNumeriqueForm);
+    service.useInclusionNumeriqueScheme = !service.useInclusionNumeriqueScheme;
 
-    if (inclusionNumeriqueForm) {
+    if (service.useInclusionNumeriqueScheme) {
       service.categories = ["numerique"];
     }
 
@@ -82,12 +72,10 @@
       categories.length === 1 &&
       categories[0] === "numerique"
     ) {
-      inclusionNumeriqueForm = true;
+      service.useInclusionNumeriqueScheme = true;
       isPristine = false;
-      triggerActivateInclusionNumeriqueForm(inclusionNumeriqueForm);
     } else if (categories.length !== 1) {
-      inclusionNumeriqueForm = false;
-      triggerActivateInclusionNumeriqueForm(inclusionNumeriqueForm);
+      service.useInclusionNumeriqueScheme = false;
     }
     if (toggling === true) toggling = false;
     previousCategories = categories;
@@ -155,6 +143,7 @@
   $: showModel = !!service.model;
 
   let fullDesc;
+
   function useModelValue(propName) {
     return () => {
       service[propName] = model[propName];
@@ -235,7 +224,7 @@
           small
           noBackground
           noPadding
-          on:click={inclusionNumeriqueForm
+          on:click={service.useInclusionNumeriqueScheme
             ? toggleInclusionNumeriqueForm
             : openModal}
         />
@@ -244,7 +233,7 @@
   {/if}
 </FieldSet>
 
-{#if !inclusionNumeriqueForm}
+{#if !service.useInclusionNumeriqueScheme}
   <FieldSet title="Présentation" {showModel}>
     <div slot="help">
       <p class="text-f14">

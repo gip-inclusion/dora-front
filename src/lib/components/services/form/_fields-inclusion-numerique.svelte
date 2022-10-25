@@ -301,6 +301,7 @@
   $: showModel = !!service.model;
 
   let fullDesc;
+
   function useModelValue(propName) {
     return () => {
       service[propName] = model[propName];
@@ -310,12 +311,6 @@
       }
     };
   }
-
-  function useInclusionNumeriqueSchemeInInclusionNumeriqueForm() {
-    service.useInclusionNumeriqueScheme = true;
-  }
-
-  useInclusionNumeriqueSchemeInInclusionNumeriqueForm();
 </script>
 
 <FieldSet noTopPadding title="Service de l'inclusion numérique" {showModel}>

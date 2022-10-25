@@ -18,7 +18,6 @@
   export let service, servicesOptions, structures, structure, model;
 
   let errorDiv;
-  let useInclusionNumeriqueScheme = service.useInclusionNumeriqueScheme;
 
   function onError() {
     errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -133,8 +132,6 @@
         {serviceSchema}
         canAddChoices={!model?.customizableChoicesSet}
         typologyFieldDisabled={model && model.canUpdateCategories === false}
-        on:activateInclusionNumeriqueForm={(event) =>
-          (useInclusionNumeriqueScheme = event.detail)}
       />
     </div>
   </CenteredGrid>
@@ -143,7 +140,7 @@
 
   <CenteredGrid bgColor="bg-gray-bg">
     <div class="lg:w-2/3">
-      {#if useInclusionNumeriqueScheme}
+      {#if service.useInclusionNumeriqueScheme}
         <FieldsInclusionNumerique
           bind:service
           {servicesOptions}
