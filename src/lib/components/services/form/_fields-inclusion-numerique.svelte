@@ -36,55 +36,61 @@
 
   function existInServicesOptionsConcernedPublic(concernedPublicOption) {
     return servicesOptions.concernedPublic
-      .map((genericConcernedPublicOption) => genericConcernedPublicOption.value)
-      .includes(concernedPublicOption.value);
+      .filter(
+        (genericConcernedPublicOption) =>
+          genericConcernedPublicOption.structure == null
+      )
+      .map((genericConcernedPublicOption) => genericConcernedPublicOption.label)
+      .includes(concernedPublicOption.labelFormulaireClassique);
   }
 
   const concernedPublicOptions = [
     {
-      value: 67,
+      labelFormulaireClassique: "Famille",
       label: "Familles/enfants",
       structure: null,
     },
     {
-      value: 257,
+      labelFormulaireClassique: "Jeunes (16-26 ans)",
       label: "Jeunes (16-26 ans)",
       structure: null,
     },
     {
-      value: 263,
+      labelFormulaireClassique: "Adulte",
       label: "Adultes",
       structure: null,
     },
     {
-      value: 256,
+      labelFormulaireClassique: "Senior (+65 ans)",
       label: "Seniors (+ 65 ans)",
       structure: null,
     },
 
     {
-      value: 258,
+      labelFormulaireClassique: "Publics langues étrangères",
       label: "Public langues étrangères",
       structure: null,
     },
     {
-      value: 259,
+      labelFormulaireClassique: "Déficience visuelle",
       label: "Déficience visuelle",
       structure: null,
     },
     {
-      value: 260,
+      labelFormulaireClassique: "Surdité",
       label: "Surdité",
       structure: null,
     },
     {
-      value: 261,
+      labelFormulaireClassique:
+        "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales",
       label:
         "Handicaps psychiques : troubles psychiatriques donnant lieu à des atteintes comportementales",
       structure: null,
     },
     {
-      value: 262,
+      labelFormulaireClassique:
+        "Handicaps mentaux : déficiences limitant les activités d'une personne",
       label:
         "Handicaps mentaux : déficiences limitant les activités d’une personne",
       structure: null,
