@@ -47,10 +47,18 @@
       .includes(concernedPublicOption.label);
   }
 
-  const concernedPublicOptions: {
+  function addServicesOptionsConcernedPublicValues(concernedPublicOption: {
     label: string;
-    structure: null;
-  }[] = [
+  }): Choice {
+    return {
+      label: concernedPublicOption.label,
+      value: servicesOptions.concernedPublic.find(
+        (option: Choice) => option.label === concernedPublicOption.label
+      ).value,
+    };
+  }
+
+  const concernedPublicOptions: Choice[] = [
     {
       label: "Familles/enfants",
       structure: null,
@@ -97,7 +105,9 @@
       label: "Personnes en situation d’illettrisme",
       structure: null,
     },
-  ].filter(existInServicesOptionsConcernedPublic);
+  ]
+    .filter(existInServicesOptionsConcernedPublic)
+    .map(addServicesOptionsConcernedPublicValues);
 
   function existInServicesOptionsKinds(kindsOption) {
     return servicesOptions.kinds
@@ -178,8 +188,8 @@
       service.city = city;
       service.address1 = address1;
       service.address2 = address2;
-      service.postalCode = postalCode.toString();
-      service.cityCode = cityCode.toString();
+      service.postalCode = postalCode?.toString();
+      service.cityCode = cityCode?.toString();
       service.latitude = latitude;
       service.longitude = longitude;
     }
@@ -218,7 +228,7 @@
     service.concernedPublic = service.concernedPublic.filter(
       (concernedPublicValue: string): boolean =>
         concernedPublicOptions
-          .map((concernedPublicOption): string => concernedPublicOption.label)
+          .map((concernedPublicOption): string => concernedPublicOption.value)
           .includes(concernedPublicValue)
     );
   }
