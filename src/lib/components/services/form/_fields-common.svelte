@@ -109,8 +109,8 @@
     }
   }
 
-  function handleFeeConditionChange(feeCondition) {
-    this.service.feeCondition = feeCondition;
+  function handleFeeConditionChange() {
+    service.feeCondition = feeConditionClassic;
   }
 
   async function handleEltChange(evt) {
@@ -136,7 +136,6 @@
         if (valid) {
           service = { ...service, ...validatedData };
         }
-
         resolve();
       }, 200);
     });
@@ -581,7 +580,7 @@
         choices={servicesOptions.feeConditions.filter(
           (fee) => fee.value !== "pass-numerique"
         )}
-        onSelectChange={handleFeeConditionChange}
+        handleEltChange={handleFeeConditionChange}
         display="vertical"
       />
     </FieldModel>
