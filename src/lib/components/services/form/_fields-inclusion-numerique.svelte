@@ -188,7 +188,7 @@
   function setModalites() {
     service.coachOrientationModes = ["autre"];
     service.coachOrientationModesOther =
-      "Même modalités que pour les bénéficiaires";
+      "Mêmes modalités que pour les bénéficiaires";
   }
 
   function setDiffusionZone() {
