@@ -29,6 +29,8 @@
   export let model = null;
   export let typologyFieldDisabled = false;
 
+  const useModel = model != null;
+
   let feeConditionClassic =
     service.feeCondition === "pass-numerique"
       ? "gratuit"
@@ -220,7 +222,7 @@
       readonly={typologyFieldDisabled}
     />
   </FieldModel>
-  {#if displayInclusionNumeriqueFormNotice && !isModel}
+  {#if displayInclusionNumeriqueFormNotice && !(isModel || useModel)}
     <Notice title={selectedInclusionNumeriqueFormNotice.title} type="info">
       <p class="text-f14">
         Les services d'inclusion numérique répondent à un formulaire spécifique
@@ -243,7 +245,7 @@
   {/if}
 </FieldSet>
 
-{#if !service.useInclusionNumeriqueScheme || isModel}
+{#if !service.useInclusionNumeriqueScheme || isModel || useModel}
   <FieldSet title="Présentation" {showModel}>
     <div slot="help">
       <p class="text-f14">
