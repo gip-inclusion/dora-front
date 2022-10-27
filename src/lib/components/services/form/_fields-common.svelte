@@ -568,7 +568,7 @@
     <FieldModel
       {showModel}
       value={model?.feeCondition}
-      serviceValue={service.feeCondition}
+      serviceValue={feeConditionClassic}
       useValue={useModelValue("feeCondition")}
       type="text"
     >
@@ -586,7 +586,7 @@
       />
     </FieldModel>
 
-    {#if isNotFreeService(service.feeCondition)}
+    {#if isNotFreeService(feeConditionClassic)}
       <FieldModel
         {showModel}
         value={model?.feeDetails}
