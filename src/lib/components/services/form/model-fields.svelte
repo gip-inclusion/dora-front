@@ -38,7 +38,7 @@
       <FieldsCommon
         bind:service={model}
         {servicesOptions}
-        isModel={model != null}
+        isModel
         serviceSchema={modelSchema}
         canAddChoices={!model.customizableChoicesSet}
         typologyFieldDisabled={model && model.canUpdateCategories === false}
