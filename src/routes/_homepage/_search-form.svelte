@@ -12,7 +12,7 @@
     mapPinIcon,
     searchIcon,
   } from "$lib/icons";
-  import type { ServicesOptions } from "$lib/types";
+  import type { FeeCondition, ServicesOptions } from "$lib/types";
   import { getDepartmentFromCityCode } from "$lib/utils";
   import {
     injectOptGroupAllOptionsInSubCategories,
@@ -27,11 +27,15 @@
   import { getQuery } from "./_search";
 
   export let servicesOptions: ServicesOptions;
+  export let cityCode;
+  export let cityLabel;
+  export let subCategoryIds: string[] = [];
+  export let showDeploymentWarning = true;
+  export let useAdditionalFilters = false;
+  export let kindId: string | undefined = undefined;
+  export let fee: FeeCondition[] = [];
 
-  let subCategoryIds: string[] = [];
-  let cityCode;
-  let cityLabel;
-  let value;
+  let cityChoiceList;
 
   function handleSearch() {
     const categoryIds = subCategoryIds
@@ -48,6 +52,8 @@
       subCategoryIds: finalSubCategoryIds,
       cityCode,
       cityLabel,
+      fee,
+      kindId,
     });
     goto(`recherche?${query}`);
   }
@@ -87,7 +93,7 @@
                 on:click={() => {
                   cityCode = "";
                   cityLabel = "";
-                  value = {};
+                  cityChoiceList = {};
                 }}
               >
                 <span class="h-s24 w-s24 fill-current text-gray-text-alt">
@@ -103,7 +109,8 @@
 
           <CitySearch
             name="city"
-            bind:value
+            initialValue={cityLabel}
+            bind:value={cityChoiceList}
             placeholder="Rechercher par lieu : ville"
             onChange={(city) => {
               cityCode = city?.code;
@@ -153,7 +160,7 @@
     <p>Impossible de contacter le serveur</p>
   {/if}
 
-  {#if cityCode && !isInDeploymentDepartments(cityCode, servicesOptions)}
+  {#if showDeploymentWarning && cityCode && !isInDeploymentDepartments(cityCode, servicesOptions)}
     <div
       class="flex border-t border-gray-02 bg-blue-light p-s24 font-bold text-france-blue"
     >
@@ -164,6 +171,36 @@
         La plateforme DORA n’est pas encore déployée sur votre territoire, il se
         peut que votre recherche aboutisse à peu de résultats.
       </span>
+    </div>
+  {/if}
+
+  {#if useAdditionalFilters}
+    <div class="flex border-t border-gray-02 bg-blue-light p-s24 text-f14">
+      <div class="mr-s12">
+        <SelectField
+          hideLabel
+          style="filter"
+          label="Type de service"
+          minDropdownWidth="min-w-[200px]"
+          name="subcategories"
+          placeholder="Type de service"
+          bind:value={kindId}
+          choices={servicesOptions.kinds}
+        />
+      </div>
+      <div>
+        <SelectField
+          hideLabel
+          isMultiple
+          minDropdownWidth="min-w-[240px]"
+          style="filter"
+          label="Frais à charge"
+          name="fee"
+          placeholder="Frais à charge"
+          bind:value={fee}
+          choices={servicesOptions.feeConditions}
+        />
+      </div>
     </div>
   {/if}
 </div>
