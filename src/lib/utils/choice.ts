@@ -11,17 +11,17 @@ export function getChoicesFromKey(key: string, choices: Choice[]) {
 
   return results;
 }
-export function getKeyFromChoice(choice: Choice): string {
+export function getCategoryKeyFromSubcategoryChoice(choice: Choice): string {
   return choice.value.split("--")[0];
 }
 export function injectOptGroupInSubCategories(choices: Choice[]): Choice[] {
   choices.forEach((choice) => {
-    choice.optGroupKey = getKeyFromChoice(choice);
+    choice.optGroupKey = getCategoryKeyFromSubcategoryChoice(choice);
   });
   return choices;
 }
 
-export function injectOptGroupAllOptionInSubCategories(
+export function injectOptGroupAllOptionsInSubCategories(
   optGroups: Choice[],
   choices: Choice[],
   allOptionLabel = "Tous"

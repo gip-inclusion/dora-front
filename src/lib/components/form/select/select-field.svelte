@@ -9,7 +9,7 @@
   import {
     getChoiceFromValue,
     getChoicesFromKey,
-    getKeyFromChoice,
+    getCategoryKeyFromSubcategoryChoice,
   } from "$lib/utils/choice";
   import SelectOptions from "./select-options.svelte";
   import { tick } from "svelte";
@@ -40,9 +40,9 @@
   const originalOptGroups: Choice[] = [...optGroups];
 
   let optGroupsOpen: string[] = [];
-  let valuesSelectedInOptGroup: Record<string, number> = {};
-  if (optGroups) {
-    optGroups.forEach(({ value }) => (valuesSelectedInOptGroup[value] = 0));
+
+  function optGroupHasSubValuesSelected(optGroup) {
+    return value.filter((v) => v.split("--")[0] === optGroup.value).length > 0;
   }
 
   // AriaDescribedBy => TODO: move to wrapper
@@ -52,19 +52,6 @@
     if ((errorMessages || []).length) {
       ariaDescribedBy = `${ariaDescribedBy} ${name}-error`;
     }
-  }
-
-  function decrementValuesSelectedInOptGroup(optGroup: string, decrement = 1) {
-    valuesSelectedInOptGroup = {
-      ...valuesSelectedInOptGroup,
-      [optGroup]: (valuesSelectedInOptGroup[optGroup] -= decrement),
-    };
-  }
-  function incrementValuesSelectedInOptGroup(optGroup: string) {
-    valuesSelectedInOptGroup = {
-      ...valuesSelectedInOptGroup,
-      [optGroup]: (valuesSelectedInOptGroup[optGroup] += 1),
-    };
   }
 
   // *** Accessibilité
@@ -116,7 +103,7 @@
   async function scrollToOption(id: string) {
     // Open if needed
     if (optGroups.length) {
-      const key = getKeyFromChoice(selectedOption);
+      const key = getCategoryKeyFromSubcategoryChoice(selectedOption);
       if (!optGroupsOpen.includes(key)) {
         optGroupsOpen = [...optGroupsOpen, key];
       }
@@ -136,7 +123,6 @@
     filterText = "";
     if (optGroups) {
       optGroupsOpen = [];
-      optGroups.forEach(({ value }) => (valuesSelectedInOptGroup[value] = 0));
     }
   }
 
@@ -147,16 +133,9 @@
     if (isMultiple) {
       if (value.includes(newValue)) {
         value = (value as string[]).filter((v) => v !== newValue);
-
-        // Diminution du décompte
-        if (optGroups) {
-          decrementValuesSelectedInOptGroup(optGroup);
-        }
       } else {
         // Gestion du bouton "Tous"
         if (optGroups) {
-          const currentLength = value.length;
-
           if (newValue.endsWith("--all")) {
             // Si on décoche toutes les options si on sélectionne "Tous"
             value = value.filter((v) => !v.startsWith(`${optGroup}--`));
@@ -164,33 +143,13 @@
             // Si on décoche "Tous" si on sélectionne une option précise
             value = value.filter((v) => v !== `${optGroup}--all`);
           }
-
-          decrementValuesSelectedInOptGroup(
-            optGroup,
-            currentLength - value.length
-          );
         }
 
         value = [...value, newValue];
-
-        // Augmentation du décompte => TODO: update
-        if (optGroups) {
-          incrementValuesSelectedInOptGroup(optGroup);
-        }
       }
     } else {
       // As string
       value = newValue;
-
-      // Mise à jour du décompte
-      if (optGroups) {
-        optGroups.forEach(({ value }) => (valuesSelectedInOptGroup[value] = 0));
-        valuesSelectedInOptGroup[optGroup] += 1;
-        valuesSelectedInOptGroup = {
-          ...valuesSelectedInOptGroup,
-          [optGroup]: (valuesSelectedInOptGroup[optGroup] += 1),
-        };
-      }
     }
     if (onChange) onChange({ detail: name, value });
     if (!isMultiple) toggleCombobox(false);
@@ -236,7 +195,7 @@
     } else {
       // On filtre les choix et les optGroups
       choices = originalChoices.filter((c) =>
-        c.label.toLowerCase().startsWith(filterText.toLocaleLowerCase())
+        c.label.toLowerCase().includes(filterText.toLocaleLowerCase())
       );
 
       // On réinitialise la sélection pour le clavier
@@ -338,8 +297,7 @@
       tabindex="-1"
     >
       {#each optGroups as optGroup (optGroup.value)}
-        {@const hasSubValuesSelected =
-          valuesSelectedInOptGroup[optGroup.value] > 0}
+        {@const hasSubValuesSelected = optGroupHasSubValuesSelected(optGroup)}
         {@const open =
           optGroupsOpen.includes(optGroup.value) || hasSubValuesSelected}
         <div class="w-full">

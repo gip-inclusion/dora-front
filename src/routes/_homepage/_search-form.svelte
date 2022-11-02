@@ -15,7 +15,7 @@
   import type { ServicesOptions } from "$lib/types";
   import { getDepartmentFromCityCode } from "$lib/utils";
   import {
-    injectOptGroupAllOptionInSubCategories,
+    injectOptGroupAllOptionsInSubCategories,
     injectOptGroupInSubCategories,
   } from "$lib/utils/choice";
   import { isInDeploymentDepartments } from "$lib/utils/city";
@@ -55,7 +55,7 @@
 
   const subCategories = sortByCategories(
     servicesOptions.categories,
-    injectOptGroupAllOptionInSubCategories(
+    injectOptGroupAllOptionsInSubCategories(
       categories,
       injectOptGroupInSubCategories(servicesOptions.subcategories),
       "Tous les besoins"
