@@ -193,6 +193,7 @@ export type DashboardService = Pick<
 
 export type ServicesOptions = {
   beneficiariesAccessModes: Choice[];
+  deploymentDepartments: string[];
   requirements: (Choice & { structure: string | null })[];
   locationKinds: Choice[];
   feeConditions: Choice[];

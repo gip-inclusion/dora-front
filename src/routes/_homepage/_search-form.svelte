@@ -148,7 +148,7 @@
     <p>Impossible de contacter le serveur</p>
   {/if}
 
-  {#if cityCode && !isInDeploymentDepartments(cityCode)}
+  {#if cityCode && !isInDeploymentDepartments(cityCode, servicesOptions)}
     <div
       class="flex border-t border-gray-02 bg-blue-light p-s24 font-bold text-france-blue"
     >

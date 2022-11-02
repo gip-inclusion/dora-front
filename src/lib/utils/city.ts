@@ -1,7 +1,13 @@
-export function isInDeploymentDepartments(cityCode: string) {
+import type { ServicesOptions } from "$lib/types";
+
+export function isInDeploymentDepartments(
+  cityCode: string,
+  servicesOptions: ServicesOptions
+): boolean {
+  console.log({ servicesOptions });
   return (
-    cityCode.startsWith("08") ||
-    cityCode.startsWith("11") ||
-    cityCode.startsWith("974")
+    servicesOptions.deploymentDepartments.filter((department) =>
+      cityCode.startsWith(department)
+    ).length > 0
   );
 }
