@@ -22,6 +22,7 @@
   import {
     associateIconToCategory,
     sortByCategories,
+    sortCategory,
   } from "$lib/utils/service";
   import { getQuery } from "./_search";
 
@@ -51,7 +52,9 @@
     goto(`recherche?${query}`);
   }
 
-  const categories = associateIconToCategory(servicesOptions.categories);
+  const categories = associateIconToCategory(
+    sortCategory(servicesOptions.categories)
+  );
 
   const subCategories = sortByCategories(
     servicesOptions.categories,

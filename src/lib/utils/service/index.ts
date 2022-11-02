@@ -164,6 +164,12 @@ export function associateIconToCategory(choices: Choice[]): Choice[] {
   return choices;
 }
 
+export function sortCategory(categories: Choice[]) {
+  return categories.sort((a, b) => {
+    return a.label.localeCompare(b.label, "fr", { numeric: true });
+  });
+}
+
 function sortSubcategory(subcategories: Choice[]) {
   return subcategories.sort((a, b) => {
     if (a.value.endsWith("--autre")) return 1;
