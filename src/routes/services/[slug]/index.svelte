@@ -51,7 +51,11 @@
   import ServiceToolbar from "$lib/components/services/body/toolbar/service-toolbar.svelte";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
-  import { NPS_FORM_ID, SERVICE_CREATION_FORM_ID } from "$lib/const";
+  import {
+    NPS_OFFEROR_FORM_ID,
+    NPS_SEEKER_FORM_ID,
+    SERVICE_CREATION_FORM_ID,
+  } from "$lib/const";
   import { isAfter } from "$lib/utils/date";
   import type { Service } from "$lib/types";
   import ServicePresentation from "$lib/components/services/body/presentation/service-presentation.svelte";
@@ -143,9 +147,10 @@
     />
   {/if}
 
-  <!-- Do not display NPS to the service contributor -->
-  {#if !service.canWrite}
-    <TallyNpsPopup formId={NPS_FORM_ID} />
+  {#if service.canWrite}
+    <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} />
+  {:else}
+    <TallyNpsPopup formId={NPS_SEEKER_FORM_ID} />
   {/if}
 {/if}
 

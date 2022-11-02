@@ -32,6 +32,8 @@
   import { capitalize } from "$lib/utils.js";
 
   import List from "./_list.svelte";
+  import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
+  import { NPS_OFFEROR_FORM_ID } from "$lib/const";
 </script>
 
 <svelte:head>
@@ -45,4 +47,8 @@
     structure={$structure}
     total={$structure.models.length}
   />
+
+  {#if $structure.canWrite}
+    <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} />
+  {/if}
 </EnsureLoggedIn>
