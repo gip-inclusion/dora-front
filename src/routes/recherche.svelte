@@ -94,7 +94,7 @@
   import ServiceSuggestionNotice from "./_homepage/_service-suggestion-notice.svelte";
   import DoraDeploymentNotice from "./_homepage/_dora-deployment-notice.svelte";
   import { isInDeploymentDepartments } from "$lib/utils/city";
-  // import OnlyNationalResultsNotice from "./_homepage/_only-national-results-notice.svelte";
+  import OnlyNationalResultsNotice from "./_homepage/_only-national-results-notice.svelte";
 
   export let servicesOptions: ServicesOptions;
   export let categoryIds: string[];
@@ -118,13 +118,15 @@
     }
   }
 
-  /*
   function hasOnlyNationalResults(services: Service[]) {
-    return false;
+    console.log({ services });
+    return true;
   }
-  */
 
-  $: showDeploymentNotice = !isInDeploymentDepartments(cityCode);
+  $: showDeploymentNotice = !isInDeploymentDepartments(
+    cityCode,
+    servicesOptions
+  );
   $: {
     tags = [];
 
@@ -213,13 +215,12 @@
       <DoraDeploymentNotice />
     </div>
   {/if}
-  <!--
-    {#if hasOnlyNationalResults(services)}
-      <div class="mt-s24">
-        <OnlyNationalResultsNotice />
-      </div>
-    {/if}
-  -->
+
+  {#if hasOnlyNationalResults(services)}
+    <div class="mt-s24">
+      <OnlyNationalResultsNotice />
+    </div>
+  {/if}
 
   {#if services.length}
     <div class="mt-s32 flex flex-col gap-s16">
@@ -249,7 +250,9 @@
       </p>
     </div>
     <div>
-      <NewsletterButton extraClass="border-0 bg-transparent" />
+      <NewsletterButton
+        extraClass="!border-0 !bg-transparent hover:!text-magenta-cta hover:!underline"
+      />
     </div>
   </div>
 </div>
