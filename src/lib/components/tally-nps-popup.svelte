@@ -2,20 +2,20 @@
   import { onDestroy, onMount } from "svelte";
   import { browser } from "$app/env";
   import {
-    formatNpsAnswerLocalStorageKey,
-    hasAnswerNpsForm,
+    getNpsAnswerLocalStorageKey,
+    hasAnsweredNpsForm,
   } from "$lib/utils/nps";
 
   export let formId;
   export let timeout = 45000;
-  const localStorageKey = formatNpsAnswerLocalStorageKey(formId);
+  const localStorageKey = getNpsAnswerLocalStorageKey(formId);
   export let hiddenFields = {};
 
   let timeoutFn;
 
   onMount(() => {
     if (window.Tally) window.Tally.closePopup(formId);
-    const hasAnsweredForm = hasAnswerNpsForm(formId);
+    const hasAnsweredForm = hasAnsweredNpsForm(formId);
 
     if (hasAnsweredForm) return;
 
