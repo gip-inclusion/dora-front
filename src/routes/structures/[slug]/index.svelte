@@ -20,8 +20,6 @@
   import BranchesList from "./antennes/_list.svelte";
   import ModelesList from "./modeles/_list.svelte";
   import { capitalize } from "$lib/utils.js";
-  import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
-  import { NPS_SEEKER_FORM_ID } from "$lib/const.js";
 
   export let structuresOptions;
 
@@ -72,8 +70,4 @@
     total={$structure.models.length}
     limit={4}
   />
-{/if}
-
-{#if !$structure.isMember}
-  <TallyNpsPopup formId={NPS_SEEKER_FORM_ID} />
 {/if}
