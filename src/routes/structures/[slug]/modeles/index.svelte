@@ -49,6 +49,6 @@
   />
 
   {#if $structure.canWrite}
-    <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} />
+    <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} timeout={30000} />
   {/if}
 </EnsureLoggedIn>

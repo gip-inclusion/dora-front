@@ -75,7 +75,7 @@
 {/if}
 
 {#if $structure.canWrite}
-  <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} />
+  <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} timeout={30000} />
 {:else}
   <TallyNpsPopup formId={NPS_SEEKER_FORM_ID} />
 {/if}
