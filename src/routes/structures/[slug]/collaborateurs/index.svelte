@@ -47,8 +47,6 @@
   import MemberToConfirm from "$lib/components/users/member-to-confirm.svelte";
   import MemberStandard from "$lib/components/users/member-standard.svelte";
   import ModalAddUser from "$lib/components/users/modal-add-user.svelte";
-  import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
-  import { NPS_OFFEROR_FORM_ID } from "$lib/const";
 
   export let members, putativeMembers, canSeeMembers, canEditMembers;
 
@@ -125,9 +123,5 @@
         />
       {/each}
     </div>
-  {/if}
-
-  {#if $structure.canWrite}
-    <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} timeout={30000} />
   {/if}
 </EnsureLoggedIn>

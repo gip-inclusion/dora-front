@@ -64,7 +64,7 @@
   import ServiceBeneficiaries from "$lib/components/services/body/service-beneficiaries.svelte";
   import ServiceMobilize from "$lib/components/services/body/service-mobilize.svelte";
   import ServiceMobilisation from "$lib/components/services/body/service-mobilisation.svelte";
-  import { hasAnswerNpsForm } from "$lib/utils/nps";
+  import { hasAnsweredNpsForm } from "$lib/utils/nps";
 
   export let service: Service;
   export let servicesOptions;
@@ -138,7 +138,7 @@
   </CenteredGrid>
 
   {#if service.canWrite}
-    {#if !hasAnswerNpsForm(SERVICE_CREATION_FORM_ID) && $serviceSubmissionTimeMeter.id && $serviceSubmissionTimeMeter.duration && isAfter(new Date(service.creationDate), MIN_DATE_FOR_SERVICE_FEEDBACK_FROM) && !service.hasAlreadyBeenUnpublished}
+    {#if !hasAnsweredNpsForm(SERVICE_CREATION_FORM_ID) && $serviceSubmissionTimeMeter.id && $serviceSubmissionTimeMeter.duration && isAfter(new Date(service.creationDate), MIN_DATE_FOR_SERVICE_FEEDBACK_FROM) && !service.hasAlreadyBeenUnpublished}
       <TallyNpsPopup
         formId={SERVICE_CREATION_FORM_ID}
         timeout={3000}

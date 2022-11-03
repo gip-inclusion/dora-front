@@ -1,6 +1,4 @@
 <script context="module">
-  import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
-  import { NPS_OFFEROR_FORM_ID } from "$lib/const.js";
   import { getServicesOptions } from "$lib/services";
 
   export async function load() {
@@ -38,7 +36,3 @@
   total={$structure.services.length}
   onRefresh={handleRefresh}
 />
-
-{#if $structure.canWrite}
-  <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} timeout={30000} />
-{/if}

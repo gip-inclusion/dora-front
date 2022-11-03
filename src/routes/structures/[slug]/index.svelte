@@ -21,7 +21,7 @@
   import ModelesList from "./modeles/_list.svelte";
   import { capitalize } from "$lib/utils.js";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
-  import { NPS_OFFEROR_FORM_ID, NPS_SEEKER_FORM_ID } from "$lib/const.js";
+  import { NPS_SEEKER_FORM_ID } from "$lib/const.js";
 
   export let structuresOptions;
 
@@ -74,8 +74,6 @@
   />
 {/if}
 
-{#if $structure.canWrite}
-  <TallyNpsPopup formId={NPS_OFFEROR_FORM_ID} timeout={30000} />
-{:else}
+{#if !$structure.isMember}
   <TallyNpsPopup formId={NPS_SEEKER_FORM_ID} />
 {/if}
