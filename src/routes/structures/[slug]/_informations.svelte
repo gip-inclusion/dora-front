@@ -78,7 +78,7 @@
 <div class="structure-body">
   <div class="notice">
     {#if canManageStructure}
-      {#if !isStructureInformationsComplete(structure)}
+      {#if !isStructureInformationsComplete(structure) && !(sourceIsDataInclusion && !structure.hasBeenEdited)}
         <Notice
           title="Les informations de votre structure ne sont pas complètes"
           type="warning"
