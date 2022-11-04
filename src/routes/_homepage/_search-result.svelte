@@ -10,15 +10,19 @@
   export let result: ResultService;
 
   const updateStatusData = computeUpdateStatusData(result);
+  const hasLocationBadged = result.distance || result.location === "a-distance";
 </script>
 
 <div class="rounded-ml border border-gray-02 shadow-md">
   <div class="relative p-s32 pr-s64">
-    <a href="/structures/{result.structure}" class="mb-s24 block text-f14">
+    <a
+      href="/structures/{result.structure}"
+      class="mb-s24 block text-f14 {hasLocationBadged ? 'mt-s48 lg:mt-s0' : ''}"
+    >
       {result.structureInfo.name}
     </a>
 
-    <h3 class="mb-s24 text-france-blue">
+    <h3 class="mb-s0 text-france-blue lg:mb-s24">
       <a
         class="full-result-link hover:underline"
         href="/services/{result.slug}"
@@ -27,20 +31,20 @@
       </a>
     </h3>
 
-    {#if result.distance || result.location === "À distance"}
+    {#if hasLocationBadged}
       <div
-        class="absolute right-s32 top-s32 rounded-xl bg-france-blue py-s4 px-s10 text-f14 font-bold text-white"
+        class="absolute top-s32 rounded-xl bg-france-blue py-s4 px-s10 text-f14 font-bold text-white lg:right-s32"
       >
         {#if result.distance}
           à&nbsp;{result.distance}&nbsp;{result.distance > 1 ? "kms" : "km"}
         {/if}
-        {#if result.location === "À distance"}
+        {#if result.location === "a-distance"}
           à distance
         {/if}
       </div>
     {/if}
 
-    <p class="mt-s16 text-f16 text-gray-text">
+    <p class="mt-s16 hidden text-f16 text-gray-text md:block">
       <a href="/services/{result.slug}">{result.shortDesc}</a>
     </p>
   </div>
