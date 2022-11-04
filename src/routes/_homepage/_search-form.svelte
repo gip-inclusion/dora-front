@@ -70,7 +70,7 @@
   {#if servicesOptions.categories}
     <form class="grid" on:submit|preventDefault={handleSearch}>
       <div
-        class="city flex items-center border-r border-gray-02 p-s24 text-f14"
+        class="city flex items-center border-b border-gray-02 p-s24 text-f14 lg:border-r lg:border-b-0"
         class:has-value={!!cityCode}
       >
         <div class="mr-s8 h-s24 w-s24 fill-current text-magenta-cta">
@@ -115,7 +115,9 @@
         </FieldWrapper>
       </div>
 
-      <div class="flex justify-between border-r border-gray-02 p-s24 text-f14">
+      <div
+        class="flex justify-between border-b border-gray-02 p-s24 text-f14 lg:border-r lg:border-b-0"
+      >
         <div
           class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
         >
@@ -137,7 +139,7 @@
         />
       </div>
 
-      <div class="p-s24">
+      <div class="p-s12 text-center lg:p-s24">
         <Button
           extraClass="h-s48"
           type="submit"
@@ -168,8 +170,19 @@
 
 <style lang="postcss">
   .grid {
+    grid-template-columns: 1fr;
     display: grid;
-    grid-template-columns: 3fr 3fr 1fr;
+  }
+  ::global(#subcategories) {
+    position: relative;
+  }
+  @screen lg {
+    ::global(#subcategories) {
+      position: absolute;
+    }
+    .grid {
+      grid-template-columns: 3fr 3fr 1fr;
+    }
   }
 
   .grid :global(.autocomplete-input) {
