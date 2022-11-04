@@ -7,13 +7,14 @@
     computeUpdateStatusLabel,
   } from "$lib/utils/service";
 
+  export let id: string;
   export let result: ResultService;
 
   const updateStatusData = computeUpdateStatusData(result);
   const hasLocationBadged = result.distance || result.location === "a-distance";
 </script>
 
-<div class="rounded-ml border border-gray-02 shadow-md">
+<div {id} class="rounded-ml border border-gray-02 shadow-md" tabindex="-1">
   <div class="relative p-s32 pr-s64">
     <a
       href="/structures/{result.structure}"

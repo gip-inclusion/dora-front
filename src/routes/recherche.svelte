@@ -85,7 +85,6 @@
   import SearchResult from "./_homepage/_search-result.svelte";
   import SearchPromo from "./_homepage/_search-promo.svelte";
 
-  import NewsletterButton from "$lib/components/newsletter-button.svelte";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
   import { NPS_SEEKER_FORM_ID } from "$lib/const";
   import type {
@@ -99,6 +98,9 @@
   import DoraDeploymentNotice from "./_homepage/_dora-deployment-notice.svelte";
   import { isInDeploymentDepartments } from "$lib/utils/city";
   import OnlyNationalResultsNotice from "./_homepage/_only-national-results-notice.svelte";
+  import NewletterNotice from "./_homepage/_newletter-notice.svelte";
+  import { tick } from "svelte";
+  import Button from "$lib/components/button.svelte";
 
   export let servicesOptions: ServicesOptions;
   export let categoryIds: string[];
@@ -111,20 +113,30 @@
 
   let tags = [];
 
-  function computeCategoryId(
-    categoryIds: string[],
-    subCategoryIds: string[]
-  ): string | undefined {
-    if (categoryIds.length) return categoryIds[0]; // TODO: fix later
-
-    if (subCategoryIds.length) {
-      return subCategoryIds[0].split("--")[0];
-    }
+  function hasOnlyNationalResults(services: ResultService[]) {
+    return (
+      services.length ===
+      services.filter((s) => s.location === "a-distance").length
+    );
   }
 
-  function hasOnlyNationalResults(services: ResultService[]) {
-    console.log({ services });
-    return true;
+  const PAGE_LENGTH = 10;
+  let currentPageLength = PAGE_LENGTH;
+
+  function getResultId(index: number) {
+    return `#result-${index}`;
+  }
+
+  async function loadMoreResult() {
+    const oldPageLength = currentPageLength;
+    currentPageLength += PAGE_LENGTH;
+    await tick();
+
+    // A11y : focus on the first new result
+    const firstNewResult = document.getElementById(
+      getResultId(oldPageLength)
+    ) as HTMLElement;
+    firstNewResult.focus();
   }
 
   $: showDeploymentNotice = !isInDeploymentDepartments(
@@ -135,48 +147,33 @@
     tags = [];
 
     if (categoryIds.length) {
-      let categoryValue = computeCategoryId(categoryIds, subCategoryIds);
+      const categoryTags = categoryIds.map((id) => {
+        return servicesOptions.categories.find((c) => c.value === id).label;
+      });
 
-      const categoryTag = servicesOptions.categories.find(
-        (c) => c.value === categoryValue
-      );
-
-      if (categoryTag) {
-        tags = [categoryTag];
+      if (categoryTags.length) {
+        tags = [...tags, ...categoryTags];
       }
 
-      if (categoryTag && subCategoryIds) {
-        const subCategoryTag = servicesOptions.subcategories.find(
-          (c) => c.value === subCategoryIds[0] // TODO: fix search
-        );
+      if (subCategoryIds.length) {
+        const subCategoryTags = subCategoryIds.map((id) => {
+          return servicesOptions.subcategories.find((c) => c.value === id)
+            .label;
+        });
 
-        if (subCategoryTag) {
-          tags = [...tags, subCategoryTag];
+        if (subCategoryTags) {
+          tags = [...tags, ...subCategoryTags];
         }
       }
-    }
-
-    if (cityLabel) {
-      tags = [...tags, { label: cityLabel }];
-    }
-
-    if (kindId) {
-      const kindTag = servicesOptions.kinds.find((c) => c.value === kindId);
-
-      if (kindTag) {
-        tags = [...tags, kindTag];
-      }
-    }
-
-    if (fee.length) {
-      tags = [...tags, { label: "Frais à charge" }];
     }
   }
 </script>
 
 <svelte:head>
   <title>
-    Services d’insertion : {tags.map((t) => t.label).join(", ")} | Recherche | DORA
+    Services d’insertion {cityLabel ? `à ${cityLabel}` : ""} : {tags
+      .filter(Boolean)
+      .join(", ")} | Recherche | DORA
   </title>
 </svelte:head>
 
@@ -194,6 +191,8 @@
       {servicesOptions}
       {cityCode}
       {cityLabel}
+      {kindId}
+      {fee}
       subCategoryIds={[
         ...subCategoryIds,
         ...categoryIds.map((c) => `${c}--all`),
@@ -229,9 +228,21 @@
   {#if services.length}
     <div class="mt-s32 flex flex-col gap-s16">
       <h2 class="sr-only">Résultats de votre recherche</h2>
-      {#each services as service}
-        <SearchResult result={service} />
+      {#each services as service, index}
+        {#if index < currentPageLength}
+          <SearchResult id={getResultId(index)} result={service} />
+        {/if}
       {/each}
+
+      {#if services.length > currentPageLength}
+        <div class="text-center">
+          <Button
+            label="Charger plus de résultat"
+            on:click={loadMoreResult}
+            extraClass="!bg-transparent text-magenta-cta"
+          />
+        </div>
+      {/if}
     </div>
   {/if}
 
@@ -244,22 +255,6 @@
   {/if}
 </CenteredGrid>
 
-<div class="bg-gray-bg p-s24">
-  <div class="px-s32r m-auto flex max-w-7xl items-center justify-between">
-    <div class="flex items-center">
-      <h2 class="m-s0 text-f14 text-gray-dark">Infolettre</h2>
-      &nbsp;•&nbsp;
-      <p class="m-s0 text-f14">
-        Une fois par mois, recevez un courriel pour être informé des évolutions
-        de DORA.
-      </p>
-    </div>
-    <div>
-      <NewsletterButton
-        extraClass="!border-0 !bg-transparent hover:!text-magenta-cta hover:!underline"
-      />
-    </div>
-  </div>
-</div>
+<NewletterNotice />
 
 <TallyNpsPopup formId={NPS_SEEKER_FORM_ID} />
