@@ -88,7 +88,11 @@
   import NewsletterButton from "$lib/components/newsletter-button.svelte";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
   import { NPS_SEEKER_FORM_ID } from "$lib/const";
-  import type { FeeCondition, ServicesOptions } from "$lib/types";
+  import type {
+    FeeCondition,
+    ResultService,
+    ServicesOptions,
+  } from "$lib/types";
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
   import SearchForm from "./_homepage/_search-form.svelte";
   import ServiceSuggestionNotice from "./_homepage/_service-suggestion-notice.svelte";
@@ -118,7 +122,7 @@
     }
   }
 
-  function hasOnlyNationalResults(services: Service[]) {
+  function hasOnlyNationalResults(services: ResultService[]) {
     console.log({ services });
     return true;
   }
@@ -200,7 +204,7 @@
   </div>
 </CenteredGrid>
 
-<CenteredGrid>
+<CenteredGrid extraClass="max-w-4xl m-auto">
   <div class="mt-s16 text-f21 font-bold text-gray-dark">
     {#if services.length > 0}
       {services.length}
@@ -224,6 +228,7 @@
 
   {#if services.length}
     <div class="mt-s32 flex flex-col gap-s16">
+      <h2 class="sr-only">Résultats de votre recherche</h2>
       {#each services as service}
         <SearchResult result={service} />
       {/each}

@@ -84,6 +84,28 @@ export type FeeCondition =
   | "payant"
   | "adhesion";
 
+export type ResultService = {
+  distance: number;
+  location: string;
+  modificationDate: string;
+  name: string;
+  shortDesc: string;
+  slug: string;
+  structure: string;
+  status: SERVICE_STATUSES;
+  structureInfo: {
+    address1: string;
+    address2: string;
+    city: string;
+    name: string;
+    postalCode: string;
+    shortDesc: string;
+    siret: string;
+    slug: string;
+    url: string;
+  };
+};
+
 export type Service = {
   siret: string;
   name: string;

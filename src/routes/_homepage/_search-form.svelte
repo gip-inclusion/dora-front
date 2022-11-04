@@ -175,7 +175,7 @@
   {/if}
 
   {#if useAdditionalFilters}
-    <div class="flex border-t border-gray-02 bg-blue-light p-s24 text-f14">
+    <div class="flex border-t border-gray-02 bg-white p-s24 text-f14">
       <div class="mr-s12">
         <SelectField
           hideLabel

@@ -4,7 +4,7 @@
   import illuSuggerer from "$lib/assets/illu-suggerer.svg";
 </script>
 
-<div class="flex rounded-md border border-gray-01 bg-white">
+<div class="flex rounded-md border border-gray-01 bg-white shadow-md">
   <div class="flex flex-1 items-center justify-center bg-service-violet">
     <img src={illuSuggerer} alt="" />
   </div>

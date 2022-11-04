@@ -5,7 +5,7 @@ export function isInDeploymentDepartments(
   servicesOptions: ServicesOptions
 ): boolean {
   return (
-    servicesOptions.deploymentDepartments.filter((department) =>
+    (servicesOptions.deploymentDepartments || []).filter((department) =>
       cityCode.startsWith(department)
     ).length > 0
   );
