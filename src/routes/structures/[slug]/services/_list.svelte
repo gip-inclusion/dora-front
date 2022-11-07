@@ -184,9 +184,9 @@
 
       <div>
         <SelectField
-          label="Status"
+          label="Statut"
           name="status"
-          placeholder="Status"
+          placeholder="Statut"
           value={selectedStatus}
           choices={statusOptions}
           hideLabel
