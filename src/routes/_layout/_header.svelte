@@ -5,7 +5,7 @@
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 
   import LogoDORA from "$lib/assets/dora-logo-rvb.svg";
-  import LogoMinistere from "$lib/assets/logo-ministere-travail.svg";
+  import LogoMinistere from "$lib/assets/logo-ministere-travail-emploi.svg";
 
   import HeaderActions from "./_menu.svelte";
 </script>
