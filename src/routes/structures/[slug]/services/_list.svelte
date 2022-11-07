@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { browser } from "$app/env";
+
   import { userInfo } from "$lib/auth";
   import SelectField from "$lib/components/form/select/select-field.svelte";
 
@@ -19,17 +21,44 @@
     SERVICE_STATUSES,
     SERVICE_UPDATE_STATUS,
     type Choice,
+    type DashboardService,
   } from "$lib/types";
   import { computeUpdateStatusData } from "$lib/utils/service";
 
   export let structure, total, servicesOptions;
   export let hasOptions = true;
   export let onRefresh;
-  export let limit;
+  export let limit: number | undefined = undefined;
+
+  export let serviceStatus: SERVICE_STATUSES | undefined;
+  export let updateStatus: SERVICE_UPDATE_STATUS | undefined;
+  export let servicesDisplayed: DashboardService[] = [];
+
   let canEdit;
 
+  function updateUrlQueryParams() {
+    if (!browser) return;
+    let searchParams = new URL(window.location.href).searchParams;
+
+    if (serviceStatus) {
+      searchParams.set("service-status", encodeURIComponent(serviceStatus));
+    } else {
+      searchParams.delete("service-status");
+    }
+
+    if (updateStatus) {
+      searchParams.set("update-status", encodeURIComponent(updateStatus));
+    } else {
+      searchParams.delete("update-status");
+    }
+
+    let newUrl = window.location.pathname;
+    if (searchParams.toString()) newUrl += `?${searchParams.toString()}`;
+
+    window.history.replaceState("", "", newUrl);
+  }
+
   // Status options
-  let selectedStatus = "";
   const statusOptions: Choice[] = [
     { value: "", label: "Tout" },
     {
@@ -59,7 +88,6 @@
   ];
 
   // Update status
-  let selectedUpdateStatus = "";
   const updateStatusOptions: Choice[] = [
     { value: "", label: "Tout" },
     {
@@ -121,36 +149,40 @@
   }
 
   function handleEltChange(event) {
-    let services = structure.services;
     if (event.detail === "update-status") {
-      selectedUpdateStatus = event.value;
+      updateStatus = event.value;
     }
     if (event.detail === "status") {
-      selectedStatus = event.value;
+      serviceStatus = event.value;
     }
+    updateServiceList();
+  }
 
-    if (selectedStatus) {
+  function updateServiceList() {
+    let services = structure.services;
+
+    if (serviceStatus) {
       // By status
-      if (selectedStatus === SERVICE_STATUSES.ARCHIVED)
+      if (serviceStatus === SERVICE_STATUSES.ARCHIVED)
         services = structure.archivedServices;
       else {
-        services = structure.services.filter(
-          (s) => s.status === selectedStatus
-        );
+        services = structure.services.filter((s) => s.status === serviceStatus);
       }
     }
 
     // By update status
-    if (selectedUpdateStatus) {
+    if (updateStatus) {
       services = services.filter(
-        (s) => computeUpdateStatusData(s).updateStatus === selectedUpdateStatus
+        (s) => computeUpdateStatusData(s).updateStatus === updateStatus
       );
     }
 
     servicesDisplayed = sortService(services);
+    updateUrlQueryParams();
   }
 
-  let servicesDisplayed = sortService(structure.services);
+  // Tri à l'initialisation
+  updateServiceList();
   $: canEdit = structure.isMember || $userInfo?.isStaff;
 </script>
 
@@ -187,7 +219,7 @@
           label="Statut"
           name="status"
           placeholder="Statut"
-          value={selectedStatus}
+          value={serviceStatus}
           choices={statusOptions}
           hideLabel
           style="filter"
@@ -200,7 +232,7 @@
           label="Actualisation"
           name="update-status"
           placeholder="Actualisation"
-          value={selectedUpdateStatus}
+          value={updateStatus}
           choices={updateStatusOptions}
           hideLabel
           style="filter"
@@ -212,11 +244,11 @@
 
     <div>
       <button
-        class:!text-magenta-cta={selectedStatus || selectedUpdateStatus}
+        class:!text-magenta-cta={serviceStatus || updateStatus}
         class="text-gray-text-alt"
         on:click={() => {
-          selectedStatus = "";
-          selectedUpdateStatus = "";
+          serviceStatus = undefined;
+          updateStatus = undefined;
         }}
       >
         Tout effacer
@@ -231,7 +263,7 @@
           ? "s"
           : ""}
       </strong>
-      <span class:hidden={!selectedStatus && !selectedUpdateStatus}>
+      <span class:hidden={!serviceStatus && !updateStatus}>
         correspond{servicesDisplayed.length > 1 ? "ent" : ""} à votre recherche
       </span>
     </span>
