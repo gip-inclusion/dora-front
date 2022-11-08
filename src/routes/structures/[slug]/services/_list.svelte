@@ -1,5 +1,6 @@
 <script lang="ts">
   import { browser } from "$app/env";
+  import { page } from "$app/stores";
 
   import { userInfo } from "$lib/auth";
   import SelectField from "$lib/components/form/select/select-field.svelte";
@@ -38,7 +39,8 @@
 
   function updateUrlQueryParams() {
     if (!browser) return;
-    let searchParams = new URL(window.location.href).searchParams;
+
+    let searchParams = $page.url.searchParams;
 
     if (serviceStatus) {
       searchParams.set("service-status", encodeURIComponent(serviceStatus));
@@ -52,7 +54,7 @@
       searchParams.delete("update-status");
     }
 
-    let newUrl = window.location.pathname;
+    let newUrl = $page.url.pathname;
     if (searchParams.toString()) newUrl += `?${searchParams.toString()}`;
 
     window.history.replaceState("", "", newUrl);
