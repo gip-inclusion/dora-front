@@ -175,8 +175,10 @@
   {/if}
 
   {#if useAdditionalFilters}
-    <div class="flex border-t border-gray-02 bg-white p-s24 text-f14">
-      <div class="mr-s12">
+    <div
+      class="flex flex-col border-t border-gray-02 bg-white p-s24 text-f14 md:flex-row"
+    >
+      <div class="mr-s12 mb-s12 md:mb-s0">
         <SelectField
           hideLabel
           style="filter"

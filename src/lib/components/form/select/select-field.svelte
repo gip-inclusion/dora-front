@@ -235,7 +235,7 @@
     class:filter-style={style === "filter"}
     class:filter-search={style === "search"}
     class:expanded
-    class:has-value={value}
+    class:has-value={isMultiple ? value.length : value}
     role="combobox"
     tabindex="0"
     aria-describedby={ariaDescribedBy}
@@ -367,8 +367,15 @@
 
   /* As search */
   .filter-search {
-    @apply absolute border-0 bg-transparent;
+    @apply absolute border-0 bg-transparent py-s0 px-s12;
   }
+
+  @screen lg {
+    .filter-search {
+      @apply p-s12;
+    }
+  }
+
   .filter-search .chevron {
     @apply !text-gray-dark;
   }
