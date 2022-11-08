@@ -3,6 +3,11 @@
 const config = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
+    extends: {
+      flex: {
+        "64px": "0 0 64px",
+      },
+    },
     colors: {
       transparent: "transparent",
       current: "currentColor",
@@ -143,9 +148,6 @@ const config = {
       xl: "0 0 4px rgba(0, 0, 0, 0.1), 0px 8px 40px rgba(0, 0, 0, 0.2);",
       inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)",
       focus: "0px 0px 0px 2px #FFFFFF, 0px 0px 0px 4px #0A76F6",
-    },
-    flex: {
-      "64px": "0 0 64px",
     },
   },
   corePlugins: {
