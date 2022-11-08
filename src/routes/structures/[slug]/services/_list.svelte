@@ -1,5 +1,6 @@
 <script lang="ts">
   import { browser } from "$app/env";
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
 
   import { userInfo } from "$lib/auth";
@@ -57,7 +58,7 @@
     let newUrl = $page.url.pathname;
     if (searchParams.toString()) newUrl += `?${searchParams.toString()}`;
 
-    window.history.replaceState("", "", newUrl);
+    goto(newUrl, { replaceState: true });
   }
 
   // Status options
