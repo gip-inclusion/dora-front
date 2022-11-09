@@ -13,10 +13,10 @@
 
   <div class="flex-[1] p-s32">
     <h2 class="text-f17 font-bold leading-28 text-gray-text">
-      Demain vos partenaires locaux seront ici... aidez-nous à les identifier 😊
+      Demain vos partenaires locaux seront ici… aidez-nous à les identifier 😊
     </h2>
     <p class="mb-s32 text-f14">
-      En tant qu'experts, vous avez une connaissance étendue de l'offre
+      En tant qu’experts, vous avez une connaissance étendue de l’offre
       d’insertion de votre territoire. Participez à notre démarche collective en
       suggérant les services de vos partenaires locaux.
     </p>

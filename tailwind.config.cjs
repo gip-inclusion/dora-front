@@ -3,11 +3,6 @@
 const config = {
   content: ["./src/**/*.{html,js,svelte,ts}"],
   theme: {
-    extends: {
-      flex: {
-        "64px": "0 0 64px",
-      },
-    },
     colors: {
       transparent: "transparent",
       current: "currentColor",

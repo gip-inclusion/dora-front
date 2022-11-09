@@ -89,7 +89,7 @@
   import { NPS_SEEKER_FORM_ID } from "$lib/const";
   import type {
     FeeCondition,
-    ResultService,
+    ServiceSearchResult,
     ServicesOptions,
   } from "$lib/types";
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
@@ -102,6 +102,8 @@
   import { tick } from "svelte";
   import Button from "$lib/components/button.svelte";
 
+  const PAGE_LENGTH = 10;
+
   export let servicesOptions: ServicesOptions;
   export let categoryIds: string[];
   export let subCategoryIds: string[];
@@ -113,14 +115,11 @@
 
   let tags = [];
 
-  function hasOnlyNationalResults(services: ResultService[]) {
-    return (
-      services.length ===
-      services.filter((s) => s.location === "a-distance").length
-    );
+  function hasOnlyNationalResults(services: ServiceSearchResult[]) {
+    if (services.length === 0) return false;
+    return services.every((s) => s.diffusionZoneType === "country");
   }
 
-  const PAGE_LENGTH = 10;
   let currentPageLength = PAGE_LENGTH;
 
   function getResultId(index: number) {

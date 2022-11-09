@@ -1,6 +1,7 @@
 <script lang="ts">
   // Source pour l'accessibilité : https://www.w3.org/WAI/ARIA/apg/example-index/breadcrumb/index.html
   import type { Structure, Service } from "$lib/types";
+  import { page } from "$app/stores";
 
   type BreadcrumbLocation =
     | "home"
@@ -81,7 +82,7 @@
 
     {#if currentLocation === "search"}
       <li class="inline before:content-['/']">
-        <a href={window.location.href} aria-current="page" class="current">
+        <a href={$page.url.href} aria-current="page" class="current">
           Recherche
         </a>
       </li>

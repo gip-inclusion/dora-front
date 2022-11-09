@@ -49,9 +49,9 @@
 </script>
 
 {#if visible}
-  <div class="flex rounded-r-xl {types[type].bg} px-s16 py-s32">
+  <div class="flex rounded-xl {types[type].bg} px-s16 py-s32">
     {#if showIcon}
-      <div class="hidden text-center sm:block sm:flex-64px">
+      <div class="hidden text-center sm:block sm:flex-[0_0_64px]">
         <div
           class="{types[type].text} m-auto h-s32 w-s32 shrink-0 fill-current"
         >

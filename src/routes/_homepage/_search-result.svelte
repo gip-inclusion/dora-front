@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SERVICE_UPDATE_STATUS, type ResultService } from "$lib/types";
+  import { SERVICE_UPDATE_STATUS, type ServiceSearchResult } from "$lib/types";
   import UpdateStatusIcon from "$lib/components/services/icons/update-status.svelte";
 
   import {
@@ -8,17 +8,17 @@
   } from "$lib/utils/service";
 
   export let id: string;
-  export let result: ResultService;
+  export let result: ServiceSearchResult;
 
   const updateStatusData = computeUpdateStatusData(result);
-  const hasLocationBadged = result.distance || result.location === "a-distance";
+  const hasLocationTag = result.distance || result.location === "À distance";
 </script>
 
 <div {id} class="rounded-ml border border-gray-02 shadow-md" tabindex="-1">
   <div class="relative p-s32 pr-s64">
     <a
       href="/structures/{result.structure}"
-      class="mb-s24 block text-f14 {hasLocationBadged ? 'mt-s48 lg:mt-s0' : ''}"
+      class="mb-s24 block text-f14 {hasLocationTag ? 'mt-s48 lg:mt-s0' : ''}"
     >
       {result.structureInfo.name}
     </a>
@@ -32,15 +32,15 @@
       </a>
     </h3>
 
-    {#if hasLocationBadged}
+    {#if hasLocationTag}
       <div
         class="absolute top-s32 rounded-xl bg-france-blue py-s4 px-s10 text-f14 font-bold text-white lg:right-s32"
       >
         {#if result.distance}
           à&nbsp;{result.distance}&nbsp;{result.distance > 1 ? "kms" : "km"}
         {/if}
-        {#if result.location === "a-distance"}
-          à distance
+        {#if result.location === "À distance"}
+          À distance
         {/if}
       </div>
     {/if}

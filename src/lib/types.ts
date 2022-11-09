@@ -84,9 +84,10 @@ export type FeeCondition =
   | "payant"
   | "adhesion";
 
-export type ResultService = {
+export type ServiceSearchResult = {
   distance: number;
   location: string;
+  diffusionZoneType: string;
   modificationDate: string;
   name: string;
   shortDesc: string;
