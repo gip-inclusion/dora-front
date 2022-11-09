@@ -45,7 +45,7 @@
       </div>
     {/if}
 
-    <p class="mt-s16 hidden text-f16 text-gray-text md:block">
+    <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
       <a href="/services/{result.slug}">{result.shortDesc}</a>
     </p>
   </div>
