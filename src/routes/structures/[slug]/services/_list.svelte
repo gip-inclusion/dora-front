@@ -58,7 +58,7 @@
     let newUrl = $page.url.pathname;
     if (searchParams.toString()) newUrl += `?${searchParams.toString()}`;
 
-    goto(newUrl, { replaceState: true });
+    goto(newUrl, { replaceState: true, keepfocus: true, noscroll: true });
   }
 
   // Status options
@@ -158,12 +158,10 @@
     if (event.detail === "status") {
       serviceStatus = event.value;
     }
-    updateServiceList();
+    servicesDisplayed = filterAndSortServices(structure.services);
   }
 
-  function updateServiceList() {
-    let services = structure.services;
-
+  function filterAndSortServices(services) {
     if (serviceStatus) {
       // By status
       if (serviceStatus === SERVICE_STATUSES.ARCHIVED)
@@ -180,12 +178,11 @@
       );
     }
 
-    servicesDisplayed = sortService(services);
     updateUrlQueryParams();
+    return sortService(services);
   }
 
-  // Tri à l'initialisation
-  updateServiceList();
+  $: servicesDisplayed = filterAndSortServices(structure.services);
   $: canEdit = structure.isMember || $userInfo?.isStaff;
 </script>
 

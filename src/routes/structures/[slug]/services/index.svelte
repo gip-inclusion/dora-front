@@ -3,7 +3,6 @@
 
   export async function load({ url }) {
     const query = url.searchParams;
-
     return {
       props: {
         serviceStatus: query.get("service-status"),
