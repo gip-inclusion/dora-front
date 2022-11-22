@@ -3,14 +3,14 @@
 
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
   import Favorite from "$lib/components/favorite-icon.svelte";
-  import { toggleBookmark } from "$lib/services";
+  import { setBookmark } from "$lib/services";
   import type { Service } from "$lib/types";
   import { capitalize } from "$lib/utils";
 
   export let service: Service;
 
   async function handleFavClick() {
-    await toggleBookmark(service.slug);
+    await setBookmark(service.slug, !serviceIsBookmarked);
     await refreshUserInfo();
   }
 

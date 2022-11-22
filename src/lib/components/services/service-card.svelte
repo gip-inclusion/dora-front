@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { userInfo, refreshUserInfo } from "$lib/auth";
+  import { setBookmark } from "$lib/services";
+  import FavoriteIcon from "$lib/components/favorite-icon.svelte";
+
   import ServiceButtonMenu from "./service-button-menu.svelte";
   import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
   import {
@@ -18,6 +22,14 @@
   export let servicesOptions;
   export let readOnly = true;
   export let onRefresh: () => void;
+
+  async function handleFavClick() {
+    await setBookmark(service.slug, !serviceIsBookmarked);
+    await refreshUserInfo();
+  }
+  $: serviceIsBookmarked = $userInfo?.bookmarks
+    .map((b) => b.service.slug)
+    .includes(service.slug);
 
   $: updateStatusData = computeUpdateStatusData(service);
 </script>
@@ -50,11 +62,19 @@
       </div>
     {/if}
 
-    <h3 class="mb-s24 text-france-blue">
-      <a class="full-card-link hover:underline" href="/services/{service.slug}"
-        >{service.name}</a
+    <div class="mb-s24 flex items-center justify-between">
+      <a
+        class="full-card-link text-f19 font-bold text-france-blue hover:underline"
+        href="/services/{service.slug}">{service.name}</a
       >
-    </h3>
+      <div class="flex items-center gap-s8">
+        <FavoriteIcon
+          on:click={handleFavClick}
+          active={serviceIsBookmarked}
+          small
+        />
+      </div>
+    </div>
 
     {#if service.diffusionZoneDetailsDisplay}
       <div class="mb-s8 flex items-center text-france-blue">
@@ -119,12 +139,12 @@
   * Link is on <h2> but we want all the card clickable (in an accessible way)
   * Source: http://inclusive-components.design/cards/
   */
-  .full-card-link::after {
+  /* .full-card-link::after {
     content: "";
     position: absolute;
     left: 0;
     top: 0;
     right: 0;
     bottom: 0;
-  }
+  } */
 </style>

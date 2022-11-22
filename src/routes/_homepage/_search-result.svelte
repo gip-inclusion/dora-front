@@ -1,6 +1,6 @@
 <script lang="ts">
   import { userInfo, refreshUserInfo } from "$lib/auth";
-  import { toggleBookmark } from "$lib/services";
+  import { setBookmark } from "$lib/services";
   import type { ServiceSearchResult } from "$lib/types";
 
   import FavoriteIcon from "$lib/components/favorite-icon.svelte";
@@ -9,7 +9,7 @@
   export let result: ServiceSearchResult;
 
   async function handleFavClick() {
-    await toggleBookmark(result.slug);
+    await setBookmark(result.slug, !resultIsBookmarked);
     await refreshUserInfo();
   }
 
@@ -22,13 +22,13 @@
 <div {id} class="rounded-ml border border-gray-02 shadow-sm" tabindex="-1">
   <div class="relative p-s32 lg:pr-s64 ">
     <div class="mb-s24 flex items-center justify-between ">
-      <a href="/structures/{result.structure}" class="block text-f14">
+      <div class=" text-f14">
         {result.structureInfo.name}
         {#if result.location && result.location !== "À distance"}<span
             class="legend ml-s8 font-bold uppercase text-gray-dark"
             >{result.location}</span
           >{/if}
-      </a>
+      </div>
       <div class="flex items-center gap-s8">
         {#if hasLocationTag}
           <div

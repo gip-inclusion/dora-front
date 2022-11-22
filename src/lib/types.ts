@@ -243,6 +243,7 @@ export type DashboardService = Pick<
   | "feeCondition"
   | "model"
   | "structure"
+  | "structureInfo"
   | "qpvOrZrr"
 >;
 
