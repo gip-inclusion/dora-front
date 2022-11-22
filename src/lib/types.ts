@@ -132,7 +132,7 @@ export type ServiceSearchResult = {
   };
 };
 
-export type Service = {
+export interface Service {
   siret: string;
   name: string;
   slug: string;
@@ -208,7 +208,14 @@ export type Service = {
 
   diffusionZoneTypeDisplay: string | undefined;
   beneficiariesAccessModes: string[] | undefined;
-};
+
+  bookmarked: boolean | undefined;
+}
+
+export interface Bookmark {
+  service: DashboardService;
+  creationDate: string;
+}
 
 export type DashboardService = Pick<
   Service,

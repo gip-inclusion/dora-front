@@ -1,9 +1,22 @@
 <script lang="ts">
+  import { userInfo, refreshUserInfo } from "$lib/auth";
+
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
+  import Favorite from "$lib/components/favorite-icon.svelte";
+  import { toggleBookmark } from "$lib/services";
   import type { Service } from "$lib/types";
   import { capitalize } from "$lib/utils";
 
   export let service: Service;
+
+  async function handleFavClick() {
+    await toggleBookmark(service.slug);
+    await refreshUserInfo();
+  }
+
+  $: serviceIsBookmarked = $userInfo?.bookmarks
+    .map((b) => b.service.slug)
+    .includes(service.slug);
 </script>
 
 <div
@@ -17,12 +30,19 @@
       currentLocation="service"
     />
   </div>
-  <h1 class="mb-s14 leading-[3rem] text-white print:text-france-blue">
-    {service.name}
-  </h1>
-
+  <div class="flex items-baseline justify-between">
+    <h1 class="mb-s0 leading-[3rem] text-white print:text-france-blue">
+      {service.name}
+    </h1>
+    <Favorite
+      big
+      on:click={handleFavClick}
+      active={serviceIsBookmarked}
+      inverted
+    />
+  </div>
   <div
-    class="mb-s48 flex flex-col text-f18 text-white print:text-france-blue md:flex-row md:items-center"
+    class="mt-s16 mb-s48 flex flex-col text-f18 text-white print:text-france-blue md:flex-row md:items-center"
   >
     <div><strong>{capitalize(service.structureInfo.name)}</strong></div>
     <div
