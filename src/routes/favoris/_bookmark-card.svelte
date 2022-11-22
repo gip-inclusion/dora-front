@@ -1,52 +1,45 @@
 <script lang="ts">
-  import { userInfo, refreshUserInfo } from "$lib/auth";
-  import { setBookmark } from "$lib/services";
   import type { Bookmark } from "$lib/types";
 
   import FavoriteIcon from "$lib/components/favorite-icon.svelte";
+  import Bookmarkable from "$lib/components/bookmarkable.svelte";
 
   export let bookmark: Bookmark;
 
-  async function handleFavClick() {
-    await setBookmark(bookmark.service.slug, !active);
-    await refreshUserInfo();
-  }
-
-  $: active = $userInfo?.bookmarks
-    .map((b) => b.service.slug)
-    .includes(bookmark.service.slug);
   $: service = bookmark.service;
 </script>
 
-<div class="rounded-ml border border-gray-02 shadow-sm" tabindex="-1">
-  <div class="p-s32 lg:pr-s64 ">
-    <div class="mb-s24 flex items-center justify-between ">
-      <a href="/structures/{service.structure}" class="block text-f14">
-        {bookmark.service.structureInfo.name}
-        {#if service.postalCode}<span
-            class="legend ml-s8 font-bold uppercase text-gray-dark"
-            >{service.postalCode} {service.city}</span
-          >{/if}
-      </a>
-      <div class="flex items-center gap-s8">
-        <FavoriteIcon on:click={handleFavClick} {active} small />
+<Bookmarkable slug={bookmark.service.slug} let:onBookmark let:isBookmarked>
+  <div class="rounded-ml border border-gray-02 shadow-sm" tabindex="-1">
+    <div class="p-s32 lg:pr-s64 ">
+      <div class="mb-s24 flex items-center justify-between ">
+        <a href="/structures/{service.structure}" class="block text-f14">
+          {bookmark.service.structureInfo.name}
+          {#if service.postalCode}<span
+              class="legend ml-s8 font-bold uppercase text-gray-dark"
+              >{service.postalCode} {service.city}</span
+            >{/if}
+        </a>
+        <div class="flex items-center gap-s8">
+          <FavoriteIcon on:click={onBookmark} active={isBookmarked} small />
+        </div>
       </div>
+
+      <h3 class=" mb-s0 text-france-blue lg:mb-s24">
+        <a
+          class="full-result-link hover:underline"
+          href="/services/{service.slug}"
+        >
+          {service.name}
+        </a>
+      </h3>
+
+      <p class="z-10 mt-s16 hidden text-f16 text-gray-text md:block">
+        <a href="/services/{service.slug}">{service.shortDesc}</a>
+      </p>
     </div>
-
-    <h3 class=" mb-s0 text-france-blue lg:mb-s24">
-      <a
-        class="full-result-link hover:underline"
-        href="/services/{service.slug}"
-      >
-        {service.name}
-      </a>
-    </h3>
-
-    <p class="z-10 mt-s16 hidden text-f16 text-gray-text md:block">
-      <a href="/services/{service.slug}">{service.shortDesc}</a>
-    </p>
   </div>
-</div>
+</Bookmarkable>
 
 <style lang="postcss">
   /*

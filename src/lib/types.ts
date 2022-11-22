@@ -208,8 +208,6 @@ export interface Service {
 
   diffusionZoneTypeDisplay: string | undefined;
   beneficiariesAccessModes: string[] | undefined;
-
-  bookmarked: boolean | undefined;
 }
 
 export interface Bookmark {

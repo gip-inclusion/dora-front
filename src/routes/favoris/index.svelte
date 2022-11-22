@@ -12,6 +12,8 @@
   let bookmarks: Bookmark[] = [];
 
   onMount(() => {
+    // On ne veut pas être réactifs ici, afin que la liste ne soit pas rafraichie tant qu'on reste sur la page
+    // sans quoi les favoris disparaitraient au clic, et on ne pourrait pas les reselectionner
     bookmarks = $userInfo?.bookmarks;
   });
 </script>
@@ -48,7 +50,7 @@
           <p class="legend ">
             Pour ajouter votre premier service en favori, rien de plus
             simple&nbsp;: cliquez sur l’icône étoile et retrouvez-le dès que
-            vous avez besoin, dans votre liste de favoris&nbsp;!
+            vous en aurez besoin, dans votre liste de favoris&nbsp;!
           </p>
         </div>
         <div class="flex-shrink-0">
