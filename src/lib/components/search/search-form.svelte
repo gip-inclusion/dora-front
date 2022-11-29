@@ -155,7 +155,7 @@
           extraClass="h-s48"
           type="submit"
           label="Rechercher"
-          disabled={subCategoryIds.length === 0 || !cityCode}
+          disabled={subCategoryIds.length === 0 && !cityCode}
           preventDefaultOnMouseDown
         />
       </div>
