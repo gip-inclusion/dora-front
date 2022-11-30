@@ -202,11 +202,11 @@
   }
 
   function setContact() {
-    if (structure.phone) {
+    if (structure.phone && !service.contactPhone) {
       service.contactPhone = structure.phone;
     }
 
-    if (structure.email) {
+    if (structure.email && !service.contactEmail) {
       service.contactEmail = structure.email;
     }
   }
