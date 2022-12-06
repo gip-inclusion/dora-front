@@ -21,6 +21,7 @@
     const url = `${getApiURL()}/admin-division-search/?type=${searchType}&q=${encodeURIComponent(
       q
     )}`;
+    // TODO: migrate to fetchData
     const response = await fetch(url);
     const jsonResponse = await response.json();
     const results = jsonResponse.map((result) => ({

@@ -30,14 +30,14 @@ function serviceToFront(service) {
   return service;
 }
 
-export async function getMyServices() {
+export async function getMyServices(fetchFct) {
   const url = `${getApiURL()}/services/?mine=1`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
-export async function getService(slug): Promise<Service> {
+export async function getService(slug, fetchFct): Promise<Service> {
   const url = `${getApiURL()}/services/${slug}/`;
-  const response = await fetchData(url);
+  const response = await fetchData(url, fetchFct);
 
   if (!response.data) return null;
   // TODO: 404
@@ -45,14 +45,14 @@ export async function getService(slug): Promise<Service> {
   return serviceToFront(response.data);
 }
 
-export async function getPublishedServices(): Promise<Service[]> {
+export async function getPublishedServices(fetchFct): Promise<Service[]> {
   const url = `${getApiURL()}/services/?published=1`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
-export async function getModel(slug): Promise<Model> {
+export async function getModel(slug, fetchFct): Promise<Model> {
   const url = `${getApiURL()}/models/${slug}/`;
-  const response = await fetchData(url);
+  const response = await fetchData(url, fetchFct);
 
   if (!response.data) return null;
   // TODO: 404
@@ -287,27 +287,28 @@ export async function convertSuggestionToDraft(serviceSlug) {
   return await response.json();
 }
 
-export async function getLastDraft() {
+export async function getLastDraft(fetchFct) {
   if (token) {
     const url = `${getApiURL()}/services/last-draft/`;
-    return (await fetchData(url)).data;
+    return (await fetchData(url, fetchFct)).data;
   }
   return null;
 }
 
 let servicesOptionsBase;
-export async function getServicesOptions({
-  model = null,
-} = {}): Promise<ServicesOptions> {
-  if (!servicesOptionsBase) {
-    const url = `${getApiURL()}/services-options/`;
-    try {
-      servicesOptionsBase = (await fetchData(url)).data;
-    } catch (err) {
-      logException(err);
-      return {};
-    }
+export async function getServicesOptions(
+  fetchFct,
+  { model = null } = {}
+): Promise<ServicesOptions> {
+  // if (!servicesOptionsBase) {
+  const url = `${getApiURL()}/services-options/`;
+  try {
+    servicesOptionsBase = (await fetchData(url, fetchFct)).data;
+  } catch (err) {
+    logException(err);
+    return {};
   }
+  // }
 
   const data = { ...servicesOptionsBase };
   if (model?.customizableChoicesSet) {
@@ -326,9 +327,9 @@ export async function getServicesOptions({
   return data;
 }
 
-export async function getServiceSuggestions() {
+export async function getServiceSuggestions(fetchFct) {
   const url = `${getApiURL()}/services-suggestions/`;
-  const results = (await fetchData(url)).data;
+  const results = (await fetchData(url, fetchFct)).data;
   if (!results) return [];
 
   return results;

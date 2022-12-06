@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
   import LogoDORA from "$lib/assets/dora-logo-rvb.svg";
   import LogoMinistere from "$lib/assets/logo-ministere-travail-emploi.svg";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
@@ -31,12 +30,11 @@
           height="65"
         />
       </a>
-      {#if browser}
-        <div class="grow" />
-        <div class="print:hidden">
-          <HeaderActions />
-        </div>
-      {/if}
+
+      <div class="grow" />
+      <div class="print:hidden">
+        <HeaderActions />
+      </div>
     </div>
   </CenteredGrid>
 </header>

@@ -27,10 +27,10 @@
 
   function handleChange(_validatedData) {}
 
-  function handleSubmit(validatedData) {
+  function handleSubmit(validatedData, fetchFct) {
     const url = `${getApiURL()}/services/${service.slug}/feedback/`;
 
-    return fetch(url, {
+    return fetchFct(url, {
       method: "POST",
       body: JSON.stringify({
         ...validatedData,

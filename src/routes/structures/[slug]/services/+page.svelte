@@ -6,6 +6,7 @@
   import List from "./list.svelte";
 
   export let data: PageData;
+
   async function handleRefresh() {
     $structure = await getStructure($structure.slug);
   }

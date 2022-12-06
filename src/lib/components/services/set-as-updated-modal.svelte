@@ -13,8 +13,8 @@
   export let servicesOptions: ServicesOptions;
   export let onRefresh: () => void;
 
-  async function setAsUpdated() {
-    await createOrModifyService(service);
+  async function setAsUpdated(fetchFct) {
+    await createOrModifyService(service, fetchFct);
     isOpen = false;
     await onRefresh();
   }

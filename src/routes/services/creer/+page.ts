@@ -3,11 +3,9 @@ import { getNewService } from "$lib/components/services/form/utils";
 import { getLastDraft, getModel, getServicesOptions } from "$lib/services";
 import { getStructures } from "$lib/structures";
 import { get } from "svelte/store";
+import type { PageLoad } from "./$types";
 
-// pages authentifiées sur lesquelles la première requête non authentifiée n'a pas de sens
-export const ssr = false;
-
-export async function load({ url, parent }) {
+export const load: PageLoad = async ({ url, parent, fetch }) => {
   await parent();
 
   const query = url.searchParams;
@@ -18,7 +16,7 @@ export async function load({ url, parent }) {
   let structures = [];
 
   if (user?.isStaff) {
-    structures = await getStructures();
+    structures = await getStructures(fetch);
   } else if (user) {
     structures = user.structures;
   }
@@ -27,7 +25,7 @@ export async function load({ url, parent }) {
   let model;
 
   if (modelSlug) {
-    model = await getModel(modelSlug);
+    model = await getModel(modelSlug, fetch);
     service = JSON.parse(JSON.stringify(model));
     service.model = modelSlug;
     service.structure = null;
@@ -49,11 +47,11 @@ export async function load({ url, parent }) {
   }
 
   return {
-    lastDraft: await getLastDraft(),
-    servicesOptions: await getServicesOptions({ model }),
+    lastDraft: await getLastDraft(fetch),
+    servicesOptions: await getServicesOptions(fetch, { model }),
     structures,
     structure,
     service,
     model,
   };
-}
+};

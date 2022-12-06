@@ -1,17 +1,43 @@
 import { browser } from "$app/environment";
-import { userInfo, validateCredsAndFillUserInfo } from "$lib/auth";
-import { CRISP_ID, ENVIRONMENT } from "$lib/env";
+import {
+  setToken,
+  setUserInfo,
+  userInfo,
+  validateCredsAndFillUserInfo,
+  type UserInfo,
+} from "$lib/auth";
+import { CRISP_ID } from "$lib/env";
+import { userPreferencesSet } from "$lib/preferences";
 import { redirect } from "@sveltejs/kit";
 import { get } from "svelte/store";
+import type { LayoutLoad } from "./$types";
+
+export const ssr = true;
 
 // No SSR for testing => we can't intercept request server side
-export const ssr = ENVIRONMENT === "testing" ? false : undefined;
+//export const ssr = ENVIRONMENT === "testing" ? false : undefined;
 
-export async function load({ url }) {
-  let currentUserInfo = get(userInfo);
-  if (!currentUserInfo) {
-    await validateCredsAndFillUserInfo();
+export const load: LayoutLoad = async ({ url, data, fetch }) => {
+  let currentUserInfo: UserInfo;
+  if (data.userInfo) {
+    console.log("using ssr userinfo", browser, data.userInfo?.firstName);
+    setUserInfo(data.userInfo);
+    currentUserInfo = data.userInfo;
+    if (browser) {
+      userPreferencesSet([
+        ...currentUserInfo.structures,
+        ...currentUserInfo.pendingStructures,
+      ]);
+    }
+  } else {
     currentUserInfo = get(userInfo);
+    console.log("get userinfo from store", browser, currentUserInfo?.firstName);
+  }
+  if (!currentUserInfo) {
+    console.log("rechecking userinfo", browser);
+    await validateCredsAndFillUserInfo(fetch);
+    currentUserInfo = get(userInfo);
+    console.log("rechecking userinfo", browser, currentUserInfo?.firstName);
   }
   if (
     currentUserInfo &&
@@ -25,8 +51,11 @@ export async function load({ url }) {
   ) {
     throw redirect(302, "/auth/rattachement");
   }
-  return {};
-}
+
+  if (data.serverToken) {
+    setToken(data.serverToken);
+  }
+};
 
 if (browser) {
   window.tarteaucitron.user.crispID = CRISP_ID;

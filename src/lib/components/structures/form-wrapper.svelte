@@ -67,16 +67,16 @@
     siret: { unique: "Cette structure existe déjà" },
   };
 
-  async function handleSubmit() {
+  async function handleSubmit(fetchFct) {
     $formErrors = {};
     const { validatedData, valid } = validate(structure, structureSchema);
     if (valid) {
       // Validation OK, let's send it to the API endpoint
       let result;
       if (modify) {
-        result = await modifyStructure(validatedData);
+        result = await modifyStructure(validatedData, fetchFct);
       } else {
-        result = await createStructure(validatedData);
+        result = await createStructure(validatedData, fetchFct);
       }
 
       if (result?.ok) {

@@ -31,10 +31,10 @@
     nonFieldErrors: { not_found: "Numéro Siret non reconnu." },
   };
 
-  async function siretSearch(s) {
+  async function siretSearch(s, fetchFct) {
     const url = `${getApiURL()}/search-siret/?siret=${encodeURIComponent(s)}`;
 
-    return fetch(url, {
+    return fetchFct(url, {
       headers: {
         "Content-Type": "application/json",
         Accept: "application/json; version=1.0",
@@ -55,6 +55,7 @@
   onMount(async () => {
     if (siret) {
       requesting = true;
+      // TODO: should somehow be doable in a load function for SSR
       const response = await siretSearch(siret);
 
       if (response.status === 200) {

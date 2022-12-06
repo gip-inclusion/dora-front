@@ -28,18 +28,19 @@ export function htmlToMarkdown(html) {
   return "";
 }
 
-export async function fetchData(
-  url,
-  { acceptHeader = defaultAcceptHeader } = {}
-) {
-  const headers = { Accept: acceptHeader };
+export async function fetchData(url, fetchFct) {
+  if (fetchFct === undefined) {
+    console.warn("using undefined fetchFct");
+    fetchFct = fetch;
+  }
+  const headers = { Accept: defaultAcceptHeader };
   const tk = get(token);
 
   if (tk) {
-    headers.Authorization = `Token ${tk}`;
+    headers["Authorization"] = `Token ${tk}`;
   }
 
-  const response = await fetch(url, {
+  const response = await fetchFct(url, {
     headers,
   });
 

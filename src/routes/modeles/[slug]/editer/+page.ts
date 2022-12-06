@@ -4,15 +4,16 @@ import { getModel, getServicesOptions } from "$lib/services";
 import { getStructure, getStructures } from "$lib/structures";
 import { error } from "@sveltejs/kit";
 import { get } from "svelte/store";
+import type { PageLoad } from "./$types";
 
-export async function load({ params, parent }) {
+export const load: PageLoad = async ({ params, parent, fetch }) => {
   await parent();
 
   const user = get(userInfo);
-  const model = await getModel(params.slug);
+  const model = await getModel(params.slug, fetch);
   let structure = {};
   let structures = [];
-  const servicesOptions = await getServicesOptions({ model });
+  const servicesOptions = await getServicesOptions(fetch, { model });
 
   // on ne retourne une 404 que sur le client
   if (!browser) {
@@ -23,10 +24,10 @@ export async function load({ params, parent }) {
     throw error(404, "Page Not Found");
   }
 
-  structure = await getStructure(model.structure);
+  structure = await getStructure(model.structure, fetch);
 
   if (user.isStaff) {
-    structures = await getStructures();
+    structures = await getStructures(fetch);
   } else if (user) {
     structures = user.structures;
   }
@@ -37,4 +38,4 @@ export async function load({ params, parent }) {
     structures,
     structure,
   };
-}
+};

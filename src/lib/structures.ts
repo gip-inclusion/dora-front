@@ -7,9 +7,10 @@ import { get } from "svelte/store";
 import { logException } from "./logger";
 import type { ShortStructure, Structure } from "./types";
 
-export async function siretWasAlreadyClaimed(siret) {
+export async function siretWasAlreadyClaimed(siret, fetchFct) {
+  // TODO migrate to fetchData
   const url = `${getApiURL()}/siret-claimed/${siret}`;
-  const res = await fetch(url, {
+  const res = await fetchFct(url, {
     headers: {
       Accept: "application/json; version=1.0",
     },
@@ -33,19 +34,19 @@ export async function siretWasAlreadyClaimed(siret) {
   return result;
 }
 
-export async function getStructures(): Promise<ShortStructure[]> {
+export async function getStructures(fetchFct): Promise<ShortStructure[]> {
   const url = `${getApiURL()}/structures/`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
-export async function getActiveStructures(): Promise<ShortStructure[]> {
+export async function getActiveStructures(fetchFct): Promise<ShortStructure[]> {
   const url = `${getApiURL()}/structures/?active=1`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
-export async function getStructure(slug): Promise<Structure> {
+export async function getStructure(slug, fetchFct): Promise<Structure> {
   const url = `${getApiURL()}/structures/${slug}/`;
-  const result = (await fetchData(url)).data;
+  const result = (await fetchData(url, fetchFct)).data;
 
   return result;
 }
@@ -113,27 +114,27 @@ export async function modifyStructure(structure) {
 
 let structuresOptions;
 
-export async function getStructuresOptions() {
+export async function getStructuresOptions(fetchFct) {
   if (!structuresOptions) {
     const url = `${getApiURL()}/structures-options/`;
-    const res = await fetchData(url);
+    const res = await fetchData(url, fetchFct);
     structuresOptions = res.data;
   }
   return structuresOptions;
 }
 
-export async function getMembers(slug) {
+export async function getMembers(slug, fetchFct) {
   const url = `${getApiURL()}/structure-members/?structure=${slug}`;
 
-  const result = await fetchData(url);
+  const result = await fetchData(url, fetchFct);
   if (result.ok) return result.data;
   return null;
 }
 
-export async function getPutativeMembers(slug) {
+export async function getPutativeMembers(slug, fetchFct) {
   const url = `${getApiURL()}/structure-putative-members/?structure=${slug}`;
 
-  const result = await fetchData(url);
+  const result = await fetchData(url, fetchFct);
   if (result.ok) return result.data;
   return null;
 }

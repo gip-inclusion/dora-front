@@ -1,11 +1,12 @@
 import { browser } from "$app/environment";
 import { getModel, getServicesOptions } from "$lib/services";
 import { error } from "@sveltejs/kit";
+import type { PageLoad } from "./$types";
 
-export async function load({ params, parent }) {
+export const load: PageLoad = async ({ params, parent, fetch }) => {
   await parent();
 
-  const model = await getModel(params.slug);
+  const model = await getModel(params.slug, fetch);
 
   // on ne retourne une 404 que sur le client
   if (!model && !browser) {
@@ -18,6 +19,6 @@ export async function load({ params, parent }) {
 
   return {
     model,
-    servicesOptions: await getServicesOptions(),
+    servicesOptions: await getServicesOptions(fetch),
   };
-}
+};

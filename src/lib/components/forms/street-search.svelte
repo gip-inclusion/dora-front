@@ -15,11 +15,12 @@
   export let initialValue = undefined;
   const banAPIUrl = "https://api-adresse.data.gouv.fr/search/";
 
-  async function searchAddress(q) {
+  async function searchAddress(q, fetchFct) {
     const url = `${banAPIUrl}?q=${encodeURIComponent(
       q
     )}&limit=10&citycode=${cityCode}&type=street&type=housenumber`;
-    const response = await fetch(url);
+    // TODO maybe migrate to FetchData
+    const response = await fetchFct(url);
     const jsonResponse = await response.json();
     const results = jsonResponse.features.map((feature) => ({
       value: feature,

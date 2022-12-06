@@ -12,6 +12,7 @@
     const sireneAPIUrl = `${getApiURL()}/search-sirene/${
       selectedCity.properties.citycode
     }/?q=${encodeURIComponent(q)}`;
+    // TODO: maybe migrate to fetchData
     const response = await fetch(sireneAPIUrl, {
       headers: {
         "Content-Type": "application/json",

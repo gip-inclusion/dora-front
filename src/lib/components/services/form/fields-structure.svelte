@@ -85,8 +85,8 @@
         model = await getModel(model.slug);
       }
       servicesOptions = isModel
-        ? await getServicesOptions({ model: service })
-        : await getServicesOptions({ model });
+        ? await getServicesOptions(fetch, { model: service })
+        : await getServicesOptions(fetch, { model });
 
       updateServiceOptions();
     }

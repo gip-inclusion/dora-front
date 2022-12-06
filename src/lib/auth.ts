@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
+import { defaultAcceptHeader } from "$lib/utils/api";
 import { get, writable } from "svelte/store";
 import { log, logException } from "./logger";
 import { userPreferencesSet } from "./preferences";
@@ -7,15 +7,9 @@ import type { Bookmark, ShortStructure } from "./types";
 
 const tokenKey = "token";
 
-/**
- * @typedef { import("svelte/store").Writable } Writable
- */
-
 export const token = writable(null);
-/** @type {Writable<{firstName: string, lastName: string, fullName: string, shortName: string, email: string, phoneNumber: string, newsletter: boolean,
-            isStaff: boolean, isBizdev: boolean} | null>} */
 
-interface UserInfo {
+export interface UserInfo {
   firstName: string;
   lastName: string;
   fullName: string;
@@ -32,13 +26,19 @@ interface UserInfo {
 
 export const userInfo = writable<UserInfo>(null);
 
-export function setToken(t) {
+export function setToken(t: string) {
   token.set(t);
-  localStorage.setItem(tokenKey, t);
+  if (browser) {
+    localStorage.setItem(tokenKey, t);
+  }
 }
 
-async function getUserInfo(authToken) {
-  return await fetch(`${getApiURL()}/auth/user-info/`, {
+export function setUserInfo(extUserInfo: UserInfo) {
+  userInfo.set(extUserInfo);
+}
+
+export async function getUserInfo(authToken, fetchFct) {
+  return await fetchFct(`/api/user-info`, {
     method: "POST",
     headers: {
       Accept: defaultAcceptHeader,
@@ -48,13 +48,13 @@ async function getUserInfo(authToken) {
   });
 }
 
-export async function refreshUserInfo() {
+export async function refreshUserInfo(fetchFct) {
   try {
-    const result = await getUserInfo(get(token));
+    const result = await getUserInfo(get(token), fetchFct);
     if (result.status === 200) {
-      const info = await result.json();
+      const info = (await result.json()) as UserInfo;
       userInfo.set(info);
-      userPreferencesSet([...info.structures, info.pendingStructures]);
+      userPreferencesSet([...info.structures, ...info.pendingStructures]);
     } else {
       log("Unexpected status code", { result });
     }
@@ -94,9 +94,9 @@ export function disconnect() {
   deleteCookies();
 }
 
-export async function validateCredsAndFillUserInfo() {
-  token.set(null);
-  userInfo.set(null);
+export async function validateCredsAndFillUserInfo(fetchFct) {
+  // token.set(null);
+  // userInfo.set(null);
 
   if (browser) {
     const lsToken = localStorage.getItem(tokenKey);
@@ -104,10 +104,10 @@ export async function validateCredsAndFillUserInfo() {
       // Valide le token actuel et remplit les informations
       // utilisateur
       try {
-        const result = await getUserInfo(lsToken);
+        const result = await getUserInfo(lsToken, fetchFct);
         if (result.status === 200) {
           token.set(lsToken);
-          const info = await result.json();
+          const info: UserInfo = await result.json();
           userInfo.set(info);
           userPreferencesSet([...info.structures, ...info.pendingStructures]);
         } else if (result.status === 404) {

@@ -1,7 +1,8 @@
 import { getServicesOptions } from "$lib/services";
 import type { SERVICE_STATUSES, SERVICE_UPDATE_STATUS } from "$lib/types";
+import type { PageLoad } from "./$types";
 
-export async function load({ url, parent }) {
+export const load: PageLoad = async ({ url, parent, fetch }) => {
   await parent();
 
   const query = url.searchParams;
@@ -9,11 +10,11 @@ export async function load({ url, parent }) {
     query.get("service-status");
   const updateStatus: SERVICE_UPDATE_STATUS | undefined =
     query.get("update-status");
-  const servicesOptions = await getServicesOptions();
+  const servicesOptions = await getServicesOptions(fetch);
 
   return {
     serviceStatus,
     updateStatus,
     servicesOptions,
   };
-}
+};

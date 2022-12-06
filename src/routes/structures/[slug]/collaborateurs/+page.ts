@@ -4,8 +4,9 @@ import { getMembers, getPutativeMembers } from "$lib/structures";
 import { error } from "@sveltejs/kit";
 import { get } from "svelte/store";
 import { structure } from "../store";
+import type { PageLoad } from "./$types";
 
-export async function load({ parent }) {
+export const load: PageLoad = async ({ parent, fetch }) => {
   await parent();
 
   // sur le serveur, info est toujours null,
@@ -24,8 +25,10 @@ export async function load({ parent }) {
     throw error(404, "Page Not Found");
   }
 
-  const members = await getMembers(struct.slug);
-  const putativeMembers = await getPutativeMembers(struct.slug);
+  const members = await getMembers(struct.slug, fetch);
+  const putativeMembers = await getPutativeMembers(struct.slug, {
+    fetchFct: fetch,
+  });
 
   return {
     members,
@@ -33,4 +36,4 @@ export async function load({ parent }) {
     canSeeMembers,
     canEditMembers,
   };
-}
+};

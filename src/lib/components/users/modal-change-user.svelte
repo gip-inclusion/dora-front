@@ -27,9 +27,9 @@
 
   let level = member.isAdmin ? "admin" : "user";
 
-  function handleSubmit(validatedData) {
+  function handleSubmit(validatedData, fetchFct) {
     const url = `${getApiURL()}/structure-members/${member.id}/`;
-    return fetch(url, {
+    return fetchFct(url, {
       method: "PATCH",
       body: JSON.stringify({
         isAdmin: validatedData.level === "admin",

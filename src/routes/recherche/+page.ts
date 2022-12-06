@@ -8,47 +8,9 @@ import {
 import { getApiURL } from "$lib/utils/api";
 import { trackSearch } from "$lib/utils/plausible";
 import { computeUpdateStatusData } from "$lib/utils/service";
+import type { PageLoad } from "./$types";
 
-// pour raison de performance, les requêtes étant lourdes, et on ne tient pas forcément
-// à ce qu'elles soient indexées
-export const ssr = false;
-
-async function getResults({
-  categoryIds,
-  subCategoryIds,
-  cityCode,
-  cityLabel,
-  kindIds,
-  feeConditions,
-}: SearchQuery): Promise<ServiceSearchResult[]> {
-  const query = getQuery({
-    categoryIds,
-    subCategoryIds,
-    cityCode,
-    cityLabel,
-    kindIds,
-    feeConditions,
-  });
-  const url = `${getApiURL()}/search/?${query}`;
-
-  const res = await fetch(url, {
-    headers: { Accept: "application/json; version=1.0" },
-  });
-
-  if (res.ok) {
-    return await res.json();
-  }
-
-  // TODO: log errors
-  try {
-    console.error(await res.json());
-  } catch (err) {
-    console.error(err);
-  }
-  return [];
-}
-
-export async function load({ url, parent }) {
+export const load: PageLoad = async ({ url, parent, fetch }) => {
   await parent();
 
   const query = url.searchParams;
@@ -66,7 +28,9 @@ export async function load({ url, parent }) {
     cityLabel,
     kindIds,
     feeConditions,
+    fetchFct: fetch,
   });
+
   services.forEach((service) => {
     service.updateStatus = computeUpdateStatusData(service).updateStatus;
   });
@@ -94,6 +58,43 @@ export async function load({ url, parent }) {
     servicesToUpdate: services.filter(
       (service) => service.updateStatus === SERVICE_UPDATE_STATUS.REQUIRED
     ),
-    servicesOptions: await getServicesOptions(),
+    servicesOptions: await getServicesOptions(fetch),
   };
+};
+
+async function getResults({
+  categoryIds,
+  subCategoryIds,
+  cityCode,
+  cityLabel,
+  kindIds,
+  feeConditions,
+  fetchFct,
+}: SearchQuery): Promise<ServiceSearchResult[]> {
+  const query = getQuery({
+    categoryIds,
+    subCategoryIds,
+    cityCode,
+    cityLabel,
+    kindIds,
+    feeConditions,
+  });
+  const url = `${getApiURL()}/search/?${query}`;
+
+  // TODO: migrate to fetchData
+  const res = await fetchFct(url, {
+    headers: { Accept: "application/json; version=1.0" },
+  });
+
+  if (res.ok) {
+    return await res.json();
+  }
+
+  // TODO: log errors
+  try {
+    console.error(await res.json());
+  } catch (err) {
+    console.error(err);
+  }
+  return [];
 }

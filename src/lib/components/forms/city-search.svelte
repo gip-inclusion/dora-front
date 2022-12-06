@@ -55,7 +55,7 @@
       longitude
     )}&lat=${encodeURIComponent(latitude)}`;
 
-    const response = await fetchData(url);
+    const response = await fetchData(url, fetch);
     if (response.ok) {
       const city = response.data;
 

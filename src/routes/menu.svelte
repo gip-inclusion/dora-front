@@ -11,8 +11,8 @@
   import MenuMonCompte from "./menu-mon-compte.svelte";
   import MenuStructures from "./menu-structures.svelte";
 
+  console.log("userinfo1", $userInfo?.firstName);
   let structures = [];
-
   $: structures = $userInfo
     ? [...$userInfo.structures, ...$userInfo.pendingStructures].sort((a, b) => {
         // si l'utilisateur a visité la page de la structure
@@ -68,15 +68,17 @@
       )}`}
     />
     <hr class="my-s8 self-stretch" />
+  {:else}
+    xxx
   {/if}
 
   <MenuAide />
-
   <div slot="lg" class="flex gap-s12">
     <ButtonMenu icon={questionFillIcon}>
       <MenuAide />
     </ButtonMenu>
     {#if $userInfo}
+      www
       <ButtonMenu label={$userInfo.shortName}>
         <MenuMonCompte />
       </ButtonMenu>

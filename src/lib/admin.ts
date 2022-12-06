@@ -4,36 +4,36 @@ import { fetchData } from "$lib/utils";
 import { getApiURL } from "$lib/utils/api";
 import { get } from "svelte/store";
 
-export async function getStructuresAdmin() {
+export async function getStructuresAdmin(fetchFct) {
   const url = `${getApiURL()}/structures-admin/`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
-export async function getStructureAdmin(slug) {
+export async function getStructureAdmin(slug, fetchFct) {
   const url = `${getApiURL()}/structures-admin/${slug}/`;
-  const result = (await fetchData(url)).data;
+  const result = (await fetchData(url, fetchFct)).data;
 
   return result;
 }
 
-export async function getStructuresToModerate() {
+export async function getStructuresToModerate(fetchFct) {
   const url = `${getApiURL()}/structures-admin/?moderation=1`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
-export async function getServicesAdmin() {
+export async function getServicesAdmin(fetchFct) {
   const url = `${getApiURL()}/services-admin/`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
-export async function getServiceAdmin(slug) {
+export async function getServiceAdmin(slug, fetchFct) {
   const url = `${getApiURL()}/services-admin/${slug}/`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
-export async function getServicesToModerate() {
+export async function getServicesToModerate(fetchFct) {
   const url = `${getApiURL()}/services-admin/?moderation=1`;
-  return (await fetchData(url)).data;
+  return (await fetchData(url, fetchFct)).data;
 }
 
 export async function setModerationState(entity, status: ModerationStatus) {

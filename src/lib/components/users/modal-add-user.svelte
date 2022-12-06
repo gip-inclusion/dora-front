@@ -32,7 +32,7 @@
   let confirmationModalIsOpen = false;
   let requesting = false;
 
-  function handleSubmit(validatedData) {
+  function handleSubmit(validatedData, fetchFct) {
     const membersEmails = members.map((m) => m.user.email);
     if (membersEmails.includes(validatedData.email)) {
       return {
@@ -47,7 +47,7 @@
     const url = `${getApiURL()}/structure-putative-members/?structure=${
       structure.slug
     }`;
-    return fetch(url, {
+    return fetchFct(url, {
       method: "POST",
       body: JSON.stringify({
         user: {

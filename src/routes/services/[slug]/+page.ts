@@ -4,11 +4,12 @@ import { getModel, getService, getServicesOptions } from "$lib/services";
 import { getStructure } from "$lib/structures";
 import { error, redirect } from "@sveltejs/kit";
 import { get } from "svelte/store";
+import type { PageLoad } from "./$types";
 
-export async function load({ url, params, parent }) {
+export const load: PageLoad = async ({ url, params, parent, fetch }) => {
   await parent();
 
-  const service = await getService(params.slug);
+  const service = await getService(params.slug, fetch);
   // si le service est en brouillon il faut un token pour y accéder
   // on renvoie donc un objet vide côté serveur
   if (!service) {
@@ -26,11 +27,11 @@ export async function load({ url, params, parent }) {
     throw error(404, "Page Not Found");
   }
 
-  const model = service.model ? await getModel(service.model) : null;
+  const model = service.model ? await getModel(service.model, fetch) : null;
 
   return {
     service,
-    structure: await getStructure(service.structure),
-    servicesOptions: await getServicesOptions({ model }),
+    structure: await getStructure(service.structure, fetch),
+    servicesOptions: await getServicesOptions(fetch, { model }),
   };
-}
+};

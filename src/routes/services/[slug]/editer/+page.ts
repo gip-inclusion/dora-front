@@ -4,12 +4,13 @@ import { getModel, getService, getServicesOptions } from "$lib/services";
 import { getStructure, getStructures } from "$lib/structures";
 import { error } from "@sveltejs/kit";
 import { get } from "svelte/store";
+import type { PageLoad } from "./$types";
 
-export async function load({ params, parent }) {
+export const load: PageLoad = async ({ params, parent, fetch }) => {
   await parent();
 
   const user = get(userInfo);
-  const service = await getService(params.slug);
+  const service = await getService(params.slug, fetch);
   let structure = {};
   let structures = [];
   let model = null;
@@ -23,23 +24,23 @@ export async function load({ params, parent }) {
     throw error(404, "Page Not Found");
   }
 
-  structure = await getStructure(service.structure);
+  structure = await getStructure(service.structure, fetch);
 
   if (user.isStaff) {
-    structures = await getStructures();
+    structures = await getStructures(fetch);
   } else if (user) {
     structures = user.structures;
   }
 
   if (service.model) {
-    model = await getModel(service.model);
+    model = await getModel(service.model, fetch);
   }
 
   return {
     service,
-    servicesOptions: await getServicesOptions({ model }),
+    servicesOptions: await getServicesOptions(fetch, { model }),
     structures,
     structure,
     model,
   };
-}
+};

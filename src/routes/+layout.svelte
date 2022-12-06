@@ -11,7 +11,6 @@
     <meta name="robots" content="noindex" />
   {/if}
 </svelte:head>
-
 <SkipLink />
 <Header />
 

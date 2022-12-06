@@ -2,9 +2,11 @@ import { setToken, validateCredsAndFillUserInfo } from "$lib/auth";
 import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
 import { redirect } from "@sveltejs/kit";
 import { getNextPage } from "../utils";
+import type { PageLoad } from "./$types";
+
 export const ssr = false;
 
-export async function load({ url, fetch, parent }) {
+export const load: PageLoad = async ({ url, fetch, parent }) => {
   await parent();
 
   const nextPage = getNextPage(url);
@@ -38,9 +40,9 @@ export async function load({ url, fetch, parent }) {
   if (result.ok) {
     jsonResult = await result.json();
     setToken(jsonResult.token);
-    await validateCredsAndFillUserInfo();
+    await validateCredsAndFillUserInfo(fetch);
 
     throw redirect(302, nextPage);
   }
   // TODO return error
-}
+};
