@@ -17,8 +17,8 @@ const config = {
       mode: "nonce",
       directives: {
         "connect-src": [
-          process.env.VITE_API_URL,
-          process.env.VITE_ENVIRONMENT === "local" ? "ws:" : undefined,
+          process.env?.VITE_API_URL,
+          process.env?.VITE_ENVIRONMENT === "local" ? "ws:" : null,
           "https://*.sentry.incubateur.net",
           "https://api-adresse.data.gouv.fr/",
           "https://client.crisp.chat/static/",
@@ -26,7 +26,7 @@ const config = {
           "https://sentry.incubateur.net",
           "https://storage.crisp.chat/users/upload/",
           "wss://client.relay.crisp.chat/",
-        ],
+        ].filter((source) => !!source),
         "script-src": [
           "self",
           "https://client.crisp.chat/",
