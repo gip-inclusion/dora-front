@@ -13,6 +13,43 @@ const config = {
 
   kit: {
     adapter: adapter({ precompress: true }),
+    csp: {
+      mode: "nonce",
+      directives: {
+        "connect-src": [
+          process.env.VITE_API_URL,
+          process.env.VITE_ENVIRONMENT === "local" ? "ws:" : undefined,
+          "https://*.sentry.incubateur.net",
+          "https://api-adresse.data.gouv.fr/",
+          "https://client.crisp.chat/static/",
+          "https://plausible.io/api/event",
+          "https://sentry.incubateur.net",
+          "https://storage.crisp.chat/users/upload/",
+          "wss://client.relay.crisp.chat/",
+        ],
+        "script-src": [
+          "self",
+          "https://client.crisp.chat/",
+          "https://metabase.dora.fabrique.social.gouv.fr/app/iframeResizer.js",
+          "https://plausible.io/js/",
+          "https://tally.so/widgets/embed.js",
+        ],
+        "child-src": [
+          "https://aide.dora.fabrique.social.gouv.fr/",
+          "https://metabase.dora.fabrique.social.gouv.fr",
+          "https://plausible.io",
+          "https://tally.so",
+        ],
+        "font-src": ["self", "https://client.crisp.chat/static/"],
+        "img-src": ["self", "data:", "https://*.crisp.chat/"],
+        "style-src": [
+          "self",
+          "https://client.crisp.chat/",
+          "https://tally.so/widgets/embed.js",
+          "unsafe-inline",
+        ],
+      },
+    },
   },
   vitePlugin: {
     experimental: {
