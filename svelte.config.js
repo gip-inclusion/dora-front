@@ -16,6 +16,7 @@ const config = {
     csp: {
       mode: "nonce",
       directives: {
+        "default-src": ["none"],
         "connect-src": [
           process.env?.VITE_API_URL,
           process.env?.VITE_ENVIRONMENT === "local" ? "ws:" : null,
