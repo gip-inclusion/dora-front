@@ -16,6 +16,7 @@ const config = {
     csp: {
       mode: "nonce",
       directives: {
+        "base-uri": ["self"],
         "default-src": ["none"],
         "connect-src": [
           process.env?.VITE_API_URL,
@@ -30,6 +31,8 @@ const config = {
         ].filter((source) => !!source),
         "script-src": [
           "self",
+          "strict-dynamic",
+          "unsafe-inline",
           "https://client.crisp.chat/",
           "https://metabase.dora.fabrique.social.gouv.fr/app/iframeResizer.js",
           "https://plausible.io/js/",
