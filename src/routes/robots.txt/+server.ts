@@ -1,10 +1,9 @@
-import { CANONICAL_URL, ENVIRONMENT } from "$lib/env";
+import { ENVIRONMENT } from "$lib/env";
 
 const productionContent = `
 User-agent: *
 Disallow: /mon-compte/
 Disallow: /auth/
-Sitemap: ${CANONICAL_URL}/sitemap.xml
 `.trim();
 
 const devContent = `

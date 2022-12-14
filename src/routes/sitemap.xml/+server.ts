@@ -67,6 +67,8 @@ async function getContent() {
 }
 
 export async function GET() {
+  throw error(404, "Page Not Found");
+
   const content = await getContent();
   if (ENVIRONMENT === "production" || ENVIRONMENT === "local") {
     return new Response(content, {
