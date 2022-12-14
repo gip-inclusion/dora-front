@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# Start the two process
+# Start the two processes
 bin/run &
 npm start &
 
