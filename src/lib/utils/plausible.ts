@@ -1,15 +1,14 @@
-/* global plausible */
 import { browser } from "$app/environment";
 import { token, userInfo } from "$lib/auth";
 import { CANONICAL_URL } from "$lib/env";
 import { getDepartmentFromCityCode } from "$lib/utils";
 import { get } from "svelte/store";
 
-function _track(tag, props) {
+function _track(_tag, _props) {
   if (browser) {
-    plausible(tag, {
-      props,
-    });
+    // plausible(tag, {
+    //   props,
+    // });
   }
 }
 
