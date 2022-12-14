@@ -58,27 +58,7 @@ export async function refreshUserInfo() {
 }
 
 export function deleteCookies() {
-  const cookies = document.cookie.split(";").reduce((acc, cookie) => {
-    const [name] = cookie.split("=").map((c) => c.trim());
-    acc.push(name);
-
-    return acc;
-  }, []);
-
-  const cookieNames = Object.keys(window.tarteaucitron.services).reduce(
-    (acc, name) => {
-      acc.push(...window.tarteaucitron.services[name].cookies);
-
-      return acc;
-    },
-    ["tarteaucitron"]
-  );
-
-  cookieNames.forEach((n) => {
-    const name = cookies.find((c) => c.includes(n));
-
-    document.cookie = `${name}=; Max-Age=0; path=/; domain=${location.hostname}`;
-  });
+  console.log("ok");
 }
 
 export function disconnect() {
