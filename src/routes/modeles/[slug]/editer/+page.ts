@@ -1,6 +1,6 @@
 import { userInfo } from "$lib/auth";
-import { getModel, getServicesOptions } from "$lib/services";
-import { getStructure, getStructures } from "$lib/structures";
+import { getModel, getServicesOptions } from "$lib/requests/services";
+import { getStructure, getStructures } from "$lib/requests/structures";
 import type { ShortStructure } from "$lib/types";
 import { error } from "@sveltejs/kit";
 import { get } from "svelte/store";

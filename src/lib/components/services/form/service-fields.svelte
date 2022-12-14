@@ -2,7 +2,7 @@
   import Button from "$lib/components/button.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import Notice from "$lib/components/notice.svelte";
-  import { serviceSchema } from "$lib/schemas/service";
+  import { serviceSchema } from "$lib/validation/schemas/service";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import debounce from "lodash.debounce";
   import { onDestroy, onMount } from "svelte";

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { refreshUserInfo, userInfo } from "$lib/auth";
-  import { setBookmark } from "$lib/services";
+  import { setBookmark } from "$lib/requests/services";
 
   export let slug: string;
 

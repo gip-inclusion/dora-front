@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setModerationState } from "$lib/admin";
+  import { setModerationState } from "$lib/requests/admin";
   import Button from "$lib/components/button.svelte";
   import type { ModerationStatus } from "$lib/types";
 

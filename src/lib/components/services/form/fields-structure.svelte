@@ -1,9 +1,9 @@
 <script lang="ts">
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import SchemaField from "$lib/components/forms/schema-field.svelte";
-  import { getModel, getServicesOptions } from "$lib/services";
-  import { getStructure } from "$lib/structures";
-  import { formErrors } from "$lib/validation";
+  import { getModel, getServicesOptions } from "$lib/requests/services";
+  import { getStructure } from "$lib/requests/structures";
+  import { formErrors } from "$lib/validation/validation";
   import { onMount } from "svelte";
 
   export let servicesOptions, serviceSchema, service, structures, structure;

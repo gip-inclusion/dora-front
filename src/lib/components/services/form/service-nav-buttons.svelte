@@ -6,10 +6,10 @@
     draftSchema,
     serviceSchema,
     SERVICE_STATUSES,
-  } from "$lib/schemas/service";
-  import { createOrModifyService, publishDraft } from "$lib/services";
+  } from "$lib/validation/schemas/service";
+  import { createOrModifyService, publishDraft } from "$lib/requests/services";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
-  import { injectAPIErrors, validate } from "$lib/validation";
+  import { injectAPIErrors, validate } from "$lib/validation/validation";
 
   export let onError, service, servicesOptions;
 

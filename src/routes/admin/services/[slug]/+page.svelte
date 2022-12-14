@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getServiceAdmin } from "$lib/admin";
+  import { getServiceAdmin } from "$lib/requests/admin";
   import Date from "$lib/components/date.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import TextClamp from "$lib/components/text-clamp.svelte";

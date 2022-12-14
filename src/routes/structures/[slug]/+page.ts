@@ -1,4 +1,4 @@
-import { getStructuresOptions } from "$lib/structures";
+import { getStructuresOptions } from "$lib/requests/structures";
 import { capitalize } from "$lib/utils";
 import type { PageLoad } from "./$types";
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import connexionPic from "$lib/assets/illu-connexion.svg";
+  import connexionPic from "$lib/assets/illustrations/illu-connexion.svg";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
 </script>
 

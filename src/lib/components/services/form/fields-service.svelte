@@ -11,7 +11,7 @@
     formErrors,
     validate,
     type ValidationContext,
-  } from "$lib/validation";
+  } from "$lib/validation/validation";
   import { setContext, tick } from "svelte";
 
   export let servicesOptions, serviceSchema, service, structure;

@@ -1,6 +1,6 @@
-import { log } from "./logger";
-import { fetchData } from "./utils";
-import { getApiURL } from "./utils/api";
+import { log } from "../logger";
+import { fetchData } from "../utils";
+import { getApiURL } from "../utils/api";
 
 export async function getCityLabel(inseeCode): Promise<string> {
   const url = `${getApiURL()}/city-label/${inseeCode}/`;

@@ -5,7 +5,7 @@
     injectAPIErrors,
     validate,
     type ValidationContext,
-  } from "$lib/validation";
+  } from "$lib/validation/validation";
   import { onDestroy, onMount, setContext } from "svelte";
 
   export let data;

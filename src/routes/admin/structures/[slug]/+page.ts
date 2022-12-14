@@ -1,4 +1,4 @@
-import { getStructureAdmin } from "$lib/admin";
+import { getStructureAdmin } from "$lib/requests/admin";
 import { capitalize } from "$lib/utils";
 import { error } from "@sveltejs/kit";
 

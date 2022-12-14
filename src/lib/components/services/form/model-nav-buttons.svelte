@@ -2,9 +2,9 @@
   import { goto } from "$app/navigation";
   import Button from "$lib/components/button.svelte";
   import { logException } from "$lib/logger";
-  import { modelSchema } from "$lib/schemas/service";
-  import { createOrModifyModel } from "$lib/services";
-  import { validate } from "$lib/validation";
+  import { modelSchema } from "$lib/validation/schemas/service";
+  import { createOrModifyModel } from "$lib/requests/services";
+  import { validate } from "$lib/validation/validation";
 
   export let model, onError, servicesOptions;
 

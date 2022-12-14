@@ -2,9 +2,9 @@
   import {
     contextValidationKey,
     type ValidationContext,
-  } from "$lib/validation";
+  } from "$lib/validation/validation";
   import { getContext } from "svelte";
-  import Alert from "./alert.svelte";
+  import Alert from "../alert.svelte";
   import Input from "./input.svelte";
 
   export let value = undefined;
@@ -13,7 +13,6 @@
   export let errorMessages = [];
   export let allowHTMLError = false;
   export let autocomplete = undefined;
-  export let passwordrules = undefined;
   export let vertical = false;
   export let label = "";
   export let required = false;
@@ -93,7 +92,6 @@
         {disabled}
         {readonly}
         {autocomplete}
-        {passwordrules}
       />
       <slot name="custom-input" />
     {:else}

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import illuSuggerer from "$lib/assets/illu-suggerer.svg";
+  import illuSuggerer from "$lib/assets/illustrations/illu-suggerer.svg";
   import EmailButton from "$lib/components/email-button.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
 </script>

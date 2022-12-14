@@ -1,13 +1,13 @@
 <script lang="ts">
   import Button from "$lib/components/button.svelte";
-  import SelectField from "$lib/components/form/select/select-field.svelte";
+  import SelectField from "$lib/components/forms/select/select-field.svelte";
   import AddableMultiselect from "$lib/components/forms/addable-multiselect.svelte";
   import Field from "$lib/components/forms/field.svelte";
   import FieldSet from "$lib/components/forms/fieldset.svelte";
   import SchemaField from "$lib/components/forms/schema-field.svelte";
   import Modal from "$lib/components/modal.svelte";
   import Notice from "$lib/components/notice.svelte";
-  import Uploader from "$lib/components/uploader.svelte";
+  import Uploader from "$lib/components/forms/uploader.svelte";
   import {
     arraysCompare,
     moveToTheEnd,
@@ -19,7 +19,7 @@
     formErrors,
     validate,
     type ValidationContext,
-  } from "$lib/validation";
+  } from "$lib/validation/validation";
   import { setContext } from "svelte";
   import FieldModel from "./field-model.svelte";
 

@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import Alert from "$lib/components/forms/alert.svelte";
+  import Alert from "$lib/components/alert.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import { contribSchema } from "$lib/schemas/service";
-  import { publishServiceSuggestion } from "$lib/services";
+  import { contribSchema } from "$lib/validation/schemas/service";
+  import { publishServiceSuggestion } from "$lib/requests/services";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import {
     contextValidationKey,
@@ -11,7 +11,7 @@
     injectAPIErrors,
     validate,
     type ValidationContext,
-  } from "$lib/validation";
+  } from "$lib/validation/validation";
   import debounce from "lodash.debounce";
   import { onDestroy, onMount, setContext } from "svelte";
   import Fields from "./fields.svelte";

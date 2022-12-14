@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Alert from "$lib/components/forms/alert.svelte";
+  import Alert from "$lib/components/alert.svelte";
   import type { Day, DayPeriod } from "$lib/types";
   import {
     fromJsonToOsmString,

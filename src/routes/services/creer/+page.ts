@@ -1,7 +1,11 @@
 import { userInfo } from "$lib/auth";
 import { getNewService } from "$lib/components/services/form/utils";
-import { getLastDraft, getModel, getServicesOptions } from "$lib/services";
-import { getStructures } from "$lib/structures";
+import {
+  getLastDraft,
+  getModel,
+  getServicesOptions,
+} from "$lib/requests/services";
+import { getStructures } from "$lib/requests/structures";
 import { get } from "svelte/store";
 import type { PageLoad } from "./$types";
 

@@ -12,7 +12,7 @@
     timeLineIcon,
     wheelChairIcon,
   } from "$lib/icons";
-  import { isStructureInformationsComplete } from "$lib/structures";
+  import { isStructureInformationsComplete } from "$lib/requests/structures";
   import type { Structure, StructuresOptions } from "$lib/types";
   import { markdownToHTML } from "$lib/utils";
   import { formatPhoneNumber } from "$lib/utils/phone";

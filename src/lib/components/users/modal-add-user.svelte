@@ -4,9 +4,9 @@
   import Field from "$lib/components/forms/field.svelte";
   import Form from "$lib/components/forms/form.svelte";
   import Modal from "$lib/components/modal.svelte";
-  import { addUserSchema } from "$lib/schemas/dashboard";
+  import { addUserSchema } from "$lib/validation/schemas/dashboard";
   import { getApiURL } from "$lib/utils/api";
-  import { formErrors } from "$lib/validation";
+  import { formErrors } from "$lib/validation/validation";
   import { get } from "svelte/store";
   import ConfirmationModal from "./modal-confirmation.svelte";
 

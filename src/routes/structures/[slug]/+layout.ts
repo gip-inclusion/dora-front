@@ -1,6 +1,6 @@
 import { userInfo, type UserInfo } from "$lib/auth";
 import { userPreferences, type UserPreferences } from "$lib/preferences";
-import { getStructure } from "$lib/structures";
+import { getStructure } from "$lib/requests/structures";
 import { trackStructure } from "$lib/utils/plausible";
 import { error } from "@sveltejs/kit";
 import type { LayoutLoad } from "./$types";

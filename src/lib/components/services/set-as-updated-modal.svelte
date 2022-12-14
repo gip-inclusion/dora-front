@@ -3,7 +3,7 @@
   import LinkButton from "$lib/components/link-button.svelte";
   import Modal from "$lib/components/modal.svelte";
   import { checkboxCircleFillIcon, editIcon } from "$lib/icons";
-  import { createOrModifyService } from "$lib/services";
+  import { createOrModifyService } from "$lib/requests/services";
   import type { Service, ServicesOptions, ShortService } from "$lib/types";
   import ServiceContact from "./body/service-contact.svelte";
   import ServiceKeyInformations from "./body/service-key-informations.svelte";

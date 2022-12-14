@@ -1,7 +1,7 @@
 <script lang="ts">
   import { userInfo } from "$lib/auth";
   import LinkButton from "$lib/components/link-button.svelte";
-  import StructureCard from "$lib/components/structures/card.svelte";
+  import StructureCard from "$lib/components/structure-card.svelte";
   import { API_URL, CANONICAL_URL } from "$lib/env";
   import { home3Icon } from "$lib/icons";
   import Count from "../count.svelte";

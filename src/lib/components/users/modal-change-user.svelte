@@ -5,9 +5,9 @@
   import Fieldset from "$lib/components/forms/fieldset.svelte";
   import Form from "$lib/components/forms/form.svelte";
   import Modal from "$lib/components/modal.svelte";
-  import { modifyUserSchema } from "$lib/schemas/dashboard";
+  import { modifyUserSchema } from "$lib/validation/schemas/dashboard";
   import { getApiURL } from "$lib/utils/api";
-  import { formErrors } from "$lib/validation";
+  import { formErrors } from "$lib/validation/validation";
   import { get } from "svelte/store";
 
   const levelChoices = [

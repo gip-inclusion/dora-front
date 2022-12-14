@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getStructuresToModerate } from "$lib/admin";
+  import { getStructuresToModerate } from "$lib/requests/admin";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
   import { eyeIcon } from "$lib/icons";

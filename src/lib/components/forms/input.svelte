@@ -1,8 +1,7 @@
 <script lang="ts">
   import RichText from "$lib/components/rich-text/editor.svelte";
-  import Toggle from "$lib/components/toggle.svelte";
+  import Toggle from "$lib/components/forms/toggle.svelte";
   import Checkboxes from "./checkboxes.svelte";
-  import PasswordInput from "./password-input.svelte";
   import RadioButtons from "./radio-buttons.svelte";
   import Select from "./select.svelte";
 
@@ -11,7 +10,6 @@
   export let type;
   export let name;
   export let autocomplete;
-  export let passwordrules;
   export let choices = [];
   export let sortSelect = undefined;
 
@@ -119,17 +117,6 @@
   />
 {:else if type === "toggle"}
   <Toggle {name} bind:checked={value} on:change {disabled} {readonly} />
-{:else if type === "password"}
-  <PasswordInput
-    on:blur
-    {name}
-    bind:value
-    {placeholder}
-    {disabled}
-    {readonly}
-    {autocomplete}
-    {passwordrules}
-  />
 {:else if type === "date"}
   <input
     {name}

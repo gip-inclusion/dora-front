@@ -1,4 +1,4 @@
-import { getServicesOptions } from "$lib/services";
+import { getServicesOptions } from "$lib/requests/services";
 
 import type { PageLoad } from "./$types";
 

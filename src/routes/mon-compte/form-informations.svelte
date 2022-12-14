@@ -7,9 +7,9 @@
   import SchemaField from "$lib/components/forms/schema-field.svelte";
   import Info from "$lib/components/info.svelte";
   import { arrowRightSIcon, lightBulbIcon } from "$lib/icons";
-  import { userProfileSchema } from "$lib/schemas/auth";
+  import { userProfileSchema } from "$lib/validation/schemas/auth";
   import { getApiURL } from "$lib/utils/api";
-  import { formErrors } from "$lib/validation";
+  import { formErrors } from "$lib/validation/validation";
 
   const authErrors = {};
   let success = false;

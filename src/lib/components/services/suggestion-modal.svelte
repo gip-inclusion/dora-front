@@ -5,9 +5,9 @@
   import Fieldset from "$lib/components/forms/fieldset.svelte";
   import Form from "$lib/components/forms/form.svelte";
   import Modal from "$lib/components/modal.svelte";
-  import { suggestionSchema } from "$lib/schemas/service";
+  import { suggestionSchema } from "$lib/validation/schemas/service";
   import { getApiURL } from "$lib/utils/api";
-  import { formErrors } from "$lib/validation";
+  import { formErrors } from "$lib/validation/validation";
   import { onMount } from "svelte";
   import SuggestionConfirmationModal from "./suggestion-confirmation-modal.svelte";
 

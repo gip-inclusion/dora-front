@@ -3,7 +3,7 @@
   import { userInfo } from "$lib/auth";
   import Breadcrumb from "$lib/components/breadcrumb.svelte";
   import Label from "$lib/components/label.svelte";
-  import AdminNotice from "$lib/components/structures/admin-notice.svelte";
+  import AdminNotice from "./admin-notice.svelte";
   import Tabs from "$lib/components/tabs-links.svelte";
   import {
     bookReadLineIcon,

@@ -3,7 +3,7 @@
   import Button from "$lib/components/button.svelte";
   import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
   import NewletterNotice from "$lib/components/newsletter/newletter-notice.svelte";
-  import SearchForm from "$lib/components/search/search-form.svelte";
+  import SearchForm from "$lib/components/services-search/search-form.svelte";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
   import type { ServiceSearchResult } from "$lib/types";
   import { isInDeploymentDepartments } from "$lib/utils/city";

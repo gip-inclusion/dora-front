@@ -22,7 +22,6 @@
 
   export let hideLabel = false;
   export let autocomplete = undefined;
-  export let passwordrules = undefined;
 
   let schemaField;
 
@@ -54,7 +53,6 @@
   {readonly}
   {vertical}
   {autocomplete}
-  {passwordrules}
 >
   <slot name="custom-input" slot="custom-input" />
 </Field>

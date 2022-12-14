@@ -4,7 +4,7 @@
   import ModelBody from "$lib/components/services/model-body.svelte";
   import ModelHeader from "$lib/components/services/model-header.svelte";
   import ModelToolbar from "$lib/components/services/model-toolbar.svelte";
-  import { getModel } from "$lib/services";
+  import { getModel } from "$lib/requests/services";
   import { trackModel } from "$lib/utils/plausible";
   import { onMount } from "svelte";
   import type { PageData } from "./$types";

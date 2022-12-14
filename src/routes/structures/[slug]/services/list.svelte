@@ -3,7 +3,7 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import { userInfo } from "$lib/auth";
-  import SelectField from "$lib/components/form/select/select-field.svelte";
+  import SelectField from "$lib/components/forms/select/select-field.svelte";
   import LinkButton from "$lib/components/link-button.svelte";
   import ServiceCard from "$lib/components/services/service-card.svelte";
   import {

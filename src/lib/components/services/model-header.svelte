@@ -1,5 +1,5 @@
 <script lang="ts">
-  import StructureCard from "$lib/components/structures/card.svelte";
+  import StructureCard from "$lib/components/structure-card.svelte";
   import Date from "../date.svelte";
 
   export let model;

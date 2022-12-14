@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from "$lib/components/button.svelte";
-  import { clickOutside } from "./use/click-outside";
+  import { clickOutside } from "../utils/click-outside";
 
   export let icon = undefined;
   export let label = undefined;

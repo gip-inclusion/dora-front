@@ -1,8 +1,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Button from "$lib/components/button.svelte";
-  import FieldWrapper from "$lib/components/form/field-wrapper.svelte";
-  import SelectField from "$lib/components/form/select/select-field.svelte";
+  import FieldWrapper from "$lib/components/forms/field-wrapper.svelte";
+  import SelectField from "$lib/components/forms/select/select-field.svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
   import {
     arrowDownSIcon,

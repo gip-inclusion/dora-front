@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Alert from "$lib/components/forms/alert.svelte";
-  import { formErrors } from "$lib/validation";
+  import Alert from "$lib/components/alert.svelte";
+  import { formErrors } from "$lib/validation/validation";
   import { onDestroy, onMount } from "svelte";
 
   onMount(() => {

@@ -10,7 +10,7 @@
     fileEditFillIcon,
     folderFillIcon,
   } from "$lib/icons";
-  import { serviceSchema } from "$lib/schemas/service";
+  import { serviceSchema } from "$lib/validation/schemas/service";
   import {
     archiveService,
     convertSuggestionToDraft,
@@ -19,15 +19,15 @@
     publishService,
     unarchiveService,
     unPublishService,
-  } from "$lib/services";
+  } from "$lib/requests/services";
   import {
     SERVICE_STATUSES,
     type Service,
     type ShortService,
   } from "$lib/types";
   import { getAvailableOptionsForStatus } from "$lib/utils/service";
-  import { validate } from "$lib/validation";
-  import { clickOutside } from "../use/click-outside";
+  import { validate } from "$lib/validation/validation";
+  import { clickOutside } from "../../utils/click-outside";
 
   type ServiceStatusPresentation = {
     bgClass: string;

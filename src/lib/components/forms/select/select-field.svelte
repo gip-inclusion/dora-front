@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { clickOutside } from "$lib/components/use/click-outside";
+  import { clickOutside } from "$lib/utils/click-outside";
   import { arrowDownSIcon, arrowUpSIcon, deleteBackIcon } from "$lib/icons";
   import type { Choice } from "$lib/types";
   import {

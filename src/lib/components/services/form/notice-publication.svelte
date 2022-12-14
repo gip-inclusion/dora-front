@@ -1,7 +1,7 @@
 <script lang="ts">
   import Notice from "$lib/components/notice.svelte";
-  import { serviceSchema } from "$lib/schemas/service";
-  import { validate } from "$lib/validation";
+  import { serviceSchema } from "$lib/validation/schemas/service";
+  import { validate } from "$lib/validation/validation";
 
   export let service, servicesOptions;
 

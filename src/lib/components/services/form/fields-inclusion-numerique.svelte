@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from "$lib/components/button.svelte";
-  import SelectField from "$lib/components/form/select/select-field.svelte";
+  import SelectField from "$lib/components/forms/select/select-field.svelte";
   import AdminDivisionSearch from "$lib/components/forms/admin-division-search.svelte";
   import CitySearch from "$lib/components/forms/city-search.svelte";
   import FieldSet from "$lib/components/forms/fieldset.svelte";
@@ -14,7 +14,7 @@
     formErrors,
     validate,
     type ValidationContext,
-  } from "$lib/validation";
+  } from "$lib/validation/validation";
   import { onMount, setContext, tick } from "svelte";
   import FieldModel from "./field-model.svelte";
 

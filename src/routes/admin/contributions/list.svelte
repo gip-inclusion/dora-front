@@ -5,7 +5,7 @@
   import {
     acceptServiceSuggestion,
     deleteServiceSuggestion,
-  } from "$lib/services";
+  } from "$lib/requests/services";
   import SuggestionModal from "./suggestion-modal.svelte";
 
   export let suggestions;

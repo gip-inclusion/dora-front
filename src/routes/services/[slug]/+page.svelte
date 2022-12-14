@@ -11,7 +11,7 @@
   import ServiceShare from "$lib/components/services/body/service-share.svelte";
   import ServiceToolbar from "$lib/components/services/body/toolbar/service-toolbar.svelte";
   import TallyNpsPopup from "$lib/components/tally-nps-popup.svelte";
-  import { getService } from "$lib/services";
+  import { getService } from "$lib/requests/services";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import { isAfter } from "$lib/utils/date";
   import { canDisplayNpsForm, TallyFormId } from "$lib/utils/nps";

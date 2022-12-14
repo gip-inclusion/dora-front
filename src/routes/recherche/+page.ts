@@ -1,5 +1,5 @@
 import { getQuery, storeLastSearchCity } from "$lib/search";
-import { getServicesOptions } from "$lib/services";
+import { getServicesOptions } from "$lib/requests/services";
 import type { SearchQuery, ServiceSearchResult } from "$lib/types";
 import { getApiURL } from "$lib/utils/api";
 import { trackSearch } from "$lib/utils/plausible";
