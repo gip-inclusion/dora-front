@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import Button from "$lib/components/button.svelte";
-  import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
-  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import Notice from "$lib/components/notice.svelte";
+  import Button from "$lib/components/display/button.svelte";
+  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
+  import Notice from "$lib/components/display/notice.svelte";
+  import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import ServiceFields from "$lib/components/services/form/service-fields.svelte";
   import type { PageData } from "./$types";
 

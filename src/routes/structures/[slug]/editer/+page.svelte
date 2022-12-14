@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { refreshUserInfo } from "$lib/auth";
-  import EnsureLoggedIn from "$lib/components/ensure-logged-in.svelte";
-  import StructureFormWrapper from "../../form-wrapper.svelte";
+  import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import { getStructure } from "$lib/requests/structures";
+  import { refreshUserInfo } from "$lib/utils/auth";
+  import StructureFormWrapper from "../../form-wrapper.svelte";
   import { structure } from "../store";
   import type { PageData } from "./$types";
 

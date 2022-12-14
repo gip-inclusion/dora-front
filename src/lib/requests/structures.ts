@@ -1,11 +1,11 @@
-import { token } from "$lib/auth";
-import structureSchema from "$lib/validation/schemas/structure";
-import { fetchData } from "$lib/utils";
 import { getApiURL } from "$lib/utils/api";
+import { token } from "$lib/utils/auth";
+import { fetchData } from "$lib/utils/misc";
+import structureSchema from "$lib/validation/schemas/structure";
 import { validate } from "$lib/validation/validation";
 import { get } from "svelte/store";
-import { logException } from "../logger";
 import type { ShortStructure, Structure, StructuresOptions } from "../types";
+import { logException } from "../utils/logger";
 
 export async function siretWasAlreadyClaimed(siret) {
   const url = `${getApiURL()}/siret-claimed/${siret}`;

@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { token } from "$lib/auth";
-  import Button from "$lib/components/button.svelte";
-  import Field from "$lib/components/forms/field.svelte";
-  import Form from "$lib/components/forms/form.svelte";
-  import Modal from "$lib/components/modal.svelte";
-  import { addUserSchema } from "$lib/validation/schemas/dashboard";
+  import Button from "$lib/components/display/button.svelte";
+  import Form from "$lib/components/display/form.svelte";
+  import Modal from "$lib/components/display/modal.svelte";
+  import Field from "$lib/components/inputs/field.svelte";
   import { getApiURL } from "$lib/utils/api";
+  import { token } from "$lib/utils/auth";
+  import { addUserSchema } from "$lib/validation/schemas/dashboard";
   import { formErrors } from "$lib/validation/validation";
   import { get } from "svelte/store";
   import ConfirmationModal from "./modal-confirmation.svelte";

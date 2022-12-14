@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { userInfo } from "$lib/auth";
   import { CANONICAL_URL } from "$lib/env";
   import { mailLineIcon } from "$lib/icons";
+  import { userInfo } from "$lib/utils/auth";
   import { trackMobilisationEmail } from "$lib/utils/plausible";
 
   export let service;

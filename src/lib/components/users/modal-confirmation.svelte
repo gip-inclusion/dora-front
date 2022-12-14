@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Info from "$lib/components/info.svelte";
-  import Modal from "$lib/components/modal.svelte";
+  import Info from "$lib/components/display/info.svelte";
+  import Modal from "$lib/components/display/modal.svelte";
 
   export let email;
   export let isOpen = false;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import LinkButton from "$lib/components/link-button.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
   import { checkboxCircleFillIcon, copyIcon2, editIcon } from "$lib/icons";
   import {
     SERVICE_STATUSES,
@@ -8,7 +8,7 @@
     type ServicesOptions,
     type ShortService,
   } from "$lib/types";
-  import Button from "../button.svelte";
+  import Button from "../display/button.svelte";
   import SetAsUpdatedModal from "./set-as-updated-modal.svelte";
 
   export let service: Service | ShortService;

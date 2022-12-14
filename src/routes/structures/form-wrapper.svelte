@@ -1,13 +1,17 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import Button from "$lib/components/button.svelte";
-  import Alert from "$lib/components/alert.svelte";
-  import CitySearch from "$lib/components/forms/city-search.svelte";
-  import SchemaField from "$lib/components/forms/schema-field.svelte";
-  import AddressSearch from "$lib/components/forms/street-search.svelte";
-  import structureSchema from "$lib/validation/schemas/structure";
+  import Alert from "$lib/components/display/alert.svelte";
+  import Button from "$lib/components/display/button.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
+  import OpeningHoursField from "$lib/components/inputs/openingHours/opening-hours-field.svelte";
+  import SchemaField from "$lib/components/inputs/schema-field.svelte";
+  import SelectField from "$lib/components/inputs/select/select-field.svelte";
+  import CitySearch from "$lib/components/inputs/specialized/city-search.svelte";
+  import AddressSearch from "$lib/components/inputs/specialized/street-search.svelte";
+  import TextField from "$lib/components/inputs/text-field.svelte";
   import { createStructure, modifyStructure } from "$lib/requests/structures";
   import type { Structure, StructuresOptions } from "$lib/types";
+  import structureSchema from "$lib/validation/schemas/structure";
   import {
     contextValidationKey,
     formErrors,
@@ -16,10 +20,6 @@
     type ValidationContext,
   } from "$lib/validation/validation";
   import { setContext } from "svelte";
-  import OpeningHoursField from "$lib/components/forms/openingHours/opening-hours-field.svelte";
-  import SelectField from "$lib/components/forms/select/select-field.svelte";
-  import TextField from "$lib/components/forms/text-field.svelte";
-  import LinkButton from "$lib/components/link-button.svelte";
 
   export let structure: Structure;
   export let structuresOptions: StructuresOptions;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Button from "$lib/components/button.svelte";
+  import Button from "$lib/components/display/button.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
   import SubcategoryListItem from "./subcategory-list-item.svelte";
 

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { userInfo } from "$lib/auth";
-  import LinkButton from "$lib/components/link-button.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
+  import { userInfo } from "$lib/utils/auth";
 
   export let model;
   export let secondary = false;

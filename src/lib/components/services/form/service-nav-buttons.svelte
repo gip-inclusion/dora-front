@@ -1,14 +1,14 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import Button from "$lib/components/button.svelte";
-  import { logException } from "$lib/logger";
+  import Button from "$lib/components/display/button.svelte";
+  import { createOrModifyService, publishDraft } from "$lib/requests/services";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
+  import { logException } from "$lib/utils/logger";
   import {
     draftSchema,
     serviceSchema,
     SERVICE_STATUSES,
   } from "$lib/validation/schemas/service";
-  import { createOrModifyService, publishDraft } from "$lib/requests/services";
-  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import { injectAPIErrors, validate } from "$lib/validation/validation";
 
   export let onError, service, servicesOptions;

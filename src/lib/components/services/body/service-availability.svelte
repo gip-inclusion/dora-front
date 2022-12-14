@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { closeCircleFillIcon, emotionHappyIcon } from "$lib/icons";
+  import { closeCircleIcon, emotionHappyIcon } from "$lib/icons";
   import type { Service, ShortService } from "$lib/types";
 
   export let service: Service | ShortService;
@@ -38,7 +38,7 @@
       class="icon h-s32 w-s32 {unavailableColor} mr-s8 fill-current print:text-service-unavailable-dark"
       class:small
     >
-      {@html closeCircleFillIcon}
+      {@html closeCircleIcon}
     </div>
     <span
       class="{unavailableColor} print:text-service-unavailable-dark"

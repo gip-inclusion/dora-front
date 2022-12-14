@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import LinkButton from "$lib/components/link-button.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
   import { trackMobilisationLogin } from "$lib/utils/plausible";
 
   export let service;

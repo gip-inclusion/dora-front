@@ -1,6 +1,6 @@
 <script lang="ts">
-  import TextClamp from "$lib/components/text-clamp.svelte";
-  import { markdownToHTML } from "$lib/utils";
+  import TextClamp from "$lib/components/utilities/text-clamp.svelte";
+  import { markdownToHTML } from "$lib/utils/misc";
 
   export let service;
 </script>

@@ -1,9 +1,8 @@
 <script lang="ts">
   import cornerLeftBlueImg from "$lib/assets/style/corner-left-blue.png";
   import cornerRightBlueImg from "$lib/assets/style/corner-right-blue.png";
-  import { token } from "$lib/auth";
-  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import LinkButton from "$lib/components/link-button.svelte";
+  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
   import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
   import { copyIcon2 } from "$lib/icons";
   import {
@@ -12,6 +11,7 @@
     type Service,
     type ServicesOptions,
   } from "$lib/types";
+  import { token } from "$lib/utils/auth";
   import {
     computeUpdateStatusData,
     computeUpdateStatusLabel,

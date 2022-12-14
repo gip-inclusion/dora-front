@@ -1,9 +1,9 @@
 <script lang="ts">
-  import Bookmarkable from "$lib/components/bookmarkable.svelte";
-  import Breadcrumb from "$lib/components/breadcrumb.svelte";
-  import Favorite from "$lib/components/favorite-icon.svelte";
+  import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
+  import Bookmarkable from "$lib/components/hoc/bookmarkable.svelte";
+  import Favorite from "$lib/components/specialized/favorite-icon.svelte";
   import type { Service } from "$lib/types";
-  import { capitalize } from "$lib/utils";
+  import { capitalize } from "$lib/utils/misc";
 
   export let service: Service;
 </script>

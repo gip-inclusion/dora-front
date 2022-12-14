@@ -8,8 +8,8 @@
     timeLineIcon,
   } from "$lib/icons";
   import type { Service, ServicesOptions, ShortService } from "$lib/types";
-  import { shortenString } from "$lib/utils";
   import { getLabelFromValue } from "$lib/utils/choice";
+  import { shortenString } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
 
   export let service: Service | ShortService;

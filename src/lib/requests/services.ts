@@ -1,10 +1,10 @@
-import { token } from "$lib/auth";
-import { fetchData } from "$lib/utils";
 import { getApiURL } from "$lib/utils/api";
+import { token } from "$lib/utils/auth";
+import { fetchData } from "$lib/utils/misc";
 import { get } from "svelte/store";
-import { logException } from "../logger";
-import { SERVICE_STATUSES } from "../validation/schemas/service";
 import type { Model, Service, ServicesOptions, ShortService } from "../types";
+import { logException } from "../utils/logger";
+import { SERVICE_STATUSES } from "../validation/schemas/service";
 
 function serviceToBack(service) {
   if (service.longitude && service.latitude) {

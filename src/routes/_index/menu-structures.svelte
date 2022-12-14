@@ -1,6 +1,6 @@
 <script lang="ts">
-  import LinkButton from "$lib/components/link-button.svelte";
-  import { capitalize, shortenString } from "$lib/utils";
+  import LinkButton from "$lib/components/display/link-button.svelte";
+  import { capitalize, shortenString } from "$lib/utils/misc";
 
   export let structures;
 </script>

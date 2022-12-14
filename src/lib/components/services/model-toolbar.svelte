@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { token } from "$lib/auth";
   import ModelMenu from "$lib/components/services/model-menu.svelte";
+  import { token } from "$lib/utils/auth";
 
   export let model;
   export let onRefresh;

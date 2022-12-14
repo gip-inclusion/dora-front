@@ -1,9 +1,9 @@
 <script lang="ts">
-  import Button from "$lib/components/button.svelte";
-  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import Notice from "$lib/components/notice.svelte";
-  import { serviceSchema } from "$lib/validation/schemas/service";
+  import Button from "$lib/components/display/button.svelte";
+  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
+  import Notice from "$lib/components/display/notice.svelte";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
+  import { serviceSchema } from "$lib/validation/schemas/service";
   import debounce from "lodash.debounce";
   import { onDestroy, onMount } from "svelte";
   import Errors from "./errors.svelte";

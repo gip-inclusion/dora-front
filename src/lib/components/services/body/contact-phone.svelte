@@ -1,6 +1,6 @@
 <script lang="ts">
   import { phoneLineIcon } from "$lib/icons";
-  import { formatPhoneNumber } from "$lib/utils/phone";
+  import { formatPhoneNumber } from "$lib/utils/misc";
 
   export let service;
   export let preferred = false;

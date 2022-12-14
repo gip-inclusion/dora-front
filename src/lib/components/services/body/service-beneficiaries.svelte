@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Accordeon from "$lib/components/accordion.svelte";
+  import Accordeon from "$lib/components/display/accordion.svelte";
   import type { Service } from "$lib/types";
 
   export let service: Service;

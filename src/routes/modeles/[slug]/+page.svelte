@@ -1,6 +1,6 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
+  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import ModelBody from "$lib/components/services/model-body.svelte";
   import ModelHeader from "$lib/components/services/model-header.svelte";
   import ModelToolbar from "$lib/components/services/model-toolbar.svelte";

@@ -1,18 +1,18 @@
 <script lang="ts">
-  import Button from "$lib/components/button.svelte";
-  import SelectField from "$lib/components/forms/select/select-field.svelte";
-  import AddableMultiselect from "$lib/components/forms/addable-multiselect.svelte";
-  import Field from "$lib/components/forms/field.svelte";
-  import FieldSet from "$lib/components/forms/fieldset.svelte";
-  import SchemaField from "$lib/components/forms/schema-field.svelte";
-  import Modal from "$lib/components/modal.svelte";
-  import Notice from "$lib/components/notice.svelte";
-  import Uploader from "$lib/components/forms/uploader.svelte";
+  import Button from "$lib/components/display/button.svelte";
+  import FieldSet from "$lib/components/display/fieldset.svelte";
+  import Modal from "$lib/components/display/modal.svelte";
+  import Notice from "$lib/components/display/notice.svelte";
+  import Field from "$lib/components/inputs/field.svelte";
+  import SchemaField from "$lib/components/inputs/schema-field.svelte";
+  import AddableMultiselect from "$lib/components/inputs/select/addable-multiselect.svelte";
+  import SelectField from "$lib/components/inputs/select/select-field.svelte";
+  import Uploader from "$lib/components/inputs/uploader.svelte";
   import {
     arraysCompare,
     moveToTheEnd,
     orderAndReformatSubcategories,
-  } from "$lib/utils";
+  } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
   import {
     contextValidationKey,

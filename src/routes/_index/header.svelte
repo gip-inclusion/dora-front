@@ -2,7 +2,7 @@
   import { browser } from "$app/environment";
   import LogoDORA from "$lib/assets/logos/logo-dora.svg";
   import LogoMinistere from "$lib/assets/logos/logo-ministere-travail-emploi.svg";
-  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
+  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import { ENVIRONMENT } from "$lib/env";
   import HeaderActions from "./menu.svelte";
 </script>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import LinkButton from "$lib/components/link-button.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
   import { CANONICAL_URL, PDF_SERVICE_URL } from "$lib/env";
   import { checkIcon, downloadIcon, linkIcon } from "$lib/icons";
   import type { Service, ShortService } from "$lib/types";

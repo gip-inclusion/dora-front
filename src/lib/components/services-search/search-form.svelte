@@ -1,28 +1,30 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import Button from "$lib/components/button.svelte";
-  import FieldWrapper from "$lib/components/forms/field-wrapper.svelte";
-  import SelectField from "$lib/components/forms/select/select-field.svelte";
-  import CitySearch from "$lib/components/forms/city-search.svelte";
+  import Button from "$lib/components/display/button.svelte";
+  import FieldWrapper from "$lib/components/inputs/field-wrapper.svelte";
+  import SelectField from "$lib/components/inputs/select/select-field.svelte";
+  import CitySearch from "$lib/components/inputs/specialized/city-search.svelte";
   import {
     arrowDownSIcon,
     deleteBackIcon,
     mapPinIcon,
     searchIcon,
   } from "$lib/icons";
-  import { getQuery } from "$lib/search";
   import type { FeeCondition, ServiceKind, ServicesOptions } from "$lib/types";
-  import { getDepartmentFromCityCode } from "$lib/utils";
   import {
     injectOptGroupAllOptionsInSubCategories,
     injectOptGroupInSubCategories,
   } from "$lib/utils/choice";
-  import { isInDeploymentDepartments } from "$lib/utils/city";
+  import {
+    getDepartmentFromCityCode,
+    isInDeploymentDepartments,
+  } from "$lib/utils/misc";
   import {
     associateIconToCategory,
     sortByCategories,
     sortCategory,
   } from "$lib/utils/service";
+  import { getQuery } from "$lib/utils/service-search";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode;

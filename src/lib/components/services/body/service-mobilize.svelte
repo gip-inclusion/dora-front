@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Accordeon from "$lib/components/accordion.svelte";
+  import Accordeon from "$lib/components/display/accordion.svelte";
   import type { Service } from "$lib/types";
-  import { addlinkToUrls } from "$lib/utils";
+  import { addlinkToUrls } from "$lib/utils/misc";
   import { formatFilePath } from "$lib/utils/service";
 
   export let service: Service;

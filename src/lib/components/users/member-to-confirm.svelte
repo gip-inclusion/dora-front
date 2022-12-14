@@ -1,6 +1,6 @@
 <script lang="ts">
-  import Button from "$lib/components/button.svelte";
-  import Label from "$lib/components/label.svelte";
+  import Button from "$lib/components/display/button.svelte";
+  import Label from "$lib/components/display/label.svelte";
   import { fileEditIcon, fileForbidIcon, userIcon } from "$lib/icons";
   import {
     acceptMember,

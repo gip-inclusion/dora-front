@@ -1,7 +1,7 @@
 <script lang="ts">
-  import FavoriteIcon from "$lib/components/favorite-icon.svelte";
   import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
   import UpdateStatusIcon from "$lib/components/services/icons/update-status.svelte";
+  import FavoriteIcon from "$lib/components/specialized/favorite-icon.svelte";
   import {
     SERVICE_STATUSES,
     SERVICE_UPDATE_STATUS,
@@ -12,7 +12,7 @@
     computeUpdateStatusData,
     computeUpdateStatusLabel,
   } from "$lib/utils/service";
-  import Bookmarkable from "../bookmarkable.svelte";
+  import Bookmarkable from "../hoc/bookmarkable.svelte";
   import ServiceButtonMenu from "./service-button-menu.svelte";
   import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
 

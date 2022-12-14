@@ -1,10 +1,10 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import Alert from "$lib/components/alert.svelte";
-  import CenteredGrid from "$lib/components/layout/centered-grid.svelte";
-  import { contribSchema } from "$lib/validation/schemas/service";
+  import Alert from "$lib/components/display/alert.svelte";
+  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import { publishServiceSuggestion } from "$lib/requests/services";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
+  import { contribSchema } from "$lib/validation/schemas/service";
   import {
     contextValidationKey,
     formErrors,

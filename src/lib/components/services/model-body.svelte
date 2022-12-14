@@ -1,8 +1,8 @@
 <script lang="ts">
-  import Tag from "$lib/components/tag.svelte";
+  import Tag from "$lib/components/display/tag.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
-  import { addlinkToUrls } from "$lib/utils";
   import { getLabelFromValue } from "$lib/utils/choice";
+  import { addlinkToUrls } from "$lib/utils/misc";
   import { formatFilePath, isNotFreeService } from "$lib/utils/service";
   import ServicePresentation from "./body/presentation/service-description.svelte";
 

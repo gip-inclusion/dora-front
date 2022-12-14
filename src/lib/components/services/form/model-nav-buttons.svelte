@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import Button from "$lib/components/button.svelte";
-  import { logException } from "$lib/logger";
-  import { modelSchema } from "$lib/validation/schemas/service";
+  import Button from "$lib/components/display/button.svelte";
   import { createOrModifyModel } from "$lib/requests/services";
+  import { logException } from "$lib/utils/logger";
+  import { modelSchema } from "$lib/validation/schemas/service";
   import { validate } from "$lib/validation/validation";
 
   export let model, onError, servicesOptions;
