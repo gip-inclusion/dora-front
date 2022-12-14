@@ -13,7 +13,7 @@
     "dev": "vite dev --port 3000 --strictPort",
     "build": "vite build",
     "build:test": "vite build --mode test",
-    "start": "node build",
+    "start": "PORT=1234 node build",
     "preview": "vite preview --port 3000 --strictPort",
     "test": "playwright test",
     "test:debug": "playwright test --debug",
