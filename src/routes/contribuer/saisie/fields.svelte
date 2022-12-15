@@ -5,9 +5,9 @@
   import Field from "$lib/components/inputs/field.svelte";
   import SchemaField from "$lib/components/inputs/schema-field.svelte";
   import SelectField from "$lib/components/inputs/select/select-field.svelte";
-  import CitySearch from "$lib/components/inputs/specialized/city-search.svelte";
-  import StructureSearch from "$lib/components/inputs/specialized/establishment-search/search.svelte";
-  import AddressSearch from "$lib/components/inputs/specialized/street-search.svelte";
+  import CitySearch from "$lib/components/specialized/city-search.svelte";
+  import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
+  import AddressSearch from "$lib/components/specialized/street-search.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
   import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";

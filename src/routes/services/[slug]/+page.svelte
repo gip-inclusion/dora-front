@@ -1,14 +1,14 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import ServicePresentation from "$lib/components/services/body/presentation/service-presentation.svelte";
-  import ServiceBeneficiaries from "$lib/components/services/body/service-beneficiaries.svelte";
-  import ServiceHeader from "$lib/components/services/body/service-header.svelte";
-  import ServiceKeyInformations from "$lib/components/services/body/service-key-informations.svelte";
-  import ServiceMobilisation from "$lib/components/services/body/service-mobilisation.svelte";
-  import ServiceMobilize from "$lib/components/services/body/service-mobilize.svelte";
-  import ServiceShare from "$lib/components/services/body/service-share.svelte";
-  import ServiceToolbar from "$lib/components/services/body/toolbar/service-toolbar.svelte";
+  import ServicePresentation from "./service-presentation.svelte";
+  import ServiceBeneficiaries from "./service-beneficiaries.svelte";
+  import ServiceHeader from "./service-header.svelte";
+  import ServiceKeyInformations from "$lib/components/specialized/services/service-key-informations.svelte";
+  import ServiceMobilisation from "./service-mobilisation.svelte";
+  import ServiceMobilize from "./service-mobilize.svelte";
+  import ServiceShare from "./service-share.svelte";
+  import ServiceToolbar from "./service-toolbar.svelte";
   import TallyNpsPopup from "$lib/components/specialized/tally-nps-popup.svelte";
   import { getService } from "$lib/requests/services";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";

@@ -3,9 +3,9 @@
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import SchemaField from "$lib/components/inputs/schema-field.svelte";
   import SelectField from "$lib/components/inputs/select/select-field.svelte";
-  import AdminDivisionSearch from "$lib/components/inputs/specialized/admin-division-search.svelte";
-  import CitySearch from "$lib/components/inputs/specialized/city-search.svelte";
-  import AddressSearch from "$lib/components/inputs/specialized/street-search.svelte";
+  import AdminDivisionSearch from "$lib/components/specialized/admin-division-search.svelte";
+  import CitySearch from "$lib/components/specialized/city-search.svelte";
+  import AddressSearch from "$lib/components/specialized/street-search.svelte";
   import type { Choice, Service, ServicesOptions, Structure } from "$lib/types";
   import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
@@ -16,7 +16,7 @@
     type ValidationContext,
   } from "$lib/validation/validation";
   import { onMount, setContext, tick } from "svelte";
-  import FieldModel from "./field-model.svelte";
+  import FieldModel from "$lib/components/specialized/services/field-model.svelte";
 
   export let servicesOptions: ServicesOptions;
   export let service: Service;

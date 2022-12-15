@@ -1,6 +1,6 @@
 <script lang="ts">
   import { userInfo } from "$lib/utils/auth";
-  import Date from "../utilities/date.svelte";
+  import Date from "$lib/components/utilities/date.svelte";
   import ModelMenu from "./model-button-menu.svelte";
 
   export let model;

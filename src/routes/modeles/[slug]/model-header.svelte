@@ -1,6 +1,6 @@
 <script lang="ts">
   import StructureCard from "$lib/components/specialized/structure-card.svelte";
-  import Date from "../utilities/date.svelte";
+  import Date from "$lib/components/utilities/date.svelte";
 
   export let model;
 </script>

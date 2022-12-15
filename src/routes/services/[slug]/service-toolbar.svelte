@@ -3,7 +3,7 @@
   import cornerRightBlueImg from "$lib/assets/style/corner-right-blue.png";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
+  import SynchronizedIcon from "$lib/components/specialized/services/synchronized-icon.svelte";
   import { copyIcon2 } from "$lib/icons";
   import {
     SERVICE_STATUSES,
@@ -16,7 +16,7 @@
     computeUpdateStatusData,
     computeUpdateStatusLabel,
   } from "$lib/utils/service";
-  import ServiceStateUpdateSelect from "../../service-state-update-select.svelte";
+  import ServiceStateUpdateSelect from "$lib/components/specialized/services/service-state-update-select.svelte";
   import ServiceUpdateStatusAsContributor from "./service-update-status-as-contributor.svelte";
   import ServiceUpdateStatusAsReader from "./service-update-status-as-reader.svelte";
 

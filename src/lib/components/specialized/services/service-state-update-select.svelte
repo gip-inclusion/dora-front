@@ -27,7 +27,7 @@
   } from "$lib/types";
   import { getAvailableOptionsForStatus } from "$lib/utils/service";
   import { validate } from "$lib/validation/validation";
-  import { clickOutside } from "../../utils/click-outside";
+  import { clickOutside } from "../../../utils/click-outside";
 
   type ServiceStatusPresentation = {
     bgClass: string;

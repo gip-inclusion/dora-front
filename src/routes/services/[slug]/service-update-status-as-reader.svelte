@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
-  import UpdateStatusIcon from "$lib/components/services/icons/update-status.svelte";
-  import SuggestionModal from "$lib/components/services/suggestion-modal.svelte";
+  import UpdateStatusIcon from "$lib/components/specialized/services/update-status-icon.svelte";
+  import SuggestionModal from "./suggestion-modal.svelte";
   import Date from "$lib/components/utilities/date.svelte";
   import { editIcon } from "$lib/icons";
   import {

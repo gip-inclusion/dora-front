@@ -5,8 +5,8 @@
   import { checkboxCircleFillIcon, editIcon } from "$lib/icons";
   import { createOrModifyService } from "$lib/requests/services";
   import type { Service, ServicesOptions, ShortService } from "$lib/types";
-  import ServiceContact from "./body/service-contact.svelte";
-  import ServiceKeyInformations from "./body/service-key-informations.svelte";
+  import ServiceContact from "./service-contact.svelte";
+  import ServiceKeyInformations from "./service-key-informations.svelte";
 
   export let isOpen = false;
   export let service: Service | ShortService;

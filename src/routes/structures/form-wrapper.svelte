@@ -3,11 +3,11 @@
   import Alert from "$lib/components/display/alert.svelte";
   import Button from "$lib/components/display/button.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import OpeningHoursField from "$lib/components/inputs/openingHours/opening-hours-field.svelte";
+  import OpeningHoursField from "$lib/components/specialized/openingHours/opening-hours-field.svelte";
   import SchemaField from "$lib/components/inputs/schema-field.svelte";
   import SelectField from "$lib/components/inputs/select/select-field.svelte";
-  import CitySearch from "$lib/components/inputs/specialized/city-search.svelte";
-  import AddressSearch from "$lib/components/inputs/specialized/street-search.svelte";
+  import CitySearch from "$lib/components/specialized/city-search.svelte";
+  import AddressSearch from "$lib/components/specialized/street-search.svelte";
   import TextField from "$lib/components/inputs/text-field.svelte";
   import { createStructure, modifyStructure } from "$lib/requests/structures";
   import type { Structure, StructuresOptions } from "$lib/types";

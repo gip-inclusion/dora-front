@@ -1,7 +1,7 @@
 <script lang="ts">
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
-  import StructureSearch from "$lib/components/inputs/specialized/establishment-search/search.svelte";
+  import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
   import { alertIcon } from "$lib/icons";
   import { siretWasAlreadyClaimed } from "$lib/requests/structures";
   import structureSchema from "$lib/validation/schemas/structure";

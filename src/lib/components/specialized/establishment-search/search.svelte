@@ -1,9 +1,9 @@
 <script lang="ts">
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import Tabs from "$lib/components/display/tabs.svelte";
-  import SearchByCommune from "$lib/components/inputs/specialized/establishment-search/search-by-commune.svelte";
-  import SearchBySiret from "$lib/components/inputs/specialized/establishment-search/search-by-siret.svelte";
-  import PoleEmploiWarning from "../../../specialized/pole-emploi-warning.svelte";
+  import SearchByCommune from "$lib/components/specialized/establishment-search/search-by-commune.svelte";
+  import SearchBySiret from "$lib/components/specialized/establishment-search/search-by-siret.svelte";
+  import PoleEmploiWarning from "../pole-emploi-warning.svelte";
 
   export let blockPoleEmploi = false;
   export let onCityChange = null;

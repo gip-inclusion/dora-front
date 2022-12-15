@@ -1,5 +1,5 @@
 <script lang="ts">
-  import ModelMenu from "$lib/components/services/model-menu.svelte";
+  import ModelMenu from "$lib/components/specialized/services/model-menu.svelte";
   import { token } from "$lib/utils/auth";
 
   export let model;

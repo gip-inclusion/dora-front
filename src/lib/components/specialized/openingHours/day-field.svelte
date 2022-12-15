@@ -2,7 +2,7 @@
   import { alertIcon } from "$lib/icons";
   import type { Day, DayPeriod } from "$lib/types";
   import { createEventDispatcher } from "svelte";
-  import ToggleCheckboxInput from "../toggle-checkbox-input.svelte";
+  import ToggleCheckboxInput from "../../inputs/toggle-checkbox-input.svelte";
 
   export let label: string;
   export let isOpen: boolean;

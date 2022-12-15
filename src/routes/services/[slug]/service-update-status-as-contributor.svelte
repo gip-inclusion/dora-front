@@ -1,8 +1,8 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import UpdateStatusIcon from "$lib/components/services/icons/update-status.svelte";
-  import SetAsUpdatedModal from "$lib/components/services/set-as-updated-modal.svelte";
+  import UpdateStatusIcon from "$lib/components/specialized/services/update-status-icon.svelte";
+  import SetAsUpdatedModal from "$lib/components/specialized/services/set-as-updated-modal.svelte";
   import Date from "$lib/components/utilities/date.svelte";
   import { checkboxCircleFillIcon, editIcon } from "$lib/icons";
   import type { Service, ServicesOptions } from "$lib/types";

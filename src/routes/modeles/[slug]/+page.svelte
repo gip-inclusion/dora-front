@@ -1,9 +1,9 @@
 <script lang="ts">
   import { browser } from "$app/environment";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import ModelBody from "$lib/components/services/model-body.svelte";
-  import ModelHeader from "$lib/components/services/model-header.svelte";
-  import ModelToolbar from "$lib/components/services/model-toolbar.svelte";
+  import ModelBody from "./model-body.svelte";
+  import ModelHeader from "./model-header.svelte";
+  import ModelToolbar from "./model-toolbar.svelte";
   import { getModel } from "$lib/requests/services";
   import { trackModel } from "$lib/utils/plausible";
   import { onMount } from "svelte";

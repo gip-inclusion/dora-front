@@ -6,11 +6,11 @@
   import { serviceSchema } from "$lib/validation/schemas/service";
   import debounce from "lodash.debounce";
   import { onDestroy, onMount } from "svelte";
-  import Errors from "./errors.svelte";
-  import FieldsCommon from "./fields-common.svelte";
+  import Errors from "$lib/components/specialized/services/errors.svelte";
+  import FieldsCommon from "$lib/components/specialized/services/fields-common.svelte";
   import FieldsInclusionNumerique from "./fields-inclusion-numerique.svelte";
   import FieldsService from "./fields-service.svelte";
-  import FieldsStructure from "./fields-structure.svelte";
+  import FieldsStructure from "$lib/components/specialized/services/fields-structure.svelte";
   import ServiceNavButtons from "./service-nav-buttons.svelte";
 
   export let service, servicesOptions, structures, structure, model;

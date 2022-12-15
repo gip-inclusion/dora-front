@@ -3,7 +3,7 @@
   import { page } from "$app/stores";
   import Button from "$lib/components/display/button.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
-  import StructureSearch from "$lib/components/inputs/specialized/establishment-search/search.svelte";
+  import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
   import {
     token,

@@ -8,8 +8,8 @@
     type ServicesOptions,
     type ShortService,
   } from "$lib/types";
-  import Button from "../display/button.svelte";
-  import SetAsUpdatedModal from "./set-as-updated-modal.svelte";
+  import Button from "$lib/components/display/button.svelte";
+  import SetAsUpdatedModal from "$lib/components/specialized/services/set-as-updated-modal.svelte";
 
   export let service: Service | ShortService;
   export let servicesOptions: ServicesOptions;

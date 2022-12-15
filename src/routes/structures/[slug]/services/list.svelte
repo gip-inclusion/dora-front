@@ -4,7 +4,7 @@
   import { page } from "$app/stores";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import SelectField from "$lib/components/inputs/select/select-field.svelte";
-  import ServiceCard from "$lib/components/services/service-card.svelte";
+  import ServiceCard from "./service-card.svelte";
   import {
     addIcon,
     alertIcon,

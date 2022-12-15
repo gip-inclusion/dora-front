@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
-  import ServiceContact from "$lib/components/services/body/service-contact.svelte";
-  import ServiceLoginNotice from "$lib/components/services/body/service-login-notice.svelte";
+  import ServiceContact from "$lib/components/specialized/services/service-contact.svelte";
+  import ServiceLoginNotice from "./service-login-notice.svelte";
   import { trackMobilisation } from "$lib/utils/plausible";
 
   export let service, showContact;

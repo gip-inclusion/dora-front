@@ -4,7 +4,7 @@
   import { getLabelFromValue } from "$lib/utils/choice";
   import { addlinkToUrls } from "$lib/utils/misc";
   import { formatFilePath, isNotFreeService } from "$lib/utils/service";
-  import ServicePresentation from "./body/presentation/service-description.svelte";
+  import ServicePresentation from "$lib/components/specialized/services/service-description.svelte";
 
   export let service: Service;
   export let servicesOptions: ServicesOptions;

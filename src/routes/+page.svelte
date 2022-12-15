@@ -11,7 +11,7 @@
   import logoPoleEmploi from "$lib/assets/logos/logo-pole-emploi.svg";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import SearchForm from "$lib/components/services-search/search-form.svelte";
+  import SearchForm from "$lib/components/specialized/service-search.svelte";
   import NewletterNotice from "$lib/components/specialized/newletter-notice.svelte";
   import type { PageData } from "./$types";
 

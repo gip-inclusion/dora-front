@@ -1,6 +1,6 @@
 <script lang="ts">
-  import SynchronizedIcon from "$lib/components/services/icons/synchronized.svelte";
-  import UpdateStatusIcon from "$lib/components/services/icons/update-status.svelte";
+  import SynchronizedIcon from "$lib/components/specialized/services/synchronized-icon.svelte";
+  import UpdateStatusIcon from "$lib/components/specialized/services/update-status-icon.svelte";
   import FavoriteIcon from "$lib/components/specialized/favorite-icon.svelte";
   import {
     SERVICE_STATUSES,
@@ -12,9 +12,9 @@
     computeUpdateStatusData,
     computeUpdateStatusLabel,
   } from "$lib/utils/service";
-  import Bookmarkable from "../hoc/bookmarkable.svelte";
+  import Bookmarkable from "$lib/components/hoc/bookmarkable.svelte";
   import ServiceButtonMenu from "./service-button-menu.svelte";
-  import ServiceStateUpdateSelect from "./service-state-update-select.svelte";
+  import ServiceStateUpdateSelect from "$lib/components/specialized/services/service-state-update-select.svelte";
 
   export let service: ShortService;
   export let servicesOptions: ServicesOptions;
