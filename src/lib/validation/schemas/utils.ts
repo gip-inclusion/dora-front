@@ -31,12 +31,12 @@ export type Rule<T> = (
 
 export type Shape<T> = {
   name: string;
-  required: boolean;
-  default: T;
   rules: Rule<T>[];
-  dependents: string[];
-  post: Action<T>[];
-  pre: Action<T>[];
+  default?: T;
+  required?: boolean;
+  dependents?: string[];
+  post?: Action<T>[];
+  pre?: Action<T>[];
 };
 // ----- Rules
 

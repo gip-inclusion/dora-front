@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { InputType } from "$lib/types";
   import {
     contextValidationKey,
     type ValidationContext,
@@ -9,7 +10,7 @@
 
   export let value = undefined;
   export let name = "";
-  export let type;
+  export let type: InputType | "custom";
   export let errorMessages = [];
   export let allowHTMLError = false;
   export let autocomplete = undefined;
@@ -27,6 +28,7 @@
   export let placeholderMulti = undefined;
   export let initialValue = undefined;
   export let description = "";
+  export let htmlDescription = false;
   export let minValue = undefined;
 
   export let hideLabel = false;
@@ -66,7 +68,9 @@
       {#if required} <span class="ml-s6 text-error"> *</span>{/if}</label
     >
     {#if description}
-      <small>{description}</small>
+      <small
+        >{#if htmlDescription}{@html description}{:else}{description}{/if}</small
+      >
     {/if}
   </div>
   <div class="flex flex-col{vertical ? '' : ' lg:w-3/4'}">

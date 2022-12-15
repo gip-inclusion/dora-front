@@ -3,7 +3,7 @@
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import SelectField from "$lib/components/inputs/select/select-field.svelte";
+  import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
   import {
     addIcon,
     alertIcon,

@@ -6,7 +6,7 @@
   import Field from "$lib/components/inputs/field.svelte";
   import SchemaField from "$lib/components/inputs/schema-field.svelte";
   import AddableMultiselect from "$lib/components/inputs/select/addable-multiselect.svelte";
-  import SelectField from "$lib/components/inputs/select/select-field.svelte";
+  import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
   import Uploader from "$lib/components/inputs/uploader.svelte";
   import {
     arraysCompare,
