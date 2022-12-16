@@ -50,7 +50,7 @@ export interface StructureService {
   remoteUrl: string;
   shortDesc: string;
   slug: string;
-  status: ServiceStatuses;
+  status: ServiceStatus;
   structure: string;
   useInclusionNumeriqueScheme: boolean;
 }
@@ -173,7 +173,7 @@ export type OsmOpeningHours = {
 };
 
 // SERVICES
-export type ServiceStatuses = "DRAFT" | "SUGGESTION" | "PUBLISHED" | "ARCHIVED";
+export type ServiceStatus = "DRAFT" | "SUGGESTION" | "PUBLISHED" | "ARCHIVED";
 
 export type ServiceUpdateStatus = "NOT_NEEDED" | "NEEDED" | "REQUIRED" | "ALL";
 
@@ -243,7 +243,7 @@ export interface ServiceSearchResult {
   shortDesc: string;
   slug: string;
   structure: string;
-  status: ServiceStatuses;
+  status: ServiceStatus;
   structureInfo: {
     address1: string;
     address2: string;
@@ -343,7 +343,7 @@ export interface Service {
   requirementsDisplay: string[];
   shortDesc: string;
   slug: string;
-  status: ServiceStatuses;
+  status: ServiceStatus;
   structure: string;
   structureInfo: ServiceStructure;
   subcategories: string[];
@@ -373,7 +373,7 @@ export interface ShortService {
   postalCode: string;
   shortDesc: string;
   slug: string;
-  status: ServiceStatuses;
+  status: ServiceStatus;
   structure: string;
   structureInfo: ServiceStructure;
   useInclusionNumeriqueScheme: boolean;

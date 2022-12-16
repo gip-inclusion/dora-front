@@ -10,7 +10,6 @@
     fileEditFillIcon,
     folderFillIcon,
   } from "$lib/icons";
-  import { serviceSchema } from "$lib/validation/schemas/service";
   import {
     archiveService,
     convertSuggestionToDraft,
@@ -20,10 +19,11 @@
     unarchiveService,
     unPublishService,
   } from "$lib/requests/services";
-  import type { ServiceStatuses, Service, ShortService } from "$lib/types";
-  import { getAvailableOptionsForStatus } from "$lib/utils/service";
-  import { validate } from "$lib/validation/validation";
+  import type { Service, ServiceStatus, ShortService } from "$lib/types";
   import { clickOutside } from "$lib/utils/click-outside";
+  import { getAvailableOptionsForStatus } from "$lib/utils/service";
+  import { serviceSchema } from "$lib/validation/schemas/service";
+  import { validate } from "$lib/validation/validation";
 
   type ServiceStatusPresentation = {
     bgClass: string;
@@ -34,7 +34,7 @@
   };
 
   export const SERVICE_STATUS_PRESENTATION: Record<
-    ServiceStatuses,
+    ServiceStatus,
     ServiceStatusPresentation
   > = {
     SUGGESTION: {
@@ -83,7 +83,7 @@
 
   // Gestion de l'outline avec la navigation au clavier
   let selectedOptionIndex: number | null = null;
-  let selectedOption: ServiceStatuses | "DELETE" | null = null;
+  let selectedOption: ServiceStatus | "DELETE" | null = null;
 
   function toggleCombobox(forceValue?: boolean) {
     isDropdownOpen = forceValue !== undefined ? forceValue : !isDropdownOpen;
@@ -129,7 +129,7 @@
   }
 
   function setAsSelected(
-    hoveredStatus: ServiceStatuses | "DELETE",
+    hoveredStatus: ServiceStatus | "DELETE",
     index: number
   ) {
     selectedOptionIndex = index;
@@ -137,7 +137,7 @@
   }
 
   // Actions disponibles
-  async function updateServiceStatus(newStatus: ServiceStatuses | "DELETE") {
+  async function updateServiceStatus(newStatus: ServiceStatus | "DELETE") {
     if (newStatus === "DRAFT") {
       if (service.status === "SUGGESTION") {
         await convertSuggestionToDraft(service.slug);

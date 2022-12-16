@@ -18,7 +18,7 @@
   } from "$lib/icons";
   import type {
     Choice,
-    ServiceStatuses,
+    ServiceStatus,
     ServiceUpdateStatus,
     ShortService,
   } from "$lib/types";
@@ -32,7 +32,7 @@
   export let onRefresh;
   export let limit: number | undefined = undefined;
 
-  export let serviceStatus: ServiceStatuses | undefined;
+  export let serviceStatus: ServiceStatus | undefined;
   export let updateStatus: ServiceUpdateStatus | undefined;
   export let servicesDisplayed: ShortService[] = [];
 
@@ -62,7 +62,7 @@
   }
 
   // Status options
-  const statusOptions: Choice<ServiceStatuses | "">[] = [
+  const statusOptions: Choice<ServiceStatus | "">[] = [
     { value: "", label: "Tout" },
     {
       value: "PUBLISHED",

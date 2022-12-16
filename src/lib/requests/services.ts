@@ -6,7 +6,7 @@ import type {
   Model,
   Service,
   ServicesOptions,
-  ServiceStatuses,
+  ServiceStatus,
   ShortService,
 } from "../types";
 import { logException } from "../utils/logger";
@@ -185,7 +185,7 @@ export async function setBookmark(serviceSlug: string, wantedState: boolean) {
 export async function publishDraft(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
-  const status: ServiceStatuses = "PUBLISHED";
+  const status: ServiceStatus = "PUBLISHED";
 
   const response = await fetch(url, {
     method,
@@ -207,7 +207,7 @@ export async function publishDraft(serviceSlug) {
 export async function unPublishService(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
-  const status: ServiceStatuses = "DRAFT";
+  const status: ServiceStatus = "DRAFT";
   const response = await fetch(url, {
     method,
     headers: {
@@ -226,7 +226,7 @@ export async function unPublishService(serviceSlug) {
 export async function archiveService(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
-  const status: ServiceStatuses = "ARCHIVED";
+  const status: ServiceStatus = "ARCHIVED";
 
   const response = await fetch(url, {
     method,
@@ -246,7 +246,7 @@ export async function archiveService(serviceSlug) {
 export async function unarchiveService(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
-  const status: ServiceStatuses = "DRAFT";
+  const status: ServiceStatus = "DRAFT";
 
   const response = await fetch(url, {
     method,
@@ -266,7 +266,7 @@ export async function unarchiveService(serviceSlug) {
 export async function publishService(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
-  const status: ServiceStatuses = "PUBLISHED";
+  const status: ServiceStatus = "PUBLISHED";
 
   const response = await fetch(url, {
     method,
@@ -286,7 +286,7 @@ export async function publishService(serviceSlug) {
 export async function convertSuggestionToDraft(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";
-  const status: ServiceStatuses = "DRAFT";
+  const status: ServiceStatus = "DRAFT";
 
   const response = await fetch(url, {
     method,

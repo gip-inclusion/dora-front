@@ -21,7 +21,7 @@ import type {
   Service,
   ServiceSearchResult,
   ServicesOptions,
-  ServiceStatuses,
+  ServiceStatus,
   ServiceUpdateStatus,
   ShortService,
 } from "$lib/types";
@@ -29,9 +29,9 @@ import dayjs from "dayjs";
 import { getChoicesFromKey } from "./choice";
 
 export function getAvailableOptionsForStatus(
-  status: ServiceStatuses
-): (ServiceStatuses | "DELETE")[] {
-  let result: (ServiceStatuses | "DELETE")[] = [];
+  status: ServiceStatus
+): (ServiceStatus | "DELETE")[] {
+  let result: (ServiceStatus | "DELETE")[] = [];
 
   if (status === "SUGGESTION") {
     result = ["DRAFT", "DELETE"];
