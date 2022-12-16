@@ -9,6 +9,7 @@
   import AddressSearch from "$lib/components/specialized/street-search.svelte";
   import { createStructure, modifyStructure } from "$lib/requests/structures";
   import type { Structure, StructuresOptions } from "$lib/types";
+  import { getDepartmentFromCityCode } from "$lib/utils/misc";
   import structureSchema from "$lib/validation/schemas/structure";
   import {
     contextValidationKey,
@@ -115,6 +116,17 @@
     structure.longitude = long;
     structure.latitude = lat;
   }
+
+  function getAccessLibreUrl(structure) {
+    const department = getDepartmentFromCityCode(structure.cityCode);
+    const where = encodeURIComponent(`${structure.city} (${department})`);
+    const lat = encodeURIComponent(structure.latitude);
+    const long = encodeURIComponent(structure.longitude);
+    const code = encodeURIComponent(structure.cityCode);
+    return `https://acceslibre.beta.gouv.fr/recherche/?what=&where=${where}&lat=${lat}&lon=${long}&code=${code}`;
+  }
+
+  $: accesslibreUrl = getAccessLibreUrl(structure);
 </script>
 
 <form
@@ -250,7 +262,7 @@
   <SchemaField
     type="url"
     label="Accessibilité"
-    description="Afin de renseigner les informations d’accessibilité sur la structure, retrouvez-la via la plateforme <a class='underline text-magenta-cta' href='https://acceslibre.beta.gouv.fr/' target='_blank' title='Ouverture dans une nouvelle fenêtre' rel='noopener'>accès libre</a> et copiez l’url dans le champs ci-dessous"
+    description="Afin de renseigner les informations d’accessibilité sur la structure, retrouvez-la via la plateforme <a class='underline text-magenta-cta' href='{accesslibreUrl}' target='_blank' title='Ouverture dans une nouvelle fenêtre' rel='noopener'>accès libre</a> et copiez l’url dans le champs ci-dessous"
     placeholder="https://acceslibre.beta.gouv.fr/…"
     schema={structureSchema.accesslibreUrl}
     name="accesslibreUrl"
