@@ -45,6 +45,7 @@ export default {
     rules: [v.isPostalCode()],
   },
   city: {
+    default: "",
     required: true,
     name: "ville",
     rules: [v.isString(), v.maxStrLength(255)],

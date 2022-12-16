@@ -23,7 +23,7 @@
   export let structuresOptions: StructuresOptions;
 
   export let modify = false;
-  export let onRefresh;
+  export let onRefresh = undefined;
 
   let errorDiv;
 

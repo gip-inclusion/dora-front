@@ -17,7 +17,6 @@
   export let vertical = false;
   export let label = "";
   export let required = false;
-  export let maxLength = undefined;
   export let rows = undefined;
   export let choices = [];
   export let sortSelect = undefined;
@@ -57,7 +56,6 @@
   class="items-top flex flex-col gap-s8"
   class:lg:flex-row={!vertical}
   class:hidden={type === "hidden"}
-  isDOMLabel={type !== "checkboxes" && type !== "radios"}
 >
   <!-- #1# -->
   <div class="flex flex-col{vertical ? '' : ' lg:w-1/4'}">
@@ -87,7 +85,6 @@
         {name}
         {choices}
         {sortSelect}
-        {maxLength}
         {rows}
         {placeholder}
         {placeholderMulti}
@@ -102,7 +99,7 @@
       <slot name="custom-input" />
     {/if}
     {#each errorMessages || [] as msg}
-      <Alert label={msg} isHTML={allowHTMLError} />
+      <Alert id="{name}-error" label={msg} isHTML={allowHTMLError} />
     {/each}
   </div>
 </div>

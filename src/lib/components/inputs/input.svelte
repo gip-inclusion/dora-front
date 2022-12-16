@@ -20,7 +20,6 @@
   export let placeholderMulti = "";
   export let initialValue = undefined;
   export let minValue = null;
-  export let maxLength = undefined;
   export let rows = 4;
 
   export let onSelectChange = undefined;
@@ -99,7 +98,6 @@
     bind:value
     on:blur
     type="text"
-    {maxLength}
     {placeholder}
     {disabled}
     {readonly}
@@ -108,6 +106,7 @@
   />
 {:else if type === "richtext"}
   <RichText
+    id={name}
     bind:this={input}
     {name}
     bind:htmlContent={value}

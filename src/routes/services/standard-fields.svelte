@@ -99,7 +99,7 @@
           service = { ...service, ...validatedData };
         }
 
-        resolve();
+        resolve(true);
       }, 200);
     });
   }
@@ -125,6 +125,7 @@
       des Zones de Revitalisation Rurale.
     </p>
   </div>
+
   <SchemaField
     type="select"
     label={serviceSchema.diffusionZoneType.name}

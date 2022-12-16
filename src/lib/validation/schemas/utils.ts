@@ -22,14 +22,14 @@ export type Rule<T> = (
   name: string,
   value: T,
   data: any,
-  servicesOptions: ServicesOptions,
-  schema: any
+  servicesOptions?: ServicesOptions,
+  schema?: any
 ) => {
   valid: boolean;
   msg: string;
 };
 
-export type Shape<T> = {
+export interface Shape<T> {
   name: string;
   rules: Rule<T>[];
   default?: T;
@@ -37,7 +37,7 @@ export type Shape<T> = {
   dependents?: string[];
   post?: Action<T>[];
   pre?: Action<T>[];
-};
+}
 // ----- Rules
 
 export function isString(msg = "") {
@@ -63,11 +63,9 @@ export function isInteger(msg = "") {
 
 export function isDate(msg = "") {
   return (name, value, _data) => ({
-    // TODO: that's probably not safe enough. Use Luxon?
-    // https://stackoverflow.com/questions/7445328/check-if-a-string-is-a-date-value
     valid:
       typeof value === "string" &&
-      (value === "" || new Date(value) !== "Invalid Date"),
+      (value === "" || !isNaN(new Date(value).getTime())),
     msg: msg || `Veuillez saisir une date valide`,
   });
 }
@@ -152,7 +150,7 @@ export function isCustomizablePK(msg = "") {
   });
 }
 
-export function isArray(rules, msg = "") {
+export function isArray<T>(rules: Rule<T>[], msg = "") {
   return (name, value, data) => {
     if (!Array.isArray(value)) {
       return {
@@ -173,6 +171,7 @@ export function isArray(rules, msg = "") {
     }
     return {
       valid: true,
+      msg,
     };
   };
 }

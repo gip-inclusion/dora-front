@@ -41,7 +41,6 @@
   {name}
   {errorMessages}
   required={schema?.required}
-  maxLength={schema?.maxLength}
   {label}
   {choices}
   {sortSelect}
