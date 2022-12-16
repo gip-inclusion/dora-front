@@ -1,7 +1,6 @@
 import { browser } from "$app/environment";
-import type { ServicesOptions } from "$lib/types";
-import type { Shape } from "$lib/validation/schemas/utils";
 import { writable } from "svelte/store";
+import type { ZodType } from "zod";
 
 export type ValidationContext = {
   onBlur: (evt: any) => Promise<void>;
@@ -10,11 +9,6 @@ export type ValidationContext = {
 export const contextValidationKey = {};
 // TODO: type it properly
 export const formErrors: any = writable({});
-
-let currentErrors;
-formErrors.subscribe((value) => {
-  currentErrors = value;
-});
 
 function addError(fieldName, msg) {
   formErrors.update((previousErrors) => {
@@ -32,52 +26,6 @@ function clearError(fieldName) {
   });
 }
 
-function validateField(
-  fieldName: string,
-  shape: Shape<any>,
-  data,
-  servicesOptions: ServicesOptions,
-  schema
-) {
-  const originalValue = data[fieldName];
-
-  let value = originalValue;
-  if (!shape.required && value == null) {
-    // Ignore null values for fields that are not required
-    return { value, valid: true };
-  }
-
-  if (shape.pre && value) {
-    for (const preprocess of shape.pre) {
-      value = preprocess(value);
-    }
-  }
-
-  if (
-    shape.required &&
-    ((Array.isArray(value) && !value.length) ||
-      (!Array.isArray(value) && (value == null || value === "")))
-  ) {
-    return { originalValue, valid: false, msg: "Information requise" };
-  }
-
-  for (const rule of shape.rules) {
-    const result = rule(`${fieldName}`, value, data, servicesOptions, schema);
-
-    if (!result.valid) {
-      return { originalValue, valid: false, msg: result.msg };
-    }
-  }
-
-  if (shape.post) {
-    for (const postprocess of shape.post) {
-      value = postprocess(value);
-    }
-  }
-
-  return { value, valid: true };
-}
-
 function scrollToField(fieldName) {
   if (browser) {
     const elt = document.getElementsByName(fieldName);
@@ -85,100 +33,74 @@ function scrollToField(fieldName) {
   }
 }
 
-export function validate(
-  data,
-  schema,
+export function validate<T>(
+  data: T,
+  schema: ZodType,
   {
     noScroll = false,
-    fullSchema = undefined,
     showErrors = true,
-    servicesOptions = null,
+    fieldName = undefined,
   }: {
     noScroll?: boolean;
-    fullSchema?: any;
     showErrors?: boolean;
-    servicesOptions?: ServicesOptions;
+    fieldName?: string;
   } = {}
 ) {
   let validatedData = {};
-  let isValid = true;
-  let doneOnce = false;
-  const errorFields = [];
+  const errorFields: string[] = [];
 
+  // Effacement des erreurs
   if (showErrors) {
-    Object.keys(schema).forEach((fieldName) => delete currentErrors[fieldName]);
-    formErrors.set(currentErrors);
+    if (fieldName) {
+      clearError(fieldName);
+    } else {
+      for (const fieldName in schema) {
+        clearError(fieldName);
+      }
+    }
   }
 
-  Object.entries(schema).forEach(([fieldName, shape]: [string, Shape<any>]) => {
-    const { value, valid, msg } = validateField(
-      fieldName,
-      shape,
-      data,
-      servicesOptions,
-      schema
-    );
+  const parseResult = schema.safeParse(data);
 
-    isValid &&= valid;
-    validatedData[fieldName] = value;
-
-    if (!valid) {
-      errorFields.push(shape.name);
-    }
-
-    if (showErrors) {
-      clearError(fieldName);
-
-      if (!valid) {
-        addError(fieldName, msg);
-      }
-
-      if (!noScroll && !doneOnce && !valid) {
-        scrollToField(fieldName);
-        doneOnce = true;
-      }
-    }
-
-    // Vérification des dépendances
-    if (shape.dependents?.length && fullSchema) {
-      shape.dependents.forEach((depName) => {
-        const {
-          value: depValue,
-          valid: depValid,
-          msg: depMsg,
-        } = validateField(
-          depName,
-          fullSchema[depName],
-          data,
-          servicesOptions,
-          schema
-        );
-
-        isValid &&= depValid;
-        validatedData[depName] = depValue;
-        if (!depValid) {
-          errorFields.push(fullSchema[depName].name);
+  if (parseResult.success) {
+    validatedData = { ...parseResult.data };
+  } else if (showErrors) {
+    if (fieldName) {
+      // On affiche les erreurs que sur le champ courant
+      if (!parseResult.success) {
+        const errors = parseResult.error.flatten().fieldErrors;
+        if (fieldName in errors) {
+          addError(fieldName, errors[fieldName][0]);
+          errorFields.push(fieldName);
         }
+      }
+    } else {
+      // Validation de l'ensemble du formulaire, on affiche
+      // toutes les erreurs
 
-        if (showErrors) {
-          if (!depValid) {
-            clearError(depName);
-            addError(depName, depMsg);
-          }
-          if (!noScroll && !doneOnce && !depValid) {
-            scrollToField(depName);
-            doneOnce = true;
+      let firstError = true;
+      if (!parseResult.success) {
+        const errors = parseResult.error.flatten().fieldErrors;
+        for (const fieldName in errors) {
+          addError(fieldName, errors[fieldName][0]);
+          errorFields.push(fieldName);
+          if (firstError) {
+            if (!noScroll) scrollToField(fieldName);
+            firstError = false;
           }
         }
-      });
+      }
     }
-  });
+  }
 
   // Ensure we pass the fields that are not in the validation schema untouched
   // Those are mostly the hidden fields
+
+  // TODO: do we want fields not in the validation schema?
+  // use strict in zod ?
   validatedData = { ...data, ...validatedData };
 
-  return { validatedData, valid: isValid, errorFields };
+  return { validatedData, valid: parseResult.success, errorFields };
 }
 
 function parseServerError(error) {

@@ -14,7 +14,7 @@
   export let disabled = false;
   export let name;
   export let value = undefined;
-  export let initialValue = undefined;
+  export let initialValue: string | undefined = undefined;
 
   let choices = [];
   async function searchCity(q) {

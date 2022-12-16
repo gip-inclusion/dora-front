@@ -1,6 +1,5 @@
 /* eslint-disable */
 import type { ServicesOptions } from "$lib/types";
-import { INVALID_ERROR_MESSAGE } from "$lib/utils/structure";
 
 // From https://github.com/jquense/yup/blob/03584f6758ff43409113c41f58fd41e065aa18a3/src/string.ts
 const urlRegexp =
@@ -11,7 +10,7 @@ const emailRegexp =
 
 const phoneRegexp = /^\d{10}$/u;
 
-const postalCodeRegexp = /^\d[0-9abAB]\d{3}$/u;
+export const postalCodeRegexp = /^\d[0-9abAB]\d{3}$/u;
 
 export const siretRegexp = /^\d{14}$/u;
 /* eslint-enable */
@@ -133,8 +132,7 @@ export function isNotStringInvalid(msg = "") {
   return (name, value, _data) => ({
     valid:
       value == null ||
-      (typeof value === "string" &&
-        (value === "" || value !== INVALID_ERROR_MESSAGE)),
+      (typeof value === "string" && (value === "" || value !== null)),
     msg:
       msg ||
       "Horaires incomplètes. Veuillez finaliser la saisie de vos horaires, corriger les champs manquants ou incorrects.",

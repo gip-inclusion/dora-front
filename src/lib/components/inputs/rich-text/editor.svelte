@@ -93,6 +93,7 @@
     }
   }
 
+  // TODO: not called anymore, fixme
   export function updateValue(v) {
     editor.commands.setContent(markdownToHTML(v));
   }

@@ -23,12 +23,6 @@
   export let rows = 4;
 
   export let onSelectChange = undefined;
-
-  let input;
-
-  export function updateValue(v) {
-    input.updateValue(v);
-  }
 </script>
 
 {#if type === "checkboxes"}
@@ -107,7 +101,6 @@
 {:else if type === "richtext"}
   <RichText
     id={name}
-    bind:this={input}
     {name}
     bind:htmlContent={value}
     {placeholder}

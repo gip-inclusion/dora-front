@@ -109,7 +109,7 @@
     <span class="mr-s4 h-s16 w-s16 fill-current">
       {@html alertIcon}
     </span>
-    <span> Horaire incomplète ou incohérente.</span>
+    <span>Horaire incomplet ou incohérent.</span>
   </div>
 {/if}
 

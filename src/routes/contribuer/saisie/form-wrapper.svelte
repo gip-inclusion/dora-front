@@ -47,7 +47,7 @@
         if (valid) {
           service = { ...service, ...validatedData };
         }
-        resolve();
+        resolve(true);
       }, 200);
     });
   }

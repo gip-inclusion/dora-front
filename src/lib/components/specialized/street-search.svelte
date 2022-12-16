@@ -12,7 +12,7 @@
   export let disabled;
   export let name;
   export let value = undefined;
-  export let initialValue = undefined;
+  export let initialValue: string | undefined = undefined;
   const banAPIUrl = "https://api-adresse.data.gouv.fr/search/";
 
   async function searchAddress(q) {

@@ -8,7 +8,7 @@
   import Alert from "../display/alert.svelte";
   import Input from "./input.svelte";
 
-  export let value = undefined;
+  export let value: any | undefined = undefined;
   export let name = "";
   export let type: InputType | "custom";
   export let errorMessages = [];
@@ -18,27 +18,20 @@
   export let label = "";
   export let required = false;
   export let rows = undefined;
-  export let choices = [];
-  export let sortSelect = undefined;
+  export let choices: any[] | undefined = undefined;
+  export let sortSelect: boolean | undefined = undefined;
 
-  export let disabled = undefined;
+  export let disabled = false;
   export let readonly = false;
-  export let placeholder = undefined;
-  export let placeholderMulti = undefined;
+  export let placeholder: string | undefined = undefined;
+  export let placeholderMulti: string | undefined = undefined;
   export let initialValue = undefined;
   export let description = "";
-  export let htmlDescription = false;
   export let minValue = undefined;
 
   export let hideLabel = false;
 
   export let onSelectChange = undefined;
-
-  let field;
-
-  export function updateValue(v) {
-    field.updateValue(v);
-  }
 
   const context = getContext<ValidationContext>(contextValidationKey);
 
@@ -66,15 +59,13 @@
       {#if required} <span class="ml-s6 text-error"> *</span>{/if}</label
     >
     {#if description}
-      <small
-        >{#if htmlDescription}{@html description}{:else}{description}{/if}</small
-      >
+      <small>{description}</small>
     {/if}
+    <slot name="description" />
   </div>
   <div class="flex flex-col{vertical ? '' : ' lg:w-3/4'}">
     {#if type !== "custom"}
       <Input
-        bind:this={field}
         bind:value
         on:blur={handleBlur}
         on:change={handleChange}

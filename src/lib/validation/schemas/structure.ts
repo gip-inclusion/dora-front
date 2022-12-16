@@ -1,130 +1,69 @@
+import { z } from "zod";
 import * as v from "./utils";
 
-export default {
-  siret: {
-    default: "",
-    name: "siret",
-    rules: [v.isSiret()],
-  },
-  name: {
-    default: "",
-    name: "nom",
-    required: true,
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  typology: {
-    name: "typologie",
-    default: "",
-    required: true,
-    rules: [v.isString(), v.maxStrLength(255)],
-  },
-  address1: {
-    default: "",
-    name: "adresse",
-    required: true,
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  address2: {
-    default: "",
-    name: "complément d’adresse",
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  accesslibreUrl: {
-    default: "",
-    name: "URL accesslibre",
-    rules: [v.isString(), v.isURL(), v.maxStrLength(255), v.isAccessLibreUrl()],
-    post: [v.trim],
-  },
-  postalCode: {
-    default: "",
-    name: "code postal",
-    required: true,
-    rules: [v.isPostalCode()],
-  },
-  city: {
-    default: "",
-    required: true,
-    name: "ville",
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  phone: {
-    default: "",
-    name: "téléphone",
-    pre: [v.removeAllNonDigits],
-    rules: [v.isPhone()],
-  },
-  email: {
-    default: "",
-    name: "courriel",
-    required: true,
-    rules: [v.isEmail(), v.maxStrLength(255)],
-    post: [v.lower, v.trim],
-  },
-  url: {
-    default: "",
-    name: "site web",
-    rules: [v.isURL(), v.maxStrLength(200)],
-    post: [v.trim],
-  },
-  shortDesc: {
-    default: "",
-    name: "résumé",
-    required: true,
-    rules: [v.isString(), v.maxStrLength(280)],
-    post: [v.trim],
-  },
-  fullDesc: {
-    default: "",
-    name: "description",
-    rules: [v.isString()],
-    post: [v.trim],
-  },
-  nationalLabels: {
-    default: [],
-    name: "nationalLabels",
-    rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-    post: [],
-  },
-  otherLabels: {
-    default: "",
-    name: "otherLabels",
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  openingHours: {
-    default: "",
-    name: "openingHours",
-    rules: [v.isString(), v.isNotStringInvalid(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  openingHoursDetails: {
-    default: "",
-    name: "openingHoursDetails",
-    rules: [v.isString(), v.maxStrLength(255)],
-    post: [v.trim],
-  },
-  cityCode: {
-    default: "",
-    name: "code INSEE",
-    rules: [],
-  },
-  longitude: {
-    default: null,
-    name: "longitude",
-    rules: [],
-  },
-  latitude: {
-    default: null,
-    name: "latitude",
-    rules: [],
-  },
-  ape: {
-    default: "",
-    name: "code APE",
-    rules: [],
-  },
-};
+export default z.object({
+  siret: z
+    .string()
+    .trim()
+    .regex(v.siretRegexp, "Un numéro SIRET est composé de 14 chiffres"),
+  name: z.string().trim().min(1).max(255),
+  typology: z.string().trim().min(1).max(255),
+  city: z.string().trim().min(1).max(255),
+  address1: z.string().trim().min(1).max(255),
+  address2: z.string().trim().max(255).optional(),
+  postalCode: z
+    .string()
+    .trim()
+    .regex(v.postalCodeRegexp, "Veuillez saisir un code postal valide"),
+  accesslibreUrl: z
+    .string()
+    .trim()
+    .max(255)
+    .url()
+    .startsWith("https://acceslibre.beta.gouv.fr/", {
+      message: "L’URL doit commencer par https://acceslibre.beta.gouv.fr/",
+    })
+    .nullable(),
+  phone: z
+    .preprocess((val) => {
+      if (typeof val !== "string") {
+        return val;
+      }
+      return val.replace(/\D/gu, "");
+    }, z.string().trim().max(10))
+    .optional(),
+  // Veuillez saisir un numéro de téléphone valide (ex: 06 00 00 00 00 ou  0600000000
+  email: z
+    .string()
+    .trim()
+    .max(255)
+    .email()
+    .transform((v) => v.toLowerCase()),
+  url: z
+    .union([z.string().trim().max(200).url(), z.string().max(0)])
+    .nullable(),
+  shortDesc: z.string().trim().min(1).max(280),
+  fullDesc: z.string().trim().nullable(),
+  nationalLabels: z.string().trim().max(255).array().nullable(),
+  otherLabels: z.string().trim().max(255).nullable(),
+  // "Horaires incomplets. Veuillez finaliser la saisie de vos horaires, corriger les champs manquants ou incorrects."
+  openingHours: z
+    .string()
+    .trim()
+    .max(255)
+    .refine((val) => val !== null)
+    .nullable(),
+  openingHoursDetails: z.string().trim().max(255).nullable(),
+  cityCode: z
+    .string()
+    .trim()
+    .regex(/\d[0-9aAbB]\d{3}/, "Code INSEE incorrect")
+    .nullable(),
+  longitude: z.number().finite().gte(-180).lte(180).nullable(),
+  latitude: z.number().finite().gte(-180).lte(180).nullable(),
+  ape: z
+    .string()
+    .trim()
+    .regex(/\d\d\.\d\d[A-Z]/, "Code APE incorrect")
+    .nullable(),
+});

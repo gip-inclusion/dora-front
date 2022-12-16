@@ -139,7 +139,7 @@
           service = { ...service, ...validatedData };
         }
 
-        resolve();
+        resolve(true);
       }, 200);
     });
   }

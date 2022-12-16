@@ -3,7 +3,9 @@
   import Alert from "$lib/components/display/alert.svelte";
   import Button from "$lib/components/display/button.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import SchemaField from "$lib/components/inputs/schema-field.svelte";
+  import Field from "$lib/components/inputs/field.svelte";
+  import HiddenField from "$lib/components/inputs/hidden-field.svelte";
+  import InputField from "$lib/components/inputs/input-field.svelte";
   import CitySearch from "$lib/components/specialized/city-search.svelte";
   import OpeningHoursField from "$lib/components/specialized/openingHours/opening-hours-field.svelte";
   import AddressSearch from "$lib/components/specialized/street-search.svelte";
@@ -24,7 +26,7 @@
   export let structuresOptions: StructuresOptions;
 
   export let modify = false;
-  export let onRefresh = undefined;
+  export let onRefresh: (() => Promise<void>) | undefined = undefined;
 
   let errorDiv;
 
@@ -35,15 +37,12 @@
     // Sometimes (particularly with Select components), the event is received
     // before the field value is updated in  `structure`, although it's not
     // supposed to happen. This setTimeout is an unsatisfying workaround to that.
+
+    // TODO: try replacing that with an await tick()
     await new Promise((resolve) => {
       setTimeout(() => {
-        const filteredSchema =
-          fieldName && structureSchema[fieldName]
-            ? { [fieldName]: structureSchema[fieldName] }
-            : {};
-
-        const { validatedData, valid } = validate(structure, filteredSchema, {
-          fullSchema: structureSchema,
+        const { validatedData, valid } = validate(structure, structureSchema, {
+          fieldName,
           noScroll: true,
         });
 
@@ -126,6 +125,12 @@
     return `https://acceslibre.beta.gouv.fr/recherche/?what=&where=${where}&lat=${lat}&lon=${long}&code=${code}`;
   }
 
+  function isRequired(fieldName) {
+    return !(
+      structureSchema.shape[fieldName].isOptional() ||
+      structureSchema.shape[fieldName].isNullable()
+    );
+  }
   $: accesslibreUrl = getAccessLibreUrl(structure);
 </script>
 
@@ -142,243 +147,227 @@
     </div>
   {/if}
 
-  <SchemaField
-    type="text"
-    label="SIRET"
-    schema={structureSchema.siret}
+  <InputField
     name="siret"
-    errorMessages={$formErrors.siret}
-    disabled
+    label="SIRET"
     bind:value={structure.siret}
+    errorMessages={$formErrors.siret}
+    required={isRequired("siret")}
+    disabled
     vertical
   />
 
-  <SchemaField
-    type="text"
-    label="Nom de la structure"
-    placeholder="Plateforme de l’inclusion"
-    schema={structureSchema.name}
+  <InputField
     name="name"
-    errorMessages={$formErrors.name}
+    label="Nom de la structure"
     bind:value={structure.name}
+    errorMessages={$formErrors.name}
+    required={isRequired("name")}
+    placeholder="Plateforme de l’inclusion"
     vertical
   />
 
-  <SchemaField
+  <Field
+    name="typology"
     type="select"
     label="Typologie"
-    placeholder="Choisissez…"
-    schema={structureSchema.typology}
-    sortSelect
-    name="typology"
-    errorMessages={$formErrors.typology}
     bind:value={structure.typology}
     choices={structuresOptions.typologies}
+    errorMessages={$formErrors.typology}
+    required={isRequired("typology")}
+    placeholder="Choisissez…"
+    sortSelect
     vertical
   />
 
-  <SchemaField
+  <Field
     name="city"
     type="custom"
     label="Ville"
     errorMessages={$formErrors.city}
-    schema={structureSchema.city}
+    required={isRequired("city")}
     vertical
   >
     <CitySearch
       slot="custom-input"
       name="city"
-      placeholder="Paris"
       initialValue={structure.city}
       onChange={handleCityChange}
+      placeholder="Paris"
     />
-  </SchemaField>
+  </Field>
 
-  <SchemaField
-    type="custom"
+  <Field
     name="address1"
+    type="custom"
     label="Adresse"
     errorMessages={$formErrors.address1}
-    schema={structureSchema.address1}
+    required={isRequired("address1")}
     vertical
   >
     <AddressSearch
       slot="custom-input"
       name="address1"
-      disabled={!structure.cityCode}
       cityCode={structure.cityCode}
-      placeholder="127 rue de Grenelle"
       initialValue={structure.address1}
       handleChange={handleAddressChange}
+      disabled={!structure.cityCode}
+      placeholder="127 rue de Grenelle"
     />
-  </SchemaField>
+  </Field>
 
-  <SchemaField
-    type="text"
-    label="Complément d’adresse"
-    placeholder="étage, bâtiment…"
-    schema={structureSchema.address2}
+  <InputField
     name="address2"
-    errorMessages={$formErrors.address2}
+    label="Complément d’adresse"
     bind:value={structure.address2}
+    errorMessages={$formErrors.address2}
+    required={isRequired("address2")}
+    placeholder="étage, bâtiment…"
     vertical
   />
 
-  <SchemaField
-    type="text"
-    label="Code postal"
-    placeholder="75007"
-    schema={structureSchema.postalCode}
+  <InputField
     name="postalCode"
-    errorMessages={$formErrors.postalCode}
+    label="Code postal"
     bind:value={structure.postalCode}
+    errorMessages={$formErrors.postalCode}
+    required={isRequired("postalCode")}
+    placeholder="75007"
     vertical
   />
 
-  <SchemaField
-    type="hidden"
-    schema={structureSchema.cityCode}
-    name="cityCode"
-    errorMessages={$formErrors.cityCode}
-    bind:value={structure.cityCode}
-  />
-
-  <SchemaField
-    type="hidden"
-    schema={structureSchema.longitude}
-    name="longitude"
-    errorMessages={$formErrors.longitude}
-    bind:value={structure.longitude}
-  />
-  <SchemaField
-    type="hidden"
-    schema={structureSchema.latitude}
-    name="latitude"
-    errorMessages={$formErrors.latitude}
-    bind:value={structure.latitude}
-    vertical
-  />
-
-  <SchemaField
+  <InputField
+    name="accesslibreUrl"
     type="url"
     label="Accessibilité"
-    description="Afin de renseigner les informations d’accessibilité sur la structure, retrouvez-la via la plateforme <a class='underline text-magenta-cta' href='{accesslibreUrl}' target='_blank' title='Ouverture dans une nouvelle fenêtre' rel='noopener'>accès libre</a> et copiez l’url dans le champs ci-dessous"
-    placeholder="https://acceslibre.beta.gouv.fr/…"
-    schema={structureSchema.accesslibreUrl}
-    name="accesslibreUrl"
-    errorMessages={$formErrors.accesslibreUrl}
     bind:value={structure.accesslibreUrl}
+    errorMessages={$formErrors.accesslibreUrl}
+    required={isRequired("accesslibreUrl")}
+    placeholder="https://acceslibre.beta.gouv.fr/…"
     vertical
-    htmlDescription
-  />
+  >
+    <div slot="description">
+      <small>
+        Afin de renseigner les informations d’accessibilité sur la structure,
+        retrouvez-la via la plateforme
+        <a
+          class="text-magenta-cta underline"
+          href={accesslibreUrl}
+          target="_blank"
+          title="Ouverture dans une nouvelle fenêtre"
+          rel="noopener"
+        >
+          acceslibre
+        </a>
+        et copiez l’url dans le champs ci-dessous
+      </small>
+    </div>
+  </InputField>
 
-  <SchemaField
+  <InputField
+    name="phone"
     type="tel"
     label="Téléphone"
-    schema={structureSchema.phone}
-    name="phone"
-    errorMessages={$formErrors.phone}
     bind:value={structure.phone}
+    errorMessages={$formErrors.phone}
+    required={isRequired("phone")}
     vertical
   />
 
-  <SchemaField
+  <InputField
+    name="email"
     type="email"
     label="Courriel"
-    placeholder="nom.prenom@organisation.fr"
-    schema={structureSchema.email}
-    name="email"
-    errorMessages={$formErrors.email}
     bind:value={structure.email}
+    errorMessages={$formErrors.email}
+    required={isRequired("email")}
+    placeholder="nom.prenom@organisation.fr"
     vertical
   />
 
-  <SchemaField
+  <InputField
+    name="url"
     type="url"
     label="Site web"
-    placeholder="https://mastructure.fr"
-    schema={structureSchema.url}
-    name="url"
-    errorMessages={$formErrors.url}
     bind:value={structure.url}
+    errorMessages={$formErrors.url}
+    required={isRequired("url")}
+    placeholder="https://mastructure.fr"
     vertical
   />
 
-  <SchemaField
+  <Field
+    name="shortDesc"
     type="textarea"
     label="Résumé"
+    bind:value={structure.shortDesc}
+    errorMessages={$formErrors.shortDesc}
+    required={isRequired("shortDesc")}
     description="280 caractères maximum"
     placeholder="Décrivez brièvement votre structure"
-    schema={structureSchema.shortDesc}
-    name="shortDesc"
-    errorMessages={$formErrors.shortDesc}
-    bind:value={structure.shortDesc}
     vertical
   />
 
-  <SchemaField
+  <Field
+    name="fullDesc"
     type="richtext"
     label="Présentation"
-    placeholder="Présentation détaillée de la structure"
-    schema={structureSchema.fullDesc}
-    name="fullDesc"
-    errorMessages={$formErrors.fullDesc}
     bind:value={structure.fullDesc}
+    errorMessages={$formErrors.fullDesc}
+    required={isRequired("fullDesc")}
+    placeholder="Présentation détaillée de la structure"
     vertical
   />
 
-  <SchemaField
+  <Field
+    name="nationalLabels"
     type="multiselect"
     label="Labels nationaux"
-    name="nationalLabels"
+    bind:value={structure.nationalLabels}
+    choices={structuresOptions.nationalLabels}
+    errorMessages={$formErrors.nationalLabels}
+    required={isRequired("nationalLabels")}
     description="Indiquez si la structure fait partie d'un ou plusieurs réseaux nationaux"
     placeholder="Choisissez…"
     placeholderMulti="Choisissez…"
-    schema={structureSchema.nationalLabels}
-    errorMessages={$formErrors.nationalLabels}
-    bind:value={structure.nationalLabels}
-    choices={structuresOptions.nationalLabels}
     vertical
   />
 
-  <SchemaField
-    type="text"
+  <InputField
     name="otherLabels"
     label="Autres labels"
-    description="Indiquez si la structure fait partie d’autres labels (régionaux, locaux…)"
-    schema={structureSchema.otherLabels}
-    errorMessages={$formErrors.otherLabels}
     bind:value={structure.otherLabels}
+    errorMessages={$formErrors.otherLabels}
+    required={isRequired("otherLabels")}
+    description="Indiquez si la structure fait partie d’autres labels (régionaux, locaux…)"
     vertical
   />
 
-  <SchemaField
-    type="hidden"
-    schema={structureSchema.ape}
-    name="ape"
-    errorMessages={$formErrors.ape}
-    bind:value={structure.ape}
-  />
-
+  <!-- Transform to custom field -->
   <OpeningHoursField
-    label="Horaires de la structure"
     name="openingHours"
+    label="Horaires de la structure"
     on:change={handleEltChange}
     errorMessages={$formErrors.openingHours}
+    required={isRequired("openingHours")}
     bind:value={structure.openingHours}
   />
 
-  <SchemaField
-    type="text"
-    label="Détail horaires"
-    description="Vous pouvez renseigner des informations spécifiques concernant les horaires dans ce champ"
-    placeholder=""
-    schema={structureSchema.openingHoursDetails}
+  <InputField
     name="openingHoursDetails"
-    errorMessages={$formErrors.openingHoursDetails}
+    label="Détail horaires"
     bind:value={structure.openingHoursDetails}
+    errorMessages={$formErrors.openingHoursDetails}
+    required={isRequired("openingHoursDetails")}
+    description="Vous pouvez renseigner des informations spécifiques concernant les horaires dans ce champ"
     vertical
   />
+
+  <!-- Champs cachés -->
+  <HiddenField name="cityCode" bind:value={structure.cityCode} />
+  <HiddenField name="longitude" bind:value={structure.longitude} />
+  <HiddenField name="latitude" bind:value={structure.latitude} />
+  <HiddenField name="ape" bind:value={structure.ape} />
 
   <hr />
 
