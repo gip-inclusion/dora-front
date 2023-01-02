@@ -8,7 +8,7 @@ export default defineConfig(({ mode }) => {
     plugins: [sveltekit()],
 
     build: {
-      sourcemap: false,
+      sourcemap: true,
     },
 
     test: {

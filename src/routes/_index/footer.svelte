@@ -5,6 +5,7 @@
 
   function handleOpenCookiesPanel(evt) {
     evt.preventDefault();
+    window.tarteaucitron.userInterface.openPanel();
   }
 </script>
 

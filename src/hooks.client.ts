@@ -1,15 +1,19 @@
-// if (ENVIRONMENT !== "local") {
-//   Sentry.init({
-//     dsn: SENTRY_DSN,
-//     environment: ENVIRONMENT,
-//     tracesSampleRate: 0,
-//   });
-// }
+import { ENVIRONMENT, SENTRY_DSN } from "$lib/env";
+import * as Sentry from "@sentry/browser";
+import type { HandleClientError } from "@sveltejs/kit";
 
-// export const handleError: HandleClientError = ({ error, event }) => {
-//   Sentry.captureException(error, { event });
+if (ENVIRONMENT !== "local") {
+  Sentry.init({
+    dsn: SENTRY_DSN,
+    environment: ENVIRONMENT,
+    tracesSampleRate: 0,
+  });
+}
 
-//   return {
-//     message: "Erreur inattendue",
-//   };
-// };
+export const handleError: HandleClientError = ({ error, event }) => {
+  Sentry.captureException(error, { event });
+
+  return {
+    message: "Erreur inattendue",
+  };
+};
