@@ -50,12 +50,10 @@
     if (modify && onRefresh) {
       await onRefresh();
     }
-    console.log(result);
     goto(`/structures/${result.slug}`);
   }
 
   function handleCityChange(city) {
-    console.log("handleCityChange", city);
     structure.city = city?.name;
     structure.cityCode = city?.code;
   }
@@ -80,18 +78,22 @@
     return `https://acceslibre.beta.gouv.fr/recherche/?what=&where=${where}&lat=${lat}&lon=${long}&code=${code}`;
   }
 
+  function isRequired(fieldName: string) {
+    return !(
+      structureSchema.shape[fieldName].isOptional() ||
+      structureSchema.shape[fieldName].isNullable()
+    );
+  }
+
   $: accesslibreUrl = getAccessLibreUrl(structure);
 
   $: props = Object.fromEntries(
-    Object.keys(structureSchema.shape).map((fieldName) => [
-      fieldName,
+    Object.keys(structureSchema.shape).map((k) => [
+      k,
       {
-        name: fieldName,
-        errorMessages: $formErrors[fieldName],
-        required: !(
-          structureSchema.shape[fieldName].isOptional() ||
-          structureSchema.shape[fieldName].isNullable()
-        )(fieldName),
+        name: k,
+        errorMessages: $formErrors[k],
+        required: isRequired(k),
       },
     ])
   );
@@ -155,7 +157,7 @@
     label="Adresse"
     cityCode={structure.cityCode}
     initialValue={structure.address1}
-    on:change={handleAddressChange}
+    onChange={handleAddressChange}
     disabled={!structure.cityCode}
     placeholder="127 rue de Grenelle"
     vertical

@@ -6,6 +6,7 @@
   } from "$lib/validation/validation";
   import { getContext } from "svelte";
 
+  export let onChange: (newValue: string) => void;
   export let placeholder: string;
   export let cityCode: string;
   export let disabled: boolean;
@@ -16,7 +17,6 @@
   const banAPIUrl = "https://api-adresse.data.gouv.fr/search/";
 
   async function searchAddress(q) {
-    console.log(q);
     const url = `${banAPIUrl}?q=${encodeURIComponent(
       q
     )}&limit=10&citycode=${cityCode}&type=street&type=housenumber`;
@@ -26,7 +26,6 @@
       value: feature,
       label: feature.properties.name,
     }));
-    console.log(results);
     return results;
   }
 
@@ -41,7 +40,7 @@
   bind:value
   on:blur={handleBlur}
   {name}
-  on:change
+  {onChange}
   {initialValue}
   {placeholder}
   {disabled}

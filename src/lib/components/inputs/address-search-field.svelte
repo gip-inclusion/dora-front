@@ -11,6 +11,7 @@
 
   // Spécifiques:
   export let cityCode: string;
+  export let onChange: (newValue: string) => void;
 
   // Proxy vers le FieldWrapper
   export let label: string;
@@ -41,5 +42,5 @@
   {required}
   {vertical}
 >
-  <StreetSearch bind:value on:change {cityCode} {initialValue} {...props} />
+  <StreetSearch bind:value {onChange} {cityCode} {initialValue} {...props} />
 </FieldWrapper>

@@ -5,7 +5,7 @@
   import { getApiURL } from "$lib/utils/api";
   import { fetchData, getDepartmentFromCityCode } from "$lib/utils/misc";
 
-  export let onChange;
+  export let onChange: (newValue: string) => void;
   export let placeholder;
   export let disabled = false;
   export let name;
