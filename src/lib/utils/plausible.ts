@@ -1,7 +1,7 @@
 import { browser } from "$app/environment";
-import { token, userInfo } from "$lib/auth";
 import { CANONICAL_URL } from "$lib/env";
-import { getDepartmentFromCityCode } from "$lib/utils";
+import { token, userInfo } from "$lib/utils/auth";
+import { getDepartmentFromCityCode } from "$lib/utils/misc";
 import { get } from "svelte/store";
 
 function _track(_tag, _props) {
