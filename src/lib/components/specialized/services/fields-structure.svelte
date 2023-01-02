@@ -1,6 +1,6 @@
 <script lang="ts">
   import FieldSet from "$lib/components/display/fieldset.svelte";
-  import SchemaField from "$lib/components/inputs/schema-field.svelte";
+  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
   import { getModel, getServicesOptions } from "$lib/requests/services";
   import { getStructure } from "$lib/requests/structures";
   import { formErrors } from "$lib/validation/validation";

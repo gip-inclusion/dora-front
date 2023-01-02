@@ -1,13 +1,9 @@
 <script lang="ts">
   import Select from "$lib/components/inputs/select/select.svelte";
   import { pinDistanceIcon } from "$lib/icons";
+  import type { Choice } from "$lib/types";
   import { getApiURL } from "$lib/utils/api";
   import { fetchData, getDepartmentFromCityCode } from "$lib/utils/misc";
-  import {
-    contextValidationKey,
-    type ValidationContext,
-  } from "$lib/validation/validation";
-  import { getContext } from "svelte";
 
   export let onChange;
   export let placeholder;
@@ -16,7 +12,7 @@
   export let value = undefined;
   export let initialValue: string | undefined = undefined;
 
-  let choices = [];
+  let choices: Choice[] = [];
   async function searchCity(q) {
     const url = `${getApiURL()}/admin-division-search/?type=city&q=${encodeURIComponent(
       q
@@ -30,12 +26,6 @@
     }));
 
     return results;
-  }
-
-  const context = getContext<ValidationContext>(contextValidationKey);
-
-  function handleBlur(evt) {
-    if (context) context.onBlur(evt);
   }
 
   const geolocLabelInit = "Autour de moi";
@@ -57,7 +47,7 @@
 
     const response = await fetchData(url);
     if (response.ok) {
-      const city = response.data;
+      const city: { name: string; code: string } = response.data;
 
       geolocLabel = geolocLabelInit;
 
@@ -90,7 +80,6 @@
 
 <Select
   bind:value
-  on:blur={handleBlur}
   {name}
   {onChange}
   {initialValue}

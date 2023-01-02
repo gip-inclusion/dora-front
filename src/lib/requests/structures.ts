@@ -50,10 +50,10 @@ export async function getStructure(slug: string): Promise<Structure> {
   return (await fetchData<Structure>(url)).data;
 }
 
-export async function createStructure(structure) {
+export function createStructure(structure) {
   const url = `${getApiURL()}/structures/`;
   const method = "POST";
-  const res = await fetch(url, {
+  return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
@@ -63,28 +63,13 @@ export async function createStructure(structure) {
     },
     body: JSON.stringify(structure),
   });
-
-  const result = {
-    ok: res.ok,
-    status: res.status,
-  };
-  if (res.ok) {
-    result.result = await res.json();
-  } else {
-    try {
-      result.error = await res.json();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  return result;
 }
 
-export async function modifyStructure(structure) {
+export function modifyStructure(structure) {
   const url = `${getApiURL()}/structures/${structure.slug}/`;
 
   const method = "PATCH";
-  const res = await fetch(url, {
+  return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
@@ -94,21 +79,6 @@ export async function modifyStructure(structure) {
     },
     body: JSON.stringify(structure),
   });
-
-  const result = {
-    ok: res.ok,
-    status: res.status,
-  };
-  if (res.ok) {
-    result.result = await res.json();
-  } else {
-    try {
-      result.error = await res.json();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  return result;
 }
 
 let structuresOptions;

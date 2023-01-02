@@ -2,7 +2,7 @@
   import { alertIcon } from "$lib/icons";
   import type { Day, DayPeriod } from "$lib/types";
   import { createEventDispatcher } from "svelte";
-  import ToggleCheckboxInput from "../../inputs/toggle-checkbox-input.svelte";
+  import Toggle from "../others/toggle.svelte";
 
   export let label: string;
   export let isOpen: boolean;
@@ -15,7 +15,7 @@
   const dispatch = createEventDispatcher();
 
   let inError = false;
-  let ariaDescribedBy = undefined;
+  let ariaDescribedBy: string | undefined = undefined;
 
   $: {
     if (isOpen && touched) {
@@ -90,7 +90,7 @@
           : "Ouvrir une seconde plage horaire"}
       </span>
 
-      <ToggleCheckboxInput
+      <Toggle
         on:change={handleUpdate}
         bind:checked={isOpen}
         yesLabel="Ouvert"

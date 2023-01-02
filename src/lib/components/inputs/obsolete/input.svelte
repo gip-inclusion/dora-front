@@ -1,10 +1,10 @@
 <script lang="ts">
   import RichText from "$lib/components/inputs/rich-text/editor.svelte";
-  import Toggle from "$lib/components/inputs/toggle.svelte";
+  import Toggle from "$lib/components/inputs/others/toggle.svelte";
   import type { InputType } from "$lib/types";
-  import Checkboxes from "./checkboxes.svelte";
-  import RadioButtons from "./radio-buttons.svelte";
-  import Select from "./select/select.svelte";
+  import Checkboxes from "../others/checkboxes.svelte";
+  import RadioButtons from "../others/radio-buttons.svelte";
+  import Select from "../select/select.svelte";
 
   export let value = undefined;
 

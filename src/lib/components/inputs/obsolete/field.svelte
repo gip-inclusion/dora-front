@@ -5,7 +5,7 @@
     type ValidationContext,
   } from "$lib/validation/validation";
   import { getContext } from "svelte";
-  import Alert from "../display/alert.svelte";
+  import Alert from "../../display/alert.svelte";
   import Input from "./input.svelte";
 
   export let value: any | undefined = undefined;
@@ -90,7 +90,7 @@
       <slot name="custom-input" />
     {/if}
     {#each errorMessages || [] as msg}
-      <Alert id="{name}-error" label={msg} isHTML={allowHTMLError} />
+      <Alert id="{name}-error" label={msg} />
     {/each}
   </div>
 </div>

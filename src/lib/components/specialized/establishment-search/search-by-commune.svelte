@@ -1,7 +1,7 @@
 <script lang="ts">
-  import Field from "$lib/components/inputs/field.svelte";
+  import Field from "$lib/components/inputs/obsolete/field.svelte";
   import Select from "$lib/components/inputs/select/select.svelte";
-  import CitySearch from "$lib/components/specialized/city-search.svelte";
+  import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
   import { getApiURL } from "$lib/utils/api";
 
   export let establishment;

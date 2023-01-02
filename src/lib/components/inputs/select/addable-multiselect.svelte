@@ -1,7 +1,7 @@
 <script lang="ts">
   import Button from "../../display/button.svelte";
-  import Field from "../field.svelte";
-  import SchemaField from "../schema-field.svelte";
+  import Field from "../obsolete/field.svelte";
+  import SchemaField from "../obsolete/schema-field.svelte";
 
   export let values;
   export let choices;

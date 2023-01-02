@@ -2,12 +2,12 @@
   import Button from "$lib/components/display/button.svelte";
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import Notice from "$lib/components/display/notice.svelte";
-  import Field from "$lib/components/inputs/field.svelte";
-  import SchemaField from "$lib/components/inputs/schema-field.svelte";
+  import Field from "$lib/components/inputs/obsolete/field.svelte";
+  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
   import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
-  import CitySearch from "$lib/components/specialized/city-search.svelte";
+  import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
   import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
-  import AddressSearch from "$lib/components/specialized/street-search.svelte";
+  import AddressSearch from "$lib/components/inputs/geo/street-search.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
   import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";

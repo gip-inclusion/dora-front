@@ -8,12 +8,13 @@
   } from "$lib/validation/validation";
   import { onDestroy, onMount, setContext } from "svelte";
 
+  export let extraClass = "";
   export let data;
   export let schema;
-  export let requesting = undefined;
+  export let requesting = false;
   export let serverErrorsDict = {};
   export let onSubmit, onSuccess;
-  export let onChange = undefined;
+  export let onChange: ((data) => void) | undefined = undefined;
 
   onMount(() => {
     $formErrors = {};
@@ -27,19 +28,27 @@
     $formErrors.nonFieldErrors = [];
 
     // We want to listen to both DOM and component events
-    const fieldname = evt.target?.name || evt.detail;
+    const fieldName = evt.target?.name || evt.detail;
 
-    const filteredSchema =
-      fieldname && schema[fieldname] ? { [fieldname]: schema[fieldname] } : {};
+    // Sometimes (particularly with Select components), the event is received
+    // before the field value is updated in  `structure`, although it's not
+    // supposed to happen. This setTimeout is an unsatisfying workaround to that.
 
-    const { validatedData, valid } = validate(data, filteredSchema, {
-      fullSchema: schema,
-      noScroll: true,
+    // TODO: try replacing that with an await tick()
+    await new Promise((resolve) => {
+      setTimeout(() => {
+        const { validatedData, valid } = validate(data, schema, {
+          fieldName,
+          noScroll: true,
+        });
+
+        if (valid && onChange) {
+          onChange(validatedData);
+        }
+
+        resolve(true);
+      }, 200);
     });
-
-    if (valid && onChange) {
-      onChange(validatedData);
-    }
   }
 
   setContext<ValidationContext>(contextValidationKey, {
@@ -90,7 +99,7 @@
 <form
   on:submit|preventDefault={handleSubmit}
   novalidate
-  class="flex-row gap-s24"
+  class="flex-row gap-s24 {extraClass}"
 >
   <slot />
 </form>

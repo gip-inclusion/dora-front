@@ -3,11 +3,11 @@
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import Modal from "$lib/components/display/modal.svelte";
   import Notice from "$lib/components/display/notice.svelte";
-  import Field from "$lib/components/inputs/field.svelte";
-  import SchemaField from "$lib/components/inputs/schema-field.svelte";
+  import Field from "$lib/components/inputs/obsolete/field.svelte";
+  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
   import AddableMultiselect from "$lib/components/inputs/select/addable-multiselect.svelte";
   import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
-  import Uploader from "$lib/components/inputs/uploader.svelte";
+  import Uploader from "$lib/components/inputs/others/uploader.svelte";
   import {
     arraysCompare,
     moveToTheEnd,

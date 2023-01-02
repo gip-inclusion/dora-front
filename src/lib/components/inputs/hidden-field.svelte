@@ -20,7 +20,6 @@
   hideLabel
   required={false}
   vertical={false}
-  allowHTMLError={false}
 >
   <input type="hidden" bind:value on:input />
 </FieldWrapper>

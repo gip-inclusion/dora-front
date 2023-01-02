@@ -2,9 +2,9 @@
   import { goto } from "$app/navigation";
   import Button from "$lib/components/display/button.svelte";
   import Fieldset from "$lib/components/display/fieldset.svelte";
-  import Form from "$lib/components/display/form.svelte";
+  import Form from "$lib/components/hoc/form.svelte";
   import Info from "$lib/components/display/info.svelte";
-  import SchemaField from "$lib/components/inputs/schema-field.svelte";
+  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
   import { arrowRightSIcon, lightBulbIcon } from "$lib/icons";
   import { getApiURL } from "$lib/utils/api";
   import { refreshUserInfo, token, userInfo } from "$lib/utils/auth";

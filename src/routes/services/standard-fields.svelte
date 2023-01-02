@@ -1,10 +1,10 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
   import FieldSet from "$lib/components/display/fieldset.svelte";
-  import SchemaField from "$lib/components/inputs/schema-field.svelte";
+  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
   import AdminDivisionSearch from "$lib/components/specialized/admin-division-search.svelte";
-  import CitySearch from "$lib/components/specialized/city-search.svelte";
-  import AddressSearch from "$lib/components/specialized/street-search.svelte";
+  import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
+  import AddressSearch from "$lib/components/inputs/geo/street-search.svelte";
   import { moveToTheEnd } from "$lib/utils/misc";
   import {
     contextValidationKey,

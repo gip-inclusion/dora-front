@@ -2,6 +2,24 @@ import { browser } from "$app/environment";
 import { writable } from "svelte/store";
 import type { ZodType } from "zod";
 
+import { z } from "zod";
+
+// https://zod.dev/ERROR_HANDLING?id=customizing-errors-with-zoderrormap
+const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
+  // console.log(issue);
+  if (issue.code === z.ZodIssueCode.invalid_string) {
+    if (issue.validation === "email") {
+      return {
+        message:
+          "Veuillez saisir une adresse courriel valide (ex: nom.prenom@organisation.fr)",
+      };
+    }
+  }
+  return { message: ctx.defaultError };
+};
+
+z.setErrorMap(customErrorMap);
+
 export type ValidationContext = {
   onBlur: (evt: any) => Promise<void>;
   onChange: (evt: any) => Promise<void>;
@@ -66,7 +84,7 @@ export function validate<T>(
     validatedData = { ...parseResult.data };
   } else if (showErrors) {
     if (fieldName) {
-      // On affiche les erreurs que sur le champ courant
+      // On n'affiche les erreurs que sur le champ courant
       if (!parseResult.success) {
         const errors = parseResult.error.flatten().fieldErrors;
         if (fieldName in errors) {
@@ -77,7 +95,6 @@ export function validate<T>(
     } else {
       // Validation de l'ensemble du formulaire, on affiche
       // toutes les erreurs
-
       let firstError = true;
       if (!parseResult.success) {
         const errors = parseResult.error.flatten().fieldErrors;

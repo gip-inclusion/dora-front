@@ -14,7 +14,7 @@
   export let hideLabel: boolean;
   export let required: boolean;
   export let vertical: boolean;
-  export let allowHTMLError;
+  export let allowHTMLError = false;
 
   const context = getContext<ValidationContext>(contextValidationKey);
 
@@ -32,10 +32,9 @@
   class:lg:flex-row={!vertical}
   class:hidden
 >
-  <!-- #1# -->
   <div class="flex flex-col{vertical ? '' : ' lg:w-1/4'}">
     <label for={name} class="flex">
-      <h4 class="my-s4 first-letter:capitalize" class:hidden={hideLabel}>
+      <h4 class="my-s4" class:hidden={hideLabel}>
         {label}
       </h4>
       {#if required} <span class="ml-s6 text-error"> *</span>{/if}</label
@@ -49,7 +48,7 @@
     <slot onBlur={handleBlur} />
 
     {#each errorMessages || [] as msg}
-      <Alert id="{name}-error" label={msg} isHTML={allowHTMLError} />
+      <Alert id="{name}-error" label={msg} />
     {/each}
   </div>
 </div>
