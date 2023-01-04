@@ -6,9 +6,10 @@
   import { fetchData, getDepartmentFromCityCode } from "$lib/utils/misc";
 
   export let onChange: (newValue: string) => void;
+
   export let placeholder;
   export let disabled = false;
-  export let name;
+  export let id;
   export let value = undefined;
   export let initialValue: string | undefined = undefined;
 
@@ -80,7 +81,8 @@
 
 <Select
   bind:value
-  {name}
+  on:blur
+  {id}
   {onChange}
   {initialValue}
   {placeholder}

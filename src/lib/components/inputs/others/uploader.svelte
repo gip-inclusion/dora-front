@@ -3,13 +3,13 @@
   import { getApiURL } from "$lib/utils/api";
   import { shortenString } from "$lib/utils/misc";
 
-  export let structureSlug;
-  export let fileKeys = [];
+  export let id: string;
+  export let structureSlug: string;
+  export let fileKeys: string[] = [];
   export let disabled = false;
-  export let name;
 
-  let progress = null;
-  let uploadInput;
+  let progress: number | null = null;
+  let uploadInput: HTMLInputElement;
 
   function handleRemove(fileKey) {
     fileKeys = fileKeys.filter((k) => k !== fileKey);
@@ -67,7 +67,8 @@
 <form on:submit|preventDefault={handleSubmit} class="mb-s8 cursor-pointer">
   <label>
     <input
-      {name}
+      name={id}
+      {id}
       bind:this={uploadInput}
       on:blur
       on:change={handleSubmit}

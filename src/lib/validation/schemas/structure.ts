@@ -22,15 +22,25 @@ export default z.object({
     .trim()
     .regex(v.postalCodeRegexp, "Veuillez saisir un code postal valide"),
 
-  accesslibreUrl: z
-    .string()
-    .trim()
-    .max(255)
-    .url()
-    .startsWith("https://acceslibre.beta.gouv.fr/", {
-      message: "L’URL doit commencer par https://acceslibre.beta.gouv.fr/",
-    })
-    .nullable(),
+  accesslibreUrl: z.union([
+    z.string().trim().max(0, {
+      message:
+        "Veuillez saisir une URL valide, commençant par https://acceslibre.beta.gouv.fr/",
+    }),
+
+    z
+      .string()
+      .trim()
+      .max(255)
+      .url({
+        message:
+          "Veuillez saisir une URL valide, commençant par https://acceslibre.beta.gouv.fr/",
+      })
+      .startsWith("https://acceslibre.beta.gouv.fr/", {
+        message: "L’URL doit commencer par https://acceslibre.beta.gouv.fr/",
+      })
+      .nullable(),
+  ]),
 
   phone: z
     .preprocess((val) => {
@@ -40,7 +50,6 @@ export default z.object({
       return val.replace(/\D/gu, "");
     }, z.string().trim().max(10))
     .optional(),
-  // Veuillez saisir un numéro de téléphone valide (ex: 06 00 00 00 00 ou  0600000000
 
   email: z
     .string()

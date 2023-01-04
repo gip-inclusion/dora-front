@@ -1,5 +1,6 @@
 <script lang="ts">
   import FieldWrapper from "./field-wrapper.svelte";
+  import Checkboxes from "./others/checkboxes.svelte";
 
   export let id: string;
   export let value;
@@ -7,6 +8,9 @@
   export let disabled = false;
   export let readonly: true | undefined = undefined;
   export let placeholder: string | undefined = undefined;
+
+  // Spécifiques
+  export let choices;
 
   // Proxy vers le FieldWrapper
   export let label: string;
@@ -27,15 +31,14 @@
   {required}
   {vertical}
 >
-  <textarea
-    bind:value
-    on:blur={onBlur}
+  <Checkboxes
     {id}
     name={id}
-    {autocomplete}
+    bind:group={value}
+    on:change
+    {choices}
     {disabled}
     {readonly}
-    {placeholder}
   />
 </FieldWrapper>
 

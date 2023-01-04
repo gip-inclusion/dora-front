@@ -1,22 +1,20 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
   import FieldSet from "$lib/components/display/fieldset.svelte";
-  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
-  import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
-  import AdminDivisionSearch from "$lib/components/specialized/admin-division-search.svelte";
-  import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
-  import AddressSearch from "$lib/components/inputs/geo/street-search.svelte";
+  import AddressSearchField from "$lib/components/inputs/address-search-field.svelte";
+  import AdminDivisionSearchField from "$lib/components/inputs/admin-division-search-field.svelte";
+  import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
+  import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
+  import CitySearchField from "$lib/components/inputs/city-search-field.svelte";
+  import HiddenField from "$lib/components/inputs/hidden-field.svelte";
+  import SelectField from "$lib/components/inputs/select-field.svelte";
+  import TextareaField from "$lib/components/inputs/textarea-field.svelte";
+  import ToggleField from "$lib/components/inputs/toggle-field.svelte";
+  import FieldModel from "$lib/components/specialized/services/field-model.svelte";
   import type { Choice, Service, ServicesOptions, Structure } from "$lib/types";
   import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
-  import {
-    contextValidationKey,
-    formErrors,
-    validate,
-    type ValidationContext,
-  } from "$lib/validation/validation";
-  import { onMount, setContext, tick } from "svelte";
-  import FieldModel from "$lib/components/specialized/services/field-model.svelte";
+  import { onMount, tick } from "svelte";
 
   export let servicesOptions: ServicesOptions;
   export let service: Service;
@@ -230,36 +228,6 @@
     setLocationKinds();
   });
 
-  async function handleEltChange(evt) {
-    // We want to listen to both DOM and component events
-    const fieldname = evt.target?.name || evt.detail;
-
-    // Sometimes (particularly with Select components), the event is received
-    // before the field value is updated in `service`, although it's not
-    // supposed to happen. This setTimeout is a unsatisfying workaround to that.
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        const filteredSchema = {
-          // si le champs n'existe pas dans le schéma,
-          // on l'initialise avec une valeur par défaut
-          [fieldname]: serviceSchema[fieldname] || { rules: [] },
-        };
-
-        const { validatedData, valid } = validate(service, filteredSchema, {
-          fullSchema: serviceSchema,
-          noScroll: true,
-          servicesOptions: servicesOptions,
-        });
-
-        if (valid) {
-          service = { ...service, ...validatedData };
-        }
-
-        resolve(true);
-      }, 200);
-    });
-  }
-
   let adminDivisionChoices = [];
 
   function handleSubcategoriesChange(subcategories) {
@@ -295,11 +263,6 @@
     service.longitude = long;
     service.latitude = lat;
   }
-
-  setContext<ValidationContext>(contextValidationKey, {
-    onBlur: handleEltChange,
-    onChange: handleEltChange,
-  });
 </script>
 
 <FieldSet noTopPadding title="Service de l'inclusion numérique">
@@ -325,12 +288,10 @@
     options={servicesOptions.subcategories}
     type="array"
   >
-    <SchemaField
-      type="multiselect"
-      label={serviceSchema.subcategories.name}
-      schema={serviceSchema.subcategories}
-      name="subcategories"
-      errorMessages={$formErrors.subcategories}
+    <SelectField
+      multiple
+      label="Besoins"
+      id="subcategories"
       bind:value={service.subcategories}
       choices={subcategories}
       placeholder="Sélectionner"
@@ -345,12 +306,10 @@
       options={concernedPublicOptions}
       type="array"
     >
-      <SchemaField
-        type="multiselect"
-        label={serviceSchema.concernedPublic.name}
-        schema={serviceSchema.concernedPublic}
-        name="concernedPublic"
-        errorMessages={$formErrors.concernedPublic}
+      <SelectField
+        multiple
+        label="Profils"
+        id="concernedPublic"
         bind:value={service.concernedPublic}
         choices={concernedPublicOptions}
         placeholder="Sélectionner"
@@ -365,12 +324,9 @@
       options={kindsOptions}
       type="array"
     >
-      <SchemaField
-        type="checkboxes"
-        label={serviceSchema.kinds.name}
-        schema={serviceSchema.kinds}
-        name="kinds"
-        errorMessages={$formErrors.kinds}
+      <CheckboxesField
+        label="Types"
+        id="kinds"
         bind:value={service.kinds}
         choices={kindsOptions}
       />
@@ -380,24 +336,19 @@
   <FieldModel serviceValue={service.feeCondition} type="text">
     <SelectField
       label="Frais à charge"
-      name="feeCondition"
+      id="feeCondition"
       placeholder="Choississez..."
-      errorMessages={$formErrors.feeCondition}
       bind:value={service.feeCondition}
       choices={servicesOptions.feeConditions}
-      display="vertical"
     />
   </FieldModel>
 
   {#if isNotFreeService(service.feeCondition)}
     <FieldModel serviceValue={service.feeDetails}>
-      <SchemaField
-        type="textarea"
+      <TextareaField
         label="Détails des frais à charge"
         placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
-        schema={serviceSchema.feeDetails}
-        name="feeDetails"
-        errorMessages={$formErrors.feeDetails}
+        id="feeDetails"
         bind:value={service.feeDetails}
       />
     </FieldModel>
@@ -414,37 +365,32 @@
     options={servicesOptions.beneficiariesAccessModes}
     type="array"
   >
-    <SchemaField
-      label={serviceSchema.beneficiariesAccessModes.name}
-      type="checkboxes"
+    <CheckboxesField
+      label="Pour les bénéficiaires"
       choices={moveToTheEnd(
         servicesOptions.beneficiariesAccessModes,
         "value",
         "autre"
       )}
-      schema={serviceSchema.coachOrientationModes}
-      name="beneficiariesAccessModes"
-      errorMessages={$formErrors.beneficiariesAccessModes}
+      id="beneficiariesAccessModes"
       bind:value={service.beneficiariesAccessModes}
     />
   </FieldModel>
 
   {#if service.beneficiariesAccessModes.includes("autre")}
     <FieldModel serviceValue={service.beneficiariesAccessModesOther}>
-      <SchemaField
+      <BasicInputField
         hideLabel
         placeholder="Merci de préciser la modalité"
-        type="text"
-        schema={serviceSchema.beneficiariesAccessModesOther}
-        name="beneficiariesAccessModesOther"
-        errorMessages={$formErrors.beneficiariesAccessModesOther}
+        id="beneficiariesAccessModesOther"
         bind:value={service.beneficiariesAccessModesOther}
       />
     </FieldModel>
   {/if}
 </FieldSet>
 
-{#if !structure.latitude || !structure.longitude}
+<!-- {#if !structure.latitude || !structure.longitude} -->
+{#if true}
   <FieldSet title="Périmètre géographique d’intervention">
     <div slot="help">
       <p class="text-f14">
@@ -460,37 +406,27 @@
         de la Ville ou des Zones de Revitalisation Rurale.
       </p>
     </div>
-    <SchemaField
-      type="select"
-      label={serviceSchema.diffusionZoneType.name}
+    <SelectField
+      label="Périmètre"
       schema={serviceSchema.diffusionZoneType}
       choices={servicesOptions.diffusionZoneType}
-      name="diffusionZoneType"
-      errorMessages={$formErrors.diffusionZoneType}
+      id="diffusionZoneType"
       onSelectChange={handleDiffusionZoneTypeChange}
       initialValue={service.diffusionZoneTypeDisplay}
     />
 
     {#if service.diffusionZoneType !== "country"}
-      <SchemaField
-        type="custom"
-        name="diffusionZoneDetails"
-        label={serviceSchema.diffusionZoneDetails.name}
+      <AdminDivisionSearchField
+        id="diffusionZoneDetails"
+        label="Territoire"
         description="Commencez à saisir le nom et choisissez dans la liste."
-        errorMessages={$formErrors.diffusionZoneDetails}
-        schema={serviceSchema.diffusionZoneDetails}
-      >
-        <AdminDivisionSearch
-          slot="custom-input"
-          name="diffusionZoneDetails"
-          searchType={service.diffusionZoneType}
-          handleChange={(details) => {
-            service.diffusionZoneDetails = details;
-          }}
-          initialValue={service.diffusionZoneDetailsDisplay}
-          bind:choices={adminDivisionChoices}
-        />
-      </SchemaField>
+        searchType={service.diffusionZoneType}
+        handleChange={(details) => {
+          service.diffusionZoneDetails = details;
+        }}
+        initialValue={service.diffusionZoneDetailsDisplay}
+        bind:choices={adminDivisionChoices}
+      />
     {/if}
   </FieldSet>
 {/if}
@@ -504,83 +440,43 @@
   />
 
   {#if showServiceAddress}
-    <SchemaField
-      name="city"
-      type="custom"
-      label={serviceSchema.city.name}
-      errorMessages={$formErrors.city}
-      schema={serviceSchema.city}
-    >
-      <CitySearch
-        slot="custom-input"
-        name="city"
-        placeholder="Saisissez et validez votre ville"
-        initialValue={service.city}
-        onChange={handleCityChange}
-      />
-    </SchemaField>
+    <CitySearchField
+      id="city"
+      label="Ville"
+      placeholder="Saisissez et validez votre ville"
+      initialValue={service.city}
+      onChange={handleCityChange}
+    />
 
-    <SchemaField
-      type="custom"
-      name="address1"
-      label={serviceSchema.address1.name}
-      errorMessages={$formErrors.address1}
-      schema={serviceSchema.address1}
-    >
-      <AddressSearch
-        slot="custom-input"
-        name="address1"
-        disabled={!service.cityCode}
-        cityCode={service.cityCode}
-        placeholder="3 rue du parc"
-        initialValue={service.address1}
-        handleChange={handleAddressChange}
-      />
-    </SchemaField>
+    <AddressSearchField
+      id="address1"
+      label="Adresse"
+      disabled={!service.cityCode}
+      cityCode={service.cityCode}
+      placeholder="3 rue du parc"
+      initialValue={service.address1}
+      handleChange={handleAddressChange}
+    />
 
-    <SchemaField
-      type="text"
-      label={serviceSchema.address2.name}
+    <BasicInputField
+      label="Complément d'adresse"
       placeholder="batiment, escalier, etc."
-      schema={serviceSchema.address2}
-      name="address2"
-      errorMessages={$formErrors.address2}
+      id="address2"
       bind:value={service.address2}
     />
 
-    <SchemaField
-      type="text"
-      label={serviceSchema.postalCode.name}
+    <BasicInputField
+      label="Code postal"
       placeholder="00000"
-      schema={serviceSchema.postalCode}
-      name="postalCode"
-      errorMessages={$formErrors.postalCode}
+      id="postalCode"
       bind:value={service.postalCode}
     />
 
-    <SchemaField
-      type="hidden"
-      schema={serviceSchema.cityCode}
-      name="cityCode"
-      errorMessages={$formErrors.cityCode}
-      bind:value={service.cityCode}
-    />
+    <HiddenField id="cityCode" bind:value={service.cityCode} />
 
-    <SchemaField
-      type="hidden"
-      schema={serviceSchema.longitude}
-      name="longitude"
-      errorMessages={$formErrors.longitude}
-      bind:value={service.longitude}
-    />
+    <HiddenField id="longitude" bind:value={service.longitude} />
 
-    <SchemaField
-      type="hidden"
-      schema={serviceSchema.latitude}
-      name="latitude"
-      errorMessages={$formErrors.latitude}
-      bind:value={service.latitude}
-    />
+    <HiddenField id="latitude" bind:value={service.latitude} />
   {/if}
 </FieldSet>
 <FieldSet title="Contact">
@@ -597,39 +493,29 @@
       du site.
     </p>
   </div>
-  <SchemaField
-    label={serviceSchema.contactName.name}
+  <BasicInputField
+    label="Prénom et nom"
     placeholder="Prénom et nom"
-    type="text"
-    schema={serviceSchema.contactName}
-    name="contactName"
-    errorMessages={$formErrors.contactName}
+    id="contactName"
     bind:value={service.contactName}
   />
-  <SchemaField
+  <BasicInputField
     type="tel"
-    label={serviceSchema.contactPhone.name}
+    label="Téléphone"
     placeholder="00 00 00 00 00"
-    schema={serviceSchema.contactPhone}
-    name="contactPhone"
-    errorMessages={$formErrors.contactPhone}
+    id="contactPhone"
     bind:value={service.contactPhone}
   />
-  <SchemaField
+  <BasicInputField
     type="email"
-    label={serviceSchema.contactEmail.name}
+    label="Email"
     placeholder="nom@exemple.org"
-    schema={serviceSchema.contactEmail}
-    name="contactEmail"
-    errorMessages={$formErrors.contactEmail}
+    id="contactEmail"
     bind:value={service.contactEmail}
   />
-  <SchemaField
-    label={serviceSchema.isContactInfoPublic.name}
-    type="toggle"
-    schema={serviceSchema.isContactInfoPublic}
-    name="isContactInfoPublic"
-    errorMessages={$formErrors.isContactInfoPublic}
+  <ToggleField
+    label="Rendre public"
+    id="isContactInfoPublic"
     bind:value={service.isContactInfoPublic}
   />
 </FieldSet>

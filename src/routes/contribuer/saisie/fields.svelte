@@ -1,19 +1,15 @@
 <script lang="ts">
-  import Button from "$lib/components/display/button.svelte";
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import Notice from "$lib/components/display/notice.svelte";
-  import Field from "$lib/components/inputs/obsolete/field.svelte";
-  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
-  import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
-  import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
+  import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
+  import RichTextField from "$lib/components/inputs/rich-text-field.svelte";
+  import SelectField from "$lib/components/inputs/select-field.svelte";
+  import TextareaField from "$lib/components/inputs/textarea-field.svelte";
+  import ToggleField from "$lib/components/inputs/toggle-field.svelte";
   import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
-  import AddressSearch from "$lib/components/inputs/geo/street-search.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
-  import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
-  import { isNotFreeService } from "$lib/utils/service";
-  import { contribSchema } from "$lib/validation/schemas/service";
-  import { formErrors } from "$lib/validation/validation";
-  import { tick } from "svelte";
+  import { orderAndReformatSubcategories } from "$lib/utils/misc";
+  // import { tick } from "svelte";
 
   export let servicesOptions: ServicesOptions;
   export let service: Service;
@@ -21,7 +17,7 @@
   let establishment = null;
 
   let subcategories = [];
-  let showServiceAddress = true;
+  // let showServiceAddress = true;
 
   function handleCategoriesChange(categories) {
     subcategories = categories.length
@@ -48,45 +44,45 @@
     service.siret = newEstablishment?.siret;
   }
 
-  function handleCityChange(city) {
-    service.city = city?.name;
-    service.cityCode = city?.code;
-  }
+  // function handleCityChange(city) {
+  //   service.city = city?.name;
+  //   service.cityCode = city?.code;
+  // }
 
-  function handleAddressChange(address) {
-    const props = address?.properties;
-    const coords = address?.geometry.coordinates;
-    const lat = coords?.[1];
-    const long = coords?.[0];
-    service.address1 = props?.name;
-    service.postalCode = props?.postcode;
-    service.longitude = long;
-    service.latitude = lat;
-  }
+  // function handleAddressChange(address) {
+  //   const props = address?.properties;
+  //   const coords = address?.geometry.coordinates;
+  //   const lat = coords?.[1];
+  //   const long = coords?.[0];
+  //   service.address1 = props?.name;
+  //   service.postalCode = props?.postcode;
+  //   service.longitude = long;
+  //   service.latitude = lat;
+  // }
 
-  async function fillAdress() {
-    showServiceAddress = false;
-    if (establishment) {
-      const {
-        city,
-        address1,
-        address2,
-        postalCode,
-        cityCode,
-        latitude,
-        longitude,
-      } = establishment;
-      service.city = city;
-      service.address1 = address1;
-      service.address2 = address2;
-      service.postalCode = postalCode;
-      service.cityCode = cityCode;
-      service.latitude = latitude;
-      service.longitude = longitude;
-    }
-    await tick();
-    showServiceAddress = true;
-  }
+  // async function fillAdress() {
+  //   showServiceAddress = false;
+  //   if (establishment) {
+  //     const {
+  //       city,
+  //       address1,
+  //       address2,
+  //       postalCode,
+  //       cityCode,
+  //       latitude,
+  //       longitude,
+  //     } = establishment;
+  //     service.city = city;
+  //     service.address1 = address1;
+  //     service.address2 = address2;
+  //     service.postalCode = postalCode;
+  //     service.cityCode = cityCode;
+  //     service.latitude = latitude;
+  //     service.longitude = longitude;
+  //   }
+  //   await tick();
+  //   showServiceAddress = true;
+  // }
 </script>
 
 <StructureSearch
@@ -96,7 +92,8 @@
   isOwnStructure={false}
 />
 
-{#if service.siret}
+<!-- {#if service.siret} -->
+{#if true}
   <FieldSet title="Présentation">
     <div slot="help">
       <p class="text-f14">
@@ -116,44 +113,32 @@
       </p>
     </div>
 
-    <SchemaField
+    <BasicInputField
       label="Nom"
-      type="text"
       placeholder="Ex. Aide aux frais liés à…"
-      schema={contribSchema.name}
-      name="name"
-      errorMessages={$formErrors.name}
+      id="name"
       bind:value={service.name}
     />
 
-    <SchemaField
+    <TextareaField
       description="280 caractères maximum"
       placeholder="Décrivez brièvement ce service"
-      type="textarea"
       label="Résumé"
-      schema={contribSchema.shortDesc}
-      name="shortDesc"
-      errorMessages={$formErrors.shortDesc}
+      id="shortDesc"
       bind:value={service.shortDesc}
     />
 
-    <SchemaField
+    <RichTextField
       label="Description"
       placeholder="Veuillez ajouter ici toute autre information que vous jugerez utile — concernant ce service et ses spécificités."
-      type="richtext"
       vertical
-      schema={contribSchema.fullDesc}
-      name="fullDesc"
-      errorMessages={$formErrors.fullDesc}
+      id="fullDesc"
       bind:value={service.fullDesc}
     />
 
-    <SchemaField
-      type="toggle"
+    <ToggleField
       label="Service cumulable"
-      schema={contribSchema.isCumulative}
-      name="isCumulative"
-      errorMessages={$formErrors.isCumulative}
+      id="isCumulative"
       bind:value={service.isCumulative}
     />
   </FieldSet>
@@ -165,23 +150,20 @@
         référencement.
       </p>
     </div>
-    <SchemaField
-      type="multiselect"
+    <SelectField
+      multiple
       label="Thématiques"
-      schema={contribSchema.categories}
       bind:value={service.categories}
       choices={servicesOptions.categories}
-      name="categories"
-      errorMessages={$formErrors.categories}
+      id="categories"
       onSelectChange={handleCategoriesChange}
       placeholderMulti="Choisissez la ou les thématiques"
-      sortSelect
+      _sort
     />
 
-    <SchemaField
+    <!-- <SchemaField
       type="multiselect"
       label="Besoin(s) auxquels ce service répond"
-      schema={contribSchema.subcategories}
       name="subcategories"
       errorMessages={$formErrors.subcategories}
       bind:value={service.subcategories}
@@ -193,13 +175,12 @@
     <SchemaField
       type="checkboxes"
       label="Type de service"
-      schema={contribSchema.kinds}
       name="kinds"
       errorMessages={$formErrors.kinds}
       bind:value={service.kinds}
       choices={servicesOptions.kinds}
       description="Quelle est la nature de ce service."
-    />
+    /> -->
   </FieldSet>
 
   <div class="mt-s48">
@@ -210,7 +191,7 @@
       </p>
     </Notice>
   </div>
-
+  <!--
   <FieldSet title="Contact du référent">
     <div slot="help">
       <p class="text-f14">
@@ -331,7 +312,7 @@
   <FieldSet title="Accueil">
     <SchemaField
       type="checkboxes"
-      label={contribSchema.locationKinds.name}
+      label="Mode d’accueil"
       schema={contribSchema.locationKinds}
       name="locationKinds"
       errorMessages={$formErrors.locationKinds}
@@ -434,5 +415,5 @@
         />
       {/if}
     {/if}
-  </FieldSet>
+  </FieldSet> -->
 {/if}

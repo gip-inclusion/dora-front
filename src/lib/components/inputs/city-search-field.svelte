@@ -2,17 +2,16 @@
   import FieldWrapper from "./field-wrapper.svelte";
   import CitySearch from "./geo/city-search.svelte";
 
-  export let name: string;
+  export let id: string;
   export let disabled = false;
-  export let placeholder: string | undefined = undefined;
-  export let initialValue: string | undefined = undefined;
+  export let placeholder = "";
+  export let initialValue = "";
 
   // Spécifique
   export let onChange: (newValue: string) => void;
 
   // Proxy vers le FieldWrapper
   export let label: string;
-  export let errorMessages: string[] = [];
   export let description = "";
   export let hidden = false;
   export let hideLabel = false;
@@ -22,14 +21,20 @@
 
 <FieldWrapper
   let:onBlur
-  {name}
+  {id}
   {label}
-  {errorMessages}
   {description}
   {hidden}
   {hideLabel}
   {required}
   {vertical}
 >
-  <CitySearch {onChange} {initialValue} {name} {disabled} {placeholder} />
+  <CitySearch
+    on:blur={onBlur}
+    {onChange}
+    {initialValue}
+    {id}
+    {disabled}
+    {placeholder}
+  />
 </FieldWrapper>

@@ -1,18 +1,17 @@
 <script lang="ts">
   // https://tailwindcomponents.com/component/toggle-button-1
-
+  export let id;
   export let checked = undefined;
   export let disabled = false;
   export let readonly = false;
-  export let name: string;
   export let yesLabel = "Oui";
   export let noLabel = "Non";
 </script>
 
 <div class="relative flex flex-row self-start">
   <input
-    id={name}
-    {name}
+    {id}
+    name={id}
     type="checkbox"
     bind:checked
     on:change

@@ -3,29 +3,28 @@
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import Modal from "$lib/components/display/modal.svelte";
   import Notice from "$lib/components/display/notice.svelte";
-  import Field from "$lib/components/inputs/obsolete/field.svelte";
-  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
-  import AddableMultiselect from "$lib/components/inputs/select/addable-multiselect.svelte";
-  import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
-  import Uploader from "$lib/components/inputs/others/uploader.svelte";
+  import AddableMultiSelectField from "$lib/components/inputs/addable-multiselect-field.svelte";
+  import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
+  import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
+  import RichTextField from "$lib/components/inputs/rich-text-field.svelte";
+  import SelectField from "$lib/components/inputs/select-field.svelte";
+  import TextAreaField from "$lib/components/inputs/textarea-field.svelte";
+  import ToggleField from "$lib/components/inputs/toggle-field.svelte";
+  import UploadField from "$lib/components/inputs/upload-field.svelte";
+  import type { Model } from "$lib/types";
+  import { getModelInputProps } from "$lib/utils/forms";
   import {
     arraysCompare,
     moveToTheEnd,
     orderAndReformatSubcategories,
   } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
-  import {
-    contextValidationKey,
-    formErrors,
-    validate,
-    type ValidationContext,
-  } from "$lib/validation/validation";
-  import { setContext } from "svelte";
+  import { formErrors } from "$lib/validation/validation";
   import FieldModel from "./field-model.svelte";
 
   export let servicesOptions, serviceSchema, service, canAddChoices;
   export let isModel = false;
-  export let model = null;
+  export let model: Model | undefined = undefined;
   export let typologyFieldDisabled = false;
 
   const useModel = model != null;
@@ -115,58 +114,45 @@
     service.feeCondition = feeCondition?.value;
   }
 
-  async function handleEltChange(evt) {
-    // We want to listen to both DOM and component events
-    const fieldname = evt.target?.name || evt.detail;
+  // async function handleEltChange(evt) {
+  //   // We want to listen to both DOM and component events
+  //   const fieldname = evt.target?.name || evt.detail;
 
-    // Sometimes (particularly with Select components), the event is received
-    // before the field value is updated in `service`, although it's not
-    // supposed to happen. This setTimeout is a unsatisfying workaround to that.
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        const filteredSchema = {
-          // si le champs n'existe pas dans le schéma,
-          // on l'initialise avec une valeur par défaut
-          [fieldname]: serviceSchema[fieldname] || { rules: [] },
-        };
-        const { validatedData, valid } = validate(service, filteredSchema, {
-          fullSchema: serviceSchema,
-          noScroll: true,
-          servicesOptions: servicesOptions,
-        });
+  //   // Sometimes (particularly with Select components), the event is received
+  //   // before the field value is updated in `service`, although it's not
+  //   // supposed to happen. This setTimeout is a unsatisfying workaround to that.
+  //   await new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       const filteredSchema = {
+  //         // si le champs n'existe pas dans le schéma,
+  //         // on l'initialise avec une valeur par défaut
+  //         [fieldname]: serviceSchema[fieldname] || { rules: [] },
+  //       };
+  //       const { validatedData, valid } = validate(service, filteredSchema, {
+  //         fullSchema: serviceSchema,
+  //         noScroll: true,
+  //         servicesOptions: servicesOptions,
+  //       });
 
-        if (valid) {
-          service = { ...service, ...validatedData };
-        }
+  //       if (valid) {
+  //         service = { ...service, ...validatedData };
+  //       }
 
-        resolve(true);
-      }, 200);
-    });
-  }
+  //       resolve(true);
+  //     }, 200);
+  //   });
+  // }
 
-  setContext<ValidationContext>(contextValidationKey, {
-    onBlur: handleEltChange,
-    onChange: handleEltChange,
-  });
+  // setContext<ValidationContext>(contextValidationKey, {
+  //   onBlur: handleEltChange,
+  //   onChange: handleEltChange,
+  // });
 
   let showModel;
 
   $: showModel = !!service.model;
 
   let fullDesc;
-
-  function useModelValue(propName) {
-    return () => {
-      service[propName] = model[propName];
-
-      if (propName === "fullDesc") {
-        fullDesc.updateValue(service.fullDesc);
-      }
-      if (propName === "feeCondition") {
-        feeConditionClassic = service.feeCondition;
-      }
-    };
-  }
 
   let isOpen = false;
 
@@ -182,9 +168,31 @@
     isOpen = false;
     toggleInclusionNumeriqueForm();
   }
+
+  function useModelValue(fieldName) {
+    return () => {
+      service[fieldName] = model ? model[fieldName] : undefined;
+
+      if (fieldName === "fullDesc") {
+        fullDesc.updateValue(service.fullDesc);
+      }
+      if (fieldName === "feeCondition") {
+        feeConditionClassic = service.feeCondition;
+      }
+    };
+  }
+
+  $: fieldModelProps = getModelInputProps(
+    serviceSchema,
+    service,
+    servicesOptions,
+    showModel,
+    useModelValue,
+    model
+  );
 </script>
 
-<Modal bind:isOpen title="Attention !" smallWidth="true">
+<Modal bind:isOpen title="Attention !" smallWidth>
   Le passage du formulaire classique vers le formulaire de l'inclusion numérique
   peut entraîner la perte de données déjà enregistrées dans ce service.
   <div class="mt-s32 flex flex-row justify-end gap-s16">
@@ -201,29 +209,21 @@
 </Modal>
 
 <FieldSet noTopPadding {showModel}>
-  <FieldModel
-    {showModel}
-    value={model?.categories}
-    serviceValue={service.categories}
-    options={servicesOptions.categories}
-    useValue={useModelValue("categories")}
-    type="array"
-  >
-    <SchemaField
-      type="multiselect"
-      label={serviceSchema.categories.name}
-      schema={serviceSchema.categories}
+  <FieldModel {...fieldModelProps["categories"]} type="array">
+    <SelectField
+      id="categories"
+      label="Thématiques"
       bind:value={service.categories}
       choices={servicesOptions.categories}
-      name="categories"
-      errorMessages={$formErrors.categories}
       onSelectChange={handleCategoriesChange}
       placeholderMulti="Sélectionner"
-      sortSelect
+      sort
+      multiple
       disabled={typologyFieldDisabled}
       readonly={typologyFieldDisabled}
     />
   </FieldModel>
+
   {#if displayInclusionNumeriqueFormNotice && !(isModel || useModel)}
     <Notice title={selectedInclusionNumeriqueFormNotice.title} type="info">
       <p class="text-f14">
@@ -267,58 +267,32 @@
       </p>
     </div>
 
-    <FieldModel
-      {showModel}
-      value={model?.name}
-      serviceValue={service.name}
-      useValue={useModelValue("name")}
-    >
-      <SchemaField
-        label={serviceSchema.name.name}
-        type="text"
+    <FieldModel {...fieldModelProps["name"]}>
+      <BasicInputField
+        id="name"
+        label="Titre"
         placeholder="Compléter"
-        schema={serviceSchema.name}
-        name="name"
-        errorMessages={$formErrors.name}
         bind:value={service.name}
       />
     </FieldModel>
 
-    <FieldModel
-      {showModel}
-      value={model?.shortDesc}
-      serviceValue={service.shortDesc}
-      useValue={useModelValue("shortDesc")}
-    >
-      <SchemaField
+    <FieldModel {...fieldModelProps["shortDesc"]}>
+      <TextAreaField
+        id="shortDesc"
         description="280 caractères maximum"
         placeholder="Compléter"
-        type="textarea"
-        label={serviceSchema.shortDesc.name}
-        schema={serviceSchema.shortDesc}
-        name="shortDesc"
-        errorMessages={$formErrors.shortDesc}
+        label="Résumé"
         bind:value={service.shortDesc}
       />
     </FieldModel>
 
-    <FieldModel
-      {showModel}
-      value={model?.fullDesc}
-      serviceValue={service.fullDesc}
-      useValue={useModelValue("fullDesc")}
-      paddingTop
-      type="markdown"
-    >
-      <SchemaField
+    <FieldModel {...fieldModelProps["fullDesc"]} paddingTop type="markdown">
+      <RichTextField
+        id="fullDesc"
         bind:this={fullDesc}
-        label={serviceSchema.fullDesc.name}
+        label="Description"
         placeholder="Informations concernant le service et ses spécificités."
-        type="richtext"
         vertical
-        schema={serviceSchema.fullDesc}
-        name="fullDesc"
-        errorMessages={$formErrors.fullDesc}
         bind:value={service.fullDesc}
       />
     </FieldModel>
@@ -333,20 +307,14 @@
     </div>
 
     <FieldModel
-      {showModel}
-      value={model?.subcategories}
-      serviceValue={service.subcategories}
-      options={servicesOptions.subcategories}
-      useValue={useModelValue("subcategories")}
+      {...fieldModelProps["subcategories"]}
       showUseValue={showModelSubcategoriesUseValue}
       type="array"
     >
-      <SchemaField
-        type="multiselect"
-        label={serviceSchema.subcategories.name}
-        schema={serviceSchema.subcategories}
-        name="subcategories"
-        errorMessages={$formErrors.subcategories}
+      <SelectField
+        id="subcategories"
+        multiple
+        label="Besoins"
         bind:value={service.subcategories}
         choices={subcategories}
         placeholder="Sélectionner"
@@ -354,38 +322,19 @@
       />
     </FieldModel>
 
-    <FieldModel
-      {showModel}
-      value={model?.kinds}
-      serviceValue={service.kinds}
-      options={servicesOptions.kinds}
-      useValue={useModelValue("kinds")}
-      type="array"
-    >
-      <SchemaField
-        type="checkboxes"
-        label={serviceSchema.kinds.name}
-        schema={serviceSchema.kinds}
-        name="kinds"
-        errorMessages={$formErrors.kinds}
+    <FieldModel {...fieldModelProps["kinds"]} type="array">
+      <CheckboxesField
+        id="kinds"
+        label="Types"
         bind:value={service.kinds}
         choices={servicesOptions.kinds}
       />
     </FieldModel>
 
-    <FieldModel
-      {showModel}
-      value={model?.isCumulative}
-      serviceValue={service.isCumulative}
-      useValue={useModelValue("isCumulative")}
-      type="boolean"
-    >
-      <SchemaField
-        type="toggle"
-        label={serviceSchema.isCumulative.name}
-        schema={serviceSchema.isCumulative}
-        name="isCumulative"
-        errorMessages={$formErrors.isCumulative}
+    <FieldModel {...fieldModelProps["isCumulative"]} type="boolean">
+      <ToggleField
+        id="isCumulative"
+        label="Cumulable"
         bind:value={service.isCumulative}
         description="Cumulable avec d’autres services"
       />
@@ -403,25 +352,16 @@
     </div>
 
     {#if servicesOptions.concernedPublic.length}
-      <FieldModel
-        {showModel}
-        value={model?.concernedPublic}
-        serviceValue={service.concernedPublic}
-        options={servicesOptions.concernedPublic}
-        useValue={useModelValue("concernedPublic")}
-        type="array"
-      >
-        <AddableMultiselect
+      <FieldModel {...fieldModelProps["concernedPublic"]} type="array">
+        <AddableMultiSelectField
+          id="concernedPublic"
           bind:values={service.concernedPublic}
           structure={service.structure}
           choices={servicesOptions.concernedPublic}
-          errorMessages={$formErrors.concernedPublic}
-          name="concernedPublic"
-          label={serviceSchema.concernedPublic.name}
+          label="Profils"
           placeholder="Tous publics"
           placeholderMulti="Sélectionner"
-          schema={serviceSchema.concernedPublic}
-          sortSelect
+          sort
           description="Plusieurs choix possibles"
           canAdd={canAddChoices}
         />
@@ -429,25 +369,16 @@
     {/if}
 
     {#if servicesOptions.accessConditions.length}
-      <FieldModel
-        {showModel}
-        value={model?.accessConditions}
-        serviceValue={service.accessConditions}
-        options={servicesOptions.accessConditions}
-        useValue={useModelValue("accessConditions")}
-        type="array"
-      >
-        <AddableMultiselect
+      <FieldModel {...fieldModelProps["accessConditions"]} type="array">
+        <AddableMultiSelectField
+          id="accessConditions"
           bind:values={service.accessConditions}
           structure={service.structure}
           choices={servicesOptions.accessConditions}
-          errorMessages={$formErrors.accessConditions}
-          name="accessConditions"
-          label={serviceSchema.accessConditions.name}
+          label="Critères"
           placeholder="Aucun"
           placeholderMulti="Choisir un autre critères d’admission"
-          schema={serviceSchema.accessConditions}
-          sortSelect
+          sort
           description="Plusieurs choix possibles"
           canAdd={canAddChoices}
         />
@@ -455,25 +386,16 @@
     {/if}
 
     {#if servicesOptions.requirements.length}
-      <FieldModel
-        {showModel}
-        value={model?.requirements}
-        serviceValue={service.requirements}
-        options={servicesOptions.requirements}
-        useValue={useModelValue("requirements")}
-        type="array"
-      >
-        <AddableMultiselect
+      <FieldModel {...fieldModelProps["requirements"]} type="array">
+        <AddableMultiSelectField
+          id="requirements"
           bind:values={service.requirements}
           structure={service.structure}
           choices={servicesOptions.requirements}
-          errorMessages={$formErrors.requirements}
-          name="requirements"
-          label={serviceSchema.requirements.name}
+          label="Pré-requis ou compétences"
           placeholder="Aucun"
           placeholderMulti="Choisir un autre pré-requis"
-          schema={serviceSchema.requirements}
-          sortSelect
+          sort
           description="Plusieurs choix possibles"
           canAdd={canAddChoices}
         />
@@ -487,43 +409,25 @@
     </div>
 
     <div class="flex flex-col lg:gap-s8">
-      <FieldModel
-        {showModel}
-        value={model?.coachOrientationModes}
-        serviceValue={service.coachOrientationModes}
-        options={servicesOptions.coachOrientationModes}
-        useValue={useModelValue("coachOrientationModes")}
-        type="array"
-      >
-        <SchemaField
-          label={serviceSchema.coachOrientationModes.name}
-          type="checkboxes"
+      <FieldModel {...fieldModelProps["coachOrientationModes"]} type="array">
+        <CheckboxesField
+          id="coachOrientationModes"
+          label="Pour les accompagnateurs"
           choices={moveToTheEnd(
             servicesOptions.coachOrientationModes,
             "value",
             "autre"
           )}
-          schema={serviceSchema.coachOrientationModes}
-          name="coachOrientationModes"
-          errorMessages={$formErrors.coachOrientationModes}
           bind:value={service.coachOrientationModes}
         />
       </FieldModel>
 
       {#if service.coachOrientationModes.includes("autre")}
-        <FieldModel
-          {showModel}
-          value={model?.coachOrientationModesOther}
-          serviceValue={service.coachOrientationModesOther}
-          useValue={useModelValue("coachOrientationModesOther")}
-        >
-          <SchemaField
+        <FieldModel {...fieldModelProps["coachOrientatonModesOther"]}>
+          <BasicInputField
+            id="coachOrientatonModesOther"
             hideLabel
             placeholder="Compléter"
-            type="text"
-            schema={serviceSchema.coachOrientationModesOther}
-            name="coachOrientationModesOther"
-            errorMessages={$formErrors.coachOrientationModesOther}
             bind:value={service.coachOrientationModesOther}
           />
         </FieldModel>
@@ -531,43 +435,25 @@
     </div>
 
     <div class="flex flex-col lg:gap-s8">
-      <FieldModel
-        {showModel}
-        value={model?.beneficiariesAccessModes}
-        serviceValue={service.beneficiariesAccessModes}
-        options={servicesOptions.beneficiariesAccessModes}
-        useValue={useModelValue("beneficiariesAccessModes")}
-        type="array"
-      >
-        <SchemaField
-          label={serviceSchema.beneficiariesAccessModes.name}
-          type="checkboxes"
+      <FieldModel {...fieldModelProps["beneficiariesAccessMode"]} type="array">
+        <CheckboxesField
+          id="beneficiariesAccessMode"
+          label="Pour les bénéficiaires"
           choices={moveToTheEnd(
             servicesOptions.beneficiariesAccessModes,
             "value",
             "autre"
           )}
-          schema={serviceSchema.beneficiariesAccessModes}
-          name="beneficiariesAccessModes"
-          errorMessages={$formErrors.beneficiariesAccessModes}
           bind:value={service.beneficiariesAccessModes}
         />
       </FieldModel>
 
       {#if service.beneficiariesAccessModes.includes("autre")}
-        <FieldModel
-          {showModel}
-          value={model?.beneficiariesAccessModesOther}
-          serviceValue={service.beneficiariesAccessModesOther}
-          useValue={useModelValue("beneficiariesAccessModesOther")}
-        >
-          <SchemaField
+        <FieldModel {...fieldModelProps["beneficiariesAccessModesOther"]}>
+          <BasicInputField
+            id="beneficiariesAccessModesOther"
             hideLabel
             placeholder="Merci de préciser la modalité"
-            type="text"
-            schema={serviceSchema.beneficiariesAccessModesOther}
-            name="beneficiariesAccessModesOther"
-            errorMessages={$formErrors.beneficiariesAccessModesOther}
             bind:value={service.beneficiariesAccessModesOther}
           />
         </FieldModel>
@@ -576,35 +462,27 @@
 
     <div class="flex flex-col gap-s4">
       <FieldModel
-        {showModel}
-        value={model?.feeCondition}
+        {...fieldModelProps["feeCondition"]}
         serviceValue={feeConditionClassic}
-        useValue={useModelValue("feeCondition")}
         type="text"
       >
         <SelectField
+          id="feeCondition"
           label="Frais à charge"
-          name="feeCondition"
           placeholder="Choississez..."
-          errorMessages={$formErrors.feeCondition}
           bind:value={feeConditionClassic}
           choices={servicesOptions.feeConditions.filter(
             (fee) => fee.value !== "pass-numerique"
           )}
-          onChange={handleFeeConditionChange}
+          onSelectChange={handleFeeConditionChange}
           display="vertical"
         />
       </FieldModel>
 
       {#if isNotFreeService(feeConditionClassic)}
-        <FieldModel
-          {showModel}
-          value={model?.feeDetails}
-          serviceValue={service.feeDetails}
-          useValue={useModelValue("feeDetails")}
-        >
-          <SchemaField
-            type="textarea"
+        <FieldModel {...fieldModelProps["feeDetails"]}>
+          <TextAreaField
+            id="feeDetails"
             label="Détails des frais à charge"
             placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
             schema={serviceSchema.feeDetails}
@@ -625,66 +503,39 @@
         prescription, simulateurs, etc.)
       </p>
     </div>
-    <FieldModel
-      {showModel}
-      value={model?.forms}
-      serviceValue={service.forms}
-      useValue={useModelValue("forms")}
-      type="files"
-    >
-      <Field
-        type="custom"
-        label={serviceSchema.forms.name}
-        errorMessages={$formErrors.forms}
-      >
-        <Uploader
-          slot="custom-input"
-          structureSlug={service.structure}
-          name="forms"
-          on:blur
-          bind:fileKeys={service.forms}
-        />
-      </Field>
+
+    <FieldModel {...fieldModelProps["forms"]} type="files">
+      <UploadField
+        id="forms"
+        label="Documents à compléter"
+        structureSlug={service.structure}
+        on:blur
+        bind:fileKeys={service.forms}
+      />
     </FieldModel>
 
     {#if servicesOptions.credentials.length}
-      <FieldModel
-        {showModel}
-        value={model?.credentials}
-        serviceValue={service.credentials}
-        useValue={useModelValue("credentials")}
-        options={servicesOptions.credentials}
-        type="array"
-      >
-        <AddableMultiselect
+      <FieldModel {...fieldModelProps["credentials"]} type="array">
+        <AddableMultiSelectField
+          id="credentials"
           bind:values={service.credentials}
           structure={service.structure}
           choices={servicesOptions.credentials}
-          errorMessages={$formErrors.credentials}
-          name="credentials"
-          label={serviceSchema.credentials.name}
+          label="Justificatifs à fournir"
           placeholder="Aucun"
           placeholderMulti="Choisir un autre justificatif"
-          schema={serviceSchema.credentials}
-          sortSelect
+          sort
           canAdd={canAddChoices}
         />
       </FieldModel>
     {/if}
 
-    <FieldModel
-      {showModel}
-      value={model?.onlineForm}
-      serviceValue={service.onlineForm}
-      useValue={useModelValue("onlineForm")}
-    >
-      <SchemaField
-        label={serviceSchema.onlineForm.name}
+    <FieldModel {...fieldModelProps["onlineForm"]}>
+      <BasicInputField
+        id="onlineForm"
+        label="Lien"
         placeholder="URL"
         type="url"
-        schema={serviceSchema.onlineForm}
-        name="onlineForm"
-        errorMessages={$formErrors.onlineForm}
         bind:value={service.onlineForm}
       />
     </FieldModel>
@@ -697,35 +548,20 @@
         service dans les résultat de recherche.
       </p>
     </div>
-    <FieldModel
-      {showModel}
-      value={model?.recurrence}
-      serviceValue={service.recurrence}
-      useValue={useModelValue("recurrence")}
-    >
-      <SchemaField
-        label={serviceSchema.recurrence.name}
-        type="text"
+    <FieldModel {...fieldModelProps["recurrence"]}>
+      <BasicInputField
+        id="recurrence"
+        label="Fréquence et horaires"
         placeholder="Ex. Tous les jours à 14h, une fois par mois, etc."
-        schema={serviceSchema.recurrence}
-        name="recurrence"
-        errorMessages={$formErrors.recurrence}
         bind:value={service.recurrence}
       />
     </FieldModel>
 
-    <FieldModel
-      {showModel}
-      value={model?.suspensionDate}
-      serviceValue={service.suspensionDate}
-      useValue={useModelValue("suspensionDate")}
-    >
-      <SchemaField
-        label={serviceSchema.suspensionDate.name}
+    <FieldModel {...fieldModelProps["suspensionDate"]}>
+      <BasicInputField
+        id="suspensionDate"
+        label="Date de fin"
         type="date"
-        schema={serviceSchema.suspensionDate}
-        name="suspensionDate"
-        errorMessages={$formErrors.suspensionDate}
         bind:value={service.suspensionDate}
       />
     </FieldModel>

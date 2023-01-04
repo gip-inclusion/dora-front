@@ -8,7 +8,6 @@
   } from "$lib/validation/validation";
   import { onDestroy, onMount, setContext } from "svelte";
 
-  export let extraClass = "";
   export let data;
   export let schema;
   export let requesting = false;
@@ -25,6 +24,7 @@
   });
 
   async function handleEltChange(evt) {
+    console.log(evt);
     $formErrors.nonFieldErrors = [];
 
     // We want to listen to both DOM and component events
@@ -54,6 +54,7 @@
   setContext<ValidationContext>(contextValidationKey, {
     onBlur: handleEltChange,
     onChange: handleEltChange,
+    onInput: handleEltChange,
   });
 
   async function getJsonResult(result) {
@@ -96,10 +97,6 @@
   }
 </script>
 
-<form
-  on:submit|preventDefault={handleSubmit}
-  novalidate
-  class="flex-row gap-s24 {extraClass}"
->
+<form on:submit|preventDefault={handleSubmit} novalidate>
   <slot />
 </form>

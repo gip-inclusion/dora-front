@@ -12,7 +12,6 @@
   export let name = "";
   export let type: InputType | "custom";
   export let errorMessages = [];
-  export let allowHTMLError = false;
   export let autocomplete = undefined;
   export let vertical = false;
   export let label = "";

@@ -8,7 +8,7 @@
   } from "$lib/validation/validation";
   import { getContext } from "svelte";
 
-  export let handleChange;
+  export let onChange;
   export let placeholder = null;
   export let disabled = false;
   export let name;
@@ -47,7 +47,7 @@
   bind:value
   on:blur={handleBlur}
   {name}
-  onChange={handleChange}
+  {onChange}
   {initialValue}
   {placeholder}
   {disabled}

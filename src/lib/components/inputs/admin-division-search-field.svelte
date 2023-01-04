@@ -1,21 +1,18 @@
 <script lang="ts">
-  import type { Choice } from "$lib/types";
   import FieldWrapper from "./field-wrapper.svelte";
-  import Select from "./select/select.svelte";
+  import AdminDivisionSearch from "../specialized/admin-division-search.svelte";
 
   export let id: string;
-  export let value;
+  export let value: string | undefined = undefined;
   export let disabled = false;
   export let readonly = false;
   export let placeholder = "";
-  export let initialValue = undefined;
+  export let initialValue = "";
 
-  // Spécifique du select
-  export let choices: Choice[];
-  export let sort = false;
-  export let onSelectChange = undefined;
-  export let placeholderMulti = "";
-  export let multiple = false;
+  // Spécifiques:
+  export let searchType: string;
+  export let onChange: (newValue: string) => void;
+  export let choices;
 
   // Proxy vers le FieldWrapper
   export let label: string;
@@ -27,8 +24,8 @@
 </script>
 
 <FieldWrapper
-  {id}
   let:onBlur
+  {id}
   {label}
   {description}
   {hidden}
@@ -36,18 +33,11 @@
   {required}
   {vertical}
 >
-  <Select
-    {id}
-    {choices}
-    {sort}
-    bind:value
-    on:blur={onBlur}
-    onChange={onSelectChange}
-    {placeholder}
-    {placeholderMulti}
-    {disabled}
-    {readonly}
+  <AdminDivisionSearch
+    id="diffusionZoneDetails"
+    {searchType}
+    handleChange={onChange}
     {initialValue}
-    {multiple}
+    bind:choices
   />
 </FieldWrapper>

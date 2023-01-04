@@ -6,14 +6,33 @@ import { z } from "zod";
 
 // https://zod.dev/ERROR_HANDLING?id=customizing-errors-with-zoderrormap
 const customErrorMap: z.ZodErrorMap = (issue, ctx) => {
-  // console.log(issue);
+  if (issue.code === z.ZodIssueCode.invalid_type && issue.received === "null") {
+    return {
+      message: "Information requise.",
+    };
+  }
   if (issue.code === z.ZodIssueCode.invalid_string) {
     if (issue.validation === "email") {
       return {
         message:
-          "Veuillez saisir une adresse courriel valide (ex: nom.prenom@organisation.fr)",
+          "Veuillez saisir une adresse courriel valide (ex: nom.prenom@organisation.fr).",
       };
     }
+    if (issue.validation === "url") {
+      return {
+        message: "Veuillez saisir une URL valide (ex: https://exemple.fr).",
+      };
+    }
+  }
+  if (issue.code === z.ZodIssueCode.too_small && issue.minimum === 1) {
+    return {
+      message: "Information requise.",
+    };
+  }
+  if (issue.code === z.ZodIssueCode.too_big) {
+    return {
+      message: `Ce champ ne doit pas depasser ${issue.maximum} caractères.`,
+    };
   }
   return { message: ctx.defaultError };
 };
@@ -23,6 +42,7 @@ z.setErrorMap(customErrorMap);
 export type ValidationContext = {
   onBlur: (evt: any) => Promise<void>;
   onChange: (evt: any) => Promise<void>;
+  onInput: (evt: any) => Promise<void>;
 };
 export const contextValidationKey = {};
 // TODO: type it properly

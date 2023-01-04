@@ -6,13 +6,14 @@
   } from "$lib/validation/validation";
   import { getContext } from "svelte";
 
+  export let id: string;
   export let onChange: (newValue: string) => void;
   export let placeholder: string;
   export let cityCode: string;
   export let disabled: boolean;
-  export let name: string;
-  export let value = undefined;
+  export let value: string | undefined = undefined;
   export let initialValue: string | undefined = undefined;
+  export let readonly = false;
 
   const banAPIUrl = "https://api-adresse.data.gouv.fr/search/";
 
@@ -37,9 +38,9 @@
 </script>
 
 <Select
+  {id}
   bind:value
   on:blur={handleBlur}
-  {name}
   {onChange}
   {initialValue}
   {placeholder}
@@ -49,4 +50,5 @@
   delay="200"
   localFiltering={false}
   minCharactersToSearch="3"
+  {readonly}
 />

@@ -73,6 +73,7 @@
             disabled={!isOpen}
             class:disabled-bg={!isOpen}
             type="time"
+            max="24"
           />
         </label>
       {/if}

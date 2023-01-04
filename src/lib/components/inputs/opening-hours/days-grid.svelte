@@ -8,8 +8,8 @@
   import { createEventDispatcher } from "svelte";
   import DayField from "./day-field.svelte";
 
+  export let id: string;
   export let value;
-  export let name;
 
   const dispatch = createEventDispatcher();
 
@@ -18,7 +18,7 @@
   function handleHourChange(day: Day, time: DayPeriod) {
     data[day][time].touched = true;
     value = fromJsonToOsmString(data);
-    dispatch("change", name);
+    dispatch("change", id);
   }
 
   const weekDays: { label: string; day: Day }[] = [

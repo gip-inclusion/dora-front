@@ -1,7 +1,7 @@
 <script lang="ts">
   import AutoComplete from "./simple-autocomplete.svelte";
 
-  export let name = "";
+  export let id: string;
   export let choices = undefined;
   export let sort = false;
   export let value = undefined;
@@ -34,8 +34,8 @@
 </script>
 
 <AutoComplete
-  {name}
-  inputId={name}
+  name={id}
+  inputId={id}
   bind:value
   on:blur
   {localFiltering}
@@ -54,7 +54,6 @@
   className="rounded focus-within:shadow-focus"
   inputClassName="focus:outline-none border rounded border-gray-03"
   dropdownClassName="!top-[48px] rounded shadow-md"
-  html5autocomplete={false}
   showLoadingIndicator
   {hideArrow}
   {showClear}

@@ -1,91 +1,54 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Alert from "$lib/components/display/alert.svelte";
+  import Button from "$lib/components/display/button.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
+  import Form from "$lib/components/hoc/form.svelte";
   import { publishServiceSuggestion } from "$lib/requests/services";
   import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import { contribSchema } from "$lib/validation/schemas/service";
-  import {
-    contextValidationKey,
-    formErrors,
-    injectAPIErrors,
-    validate,
-    type ValidationContext,
-  } from "$lib/validation/validation";
+  import { formErrors } from "$lib/validation/validation";
   import debounce from "lodash.debounce";
-  import { onDestroy, onMount, setContext } from "svelte";
+  import { onDestroy, onMount } from "svelte";
   import Fields from "./fields.svelte";
-  import NavButtons from "./nav-buttons.svelte";
 
   export let servicesOptions, source;
+  let requesting = false;
 
-  let service = Object.fromEntries(
-    Object.entries(contribSchema).map(([fieldName, props]) => [
-      fieldName,
-      props.default,
-    ])
-  );
-
-  async function handleEltChange(evt) {
-    // We want to listen to both DOM and component events
-    const fieldname = evt.target?.name || evt.detail;
-    // Sometimes (particularly with Select components), the event is received
-    // before the field value is updated in  `service`, although it's not
-    // supposed to happen. This setTimeout is a unsatisfying workaround to that.
-    await new Promise((resolve) => {
-      setTimeout(() => {
-        const filteredSchema =
-          fieldname && contribSchema[fieldname]
-            ? { [fieldname]: contribSchema[fieldname] }
-            : {};
-
-        const { validatedData, valid } = validate(service, filteredSchema, {
-          fullSchema: contribSchema,
-          noScroll: true,
-          servicesOptions: servicesOptions,
-        });
-        if (valid) {
-          service = { ...service, ...validatedData };
-        }
-        resolve(true);
-      }, 200);
-    });
-  }
-
-  setContext<ValidationContext>(contextValidationKey, {
-    onBlur: handleEltChange,
-    onChange: handleEltChange,
-  });
+  console.log(contribSchema.shape);
+  let service = contribSchema.parse({});
+  console.log(service);
+  // Object.fromEntries(
+  //   Object.entries(contribSchema.shape).map(([fieldName, props]) => [
+  //     fieldName,
+  //     props.default,
+  //   ])
+  // );
 
   let errorDiv;
-  const requiredFields = Object.keys(contribSchema).filter(
-    (k) => contribSchema[k].required
-  );
+  // const requiredFields = Object.keys(contribSchema).filter(
+  //   (k) => contribSchema[k].required
+  // );
 
   let currentPageIsValid = false;
 
-  $: currentPageIsValid = requiredFields.every((f) =>
-    Array.isArray(service[f]) ? service[f].length : service[f]
-  );
+  // $: currentPageIsValid = requiredFields.every((f) =>
+  //   Array.isArray(service[f]) ? service[f].length : service[f]
+  // );
 
-  async function handlePublish() {
-    // Validate the whole form
-    const { valid } = validate(service, contribSchema, {
-      servicesOptions: servicesOptions,
-    });
+  function handleChange(validatedData) {
+    service = { ...service, ...validatedData };
+  }
 
-    if (valid) {
-      const result = await publishServiceSuggestion(service, source);
+  function handleSubmit(validatedData) {
+    return publishServiceSuggestion(validatedData, source);
+  }
 
-      if (result.ok && result.data) {
-        serviceSubmissionTimeMeter.setId(
-          encodeURIComponent(`${result.data.siret}--${result.data.name}`)
-        );
-        goto(`/contribuer/merci`);
-      } else {
-        injectAPIErrors(result.error, {});
-      }
-    }
+  async function handleSuccess(result) {
+    serviceSubmissionTimeMeter.setId(
+      encodeURIComponent(`${result.data.siret}--${result.data.name}`)
+    );
+    goto(`/contribuer/merci`);
   }
 
   // Counter for filling duration
@@ -137,17 +100,32 @@
 
 <CenteredGrid bgColor="bg-gray-bg">
   <div class="lg:w-2/3">
-    <div bind:this={errorDiv}>
-      {#each $formErrors.nonFieldErrors || [] as msg}
-        <Alert label={msg} />
-      {/each}
-    </div>
-    <Fields bind:service {servicesOptions} />
+    <Form
+      data={service}
+      schema={contribSchema}
+      onChange={handleChange}
+      onSubmit={handleSubmit}
+      onSuccess={handleSuccess}
+      bind:requesting
+    >
+      <div bind:this={errorDiv}>
+        {#each $formErrors.nonFieldErrors || [] as msg}
+          <Alert label={msg} />
+        {/each}
+      </div>
+      <Fields bind:service {servicesOptions} />
+    </Form>
   </div>
 </CenteredGrid>
 
 {#if service.siret}
   <CenteredGrid>
-    <NavButtons {currentPageIsValid} onPublish={handlePublish} />
+    <Button
+      on:submit
+      name="validate"
+      type="submit"
+      label="Envoyer la contribution"
+      disabled={requesting || !currentPageIsValid}
+    />
   </CenteredGrid>
 {/if}

@@ -1,6 +1,6 @@
 <script lang="ts">
   import FieldSet from "$lib/components/display/fieldset.svelte";
-  import SchemaField from "$lib/components/inputs/obsolete/schema-field.svelte";
+  import SelectField from "$lib/components/inputs/select-field.svelte";
   import { getModel, getServicesOptions } from "$lib/requests/services";
   import { getStructure } from "$lib/requests/structures";
   import { formErrors } from "$lib/validation/validation";
@@ -18,7 +18,7 @@
   ];
 
   // met à jour les options de service et le modèle en fonction des champs spécifiques
-  // cette fonction est comliqué car sur les champs spécifiques,
+  // cette fonction est comliquée car sur les champs spécifiques,
   // la `value` peut ĕtre soit une id numérique
   // soit une string sur les modèles.
   // on devrait pourvoir simplifier ici si l'API devient plus cohérente
@@ -100,20 +100,35 @@
       updateServiceOptions();
     }
   });
+
+  function isRequired(fieldName: string) {
+    return !(
+      serviceSchema.shape[fieldName].isOptional() ||
+      serviceSchema.shape[fieldName].isNullable()
+    );
+  }
+
+  $: props = Object.fromEntries(
+    Object.keys(serviceSchema.shape).map((k) => [
+      k,
+      {
+        name: k,
+        errorMessages: $formErrors[k],
+        required: isRequired(k),
+      },
+    ])
+  );
 </script>
 
 <FieldSet noTopPadding>
-  <SchemaField
-    type="select"
-    schema={serviceSchema.structure}
-    label={serviceSchema.structure.name}
-    choices={structures.map((s) => ({ value: s.slug, label: s.name }))}
-    name="structure"
-    errorMessages={$formErrors.structure}
+  <SelectField
+    {...props["structure"]}
+    label="Structure"
     bind:value={service.structure}
+    choices={structures.map((s) => ({ value: s.slug, label: s.name }))}
     onSelectChange={handleStructureChange}
-    sortSelect
-    placeholder="Sélectionner"
+    sort
     disabled={!showStructures}
+    placeholder="Sélectionnez la structure…"
   />
 </FieldSet>

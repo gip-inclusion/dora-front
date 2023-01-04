@@ -1,8 +1,8 @@
 <script lang="ts">
   import { alertIcon } from "$lib/icons";
 
-  export let id;
-  export let label;
+  export let id: string;
+  export let label: string;
 </script>
 
 <div {id} class="flex flex-row items-center pt-s4 text-f12 text-error">
