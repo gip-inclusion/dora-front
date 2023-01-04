@@ -5,14 +5,13 @@
   import Fieldset from "$lib/components/display/fieldset.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import Form from "$lib/components/hoc/form.svelte";
-  import AddressSearchField from "$lib/components/inputs/address-search-field.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
-  import CitySearchField from "$lib/components/inputs/city-search-field.svelte";
   import HiddenField from "$lib/components/inputs/hidden-field.svelte";
   import OpeningHoursField from "$lib/components/inputs/opening-hours-field.svelte";
   import RichTextField from "$lib/components/inputs/rich-text-field.svelte";
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import TextAreaField from "$lib/components/inputs/textarea-field.svelte";
+  import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
   import { createStructure, modifyStructure } from "$lib/requests/structures";
   import type { Structure, StructuresOptions } from "$lib/types";
   import { getDepartmentFromCityCode } from "$lib/utils/misc";
@@ -54,23 +53,23 @@
     goto(`/structures/${result.slug}`);
   }
 
-  function handleCityChange(city) {
-    console.log("change");
-    structure.city = city?.name;
-    structure.cityCode = city?.code;
-  }
+  // function handleCityChange(city) {
+  //   console.log("change");
+  //   structure.city = city?.name;
+  //   structure.cityCode = city?.code;
+  // }
 
-  function handleAddressChange(address) {
-    console.log(address);
-    const props = address?.properties;
-    const coords = address?.geometry.coordinates;
-    const lat = coords?.[1];
-    const long = coords?.[0];
-    structure.address1 = props?.name;
-    structure.postalCode = props?.postcode;
-    structure.longitude = long;
-    structure.latitude = lat;
-  }
+  // function handleAddressChange(address) {
+  //   console.log(address);
+  //   const props = address?.properties;
+  //   const coords = address?.geometry.coordinates;
+  //   const lat = coords?.[1];
+  //   const long = coords?.[0];
+  //   structure.address1 = props?.name;
+  //   structure.postalCode = props?.postcode;
+  //   structure.longitude = long;
+  //   structure.latitude = lat;
+  // }
 
   function getAccessLibreUrl(structure: Structure) {
     const department = getDepartmentFromCityCode(structure.cityCode);
@@ -128,40 +127,7 @@
         required
       />
 
-      <CitySearchField
-        id="city"
-        label="Ville"
-        initialValue={structure.city}
-        onChange={handleCityChange}
-        placeholder="Paris"
-        required
-      />
-
-      <AddressSearchField
-        id="address1"
-        label="Adresse"
-        cityCode={structure.cityCode}
-        initialValue={structure.address1}
-        onChange={handleAddressChange}
-        disabled={!structure.cityCode}
-        placeholder="127 rue de Grenelle"
-        required
-      />
-
-      <BasicInputField
-        id="address2"
-        label="Complément d’adresse"
-        bind:value={structure.address2}
-        placeholder="étage, bâtiment…"
-      />
-
-      <BasicInputField
-        id="postalCode"
-        label="Code postal"
-        bind:value={structure.postalCode}
-        placeholder="75007"
-        required
-      />
+      <FieldsAddress bind:entity={structure} />
 
       <BasicInputField
         id="accesslibreUrl"
@@ -267,9 +233,7 @@
       />
 
       <!-- Champs cachés -->
-      <HiddenField id="cityCode" bind:value={structure.cityCode} />
-      <HiddenField id="longitude" bind:value={structure.longitude} />
-      <HiddenField id="latitude" bind:value={structure.latitude} />
+
       <HiddenField id="ape" bind:value={structure.ape} />
 
       <hr />

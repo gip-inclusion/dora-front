@@ -10,7 +10,7 @@ const emailRegexp =
 
 const phoneRegexp = /^\d{10}$/u;
 
-export const postalCodeRegexp = /^\d[0-9abAB]\d{3}$/u;
+const postalCodeRegexp = /^\d[0-9abAB]\d{3}$/u;
 
 export const siretRegexp = /^\d{14}$/u;
 /* eslint-enable */

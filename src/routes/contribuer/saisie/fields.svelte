@@ -2,13 +2,16 @@
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import Notice from "$lib/components/display/notice.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
+  import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
   import RichTextField from "$lib/components/inputs/rich-text-field.svelte";
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import TextareaField from "$lib/components/inputs/textarea-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
   import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
+  import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
-  import { orderAndReformatSubcategories } from "$lib/utils/misc";
+  import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
+  import { isNotFreeService } from "$lib/utils/service";
   // import { tick } from "svelte";
 
   export let servicesOptions: ServicesOptions;
@@ -161,26 +164,23 @@
       _sort
     />
 
-    <!-- <SchemaField
-      type="multiselect"
+    <SelectField
+      multiple
       label="Besoin(s) auxquels ce service répond"
-      name="subcategories"
-      errorMessages={$formErrors.subcategories}
+      id="subcategories"
       bind:value={service.subcategories}
       choices={subcategories}
       placeholder="Choisissez les sous-catégories"
       placeholderMulti="Choisissez les sous-catégories"
     />
 
-    <SchemaField
-      type="checkboxes"
+    <CheckboxesField
       label="Type de service"
-      name="kinds"
-      errorMessages={$formErrors.kinds}
+      id="kinds"
       bind:value={service.kinds}
       choices={servicesOptions.kinds}
       description="Quelle est la nature de ce service."
-    /> -->
+    />
   </FieldSet>
 
   <div class="mt-s48">
@@ -191,7 +191,7 @@
       </p>
     </Notice>
   </div>
-  <!--
+
   <FieldSet title="Contact du référent">
     <div slot="help">
       <p class="text-f14">
@@ -201,31 +201,24 @@
       </p>
     </div>
 
-    <SchemaField
+    <BasicInputField
       label="Prénom et nom"
       placeholder="Prénom et nom"
-      type="text"
-      schema={contribSchema.contactName}
-      name="contactName"
-      errorMessages={$formErrors.contactName}
+      id="contactName"
       bind:value={service.contactName}
     />
-    <SchemaField
+    <BasicInputField
       type="tel"
       label="Numéro de téléphone"
       placeholder="05 ou 06 00 00 00 00"
-      schema={contribSchema.contactPhone}
-      name="contactPhone"
-      errorMessages={$formErrors.contactPhone}
+      id="contactPhone"
       bind:value={service.contactPhone}
     />
-    <SchemaField
+    <BasicInputField
       type="email"
       label="Courriel"
       placeholder="Courriel de la personne à contacter"
-      schema={contribSchema.contactEmail}
-      name="contactEmail"
-      errorMessages={$formErrors.contactEmail}
+      id="contactEmail"
       bind:value={service.contactEmail}
     />
   </FieldSet>
@@ -244,13 +237,12 @@
       <p class="text-f14">Publics auxquels le service s’adresse.</p>
     </div>
 
-    <SchemaField
+    <SelectField
+      multiple
       type="multiselect"
       label="Profils"
       description="Plusieurs choix possibles"
-      schema={contribSchema.concernedPublic}
-      name="concernedPublic"
-      errorMessages={$formErrors.concernedPublic}
+      id="concernedPublic"
       bind:value={service.concernedPublic}
       choices={servicesOptions.concernedPublic}
       placeholder="Sélectionner"
@@ -258,13 +250,11 @@
       sortSelect
     />
 
-    <SchemaField
-      type="multiselect"
+    <SelectField
+      multiple
       label="Critères"
       description="Plusieurs choix possibles"
-      schema={contribSchema.accessConditions}
-      name="accessConditions"
-      errorMessages={$formErrors.accessConditions}
+      id="accessConditions"
       bind:value={service.accessConditions}
       choices={servicesOptions.accessConditions}
       placeholder="Sélectionner"
@@ -272,12 +262,11 @@
       sortSelect
     />
 
-    <SchemaField
+    <SelectField
+      multiple
       type="multiselect"
       description="Plusieurs choix possibles"
-      schema={contribSchema.requirements}
-      name="requirements"
-      errorMessages={$formErrors.requirements}
+      id="requirements"
       bind:value={service.requirements}
       choices={servicesOptions.requirements}
       label="Pré-requis ou compétences"
@@ -288,34 +277,26 @@
 
     <SelectField
       label="Frais à charge du bénéficiaire"
-      name="feeCondition"
+      id="feeCondition"
       placeholder="Choississez..."
-      errorMessages={$formErrors.feeCondition}
       bind:value={service.feeCondition}
       choices={servicesOptions.feeConditions}
-      display="vertical"
     />
 
     {#if isNotFreeService(service.feeCondition)}
-      <SchemaField
-        type="textarea"
+      <TextareaField
         label="Détails des frais à charge"
         placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
-        schema={contribSchema.feeDetails}
-        name="feeDetails"
-        errorMessages={$formErrors.feeDetails}
+        id="feeDetails"
         bind:value={service.feeDetails}
       />
     {/if}
   </FieldSet>
 
   <FieldSet title="Accueil">
-    <SchemaField
-      type="checkboxes"
+    <CheckboxesField
       label="Mode d’accueil"
-      schema={contribSchema.locationKinds}
-      name="locationKinds"
-      errorMessages={$formErrors.locationKinds}
+      id="locationKinds"
       bind:value={service.locationKinds}
       choices={moveToTheEnd(
         servicesOptions.locationKinds,
@@ -324,96 +305,17 @@
       )}
     />
     {#if service.locationKinds.includes("a-distance")}
-      <SchemaField
+      <BasicInputField
         placeholder="https://"
         type="url"
         label="Lien visioconférence"
-        schema={contribSchema.remoteUrl}
-        name="remoteUrl"
-        errorMessages={$formErrors.remoteUrl}
+        id="remoteUrl"
         bind:value={service.remoteUrl}
       />
     {/if}
 
     {#if service.locationKinds.includes("en-presentiel")}
-      <Button
-        on:click={fillAdress}
-        secondary
-        small
-        label="Utiliser l'adresse de la structure"
-      />
-
-      {#if showServiceAddress}
-        <Field type="custom" label="Ville" errorMessages={$formErrors.city}>
-          <CitySearch
-            slot="custom-input"
-            name="city"
-            placeholder="Saisissez et validez votre ville"
-            initialValue={service.city}
-            onChange={handleCityChange}
-          />
-        </Field>
-
-        <Field
-          type="custom"
-          label="Adresse"
-          errorMessages={$formErrors.address1}
-        >
-          <AddressSearch
-            slot="custom-input"
-            name="address1"
-            disabled={!service.cityCode}
-            cityCode={service.cityCode}
-            placeholder="Saisissez et validez votre adresse"
-            initialValue={service.address1}
-            handleChange={handleAddressChange}
-          />
-        </Field>
-
-        <SchemaField
-          type="text"
-          label="Complément d’adresse"
-          placeholder="Compléments d’adresse"
-          schema={contribSchema.address2}
-          name="address2"
-          errorMessages={$formErrors.address2}
-          bind:value={service.address2}
-        />
-
-        <SchemaField
-          type="text"
-          label="Code postal"
-          placeholder="Code postal"
-          schema={contribSchema.postalCode}
-          name="postalCode"
-          errorMessages={$formErrors.postalCode}
-          bind:value={service.postalCode}
-        />
-
-        <SchemaField
-          type="hidden"
-          schema={contribSchema.cityCode}
-          name="cityCode"
-          errorMessages={$formErrors.cityCode}
-          bind:value={service.cityCode}
-        />
-
-        <SchemaField
-          type="hidden"
-          schema={contribSchema.longitude}
-          name="longitude"
-          errorMessages={$formErrors.longitude}
-          bind:value={service.longitude}
-        />
-
-        <SchemaField
-          type="hidden"
-          schema={contribSchema.latitude}
-          name="latitude"
-          errorMessages={$formErrors.latitude}
-          bind:value={service.latitude}
-        />
-      {/if}
+      <FieldsAddress bind:entity={service} bind:parent={establishment} />
     {/if}
-  </FieldSet> -->
+  </FieldSet>
 {/if}

@@ -3,7 +3,6 @@
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import { getModel, getServicesOptions } from "$lib/requests/services";
   import { getStructure } from "$lib/requests/structures";
-  import { formErrors } from "$lib/validation/validation";
   import { onMount } from "svelte";
 
   export let servicesOptions, serviceSchema, service, structures, structure;
@@ -100,29 +99,11 @@
       updateServiceOptions();
     }
   });
-
-  function isRequired(fieldName: string) {
-    return !(
-      serviceSchema.shape[fieldName].isOptional() ||
-      serviceSchema.shape[fieldName].isNullable()
-    );
-  }
-
-  $: props = Object.fromEntries(
-    Object.keys(serviceSchema.shape).map((k) => [
-      k,
-      {
-        name: k,
-        errorMessages: $formErrors[k],
-        required: isRequired(k),
-      },
-    ])
-  );
 </script>
 
 <FieldSet noTopPadding>
   <SelectField
-    {...props["structure"]}
+    id="structure"
     label="Structure"
     bind:value={service.structure}
     choices={structures.map((s) => ({ value: s.slug, label: s.name }))}

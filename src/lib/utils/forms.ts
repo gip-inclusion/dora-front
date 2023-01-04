@@ -1,13 +1,12 @@
 import type { Model, Service, ServicesOptions } from "$lib/types";
-import { modelSchema } from "$lib/validation/schemas/service";
+import { modelSchema, serviceSchema } from "$lib/validation/schemas/service";
 
-const defaultServiceCache = {};
-// Object.fromEntries(
-//   Object.entries(serviceSchema).map(([fieldName, props]) => [
-//     fieldName,
-//     props.default,
-//   ])
-// );
+const defaultServiceCache = Object.fromEntries(
+  Object.entries(serviceSchema).map(([fieldName, props]) => [
+    fieldName,
+    props.default,
+  ])
+);
 
 export function getNewService() {
   return JSON.parse(JSON.stringify(defaultServiceCache));
@@ -38,7 +37,7 @@ export function createModelFromService(service) {
 }
 
 export function getModelInputProps(
-  schema: Zod.ZodObjectDef,
+  schema,
   service: Service,
   servicesOptions: ServicesOptions,
   showModel: boolean,
@@ -46,7 +45,7 @@ export function getModelInputProps(
   model?: Model
 ) {
   const result = Object.fromEntries(
-    Object.keys(schema.shape).map((fieldName) => [
+    Object.keys(schema).map((fieldName) => [
       fieldName,
       {
         showModel,

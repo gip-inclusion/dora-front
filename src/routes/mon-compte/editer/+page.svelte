@@ -9,7 +9,7 @@
   import { arrowRightSIcon } from "$lib/icons";
   import { getApiURL } from "$lib/utils/api";
   import { refreshUserInfo, token, userInfo } from "$lib/utils/auth";
-  import userProfileSchema from "$lib/validation/schemas/user-profile";
+  import { userProfileSchema } from "$lib/validation/schemas/user-profile";
 
   function handleChange(validatedData) {
     console.log(validatedData);

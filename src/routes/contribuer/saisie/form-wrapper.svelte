@@ -15,26 +15,23 @@
   export let servicesOptions, source;
   let requesting = false;
 
-  console.log(contribSchema.shape);
-  let service = contribSchema.parse({});
-  console.log(service);
-  // Object.fromEntries(
-  //   Object.entries(contribSchema.shape).map(([fieldName, props]) => [
-  //     fieldName,
-  //     props.default,
-  //   ])
-  // );
+  let service = Object.fromEntries(
+    Object.entries(contribSchema).map(([fieldName, props]) => [
+      fieldName,
+      props.default,
+    ])
+  );
 
   let errorDiv;
-  // const requiredFields = Object.keys(contribSchema).filter(
-  //   (k) => contribSchema[k].required
-  // );
+  const requiredFields = Object.keys(contribSchema).filter(
+    (k) => contribSchema[k].required
+  );
 
   let currentPageIsValid = false;
 
-  // $: currentPageIsValid = requiredFields.every((f) =>
-  //   Array.isArray(service[f]) ? service[f].length : service[f]
-  // );
+  $: currentPageIsValid = requiredFields.every((f) =>
+    Array.isArray(service[f]) ? service[f].length : service[f]
+  );
 
   function handleChange(validatedData) {
     service = { ...service, ...validatedData };

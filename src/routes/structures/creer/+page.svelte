@@ -9,7 +9,6 @@
   import type { PageData } from "./$types";
 
   export let data: PageData;
-  console.log(structureSchema.shape);
   // TODO: create default structure
   const defaultStructure = Object.fromEntries(
     Object.entries(structureSchema).map(([fieldName, props]) => [

@@ -1,25 +1,16 @@
 <script lang="ts">
-  import Button from "$lib/components/display/button.svelte";
   import FieldSet from "$lib/components/display/fieldset.svelte";
-  import AddressSearchField from "$lib/components/inputs/address-search-field.svelte";
   import AdminDivisionSearchField from "$lib/components/inputs/admin-division-search-field.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
-  import CitySearchField from "$lib/components/inputs/city-search-field.svelte";
-  import HiddenField from "$lib/components/inputs/hidden-field.svelte";
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
+  import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
   import { moveToTheEnd } from "$lib/utils/misc";
-  import { tick } from "svelte";
 
   export let servicesOptions, serviceSchema, service, structure;
 
   let adminDivisionChoices = [];
-
-  function handleCityChange(city) {
-    service.city = city?.name;
-    service.cityCode = city?.code;
-  }
 
   function handleDiffusionZoneTypeChange(type) {
     if (type !== service.diffusionZoneType) {
@@ -32,44 +23,6 @@
 
   function handlediffusionZoneDetailsChange(details) {
     service.diffusionZoneDetails = details;
-  }
-
-  function handleAddressChange(address) {
-    const props = address?.properties;
-    const coords = address?.geometry.coordinates;
-    const lat = coords?.[1];
-    const long = coords?.[0];
-    service.address1 = props?.name;
-    service.postalCode = props?.postcode;
-    service.longitude = long;
-    service.latitude = lat;
-  }
-
-  let showServiceAddress = true;
-
-  async function fillAddress() {
-    showServiceAddress = false;
-
-    if (structure) {
-      const {
-        city,
-        address1,
-        address2,
-        postalCode,
-        cityCode,
-        latitude,
-        longitude,
-      } = structure;
-      service.city = city;
-      service.address1 = address1;
-      service.address2 = address2;
-      service.postalCode = postalCode;
-      service.cityCode = cityCode;
-      service.latitude = latitude;
-      service.longitude = longitude;
-    }
-    await tick();
-    showServiceAddress = true;
   }
 
   // async function handleEltChange(evt) {
@@ -105,6 +58,7 @@
   // setContext<ValidationContext>(contextValidationKey, {
   //   onBlur: handleEltChange,
   //   onChange: handleEltChange,
+  // onInput: handleEltChange,
   // });
 </script>
 
@@ -171,52 +125,7 @@
   {/if}
 
   {#if service.locationKinds.includes("en-presentiel")}
-    <Button
-      on:click={fillAddress}
-      secondary
-      small
-      label="Utiliser l'adresse de la structure"
-    />
-
-    {#if showServiceAddress}
-      <CitySearchField
-        id="city"
-        label="Ville"
-        placeholder="Saisissez et validez votre ville"
-        initialValue={service.city}
-        onChange={handleCityChange}
-      />
-
-      <AddressSearchField
-        id="address1"
-        label="Adresse"
-        disabled={!service.cityCode}
-        cityCode={service.cityCode}
-        placeholder="3 rue du parc"
-        initialValue={service.address1}
-        handleChange={handleAddressChange}
-      />
-
-      <BasicInputField
-        label="Complément d’adresse"
-        placeholder="batiment, escalier, etc."
-        id="address2"
-        bind:value={service.address2}
-      />
-
-      <BasicInputField
-        label="Code postal"
-        placeholder="00000"
-        id="postalCode"
-        bind:value={service.postalCode}
-      />
-
-      <HiddenField id="cityCode" bind:value={service.cityCode} />
-
-      <HiddenField id="longitude" bind:value={service.longitude} />
-
-      <HiddenField id="latitude" bind:value={service.latitude} />
-    {/if}
+    <FieldsAddress bind:entity={service} bind:parent={structure} />
   {/if}
 </FieldSet>
 
