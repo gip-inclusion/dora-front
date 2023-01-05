@@ -3,11 +3,20 @@
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import { getModel, getServicesOptions } from "$lib/requests/services";
   import { getStructure } from "$lib/requests/structures";
+  import type {
+    Model,
+    Service,
+    ServicesOptions,
+    ShortStructure,
+  } from "$lib/types";
   import { onMount } from "svelte";
 
-  export let servicesOptions, serviceSchema, service, structures, structure;
+  export let servicesOptions: ServicesOptions,
+    service: Service,
+    structures: ShortStructure[],
+    structure: ShortStructure;
   export let isModel = false;
-  export let model = null;
+  export let model: Model | undefined = undefined;
 
   const propsWithSpecificFields = [
     "accessConditions",

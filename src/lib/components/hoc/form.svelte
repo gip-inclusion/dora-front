@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { ServicesOptions } from "$lib/types";
   import {
     contextValidationKey,
     formErrors,
@@ -13,6 +14,7 @@
   export let requesting = false;
   export let serverErrorsDict = {};
   export let onSubmit, onSuccess;
+  export let servicesOptions: ServicesOptions | undefined = undefined;
   export let onChange: ((data) => void) | undefined = undefined;
 
   onMount(() => {
@@ -24,11 +26,13 @@
   });
 
   async function handleEltChange(evt) {
-    console.log(evt);
     $formErrors.nonFieldErrors = [];
 
     // We want to listen to both DOM and component events
     const fieldName = evt.target?.name || evt.detail;
+
+    // const filteredSchema =
+    //   fieldName && schema[fieldName] ? { [fieldName]: schema[fieldName] } : {};
 
     // Sometimes (particularly with Select components), the event is received
     // before the field value is updated in  `structure`, although it's not
@@ -40,6 +44,7 @@
         const { validatedData, valid } = validate(data, schema, {
           fieldName,
           noScroll: true,
+          servicesOptions,
         });
 
         if (valid && onChange) {
@@ -69,7 +74,9 @@
 
   async function handleSubmit() {
     $formErrors = {};
-    const { validatedData, valid } = validate(data, schema);
+    const { validatedData, valid } = validate(data, schema, {
+      servicesOptions,
+    });
     if (valid) {
       try {
         requesting = true;
@@ -88,7 +95,6 @@
           },
           serverErrorsDict
         );
-
         throw err;
       } finally {
         requesting = false;

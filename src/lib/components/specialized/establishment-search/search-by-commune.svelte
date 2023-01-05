@@ -54,7 +54,7 @@
 <Field type="custom" label="Commune" required vertical>
   <CitySearch
     slot="custom-input"
-    name="city-select"
+    id="city-select"
     placeholder="Saisissez et sélectionnez le nom de la ville"
     onChange={handleCityChange}
   />
@@ -62,7 +62,7 @@
 <Field type="custom" label={structureLabel} required vertical>
   <Select
     slot="custom-input"
-    name="siret-select"
+    id="siret-select"
     onChange={handleEstablishmentChange}
     disabled={!city?.code}
     placeholder="Commencez à saisir et choisissez dans la liste"

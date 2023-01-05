@@ -8,7 +8,7 @@
   import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
   import { moveToTheEnd } from "$lib/utils/misc";
 
-  export let servicesOptions, serviceSchema, service, structure;
+  export let servicesOptions, service, structure;
 
   let adminDivisionChoices = [];
 
@@ -24,42 +24,6 @@
   function handlediffusionZoneDetailsChange(details) {
     service.diffusionZoneDetails = details;
   }
-
-  // async function handleEltChange(evt) {
-  //   // We want to listen to both DOM and component events
-  //   const fieldname = evt.target?.name || evt.detail;
-
-  //   // Sometimes (particularly with Select components), the event is received
-  //   // before the field value is updated in `service`, although it's not
-  //   // supposed to happen. This setTimeout is a unsatisfying workaround to that.
-  //   await new Promise((resolve) => {
-  //     setTimeout(() => {
-  //       const filteredSchema = {
-  //         // si le champs n'existe pas dans le schéma,
-  //         // on l'initialise avec une valeur par défaut
-  //         [fieldname]: serviceSchema[fieldname] || { rules: [] },
-  //       };
-
-  //       const { validatedData, valid } = validate(service, filteredSchema, {
-  //         fullSchema: serviceSchema,
-  //         noScroll: true,
-  //         servicesOptions: servicesOptions,
-  //       });
-
-  //       if (valid) {
-  //         service = { ...service, ...validatedData };
-  //       }
-
-  //       resolve(true);
-  //     }, 200);
-  //   });
-  // }
-
-  // setContext<ValidationContext>(contextValidationKey, {
-  //   onBlur: handleEltChange,
-  //   onChange: handleEltChange,
-  // onInput: handleEltChange,
-  // });
 </script>
 
 <FieldSet title="Périmètre géographique d’intervention" noTopPadding>
@@ -79,7 +43,6 @@
   </div>
 
   <SelectField
-    type="select"
     label="Périmètre"
     choices={servicesOptions.diffusionZoneType}
     id="diffusionZoneType"
@@ -93,7 +56,7 @@
       description="Commencez à saisir le nom et choisissez dans la liste."
       id="diffusionZoneDetails"
       searchType={service.diffusionZoneType}
-      handleChange={handlediffusionZoneDetailsChange}
+      onChange={handlediffusionZoneDetailsChange}
       initialValue={service.diffusionZoneDetailsDisplay}
       bind:choices={adminDivisionChoices}
     />

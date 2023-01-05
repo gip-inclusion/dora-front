@@ -4,8 +4,6 @@
 
   export let id: string;
   export let disabled = false;
-  export let readonly = false;
-  export let placeholder = "";
 
   // Spécifique du select
   export let fileKeys: string[];
@@ -30,13 +28,5 @@
   {required}
   {vertical}
 >
-  <Uploader
-    {id}
-    {structureSlug}
-    on:blur={onBlur}
-    bind:fileKeys
-    {disabled}
-    {readonly}
-    {placeholder}
-  />
+  <Uploader {id} {structureSlug} on:blur={onBlur} bind:fileKeys {disabled} />
 </FieldWrapper>

@@ -6,9 +6,10 @@
   import AddableMultiSelectField from "$lib/components/inputs/addable-multiselect-field.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
+  import MultiSelectField from "$lib/components/inputs/multi-select-field.svelte";
   import RichTextField from "$lib/components/inputs/rich-text-field.svelte";
   import SelectField from "$lib/components/inputs/select-field.svelte";
-  import TextAreaField from "$lib/components/inputs/textarea-field.svelte";
+  import TextareaField from "$lib/components/inputs/textarea-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
   import UploadField from "$lib/components/inputs/upload-field.svelte";
   import type { Model } from "$lib/types";
@@ -211,7 +212,7 @@
 
 <FieldSet noTopPadding {showModel}>
   <FieldModel {...fieldModelProps["categories"]} type="array">
-    <SelectField
+    <MultiSelectField
       id="categories"
       label="Thématiques"
       bind:value={service.categories}
@@ -219,7 +220,6 @@
       onSelectChange={handleCategoriesChange}
       placeholderMulti="Sélectionner"
       sort
-      multiple
       disabled={typologyFieldDisabled}
       readonly={typologyFieldDisabled}
     />
@@ -274,11 +274,12 @@
         label="Titre"
         placeholder="Compléter"
         bind:value={service.name}
+        required
       />
     </FieldModel>
 
     <FieldModel {...fieldModelProps["shortDesc"]}>
-      <TextAreaField
+      <TextareaField
         id="shortDesc"
         description="280 caractères maximum"
         placeholder="Compléter"
@@ -312,9 +313,8 @@
       showUseValue={showModelSubcategoriesUseValue}
       type="array"
     >
-      <SelectField
+      <MultiSelectField
         id="subcategories"
-        multiple
         label="Besoins"
         bind:value={service.subcategories}
         choices={subcategories}
@@ -436,9 +436,9 @@
     </div>
 
     <div class="flex flex-col lg:gap-s8">
-      <FieldModel {...fieldModelProps["beneficiariesAccessMode"]} type="array">
+      <FieldModel {...fieldModelProps["beneficiariesAccessModes"]} type="array">
         <CheckboxesField
-          id="beneficiariesAccessMode"
+          id="beneficiariesAccessModes"
           label="Pour les bénéficiaires"
           choices={moveToTheEnd(
             servicesOptions.beneficiariesAccessModes,
@@ -476,13 +476,12 @@
             (fee) => fee.value !== "pass-numerique"
           )}
           onSelectChange={handleFeeConditionChange}
-          display="vertical"
         />
       </FieldModel>
 
       {#if isNotFreeService(feeConditionClassic)}
         <FieldModel {...fieldModelProps["feeDetails"]}>
-          <TextAreaField
+          <TextareaField
             id="feeDetails"
             label="Détails des frais à charge"
             placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."

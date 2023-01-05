@@ -57,6 +57,5 @@ export function getModelInputProps(
       },
     ])
   );
-  console.log(result);
   return result;
 }

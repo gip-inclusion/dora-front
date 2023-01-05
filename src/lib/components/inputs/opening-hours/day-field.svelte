@@ -96,7 +96,7 @@
         bind:checked={isOpen}
         yesLabel="Ouvert"
         noLabel="Fermé"
-        name="{day}-{dayPeriod}-is-open"
+        id="{day}-{dayPeriod}-is-open"
       />
     </label>
   </div>

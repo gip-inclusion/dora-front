@@ -4,10 +4,8 @@
 
   export let id: string;
   export let value;
-  export let autocomplete = "";
   export let disabled = false;
   export let readonly: true | undefined = undefined;
-  export let placeholder: string | undefined = undefined;
 
   // Spécifiques
   export let choices;
@@ -41,10 +39,3 @@
     {readonly}
   />
 </FieldWrapper>
-
-<style lang="postcss">
-  textarea {
-    @apply min-h-[3rem] rounded border border-gray-03 px-s12 py-s6 text-f14 placeholder-gray-text-alt outline-none focus:shadow-focus;
-    @apply grow read-only:text-gray-03 disabled:bg-gray-00;
-  }
-</style>

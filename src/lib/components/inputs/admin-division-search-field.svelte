@@ -34,10 +34,14 @@
   {vertical}
 >
   <AdminDivisionSearch
-    id="diffusionZoneDetails"
+    {id}
     {searchType}
-    handleChange={onChange}
+    {onChange}
     {initialValue}
+    bind:value
     bind:choices
+    {placeholder}
+    {disabled}
+    {readonly}
   />
 </FieldWrapper>

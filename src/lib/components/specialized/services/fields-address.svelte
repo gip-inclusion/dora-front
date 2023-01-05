@@ -67,33 +67,36 @@
   <CitySearchField
     id="city"
     label="Ville"
-    placeholder="Saisissez et validez votre ville"
     initialValue={entity.city}
     onChange={handleCityChange}
+    required
+    placeholder="Saisissez et validez votre ville"
   />
 
   <AddressSearchField
     id="address1"
     label="Adresse"
-    disabled={!entity.cityCode}
-    cityCode={entity.cityCode}
-    placeholder="3 rue du parc"
     initialValue={entity.address1}
-    handleChange={handleAddressChange}
+    onChange={handleAddressChange}
+    cityCode={entity.cityCode}
+    required
+    placeholder="3 rue du parc"
+    disabled={!entity.cityCode}
   />
 
   <BasicInputField
-    label="Complément d’adresse"
-    placeholder="batiment, escalier, etc."
     id="address2"
+    label="Complément d’adresse"
     bind:value={entity.address2}
+    placeholder="batiment, escalier, etc."
   />
 
   <BasicInputField
-    label="Code postal"
-    placeholder="00000"
     id="postalCode"
+    label="Code postal"
     bind:value={entity.postalCode}
+    required
+    placeholder="00000"
   />
 
   <HiddenField id="cityCode" bind:value={entity.cityCode} />

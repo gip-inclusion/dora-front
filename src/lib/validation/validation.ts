@@ -1,6 +1,7 @@
 import { browser } from "$app/environment";
 import type { ServicesOptions } from "$lib/types";
 import type { Shape } from "$lib/validation/schemas/utils";
+import { tick } from "svelte";
 import { writable } from "svelte/store";
 
 export type ValidationContext = {
@@ -79,10 +80,14 @@ function validateField(
   return { value, valid: true };
 }
 
-function scrollToField(fieldName) {
+async function scrollToField(fieldName) {
+  await tick();
   if (browser) {
-    const elt = document.getElementsByName(fieldName);
-    elt?.[0]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    const elt = document.getElementById(fieldName);
+    elt?.scrollIntoView({ behavior: "smooth", block: "start" });
+    if (!elt) {
+      console.error("Impossible de scroller sur ", fieldName);
+    }
   }
 }
 

@@ -102,7 +102,7 @@ export async function createOrModifyService(service) {
   return result;
 }
 
-export async function createOrModifyModel(model) {
+export function createOrModifyModel(model) {
   let method, url;
   if (model.slug) {
     url = `${getApiURL()}/models/${model.slug}/`;
@@ -112,7 +112,7 @@ export async function createOrModifyModel(model) {
     method = "POST";
   }
 
-  const response = await fetch(url, {
+  return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
@@ -121,23 +121,6 @@ export async function createOrModifyModel(model) {
     },
     body: JSON.stringify(serviceToBack(model)),
   });
-
-  const result = {
-    ok: response.ok,
-    status: response.status,
-  };
-
-  if (response.ok) {
-    result.data = serviceToFront(await response.json());
-  } else {
-    try {
-      result.error = await response.json();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
-  return result;
 }
 
 export async function deleteService(serviceSlug) {
@@ -407,12 +390,12 @@ export async function acceptServiceSuggestion(suggestion) {
   return result;
 }
 
-export async function publishServiceSuggestion(suggestion, source) {
+export function publishServiceSuggestion(suggestion, source) {
   const url = `${getApiURL()}/services-suggestions/`;
   const method = "POST";
   const { siret, name, ...contents } = suggestion;
   const authToken = get(token);
-  const response = await fetch(url, {
+  return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
@@ -426,19 +409,4 @@ export async function publishServiceSuggestion(suggestion, source) {
       source,
     }),
   });
-
-  const result = {
-    ok: response.ok,
-    status: response.status,
-  };
-  if (response.ok) {
-    result.data = await response.json();
-  } else {
-    try {
-      result.error = await response.json();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  return result;
 }

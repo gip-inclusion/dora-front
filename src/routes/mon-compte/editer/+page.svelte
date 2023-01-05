@@ -10,21 +10,18 @@
   import { getApiURL } from "$lib/utils/api";
   import { refreshUserInfo, token, userInfo } from "$lib/utils/auth";
   import { userProfileSchema } from "$lib/validation/schemas/user-profile";
+  import FormErrors from "$lib/components/display/form-errors.svelte";
 
   function handleChange(validatedData) {
-    console.log(validatedData);
     phoneNumber = validatedData.phoneNumber;
   }
 
   function handleSubmit(validatedData) {
     const url = `${getApiURL()}/profile/change/`;
-    const { firstName, lastName, newsletter, phoneNumber } = validatedData;
+    const { phoneNumber } = validatedData;
     return fetch(url, {
       method: "POST",
       body: JSON.stringify({
-        firstName,
-        lastName,
-        newsletter,
         phoneNumber,
       }),
       headers: {
@@ -42,21 +39,12 @@
 
   let requesting = false;
   let { firstName, lastName, email, phoneNumber } = $userInfo;
-  // At the moment we don't want to expose this field
-  const newsletter = $userInfo.newsletter;
-
-  $: infoIsMissing = !firstName || !lastName || !email || !phoneNumber;
-  $: infoChanged =
-    firstName !== $userInfo?.firstName ||
-    lastName !== $userInfo?.lastName ||
-    email !== $userInfo?.email ||
-    phoneNumber !== $userInfo?.phoneNumber;
 </script>
 
 <EnsureLoggedIn>
   <div class="lg:w-2/3">
     <Form
-      data={{ firstName, lastName, email, phoneNumber, newsletter }}
+      data={{ firstName, lastName, email, phoneNumber }}
       schema={userProfileSchema}
       onChange={handleChange}
       onSubmit={handleSubmit}
@@ -64,6 +52,8 @@
       bind:requesting
     >
       <Fieldset title="Informations" noTopPadding>
+        <FormErrors />
+
         <BasicInputField
           id="firstName"
           label="Prénom"
@@ -92,25 +82,26 @@
         />
 
         <BasicInputField
-          id="phoneNumber"
           type="tel"
+          id="phoneNumber"
           label="Numéro de téléphone"
           bind:value={phoneNumber}
+          required
           placeholder="0X XX XX XX XX"
           vertical
         />
-
-        <div class="self-end">
-          <Button
-            type="submit"
-            label="Valider"
-            disabled={requesting || infoIsMissing || !infoChanged}
-            iconOnRight
-            icon={arrowRightSIcon}
-            preventDefaultOnMouseDown
-          />
-        </div>
       </Fieldset>
+
+      <div class="mt-s32 flex flex-col justify-end gap-s16 md:flex-row ">
+        <Button
+          type="submit"
+          label="Valider"
+          disabled={requesting}
+          iconOnRight
+          icon={arrowRightSIcon}
+          preventDefaultOnMouseDown
+        />
+      </div>
     </Form>
   </div>
 </EnsureLoggedIn>

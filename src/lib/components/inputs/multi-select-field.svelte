@@ -4,7 +4,7 @@
   import Select from "./select/select.svelte";
 
   export let id: string;
-  export let value: string | number | undefined = undefined;
+  export let value: string[] | number[] | undefined = undefined;
   export let disabled = false;
   export let readonly = false;
   export let placeholder = "";
@@ -47,5 +47,6 @@
     {disabled}
     {readonly}
     {initialValue}
+    multiple
   />
 </FieldWrapper>

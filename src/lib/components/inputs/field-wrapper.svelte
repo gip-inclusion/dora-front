@@ -18,13 +18,10 @@
   const context = getContext<ValidationContext>(contextValidationKey);
 
   function handleBlur(evt) {
-    console.log("blur");
     if (context) context.onBlur(evt);
   }
 
   function handleChange(evt) {
-    console.log("change");
-
     if (context) context.onChange(evt);
   }
 
@@ -43,7 +40,7 @@
   class:hidden
 >
   <div class="flex flex-col" class:one-fourth={!vertical}>
-    <label for={id} class="mt-s4">
+    <label for={id} class="mt-s8">
       <span class=" font-bold text-gray-dark" class:hidden={hideLabel}>
         {label}{#if required}<span class="ml-s6 text-error">&nbsp;*</span>{/if}
       </span>

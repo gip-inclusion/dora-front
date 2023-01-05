@@ -223,24 +223,3 @@ export function trim(value) {
 export function nullEmpty(value) {
   return value === "" ? null : value;
 }
-
-export function formatSchema(schema, fields, fieldsRequired) {
-  const schemaFormatted = {};
-  Object.entries(schema).forEach(([key, value]: [string, Shape<any>]) => {
-    if (fields.includes(key)) {
-      schemaFormatted[key] = {
-        name: value.name,
-        default: value.default,
-        pre: value.pre,
-        rules: value.rules,
-        post: value.post,
-        dependents: value.dependents,
-        required:
-          (typeof schema[key].required === "boolean" && schema[key].required) ||
-          fieldsRequired.includes(key),
-      };
-    }
-  });
-
-  return schemaFormatted;
-}

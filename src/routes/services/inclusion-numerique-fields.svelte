@@ -3,10 +3,10 @@
   import AdminDivisionSearchField from "$lib/components/inputs/admin-division-search-field.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
+  import MultiSelectField from "$lib/components/inputs/multi-select-field.svelte";
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import TextareaField from "$lib/components/inputs/textarea-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
-  import FieldModel from "$lib/components/specialized/services/field-model.svelte";
   import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
   import type { Choice, Service, ServicesOptions, Structure } from "$lib/types";
   import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
@@ -151,31 +151,6 @@
     );
   }
 
-  // async function fillAddress() {
-  //   showServiceAddress = false;
-
-  //   if (structure) {
-  //     const {
-  //       city,
-  //       address1,
-  //       address2,
-  //       postalCode,
-  //       cityCode,
-  //       latitude,
-  //       longitude,
-  //     } = structure;
-  //     service.city = city;
-  //     service.address1 = address1;
-  //     service.address2 = address2;
-  //     service.postalCode = postalCode.toString();
-  //     service.cityCode = cityCode.toString();
-  //     service.latitude = latitude;
-  //     service.longitude = longitude;
-  //   }
-  //   await tick();
-  //   showServiceAddress = true;
-  // }
-
   service.locationKinds = [];
 
   function setModalites() {
@@ -242,22 +217,6 @@
       adminDivisionChoices = [];
     }
   }
-
-  // function handleCityChange(city) {
-  //   service.city = city?.name;
-  //   service.cityCode = city?.code;
-  // }
-
-  // function handleAddressChange(address) {
-  //   const props = address?.properties;
-  //   const coords = address?.geometry.coordinates;
-  //   const lat = coords?.[1];
-  //   const long = coords?.[0];
-  //   service.address1 = props?.name;
-  //   service.postalCode = props?.postcode;
-  //   service.longitude = long;
-  //   service.latitude = lat;
-  // }
 </script>
 
 <FieldSet noTopPadding title="Service de l'inclusion numérique">
@@ -278,75 +237,51 @@
     </p>
   </div>
 
-  <FieldModel
-    serviceValue={service.subcategories}
-    options={servicesOptions.subcategories}
-    type="array"
-  >
-    <SelectField
-      multiple
-      label="Besoins"
-      id="subcategories"
-      bind:value={service.subcategories}
-      choices={subcategories}
-      placeholder="Sélectionner"
-      placeholderMulti="Sélectionner"
-      onSelectChange={handleSubcategoriesChange}
-    />
-  </FieldModel>
+  <MultiSelectField
+    label="Besoins"
+    id="subcategories"
+    bind:value={service.subcategories}
+    choices={subcategories}
+    placeholder="Sélectionner"
+    placeholderMulti="Sélectionner"
+    onSelectChange={handleSubcategoriesChange}
+  />
 
   {#if concernedPublicOptions.length}
-    <FieldModel
-      serviceValue={service.concernedPublic}
-      options={concernedPublicOptions}
-      type="array"
-    >
-      <SelectField
-        multiple
-        label="Profils"
-        id="concernedPublic"
-        bind:value={service.concernedPublic}
-        choices={concernedPublicOptions}
-        placeholder="Sélectionner"
-        placeholderMulti="Sélectionner"
-      />
-    </FieldModel>
+    <MultiSelectField
+      label="Profils"
+      id="concernedPublic"
+      bind:value={service.concernedPublic}
+      choices={concernedPublicOptions}
+      placeholder="Sélectionner"
+      placeholderMulti="Sélectionner"
+    />
   {/if}
 
   {#if kindsOptions.length}
-    <FieldModel
-      serviceValue={service.kinds}
-      options={kindsOptions}
-      type="array"
-    >
-      <CheckboxesField
-        label="Types"
-        id="kinds"
-        bind:value={service.kinds}
-        choices={kindsOptions}
-      />
-    </FieldModel>
+    <CheckboxesField
+      label="Types"
+      id="kinds"
+      bind:value={service.kinds}
+      choices={kindsOptions}
+    />
   {/if}
 
-  <FieldModel serviceValue={service.feeCondition} type="text">
-    <SelectField
-      label="Frais à charge"
-      id="feeCondition"
-      placeholder="Choississez..."
-      bind:value={service.feeCondition}
-      choices={servicesOptions.feeConditions}
-    />
-  </FieldModel>
+  <SelectField
+    label="Frais à charge"
+    id="feeCondition"
+    placeholder="Choississez..."
+    bind:value={service.feeCondition}
+    choices={servicesOptions.feeConditions}
+  />
 
   {#if isNotFreeService(service.feeCondition)}
-    <FieldModel serviceValue={service.feeDetails}>
-      <TextareaField
-        label="Détails des frais à charge"
-        placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
-        id="feeDetails"
-        bind:value={service.feeDetails}
-      />
-    </FieldModel>
+    <TextareaField
+      label="Détails des frais à charge"
+      placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
+      id="feeDetails"
+      bind:value={service.feeDetails}
+    />
   {/if}
 </FieldSet>
 
@@ -355,32 +290,24 @@
     <p class="text-f14">Modalités pour mobiliser le service.</p>
   </div>
 
-  <FieldModel
-    serviceValue={service.beneficiariesAccessModes}
-    options={servicesOptions.beneficiariesAccessModes}
-    type="array"
-  >
-    <CheckboxesField
-      label="Pour les bénéficiaires"
-      choices={moveToTheEnd(
-        servicesOptions.beneficiariesAccessModes,
-        "value",
-        "autre"
-      )}
-      id="beneficiariesAccessModes"
-      bind:value={service.beneficiariesAccessModes}
-    />
-  </FieldModel>
+  <CheckboxesField
+    label="Pour les bénéficiaires"
+    choices={moveToTheEnd(
+      servicesOptions.beneficiariesAccessModes,
+      "value",
+      "autre"
+    )}
+    id="beneficiariesAccessModes"
+    bind:value={service.beneficiariesAccessModes}
+  />
 
   {#if service.beneficiariesAccessModes.includes("autre")}
-    <FieldModel serviceValue={service.beneficiariesAccessModesOther}>
-      <BasicInputField
-        hideLabel
-        placeholder="Merci de préciser la modalité"
-        id="beneficiariesAccessModesOther"
-        bind:value={service.beneficiariesAccessModesOther}
-      />
-    </FieldModel>
+    <BasicInputField
+      hideLabel
+      placeholder="Merci de préciser la modalité"
+      id="beneficiariesAccessModesOther"
+      bind:value={service.beneficiariesAccessModesOther}
+    />
   {/if}
 </FieldSet>
 

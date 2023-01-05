@@ -2,13 +2,9 @@
   // import { goto } from "$app/navigation";
   import Button from "$lib/components/display/button.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import Notice from "$lib/components/display/notice.svelte";
   import Form from "$lib/components/hoc/form.svelte";
-  import Errors from "$lib/components/specialized/services/errors.svelte";
-  import FieldsCommon from "$lib/components/specialized/services/fields-common.svelte";
   import FieldsStructure from "$lib/components/specialized/services/fields-structure.svelte";
   // import { createOrModifyService, publishDraft } from "$lib/requests/services";
-  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import type {
     Model,
     Service,
@@ -18,6 +14,10 @@
   // import { logException } from "$lib/utils/logger";
   import { serviceSchema } from "$lib/validation/schemas/service";
   // import { injectAPIErrors, validate } from "$lib/validation/validation";
+  import FormErrors from "$lib/components/display/form-errors.svelte";
+  import Notice from "$lib/components/display/notice.svelte";
+  import FieldsCommon from "$lib/components/specialized/services/fields-common.svelte";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import debounce from "lodash.debounce";
   import { onDestroy, onMount } from "svelte";
   import FieldsInclusionNumerique from "./inclusion-numerique-fields.svelte";
@@ -30,48 +30,6 @@
     model: Model;
 
   let requesting = false;
-
-  let modelSlugTmp = null;
-  let errorDiv;
-
-  // Counter for filling duration
-  let intervalId;
-  let lastUserActivity, userIsInactive;
-
-  // Note: we use debounce to limit update frequency
-  const updateLastUserActivity = debounce(() => {
-    lastUserActivity = Date.now();
-  }, 500);
-
-  // function onError() {
-  //   errorDiv.scrollIntoView({ behavior: "smooth", block: "start" });
-  // }
-
-  async function unsync() {
-    modelSlugTmp = service.model;
-    service.model = null;
-  }
-
-  async function sync() {
-    service.model = modelSlugTmp;
-    modelSlugTmp = null;
-  }
-
-  onMount(() => {
-    lastUserActivity = Date.now();
-    serviceSubmissionTimeMeter.clear(); // reset tracking values
-
-    intervalId = setInterval(() => {
-      userIsInactive = (Date.now() - lastUserActivity) / 1000 > 120; // 2 minutes
-      if (document.hasFocus() && !userIsInactive) {
-        serviceSubmissionTimeMeter.incrementDuration();
-      }
-    }, 1000);
-  });
-
-  onDestroy(() => {
-    clearInterval(intervalId);
-  });
 
   // async function publish() {
   //   service.status = "PUBLISHED";
@@ -169,6 +127,43 @@
     // }
     // goto(`/structures/${result.slug}`);
   }
+
+  let modelSlugTmp = null;
+
+  // Counter for filling duration
+  let intervalId;
+  let lastUserActivity, userIsInactive;
+
+  // Note: we use debounce to limit update frequency
+  const updateLastUserActivity = debounce(() => {
+    lastUserActivity = Date.now();
+  }, 500);
+
+  async function unsync() {
+    modelSlugTmp = service.model;
+    service.model = null;
+  }
+
+  async function sync() {
+    service.model = modelSlugTmp;
+    modelSlugTmp = null;
+  }
+
+  onMount(() => {
+    lastUserActivity = Date.now();
+    serviceSubmissionTimeMeter.clear(); // reset tracking values
+
+    intervalId = setInterval(() => {
+      userIsInactive = (Date.now() - lastUserActivity) / 1000 > 120; // 2 minutes
+      if (document.hasFocus() && !userIsInactive) {
+        serviceSubmissionTimeMeter.incrementDuration();
+      }
+    }, 1000);
+  });
+
+  onDestroy(() => {
+    clearInterval(intervalId);
+  });
 </script>
 
 <svelte:window
@@ -178,8 +173,9 @@
 />
 
 <Form
-  data={structure}
+  data={service}
   schema={serviceSchema}
+  {servicesOptions}
   onChange={handleChange}
   onSubmit={handleSubmit}
   onSuccess={handleSuccess}
@@ -187,8 +183,7 @@
 >
   <hr />
   <CenteredGrid bgColor="bg-gray-bg">
-    <div bind:this={errorDiv} />
-    <Errors />
+    <FormErrors />
 
     {#if structures.length}
       <div class="lg:w-2/3">
@@ -198,7 +193,6 @@
           bind:servicesOptions
           bind:model
           {structures}
-          {serviceSchema}
         />
       </div>
     {/if}
@@ -271,17 +265,11 @@
             {structure}
           />
         {:else}
-          <FieldsService
-            bind:service
-            {servicesOptions}
-            {serviceSchema}
-            {structure}
-          />
+          <FieldsService bind:service {servicesOptions} {structure} />
         {/if}
       </div>
     </CenteredGrid>
     <hr />
-
     <CenteredGrid>
       <div class="flex flex-row gap-s12">
         <!-- <Button
@@ -299,7 +287,6 @@
           disabled={requesting}
         /> -->
         <Button
-          on:submit
           name="validate"
           type="submit"
           label="Publier"

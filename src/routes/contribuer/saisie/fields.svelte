@@ -3,6 +3,7 @@
   import Notice from "$lib/components/display/notice.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
+  import MultiSelectField from "$lib/components/inputs/multi-select-field.svelte";
   import RichTextField from "$lib/components/inputs/rich-text-field.svelte";
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import TextareaField from "$lib/components/inputs/textarea-field.svelte";
@@ -12,7 +13,6 @@
   import type { Service, ServicesOptions } from "$lib/types";
   import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
-  // import { tick } from "svelte";
 
   export let servicesOptions: ServicesOptions;
   export let service: Service;
@@ -20,7 +20,6 @@
   let establishment = null;
 
   let subcategories = [];
-  // let showServiceAddress = true;
 
   function handleCategoriesChange(categories) {
     subcategories = categories.length
@@ -46,46 +45,6 @@
   async function handleEstablishmentChange(newEstablishment) {
     service.siret = newEstablishment?.siret;
   }
-
-  // function handleCityChange(city) {
-  //   service.city = city?.name;
-  //   service.cityCode = city?.code;
-  // }
-
-  // function handleAddressChange(address) {
-  //   const props = address?.properties;
-  //   const coords = address?.geometry.coordinates;
-  //   const lat = coords?.[1];
-  //   const long = coords?.[0];
-  //   service.address1 = props?.name;
-  //   service.postalCode = props?.postcode;
-  //   service.longitude = long;
-  //   service.latitude = lat;
-  // }
-
-  // async function fillAdress() {
-  //   showServiceAddress = false;
-  //   if (establishment) {
-  //     const {
-  //       city,
-  //       address1,
-  //       address2,
-  //       postalCode,
-  //       cityCode,
-  //       latitude,
-  //       longitude,
-  //     } = establishment;
-  //     service.city = city;
-  //     service.address1 = address1;
-  //     service.address2 = address2;
-  //     service.postalCode = postalCode;
-  //     service.cityCode = cityCode;
-  //     service.latitude = latitude;
-  //     service.longitude = longitude;
-  //   }
-  //   await tick();
-  //   showServiceAddress = true;
-  // }
 </script>
 
 <StructureSearch
@@ -95,8 +54,7 @@
   isOwnStructure={false}
 />
 
-<!-- {#if service.siret} -->
-{#if true}
+{#if service.siret}
   <FieldSet title="Présentation">
     <div slot="help">
       <p class="text-f14">
@@ -121,6 +79,7 @@
       placeholder="Ex. Aide aux frais liés à…"
       id="name"
       bind:value={service.name}
+      required
     />
 
     <TextareaField
@@ -129,6 +88,7 @@
       label="Résumé"
       id="shortDesc"
       bind:value={service.shortDesc}
+      required
     />
 
     <RichTextField
@@ -153,25 +113,25 @@
         référencement.
       </p>
     </div>
-    <SelectField
-      multiple
+    <MultiSelectField
       label="Thématiques"
       bind:value={service.categories}
       choices={servicesOptions.categories}
       id="categories"
       onSelectChange={handleCategoriesChange}
       placeholderMulti="Choisissez la ou les thématiques"
-      _sort
+      sort
+      required
     />
 
-    <SelectField
-      multiple
+    <MultiSelectField
       label="Besoin(s) auxquels ce service répond"
       id="subcategories"
       bind:value={service.subcategories}
       choices={subcategories}
       placeholder="Choisissez les sous-catégories"
       placeholderMulti="Choisissez les sous-catégories"
+      required
     />
 
     <CheckboxesField
@@ -180,6 +140,7 @@
       bind:value={service.kinds}
       choices={servicesOptions.kinds}
       description="Quelle est la nature de ce service."
+      required
     />
   </FieldSet>
 
@@ -237,9 +198,7 @@
       <p class="text-f14">Publics auxquels le service s’adresse.</p>
     </div>
 
-    <SelectField
-      multiple
-      type="multiselect"
+    <MultiSelectField
       label="Profils"
       description="Plusieurs choix possibles"
       id="concernedPublic"
@@ -247,11 +206,10 @@
       choices={servicesOptions.concernedPublic}
       placeholder="Sélectionner"
       placeholderMulti="Sélectionner"
-      sortSelect
+      sort
     />
 
-    <SelectField
-      multiple
+    <MultiSelectField
       label="Critères"
       description="Plusieurs choix possibles"
       id="accessConditions"
@@ -259,12 +217,10 @@
       choices={servicesOptions.accessConditions}
       placeholder="Sélectionner"
       placeholderMulti="Sélectionner"
-      sortSelect
+      sort
     />
 
-    <SelectField
-      multiple
-      type="multiselect"
+    <MultiSelectField
       description="Plusieurs choix possibles"
       id="requirements"
       bind:value={service.requirements}
@@ -272,7 +228,7 @@
       label="Pré-requis ou compétences"
       placeholder="Sélectionner"
       placeholderMulti="Sélectionner"
-      sortSelect
+      sort
     />
 
     <SelectField
