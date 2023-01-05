@@ -60,6 +60,7 @@
   >
     <Fieldset>
       {#if !$userInfo}
+        <!-- Migrate -->
         <Field
           name="fullName"
           errorMessages={$formErrors.fullName}

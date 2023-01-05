@@ -7,6 +7,7 @@
   export let disabled = false;
   export let readonly: true | undefined = undefined;
   export let placeholder: string | undefined = undefined;
+  export let rows = 4;
 
   // Proxy vers le FieldWrapper
   export let label: string;
@@ -36,6 +37,7 @@
     {disabled}
     {readonly}
     {placeholder}
+    {rows}
   />
 </FieldWrapper>
 
