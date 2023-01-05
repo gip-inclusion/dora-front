@@ -1,14 +1,29 @@
 <script lang="ts">
   // https://tailwindcomponents.com/component/toggle-button-1
-  export let id;
-  export let checked = undefined;
+  export let id: string;
+  export let checked: boolean | undefined = undefined;
   export let disabled = false;
   export let readonly = false;
   export let yesLabel = "Oui";
   export let noLabel = "Non";
+
+  function handleKeyDown(event) {
+    if (event.code === "Space" || event.code === "Enter") {
+      checked = !checked;
+      event.preventDefault();
+    }
+    if (event.code === "Escape") event.target.blur();
+  }
 </script>
 
-<div class="relative flex flex-row self-start">
+<div
+  class="relative mt-s8 flex  flex-row items-center self-start"
+  on:click={() => (checked = !checked)}
+  on:keydown={handleKeyDown}
+  tabindex="0"
+  role="radio"
+  aria-checked={checked}
+>
   <input
     {id}
     name={id}

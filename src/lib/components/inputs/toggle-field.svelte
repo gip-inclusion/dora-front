@@ -22,6 +22,7 @@
 
 <FieldWrapper
   let:onBlur
+  let:onChange
   {id}
   {label}
   {description}
@@ -33,6 +34,7 @@
   <Toggle
     {id}
     bind:checked={value}
+    on:change={onChange}
     {disabled}
     {readonly}
     {yesLabel}

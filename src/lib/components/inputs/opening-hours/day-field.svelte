@@ -81,24 +81,23 @@
   </div>
 
   <div
-    class="rounded-bl rounded-br border-r border-l border-b border-gray-03 py-s10 text-center text-gray-text"
+    class="flex flex-row justify-center rounded-bl rounded-br border-r border-l border-b border-gray-03 py-s10 text-center text-gray-text"
     class:error={inError}
   >
-    <label class="flex justify-center">
+    <label for="{day}-{dayPeriod}-is-open" class="flex justify-center">
       <span class="sr-only">
         {dayPeriod === "timeSlot1"
           ? "Ouvrir sur une première plage horaire"
           : "Ouvrir une seconde plage horaire"}
       </span>
-
-      <Toggle
-        on:change={handleUpdate}
-        bind:checked={isOpen}
-        yesLabel="Ouvert"
-        noLabel="Fermé"
-        id="{day}-{dayPeriod}-is-open"
-      />
     </label>
+    <Toggle
+      on:change={handleUpdate}
+      bind:checked={isOpen}
+      yesLabel="Ouvert"
+      noLabel="Fermé"
+      id="{day}-{dayPeriod}-is-open"
+    />
   </div>
 </div>
 
