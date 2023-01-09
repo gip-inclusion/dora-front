@@ -87,6 +87,10 @@
   </div>
 </CenteredGrid>
 
+<CenteredGrid>
+  <FormErrors />
+</CenteredGrid>
+
 <CenteredGrid bgColor="bg-gray-bg">
   <div class="lg:w-2/3">
     <Form
@@ -97,8 +101,6 @@
       onSuccess={handleSuccess}
       bind:requesting
     >
-      <FormErrors />
-
       <Fields bind:service servicesOptions={data.servicesOptions} />
 
       {#if service.siret}

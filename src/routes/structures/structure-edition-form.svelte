@@ -9,6 +9,7 @@
   import structureSchema from "$lib/validation/schemas/structure";
   import FormErrors from "$lib/components/display/form-errors.svelte";
   import StructureEditionFields from "./structure-edition-fields.svelte";
+  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
 
   export let structure: Structure;
   export let structuresOptions: StructuresOptions;
@@ -42,6 +43,10 @@
   }
 </script>
 
+<CenteredGrid>
+  <FormErrors />
+</CenteredGrid>
+
 <div class="lg:w-2/3">
   <Form
     data={structure}
@@ -53,8 +58,6 @@
     bind:requesting
   >
     <Fieldset noTopPadding>
-      <FormErrors />
-
       <StructureEditionFields bind:structure {structuresOptions} />
     </Fieldset>
 

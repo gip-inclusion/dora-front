@@ -15,6 +15,11 @@
   export let hideLabel = false;
   export let required = false;
   export let vertical = false;
+  let editor;
+
+  export function updateValue(newValue: string) {
+    editor.updateValue(newValue);
+  }
 </script>
 
 <FieldWrapper
@@ -28,6 +33,7 @@
   {vertical}
 >
   <RichText
+    bind:this={editor}
     bind:htmlContent={value}
     initialContent={value}
     {id}

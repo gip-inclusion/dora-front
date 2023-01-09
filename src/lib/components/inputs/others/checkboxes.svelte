@@ -12,7 +12,7 @@
   }
 </script>
 
-<div class="flex flex-col gap-s8">
+<div {id} class="flex flex-col gap-s8">
   {#each choices as choice, i}
     <label class="flex flex-row items-center">
       <input

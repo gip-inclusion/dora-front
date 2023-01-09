@@ -65,7 +65,7 @@ export async function getModel(slug): Promise<Model> {
   return serviceToFront(response.data);
 }
 
-export async function createOrModifyService(service) {
+export function createOrModifyService(service: Service) {
   let method, url;
   if (service.slug) {
     url = `${getApiURL()}/services/${service.slug}/`;
@@ -75,7 +75,7 @@ export async function createOrModifyService(service) {
     method = "POST";
   }
 
-  const response = await fetch(url, {
+  return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
@@ -84,22 +84,6 @@ export async function createOrModifyService(service) {
     },
     body: JSON.stringify(serviceToBack(service)),
   });
-
-  const result = {
-    ok: response.ok,
-    status: response.status,
-  };
-
-  if (response.ok) {
-    result.data = serviceToFront(await response.json());
-  } else {
-    try {
-      result.error = await response.json();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  return result;
 }
 
 export function createOrModifyModel(model) {

@@ -29,7 +29,6 @@ export type Rule<T> = (
 };
 
 export interface Shape<T> {
-  name: string;
   rules: Rule<T>[];
   default?: T;
   required?: boolean;

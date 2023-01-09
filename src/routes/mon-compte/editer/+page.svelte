@@ -11,6 +11,7 @@
   import { refreshUserInfo, token, userInfo } from "$lib/utils/auth";
   import { userProfileSchema } from "$lib/validation/schemas/user-profile";
   import FormErrors from "$lib/components/display/form-errors.svelte";
+  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
 
   function handleChange(validatedData) {
     phoneNumber = validatedData.phoneNumber;
@@ -42,6 +43,10 @@
 </script>
 
 <EnsureLoggedIn>
+  <CenteredGrid>
+    <FormErrors />
+  </CenteredGrid>
+
   <div class="lg:w-2/3">
     <Form
       data={{ firstName, lastName, email, phoneNumber }}
@@ -52,8 +57,6 @@
       bind:requesting
     >
       <Fieldset title="Informations" noTopPadding>
-        <FormErrors />
-
         <BasicInputField
           id="firstName"
           label="Prénom"

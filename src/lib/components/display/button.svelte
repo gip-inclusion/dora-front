@@ -1,6 +1,6 @@
 <script lang="ts">
   export let label = "";
-  export let type = "button";
+  export let type: "button" | "submit" = "button";
   export let id: string | undefined = undefined;
   export let name: string | undefined = undefined;
   export let icon: string | undefined = undefined;

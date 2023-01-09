@@ -109,7 +109,7 @@ export function validate(
   let validatedData = {};
   let isValid = true;
   let doneOnce = false;
-  const errorFields = [];
+  const errorFields: string[] = [];
 
   if (showErrors) {
     Object.keys(schema).forEach((fieldName) => delete currentErrors[fieldName]);
@@ -129,7 +129,8 @@ export function validate(
     validatedData[fieldName] = value;
 
     if (!valid) {
-      errorFields.push(shape.name);
+      console.log(document.getElementById(fieldName));
+      errorFields.push(fieldName);
     }
 
     if (showErrors) {

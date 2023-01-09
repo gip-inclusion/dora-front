@@ -16,6 +16,7 @@
   export let onSubmit, onSuccess;
   export let servicesOptions: ServicesOptions | undefined = undefined;
   export let onChange: ((data) => void) | undefined = undefined;
+  export let onValidate: (data) => { validatedData; valid: boolean };
 
   onMount(() => {
     $formErrors = {};
@@ -72,17 +73,20 @@
     return jsonResult;
   }
 
-  async function handleSubmit() {
+  async function handleSubmit(event: Event) {
+    let submitterId = (event as SubmitEvent).submitter?.id;
     $formErrors = {};
-    const { validatedData, valid } = validate(data, schema, {
-      servicesOptions,
-    });
+    const { validatedData, valid } = onValidate
+      ? onValidate(data, submitterId)
+      : validate(data, schema, {
+          servicesOptions,
+        });
     if (valid) {
       try {
         requesting = true;
-        const result = await onSubmit(validatedData);
+        const result = await onSubmit(validatedData, submitterId);
         if (result.ok) {
-          await onSuccess(await getJsonResult(result));
+          await onSuccess(await getJsonResult(result), submitterId);
         } else {
           injectAPIErrors(await getJsonResult(result), serverErrorsDict);
         }

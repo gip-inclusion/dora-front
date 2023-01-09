@@ -1,0 +1,135 @@
+<script lang="ts">
+  import FieldSet from "$lib/components/display/fieldset.svelte";
+  import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
+  import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
+  import SelectField from "$lib/components/inputs/select-field.svelte";
+  import TextareaField from "$lib/components/inputs/textarea-field.svelte";
+  import type { Model } from "$lib/types";
+  import { getModelInputProps } from "$lib/utils/forms";
+  import { moveToTheEnd } from "$lib/utils/misc";
+  import { isNotFreeService } from "$lib/utils/service";
+  import FieldModel from "./field-model.svelte";
+
+  export let servicesOptions, serviceSchema, service, canAddChoices;
+  export let isModel = false;
+  export let model: Model | undefined = undefined;
+
+  // let feeConditionClassic =
+  //   service.feeCondition === "pass-numerique"
+  //     ? "gratuit"
+  //     : service.feeCondition;
+
+  // function handleFeeConditionChange(feeCondition) {
+  //   service.feeCondition = feeCondition?.value;
+  // }
+
+  let showModel;
+
+  $: showModel = !!service.model;
+
+  function useModelValue(fieldName) {
+    return () => {
+      service[fieldName] = model ? model[fieldName] : undefined;
+
+      // if (fieldName === "feeCondition") {
+      //   feeConditionClassic = service.feeCondition;
+      // }
+    };
+  }
+
+  $: fieldModelProps = getModelInputProps(
+    serviceSchema,
+    service,
+    servicesOptions,
+    showModel,
+    useModelValue,
+    model
+  );
+</script>
+
+<FieldSet title="Modalités" {showModel}>
+  <div slot="help">
+    <p class="text-f14">Modalités pour mobiliser le service.</p>
+  </div>
+
+  <div class="flex flex-col lg:gap-s8">
+    <FieldModel {...fieldModelProps["coachOrientationModes"]} type="array">
+      <CheckboxesField
+        id="coachOrientationModes"
+        label="Pour les accompagnateurs"
+        choices={moveToTheEnd(
+          servicesOptions.coachOrientationModes,
+          "value",
+          "autre"
+        )}
+        bind:value={service.coachOrientationModes}
+      />
+    </FieldModel>
+
+    {#if service.coachOrientationModes.includes("autre")}
+      <FieldModel {...fieldModelProps["coachOrientatonModesOther"]}>
+        <BasicInputField
+          id="coachOrientatonModesOther"
+          hideLabel
+          placeholder="Compléter"
+          bind:value={service.coachOrientationModesOther}
+        />
+      </FieldModel>
+    {/if}
+  </div>
+
+  <div class="flex flex-col lg:gap-s8">
+    <FieldModel {...fieldModelProps["beneficiariesAccessModes"]} type="array">
+      <CheckboxesField
+        id="beneficiariesAccessModes"
+        label="Pour les bénéficiaires"
+        choices={moveToTheEnd(
+          servicesOptions.beneficiariesAccessModes,
+          "value",
+          "autre"
+        )}
+        bind:value={service.beneficiariesAccessModes}
+      />
+    </FieldModel>
+
+    {#if service.beneficiariesAccessModes.includes("autre")}
+      <FieldModel {...fieldModelProps["beneficiariesAccessModesOther"]}>
+        <BasicInputField
+          id="beneficiariesAccessModesOther"
+          hideLabel
+          placeholder="Merci de préciser la modalité"
+          bind:value={service.beneficiariesAccessModesOther}
+        />
+      </FieldModel>
+    {/if}
+  </div>
+
+  <div class="flex flex-col gap-s4">
+    <FieldModel
+      {...fieldModelProps["feeCondition"]}
+      serviceValue={service.feeCondition}
+      type="text"
+    >
+      <SelectField
+        id="feeCondition"
+        label="Frais à charge"
+        placeholder="Choississez..."
+        bind:value={service.feeCondition}
+        choices={servicesOptions.feeConditions.filter(
+          (fee) => fee.value !== "pass-numerique"
+        )}
+      />
+    </FieldModel>
+
+    {#if isNotFreeService(service.feeCondition)}
+      <FieldModel {...fieldModelProps["feeDetails"]}>
+        <TextareaField
+          id="feeDetails"
+          label="Détails des frais à charge"
+          placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
+          bind:value={service.feeDetails}
+        />
+      </FieldModel>
+    {/if}
+  </div>
+</FieldSet>

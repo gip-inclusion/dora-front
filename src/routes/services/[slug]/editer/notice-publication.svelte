@@ -15,6 +15,7 @@
     });
 
   let errors;
+  $: console.log(errors);
   $: errors = validation?.errorFields.length > 1;
 </script>
 

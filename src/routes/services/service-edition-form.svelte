@@ -1,27 +1,35 @@
 <script lang="ts">
-  // import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
   import Button from "$lib/components/display/button.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
+  import Fieldset from "$lib/components/display/fieldset.svelte";
+  import FormErrors from "$lib/components/display/form-errors.svelte";
+  import Notice from "$lib/components/display/notice.svelte";
   import Form from "$lib/components/hoc/form.svelte";
+  import FieldCategory from "$lib/components/specialized/services/field-category.svelte";
+  import FieldsContact from "$lib/components/specialized/services/fields-contact.svelte";
+  import FieldsDocuments from "$lib/components/specialized/services/fields-documents.svelte";
+  import FieldsInclusionNumerique from "$lib/components/specialized/services/fields-inclusion-numerique.svelte";
+  import FieldsModalities from "$lib/components/specialized/services/fields-modalities.svelte";
+  import FieldsPerimeter from "$lib/components/specialized/services/fields-perimeter.svelte";
+  import FieldsPeriodicity from "$lib/components/specialized/services/fields-periodicity.svelte";
+  import FieldsPlace from "$lib/components/specialized/services/fields-place.svelte";
+  import FieldsPresentation from "$lib/components/specialized/services/fields-presentation.svelte";
+  import FieldsPublics from "$lib/components/specialized/services/fields-publics.svelte";
   import FieldsStructure from "$lib/components/specialized/services/fields-structure.svelte";
-  // import { createOrModifyService, publishDraft } from "$lib/requests/services";
+  import FieldsTypology from "$lib/components/specialized/services/fields-typology.svelte";
+  import { createOrModifyService } from "$lib/requests/services";
+  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import type {
     Model,
     Service,
     ServicesOptions,
     ShortStructure,
   } from "$lib/types";
-  // import { logException } from "$lib/utils/logger";
-  import { serviceSchema } from "$lib/validation/schemas/service";
-  // import { injectAPIErrors, validate } from "$lib/validation/validation";
-  import FormErrors from "$lib/components/display/form-errors.svelte";
-  import Notice from "$lib/components/display/notice.svelte";
-  import FieldsCommon from "$lib/components/specialized/services/fields-common.svelte";
-  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
+  import { draftSchema, serviceSchema } from "$lib/validation/schemas/service";
+  import { validate } from "$lib/validation/validation";
   import debounce from "lodash.debounce";
   import { onDestroy, onMount } from "svelte";
-  import FieldsInclusionNumerique from "./inclusion-numerique-fields.svelte";
-  import FieldsService from "./standard-fields.svelte";
 
   export let service: Service,
     servicesOptions: ServicesOptions,
@@ -31,101 +39,59 @@
 
   let requesting = false;
 
-  // async function publish() {
-  //   service.status = "PUBLISHED";
-  //   service.markSynced = true;
-
-  //   // Validate the whole form
-  //   const { validatedData, valid } = validate(service, serviceSchema, {
-  //     servicesOptions: servicesOptions,
-  //   });
-
-  //   if (valid) {
-  //     try {
-  //       let result = await createOrModifyService({
-  //         ...validatedData,
-  //         durationToAdd: $serviceSubmissionTimeMeter.duration,
-  //       });
-  //       result = await publishDraft(result.data.slug);
-
-  //       // For feedback modal
-  //       serviceSubmissionTimeMeter.setId(result.slug);
-
-  //       goto(`/services/${result.slug}`);
-  //     } catch (error) {
-  //       logException(error);
-  //     }
-  //   }
-  // }
-
-  // async function saveDraft() {
-  //   service.status = "DRAFT";
-  //   service.markSynced = true;
-
-  //   // eslint-disable-next-line no-warning-comments
-  //   // HACK: Empty <Select> are casted to null for now
-  //   // but the server wants an empty string
-  //   // We should fix the <Select> instead
-  //   if (service.category == null) {
-  //     service.category = "";
-  //   }
-
-  //   const { validatedData, valid } = validate(service, draftSchema, {
-  //     servicesOptions: servicesOptions,
-  //   });
-
-  //   if (!valid) {
-  //     return;
-  //   }
-
-  //   // Validation OK, let's send it to the API endpoint
-  //   const result = await createOrModifyService({
-  //     ...validatedData,
-  //     durationToAdd: $serviceSubmissionTimeMeter.duration,
-  //   });
-
-  //   if (result.ok) {
-  //     serviceSubmissionTimeMeter.clear();
-
-  //     goto(`/services/${result.data.slug}`);
-  //   } else {
-  //     injectAPIErrors(
-  //       result.error || {
-  //         nonFieldErrors: [
-  //           {
-  //             code: "fetch-error",
-  //             message: "Erreur de connexion au serveur",
-  //           },
-  //         ],
-  //       },
-  //       {}
-  //     );
-
-  //     if (onError) {
-  //       onError();
-  //     }
-  //   }
-  // }
-
-  function handleChange(_validatedData) {
-    // structure = { ...structure, ...validatedData };
+  function handleChange(validatedData) {
+    service = { ...service, ...validatedData };
   }
 
-  async function handleSubmit(_validatedData) {
-    // let result;
-    // if (modify) {
-    //   result = await modifyStructure(validatedData);
-    // } else {
-    //   result = await createStructure(validatedData);
-    // }
-    // return result;
+  function handleSubmit(validatedData, kind) {
+    if (kind === "publish") {
+      console.log("publishing");
+      service.status = "PUBLISHED";
+      service.markSynced = true;
+
+      return createOrModifyService({
+        ...validatedData,
+        status: "PUBLISHED",
+        durationToAdd: $serviceSubmissionTimeMeter.duration,
+      });
+    } else if (kind === "draft") {
+      console.log("saving as draft");
+
+      service.status = "DRAFT";
+      service.markSynced = true;
+      // eslint-disable-next-line no-warning-comments
+      // HACK: Empty <Select> are casted to null for now
+      // but the server wants an empty string
+      // We should fix the <Select> instead
+      if (service.category == null) {
+        service.category = "";
+      }
+      // TODO: validate with draftSchema
+      return createOrModifyService({
+        ...validatedData,
+        status: "DRAFT",
+        durationToAdd: $serviceSubmissionTimeMeter.duration,
+      });
+    } else {
+      console.error(kind);
+    }
   }
 
-  async function handleSuccess(_result) {
-    // if (modify && onRefresh) {
-    //   await onRefresh();
-    // }
-    // goto(`/structures/${result.slug}`);
+  async function handleSuccess(result) {
+    // service = serviceToFront(result);
+
+    // TODO fix that
+    // if (publish) serviceSubmissionTimeMeter.setId(result.slug);
+    // if (draft) serviceSubmissionTimeMeter.clear();
+
+    goto(`/services/${result.slug}`);
+  }
+
+  function handleValidate(data, kind: "draft" | "publish") {
+    let schema = kind === "draft" ? draftSchema : serviceSchema;
+    return validate(data, schema, {
+      servicesOptions,
+    });
   }
 
   let modelSlugTmp = null;
@@ -164,6 +130,8 @@
   onDestroy(() => {
     clearInterval(intervalId);
   });
+
+  let subcategories = [];
 </script>
 
 <svelte:window
@@ -172,6 +140,10 @@
   on:touchmove={updateLastUserActivity}
 />
 
+<CenteredGrid>
+  <FormErrors />
+</CenteredGrid>
+
 <Form
   data={service}
   schema={serviceSchema}
@@ -179,12 +151,11 @@
   onChange={handleChange}
   onSubmit={handleSubmit}
   onSuccess={handleSuccess}
+  onValidate={handleValidate}
   bind:requesting
 >
   <hr />
-  <CenteredGrid bgColor="bg-gray-bg">
-    <FormErrors />
-
+  <CenteredGrid>
     {#if structures.length}
       <div class="lg:w-2/3">
         <FieldsStructure
@@ -201,7 +172,7 @@
   {#if service?.structure}
     <hr />
 
-    <CenteredGrid bgColor={service.model ? "bg-info-light" : "bg-gray-bg"}>
+    <CenteredGrid>
       {#if service.model}
         <div class="lg:flex lg:items-center lg:justify-between">
           <h3>Synchronisé avec un modèle</h3>
@@ -242,52 +213,100 @@
       {/if}
 
       <div class={service.model ? "" : "lg:w-2/3"}>
-        <FieldsCommon
-          bind:service
-          {servicesOptions}
-          {model}
-          {serviceSchema}
-          canAddChoices={!model?.customizableChoicesSet}
-          typologyFieldDisabled={model && model.canUpdateCategories === false}
-        />
-      </div>
-    </CenteredGrid>
+        {#if !service.useInclusionNumeriqueScheme}
+          <FieldsTypology
+            bind:service
+            {servicesOptions}
+            {model}
+            {serviceSchema}
+            canAddChoices={!model?.customizableChoicesSet}
+            typologyFieldDisabled={model && model.canUpdateCategories === false}
+          />
 
-    <hr />
+          <FieldsPresentation
+            bind:service
+            {servicesOptions}
+            {model}
+            {serviceSchema}
+            canAddChoices={!model?.customizableChoicesSet}
+          />
 
-    <CenteredGrid bgColor="bg-gray-bg">
-      <div class="lg:w-2/3">
-        {#if service.useInclusionNumeriqueScheme}
+          <FieldsPublics
+            bind:service
+            {servicesOptions}
+            {model}
+            {serviceSchema}
+            canAddChoices={!model?.customizableChoicesSet}
+          />
+
+          <FieldsModalities
+            bind:service
+            {servicesOptions}
+            {model}
+            {serviceSchema}
+            canAddChoices={!model?.customizableChoicesSet}
+          />
+
+          <FieldsDocuments
+            bind:service
+            {servicesOptions}
+            {model}
+            {serviceSchema}
+            canAddChoices={!model?.customizableChoicesSet}
+          />
+
+          <FieldsPeriodicity
+            bind:service
+            {servicesOptions}
+            {model}
+            {serviceSchema}
+            canAddChoices={!model?.customizableChoicesSet}
+          />
+
+          <FieldsPerimeter bind:service {structure} {servicesOptions} />
+
+          <FieldsPlace bind:service {structure} {servicesOptions} />
+
+          <FieldsContact bind:service {structure} {servicesOptions} />
+        {:else}
+          <Fieldset>
+            <FieldCategory
+              bind:service
+              bind:subcategories
+              {servicesOptions}
+              {model}
+              {serviceSchema}
+              canAddChoices={!model?.customizableChoicesSet}
+              typologyFieldDisabled={model &&
+                model.canUpdateCategories === false}
+            />
+          </Fieldset>
+
           <FieldsInclusionNumerique
             bind:service
+            bind:subcategories
             {servicesOptions}
             {serviceSchema}
             {structure}
           />
-        {:else}
-          <FieldsService bind:service {servicesOptions} {structure} />
         {/if}
       </div>
     </CenteredGrid>
+
     <hr />
+
     <CenteredGrid>
       <div class="flex flex-row gap-s12">
-        <!-- <Button
-          on:click={saveDraft}
-          name="save"
+        <Button
+          id="draft"
+          type="submit"
           label="Enregistrer en brouillon"
           secondary
           disabled={requesting}
         />
 
         <Button
-          on:click={publish}
-          name="publish"
-          label="Publier"
-          disabled={requesting}
-        /> -->
-        <Button
-          name="validate"
+          id="publish"
           type="submit"
           label="Publier"
           disabled={requesting}

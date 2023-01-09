@@ -14,10 +14,12 @@
   export let onRefresh: () => void;
 
   async function setAsUpdated() {
+    // TODO: check that: we probably want to PATCH with no changed fields
     await createOrModifyService(service);
     isOpen = false;
     await onRefresh();
   }
+  $: console.log(service);
 </script>
 
 <Modal

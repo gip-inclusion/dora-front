@@ -1,13 +1,13 @@
 <script lang="ts">
   import FieldSet from "$lib/components/display/fieldset.svelte";
-  import AdminDivisionSearchField from "$lib/components/inputs/admin-division-search-field.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
   import MultiSelectField from "$lib/components/inputs/multi-select-field.svelte";
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import TextareaField from "$lib/components/inputs/textarea-field.svelte";
-  import ToggleField from "$lib/components/inputs/toggle-field.svelte";
   import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
+  import FieldsContact from "$lib/components/specialized/services/fields-contact.svelte";
+  import FieldsPerimeter from "$lib/components/specialized/services/fields-perimeter.svelte";
   import type { Choice, Service, ServicesOptions, Structure } from "$lib/types";
   import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
@@ -16,7 +16,6 @@
   export let servicesOptions: ServicesOptions;
   export let service: Service;
   export let structure: Structure;
-  export let serviceSchema;
 
   let subcategories = [];
 
@@ -198,8 +197,6 @@
     setLocationKinds();
   });
 
-  let adminDivisionChoices = [];
-
   function handleSubcategoriesChange(subcategories) {
     updateServicePresentation(
       servicesOptions.subcategories
@@ -208,18 +205,9 @@
         .join(", ")
     );
   }
-
-  function handleDiffusionZoneTypeChange(type) {
-    if (type !== service.diffusionZoneType) {
-      service.diffusionZoneType = type;
-      service.diffusionZoneDetails = "";
-      service.diffusionZoneDetailsDisplay = "";
-      adminDivisionChoices = [];
-    }
-  }
 </script>
 
-<FieldSet noTopPadding title="Service de l'inclusion numérique">
+<FieldSet title="Service de l'inclusion numérique">
   <div slot="help">
     <p class="text-f14">
       Le <b>Formulaire de l'inclusion numérique</b> est un outil de saisie
@@ -268,8 +256,8 @@
   {/if}
 
   <SelectField
-    label="Frais à charge"
     id="feeCondition"
+    label="Frais à charge"
     placeholder="Choississez..."
     bind:value={service.feeCondition}
     choices={servicesOptions.feeConditions}
@@ -313,87 +301,16 @@
 
 <!-- {#if !structure.latitude || !structure.longitude} -->
 {#if true}
-  <FieldSet title="Périmètre géographique d’intervention">
-    <div slot="help">
-      <p class="text-f14">
-        Qu’il soit national, régional, départemental, intercommunal ou communal,
-        le service peut être délimité aux bénéficiaires habitant sur un
-        territoire spécifique.
-      </p>
-
-      <h5 class="mb-s0">QPV et ZRR</h5>
-      <p class="text-f14">
-        Activez cette option si votre offre s’adresse uniquement aux
-        bénéficiaires résidants dans des Quartiers Prioritaires de la politique
-        de la Ville ou des Zones de Revitalisation Rurale.
-      </p>
-    </div>
-    <SelectField
-      label="Périmètre"
-      schema={serviceSchema.diffusionZoneType}
-      choices={servicesOptions.diffusionZoneType}
-      id="diffusionZoneType"
-      onSelectChange={handleDiffusionZoneTypeChange}
-      initialValue={service.diffusionZoneTypeDisplay}
-    />
-
-    {#if service.diffusionZoneType !== "country"}
-      <AdminDivisionSearchField
-        id="diffusionZoneDetails"
-        label="Territoire"
-        description="Commencez à saisir le nom et choisissez dans la liste."
-        searchType={service.diffusionZoneType}
-        handleChange={(details) => {
-          service.diffusionZoneDetails = details;
-        }}
-        initialValue={service.diffusionZoneDetailsDisplay}
-        bind:choices={adminDivisionChoices}
-      />
-    {/if}
-  </FieldSet>
+  <FieldsPerimeter
+    bind:service
+    {structure}
+    {servicesOptions}
+    showQPVOption={false}
+  />
 {/if}
 
 <FieldSet title="Accueil">
   <FieldsAddress bind:entity={service} bind:parent={structure} />
 </FieldSet>
 
-<FieldSet title="Contact">
-  <div slot="help">
-    <p class="text-f14">
-      Coordonnées de la personne responsable de la réception et du traitement
-      des demandes d’orientation. À défaut, renseignez le courriel et le numéro
-      de téléphone de votre structure.
-    </p>
-    <p class="text-f14">
-      Par défaut, ces informations sont disponibles uniquement aux
-      accompagnateurs qui ont un compte DORA. En cochant la case « Rendre
-      public », les informations seront rendues disponibles à tous les visiteurs
-      du site.
-    </p>
-  </div>
-  <BasicInputField
-    label="Prénom et nom"
-    placeholder="Prénom et nom"
-    id="contactName"
-    bind:value={service.contactName}
-  />
-  <BasicInputField
-    type="tel"
-    label="Téléphone"
-    placeholder="00 00 00 00 00"
-    id="contactPhone"
-    bind:value={service.contactPhone}
-  />
-  <BasicInputField
-    type="email"
-    label="Email"
-    placeholder="nom@exemple.org"
-    id="contactEmail"
-    bind:value={service.contactEmail}
-  />
-  <ToggleField
-    label="Rendre public"
-    id="isContactInfoPublic"
-    bind:value={service.isContactInfoPublic}
-  />
-</FieldSet>
+<FieldsContact bind:service {structure} {servicesOptions} />
