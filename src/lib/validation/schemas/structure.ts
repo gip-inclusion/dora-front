@@ -7,18 +7,15 @@ export default {
   },
   name: {
     default: "",
-    required: true,
     rules: [v.isString(), v.maxStrLength(255)],
     post: [v.trim],
   },
   typology: {
     default: "",
-    required: true,
     rules: [v.isString(), v.maxStrLength(255)],
   },
   address1: {
     default: "",
-    required: true,
     rules: [v.isString(), v.maxStrLength(255)],
     post: [v.trim],
   },
@@ -34,12 +31,10 @@ export default {
   },
   postalCode: {
     default: "",
-    required: true,
     rules: [v.isPostalCode()],
   },
   city: {
     default: "",
-    required: true,
     rules: [v.isString(), v.maxStrLength(255)],
     post: [v.trim],
   },
@@ -50,7 +45,6 @@ export default {
   },
   email: {
     default: "",
-    required: true,
     rules: [v.isEmail(), v.maxStrLength(255)],
     post: [v.lower, v.trim],
   },
@@ -61,7 +55,6 @@ export default {
   },
   shortDesc: {
     default: "",
-    required: true,
     rules: [v.isString(), v.maxStrLength(280)],
     post: [v.trim],
   },

@@ -10,8 +10,7 @@
   import { isNotFreeService } from "$lib/utils/service";
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service, canAddChoices;
-  export let isModel = false;
+  export let servicesOptions, serviceSchema, service;
   export let model: Model | undefined = undefined;
 
   // let feeConditionClassic =
@@ -37,14 +36,16 @@
     };
   }
 
-  $: fieldModelProps = getModelInputProps(
-    serviceSchema,
-    service,
-    servicesOptions,
-    showModel,
-    useModelValue,
-    model
-  );
+  $: fieldModelProps = service.model
+    ? getModelInputProps(
+        serviceSchema,
+        service,
+        servicesOptions,
+        showModel,
+        useModelValue,
+        service.model
+      )
+    : {};
 </script>
 
 <FieldSet title="Modalités" {showModel}>
@@ -63,6 +64,7 @@
           "autre"
         )}
         bind:value={service.coachOrientationModes}
+        required
       />
     </FieldModel>
 

@@ -5,10 +5,8 @@
   import { getModelInputProps } from "$lib/utils/forms";
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service, canAddChoices;
-  export let isModel = false;
+  export let servicesOptions, serviceSchema, service;
   export let model: Model | undefined = undefined;
-  export let typologyFieldDisabled = false;
 
   let showModel;
 
@@ -20,14 +18,16 @@
     };
   }
 
-  $: fieldModelProps = getModelInputProps(
-    serviceSchema,
-    service,
-    servicesOptions,
-    showModel,
-    useModelValue,
-    model
-  );
+  $: fieldModelProps = service.model
+    ? getModelInputProps(
+        serviceSchema,
+        service,
+        servicesOptions,
+        showModel,
+        useModelValue,
+        service.model
+      )
+    : {};
 </script>
 
 <FieldSet title="Périodicité" {showModel}>

@@ -13,6 +13,7 @@
     label="Mode d’accueil"
     id="locationKinds"
     bind:value={service.locationKinds}
+    required
     choices={moveToTheEnd(servicesOptions.locationKinds, "value", "a-distance")}
   />
 

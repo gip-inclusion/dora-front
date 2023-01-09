@@ -13,7 +13,7 @@
   // Spécifiques
   export let choices: Choice[];
   export let sort = false;
-  export let onSelectChange = undefined;
+  export let onChange = undefined;
   export let placeholderMulti = "";
   export let multiple = false;
   export let canAdd = true;
@@ -76,7 +76,7 @@
     bind:value={values}
     choices={filteredChoices}
     on:blur={onBlur}
-    onChange={onSelectChange}
+    {onChange}
     {placeholder}
     {placeholderMulti}
     {disabled}

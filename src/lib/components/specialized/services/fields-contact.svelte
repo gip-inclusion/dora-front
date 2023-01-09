@@ -3,10 +3,11 @@
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
 
-  export let servicesOptions, service, structure;
+  export let service;
+  export let required = false;
 </script>
 
-<FieldSet title="Contact">
+<FieldSet title="Contact du référent">
   <div slot="help">
     <p class="text-f14">
       Coordonnées de la personne responsable de la réception et du traitement
@@ -39,6 +40,7 @@
     placeholder="nom@exemple.org"
     id="contactEmail"
     bind:value={service.contactEmail}
+    {required}
   />
   <ToggleField
     label="Rendre public"

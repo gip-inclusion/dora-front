@@ -31,7 +31,6 @@ export type Rule<T> = (
 export interface Shape<T> {
   rules: Rule<T>[];
   default?: T;
-  required?: boolean;
   dependents?: string[];
   post?: Action<T>[];
   pre?: Action<T>[];

@@ -7,10 +7,10 @@
   import { getModelInputProps } from "$lib/utils/forms";
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service, canAddChoices;
-  export let isModel = false;
+  export let servicesOptions, serviceSchema, service;
+  // TODO: service.model?
   export let model: Model | undefined = undefined;
-  export let typologyFieldDisabled = false;
+  export let noTopPadding = false;
 
   let fullDesc;
 
@@ -24,20 +24,23 @@
     };
   }
 
-  $: fieldModelProps = getModelInputProps(
-    serviceSchema,
-    service,
-    servicesOptions,
-    showModel,
-    useModelValue,
-    model
-  );
+  $: fieldModelProps = service.model
+    ? getModelInputProps(
+        serviceSchema,
+        service,
+        servicesOptions,
+        showModel,
+        useModelValue,
+        service.model
+      )
+    : {};
+
   let showModel;
 
   $: showModel = !!service.model;
 </script>
 
-<FieldSet title="Présentation" {showModel}>
+<FieldSet title="Présentation" {showModel} {noTopPadding}>
   <div slot="help">
     <p class="text-f14">
       Le <b>Résumé</b> présente le service en une phrase courte. Il apparait dans
@@ -73,6 +76,7 @@
       placeholder="Compléter"
       label="Résumé"
       bind:value={service.shortDesc}
+      required
     />
   </FieldModel>
 

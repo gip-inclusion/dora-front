@@ -1,17 +1,15 @@
 <script lang="ts">
-  import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import { goto } from "$app/navigation";
   import Button from "$lib/components/display/button.svelte";
-  import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
-
   import Fieldset from "$lib/components/display/fieldset.svelte";
+  import FormErrors from "$lib/components/display/form-errors.svelte";
+  import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import Form from "$lib/components/hoc/form.svelte";
+  import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import { arrowRightSIcon } from "$lib/icons";
   import { getApiURL } from "$lib/utils/api";
   import { refreshUserInfo, token, userInfo } from "$lib/utils/auth";
   import { userProfileSchema } from "$lib/validation/schemas/user-profile";
-  import FormErrors from "$lib/components/display/form-errors.svelte";
-  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
 
   function handleChange(validatedData) {
     phoneNumber = validatedData.phoneNumber;
@@ -43,9 +41,7 @@
 </script>
 
 <EnsureLoggedIn>
-  <CenteredGrid>
-    <FormErrors />
-  </CenteredGrid>
+  <FormErrors />
 
   <div class="lg:w-2/3">
     <Form

@@ -10,6 +10,7 @@
 
   export let entity: Service | Structure;
   export let parent: Structure | null = null;
+  export let required = false;
 
   function handleAddressChange(address) {
     const props = address?.properties;
@@ -69,7 +70,7 @@
     label="Ville"
     initialValue={entity.city}
     onChange={handleCityChange}
-    required
+    {required}
     placeholder="Saisissez et validez votre ville"
   />
 
@@ -79,7 +80,7 @@
     initialValue={entity.address1}
     onChange={handleAddressChange}
     cityCode={entity.cityCode}
-    required
+    {required}
     placeholder="3 rue du parc"
     disabled={!entity.cityCode}
   />
@@ -95,7 +96,7 @@
     id="postalCode"
     label="Code postal"
     bind:value={entity.postalCode}
-    required
+    {required}
     placeholder="00000"
   />
 

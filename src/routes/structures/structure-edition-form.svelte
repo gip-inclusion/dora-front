@@ -2,14 +2,13 @@
   import { goto } from "$app/navigation";
   import Button from "$lib/components/display/button.svelte";
   import Fieldset from "$lib/components/display/fieldset.svelte";
+  import FormErrors from "$lib/components/display/form-errors.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import Form from "$lib/components/hoc/form.svelte";
   import { createStructure, modifyStructure } from "$lib/requests/structures";
   import type { Structure, StructuresOptions } from "$lib/types";
   import structureSchema from "$lib/validation/schemas/structure";
-  import FormErrors from "$lib/components/display/form-errors.svelte";
   import StructureEditionFields from "./structure-edition-fields.svelte";
-  import CenteredGrid from "$lib/components/display/centered-grid.svelte";
 
   export let structure: Structure;
   export let structuresOptions: StructuresOptions;
@@ -43,9 +42,7 @@
   }
 </script>
 
-<CenteredGrid>
-  <FormErrors />
-</CenteredGrid>
+<FormErrors />
 
 <div class="lg:w-2/3">
   <Form

@@ -87,9 +87,7 @@
   </div>
 </CenteredGrid>
 
-<CenteredGrid>
-  <FormErrors />
-</CenteredGrid>
+<FormErrors />
 
 <CenteredGrid bgColor="bg-gray-bg">
   <div class="lg:w-2/3">

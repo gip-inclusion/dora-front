@@ -12,11 +12,9 @@
   import FieldModel from "./field-model.svelte";
 
   export let subcategories = [];
-
-  export let servicesOptions, serviceSchema, service, canAddChoices;
+  export let servicesOptions, serviceSchema, service;
   export let isModel = false;
   export let model: Model | undefined = undefined;
-  export let typologyFieldDisabled = false;
 
   const useModel = model != null;
 
@@ -119,14 +117,16 @@
     };
   }
 
-  $: fieldModelProps = getModelInputProps(
-    serviceSchema,
-    service,
-    servicesOptions,
-    showModel,
-    useModelValue,
-    model
-  );
+  $: fieldModelProps = service.model
+    ? getModelInputProps(
+        serviceSchema,
+        service,
+        servicesOptions,
+        showModel,
+        useModelValue,
+        service.model
+      )
+    : {};
 </script>
 
 <Modal bind:isOpen title="Attention !" smallWidth>
@@ -151,11 +151,10 @@
     label="Thématiques"
     bind:value={service.categories}
     choices={servicesOptions.categories}
-    onSelectChange={handleCategoriesChange}
+    onChange={handleCategoriesChange}
+    required
     placeholderMulti="Sélectionner"
     sort
-    disabled={typologyFieldDisabled}
-    readonly={typologyFieldDisabled}
   />
 </FieldModel>
 

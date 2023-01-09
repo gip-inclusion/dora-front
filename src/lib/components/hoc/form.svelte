@@ -16,7 +16,9 @@
   export let onSubmit, onSuccess;
   export let servicesOptions: ServicesOptions | undefined = undefined;
   export let onChange: ((data) => void) | undefined = undefined;
-  export let onValidate: (data) => { validatedData; valid: boolean };
+  export let onValidate: (
+    data
+  ) => { validatedData; valid: boolean } | undefined;
 
   onMount(() => {
     $formErrors = {};

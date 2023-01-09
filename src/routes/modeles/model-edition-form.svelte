@@ -35,9 +35,7 @@
   }
 </script>
 
-<CenteredGrid>
-  <FormErrors />
-</CenteredGrid>
+<FormErrors />
 
 <Form
   data={model}
@@ -49,7 +47,7 @@
   bind:requesting
 >
   <hr />
-  <CenteredGrid bgColor="bg-info-light">
+  <CenteredGrid bgColor="bg-gray-bg">
     {#if structures.length}
       <div class="lg:w-2/3">
         <FieldsStructure
@@ -65,24 +63,22 @@
 
   <hr />
 
-  <CenteredGrid bgColor={"bg-info-light"}>
+  <CenteredGrid bgColor="bg-gray-bg">
     <div class="lg:w-2/3">
       {#if model?.structure}
+        <FieldsPresentation
+          noTopPadding
+          bind:service={model}
+          {servicesOptions}
+          {model}
+          serviceSchema={modelSchema}
+        />
+
         <FieldsTypology
           bind:service={model}
           {servicesOptions}
           {model}
           serviceSchema={modelSchema}
-          canAddChoices={!model?.customizableChoicesSet}
-          typologyFieldDisabled={model && model.canUpdateCategories === false}
-        />
-
-        <FieldsPresentation
-          bind:service={model}
-          {servicesOptions}
-          {model}
-          serviceSchema={modelSchema}
-          canAddChoices={!model?.customizableChoicesSet}
         />
 
         <FieldsPublics
@@ -98,7 +94,6 @@
           {servicesOptions}
           {model}
           serviceSchema={modelSchema}
-          canAddChoices={!model?.customizableChoicesSet}
         />
 
         <FieldsDocuments
@@ -114,7 +109,6 @@
           {servicesOptions}
           {model}
           serviceSchema={modelSchema}
-          canAddChoices={!model?.customizableChoicesSet}
         />
       {/if}
     </div>

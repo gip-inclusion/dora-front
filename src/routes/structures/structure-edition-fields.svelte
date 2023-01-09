@@ -50,7 +50,7 @@
   sort
 />
 
-<FieldsAddress bind:entity={structure} />
+<FieldsAddress bind:entity={structure} required />
 
 <BasicInputField
   type="url"

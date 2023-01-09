@@ -2,6 +2,7 @@
   import {
     contextValidationKey,
     formErrors,
+    fieldsMetadata,
     type ValidationContext,
   } from "$lib/validation/validation";
   import { getContext } from "svelte";
@@ -31,6 +32,11 @@
   }
 
   $: errorMessages = $formErrors[id];
+
+  $fieldsMetadata[id] = {
+    label: label,
+    required,
+  };
 </script>
 
 <div

@@ -2,24 +2,23 @@
   import Notice from "$lib/components/display/notice.svelte";
   import { serviceSchema } from "$lib/validation/schemas/service";
   import { validate } from "$lib/validation/validation";
+  import { onMount } from "svelte";
 
   export let service, servicesOptions;
 
-  let validation;
-  $: validation =
-    service &&
-    validate(service, serviceSchema, {
+  let invalidFields = [];
+  let errors = 1;
+  onMount(() => {
+    const validation = validate(service, serviceSchema, {
       noScroll: true,
       showErrors: false,
       servicesOptions,
     });
-
-  let errors;
-  $: console.log(errors);
-  $: errors = validation?.errorFields.length > 1;
+    invalidFields = validation?.errorFields;
+  });
 </script>
 
-{#if !validation?.valid}
+{#if invalidFields.length}
   <Notice
     title={`Information${errors ? "s" : ""} requise${
       errors ? "s" : ""
@@ -27,7 +26,7 @@
     type="warning"
   >
     <p class="text-f14 first-letter:capitalize">
-      {validation?.errorFields.join(", ")}.
+      {invalidFields.join(", ")}.
     </p>
   </Notice>
 {/if}

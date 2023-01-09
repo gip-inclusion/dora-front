@@ -140,9 +140,7 @@
   on:touchmove={updateLastUserActivity}
 />
 
-<CenteredGrid>
-  <FormErrors />
-</CenteredGrid>
+<FormErrors />
 
 <Form
   data={service}
@@ -155,7 +153,7 @@
   bind:requesting
 >
   <hr />
-  <CenteredGrid>
+  <CenteredGrid bgColor="bg-gray-bg">
     {#if structures.length}
       <div class="lg:w-2/3">
         <FieldsStructure
@@ -172,7 +170,7 @@
   {#if service?.structure}
     <hr />
 
-    <CenteredGrid>
+    <CenteredGrid bgColor="bg-gray-bg">
       {#if service.model}
         <div class="lg:flex lg:items-center lg:justify-between">
           <h3>Synchronisé avec un modèle</h3>
@@ -212,15 +210,14 @@
         </div>
       {/if}
 
-      <div class={service.model ? "" : "lg:w-2/3"}>
-        {#if !service.useInclusionNumeriqueScheme}
+      {#if !service.useInclusionNumeriqueScheme}
+        <div class={service.model ? "" : "lg:w-2/3"}>
           <FieldsTypology
+            noTopPadding
             bind:service
             {servicesOptions}
             {model}
             {serviceSchema}
-            canAddChoices={!model?.customizableChoicesSet}
-            typologyFieldDisabled={model && model.canUpdateCategories === false}
           />
 
           <FieldsPresentation
@@ -228,7 +225,6 @@
             {servicesOptions}
             {model}
             {serviceSchema}
-            canAddChoices={!model?.customizableChoicesSet}
           />
 
           <FieldsPublics
@@ -244,7 +240,6 @@
             {servicesOptions}
             {model}
             {serviceSchema}
-            canAddChoices={!model?.customizableChoicesSet}
           />
 
           <FieldsDocuments
@@ -260,25 +255,24 @@
             {servicesOptions}
             {model}
             {serviceSchema}
-            canAddChoices={!model?.customizableChoicesSet}
           />
-
+        </div>
+        <div class="lg:w-2/3">
           <FieldsPerimeter bind:service {structure} {servicesOptions} />
 
           <FieldsPlace bind:service {structure} {servicesOptions} />
 
-          <FieldsContact bind:service {structure} {servicesOptions} />
-        {:else}
-          <Fieldset>
+          <FieldsContact bind:service {structure} {servicesOptions} required />
+        </div>
+      {:else}
+        <div class={service.model ? "" : "lg:w-2/3"}>
+          <Fieldset noTopPadding>
             <FieldCategory
               bind:service
               bind:subcategories
               {servicesOptions}
               {model}
               {serviceSchema}
-              canAddChoices={!model?.customizableChoicesSet}
-              typologyFieldDisabled={model &&
-                model.canUpdateCategories === false}
             />
           </Fieldset>
 
@@ -289,8 +283,8 @@
             {serviceSchema}
             {structure}
           />
-        {/if}
-      </div>
+        </div>
+      {/if}
     </CenteredGrid>
 
     <hr />

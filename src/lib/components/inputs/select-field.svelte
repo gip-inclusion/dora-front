@@ -13,7 +13,7 @@
   // Spécifique du select
   export let choices: Choice[];
   export let sort = false;
-  export let onSelectChange = undefined;
+  export let onChange = undefined;
   export let placeholderMulti = "";
 
   // Proxy vers le FieldWrapper
@@ -41,7 +41,7 @@
     {sort}
     bind:value
     on:blur={onBlur}
-    onChange={onSelectChange}
+    {onChange}
     {placeholder}
     {placeholderMulti}
     {disabled}

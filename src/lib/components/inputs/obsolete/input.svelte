@@ -22,7 +22,7 @@
   export let minValue = null;
   export let rows = 4;
 
-  export let onSelectChange = undefined;
+  export let onChange = undefined;
 </script>
 
 {#if type === "checkboxes"}
@@ -50,7 +50,7 @@
     sort={sortSelect}
     bind:value
     on:blur
-    onChange={onSelectChange}
+    {onChange}
     {placeholder}
     {placeholderMulti}
     {disabled}
@@ -64,7 +64,7 @@
     sort={sortSelect}
     bind:value
     on:blur
-    onChange={onSelectChange}
+    {onChange}
     multiple
     {placeholder}
     {placeholderMulti}

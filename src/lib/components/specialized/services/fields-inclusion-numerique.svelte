@@ -232,7 +232,7 @@
     choices={subcategories}
     placeholder="Sélectionner"
     placeholderMulti="Sélectionner"
-    onSelectChange={handleSubcategoriesChange}
+    onChange={handleSubcategoriesChange}
   />
 
   {#if concernedPublicOptions.length}
@@ -313,4 +313,4 @@
   <FieldsAddress bind:entity={service} bind:parent={structure} />
 </FieldSet>
 
-<FieldsContact bind:service {structure} {servicesOptions} />
+<FieldsContact bind:service {structure} {servicesOptions} required />

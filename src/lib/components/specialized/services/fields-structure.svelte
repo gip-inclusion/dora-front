@@ -116,7 +116,7 @@
     label="Structure"
     bind:value={service.structure}
     choices={structures.map((s) => ({ value: s.slug, label: s.name }))}
-    onSelectChange={handleStructureChange}
+    onChange={handleStructureChange}
     sort
     disabled={!showStructures}
     placeholder="Sélectionnez la structure…"

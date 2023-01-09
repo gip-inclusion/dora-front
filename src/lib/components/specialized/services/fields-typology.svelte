@@ -9,12 +9,10 @@
   import FieldCategory from "./field-category.svelte";
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service, canAddChoices;
-  export let isModel = false;
+  export let servicesOptions, serviceSchema, service;
   export let model: Model | undefined = undefined;
-  export let typologyFieldDisabled = false;
-
-  let subcategories = [];
+  export let noTopPadding = false;
+  export let subcategories = [];
   let showModelSubcategoriesUseValue = true;
 
   let showModel;
@@ -27,25 +25,25 @@
     };
   }
 
-  $: fieldModelProps = getModelInputProps(
-    serviceSchema,
-    service,
-    servicesOptions,
-    showModel,
-    useModelValue,
-    model
-  );
+  $: fieldModelProps = service.model
+    ? getModelInputProps(
+        serviceSchema,
+        service,
+        servicesOptions,
+        showModel,
+        useModelValue,
+        service.model
+      )
+    : {};
 </script>
 
-<FieldSet title="Typologie" noTopPadding {showModel}>
+<FieldSet title="Typologie" {showModel} {noTopPadding}>
   <FieldCategory
     bind:service
     bind:subcategories
     {servicesOptions}
     {model}
     {serviceSchema}
-    canAddChoices={!model?.customizableChoicesSet}
-    typologyFieldDisabled={model && model.canUpdateCategories === false}
   />
   <div slot="help">
     <p class="text-f14">
@@ -63,6 +61,7 @@
       id="subcategories"
       label="Besoins"
       bind:value={service.subcategories}
+      required
       choices={subcategories}
       placeholder="Sélectionner"
       placeholderMulti="Sélectionner"
@@ -74,6 +73,7 @@
       id="kinds"
       label="Types"
       bind:value={service.kinds}
+      required
       choices={servicesOptions.kinds}
     />
   </FieldModel>

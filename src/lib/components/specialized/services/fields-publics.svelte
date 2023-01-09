@@ -6,6 +6,7 @@
   import FieldModel from "./field-model.svelte";
 
   export let servicesOptions, serviceSchema, service, canAddChoices;
+  // TODO: service.model?
   export let model: Model | undefined = undefined;
 
   let showModel;
@@ -18,14 +19,16 @@
     };
   }
 
-  $: fieldModelProps = getModelInputProps(
-    serviceSchema,
-    service,
-    servicesOptions,
-    showModel,
-    useModelValue,
-    model
-  );
+  $: fieldModelProps = service.model
+    ? getModelInputProps(
+        serviceSchema,
+        service,
+        servicesOptions,
+        showModel,
+        useModelValue,
+        service.model
+      )
+    : {};
 </script>
 
 <FieldSet title="Publics" {showModel}>

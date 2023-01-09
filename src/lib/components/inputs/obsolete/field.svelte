@@ -30,7 +30,7 @@
 
   export let hideLabel = false;
 
-  export let onSelectChange = undefined;
+  export let onChange = undefined;
 
   const context = getContext<ValidationContext>(contextValidationKey);
 
@@ -70,7 +70,7 @@
         on:change={handleChange}
         on:change
         on:input
-        {onSelectChange}
+        {onChange}
         {type}
         {name}
         {choices}

@@ -4,7 +4,7 @@
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
 
-  export let servicesOptions, service, structure;
+  export let servicesOptions, service;
   export let showQPVOption = true;
   let adminDivisionChoices = [];
 
@@ -42,8 +42,9 @@
     label="Périmètre"
     choices={servicesOptions.diffusionZoneType}
     id="diffusionZoneType"
-    onSelectChange={handleDiffusionZoneTypeChange}
+    onChange={handleDiffusionZoneTypeChange}
     initialValue={service.diffusionZoneTypeDisplay}
+    required
   />
 
   {#if service.diffusionZoneType !== "country"}
