@@ -14,28 +14,23 @@
 
   let fullDesc;
 
-  function useModelValue(fieldName) {
-    return () => {
-      service[fieldName] = model ? model[fieldName] : undefined;
-
-      if (fieldName === "fullDesc") {
-        fullDesc.updateValue(service.fullDesc);
-      }
-    };
+  function handleUseModelValue(fieldName: string) {
+    service[fieldName] = model ? model[fieldName] : undefined;
+    if (fieldName === "fullDesc") {
+      fullDesc.updateValue(service.fullDesc);
+    }
   }
 
-  $: fieldModelProps = service.model
-    ? getModelInputProps(
-        serviceSchema,
+  $: fieldModelProps = model
+    ? getModelInputProps({
+        schema: serviceSchema,
         service,
         servicesOptions,
         showModel,
-        useModelValue,
-        service.model
-      )
+        onUseModelValue: handleUseModelValue,
+        model,
+      })
     : {};
-
-  let showModel;
 
   $: showModel = !!service.model;
 </script>

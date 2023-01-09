@@ -36,26 +36,33 @@ export function createModelFromService(service) {
   );
 }
 
-export function getModelInputProps(
+export function getModelInputProps({
   schema,
-  service: Service,
-  servicesOptions: ServicesOptions,
-  showModel: boolean,
-  useModelValue: (fieldName: string) => () => void,
-  model?: Model
-) {
-  const result = Object.fromEntries(
+  service,
+  servicesOptions,
+  showModel,
+  onUseModelValue,
+  model,
+}: {
+  schema;
+  service: Service;
+  servicesOptions: ServicesOptions;
+  showModel: boolean;
+  onUseModelValue: (fieldName: string) => void;
+  model?: Model;
+}) {
+  return Object.fromEntries(
     Object.keys(schema).map((fieldName) => [
       fieldName,
       {
+        service,
         showModel,
-        value: model ? model[fieldName] : null,
+        value: model ? model[fieldName] : undefined,
         serviceValue: service[fieldName],
         options:
           fieldName in servicesOptions ? servicesOptions[fieldName] : null,
-        useValue: useModelValue(fieldName),
+        onUseValue: () => onUseModelValue(fieldName),
       },
     ])
   );
-  return result;
 }

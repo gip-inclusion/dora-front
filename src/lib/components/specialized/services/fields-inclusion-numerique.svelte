@@ -289,6 +289,7 @@
     bind:value={service.beneficiariesAccessModes}
   />
 
+  // TODO: probably buggy, check that
   {#if service.beneficiariesAccessModes.includes("autre")}
     <BasicInputField
       hideLabel
@@ -301,16 +302,11 @@
 
 <!-- {#if !structure.latitude || !structure.longitude} -->
 {#if true}
-  <FieldsPerimeter
-    bind:service
-    {structure}
-    {servicesOptions}
-    showQPVOption={false}
-  />
+  <FieldsPerimeter bind:service {servicesOptions} showQPVOption={false} />
 {/if}
 
 <FieldSet title="Accueil">
   <FieldsAddress bind:entity={service} bind:parent={structure} />
 </FieldSet>
 
-<FieldsContact bind:service {structure} {servicesOptions} required />
+<FieldsContact bind:service required />

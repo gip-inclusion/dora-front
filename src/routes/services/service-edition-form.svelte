@@ -258,11 +258,11 @@
           />
         </div>
         <div class="lg:w-2/3">
-          <FieldsPerimeter bind:service {structure} {servicesOptions} />
+          <FieldsPerimeter bind:service {servicesOptions} />
 
           <FieldsPlace bind:service {structure} {servicesOptions} />
 
-          <FieldsContact bind:service {structure} {servicesOptions} required />
+          <FieldsContact bind:service required />
         </div>
       {:else}
         <div class={service.model ? "" : "lg:w-2/3"}>
@@ -272,7 +272,6 @@
               bind:subcategories
               {servicesOptions}
               {model}
-              {serviceSchema}
             />
           </Fieldset>
 

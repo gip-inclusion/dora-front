@@ -22,29 +22,23 @@
   //   service.feeCondition = feeCondition?.value;
   // }
 
-  let showModel;
-
   $: showModel = !!service.model;
 
-  function useModelValue(fieldName) {
-    return () => {
-      service[fieldName] = model ? model[fieldName] : undefined;
-
-      // if (fieldName === "feeCondition") {
-      //   feeConditionClassic = service.feeCondition;
-      // }
-    };
+  function handleUseModelValue(_fieldName) {
+    // if (fieldName === "feeCondition") {
+    //   feeConditionClassic = service.feeCondition;
+    // }
   }
 
-  $: fieldModelProps = service.model
-    ? getModelInputProps(
-        serviceSchema,
+  $: fieldModelProps = model
+    ? getModelInputProps({
+        schema: serviceSchema,
         service,
         servicesOptions,
         showModel,
-        useModelValue,
-        service.model
-      )
+        onUseModelValue: handleUseModelValue,
+        model,
+      })
     : {};
 </script>
 

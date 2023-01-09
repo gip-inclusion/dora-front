@@ -13,8 +13,6 @@
 
   let establishment = null;
 
-  let subcategories = [];
-
   function handleStructureCityChange() {
     service.siret = "";
   }
@@ -34,7 +32,7 @@
 {#if service.siret}
   <FieldsPresentation bind:service {servicesOptions} />
 
-  <FieldsTypology bind:service {servicesOptions} bind:subcategories />
+  <FieldsTypology bind:service {servicesOptions} />
 
   <div class="mt-s48">
     <Notice type="warning">

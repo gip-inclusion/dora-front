@@ -2,18 +2,20 @@ import type { ServicesOptions } from "$lib/types";
 import * as v from "./utils";
 
 export function allCategoriesHaveSubcategories() {
-  return (name, value, data, servicesOptions: ServicesOptions, schema) => {
+  return (name, value, data, servicesOptions: ServicesOptions, _schema) => {
+    console.log("test all cat have subcats");
     const subcatRoots = new Set(
       data.subcategories.map((value) => value.split("--")[0])
     );
 
+    // TODO: fix that, but the required field is not in the schema anymore
     // Pas besoin de vérifier les sous-catégories si le champs est optionnel
-    const required = schema[name]?.required ?? false;
-    if (!required) {
-      return {
-        valid: true,
-      };
-    }
+    // const required = schema[name]?.required ?? false;
+    // if (!required) {
+    //   return {
+    //     valid: true,
+    //   };
+    // }
 
     if (!servicesOptions) {
       console.log("Missing servicesOptions in rules check");

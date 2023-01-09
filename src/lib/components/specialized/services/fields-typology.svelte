@@ -13,38 +13,30 @@
   export let model: Model | undefined = undefined;
   export let noTopPadding = false;
   export let subcategories = [];
-  let showModelSubcategoriesUseValue = true;
-
-  let showModel;
+  let showModelSubcategoriesUseButton = true;
 
   $: showModel = !!service.model;
 
-  function useModelValue(fieldName) {
-    return () => {
-      service[fieldName] = model ? model[fieldName] : undefined;
-    };
+  function handleUseModelValue(fieldName: string) {
+    service[fieldName] = model ? model[fieldName] : undefined;
   }
 
-  $: fieldModelProps = service.model
-    ? getModelInputProps(
-        serviceSchema,
+  $: fieldModelProps = model
+    ? getModelInputProps({
+        schema: serviceSchema,
         service,
         servicesOptions,
         showModel,
-        useModelValue,
-        service.model
-      )
+        onUseModelValue: handleUseModelValue,
+        model,
+      })
     : {};
 </script>
 
 <FieldSet title="Typologie" {showModel} {noTopPadding}>
-  <FieldCategory
-    bind:service
-    bind:subcategories
-    {servicesOptions}
-    {model}
-    {serviceSchema}
-  />
+  <FieldModel {...fieldModelProps["categories"]} type="array">
+    <FieldCategory bind:service bind:subcategories {servicesOptions} {model} />
+  </FieldModel>
   <div slot="help">
     <p class="text-f14">
       Classez le service par thématiques et besoins pour faciliter son
@@ -54,7 +46,7 @@
 
   <FieldModel
     {...fieldModelProps["subcategories"]}
-    showUseValue={showModelSubcategoriesUseValue}
+    showUseButton={showModelSubcategoriesUseButton}
     type="array"
   >
     <MultiSelectField
@@ -67,7 +59,6 @@
       placeholderMulti="Sélectionner"
     />
   </FieldModel>
-
   <FieldModel {...fieldModelProps["kinds"]} type="array">
     <CheckboxesField
       id="kinds"

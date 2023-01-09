@@ -10,7 +10,7 @@ export type ValidationContext = {
   onInput: (evt: any) => Promise<void>;
 };
 export const contextValidationKey = {};
-// TODO: type it properly
+
 export const formErrors: any = writable({});
 
 export interface Fields {
@@ -49,12 +49,12 @@ function validateField(
   data,
   servicesOptions: ServicesOptions,
   schema,
-  fieldData
+  fieldMeta
 ) {
   const originalValue = data[fieldName];
 
   let value = originalValue;
-  if (!fieldData.required && value == null) {
+  if (!fieldMeta.required && value == null) {
     // Ignore null values for fields that are not required
     return { value, valid: true };
   }
@@ -66,7 +66,7 @@ function validateField(
   }
 
   if (
-    fieldData.required &&
+    fieldMeta.required &&
     ((Array.isArray(value) && !value.length) ||
       (!Array.isArray(value) && (value == null || value === "")))
   ) {
@@ -120,7 +120,7 @@ export function validate(
   let isValid = true;
   let doneOnce = false;
   const errorFields: string[] = [];
-  const fieldsData = get(fieldsMetadata);
+  const fieldsMeta = get(fieldsMetadata);
 
   if (showErrors) {
     Object.keys(schema).forEach((fieldName) => delete currentErrors[fieldName]);
@@ -128,23 +128,23 @@ export function validate(
   }
 
   Object.entries(schema).forEach(([fieldName, shape]: [string, Shape<any>]) => {
-    const fieldData = fieldsData[fieldName];
+    const fieldMeta = fieldsMeta[fieldName];
     // On n'essaye pas de valider les champs qui ne sont pas affichés
-    if (!fieldData) return;
+    if (!fieldMeta) return;
     const { value, valid, msg } = validateField(
       fieldName,
       shape,
       data,
       servicesOptions,
       schema,
-      fieldData
+      fieldMeta
     );
 
     isValid &&= valid;
     validatedData[fieldName] = value;
 
     if (!valid) {
-      errorFields.push(fieldData.label);
+      errorFields.push(fieldMeta.label);
     }
 
     if (showErrors) {

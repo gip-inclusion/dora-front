@@ -4,15 +4,13 @@
   import Notice from "$lib/components/display/notice.svelte";
   import MultiSelectField from "$lib/components/inputs/multi-select-field.svelte";
   import type { Model } from "$lib/types";
-  import { getModelInputProps } from "$lib/utils/forms";
   import {
     // arraysCompare,
     orderAndReformatSubcategories,
   } from "$lib/utils/misc";
-  import FieldModel from "./field-model.svelte";
 
   export let subcategories = [];
-  export let servicesOptions, serviceSchema, service;
+  export let servicesOptions, service;
   export let isModel = false;
   export let model: Model | undefined = undefined;
 
@@ -100,7 +98,7 @@
     );
 
     // if (model) {
-    //   showModelSubcategoriesUseValue = arraysCompare(
+    //   showModelSubcategoriesUseButton = arraysCompare(
     //     categories,
     //     model.categories
     //   );
@@ -110,23 +108,6 @@
   let showModel;
 
   $: showModel = !!service.model;
-
-  function useModelValue(fieldName) {
-    return () => {
-      service[fieldName] = model ? model[fieldName] : undefined;
-    };
-  }
-
-  $: fieldModelProps = service.model
-    ? getModelInputProps(
-        serviceSchema,
-        service,
-        servicesOptions,
-        showModel,
-        useModelValue,
-        service.model
-      )
-    : {};
 </script>
 
 <Modal bind:isOpen title="Attention !" smallWidth>
@@ -145,18 +126,16 @@
   </div>
 </Modal>
 
-<FieldModel {...fieldModelProps["categories"]} type="array">
-  <MultiSelectField
-    id="categories"
-    label="Thématiques"
-    bind:value={service.categories}
-    choices={servicesOptions.categories}
-    onChange={handleCategoriesChange}
-    required
-    placeholderMulti="Sélectionner"
-    sort
-  />
-</FieldModel>
+<MultiSelectField
+  id="categories"
+  label="Thématiques"
+  bind:value={service.categories}
+  choices={servicesOptions.categories}
+  onChange={handleCategoriesChange}
+  required
+  placeholderMulti="Sélectionner"
+  sort
+/>
 
 {#if displayInclusionNumeriqueFormNotice && !(isModel || useModel)}
   <Notice title={selectedInclusionNumeriqueFormNotice.title} type="info">

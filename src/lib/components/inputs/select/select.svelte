@@ -15,7 +15,10 @@
   export let delay = undefined;
   export let localFiltering = undefined;
   export let minCharactersToSearch = undefined;
-  export let onChange: ((newValue: string) => void) | undefined = undefined;
+  export let onChange:
+    | ((newValue: string) => void)
+    | ((newValues: string[]) => void)
+    | undefined = undefined;
   export let initialValue = undefined;
   export let postfixValueFunction = undefined;
   export let showClear = true;
