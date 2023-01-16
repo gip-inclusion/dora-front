@@ -129,7 +129,7 @@
     } propose des services : ${subcategories.slice(
       0,
       253 - structure.name.length
-    )}${subcategories.length > 253 - structure.name.length ? "..." : ""}`;
+    )}${subcategories.length > 253 - structure.name.length ? "…" : ""}`;
   }
 
   function setCategories(categories = ["numerique"]) {
@@ -258,7 +258,7 @@
   <SelectField
     id="feeCondition"
     label="Frais à charge"
-    placeholder="Choississez..."
+    placeholder="Choisissez…"
     bind:value={service.feeCondition}
     choices={servicesOptions.feeConditions}
   />

@@ -62,7 +62,6 @@
       if (service.category == null) {
         service.category = "";
       }
-      // TODO: validate with draftSchema
       return createOrModifyService({
         ...validatedData,
         status: "DRAFT",

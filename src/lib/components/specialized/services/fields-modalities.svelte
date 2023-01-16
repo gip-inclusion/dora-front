@@ -13,21 +13,10 @@
   export let servicesOptions, serviceSchema, service;
   export let model: Model | undefined = undefined;
 
-  // let feeConditionClassic =
-  //   service.feeCondition === "pass-numerique"
-  //     ? "gratuit"
-  //     : service.feeCondition;
-
-  // function handleFeeConditionChange(feeCondition) {
-  //   service.feeCondition = feeCondition?.value;
-  // }
-
   $: showModel = !!service.model;
 
-  function handleUseModelValue(_fieldName) {
-    // if (fieldName === "feeCondition") {
-    //   feeConditionClassic = service.feeCondition;
-    // }
+  function handleUseModelValue(fieldName) {
+    service[fieldName] = model ? model[fieldName] : undefined;
   }
 
   $: fieldModelProps = model
@@ -109,7 +98,7 @@
       <SelectField
         id="feeCondition"
         label="Frais à charge"
-        placeholder="Choississez..."
+        placeholder="Choisissez…"
         bind:value={service.feeCondition}
         choices={servicesOptions.feeConditions.filter(
           (fee) => fee.value !== "pass-numerique"
