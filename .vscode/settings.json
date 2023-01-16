@@ -30,7 +30,8 @@
     ".husky": true,
     ".svelte-kit": true,
     "build": true,
-    ".cache_ggshield": true
+    ".cache_ggshield": true,
+    ".idea": true
   },
   "search.exclude": {
     "static/**": true
