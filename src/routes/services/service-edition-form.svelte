@@ -19,7 +19,6 @@
   import FieldsStructure from "$lib/components/specialized/services/fields-structure.svelte";
   import FieldsTypology from "$lib/components/specialized/services/fields-typology.svelte";
   import { createOrModifyService } from "$lib/requests/services";
-  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import type {
     Model,
     Service,
@@ -28,8 +27,6 @@
   } from "$lib/types";
   import { draftSchema, serviceSchema } from "$lib/validation/schemas/service";
   import { validate } from "$lib/validation/validation";
-  import debounce from "lodash.debounce";
-  import { onDestroy, onMount } from "svelte";
 
   export let service: Service,
     servicesOptions: ServicesOptions,
@@ -52,7 +49,6 @@
       return createOrModifyService({
         ...validatedData,
         status: "PUBLISHED",
-        durationToAdd: $serviceSubmissionTimeMeter.duration,
       });
     } else if (kind === "draft") {
       console.log("saving as draft");
@@ -70,20 +66,13 @@
       return createOrModifyService({
         ...validatedData,
         status: "DRAFT",
-        durationToAdd: $serviceSubmissionTimeMeter.duration,
       });
     } else {
       console.error(kind);
     }
   }
 
-  async function handleSuccess(result) {
-    // service = serviceToFront(result);
-
-    // TODO fix that
-    // if (publish) serviceSubmissionTimeMeter.setId(result.slug);
-    // if (draft) serviceSubmissionTimeMeter.clear();
-
+  function handleSuccess(result) {
     goto(`/services/${result.slug}`);
   }
 
@@ -97,15 +86,6 @@
 
   let modelSlugTmp = null;
 
-  // Counter for filling duration
-  let intervalId;
-  let lastUserActivity, userIsInactive;
-
-  // Note: we use debounce to limit update frequency
-  const updateLastUserActivity = debounce(() => {
-    lastUserActivity = Date.now();
-  }, 500);
-
   async function unsync() {
     modelSlugTmp = service.model;
     service.model = null;
@@ -116,30 +96,8 @@
     modelSlugTmp = null;
   }
 
-  onMount(() => {
-    lastUserActivity = Date.now();
-    serviceSubmissionTimeMeter.clear(); // reset tracking values
-
-    intervalId = setInterval(() => {
-      userIsInactive = (Date.now() - lastUserActivity) / 1000 > 120; // 2 minutes
-      if (document.hasFocus() && !userIsInactive) {
-        serviceSubmissionTimeMeter.incrementDuration();
-      }
-    }, 1000);
-  });
-
-  onDestroy(() => {
-    clearInterval(intervalId);
-  });
-
   let subcategories = [];
 </script>
-
-<svelte:window
-  on:keydown={updateLastUserActivity}
-  on:mousemove={updateLastUserActivity}
-  on:touchmove={updateLastUserActivity}
-/>
 
 <FormErrors />
 

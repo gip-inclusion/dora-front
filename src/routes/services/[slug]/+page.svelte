@@ -11,26 +11,16 @@
   import ServiceToolbar from "./service-toolbar.svelte";
   import TallyNpsPopup from "$lib/components/specialized/tally-nps-popup.svelte";
   import { getService } from "$lib/requests/services";
-  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
   import { token } from "$lib/utils/auth";
-  import { isAfter } from "$lib/utils/misc";
   import { canDisplayNpsForm, TallyFormId } from "$lib/utils/nps";
   import { trackService } from "$lib/utils/plausible";
-  import { onDestroy, onMount } from "svelte";
+  import { onMount } from "svelte";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
-  // Nous ne voulons pas afficher le formulaire sur les services avant cette date
-  // afin de ne pas avoir une durée de contribution fausse
-  const MIN_DATE_FOR_SERVICE_FEEDBACK_FROM = new Date("2022-07-21");
-
   onMount(() => {
     trackService(data.service);
-  });
-
-  onDestroy(() => {
-    serviceSubmissionTimeMeter.clear();
   });
 
   async function handleRefresh() {
@@ -95,14 +85,10 @@
   </CenteredGrid>
   {#if browser}
     {#if data.service.canWrite}
-      {#if canDisplayNpsForm(TallyFormId.SERVICE_CREATION_FORM_ID) && $serviceSubmissionTimeMeter.id && $serviceSubmissionTimeMeter.duration && isAfter(new Date(data.service.creationDate), MIN_DATE_FOR_SERVICE_FEEDBACK_FROM) && !data.service.hasAlreadyBeenUnpublished}
+      {#if canDisplayNpsForm(TallyFormId.SERVICE_CREATION_FORM_ID) && !data.service.hasAlreadyBeenUnpublished}
         <TallyNpsPopup
           formId={TallyFormId.SERVICE_CREATION_FORM_ID}
           timeout={3000}
-          hiddenFields={{
-            service: $serviceSubmissionTimeMeter.id,
-            temps: $serviceSubmissionTimeMeter.duration,
-          }}
         />
       {:else if structureHasPublishedServices}
         <TallyNpsPopup
