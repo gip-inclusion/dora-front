@@ -47,14 +47,15 @@ function validateField(
   fieldName: string,
   shape: Shape<any>,
   data,
-  servicesOptions: ServicesOptions,
+  servicesOptions: ServicesOptions | undefined,
   schema,
-  fieldMeta
+  fieldMeta,
+  checkRequired = true
 ) {
   const originalValue = data[fieldName];
 
   let value = originalValue;
-  if (!fieldMeta.required && value == null) {
+  if ((!checkRequired || !fieldMeta.required) && value == null) {
     // Ignore null values for fields that are not required
     return { value, valid: true };
   }
@@ -66,6 +67,7 @@ function validateField(
   }
 
   if (
+    checkRequired &&
     fieldMeta.required &&
     ((Array.isArray(value) && !value.length) ||
       (!Array.isArray(value) && (value == null || value === "")))
@@ -108,12 +110,14 @@ export function validate(
     noScroll = false,
     fullSchema = undefined,
     showErrors = true,
-    servicesOptions = null,
+    servicesOptions = undefined,
+    checkRequired = true,
   }: {
     noScroll?: boolean;
     fullSchema?: any;
     showErrors?: boolean;
     servicesOptions?: ServicesOptions;
+    checkRequired?: boolean;
   } = {}
 ) {
   let validatedData = {};
@@ -137,7 +141,8 @@ export function validate(
       data,
       servicesOptions,
       schema,
-      fieldMeta
+      fieldMeta,
+      checkRequired
     );
 
     isValid &&= valid;
@@ -174,7 +179,8 @@ export function validate(
           data,
           servicesOptions,
           schema,
-          depData
+          depData,
+          checkRequired
         );
 
         isValid &&= depValid;

@@ -91,6 +91,7 @@
     let schema = kind === "draft" ? draftSchema : serviceSchema;
     return validate(data, schema, {
       servicesOptions,
+      checkRequired: kind === "draft" ? false : true,
     });
   }
 
