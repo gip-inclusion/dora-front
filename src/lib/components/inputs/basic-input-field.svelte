@@ -10,6 +10,9 @@
   export let readonly: true | undefined = undefined;
   export let placeholder: string | undefined = undefined;
 
+  // Specifique
+  export let maxLength: number | undefined = undefined;
+
   // Proxy vers le FieldWrapper
   export let label = "";
   export let description = "";
@@ -32,7 +35,6 @@
   {id}
   let:onBlur
   let:onChange
-  let:onInput
   {label}
   {description}
   {hidden}
@@ -43,21 +45,29 @@
   <slot slot="description" name="description" />
 
   {#if type === "text"}
-    <input
-      type="text"
-      bind:value
-      on:blur={onBlur}
-      on:change={onChange}
-      on:input={onInput}
-      {...props}
-    />
+    <div class="flex flex-col">
+      <input
+        type="text"
+        bind:value
+        on:blur={onBlur}
+        on:change={onChange}
+        {...props}
+      />
+      {#if value && maxLength != null}
+        <div
+          class="mt-s4 self-end text-f12 text-gray-text-alt"
+          class:text-error={value.length > maxLength}
+        >
+          {value?.length}/{maxLength} caractères
+        </div>
+      {/if}
+    </div>
   {:else if type === "date"}
     <input
       type="text"
       bind:value
       on:blur={onBlur}
       on:change={onChange}
-      on:input={onInput}
       {...props}
     />
   {:else if type === "number"}
@@ -66,7 +76,6 @@
       bind:value
       on:blur={onBlur}
       on:change={onChange}
-      on:input={onInput}
       {...props}
     />
   {:else if type === "email"}
@@ -75,7 +84,6 @@
       bind:value
       on:blur={onBlur}
       on:change={onChange}
-      on:input={onInput}
       {...props}
     />
   {:else if type === "tel"}
@@ -84,7 +92,6 @@
       bind:value
       on:blur={onBlur}
       on:change={onChange}
-      on:input={onInput}
       {...props}
     />
   {:else if type === "url"}
@@ -93,7 +100,6 @@
       bind:value
       on:blur={onBlur}
       on:change={onChange}
-      on:input={onInput}
       {...props}
     />
   {:else if type === "date"}
@@ -102,7 +108,6 @@
       bind:value
       on:blur={onBlur}
       on:change={onChange}
-      on:input={onInput}
       {...props}
     />
   {/if}

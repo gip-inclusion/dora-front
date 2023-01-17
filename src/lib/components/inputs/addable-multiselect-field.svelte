@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Choice } from "$lib/types";
+  import type { CustomChoice, CustomizableFK } from "$lib/types";
   import Button from "../display/button.svelte";
   import BasicInputField from "./basic-input-field.svelte";
   import FieldWrapper from "./field-wrapper.svelte";
@@ -11,17 +11,16 @@
   export let placeholder = "";
 
   // Spécifiques
-  export let choices: Choice[];
+  export let choices: CustomChoice[];
   export let sort = false;
-  export let onChange = undefined;
+  export let onChange: ((newValues: string[]) => void) | undefined = undefined;
   export let placeholderMulti = "";
-  export let multiple = false;
   export let canAdd = true;
-  export let values;
-  export let structure = null;
+  export let values: CustomizableFK[];
+  export let structureSlug: string | undefined = undefined;
+
   let textInputVisible = false;
-  let newValue;
-  let newValueErrors = [];
+  let newValue: string;
 
   // Proxy vers le FieldWrapper
   export let label: string;
@@ -32,31 +31,21 @@
   export let vertical = false;
 
   const maxLength = 140;
-  const errorMsg = `${maxLength} caractères maximum`;
 
+  let filteredChoices = choices;
   $: filteredChoices = choices.filter(
-    (c) => c.structure == null || c.structure === structure
+    (c) => c.structure == null || c.structure === structureSlug
   );
 
   function handleAddValue() {
     const value = newValue;
     if (value.length > maxLength) {
-      newValueErrors = [errorMsg];
       return;
     }
     choices = [...choices, { value, label: value }];
     values = [...values, value];
     newValue = "";
     textInputVisible = false;
-  }
-
-  function handleChangeValue(evt) {
-    const length = evt.target.value.length;
-    if (length > maxLength) {
-      newValueErrors = [errorMsg];
-    } else {
-      newValueErrors = [];
-    }
   }
 </script>
 
@@ -72,19 +61,19 @@
 >
   <Select
     {id}
-    {sort}
-    bind:value={values}
     choices={filteredChoices}
+    bind:value={values}
     on:blur={onBlur}
     {onChange}
+    {sort}
     {placeholder}
     {placeholderMulti}
     {disabled}
     {readonly}
-    {multiple}
+    multiple
   />
-  <div class="flex flex-col" class:mt-s12={canAdd}>
-    {#if canAdd}
+  {#if canAdd}
+    <div class="flex flex-col" class:mt-s12={canAdd}>
       <div class:hidden={textInputVisible}>
         <Button
           label="Ajouter une autre option"
@@ -96,11 +85,12 @@
       <div class="flex flex-row gap-s16 " class:hidden={!textInputVisible}>
         <div class="flex-grow">
           <BasicInputField
-            {id}
+            id={`${id}-text-input`}
             type="text"
             bind:value={newValue}
-            on:input={handleChangeValue}
+            hideLabel
             vertical
+            {maxLength}
           />
         </div>
         <div class="self-center">
@@ -121,8 +111,8 @@
           </div>
         </div>
       </div>
-    {/if}
-  </div>
+    </div>
+  {/if}
 </FieldWrapper>
 
 <div />

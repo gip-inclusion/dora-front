@@ -278,35 +278,9 @@ export async function getLastDraft(): Promise<Service> {
   return null;
 }
 
-let servicesOptionsBase;
-export async function getServicesOptions({
-  model = null,
-} = {}): Promise<ServicesOptions> {
-  if (!servicesOptionsBase) {
-    const url = `${getApiURL()}/services-options/`;
-    try {
-      servicesOptionsBase = (await fetchData<ServicesOptions>(url)).data;
-    } catch (err) {
-      logException(err);
-      return {};
-    }
-  }
-
-  const data = { ...servicesOptionsBase };
-  if (model?.customizableChoicesSet) {
-    for (const field of [
-      "accessConditions",
-      "concernedPublic",
-      "requirements",
-      "credentials",
-    ]) {
-      data[field] = data[field].filter((option) =>
-        model.customizableChoicesSet[field].includes(option.value)
-      );
-    }
-  }
-
-  return data;
+export async function getServicesOptions(): Promise<ServicesOptions | null> {
+  const url = `${getApiURL()}/services-options/`;
+  return (await fetchData<ServicesOptions>(url)).data;
 }
 
 export async function getServiceSuggestions() {

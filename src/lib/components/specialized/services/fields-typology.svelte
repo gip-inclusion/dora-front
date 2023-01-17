@@ -9,7 +9,7 @@
   import FieldCategory from "./field-category.svelte";
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service;
+  export let servicesOptions, schema, service;
   export let model: Model | undefined = undefined;
   export let noTopPadding = false;
   export let subcategories = [];
@@ -23,7 +23,7 @@
 
   $: fieldModelProps = model
     ? getModelInputProps({
-        schema: serviceSchema,
+        schema: schema,
         service,
         servicesOptions,
         showModel,

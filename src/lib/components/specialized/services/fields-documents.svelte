@@ -7,7 +7,7 @@
   import { getModelInputProps } from "$lib/utils/forms";
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service, canAddChoices;
+  export let servicesOptions, schema, service;
   export let model: Model | undefined = undefined;
 
   $: showModel = !!service.model;
@@ -18,7 +18,7 @@
 
   $: fieldModelProps = model
     ? getModelInputProps({
-        schema: serviceSchema,
+        schema: schema,
         service,
         servicesOptions,
         showModel,
@@ -52,13 +52,12 @@
       <AddableMultiSelectField
         id="credentials"
         bind:values={service.credentials}
-        structure={service.structure}
+        structureSlug={service.structure}
         choices={servicesOptions.credentials}
         label="Justificatifs à fournir"
         placeholder="Aucun"
         placeholderMulti="Choisir un autre justificatif"
         sort
-        canAdd={canAddChoices}
       />
     </FieldModel>
   {/if}

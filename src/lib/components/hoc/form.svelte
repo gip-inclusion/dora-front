@@ -62,7 +62,6 @@
   setContext<ValidationContext>(contextValidationKey, {
     onBlur: handleEltChange,
     onChange: handleEltChange,
-    onInput: handleEltChange,
   });
 
   async function getJsonResult(result) {

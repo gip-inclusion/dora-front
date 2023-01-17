@@ -3,7 +3,6 @@ import * as v from "./utils";
 
 export function allCategoriesHaveSubcategories() {
   return (name, value, data, servicesOptions: ServicesOptions, _schema) => {
-    console.log("test all cat have subcats");
     const subcatRoots = new Set(
       data.subcategories.map((value) => value.split("--")[0])
     );

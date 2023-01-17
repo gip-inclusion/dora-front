@@ -408,7 +408,6 @@ export type Model = {
   beneficiariesAccessModes: BeneficiaryAccessModes[];
   beneficiariesAccessModesDisplay: string[];
   beneficiariesAccessModesOther: string;
-  canUpdateCategories: boolean;
   canWrite: boolean;
   categories: ServiceCategory[];
   categoriesDisplay: string[];
@@ -420,7 +419,6 @@ export type Model = {
   creationDate: string;
   credentials: CustomizableFK[];
   credentialsDisplay: string[];
-  customizableChoicesSet: any; // TODO: a supprimer
   department: string;
   feeCondition: FeeCondition;
   feeDetails: string;

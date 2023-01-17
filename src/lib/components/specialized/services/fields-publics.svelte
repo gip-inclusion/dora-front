@@ -1,11 +1,23 @@
 <script lang="ts">
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import AddableMultiSelectField from "$lib/components/inputs/addable-multiselect-field.svelte";
-  import type { Model } from "$lib/types";
+  import type { Model, Service, ServicesOptions } from "$lib/types";
   import { getModelInputProps } from "$lib/utils/forms";
+  import type {
+    contribSchema,
+    modelSchema,
+    serviceSchema,
+  } from "$lib/validation/schemas/service";
+
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service, canAddChoices;
+  export let servicesOptions: ServicesOptions;
+  export let canAddChoices = true;
+  export let schema:
+    | typeof serviceSchema
+    | typeof modelSchema
+    | typeof contribSchema;
+  export let service: Service;
   export let model: Model | undefined = undefined;
 
   $: showModel = !!service.model;
@@ -16,7 +28,7 @@
 
   $: fieldModelProps = model
     ? getModelInputProps({
-        schema: serviceSchema,
+        schema: schema,
         service,
         servicesOptions,
         showModel,
@@ -41,7 +53,7 @@
       <AddableMultiSelectField
         id="concernedPublic"
         bind:values={service.concernedPublic}
-        structure={service.structure}
+        structureSlug={service.structure}
         choices={servicesOptions.concernedPublic}
         label="Profils"
         placeholder="Tous publics"
@@ -58,7 +70,7 @@
       <AddableMultiSelectField
         id="accessConditions"
         bind:values={service.accessConditions}
-        structure={service.structure}
+        structureSlug={service.structure}
         choices={servicesOptions.accessConditions}
         label="Critères"
         placeholder="Aucun"
@@ -75,7 +87,7 @@
       <AddableMultiSelectField
         id="requirements"
         bind:values={service.requirements}
-        structure={service.structure}
+        structureSlug={service.structure}
         choices={servicesOptions.requirements}
         label="Pré-requis ou compétences"
         placeholder="Aucun"

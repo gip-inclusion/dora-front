@@ -71,44 +71,42 @@
           bind:service={model}
           {servicesOptions}
           {model}
-          serviceSchema={modelSchema}
+          schema={modelSchema}
         />
 
         <FieldsTypology
           bind:service={model}
           {servicesOptions}
           {model}
-          serviceSchema={modelSchema}
+          schema={modelSchema}
         />
 
         <FieldsPublics
           bind:service={model}
           {servicesOptions}
           {model}
-          serviceSchema={modelSchema}
-          canAddChoices={!model?.customizableChoicesSet}
+          schema={modelSchema}
         />
 
         <FieldsModalities
           bind:service={model}
           {servicesOptions}
           {model}
-          serviceSchema={modelSchema}
+          schema={modelSchema}
         />
 
         <FieldsDocuments
           bind:service={model}
           {servicesOptions}
           {model}
-          serviceSchema={modelSchema}
-          canAddChoices={!model?.customizableChoicesSet}
+          schema={modelSchema}
         />
 
         <FieldsPeriodicity
           bind:service={model}
           {servicesOptions}
           {model}
-          serviceSchema={modelSchema}
+          schema={modelSchema}
         />
       {/if}
     </div>

@@ -26,7 +26,7 @@
   ];
 
   // met à jour les options de service et le modèle en fonction des champs spécifiques
-  // cette fonction est comliquée car sur les champs spécifiques,
+  // cette fonction est compliquée car sur les champs spécifiques,
   // la `value` peut ĕtre soit une id numérique
   // soit une string sur les modèles.
   // on devrait pourvoir simplifier ici si l'API devient plus cohérente
@@ -92,9 +92,8 @@
       if (!isModel && service.model) {
         model = await getModel(model.slug);
       }
-      servicesOptions = isModel
-        ? await getServicesOptions({ model: service })
-        : await getServicesOptions({ model });
+
+      servicesOptions = await getServicesOptions();
 
       updateServiceOptions();
     }
@@ -104,6 +103,7 @@
   const showStructures = service.structure ? false : structures.length > 1;
 
   onMount(() => {
+    console.log(structure, service.structure);
     if (structure && service.structure) {
       updateServiceOptions();
     }

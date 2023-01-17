@@ -2,9 +2,11 @@
   import AutoComplete from "./simple-autocomplete.svelte";
 
   export let id: string;
-  export let choices = undefined;
+  export let choices: { value: string | number; label: string }[] | undefined =
+    undefined;
   export let sort = false;
-  export let value = undefined;
+  export let value: string | number | string[] | number[] | undefined =
+    undefined;
   export let disabled = false;
   export let readonly = false;
   export let placeholder = "";

@@ -26,11 +26,6 @@
     if (context) context.onChange(evt);
   }
 
-  function handleInput(_evt) {
-    // console.log("input");
-    // if (context) context.onInput(evt);
-  }
-
   $: errorMessages = $formErrors[id];
 
   $fieldsMetadata[id] = {
@@ -62,7 +57,7 @@
   </div>
   <div class="flex flex-col " class:three-fourths={!vertical}>
     <!-- Slot principal -->
-    <slot onBlur={handleBlur} onChange={handleChange} onInput={handleInput} />
+    <slot onBlur={handleBlur} onChange={handleChange} />
     <!--  -->
     {#each errorMessages || [] as msg, i}
       <Alert id="{id}-error-{i}" label={msg} />

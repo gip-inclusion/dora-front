@@ -7,7 +7,6 @@ import { get, writable } from "svelte/store";
 export type ValidationContext = {
   onBlur: (evt: any) => Promise<void>;
   onChange: (evt: any) => Promise<void>;
-  onInput: (evt: any) => Promise<void>;
 };
 export const contextValidationKey = {};
 

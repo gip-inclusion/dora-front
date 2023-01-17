@@ -7,6 +7,7 @@
   import FieldsPublics from "$lib/components/specialized/services/fields-publics.svelte";
   import FieldsTypology from "$lib/components/specialized/services/fields-typology.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
+  import { contribSchema } from "$lib/validation/schemas/service";
 
   export let servicesOptions: ServicesOptions;
   export let service: Service;
@@ -30,9 +31,9 @@
 />
 
 {#if service.siret}
-  <FieldsPresentation bind:service {servicesOptions} />
+  <FieldsPresentation bind:service {servicesOptions} schema={contribSchema} />
 
-  <FieldsTypology bind:service {servicesOptions} />
+  <FieldsTypology bind:service {servicesOptions} schema={contribSchema} />
 
   <div class="mt-s48">
     <Notice type="warning">
@@ -43,7 +44,7 @@
     </Notice>
   </div>
 
-  <FieldsContact bind:service {servicesOptions} required={false} />
+  <FieldsContact bind:service required={false} />
 
   <div class="mt-s48">
     <Notice title="Informations facultatives">
@@ -54,7 +55,12 @@
     </Notice>
   </div>
 
-  <FieldsPublics bind:service {servicesOptions} canAddChoices={false} />
+  <FieldsPublics
+    bind:service
+    schema={contribSchema}
+    {servicesOptions}
+    canAddChoices={false}
+  />
 
   <FieldsPlace bind:service {servicesOptions} />
 {/if}

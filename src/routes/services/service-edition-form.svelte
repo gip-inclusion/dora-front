@@ -175,44 +175,42 @@
             bind:service
             {servicesOptions}
             {model}
-            {serviceSchema}
+            schema={serviceSchema}
           />
 
           <FieldsPresentation
             bind:service
             {servicesOptions}
             {model}
-            {serviceSchema}
+            schema={serviceSchema}
           />
 
           <FieldsPublics
             bind:service
             {servicesOptions}
             {model}
-            {serviceSchema}
-            canAddChoices={!model?.customizableChoicesSet}
+            schema={serviceSchema}
           />
 
           <FieldsModalities
             bind:service
             {servicesOptions}
             {model}
-            {serviceSchema}
+            schema={serviceSchema}
           />
 
           <FieldsDocuments
             bind:service
             {servicesOptions}
             {model}
-            {serviceSchema}
-            canAddChoices={!model?.customizableChoicesSet}
+            schema={serviceSchema}
           />
 
           <FieldsPeriodicity
             bind:service
             {servicesOptions}
             {model}
-            {serviceSchema}
+            schema={serviceSchema}
           />
         </div>
         <div class="lg:w-2/3">

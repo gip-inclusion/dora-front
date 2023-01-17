@@ -10,7 +10,7 @@
   import { isNotFreeService } from "$lib/utils/service";
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, serviceSchema, service;
+  export let servicesOptions, schema, service;
   export let model: Model | undefined = undefined;
 
   $: showModel = !!service.model;
@@ -21,7 +21,7 @@
 
   $: fieldModelProps = model
     ? getModelInputProps({
-        schema: serviceSchema,
+        schema,
         service,
         servicesOptions,
         showModel,

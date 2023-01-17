@@ -3,9 +3,11 @@
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/inputs/checkboxes-field.svelte";
   import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
+  import type { Service, ServicesOptions, Structure } from "$lib/types";
   import { moveToTheEnd } from "$lib/utils/misc";
 
-  export let servicesOptions, service, structure;
+  export let servicesOptions: ServicesOptions, service: Service;
+  export let structure: Structure | undefined = undefined;
 </script>
 
 <FieldSet title="Accueil">
@@ -28,6 +30,6 @@
   {/if}
 
   {#if service.locationKinds.includes("en-presentiel")}
-    <FieldsAddress bind:entity={service} bind:parent={structure} />
+    <FieldsAddress bind:entity={service} parent={structure} />
   {/if}
 </FieldSet>

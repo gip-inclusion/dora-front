@@ -2,8 +2,9 @@
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
+  import type { Service } from "$lib/types";
 
-  export let service;
+  export let service: Service;
   export let required = false;
 </script>
 
