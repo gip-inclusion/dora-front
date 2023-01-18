@@ -18,7 +18,7 @@
   export let onChange: ((data) => void) | undefined = undefined;
   export let onValidate:
     | ((data) => { validatedData; valid: boolean })
-    | undefined;
+    | undefined = undefined;
 
   onMount(() => {
     $formErrors = {};

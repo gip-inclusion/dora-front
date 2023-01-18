@@ -2,7 +2,6 @@
   import {
     contextValidationKey,
     formErrors,
-    fieldsMetadata,
     type ValidationContext,
   } from "$lib/validation/validation";
   import { getContext } from "svelte";
@@ -15,6 +14,8 @@
   export let hideLabel = false;
   export let required = false;
   export let vertical = false;
+  export let readonly = false;
+  export let disabled = false;
 
   const context = getContext<ValidationContext>(contextValidationKey);
 
@@ -27,11 +28,6 @@
   }
 
   $: errorMessages = $formErrors[id];
-
-  $fieldsMetadata[id] = {
-    label: label,
-    required,
-  };
 </script>
 
 <div
@@ -43,7 +39,9 @@
   <div class="flex flex-col" class:one-fourth={!vertical}>
     <label for={id} class="mt-s8">
       <span class=" text-f17 font-bold text-gray-dark" class:hidden={hideLabel}>
-        {label}{#if required}<span class="ml-s6 text-error">&nbsp;*</span>{/if}
+        {label}{#if required && !readonly && !disabled}<span
+            class="ml-s6 text-error">&nbsp;*</span
+          >{/if}
       </span>
     </label>
     {#if description}

@@ -9,6 +9,7 @@
   import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
   import type { Structure, StructuresOptions } from "$lib/types";
   import { getDepartmentFromCityCode } from "$lib/utils/misc";
+  import { structureSchema } from "$lib/validation/schemas/structure";
 
   export let structure: Structure;
   export let structuresOptions: StructuresOptions;
@@ -27,35 +28,32 @@
 
 <BasicInputField
   id="siret"
-  label="SIRET"
+  schema={structureSchema.siret}
   bind:value={structure.siret}
-  disabled
 />
 
 <BasicInputField
   id="name"
-  label="Nom de la structure"
+  schema={structureSchema.name}
   bind:value={structure.name}
-  required
   placeholder="Plateforme de l’inclusion"
 />
 
 <SelectField
   id="typology"
-  label="Typologie"
+  schema={structureSchema.typology}
   bind:value={structure.typology}
   choices={structuresOptions.typologies}
-  required
   placeholder="Choisissez…"
   sort
 />
 
-<FieldsAddress bind:entity={structure} required />
+<FieldsAddress bind:entity={structure} schema={structureSchema} />
 
 <BasicInputField
   type="url"
   id="accesslibreUrl"
-  label="Accessibilité"
+  schema={structureSchema.accesslibreUrl}
   bind:value={structure.accesslibreUrl}
   placeholder="https://acceslibre.beta.gouv.fr/…"
   vertical
@@ -79,7 +77,7 @@
 <BasicInputField
   type="tel"
   id="phone"
-  label="Téléphone"
+  schema={structureSchema.phone}
   bind:value={structure.phone}
   placeholder="0X XX XX XX XX"
 />
@@ -87,32 +85,29 @@
 <BasicInputField
   type="email"
   id="email"
-  label="Courriel"
+  schema={structureSchema.email}
   bind:value={structure.email}
-  required
   placeholder="nom.prenom@organisation.fr"
 />
 
 <BasicInputField
   type="url"
   id="url"
-  label="Site web"
+  schema={structureSchema.url}
   bind:value={structure.url}
   placeholder="https://mastructure.fr"
 />
 
 <TextareaField
   id="shortDesc"
-  label="Résumé"
+  schema={structureSchema.shortDesc}
   bind:value={structure.shortDesc}
-  required
-  description="280 caractères maximum"
   placeholder="Décrivez brièvement votre structure"
 />
 
 <RichTextField
   id="fullDesc"
-  label="Présentation"
+  schema={structureSchema.fullDesc}
   bind:value={structure.fullDesc}
   placeholder="Présentation détaillée de la structure"
   vertical
@@ -120,7 +115,7 @@
 
 <MultiSelectField
   id="nationalLabels"
-  label="Labels nationaux"
+  schema={structureSchema.nationalLabels}
   bind:value={structure.nationalLabels}
   choices={structuresOptions.nationalLabels}
   description="Indiquez si la structure fait partie d'un ou plusieurs réseaux nationaux"
@@ -131,7 +126,7 @@
 
 <BasicInputField
   id="otherLabels"
-  label="Autres labels"
+  schema={structureSchema.otherLabels}
   bind:value={structure.otherLabels}
   description="Indiquez si la structure fait partie d’autres labels (régionaux, locaux…)"
   vertical
@@ -139,17 +134,17 @@
 
 <OpeningHoursField
   id="openingHours"
-  label="Horaires de la structure"
+  schema={structureSchema.openingHours}
   bind:value={structure.openingHours}
   vertical
 />
 
 <BasicInputField
   id="openingHoursDetails"
-  label="Détail horaires"
+  schema={structureSchema.openingHoursDetails}
   bind:value={structure.openingHoursDetails}
   description="Vous pouvez renseigner des informations spécifiques concernant les horaires dans ce champ"
   vertical
 />
 
-<HiddenField id="ape" bind:value={structure.ape} />
+<HiddenField id="ape" schema={structureSchema.ape} bind:value={structure.ape} />

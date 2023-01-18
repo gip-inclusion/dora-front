@@ -1,11 +1,14 @@
 <script lang="ts">
   import FieldWrapper from "./field-wrapper.svelte";
   import AdminDivisionSearch from "../specialized/admin-division-search.svelte";
+  import type { Shape } from "$lib/validation/schemas/utils";
 
   export let id: string;
+  export let schema: Shape<string>;
+
   export let value: string | undefined = undefined;
   export let disabled = false;
-  export let readonly = false;
+  export let readonly = schema?.readonly;
   export let placeholder = "";
   export let initialValue = "";
 
@@ -15,33 +18,35 @@
   export let choices;
 
   // Proxy vers le FieldWrapper
-  export let label: string;
   export let description = "";
   export let hidden = false;
   export let hideLabel = false;
-  export let required = false;
   export let vertical = false;
 </script>
 
-<FieldWrapper
-  let:onBlur
-  {id}
-  {label}
-  {description}
-  {hidden}
-  {hideLabel}
-  {required}
-  {vertical}
->
-  <AdminDivisionSearch
+{#if schema}
+  <FieldWrapper
+    let:onBlur
     {id}
-    {searchType}
-    {onChange}
-    {initialValue}
-    bind:value
-    bind:choices
-    {placeholder}
+    label={schema.label}
+    {description}
+    {hidden}
+    {hideLabel}
+    required={schema.required}
+    {vertical}
     {disabled}
     {readonly}
-  />
-</FieldWrapper>
+  >
+    <AdminDivisionSearch
+      {id}
+      {searchType}
+      {onChange}
+      {initialValue}
+      bind:value
+      bind:choices
+      {placeholder}
+      {disabled}
+      {readonly}
+    />
+  </FieldWrapper>
+{/if}

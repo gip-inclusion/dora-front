@@ -2,7 +2,7 @@ import { browser } from "$app/environment";
 import type { ServicesOptions } from "$lib/types";
 import type { Shape } from "$lib/validation/schemas/utils";
 import { tick } from "svelte";
-import { get, writable } from "svelte/store";
+import { writable } from "svelte/store";
 
 export type ValidationContext = {
   onBlur: (evt: any) => Promise<void>;
@@ -11,15 +11,6 @@ export type ValidationContext = {
 export const contextValidationKey = {};
 
 export const formErrors: any = writable({});
-
-export interface Fields {
-  [fieldName: string]: {
-    label: string;
-    required: boolean;
-  };
-}
-
-export const fieldsMetadata = writable<Fields>({});
 
 let currentErrors;
 formErrors.subscribe((value) => {
@@ -48,13 +39,12 @@ function validateField(
   data,
   servicesOptions: ServicesOptions | undefined,
   schema,
-  fieldMeta,
   checkRequired = true
 ) {
   const originalValue = data[fieldName];
 
   let value = originalValue;
-  if ((!checkRequired || !fieldMeta.required) && value == null) {
+  if ((!checkRequired || !shape.required) && value == null) {
     // Ignore null values for fields that are not required
     return { value, valid: true };
   }
@@ -67,7 +57,7 @@ function validateField(
 
   if (
     checkRequired &&
-    fieldMeta.required &&
+    shape.required &&
     ((Array.isArray(value) && !value.length) ||
       (!Array.isArray(value) && (value == null || value === "")))
   ) {
@@ -123,7 +113,6 @@ export function validate(
   let isValid = true;
   let doneOnce = false;
   const errorFields: string[] = [];
-  const fieldsMeta = get(fieldsMetadata);
 
   if (showErrors) {
     Object.keys(schema).forEach((fieldName) => delete currentErrors[fieldName]);
@@ -131,16 +120,13 @@ export function validate(
   }
 
   Object.entries(schema).forEach(([fieldName, shape]: [string, Shape<any>]) => {
-    const fieldMeta = fieldsMeta[fieldName];
     // On n'essaye pas de valider les champs qui ne sont pas affichés
-    if (!fieldMeta) return;
     const { value, valid, msg } = validateField(
       fieldName,
       shape,
       data,
       servicesOptions,
       schema,
-      fieldMeta,
       checkRequired
     );
 
@@ -148,7 +134,7 @@ export function validate(
     validatedData[fieldName] = value;
 
     if (!valid) {
-      errorFields.push(fieldMeta.label);
+      errorFields.push(shape.label);
     }
 
     if (showErrors) {
@@ -167,7 +153,6 @@ export function validate(
     // Vérification des dépendances
     if (shape.dependents?.length && fullSchema) {
       shape.dependents.forEach((depName) => {
-        const depData = get(fieldsMetadata)[depName];
         const {
           value: depValue,
           valid: depValid,
@@ -178,7 +163,6 @@ export function validate(
           data,
           servicesOptions,
           schema,
-          depData,
           checkRequired
         );
 

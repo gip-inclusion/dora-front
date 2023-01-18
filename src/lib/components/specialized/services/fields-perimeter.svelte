@@ -3,9 +3,10 @@
   import AdminDivisionSearchField from "$lib/components/inputs/admin-division-search-field.svelte";
   import SelectField from "$lib/components/inputs/select-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
+  import type { Schema } from "$lib/validation/schemas/utils";
 
+  export let schema: Schema;
   export let servicesOptions, service;
-  export let showQPVOption = true;
   let adminDivisionChoices = [];
 
   function handleDiffusionZoneTypeChange(type) {
@@ -39,19 +40,18 @@
   </div>
 
   <SelectField
-    label="Périmètre"
-    choices={servicesOptions.diffusionZoneType}
     id="diffusionZoneType"
+    schema={schema.diffusionZoneType}
+    choices={servicesOptions.diffusionZoneType}
     onChange={handleDiffusionZoneTypeChange}
     initialValue={service.diffusionZoneTypeDisplay}
-    required
   />
 
   {#if service.diffusionZoneType !== "country"}
     <AdminDivisionSearchField
-      label="Territoire"
-      description="Commencez à saisir le nom et choisissez dans la liste."
       id="diffusionZoneDetails"
+      schema={schema.diffusionZoneDetails}
+      description="Commencez à saisir le nom et choisissez dans la liste."
       searchType={service.diffusionZoneType}
       onChange={handlediffusionZoneDetailsChange}
       initialValue={service.diffusionZoneDetailsDisplay}
@@ -59,11 +59,9 @@
     />
   {/if}
 
-  {#if showQPVOption}
-    <ToggleField
-      label="Uniquement QPV ou ZRR"
-      id="qpvOrZrr"
-      bind:value={service.qpvOrZrr}
-    />
-  {/if}
+  <ToggleField
+    id="qpvOrZrr"
+    schema={schema.qpvOrZrr}
+    bind:value={service.qpvOrZrr}
+  />
 </FieldSet>

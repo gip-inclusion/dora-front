@@ -1,7 +1,7 @@
 import { getApiURL } from "$lib/utils/api";
 import { token } from "$lib/utils/auth";
 import { fetchData } from "$lib/utils/misc";
-import structureSchema from "$lib/validation/schemas/structure";
+import { structureSchema } from "$lib/validation/schemas/structure";
 import { validate } from "$lib/validation/validation";
 import { get } from "svelte/store";
 import type { ShortStructure, Structure, StructuresOptions } from "../types";

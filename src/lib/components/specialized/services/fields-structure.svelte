@@ -9,8 +9,10 @@
     ServicesOptions,
     ShortStructure,
   } from "$lib/types";
+  import type { Schema } from "$lib/validation/schemas/utils";
   import { onMount } from "svelte";
 
+  export let schema: Schema;
   export let servicesOptions: ServicesOptions,
     service: Service,
     structures: ShortStructure[],
@@ -113,7 +115,7 @@
 <FieldSet noTopPadding>
   <SelectField
     id="structure"
-    label="Structure"
+    schema={schema.structure}
     bind:value={service.structure}
     choices={structures.map((s) => ({ value: s.slug, label: s.name }))}
     onChange={handleStructureChange}

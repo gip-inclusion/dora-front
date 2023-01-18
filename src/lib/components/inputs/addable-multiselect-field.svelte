@@ -1,13 +1,15 @@
 <script lang="ts">
   import type { CustomChoice, CustomizableFK } from "$lib/types";
+  import type { Shape } from "$lib/validation/schemas/utils";
   import Button from "../display/button.svelte";
   import BasicInputField from "./basic-input-field.svelte";
   import FieldWrapper from "./field-wrapper.svelte";
   import Select from "./select/select.svelte";
 
   export let id: string;
+  export let schema: Shape<CustomizableFK[]>;
   export let disabled = false;
-  export let readonly = false;
+  export let readonly = schema?.readonly;
   export let placeholder = "";
 
   // Spécifiques
@@ -23,11 +25,9 @@
   let newValue: string;
 
   // Proxy vers le FieldWrapper
-  export let label: string;
   export let description = "";
   export let hidden = false;
   export let hideLabel = false;
-  export let required = false;
   export let vertical = false;
 
   const maxLength = 140;
@@ -49,70 +49,75 @@
   }
 </script>
 
-<FieldWrapper
-  {id}
-  let:onBlur
-  {label}
-  {description}
-  {hidden}
-  {hideLabel}
-  {required}
-  {vertical}
->
-  <Select
+{#if schema}
+  <FieldWrapper
     {id}
-    choices={filteredChoices}
-    bind:value={values}
-    on:blur={onBlur}
-    {onChange}
-    {sort}
-    {placeholder}
-    {placeholderMulti}
+    let:onBlur
+    label={schema.label}
+    {description}
+    {hidden}
+    {hideLabel}
+    required={schema.required}
+    {vertical}
     {disabled}
     {readonly}
-    multiple
-  />
-  {#if canAdd}
-    <div class="flex flex-col" class:mt-s12={canAdd}>
-      <div class:hidden={textInputVisible}>
-        <Button
-          label="Ajouter une autre option"
-          secondary
-          small
-          on:click={() => (textInputVisible = true)}
-        />
-      </div>
-      <div class="flex flex-row gap-s16 " class:hidden={!textInputVisible}>
-        <div class="flex-grow">
-          <BasicInputField
-            id={`${id}-text-input`}
-            type="text"
-            bind:value={newValue}
-            hideLabel
-            vertical
-            {maxLength}
+  >
+    <Select
+      {id}
+      choices={filteredChoices}
+      bind:value={values}
+      on:blur={onBlur}
+      {onChange}
+      {sort}
+      {placeholder}
+      {placeholderMulti}
+      {disabled}
+      {readonly}
+      multiple
+    />
+    {#if canAdd}
+      <div class="flex flex-col" class:mt-s12={canAdd}>
+        <div class:hidden={textInputVisible}>
+          <Button
+            label="Ajouter une autre option"
+            secondary
+            small
+            on:click={() => (textInputVisible = true)}
           />
         </div>
-        <div class="self-center">
-          <div class="flex flex-col gap-s8 md:flex-row">
-            <Button
-              label="Ajouter"
-              small
-              disabled={!newValue}
-              on:click={handleAddValue}
+        <div class="flex flex-row gap-s16 " class:hidden={!textInputVisible}>
+          <div class="flex-grow">
+            <BasicInputField
+              id={`${id}-text-input`}
+              schema={{ label: "" }}
+              type="text"
+              bind:value={newValue}
+              hideLabel
+              vertical
+              {maxLength}
             />
+          </div>
+          <div class="self-center">
+            <div class="flex flex-col gap-s8 md:flex-row">
+              <Button
+                label="Ajouter"
+                small
+                disabled={!newValue}
+                on:click={handleAddValue}
+              />
 
-            <Button
-              label="Annuler"
-              secondary
-              small
-              on:click={() => (textInputVisible = false)}
-            />
+              <Button
+                label="Annuler"
+                secondary
+                small
+                on:click={() => (textInputVisible = false)}
+              />
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  {/if}
-</FieldWrapper>
+    {/if}
+  </FieldWrapper>
 
-<div />
+  <div />
+{/if}

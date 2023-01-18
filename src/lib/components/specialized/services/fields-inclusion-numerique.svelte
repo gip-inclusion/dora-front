@@ -11,8 +11,10 @@
   import type { Choice, Service, ServicesOptions, Structure } from "$lib/types";
   import { moveToTheEnd, orderAndReformatSubcategories } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
+  import type { Schema } from "$lib/validation/schemas/utils";
   import { onMount } from "svelte";
 
+  export let schema: Schema;
   export let servicesOptions: ServicesOptions;
   export let service: Service;
   export let structure: Structure;
@@ -226,8 +228,8 @@
   </div>
 
   <MultiSelectField
-    label="Besoins"
     id="subcategories"
+    schema={schema.subcategories}
     bind:value={service.subcategories}
     choices={subcategories}
     placeholder="Sélectionner"
@@ -237,8 +239,8 @@
 
   {#if concernedPublicOptions.length}
     <MultiSelectField
-      label="Profils"
       id="concernedPublic"
+      schema={schema.concernedPublic}
       bind:value={service.concernedPublic}
       choices={concernedPublicOptions}
       placeholder="Sélectionner"
@@ -248,16 +250,17 @@
 
   {#if kindsOptions.length}
     <CheckboxesField
-      label="Types"
       id="kinds"
+      schema={schema.kinds}
       bind:value={service.kinds}
       choices={kindsOptions}
+      _notrequired
     />
   {/if}
 
   <SelectField
     id="feeCondition"
-    label="Frais à charge"
+    schema={schema.feeCondition}
     placeholder="Choisissez…"
     bind:value={service.feeCondition}
     choices={servicesOptions.feeConditions}
@@ -265,9 +268,9 @@
 
   {#if isNotFreeService(service.feeCondition)}
     <TextareaField
-      label="Détails des frais à charge"
-      placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
       id="feeDetails"
+      schema={schema.feeDetails}
+      placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
       bind:value={service.feeDetails}
     />
   {/if}
@@ -279,34 +282,33 @@
   </div>
 
   <CheckboxesField
-    label="Pour les bénéficiaires"
+    id="beneficiariesAccessModes"
+    schema={schema.beneficiariesAccessModes}
     choices={moveToTheEnd(
       servicesOptions.beneficiariesAccessModes,
       "value",
       "autre"
     )}
-    id="beneficiariesAccessModes"
     bind:value={service.beneficiariesAccessModes}
   />
 
-  // TODO: probably buggy, check that
   {#if service.beneficiariesAccessModes.includes("autre")}
     <BasicInputField
+      id="beneficiariesAccessModesOther"
+      schema={schema.beneficiariesAccessModesOther}
       hideLabel
       placeholder="Merci de préciser la modalité"
-      id="beneficiariesAccessModesOther"
       bind:value={service.beneficiariesAccessModesOther}
     />
   {/if}
 </FieldSet>
 
-<!-- {#if !structure.latitude || !structure.longitude} -->
-{#if true}
-  <FieldsPerimeter bind:service {servicesOptions} showQPVOption={false} />
+{#if !structure.latitude || !structure.longitude}
+  <FieldsPerimeter bind:service {servicesOptions} {schema} />
 {/if}
 
 <FieldSet title="Accueil">
-  <FieldsAddress bind:entity={service} bind:parent={structure} />
+  <FieldsAddress bind:entity={service} parent={structure} {schema} />
 </FieldSet>
 
-<FieldsContact bind:service required />
+<FieldsContact bind:service {schema} />

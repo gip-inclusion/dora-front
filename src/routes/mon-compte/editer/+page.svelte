@@ -55,7 +55,7 @@
       <Fieldset title="Informations" noTopPadding>
         <BasicInputField
           id="firstName"
-          label="Prénom"
+          schema={userProfileSchema.firstName}
           bind:value={firstName}
           placeholder="Aurélien"
           disabled
@@ -64,7 +64,7 @@
 
         <BasicInputField
           id="lastName"
-          label="Nom"
+          schema={userProfileSchema.lastName}
           bind:value={lastName}
           placeholder="Durand"
           disabled
@@ -73,7 +73,7 @@
 
         <BasicInputField
           id="email"
-          label="Courriel"
+          schema={userProfileSchema.email}
           bind:value={email}
           placeholder="nom.prenom@organisation.fr"
           disabled
@@ -83,9 +83,8 @@
         <BasicInputField
           type="tel"
           id="phoneNumber"
-          label="Numéro de téléphone"
+          schema={userProfileSchema.phoneNumber}
           bind:value={phoneNumber}
-          required
           placeholder="0X XX XX XX XX"
           vertical
         />

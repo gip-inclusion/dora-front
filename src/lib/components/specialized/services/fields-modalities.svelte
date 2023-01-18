@@ -40,21 +40,21 @@
     <FieldModel {...fieldModelProps["coachOrientationModes"]} type="array">
       <CheckboxesField
         id="coachOrientationModes"
-        label="Pour les accompagnateurs"
+        schema={schema.coachOrientationModes}
         choices={moveToTheEnd(
           servicesOptions.coachOrientationModes,
           "value",
           "autre"
         )}
         bind:value={service.coachOrientationModes}
-        required
       />
     </FieldModel>
 
     {#if service.coachOrientationModes.includes("autre")}
-      <FieldModel {...fieldModelProps["coachOrientatonModesOther"]}>
+      <FieldModel {...fieldModelProps["coachOrientationModesOther"]}>
         <BasicInputField
-          id="coachOrientatonModesOther"
+          id="coachOrientationModesOther"
+          schema={schema.coachOrientationModesOther}
           hideLabel
           placeholder="Compléter"
           bind:value={service.coachOrientationModesOther}
@@ -67,7 +67,7 @@
     <FieldModel {...fieldModelProps["beneficiariesAccessModes"]} type="array">
       <CheckboxesField
         id="beneficiariesAccessModes"
-        label="Pour les bénéficiaires"
+        schema={schema.beneficiariesAccessModes}
         choices={moveToTheEnd(
           servicesOptions.beneficiariesAccessModes,
           "value",
@@ -81,6 +81,7 @@
       <FieldModel {...fieldModelProps["beneficiariesAccessModesOther"]}>
         <BasicInputField
           id="beneficiariesAccessModesOther"
+          schema={schema.beneficiariesAccessModesOther}
           hideLabel
           placeholder="Merci de préciser la modalité"
           bind:value={service.beneficiariesAccessModesOther}
@@ -97,7 +98,7 @@
     >
       <SelectField
         id="feeCondition"
-        label="Frais à charge"
+        schema={schema.feeCondition}
         placeholder="Choisissez…"
         bind:value={service.feeCondition}
         choices={servicesOptions.feeConditions.filter(
@@ -110,7 +111,7 @@
       <FieldModel {...fieldModelProps["feeDetails"]}>
         <TextareaField
           id="feeDetails"
-          label="Détails des frais à charge"
+          schema={schema.feeDetails}
           placeholder="Merci de détailler ici les frais à charge du bénéficiaire : adhésion, frais de location, frais de garde, etc., et les montants."
           bind:value={service.feeDetails}
         />

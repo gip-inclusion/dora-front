@@ -2,15 +2,15 @@
   import Button from "$lib/components/display/button.svelte";
   import AddressSearchField from "$lib/components/inputs/address-search-field.svelte";
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
-
   import CitySearchField from "$lib/components/inputs/city-search-field.svelte";
   import HiddenField from "$lib/components/inputs/hidden-field.svelte";
   import type { Service, Structure } from "$lib/types";
+  import type { Schema } from "$lib/validation/schemas/utils";
   import { tick } from "svelte";
 
   export let entity: Service | Structure;
   export let parent: Structure | null = null;
-  export let required = false;
+  export let schema: Schema;
 
   function handleAddressChange(address) {
     const props = address?.properties;
@@ -67,42 +67,51 @@
   {/if}
   <CitySearchField
     id="city"
-    label="Ville"
+    schema={schema.city}
     initialValue={entity.city}
     onChange={handleCityChange}
-    {required}
     placeholder="Saisissez et validez votre ville"
   />
 
   <AddressSearchField
     id="address1"
-    label="Adresse"
+    schema={schema.address1}
     initialValue={entity.address1}
     onChange={handleAddressChange}
     cityCode={entity.cityCode}
-    {required}
     placeholder="3 rue du parc"
     disabled={!entity.cityCode}
   />
 
   <BasicInputField
     id="address2"
-    label="Complément d’adresse"
+    schema={schema.address2}
     bind:value={entity.address2}
     placeholder="batiment, escalier, etc."
   />
 
   <BasicInputField
     id="postalCode"
-    label="Code postal"
+    schema={schema.postalCode}
     bind:value={entity.postalCode}
-    {required}
     placeholder="00000"
   />
 
-  <HiddenField id="cityCode" bind:value={entity.cityCode} />
+  <HiddenField
+    id="cityCode"
+    schema={schema.cityCode}
+    bind:value={entity.cityCode}
+  />
 
-  <HiddenField id="longitude" bind:value={entity.longitude} />
+  <HiddenField
+    id="longitude"
+    schema={schema.longitude}
+    bind:value={entity.longitude}
+  />
 
-  <HiddenField id="latitude" bind:value={entity.latitude} />
+  <HiddenField
+    id="latitude"
+    schema={schema.latitude}
+    bind:value={entity.latitude}
+  />
 {/if}

@@ -25,7 +25,11 @@
     ServicesOptions,
     ShortStructure,
   } from "$lib/types";
-  import { draftSchema, serviceSchema } from "$lib/validation/schemas/service";
+  import {
+    draftSchema,
+    serviceSchema,
+    inclusionNumeriqueSchema,
+  } from "$lib/validation/schemas/service";
   import { validate } from "$lib/validation/validation";
 
   export let service: Service,
@@ -115,6 +119,7 @@
     {#if structures.length}
       <div class="lg:w-2/3">
         <FieldsStructure
+          schema={serviceSchema}
           bind:structure
           bind:service
           bind:servicesOptions
@@ -214,11 +219,20 @@
           />
         </div>
         <div class="lg:w-2/3">
-          <FieldsPerimeter bind:service {servicesOptions} />
+          <FieldsPerimeter
+            bind:service
+            {servicesOptions}
+            schema={serviceSchema}
+          />
 
-          <FieldsPlace bind:service {structure} {servicesOptions} />
+          <FieldsPlace
+            bind:service
+            {structure}
+            {servicesOptions}
+            schema={serviceSchema}
+          />
 
-          <FieldsContact bind:service required />
+          <FieldsContact bind:service schema={serviceSchema} />
         </div>
       {:else}
         <div class={service.model ? "" : "lg:w-2/3"}>
@@ -228,6 +242,7 @@
               bind:subcategories
               {servicesOptions}
               {model}
+              schema={inclusionNumeriqueSchema}
             />
           </Fieldset>
 
@@ -235,7 +250,7 @@
             bind:service
             bind:subcategories
             {servicesOptions}
-            {serviceSchema}
+            schema={inclusionNumeriqueSchema}
             {structure}
           />
         </div>

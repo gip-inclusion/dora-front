@@ -51,6 +51,7 @@
     {#if structures.length}
       <div class="lg:w-2/3">
         <FieldsStructure
+          schema={modelSchema}
           bind:structure
           bind:service={model}
           bind:servicesOptions

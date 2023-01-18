@@ -28,6 +28,7 @@
   onCityChange={handleStructureCityChange}
   bind:establishment
   isOwnStructure={false}
+  schema={contribSchema}
 />
 
 {#if service.siret}
@@ -44,7 +45,7 @@
     </Notice>
   </div>
 
-  <FieldsContact bind:service required={false} />
+  <FieldsContact bind:service required={false} schema={contribSchema} />
 
   <div class="mt-s48">
     <Notice title="Informations facultatives">
@@ -62,5 +63,5 @@
     canAddChoices={false}
   />
 
-  <FieldsPlace bind:service {servicesOptions} />
+  <FieldsPlace bind:service {servicesOptions} schema={contribSchema} />
 {/if}

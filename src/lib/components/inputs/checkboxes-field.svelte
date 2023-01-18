@@ -1,41 +1,46 @@
 <script lang="ts">
+  import type { Shape } from "$lib/validation/schemas/utils";
   import FieldWrapper from "./field-wrapper.svelte";
   import Checkboxes from "./others/checkboxes.svelte";
 
   export let id: string;
+  export let schema: Shape<string[]>;
+
   export let value;
   export let disabled = false;
-  export let readonly: true | undefined = undefined;
+  export let readonly = schema?.readonly;
 
   // Spécifiques
   export let choices;
 
   // Proxy vers le FieldWrapper
-  export let label: string;
   export let description = "";
   export let hidden = false;
   export let hideLabel = false;
-  export let required = false;
   export let vertical = false;
 </script>
 
-<FieldWrapper
-  let:onBlur
-  {id}
-  {label}
-  {description}
-  {hidden}
-  {hideLabel}
-  {required}
-  {vertical}
->
-  <Checkboxes
+{#if schema}
+  <FieldWrapper
+    let:onBlur
     {id}
-    name={id}
-    bind:group={value}
-    on:change
-    {choices}
+    label={schema.label}
+    {description}
+    {hidden}
+    {hideLabel}
+    required={schema.required}
+    {vertical}
     {disabled}
     {readonly}
-  />
-</FieldWrapper>
+  >
+    <Checkboxes
+      {id}
+      name={id}
+      bind:group={value}
+      on:change
+      {choices}
+      {disabled}
+      {readonly}
+    />
+  </FieldWrapper>
+{/if}

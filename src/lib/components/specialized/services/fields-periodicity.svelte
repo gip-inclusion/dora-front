@@ -36,7 +36,7 @@
   <FieldModel {...fieldModelProps["recurrence"]}>
     <BasicInputField
       id="recurrence"
-      label="Fréquence et horaires"
+      schema={schema.recurrence}
       placeholder="Ex. Tous les jours à 14h, une fois par mois, etc."
       bind:value={service.recurrence}
     />
@@ -45,7 +45,7 @@
   <FieldModel {...fieldModelProps["suspensionDate"]}>
     <BasicInputField
       id="suspensionDate"
-      label="Date de fin"
+      schema={schema.suspensionDate}
       type="date"
       bind:value={service.suspensionDate}
     />

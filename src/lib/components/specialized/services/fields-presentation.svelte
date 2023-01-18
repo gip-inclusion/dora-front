@@ -57,29 +57,26 @@
   <FieldModel {...fieldModelProps["name"]}>
     <BasicInputField
       id="name"
-      label="Titre"
+      schema={schema.name}
       placeholder="Compléter"
       bind:value={service.name}
-      required
     />
   </FieldModel>
 
   <FieldModel {...fieldModelProps["shortDesc"]}>
     <TextareaField
       id="shortDesc"
-      description="280 caractères maximum"
+      schema={schema.shortDesc}
       placeholder="Compléter"
-      label="Résumé"
       bind:value={service.shortDesc}
-      required
     />
   </FieldModel>
 
   <FieldModel {...fieldModelProps["fullDesc"]} paddingTop type="markdown">
     <RichTextField
       id="fullDesc"
+      schema={schema.fullDesc}
       bind:this={fullDesc}
-      label="Description"
       placeholder="Informations concernant le service et ses spécificités."
       vertical
       bind:value={service.fullDesc}

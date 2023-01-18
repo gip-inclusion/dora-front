@@ -7,12 +7,11 @@
   import Form from "$lib/components/hoc/form.svelte";
   import { createStructure, modifyStructure } from "$lib/requests/structures";
   import type { Structure, StructuresOptions } from "$lib/types";
-  import structureSchema from "$lib/validation/schemas/structure";
+  import { structureSchema } from "$lib/validation/schemas/structure";
   import StructureEditionFields from "./structure-edition-fields.svelte";
 
   export let structure: Structure;
   export let structuresOptions: StructuresOptions;
-
   export let modify = false;
   export let onRefresh: (() => Promise<void>) | undefined = undefined;
 
@@ -34,7 +33,6 @@
   }
 
   async function handleSuccess(result) {
-    console.log("success");
     if (modify && onRefresh) {
       await onRefresh();
     }

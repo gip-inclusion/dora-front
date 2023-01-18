@@ -1,45 +1,62 @@
 <script lang="ts">
+  import type { Shape } from "$lib/validation/schemas/utils";
   import FieldWrapper from "./field-wrapper.svelte";
 
   export let id: string;
+  export let schema: Shape<string>;
+
   export let value;
   export let autocomplete = "";
   export let disabled = false;
-  export let readonly: true | undefined = undefined;
+  export let readonly = schema?.readonly;
   export let placeholder: string | undefined = undefined;
   export let rows = 4;
 
+  // Specifique
+  export let maxLength: number | undefined = schema?.maxLength;
+
   // Proxy vers le FieldWrapper
-  export let label: string;
   export let description = "";
   export let hidden = false;
   export let hideLabel = false;
-  export let required = false;
   export let vertical = false;
 </script>
 
-<FieldWrapper
-  let:onBlur
-  {id}
-  {label}
-  {description}
-  {hidden}
-  {hideLabel}
-  {required}
-  {vertical}
->
-  <textarea
-    bind:value
-    on:blur={onBlur}
+{#if schema}
+  <FieldWrapper
+    let:onBlur
     {id}
-    name={id}
-    {autocomplete}
-    {disabled}
+    label={schema.label}
+    {description}
+    {hidden}
+    {hideLabel}
+    required={schema.required}
+    {vertical}
     {readonly}
-    {placeholder}
-    {rows}
-  />
-</FieldWrapper>
+    {disabled}
+    ><div class="flex flex-col">
+      <textarea
+        bind:value
+        on:blur={onBlur}
+        {id}
+        name={id}
+        {autocomplete}
+        {disabled}
+        {readonly}
+        {placeholder}
+        {rows}
+      />
+      {#if value && maxLength != null && !readonly && !disabled}
+        <div
+          class="mt-s4 self-end text-f12 text-gray-text-alt"
+          class:text-error={value.length > maxLength}
+        >
+          {value?.length}/{maxLength} caractères
+        </div>
+      {/if}
+    </div>
+  </FieldWrapper>
+{/if}
 
 <style lang="postcss">
   textarea {

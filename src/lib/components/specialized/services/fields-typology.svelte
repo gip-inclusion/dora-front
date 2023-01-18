@@ -5,11 +5,12 @@
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
   import type { Model } from "$lib/types";
   import { getModelInputProps } from "$lib/utils/forms";
+  import type { Schema } from "$lib/validation/schemas/utils";
 
   import FieldCategory from "./field-category.svelte";
   import FieldModel from "./field-model.svelte";
 
-  export let servicesOptions, schema, service;
+  export let servicesOptions, schema: Schema, service;
   export let model: Model | undefined = undefined;
   export let noTopPadding = false;
   export let subcategories = [];
@@ -35,7 +36,13 @@
 
 <FieldSet title="Typologie" {showModel} {noTopPadding}>
   <FieldModel {...fieldModelProps["categories"]} type="array">
-    <FieldCategory bind:service bind:subcategories {servicesOptions} {model} />
+    <FieldCategory
+      bind:service
+      bind:subcategories
+      {servicesOptions}
+      {model}
+      {schema}
+    />
   </FieldModel>
   <div slot="help">
     <p class="text-f14">
@@ -51,9 +58,8 @@
   >
     <MultiSelectField
       id="subcategories"
-      label="Besoins"
+      schema={schema.subcategories}
       bind:value={service.subcategories}
-      required
       choices={subcategories}
       placeholder="Sélectionner"
       placeholderMulti="Sélectionner"
@@ -62,9 +68,8 @@
   <FieldModel {...fieldModelProps["kinds"]} type="array">
     <CheckboxesField
       id="kinds"
-      label="Types"
+      schema={schema.kinds}
       bind:value={service.kinds}
-      required
       choices={servicesOptions.kinds}
     />
   </FieldModel>
@@ -72,7 +77,7 @@
   <FieldModel {...fieldModelProps["isCumulative"]} type="boolean">
     <ToggleField
       id="isCumulative"
-      label="Cumulable"
+      schema={schema.isCumulative}
       bind:value={service.isCumulative}
       description="Cumulable avec d’autres services"
     />

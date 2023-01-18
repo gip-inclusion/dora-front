@@ -3,9 +3,10 @@
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import ToggleField from "$lib/components/inputs/toggle-field.svelte";
   import type { Service } from "$lib/types";
+  import type { Schema } from "$lib/validation/schemas/utils";
 
+  export let schema: Schema;
   export let service: Service;
-  export let required = false;
 </script>
 
 <FieldSet title="Contact du référent">
@@ -23,29 +24,28 @@
     </p>
   </div>
   <BasicInputField
-    label="Prénom et nom"
-    placeholder="Prénom et nom"
     id="contactName"
+    schema={schema.contactName}
+    placeholder="Prénom et nom"
     bind:value={service.contactName}
   />
   <BasicInputField
-    type="tel"
-    label="Téléphone"
-    placeholder="00 00 00 00 00"
     id="contactPhone"
+    type="tel"
+    schema={schema.contactPhone}
+    placeholder="00 00 00 00 00"
     bind:value={service.contactPhone}
   />
   <BasicInputField
-    type="email"
-    label="Email"
-    placeholder="nom@exemple.org"
     id="contactEmail"
+    type="email"
+    schema={schema.contactEmail}
+    placeholder="nom@exemple.org"
     bind:value={service.contactEmail}
-    {required}
   />
   <ToggleField
-    label="Rendre public"
     id="isContactInfoPublic"
+    schema={schema.isContactInfoPublic}
     bind:value={service.isContactInfoPublic}
   />
 </FieldSet>

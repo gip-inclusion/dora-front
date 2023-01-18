@@ -52,10 +52,10 @@
     <FieldModel {...fieldModelProps["concernedPublic"]} type="array">
       <AddableMultiSelectField
         id="concernedPublic"
+        schema={schema.concernedPublic}
         bind:values={service.concernedPublic}
         structureSlug={service.structure}
         choices={servicesOptions.concernedPublic}
-        label="Profils"
         placeholder="Tous publics"
         placeholderMulti="Sélectionner"
         sort
@@ -69,10 +69,10 @@
     <FieldModel {...fieldModelProps["accessConditions"]} type="array">
       <AddableMultiSelectField
         id="accessConditions"
+        schema={schema.accessConditions}
         bind:values={service.accessConditions}
         structureSlug={service.structure}
         choices={servicesOptions.accessConditions}
-        label="Critères"
         placeholder="Aucun"
         placeholderMulti="Choisir un autre critères d’admission"
         sort
@@ -86,10 +86,10 @@
     <FieldModel {...fieldModelProps["requirements"]} type="array">
       <AddableMultiSelectField
         id="requirements"
+        schema={schema.requirements}
         bind:values={service.requirements}
         structureSlug={service.structure}
         choices={servicesOptions.requirements}
-        label="Pré-requis ou compétences"
         placeholder="Aucun"
         placeholderMulti="Choisir un autre pré-requis"
         sort

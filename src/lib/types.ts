@@ -222,8 +222,17 @@ export type FeeCondition =
   | "adhesion"
   | "pass-numerique";
 
-export type CoachOrientationModes = "EM" | "EP" | "FO" | "OT" | "PH";
-export type BeneficiaryAccessModes = "EM" | "OS" | "OT" | "PH";
+export type CoachOrientationModes =
+  | "envoyer-courriel"
+  | "envoyer-fiche-prescription"
+  | "envoyer-formulaire"
+  | "autre"
+  | "telephoner";
+export type BeneficiaryAccessModes =
+  | "envoyer-courriel"
+  | "se-presenter"
+  | "autre"
+  | "telephoner";
 
 export interface SearchQuery {
   categoryIds: string[];

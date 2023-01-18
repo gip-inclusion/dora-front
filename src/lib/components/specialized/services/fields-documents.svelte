@@ -40,7 +40,7 @@
   <FieldModel {...fieldModelProps["forms"]} type="files">
     <UploadField
       id="forms"
-      label="Documents à compléter"
+      schema={schema.forms}
       structureSlug={service.structure}
       on:blur
       bind:fileKeys={service.forms}
@@ -51,10 +51,10 @@
     <FieldModel {...fieldModelProps["credentials"]} type="array">
       <AddableMultiSelectField
         id="credentials"
+        schema={schema.credentials}
         bind:values={service.credentials}
         structureSlug={service.structure}
         choices={servicesOptions.credentials}
-        label="Justificatifs à fournir"
         placeholder="Aucun"
         placeholderMulti="Choisir un autre justificatif"
         sort
@@ -65,7 +65,7 @@
   <FieldModel {...fieldModelProps["onlineForm"]}>
     <BasicInputField
       id="onlineForm"
-      label="Lien"
+      schema={schema.onlineForm}
       placeholder="URL"
       type="url"
       bind:value={service.onlineForm}

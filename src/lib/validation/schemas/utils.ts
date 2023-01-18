@@ -17,10 +17,10 @@ export const siretRegexp = /^\d{14}$/u;
 
 export type Action<T> = (value: T) => T;
 
-export type Rule<T> = (
+export type Rule = (
   name: string,
-  value: T,
-  data: any,
+  value: any,
+  data?: any,
   servicesOptions?: ServicesOptions,
   schema?: any
 ) => {
@@ -29,16 +29,25 @@ export type Rule<T> = (
 };
 
 export interface Shape<T> {
-  rules: Rule<T>[];
+  rules: Rule[];
   default?: T;
   dependents?: string[];
   post?: Action<T>[];
   pre?: Action<T>[];
+  required?: boolean;
+  label?: string;
+  maxLength?: number;
+  readonly?: boolean;
 }
+
+export interface Schema {
+  [fieldName: string]: Shape<any>;
+}
+
 // ----- Rules
 
 export function isString(msg = "") {
-  return (name, value, _data) => ({
+  return (name: string, value: any, _data) => ({
     valid: typeof value === "string",
     msg: msg || `Ce champ doit être une chaine de caractères`, // TODO: this is not a valid enduser message
   });
@@ -146,7 +155,7 @@ export function isCustomizablePK(msg = "") {
   });
 }
 
-export function isArray<T>(rules: Rule<T>[], msg = "") {
+export function isArray(rules: Rule[], msg = "") {
   return (name, value, data) => {
     if (!Array.isArray(value)) {
       return {
