@@ -34,9 +34,6 @@
     // We want to listen to both DOM and component events
     const fieldName = evt.target?.name || evt.detail;
 
-    // const filteredSchema =
-    //   fieldName && schema[fieldName] ? { [fieldName]: schema[fieldName] } : {};
-
     // Sometimes (particularly with Select components), the event is received
     // before the field value is updated in  `structure`, although it's not
     // supposed to happen. This setTimeout is an unsatisfying workaround to that.
@@ -44,11 +41,14 @@
     // TODO: try replacing that with an await tick()
     await new Promise((resolve) => {
       setTimeout(() => {
-        const { validatedData, valid } = validate(data, schema, {
-          fieldName,
-          noScroll: true,
-          servicesOptions,
-        });
+        const { validatedData, valid } = validate(
+          data,
+          { [fieldName]: schema[fieldName] },
+          {
+            noScroll: true,
+            servicesOptions,
+          }
+        );
 
         if (valid && onChange) {
           onChange(validatedData);

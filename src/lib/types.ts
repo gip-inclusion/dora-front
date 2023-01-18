@@ -311,7 +311,7 @@ export interface Service {
   coachOrientationModes: CoachOrientationModes[];
   coachOrientationModesDisplay: string[];
   coachOrientationModesOther: string;
-  concernedPublic: CustomizableFK[]; // TODO: should be public
+  concernedPublic: CustomizableFK[]; // TODO: should be plural
   concernedPublicDisplay: string[];
   contactEmail: string;
   contactName: string;

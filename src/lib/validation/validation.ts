@@ -120,7 +120,6 @@ export function validate(
   }
 
   Object.entries(schema).forEach(([fieldName, shape]: [string, Shape<any>]) => {
-    // On n'essaye pas de valider les champs qui ne sont pas affichés
     const { value, valid, msg } = validateField(
       fieldName,
       shape,

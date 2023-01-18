@@ -33,7 +33,6 @@
     60;
   const serviceWasJustPublished =
     data.service.status === "PUBLISHED" && minutesSincePublication < 1;
-  console.log(serviceWasJustPublished);
 
   $: showContact = data.service?.isContactInfoPublic || $token;
   $: structureHasPublishedServices = data.structure?.services.filter(

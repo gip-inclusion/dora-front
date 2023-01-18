@@ -6,8 +6,9 @@
 
   export let service, servicesOptions;
 
-  let invalidFields = [];
-  let errors = 1;
+  let invalidFields: string[] = [];
+  let numErrors;
+
   onMount(() => {
     const validation = validate(service, serviceSchema, {
       noScroll: true,
@@ -15,13 +16,14 @@
       servicesOptions,
     });
     invalidFields = validation?.errorFields;
+    numErrors = invalidFields.length;
   });
 </script>
 
 {#if invalidFields.length}
   <Notice
-    title={`Information${errors ? "s" : ""} requise${
-      errors ? "s" : ""
+    title={`Information${numErrors > 1 ? "s" : ""} requise${
+      numErrors > 1 ? "s" : ""
     } pour publier`}
     type="warning"
   >

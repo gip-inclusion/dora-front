@@ -20,7 +20,7 @@
       return arraysCompare(a, b);
     }
 
-    // tiptap insert des caractères en fin de chaine
+    // tiptap insère des caractères en fin de chaine.
     // on les supprime pour faire la comparaison
     if (type === "markdown") {
       const bb = b.replace(/\n\n$/u, "");

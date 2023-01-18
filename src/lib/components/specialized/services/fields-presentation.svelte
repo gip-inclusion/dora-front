@@ -8,7 +8,6 @@
   import FieldModel from "./field-model.svelte";
 
   export let servicesOptions, schema, service;
-  // TODO: service.model?
   export let model: Model | undefined = undefined;
   export let noTopPadding = false;
 

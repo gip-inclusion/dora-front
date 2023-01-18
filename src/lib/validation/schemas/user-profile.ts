@@ -7,6 +7,8 @@ export const userProfileSchema: v.Schema = {
     rules: [v.isString(), v.maxStrLength(140)],
     post: [v.trim],
     maxLength: 140,
+    required: true,
+    readonly: true,
   },
   lastName: {
     label: "Nom",
@@ -14,6 +16,8 @@ export const userProfileSchema: v.Schema = {
     rules: [v.isString(), v.maxStrLength(140)],
     post: [v.trim],
     maxLength: 140,
+    required: true,
+    readonly: true,
   },
   email: {
     label: "Courriel",
@@ -21,6 +25,8 @@ export const userProfileSchema: v.Schema = {
     rules: [v.isEmail(), v.maxStrLength(255)],
     post: [v.lower, v.trim],
     maxLength: 255,
+    required: true,
+    readonly: true,
   },
   phoneNumber: {
     label: "Numéro de téléphone",
@@ -29,9 +35,5 @@ export const userProfileSchema: v.Schema = {
     rules: [v.isPhone()],
     required: true,
     maxLength: 10,
-  },
-  newsletter: {
-    default: false,
-    rules: [v.isBool()],
   },
 };

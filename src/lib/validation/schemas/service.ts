@@ -2,19 +2,10 @@ import type { ServicesOptions } from "$lib/types";
 import * as v from "./utils";
 
 export function allCategoriesHaveSubcategories() {
-  return (name, value, data, servicesOptions: ServicesOptions, _schema) => {
+  return (name, value, data, servicesOptions: ServicesOptions) => {
     const subcatRoots = new Set(
       data.subcategories.map((value) => value.split("--")[0])
     );
-
-    // TODO: fix that, but the required field is not in the schema anymore
-    // Pas besoin de vérifier les sous-catégories si le champs est optionnel
-    // const required = schema[name]?.required ?? false;
-    // if (!required) {
-    //   return {
-    //     valid: true,
-    //   };
-    // }
 
     if (!servicesOptions) {
       console.log("Missing servicesOptions in rules check");
@@ -332,7 +323,7 @@ export const serviceSchema: v.Schema = {
   },
 };
 
-export const inclusionNumeriqueSchema = {
+export const inclusionNumeriqueSchema: v.Schema = {
   structure: serviceSchema.structure,
   categories: serviceSchema.categories,
   subcategories: serviceSchema.subcategories,
@@ -358,7 +349,7 @@ export const inclusionNumeriqueSchema = {
   useInclusionNumeriqueScheme: serviceSchema.useInclusionNumeriqueScheme,
 };
 
-export const draftSchema = {
+export const draftSchema: v.Schema = {
   structure: serviceSchema.structure,
   categories: serviceSchema.categories,
   subcategories: serviceSchema.subcategories,
@@ -397,7 +388,7 @@ export const draftSchema = {
   useInclusionNumeriqueScheme: serviceSchema.useInclusionNumeriqueScheme,
 };
 
-export const contribSchema = {
+export const contribSchema: v.Schema = {
   siret: serviceSchema.siret,
   categories: serviceSchema.categories,
   subcategories: serviceSchema.subcategories,
@@ -422,7 +413,7 @@ export const contribSchema = {
   postalCode: serviceSchema.postalCode,
 };
 
-export const modelSchema = {
+export const modelSchema: v.Schema = {
   structure: serviceSchema.structure,
   categories: serviceSchema.categories,
   subcategories: serviceSchema.subcategories,
@@ -447,20 +438,23 @@ export const modelSchema = {
   suspensionDate: serviceSchema.suspensionDate,
 };
 
-// TODO move that somewhere else
+// Déplacer ça ailleurs
 export const suggestionSchema: any = {
   fullName: {
     default: "",
     rules: [v.isString(), v.maxStrLength(140)],
     post: [v.trim],
+    required: true,
   },
   email: {
     default: "",
     rules: [v.isEmail(), v.maxStrLength(255)],
     post: [v.lower, v.trim],
+    required: true,
   },
   message: {
     default: "",
     rules: [v.isString()],
+    required: true,
   },
 };

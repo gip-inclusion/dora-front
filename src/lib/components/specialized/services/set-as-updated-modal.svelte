@@ -11,15 +11,14 @@
   export let isOpen = false;
   export let service: Service | ShortService;
   export let servicesOptions: ServicesOptions;
-  export let onRefresh: () => void;
+  export let onRefresh: () => Promise<void>;
 
   async function setAsUpdated() {
-    // TODO: check that: we probably want to PATCH with no changed fields
+    // TODO: il serait sans doute mieux d'avoir un endpoint dédié.
     await createOrModifyService(service);
     isOpen = false;
     await onRefresh();
   }
-  $: console.log(service);
 </script>
 
 <Modal

@@ -46,7 +46,6 @@
 
   function handleSubmit(validatedData, kind) {
     if (kind === "publish") {
-      console.log("publishing");
       service.status = "PUBLISHED";
       service.markSynced = true;
 
@@ -55,8 +54,6 @@
         status: "PUBLISHED",
       });
     } else if (kind === "draft") {
-      console.log("saving as draft");
-
       service.status = "DRAFT";
       service.markSynced = true;
       // eslint-disable-next-line no-warning-comments

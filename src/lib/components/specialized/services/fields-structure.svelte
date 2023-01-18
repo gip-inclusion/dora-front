@@ -105,7 +105,6 @@
   const showStructures = service.structure ? false : structures.length > 1;
 
   onMount(() => {
-    console.log(structure, service.structure);
     if (structure && service.structure) {
       updateServiceOptions();
     }
