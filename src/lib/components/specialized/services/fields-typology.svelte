@@ -79,7 +79,7 @@
       id="isCumulative"
       schema={schema.isCumulative}
       bind:value={service.isCumulative}
-      description="Cumulable avec d’autres services"
+      description="Avec d’autres services."
     />
   </FieldModel>
 </FieldSet>

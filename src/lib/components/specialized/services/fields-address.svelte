@@ -4,9 +4,9 @@
   import BasicInputField from "$lib/components/inputs/basic-input-field.svelte";
   import CitySearchField from "$lib/components/inputs/city-search-field.svelte";
   import HiddenField from "$lib/components/inputs/hidden-field.svelte";
+  import { refreshIcon } from "$lib/icons";
   import type { Service, Structure } from "$lib/types";
   import type { Schema } from "$lib/validation/schemas/utils";
-  import { tick } from "svelte";
 
   export let entity: Service | Structure;
   export let parent: Structure | null = null;
@@ -23,11 +23,7 @@
     entity.latitude = lat;
   }
 
-  let showServiceAddress = true;
-
   async function fillAddress() {
-    showServiceAddress = false;
-
     if (parent) {
       const {
         city,
@@ -46,8 +42,6 @@
       entity.latitude = latitude;
       entity.longitude = longitude;
     }
-    await tick();
-    showServiceAddress = true;
   }
 
   function handleCityChange(city) {
@@ -56,23 +50,27 @@
   }
 </script>
 
-{#if showServiceAddress}
-  {#if parent}
-    <Button
-      on:click={fillAddress}
-      secondary
-      small
-      label="Utiliser l'adresse de la structure"
+{#key entity}
+  <div class="flex flex-col">
+    {#if parent}
+      <div class="mb-s8 lg:w-3/4 lg:self-end">
+        <Button
+          on:click={fillAddress}
+          icon={refreshIcon}
+          noBackground
+          small
+          label="Utiliser les coordonnées de la structure"
+        />
+      </div>
+    {/if}
+    <CitySearchField
+      id="city"
+      schema={schema.city}
+      initialValue={entity.city}
+      onChange={handleCityChange}
+      placeholder="Saisissez et validez votre ville"
     />
-  {/if}
-  <CitySearchField
-    id="city"
-    schema={schema.city}
-    initialValue={entity.city}
-    onChange={handleCityChange}
-    placeholder="Saisissez et validez votre ville"
-  />
-
+  </div>
   <AddressSearchField
     id="address1"
     schema={schema.address1}
@@ -114,4 +112,4 @@
     schema={schema.latitude}
     bind:value={entity.latitude}
   />
-{/if}
+{/key}

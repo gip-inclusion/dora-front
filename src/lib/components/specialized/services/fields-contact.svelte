@@ -47,5 +47,7 @@
     id="isContactInfoPublic"
     schema={schema.isContactInfoPublic}
     bind:value={service.isContactInfoPublic}
+    yesLabel="OUI - visibles pour tout visiteur du site DORA"
+    noLabel="NON - visibles uniquement par les professionnels inscrits sur DORA "
   />
 </FieldSet>

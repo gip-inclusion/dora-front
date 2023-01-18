@@ -58,7 +58,7 @@
     <BasicInputField
       id="name"
       schema={schema.name}
-      placeholder="Compléter"
+      placeholder="Titre du service"
       bind:value={service.name}
     />
   </FieldModel>

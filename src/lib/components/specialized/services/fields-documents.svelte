@@ -58,6 +58,7 @@
         placeholder="Aucun"
         placeholderMulti="Choisir un autre justificatif"
         sort
+        addButtonLabel="Ajouter un autre justificatif"
       />
     </FieldModel>
   {/if}

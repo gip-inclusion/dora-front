@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { addIcon } from "$lib/icons";
   import type { CustomChoice, CustomizableFK } from "$lib/types";
   import type { Shape } from "$lib/validation/schemas/utils";
   import Button from "../display/button.svelte";
@@ -13,6 +14,7 @@
   export let placeholder = "";
 
   // Spécifiques
+  export let addButtonLabel: string | undefined = undefined;
   export let choices: CustomChoice[];
   export let sort = false;
   export let onChange: ((newValues: string[]) => void) | undefined = undefined;
@@ -79,8 +81,9 @@
       <div class="flex flex-col" class:mt-s12={canAdd}>
         <div class:hidden={textInputVisible}>
           <Button
-            label="Ajouter une autre option"
-            secondary
+            label={addButtonLabel || "Ajouter une autre option"}
+            icon={addIcon}
+            noBackground
             small
             on:click={() => (textInputVisible = true)}
           />

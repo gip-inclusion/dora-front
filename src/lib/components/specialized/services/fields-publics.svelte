@@ -61,6 +61,7 @@
         sort
         description="Plusieurs choix possibles"
         canAdd={canAddChoices}
+        addButtonLabel="Ajouter un profil personnalisé"
       />
     </FieldModel>
   {/if}
@@ -78,6 +79,7 @@
         sort
         description="Plusieurs choix possibles"
         canAdd={canAddChoices}
+        addButtonLabel="Ajouter un critère personnalisé"
       />
     </FieldModel>
   {/if}
@@ -95,6 +97,7 @@
         sort
         description="Plusieurs choix possibles"
         canAdd={canAddChoices}
+        addButtonLabel="Ajouter un pré-requis personnalisé"
       />
     </FieldModel>
   {/if}

@@ -63,5 +63,10 @@
     canAddChoices={false}
   />
 
-  <FieldsPlace bind:service {servicesOptions} schema={contribSchema} />
+  <FieldsPlace
+    bind:service
+    {servicesOptions}
+    schema={contribSchema}
+    structure={establishment}
+  />
 {/if}

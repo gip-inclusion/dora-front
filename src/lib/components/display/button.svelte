@@ -55,8 +55,8 @@
     }
   }
 
-  const iw = "w-s32";
-  const ih = "h-s32";
+  const iw = small ? "w-s24" : "w-s32";
+  const ih = small ? "h-s24" : "h-s32";
 
   function handleMouseDown(evt) {
     if (preventDefaultOnMouseDown) evt.preventDefault();

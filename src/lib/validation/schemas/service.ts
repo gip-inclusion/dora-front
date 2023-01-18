@@ -219,7 +219,7 @@ export const serviceSchema: v.Schema = {
     required: true,
   },
   isContactInfoPublic: {
-    label: "Rendre public",
+    label: "Rendre les informations de contact publiques",
     default: false,
     rules: [v.isBool()],
   },
@@ -408,7 +408,7 @@ export const contribSchema = {
   accessConditions: serviceSchema.accessConditions,
   concernedPublic: serviceSchema.concernedPublic,
   requirements: serviceSchema.requirements,
-  // isCumulative: serviceSchema.isCumulative,
+  isCumulative: serviceSchema.isCumulative,
   feeCondition: serviceSchema.feeCondition,
   feeDetails: serviceSchema.feeDetails,
   contactName: serviceSchema.contactName,
