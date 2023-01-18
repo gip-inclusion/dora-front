@@ -12,7 +12,7 @@
   import TallyNpsPopup from "$lib/components/specialized/tally-nps-popup.svelte";
   import { getService } from "$lib/requests/services";
   import { token } from "$lib/utils/auth";
-  import { canDisplayNpsForm, TallyFormId } from "$lib/utils/nps";
+  import { TallyFormId } from "$lib/utils/nps";
   import { trackService } from "$lib/utils/plausible";
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
@@ -26,6 +26,14 @@
   async function handleRefresh() {
     data.service = await getService(data.service.slug);
   }
+
+  const minutesSincePublication =
+    (new Date().getTime() - new Date(data.service.publicationDate).getTime()) /
+    1000 /
+    60;
+  const serviceWasJustPublished =
+    data.service.status === "PUBLISHED" && minutesSincePublication < 1;
+  console.log(serviceWasJustPublished);
 
   $: showContact = data.service?.isContactInfoPublic || $token;
   $: structureHasPublishedServices = data.structure?.services.filter(
@@ -85,19 +93,22 @@
   </CenteredGrid>
   {#if browser}
     {#if data.service.canWrite}
-      {#if canDisplayNpsForm(TallyFormId.SERVICE_CREATION_FORM_ID) && !data.service.hasAlreadyBeenUnpublished}
+      {#if serviceWasJustPublished && !data.service.hasAlreadyBeenUnpublished}
         <TallyNpsPopup
           formId={TallyFormId.SERVICE_CREATION_FORM_ID}
-          timeout={3000}
+          timeoutSeconds={3}
         />
       {:else if structureHasPublishedServices}
         <TallyNpsPopup
           formId={TallyFormId.NPS_OFFEROR_FORM_ID}
-          timeout={30000}
+          timeoutSeconds={30}
         />
       {/if}
     {:else}
-      <TallyNpsPopup formId={TallyFormId.NPS_SEEKER_FORM_ID} />
+      <TallyNpsPopup
+        formId={TallyFormId.NPS_SEEKER_FORM_ID}
+        timeoutSeconds={45}
+      />
     {/if}
   {/if}
 {/if}

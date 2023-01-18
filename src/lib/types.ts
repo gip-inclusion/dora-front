@@ -345,6 +345,7 @@ export interface Service {
   name: string;
   onlineForm: string;
   postalCode: string;
+  publicationDate: string;
   qpvOrZrr: boolean;
   recurrence: string;
   remoteUrl: string;
