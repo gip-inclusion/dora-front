@@ -1,38 +1,35 @@
 <script lang="ts">
-  import Notice from "$lib/components/display/notice.svelte";
   import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
-  import FieldsContact from "$lib/components/specialized/services/fields-contact.svelte";
-  import FieldsPlace from "$lib/components/specialized/services/fields-place.svelte";
-  import FieldsPresentation from "$lib/components/specialized/services/fields-presentation.svelte";
-  import FieldsPublics from "$lib/components/specialized/services/fields-publics.svelte";
-  import FieldsTypology from "$lib/components/specialized/services/fields-typology.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
 
   export let servicesOptions: ServicesOptions;
-  export let service: Service;
+  export let contribution: Service;
 
   let establishment = null;
 
   function handleStructureCityChange() {
-    service.siret = "";
+    contribution.siret = "";
   }
 
   async function handleEstablishmentChange(newEstablishment) {
-    service.siret = newEstablishment?.siret;
+    contribution.siret = newEstablishment?.siret;
   }
+
+  $: console.log(contribution);
+  $: console.log(establishment);
 </script>
 
 <StructureSearch
   onEstablishmentChange={handleEstablishmentChange}
-  onCityChange={handleStructureCityChange}
+  _onCityChange={handleStructureCityChange}
   bind:establishment
   isOwnStructure={false}
 />
 
-{#if service.siret}
-  <FieldsPresentation bind:service {servicesOptions} />
+{#if contribution.siret}
+  <!-- <FieldsPresentation bind:service={contribution} {servicesOptions} />
 
-  <FieldsTypology bind:service {servicesOptions} />
+  <FieldsTypology bind:service={contribution} {servicesOptions} />
 
   <div class="mt-s48">
     <Notice type="warning">
@@ -43,7 +40,7 @@
     </Notice>
   </div>
 
-  <FieldsContact bind:service />
+  <FieldsContact bind:service={contribution} />
 
   <div class="mt-s48">
     <Notice title="Informations facultatives">
@@ -54,7 +51,15 @@
     </Notice>
   </div>
 
-  <FieldsPublics bind:service {servicesOptions} canAddChoices={false} />
+  <FieldsPublics
+    bind:service={contribution}
+    {servicesOptions}
+    canAddChoices={false}
+  />
 
-  <FieldsPlace bind:service {servicesOptions} structure={establishment} />
+  <FieldsPlace
+    bind:service={contribution}
+    {servicesOptions}
+    structure={establishment}
+  /> -->
 {/if}

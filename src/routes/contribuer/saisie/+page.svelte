@@ -15,7 +15,7 @@
   let requesting = false;
 
   // TODO: Ajouter le type Contribution
-  let service: Service = Object.fromEntries(
+  let contribution: Service = Object.fromEntries(
     Object.entries(contribSchema).map(([fieldName, props]) => [
       fieldName,
       props.default,
@@ -24,7 +24,7 @@
 
   function handleChange(validatedData) {
     console.log("change");
-    service = { ...service, ...validatedData };
+    contribution = { ...contribution, ...validatedData };
   }
 
   function handleSubmit(validatedData) {
@@ -37,6 +37,8 @@
   }
 
   export let data: PageData;
+
+  console.log(contribution);
 </script>
 
 <CenteredGrid>
@@ -55,7 +57,7 @@
 <FormErrors />
 
 <Form
-  bind:data={service}
+  bind:data={contribution}
   schema={contribSchema}
   onChange={handleChange}
   onSubmit={handleSubmit}
@@ -64,10 +66,10 @@
 >
   <CenteredGrid>
     <div class="lg:w-2/3">
-      <Fields bind:service servicesOptions={data.servicesOptions} />
+      <Fields bind:contribution servicesOptions={data.servicesOptions} />
     </div>
   </CenteredGrid>
-  {#if service.siret}
+  {#if contribution.siret}
     <StickyFormSubmissionRow>
       <Button
         name="validate"
