@@ -10,7 +10,7 @@
   import { contribSchema } from "$lib/validation/schemas/service";
 
   import type { PageData } from "./$types";
-  import Fields from "./fields.svelte";
+  import ContributionEditionFields from "./contribution-edition-fields.svelte";
 
   let requesting = false;
 
@@ -23,12 +23,10 @@
   );
 
   function handleChange(validatedData) {
-    console.log("change");
     contribution = { ...contribution, ...validatedData };
   }
 
   function handleSubmit(validatedData) {
-    console.log("submit", validatedData);
     return publishServiceSuggestion(validatedData, data.source);
   }
 
@@ -37,8 +35,6 @@
   }
 
   export let data: PageData;
-
-  console.log(contribution);
 </script>
 
 <CenteredGrid>
@@ -66,7 +62,10 @@
 >
   <CenteredGrid>
     <div class="lg:w-2/3">
-      <Fields bind:contribution servicesOptions={data.servicesOptions} />
+      <ContributionEditionFields
+        bind:contribution
+        servicesOptions={data.servicesOptions}
+      />
     </div>
   </CenteredGrid>
   {#if contribution.siret}

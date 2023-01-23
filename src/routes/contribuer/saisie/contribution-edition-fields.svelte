@@ -1,5 +1,11 @@
 <script lang="ts">
+  import Notice from "$lib/components/display/notice.svelte";
   import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
+  import FieldsContact from "$lib/components/specialized/services/fields-contact.svelte";
+  import FieldsPlace from "$lib/components/specialized/services/fields-place.svelte";
+  import FieldsPresentation from "$lib/components/specialized/services/fields-presentation.svelte";
+  import FieldsPublics from "$lib/components/specialized/services/fields-publics.svelte";
+  import FieldsTypology from "$lib/components/specialized/services/fields-typology.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
 
   export let servicesOptions: ServicesOptions;
@@ -14,20 +20,17 @@
   async function handleEstablishmentChange(newEstablishment) {
     contribution.siret = newEstablishment?.siret;
   }
-
-  $: console.log(contribution);
-  $: console.log(establishment);
 </script>
 
 <StructureSearch
   onEstablishmentChange={handleEstablishmentChange}
-  _onCityChange={handleStructureCityChange}
+  onCityChange={handleStructureCityChange}
   bind:establishment
   isOwnStructure={false}
 />
 
 {#if contribution.siret}
-  <!-- <FieldsPresentation bind:service={contribution} {servicesOptions} />
+  <FieldsPresentation bind:service={contribution} {servicesOptions} />
 
   <FieldsTypology bind:service={contribution} {servicesOptions} />
 
@@ -61,5 +64,5 @@
     bind:service={contribution}
     {servicesOptions}
     structure={establishment}
-  /> -->
+  />
 {/if}

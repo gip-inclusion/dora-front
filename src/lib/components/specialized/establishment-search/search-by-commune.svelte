@@ -51,7 +51,7 @@
     : "Nom de la structure de votre partenaire";
 </script>
 
-<FieldWrapper id="city" let:onBlur label="Commune" required vertical>
+<FieldWrapper id="city" label="Commune" required vertical>
   <CitySearch
     id="city"
     onChange={handleCityChange}
@@ -59,13 +59,7 @@
   />
 </FieldWrapper>
 
-<FieldWrapper
-  id="siret-select"
-  let:onBlur
-  label={structureLabel}
-  required
-  vertical
->
+<FieldWrapper id="siret-select" label={structureLabel} required vertical>
   <Select
     id="siret-select"
     onChange={handleEstablishmentChange}
