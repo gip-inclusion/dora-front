@@ -73,15 +73,22 @@
       </div>
 
       <p class="mt-s24 mb-s24" />
-      <div class="mb-s40">
+      <div class="mb-s40 text-center">
         <a
+          class="inline-block"
           href="/auth/ic-connect?next={encodeURIComponent(nextPage)}{loginHint}"
         >
           <div
-            class="mx-auto flex items-center justify-center rounded bg-[#000638] px-s12 py-s12 text-f16 font-bold text-white "
+            class="mx-auto flex items-center justify-center rounded-full bg-france-blue p-s6 pr-s24 text-f16 text-white "
           >
-            <img src={logoIC} alt="" width="32" height="35" />
-            <div class="ml-s10">S’identifier avec Inclusion Connect</div>
+            <span class="h-[62px] w-[62px] rounded-full bg-white p-s6">
+              <img src={logoIC} alt="" class="max-w-none" />
+            </span>
+            <div class="ml-s16 text-left">
+              Se connecter avec <strong class="whitespace-nowrap">
+                Inclusion Connect
+              </strong>
+            </div>
           </div>
         </a>
 
