@@ -14,7 +14,10 @@ export function markdownToHTML(markdownContent: string, titleLevel = 2) {
     simplifiedAutoLink: true,
   });
 
-  return insane(converter.makeHtml(markdownContent));
+  return insane(converter.makeHtml(markdownContent)).replace(
+    /target="_blank"/g,
+    'target="_blank" rel="nofollow"'
+  );
 }
 
 export function htmlToMarkdown(html: string) {

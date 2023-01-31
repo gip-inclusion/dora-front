@@ -1,4 +1,4 @@
-import { markdownToHTML } from "$lib/utils/index";
+import { markdownToHTML } from "$lib/utils/misc";
 import { describe, expect, test } from "vitest";
 
 describe("markdownToHTML", () => {
@@ -10,7 +10,7 @@ describe("markdownToHTML", () => {
     const text = `[https://perdu.com/](Perdu) - [https://www.google.fr/](Google)`;
 
     expect(markdownToHTML(text)).toBe(
-      '<p><a href="Perdu" rel="nofollow">https://perdu.com/</a> - <a href="Google" rel="nofollow">https://www.google.fr/</a></p>'
+      '<p><a href="Perdu" target="_blank" rel="nofollow">https://perdu.com/</a> - <a href="Google" target="_blank" rel="nofollow">https://www.google.fr/</a></p>'
     );
   });
 
