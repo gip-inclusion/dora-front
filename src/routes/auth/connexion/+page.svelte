@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
   import logoC1 from "$lib/assets/inclusion-connect/logo-c1.svg";
   import logoDora from "$lib/assets/inclusion-connect/logo-dora-ic.svg";
+  import logoCommunauteInclusion from "$lib/assets/inclusion-connect/logo-communaute-inclusion.svg";
   import logoIC from "$lib/assets/inclusion-connect/logo-inclusion-connect.svg";
   import logoRDVS from "$lib/assets/inclusion-connect/logo-rdv-solidarites.svg";
   import logoPEFill from "$lib/assets/logos/logo-pole-emploi-fill.svg";
@@ -107,7 +108,7 @@
         <hr class="my-s24 " />
 
         <div
-          class="flex flex-col items-center justify-between gap-s32 sm:flex-row sm:gap-s16"
+          class="flex flex-col flex-wrap content-center items-center justify-center gap-s32 sm:flex-row"
         >
           <img width="126" height="36" src={logoRDVS} alt="RDV Solidarités" />
           <img
@@ -115,6 +116,12 @@
             height="36"
             src={logoC1}
             alt="Les emplois de l'inclusion"
+          />
+          <img
+            width="126"
+            height="36"
+            src={logoCommunauteInclusion}
+            alt="La communauté de l'inclusion"
           />
           <img width="126" height="36" src={logoDora} alt="DORA" />
         </div>
