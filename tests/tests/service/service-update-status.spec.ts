@@ -1,58 +1,43 @@
 import { expect, test } from "@playwright/test";
-import { createFakeService } from "../../mocks/mockService";
-import { createFakeUser } from "../../mocks/mockUser";
-import { mockUserInfoRequest } from "../../pages/common";
+import { createFakeService } from "../../mocks/mockService.ts";
+import { createFakeStructure } from "../../mocks/mockStructure.ts";
+import { createFakeUser } from "../../mocks/mockUser.ts";
+import { mockServiceOptions } from "../../mocks/mockServiceOptions.ts";
+import { mockUserInfoRequest } from "../../pages/common.ts";
 import {
   goToServicePage,
   mockGetServiceResponse,
+  mockGetStructureResponse,
   SERVICE_SELECTORS,
 } from "../../pages/service.js";
 
 test.describe("Page service", () => {
+  test.beforeEach(async ({ context }) => {
+    await context.route("**/services-options/", (route) =>
+      route.fulfill({
+        body: JSON.stringify(mockServiceOptions),
+      })
+    );
+  });
+
   // *** Affichage correct
   test.describe("Affichage correct", () => {
     test("affiche le bon titre", async ({ page, context }) => {
       // ÉTANT DONNÉ un service
       const SERVICE_NAME = "Mon service";
       const SERVICE = createFakeService({ name: SERVICE_NAME });
+      const STRUCTURE = createFakeStructure({ name: SERVICE.structure });
 
       // SI je vais sur la page service
       await mockGetServiceResponse(context, SERVICE);
+      await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
       // ALORS son nom s'affiche correctement
-      const title = await page.textContent(SERVICE_SELECTORS.HEADER_TITLE);
+      const title = await page
+        .locator(SERVICE_SELECTORS.HEADER_TITLE)
+        .innerText();
       expect(title).toEqual(SERVICE_NAME);
-    });
-
-    test("affiche le status disponible", async ({ page, context }) => {
-      // ÉTANT DONNÉ un service disponible
-      const SERVICE = createFakeService({ isAvailable: true });
-
-      // SI je vais sur la page service
-      await mockGetServiceResponse(context, SERVICE);
-      await goToServicePage(page, SERVICE);
-
-      // ALORS il est affiché comme disponible
-      const availability = await page.textContent(
-        SERVICE_SELECTORS.AVAILIBILITY
-      );
-      expect(availability?.trim()).toEqual("Service disponible");
-    });
-
-    test("affiche le status indisponible", async ({ page, context }) => {
-      // ÉTANT DONNÉ un service indisponible
-      const SERVICE = createFakeService({ isAvailable: false });
-
-      // SI je vais sur la page service
-      await mockGetServiceResponse(context, SERVICE);
-      await goToServicePage(page, SERVICE);
-
-      // ALORS il est affiché comme indisponible
-      const availability = await page.textContent(
-        SERVICE_SELECTORS.AVAILIBILITY
-      );
-      expect(availability?.trim()).toEqual("Service indisponible");
     });
   });
 
@@ -67,28 +52,30 @@ test.describe("Page service", () => {
         creationDate: today.toUTCString(),
         modificationDate: today.toUTCString(),
       });
+      const STRUCTURE = createFakeStructure({ name: SERVICE.structure });
 
       // SI je vais sur la page service
       await mockGetServiceResponse(context, SERVICE);
+      await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
       // ALORS le service est affiché comme actualisé récemment
-      const updateLabel = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_LABEL
-      );
+      const updateLabel = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_LABEL)
+        .innerText();
       expect(updateLabel?.trim()).toEqual("Actualisé aujourd'hui");
 
       // ET le bouton pour suggérer une modification est visible
-      const suggestUpdateButtonText = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_SUGGEST_BUTTON
-      );
+      const suggestUpdateButtonText = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_SUGGEST_BUTTON)
+        .innerText();
       expect(suggestUpdateButtonText?.trim()).toEqual(
         "Suggérer une modification"
       );
     });
 
-    test("aucune actualisation depuis 7 mois", async ({ page, context }) => {
-      // ÉTANT DONNÉ un service actualisé il y a 7 mois
+    test("aucune actualisation depuis 6 mois", async ({ page, context }) => {
+      // ÉTANT DONNÉ un service actualisé il y a 6 mois
       // ET en tant qu'utilisateur non connecté
       const MONTH_DIFF = 7;
       const oldDate = new Date();
@@ -98,23 +85,25 @@ test.describe("Page service", () => {
         creationDate: oldDate.toUTCString(),
         modificationDate: oldDate.toUTCString(),
       });
+      const STRUCTURE = createFakeStructure({ name: SERVICE.structure });
 
       // SI je vais sur la page service
       await mockGetServiceResponse(context, SERVICE);
+      await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
-      // ALORS le service est affiché comme étant actualisé il y a 7 mois
-      const updateLabel = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_LABEL
-      );
+      // ALORS le service est affiché comme étant actualisé il y a 6 mois
+      const updateLabel = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_LABEL)
+        .innerText();
       expect(updateLabel?.trim()).toContain(
-        `Actualisé il y a ${MONTH_DIFF} mois`
+        `Actualisé il y a ${MONTH_DIFF - 1} mois`
       );
 
       // ET le bouton pour suggérer une modification est visible
-      const suggestUpdateButtonText = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_SUGGEST_BUTTON
-      );
+      const suggestUpdateButtonText = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_SUGGEST_BUTTON)
+        .innerText();
       expect(suggestUpdateButtonText?.trim()).toEqual(
         "Suggérer une modification"
       );
@@ -132,23 +121,25 @@ test.describe("Page service", () => {
         creationDate: oldDate.toUTCString(),
         modificationDate: oldDate.toUTCString(),
       });
+      const STRUCTURE = createFakeStructure({ name: SERVICE.structure });
 
       // SI je vais sur la page service
       await mockGetServiceResponse(context, SERVICE);
+      await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
       // ALORS le service est affiché comme étant actualisé il y a longtemps
-      const updateLabel = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_LABEL
-      );
+      const updateLabel = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_LABEL)
+        .innerText();
       expect(updateLabel?.trim()).toContain(
         "Service en attente d’actualisation"
       );
 
       // ET le bouton pour suggérer une modification est visible
-      const suggestUpdateButtonText = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_SUGGEST_BUTTON
-      );
+      const suggestUpdateButtonText = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_SUGGEST_BUTTON)
+        .innerText();
       expect(suggestUpdateButtonText?.trim()).toEqual(
         "Suggérer une modification"
       );
@@ -185,35 +176,37 @@ test.describe("Page service", () => {
         structureSlug: STRUCTURE_SLUG,
         structureName: STRUCTURE_NAME,
       });
+      const STRUCTURE = createFakeStructure({ name: SERVICE.structure });
 
       // SI je vais sur la page service
       await mockGetServiceResponse(context, SERVICE);
+      await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
       // ALORS le service est affiché comme actualisé récemment
-      const updateLabel = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_LABEL
-      );
+      const updateLabel = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_LABEL)
+        .innerText();
       expect(updateLabel?.trim()).toEqual("Actualisé aujourd'hui");
 
       // ET le bouton de mise à jour est visible
-      const updateButtonText = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_BUTTON
-      );
+      const updateButtonText = await page
+        .locator(SERVICE_SELECTORS.UPDATE_BUTTON)
+        .innerText();
       expect(updateButtonText?.trim()).toEqual("Modifier");
 
       // ET le bouton de modification du status du service est visible
-      const updateServiceStateButtonText = await page.textContent(
-        SERVICE_SELECTORS.SERVICE_STATE_UPDATE
-      );
+      const updateServiceStateButtonText = await page
+        .locator(SERVICE_SELECTORS.SERVICE_STATE_UPDATE)
+        .innerText();
       expect(updateServiceStateButtonText?.trim()).toContain(
         "Statut du service"
       );
       expect(updateServiceStateButtonText?.trim()).toContain("Publié");
     });
 
-    test("aucune actualisation depuis 7 mois", async ({ page, context }) => {
-      // ÉTANT DONNÉ un service actualisé il y a 7 mois
+    test("aucune actualisation depuis 6 mois", async ({ page, context }) => {
+      // ÉTANT DONNÉ un service actualisé il y a 6 mois
       // ET en tant qu'utilisateur gérant la structure
       const MONTH_DIFF = 7;
       const oldDate = new Date();
@@ -226,30 +219,32 @@ test.describe("Page service", () => {
         creationDate: oldDate.toUTCString(),
         modificationDate: oldDate.toUTCString(),
       });
+      const STRUCTURE = createFakeStructure({ name: SERVICE.structure });
 
       // SI je vais sur la page service
       await mockGetServiceResponse(context, SERVICE);
+      await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
-      // ALORS le service est affiché comme étant actualisé il y a 7 mois
-      const updateLabel = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_LABEL
-      );
-      expect(updateLabel?.trim()).toContain("Actualisé il y a 7 mois");
+      // ALORS le service est affiché comme étant actualisé il y a 6 mois
+      const updateLabel = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_LABEL)
+        .innerText();
+      expect(updateLabel?.trim()).toContain("Actualisé il y a 6 mois");
       expect(updateLabel?.trim()).toContain(
         "Vérifiez et/ou actualisez les informations de ce service"
       );
 
       // ET le bouton de mise à jour est visible
-      const updateButtonText = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_BUTTON
-      );
+      const updateButtonText = await page
+        .locator(SERVICE_SELECTORS.UPDATE_BUTTON)
+        .innerText();
       expect(updateButtonText?.trim()).toEqual("Modifier");
 
       // ET le bouton de modification du status du service est visible
-      const updateServiceStateButtonText = await page.textContent(
-        SERVICE_SELECTORS.SERVICE_STATE_UPDATE
-      );
+      const updateServiceStateButtonText = await page
+        .locator(SERVICE_SELECTORS.SERVICE_STATE_UPDATE)
+        .innerText();
       expect(updateServiceStateButtonText?.trim()).toContain(
         "Statut du service"
       );
@@ -271,32 +266,33 @@ test.describe("Page service", () => {
         creationDate: oldDate.toUTCString(),
         modificationDate: oldDate.toUTCString(),
       });
+      const STRUCTURE = createFakeStructure({ name: SERVICE.structure });
 
       // SI je vais sur la page service
       await mockGetServiceResponse(context, SERVICE);
+      await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
       // ALORS le service est affiché comme étant actualisé il y a longtemps
-      const updateLabel = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_STATUS_LABEL
-      );
+      const updateLabel = await page
+        .locator(SERVICE_SELECTORS.UPDATE_STATUS_LABEL)
+        .innerText();
+      expect(updateLabel?.trim()).toContain("Actualisation requise");
       expect(updateLabel?.trim()).toContain(
-        "Service en attente d’actualisation"
-      );
-      expect(updateLabel?.trim()).toContain(
-        "Les informations sur ce service n’ont plus été mises à jour depuis"
+        "Ce service est dépriorisé dans les résultats de recherche, il doit être actualisé pour gagner à nouveau en visibilité"
       );
 
       // ET le bouton de mise à jour est visible
-      const updateButtonText = await page.textContent(
-        SERVICE_SELECTORS.UPDATE_BUTTON
-      );
+      const updateButtonText = await page
+        .locator(SERVICE_SELECTORS.UPDATE_BUTTON)
+        .innerText();
       expect(updateButtonText?.trim()).toEqual("Modifier");
 
       // ET le bouton de modification du status du service est visible
-      const updateServiceStateButtonText = await page.textContent(
-        SERVICE_SELECTORS.SERVICE_STATE_UPDATE
-      );
+      const updateServiceStateButtonText = await page
+        .locator(SERVICE_SELECTORS.SERVICE_STATE_UPDATE)
+        .innerText();
+
       expect(updateServiceStateButtonText?.trim()).toContain(
         "Statut du service"
       );

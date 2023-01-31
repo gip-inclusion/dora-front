@@ -15,6 +15,16 @@ export async function mockGetServiceResponse(context, service) {
     });
   });
 }
+export async function mockGetStructureResponse(context, structure) {
+  await context.route(
+    `**/structures/${encodeURI(structure.name)}/`,
+    (route) => {
+      return route.fulfill({
+        body: JSON.stringify(structure),
+      });
+    }
+  );
+}
 
 export async function goToServicePage(page, service) {
   await page.goto(`/services/${service.slug}`);

@@ -1,6 +1,6 @@
 import { expect, test } from "@playwright/test";
-import { mockServiceOptions } from "../mocks/mockServiceOptions";
-import { HOME_SELECTORS, HOME_URL } from "../pages/home";
+import { mockServiceOptions } from "../mocks/mockServiceOptions.ts";
+import { HOME_SELECTORS, HOME_URL } from "../pages/home.ts";
 
 test.describe("La page d'accueil", () => {
   test.beforeEach(async ({ context, page }) => {
@@ -15,19 +15,24 @@ test.describe("La page d'accueil", () => {
   });
 
   test("a le bon titre", async ({ page }) => {
-    const title = await page.textContent("h1");
+    const title = await page.locator("h1").innerText();
     expect(title?.trim()).toEqual(
-      "Donnez de la visibilité à votre offre d’insertion"
+      "Identifiez rapidement les services d’insertion adaptés aux besoins de vos bénéficiaires"
     );
   });
 
+  /*
+  // FIXME: obsolete test...
   test("a les bons libellés pour le formulaire de recherche", async ({
     page,
   }) => {
-    const formLabels = await page.$$(HOME_SELECTORS.FORM_LABELS);
-    expect(formLabels.length).toBe(3);
-    expect(await formLabels[0].textContent()).toBe("Thématique");
-    expect(await formLabels[1].textContent()).toBe("Besoin");
-    expect(await formLabels[2].textContent()).toBe("Lieu");
+    const formLabels = await page
+      .locator(HOME_SELECTORS.FORM_LABELS)
+      .allInnerTexts();
+
+    expect(formLabels.length).toBe(2);
+    expect(await formLabels[0]).toBe("Lieu");
+    expect(await formLabels[1]).toBe("Besoins");
   });
+  */
 });

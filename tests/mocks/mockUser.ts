@@ -24,6 +24,7 @@ export function createFakeUser({
     lastName: "LastName",
     newsletter: false,
     pendingStructures: [],
+    bookmarks: [],
     phoneNumber: "",
     shortName: "Name",
     structures,

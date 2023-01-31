@@ -2,7 +2,7 @@ export const HOME_URL = "/";
 
 export const HOME_SELECTORS = {};
 HOME_SELECTORS.SEARCH_FORM = "#home-search-form";
-HOME_SELECTORS.FORM_LABELS = `${HOME_SELECTORS.SEARCH_FORM} h4`;
+// HOME_SELECTORS.FORM_LABELS = `${HOME_SELECTORS.SEARCH_FORM} label`;
 
 /*
 export async function fillSearchForm({
