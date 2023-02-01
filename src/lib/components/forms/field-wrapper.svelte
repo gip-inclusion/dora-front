@@ -42,7 +42,10 @@
 >
   <div class="flex flex-col" class:one-fourth={!vertical}>
     <label for={id} class="mt-s8">
-      <span class=" text-f17 font-bold text-gray-dark" class:hidden={hideLabel}>
+      <span
+        class=" text-f17 font-bold text-gray-dark"
+        class:sr-only={hideLabel}
+      >
         {label}{#if required && !readonly && !disabled}<span
             class="ml-s6 text-error">&nbsp;*</span
           >{/if}

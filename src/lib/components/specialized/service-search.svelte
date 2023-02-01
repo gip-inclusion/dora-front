@@ -1,7 +1,6 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Button from "$lib/components/display/button.svelte";
-  import FieldWrapper from "$lib/components/inputs/obsolete/field-wrapper.svelte";
   import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
   import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
   import {
@@ -90,8 +89,12 @@
         <div class="mr-s8 h-s24 w-s24 fill-current text-magenta-cta">
           {@html mapPinIcon}
         </div>
+        <div class="relative w-full">
+          <label class="sr-only" for="city">
+            Lieu
+            <span class="text-error">*</span>
+          </label>
 
-        <FieldWrapper label="Lieu" name="city" required hideLabel>
           <div
             class="absolute top-s12 right-s12 z-10 h-s24 w-s24 text-gray-dark"
           >
@@ -127,11 +130,11 @@
               )})`;
             }}
           />
-        </FieldWrapper>
+        </div>
       </div>
 
       <div
-        class="flex justify-between border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
+        class="flex border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
       >
         <div
           class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
@@ -236,6 +239,9 @@
   }
   .grid :global(.city) {
     @apply text-magenta-dark;
+  }
+  .grid :global(.city .autocomplete) {
+    @apply block;
   }
   .grid :global(.input-container input) {
     @apply bg-transparent;
