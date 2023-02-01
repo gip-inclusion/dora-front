@@ -1,7 +1,6 @@
 <script lang="ts">
   import Notice from "$lib/components/display/notice.svelte";
-  import { serviceSchema } from "$lib/validation/schemas/service";
-  import { validate } from "$lib/validation/validation";
+  import { currentSchema, validate } from "$lib/validation/validation";
   import { onMount } from "svelte";
 
   export let service, servicesOptions;
@@ -10,7 +9,7 @@
   let numErrors;
 
   onMount(() => {
-    const validation = validate(service, serviceSchema, {
+    const validation = validate(service, $currentSchema, {
       noScroll: true,
       showErrors: false,
       servicesOptions,
