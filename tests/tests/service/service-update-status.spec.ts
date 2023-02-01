@@ -74,8 +74,8 @@ test.describe("Page service", () => {
       );
     });
 
-    test("aucune actualisation depuis 6 mois", async ({ page, context }) => {
-      // ÉTANT DONNÉ un service actualisé il y a 6 mois
+    test("aucune actualisation depuis 7 mois", async ({ page, context }) => {
+      // ÉTANT DONNÉ un service actualisé il y a 7 mois
       // ET en tant qu'utilisateur non connecté
       const MONTH_DIFF = 7;
       const oldDate = new Date();
@@ -92,12 +92,12 @@ test.describe("Page service", () => {
       await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
-      // ALORS le service est affiché comme étant actualisé il y a 6 mois
+      // ALORS le service est affiché comme étant actualisé il y a 7 mois
       const updateLabel = await page
         .locator(SERVICE_SELECTORS.UPDATE_STATUS_LABEL)
         .innerText();
       expect(updateLabel?.trim()).toContain(
-        `Actualisé il y a ${MONTH_DIFF - 1} mois`
+        `Actualisé il y a ${MONTH_DIFF} mois`
       );
 
       // ET le bouton pour suggérer une modification est visible
@@ -205,8 +205,8 @@ test.describe("Page service", () => {
       expect(updateServiceStateButtonText?.trim()).toContain("Publié");
     });
 
-    test("aucune actualisation depuis 6 mois", async ({ page, context }) => {
-      // ÉTANT DONNÉ un service actualisé il y a 6 mois
+    test("aucune actualisation depuis 7 mois", async ({ page, context }) => {
+      // ÉTANT DONNÉ un service actualisé il y a 7 mois
       // ET en tant qu'utilisateur gérant la structure
       const MONTH_DIFF = 7;
       const oldDate = new Date();
@@ -226,11 +226,11 @@ test.describe("Page service", () => {
       await mockGetStructureResponse(context, STRUCTURE);
       await goToServicePage(page, SERVICE);
 
-      // ALORS le service est affiché comme étant actualisé il y a 6 mois
+      // ALORS le service est affiché comme étant actualisé il y a 7 mois
       const updateLabel = await page
         .locator(SERVICE_SELECTORS.UPDATE_STATUS_LABEL)
         .innerText();
-      expect(updateLabel?.trim()).toContain("Actualisé il y a 6 mois");
+      expect(updateLabel?.trim()).toContain("Actualisé il y a 7 mois");
       expect(updateLabel?.trim()).toContain(
         "Vérifiez et/ou actualisez les informations de ce service"
       );
