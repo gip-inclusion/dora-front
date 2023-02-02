@@ -2,9 +2,17 @@ import { browser } from "$app/environment";
 import type { ServicesOptions } from "$lib/types";
 import { defaultAcceptHeader } from "$lib/utils/api";
 import { token } from "$lib/utils/auth";
-import insane from "insane";
+import insane, { defaults } from "insane";
 import showdown from "showdown";
 import { get } from "svelte/store";
+
+const INSANE_CONFIGURATION = {
+  ...defaults,
+  allowedAttributes: {
+    ...defaults.allowedAttributes,
+    a: [...defaults.allowedAttributes.a, "rel"],
+  },
+};
 
 export function markdownToHTML(markdownContent: string, titleLevel = 2) {
   const converter = new showdown.Converter({
@@ -14,7 +22,7 @@ export function markdownToHTML(markdownContent: string, titleLevel = 2) {
     simplifiedAutoLink: true,
   });
 
-  return insane(converter.makeHtml(markdownContent));
+  return insane(converter.makeHtml(markdownContent), INSANE_CONFIGURATION);
 }
 
 export function htmlToMarkdown(html: string) {
@@ -49,7 +57,7 @@ export async function fetchData<T>(url: string) {
 
 export function shortenString(str, length = 50) {
   if (str && str.length > length) {
-    return `${str.slice(0, length - 1)}…`;
+    return `${str.slice(0, length)}…`;
   }
 
   return str;
