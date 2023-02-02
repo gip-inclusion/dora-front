@@ -14,7 +14,7 @@
     "build": "vite build",
     "build:test": "vite build --mode test",
     "start": "node build",
-    "preview": "vite preview",
+    "preview": "vite preview --port 3000 --strictPort",
     "test": "playwright test",
     "test:debug": "playwright test --debug",
     "test:unit": "vitest",
