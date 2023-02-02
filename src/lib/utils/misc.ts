@@ -2,17 +2,9 @@ import { browser } from "$app/environment";
 import type { ServicesOptions } from "$lib/types";
 import { defaultAcceptHeader } from "$lib/utils/api";
 import { token } from "$lib/utils/auth";
-import insane, { defaults } from "insane";
+import insane from "insane";
 import showdown from "showdown";
 import { get } from "svelte/store";
-
-const INSANE_CONFIGURATION = {
-  ...defaults,
-  allowedAttributes: {
-    ...defaults.allowedAttributes,
-    a: [...defaults.allowedAttributes.a, "rel"],
-  },
-};
 
 export function markdownToHTML(markdownContent: string, titleLevel = 2) {
   const converter = new showdown.Converter({
@@ -22,7 +14,7 @@ export function markdownToHTML(markdownContent: string, titleLevel = 2) {
     simplifiedAutoLink: true,
   });
 
-  return insane(converter.makeHtml(markdownContent), INSANE_CONFIGURATION);
+  return insane(converter.makeHtml(markdownContent));
 }
 
 export function htmlToMarkdown(html: string) {
