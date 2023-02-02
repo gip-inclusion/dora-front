@@ -10,7 +10,7 @@ const INSANE_CONFIGURATION = {
   ...defaults,
   allowedAttributes: {
     ...defaults.allowedAttributes,
-    a: [...defaults.allowedAttributes.a, "rel"],
+    a: [...defaults.allowedAttributes.a, "rel", "class"],
   },
 };
 
@@ -118,8 +118,7 @@ export function addlinkToUrls(text) {
       (url) =>
         `<a href="${url}" class="underline" rel="noopener nofollow">${url}</a>`
     ),
-    // eslint-disable-next-line id-length
-    { allowedTags: ["a"], allowedAttributes: { a: ["class", "rel", "href"] } }
+    INSANE_CONFIGURATION
   );
 }
 
