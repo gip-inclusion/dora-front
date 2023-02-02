@@ -12,7 +12,6 @@
   "scripts": {
     "dev": "vite dev --port 3000 --strictPort",
     "build": "vite build",
-    "build:test": "vite build --mode test",
     "start": "node build",
     "preview": "vite preview --port 3000 --strictPort",
     "test": "vitest",

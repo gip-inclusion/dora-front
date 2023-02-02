@@ -80,10 +80,7 @@
     : [];
 </script>
 
-<div
-  id="home-search-form"
-  class="w-full rounded-md border border-gray-02 bg-white"
->
+<div class="w-full rounded-md border border-gray-02 bg-white">
   {#if servicesOptions.categories}
     <form class="grid" on:submit|preventDefault={handleSearch}>
       <div
