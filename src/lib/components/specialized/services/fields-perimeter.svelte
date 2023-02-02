@@ -3,8 +3,9 @@
   import AdminDivisionSearchField from "$lib/components/forms/fields/admin-division-search-field.svelte";
   import BooleanRadioButtonsField from "$lib/components/forms/fields/boolean-radio-buttons-field.svelte";
   import SelectField from "$lib/components/forms/fields/select-field.svelte";
+  import type { Service } from "$lib/types";
 
-  export let servicesOptions, service;
+  export let servicesOptions, service: Service;
   let adminDivisionChoices = [];
 
   function handleDiffusionZoneTypeChange(type) {

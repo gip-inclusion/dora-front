@@ -22,6 +22,12 @@ const config = {
           "https://sentry.incubateur.net",
           "https://storage.crisp.chat/users/upload/",
           "wss://client.relay.crisp.chat/",
+          "https://openmaptiles.geo.data.gouv.fr/",
+          "https://raw.githack.com",
+          "https://openmaptiles.github.io/",
+          "https://a.tile.openstreetmap.org/",
+          "https://demotiles.maplibre.org/",
+          "https://maplibre.org/maplibre-gl-js-docs/",
         ].filter((source) => !!source),
         "script-src": [
           "self",
@@ -32,6 +38,7 @@ const config = {
           "https://plausible.io/js/",
           "https://tally.so/widgets/embed.js",
         ],
+        "worker-src": ["self", "blob:"],
         "child-src": [
           "https://aide.dora.fabrique.social.gouv.fr/",
           "https://metabase.dora.fabrique.social.gouv.fr",
@@ -45,6 +52,7 @@ const config = {
           "https://client.crisp.chat/",
           "https://tally.so/widgets/embed.js",
           "unsafe-inline",
+          "https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css",
         ],
       },
     },

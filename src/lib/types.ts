@@ -1,9 +1,28 @@
-export type DiffusionZoneType =
+export type AdminDivisionType =
   | "country"
   | "region"
   | "department"
   | "epci"
   | "city";
+
+export type ServiceCategory =
+  | "acces-aux-droits"
+  | "acc-global-indiv"
+  | "apprendre-francais"
+  | "creation-activite	"
+  | "difficultes-financieres"
+  | "emploi-choisir-metier"
+  | "emploi-preparer-sa-candidature"
+  | "emploi-trouver-emploi"
+  | "equipement-alimentation"
+  | "famille	"
+  | "handicap"
+  | "illettrisme"
+  | "logement-hebergement"
+  | "mobilite"
+  | "numerique"
+  | "remobilisation"
+  | "sante";
 
 export type GeoApiCity = {
   code: string;
@@ -28,7 +47,7 @@ export interface StructureService {
   contactPhone: string;
   department: string;
   diffusionZoneDetailsDisplay: string;
-  diffusionZoneType: DiffusionZoneType;
+  diffusionZoneType: AdminDivisionType;
   diffusionZoneTypeDisplay: string;
   isAvailable: boolean;
   isCumulative: boolean;
@@ -75,6 +94,19 @@ export interface ShortStructure {
   siret: string;
   slug: string;
   typologyDisplay: string;
+}
+
+export interface AdminShortStructure {
+  department: string;
+  modificationDate: string;
+  name: string;
+  parent: string;
+  siret: string;
+  slug: string;
+  latitude: number;
+  longitude: number;
+  typologyDisplay: string;
+  categories: ServiceCategory[];
 }
 
 export interface StructureSource {
@@ -183,25 +215,6 @@ export type OsmOpeningHours = {
 // SERVICES
 
 export type ServiceUpdateStatus = "NOT_NEEDED" | "NEEDED" | "REQUIRED" | "ALL";
-
-export type ServiceCategory =
-  | "acces-aux-droits"
-  | "acc-global-indiv"
-  | "apprendre-francais"
-  | "creation-activite	"
-  | "difficultes-financieres"
-  | "emploi-choisir-metier"
-  | "emploi-preparer-sa-candidature"
-  | "emploi-trouver-emploi"
-  | "equipement-alimentation"
-  | "famille	"
-  | "handicap"
-  | "illettrisme"
-  | "logement-hebergement"
-  | "mobilite"
-  | "numerique"
-  | "remobilisation"
-  | "sante";
 
 export type ModerationStatus =
   | "NEED_INITIAL_MODERATION"
@@ -329,7 +342,7 @@ export interface Service {
   department: string;
   diffusionZoneDetails: string;
   diffusionZoneDetailsDisplay: string;
-  diffusionZoneType: DiffusionZoneType;
+  diffusionZoneType: AdminDivisionType;
   diffusionZoneTypeDisplay: string;
   feeCondition: FeeCondition;
   feeDetails: string;
@@ -380,7 +393,7 @@ export interface ShortService {
   city: string;
   department: string;
   diffusionZoneDetailsDisplay: string;
-  diffusionZoneType: DiffusionZoneType;
+  diffusionZoneType: AdminDivisionType;
   diffusionZoneTypeDisplay: string;
   model: string;
   modelChanged: boolean;
@@ -415,7 +428,7 @@ export type ServicesOptions = {
   concernedPublic: CustomChoice[];
   credentials: CustomChoice[];
   deploymentDepartments: string[];
-  diffusionZoneType: { value: DiffusionZoneType; label: string }; // TODO: should be plural
+  diffusionZoneType: { value: AdminDivisionType; label: string }; // TODO: should be plural
   feeConditions: { value: FeeCondition; label: string }[];
   kinds: { value: ServiceKind; label: string }[];
   locationKinds: { value: LocationKind; label: string }[];
