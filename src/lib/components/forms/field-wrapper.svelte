@@ -12,7 +12,6 @@
   export let description = "";
   export let hidden = false;
   export let hideLabel = false;
-  export let hideLabelDiv = false;
   export let required = false;
   export let vertical = false;
   export let readonly = false;
