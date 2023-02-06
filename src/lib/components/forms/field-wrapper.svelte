@@ -12,6 +12,7 @@
   export let description = "";
   export let hidden = false;
   export let hideLabel = false;
+  export let hideLabelDiv = false;
   export let required = false;
   export let vertical = false;
   export let readonly = false;
@@ -40,12 +41,9 @@
   class:lg:items-stretch={vertical}
   class:hidden
 >
-  <div class="flex flex-col" class:one-fourth={!vertical}>
-    <label for={id} class="mt-s8">
-      <span
-        class=" text-f17 font-bold text-gray-dark"
-        class:sr-only={hideLabel}
-      >
+  <div class="label-container flex flex-col" class:one-fourth={!vertical}>
+    <label for={id} class="mt-s8" class:sr-only={hideLabel}>
+      <span class=" text-f17 font-bold text-gray-dark">
         {label}{#if required && !readonly && !disabled}<span
             class="ml-s6 text-error">&nbsp;*</span
           >{/if}
