@@ -11,6 +11,7 @@
     pageLineIcon,
     teamLineIcon,
   } from "$lib/icons";
+  import type { TabItem } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
   import { capitalize } from "$lib/utils/misc";
   import AdminNotice from "./admin-notice.svelte";
@@ -19,7 +20,7 @@
   export let structure;
   export let tabId = "informations";
 
-  let tabs = [];
+  let tabs: TabItem[] = [];
 
   $: {
     tabs = [
@@ -112,6 +113,6 @@
   {/if}
 
   <div class="mt-s40 print:hidden">
-    <Tabs items={tabs} itemId={tabId} />
+    <Tabs items={tabs} itemId={tabId} noScrollOnChange />
   </div>
 </div>
