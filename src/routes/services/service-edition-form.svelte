@@ -33,6 +33,8 @@
     inclusionNumeriqueSchema,
   } from "$lib/validation/schemas/service";
   import { validate } from "$lib/validation/validation";
+  import type { Schema } from "$lib/validation/schema-utils";
+  import { shortenString } from "$lib/utils/misc";
 
   export let service: Service,
     servicesOptions: ServicesOptions,
@@ -41,12 +43,33 @@
     model: Model;
 
   let requesting = false;
+  let currentSchema: Schema;
 
   function handleChange(validatedData) {
     service = { ...service, ...validatedData };
   }
 
+  function preSaveInclusionNumeriqueService(data) {
+    data.coachOrientationModes = ["autre"];
+    data.coachOrientationModesOther =
+      "Mêmes modalités que pour les bénéficiaires";
+
+    data.locationKinds = ["en-presentiel"];
+    data.name = "Médiation numérique";
+
+    const proposedServices = servicesOptions.subcategories
+      .filter((subcategory) => data.subcategories.includes(subcategory.value))
+      .map((subcategory) => subcategory.label.toLowerCase())
+      .join(", ");
+    data.shortDesc = shortenString(
+      `${structure.name} propose des services : ${proposedServices}`,
+      280
+    );
+  }
   function handleSubmit(validatedData, kind) {
+    if (service.useInclusionNumeriqueScheme) {
+      preSaveInclusionNumeriqueService(validatedData);
+    }
     if (kind === "publish") {
       return createOrModifyService({
         ...validatedData,
@@ -70,7 +93,7 @@
   }
 
   function handleValidate(data, kind: "draft" | "publish") {
-    const schema = kind === "draft" ? draftSchema : serviceSchema;
+    const schema = kind === "draft" ? draftSchema : currentSchema;
     return validate(data, schema, {
       servicesOptions,
       checkRequired: kind !== "draft",
@@ -89,16 +112,16 @@
     modelSlugTmp = null;
   }
 
-  let subcategories = [];
+  $: currentSchema = service.useInclusionNumeriqueScheme
+    ? inclusionNumeriqueSchema
+    : serviceSchema;
 </script>
 
 <FormErrors />
 
 <Form
   bind:data={service}
-  schema={service.useInclusionNumeriqueScheme
-    ? inclusionNumeriqueSchema
-    : serviceSchema}
+  schema={currentSchema}
   {servicesOptions}
   onChange={handleChange}
   onSubmit={handleSubmit}
@@ -107,6 +130,7 @@
   bind:requesting
 >
   <hr />
+
   <CenteredGrid>
     {#if structures.length}
       <div class="lg:w-2/3">
@@ -188,17 +212,11 @@
       {:else}
         <div class={service.model ? "" : "lg:w-2/3"}>
           <Fieldset noTopPadding>
-            <FieldCategory
-              bind:service
-              bind:subcategories
-              {servicesOptions}
-              {model}
-            />
+            <FieldCategory bind:service {servicesOptions} {model} />
           </Fieldset>
 
           <FieldsInclusionNumerique
             bind:service
-            bind:subcategories
             {servicesOptions}
             {structure}
           />

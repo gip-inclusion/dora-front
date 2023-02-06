@@ -1,10 +1,8 @@
 <script lang="ts">
   import MultiSelectField from "$lib/components/forms/fields/multi-select-field.svelte";
   import type { Model, Service, ServicesOptions } from "$lib/types";
-  import { orderAndReformatSubcategories } from "$lib/utils/misc";
   import InclusionNumSwitch from "./inclusion-num-switch.svelte";
 
-  export let subcategories: string[] = [];
   export let servicesOptions: ServicesOptions, service: Service;
 
   export let model: Model | undefined = undefined;
@@ -28,18 +26,6 @@
     }
     previousCategories = categories;
 
-    subcategories = categories.length
-      ? servicesOptions.subcategories.filter(({ value }) =>
-          categories.some((cat) => value.startsWith(cat))
-        )
-      : [];
-
-    subcategories = orderAndReformatSubcategories(
-      subcategories,
-      categories,
-      servicesOptions
-    );
-
     service.subcategories = service.subcategories.filter((scat) =>
       categories.some((cat) => scat.startsWith(cat))
     );
@@ -51,6 +37,7 @@
   bind:value={service.categories}
   choices={servicesOptions.categories}
   onChange={handleCategoriesChange}
+  placeholder="Sélectionner"
   placeholderMulti="Sélectionner"
   sort
 />
