@@ -3,7 +3,7 @@
   import { browser } from "$app/environment";
   import {
     canDisplayNpsForm,
-    handleSubmitNpsForm,
+    saveNpsCloseDate,
     type TallyFormId,
   } from "$lib/utils/nps";
   import { onDestroy, onMount } from "svelte";
@@ -11,6 +11,7 @@
   export let formId: TallyFormId;
   export let timeoutSeconds;
   export let hiddenFields = {};
+  export let delayedOnClose = false;
 
   let timeoutFn: ReturnType<typeof setTimeout>;
 
@@ -26,11 +27,14 @@
             layout: "default",
             width: 420,
             hideTitle: true,
-            autoClose: 0,
             hiddenFields,
-
+            onClose: () => {
+              if (delayedOnClose) {
+                saveNpsCloseDate(formId);
+              }
+            },
             onSubmit: () => {
-              handleSubmitNpsForm(formId);
+              saveNpsCloseDate(formId);
             },
           });
         }

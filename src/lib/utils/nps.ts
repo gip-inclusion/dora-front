@@ -6,8 +6,7 @@ const MIN_DAYS_BETWEEN_DISPLAYS = 14;
 
 // eslint-disable-next-line no-shadow
 export enum TallyFormId {
-  NPS_SEEKER_FORM_ID = "3xXVJ5",
-  NPS_OFFEROR_FORM_ID = "3NpeZN",
+  NPS_RECOMMANDATION_FORM_ID = "nrDeXN",
   SERVICE_CREATION_FORM_ID = "mRGdpK",
 }
 
@@ -19,7 +18,7 @@ function getNpsAnswerLocalStorageKey(formId: TallyFormId): string {
   return `tallyForm-${formId}`;
 }
 
-export function handleSubmitNpsForm(formId: TallyFormId): void {
+export function saveNpsCloseDate(formId: TallyFormId): void {
   const key = getNpsAnswerLocalStorageKey(formId);
   const item: TallyFormLocalStorageItem = {
     lastSubmitted: dayjs().toString(),
