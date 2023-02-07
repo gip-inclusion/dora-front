@@ -111,7 +111,6 @@
           formId={TallyFormId.NPS_RECOMMANDATION_FORM_ID}
           timeoutSeconds={30}
           hiddenFields={{ user: "offreur" }}
-          delayedOnClose
         />
       {/if}
     {:else}
@@ -119,7 +118,6 @@
         formId={TallyFormId.NPS_RECOMMANDATION_FORM_ID}
         timeoutSeconds={45}
         hiddenFields={{ user: "chercheur" }}
-        delayedOnClose
       />
     {/if}
   {/if}

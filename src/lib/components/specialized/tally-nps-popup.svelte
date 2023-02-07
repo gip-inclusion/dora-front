@@ -11,7 +11,6 @@
   export let formId: TallyFormId;
   export let timeoutSeconds;
   export let hiddenFields = {};
-  export let delayedOnClose = false;
 
   let timeoutFn: ReturnType<typeof setTimeout>;
 
@@ -29,9 +28,7 @@
             hideTitle: true,
             hiddenFields,
             onClose: () => {
-              if (delayedOnClose) {
-                saveNpsCloseDate(formId);
-              }
+              saveNpsCloseDate(formId);
             },
             onSubmit: () => {
               saveNpsCloseDate(formId);
