@@ -104,7 +104,7 @@
                 class="mt-s4 self-end text-f12 text-gray-text-alt"
                 class:text-error={newValue?.length > maxLength}
               >
-                {newValue?.length}/{maxLength} caractères
+                {newValue?.length ?? 0}/{maxLength} caractères
               </div>
             </div>
           </div>
