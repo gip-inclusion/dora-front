@@ -140,6 +140,7 @@
         </div>
 
         <SelectField
+          inputMode="none"
           hideLabel
           isMultiple
           withAutoComplete
