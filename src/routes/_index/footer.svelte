@@ -75,7 +75,7 @@
 
     <nav class="flex flex-wrap gap-s32">
       <NavItem href="/mentions-legales" label="Mentions légales" />
-      <NavItem href="/cgu" label="CGU" />
+      <NavItem href="/cgu" label="Conditions générales d’utilisation" />
       <NavItem
         label="Données personnelles"
         href="/politique-de-confidentialite"
