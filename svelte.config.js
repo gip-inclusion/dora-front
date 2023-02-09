@@ -22,6 +22,7 @@ const config = {
           "https://sentry.incubateur.net",
           "https://storage.crisp.chat/users/upload/",
           "wss://client.relay.crisp.chat/",
+          "https://matomo.inclusion.beta.gouv.fr/",
         ].filter((source) => !!source),
         "script-src": [
           "self",
