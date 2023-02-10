@@ -48,25 +48,9 @@
     <script type="text/javascript" nonce="%sveltekit.nonce%">
       tarteaucitron.user.crispID = "%sveltekit.env.VITE_PUBLIC_CRISP_ID%";
       (tarteaucitron.job = tarteaucitron.job || []).push("crisp");
-      // tarteaucitron.user.matomoId = "%sveltekit.env.VITE_PUBLIC_MATOMO_ID%";
-      // tarteaucitron.user.matomoHost = "%sveltekit.env.VITE_PUBLIC_MATOMO_URL%";
-      // (tarteaucitron.job = tarteaucitron.job || []).push("matomo");
-
-      var _paq = (window._paq = window._paq || []);
-      /* tracker methods like "setCustomDimension" should be called before "trackPageView" */
-      _paq.push(["trackPageView"]);
-      _paq.push(["enableLinkTracking"]);
-      (function () {
-        var u = "https://matomo.inclusion.beta.gouv.fr/";
-        _paq.push(["setTrackerUrl", u + "piwik.php"]);
-        _paq.push(["setSiteId", "210"]);
-        var d = document,
-          g = d.createElement("script"),
-          s = d.getElementsByTagName("script")[0];
-        g.async = true;
-        g.src = u + "piwik.js";
-        s.parentNode.insertBefore(g, s);
-      })();
+      tarteaucitron.user.matomoId = "%sveltekit.env.VITE_PUBLIC_MATOMO_ID%";
+      tarteaucitron.user.matomoHost = "%sveltekit.env.VITE_PUBLIC_MATOMO_URL%";
+      (tarteaucitron.job = tarteaucitron.job || []).push("matomo");
     </script>
 
     <style nonce="%sveltekit.nonce%">
