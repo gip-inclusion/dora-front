@@ -56,6 +56,9 @@ const config = {
         ],
       },
     },
+    env: {
+      publicPrefix: "VITE_PUBLIC_",
+    },
   },
   vitePlugin: {
     experimental: {
