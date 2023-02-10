@@ -10,9 +10,7 @@ export default defineConfig(({ mode }) => {
     build: {
       sourcemap: true,
     },
-    env: {
-      publicPrefix: "VITE_PUBLIC_",
-    },
+
     test: {
       include: ["src/**/*.{test,spec}.{js,ts}"],
     },
