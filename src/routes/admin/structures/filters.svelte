@@ -1,13 +1,14 @@
 <script lang="ts">
-  import AdminDivisionSearch from "$lib/components/inputs/geo/admin-division-search.svelte";
   import Select from "$lib/components/inputs/select/select.svelte";
-  import { getStructuresAdmin } from "$lib/requests/admin";
-  import type { AdminShortStructure, ServiceCategory } from "$lib/types";
-  import { onMount } from "svelte";
+  import type {
+    AdminShortStructure,
+    ServiceCategory,
+    ServicesOptions,
+    StructuresOptions,
+  } from "$lib/types";
 
-  export let servicesOptions;
-  export let structuresOptions;
-  export let department;
+  export let servicesOptions: ServicesOptions;
+  export let structuresOptions: StructuresOptions;
   export let structures: AdminShortStructure[] = [];
   export let filteredStructures: AdminShortStructure[] = [];
   let searchString = "";
@@ -36,16 +37,15 @@
   ];
 
   function filterAndSortEntities(
+    structs: AdminShortStructure[],
     query: string,
-    dept,
     categories = [],
     typologies = [],
     adminKind = "all",
     freshChoice = "all",
     numServChoice = "all"
   ) {
-    return structures
-      .filter((struct) => !dept || struct.department === dept.code)
+    return structs
       .filter((struct) => !query || struct.name.toLowerCase().includes(query))
       .filter((struct) => {
         return (
@@ -59,19 +59,30 @@
         return !typologies.length || typologies.includes(struct.typology);
       })
       .filter((struct) => {
-        if (adminKind === "withAdmin") {return struct.hasAdmin;}
-        if (adminKind === "withoutAdmin") {return !struct.hasAdmin;}
+        if (adminKind === "withAdmin") {
+          return struct.hasAdmin;
+        }
+        if (adminKind === "withoutAdmin") {
+          return !struct.hasAdmin;
+        }
         return true;
       })
       .filter((struct) => {
-        if (freshChoice === "uptodate") {return struct.numOutdatedServices === 0;}
-        if (freshChoice === "toupdate") {return struct.numOutdatedServices > 0;}
+        if (freshChoice === "uptodate") {
+          return struct.numOutdatedServices === 0;
+        }
+        if (freshChoice === "toupdate") {
+          return struct.numOutdatedServices > 0;
+        }
         return true;
       })
       .filter((struct) => {
-        if (numServChoice === "withServices") {return struct.numServices > 0;}
-        if (numServChoice === "withoutServices")
-          {return struct.numServices === 0;}
+        if (numServChoice === "withServices") {
+          return struct.numServices > 0;
+        }
+        if (numServChoice === "withoutServices") {
+          return struct.numServices === 0;
+        }
         return true;
       })
       .sort((structure1, structure2) =>
@@ -89,14 +100,9 @@
     searchString = event.target.value.toLowerCase().trim();
   }
 
-  onMount(async () => {
-    structures = await getStructuresAdmin();
-    filteredStructures = filterAndSortEntities("");
-  });
-
   $: filteredStructures = filterAndSortEntities(
+    structures,
     searchString,
-    department,
     selectedCategories,
     selectedTypologies,
     administrationKind,
@@ -106,18 +112,8 @@
 </script>
 
 <div class="mb-s16 flex flex-col gap-s24">
-  <div class="flex gap-s16">
-    <div class="flex flex-col">
-      <label for="department">Département</label>
-      <AdminDivisionSearch
-        id="department"
-        searchType="department"
-        bind:value={department}
-        placeholder="numéro ou nom"
-        withGeom
-      />
-    </div>
-    <div class="flex max-w-sm flex-col">
+  <div class="flex justify-between gap-s16">
+    <div class="flex grow flex-col">
       <label for="typologies">Typologies</label>
       <Select
         id="typologies"
@@ -129,7 +125,7 @@
         sort
       />
     </div>
-    <div class="flex max-w-sm flex-col">
+    <div class="flex grow flex-col">
       <label for="categories">Thématiques</label>
       <Select
         id="categories"
@@ -142,8 +138,8 @@
       />
     </div>
   </div>
-  <div class="flex gap-s16">
-    <div class="flex max-w-sm flex-col">
+  <div class="flex justify-between gap-s16">
+    <div class="flex grow flex-col">
       <label for="administration">Administration</label>
       <Select
         id="administration"
@@ -151,7 +147,7 @@
         choices={administrationChoices}
       />
     </div>
-    <div class="flex max-w-sm flex-col">
+    <div class="flex grow flex-col">
       <label for="freshness">Fraicheur</label>
       <Select
         id="freshness"
@@ -159,7 +155,7 @@
         choices={freshnessChoices}
       />
     </div>
-    <div class="flex max-w-sm flex-col">
+    <div class="flex grow flex-col">
       <label for="num-services">Services</label>
       <Select
         id="num-services"

@@ -17,7 +17,7 @@
     }
   }
 
-  function handlediffusionZoneDetailsChange(details) {
+  function handlediffusionZoneDetailsChange(details: string) {
     service.diffusionZoneDetails = details;
   }
 </script>

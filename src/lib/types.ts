@@ -24,10 +24,11 @@ export type ServiceCategory =
   | "remobilisation"
   | "sante";
 
-export type GeoApiCity = {
+export type GeoApiValue = {
   code: string;
   name: string;
   similarity: number;
+  geom?: object;
 };
 
 export type LocationKind = "a-distance" | "en-presentiel";

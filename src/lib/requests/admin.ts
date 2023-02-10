@@ -10,9 +10,15 @@ import { logException } from "$lib/utils/logger";
 import { fetchData } from "$lib/utils/misc";
 import { get } from "svelte/store";
 
-export async function getStructuresAdmin(): Promise<AdminShortStructure[]> {
-  const url = `${getApiURL()}/structures-admin/`;
-  return (await fetchData(url)).data;
+export async function getStructuresAdmin(
+  departmentCode
+): Promise<AdminShortStructure[]> {
+  let url = `${getApiURL()}/structures-admin/`;
+
+  if (departmentCode) {
+    url += `?department=${departmentCode}`;
+  }
+  return (await fetchData<AdminShortStructure[]>(url)).data;
 }
 
 export async function getStructureAdmin(slug): Promise<AdminShortStructure> {

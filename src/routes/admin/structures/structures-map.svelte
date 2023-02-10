@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { AdminShortStructure } from "$lib/types";
+  import type { AdminShortStructure, GeoApiValue } from "$lib/types";
   import * as mlgl from "maplibre-gl";
   import "maplibre-gl/dist/maplibre-gl.css";
   import Map from "./map.svelte";
 
   export let filteredStructures: AdminShortStructure[] = [];
-  export let department: number;
   export let selectedStructureSlug: string | null;
+  export let department: GeoApiValue;
 
   let map: mlgl.Map;
   let popup: mlgl.Popup;
@@ -14,18 +14,18 @@
   function getPopupContent(feature): string {
     return `<strong>${feature.properties.name}</strong><br>${feature.properties.shortDesc}`;
   }
-  function updateMapContent(theMap, structs: AdminShortStructure[]) {
-    if (!theMap) {
+  function updateMapContent(structs: AdminShortStructure[]) {
+    if (!map) {
       return;
     }
-    if (theMap.getLayer("structuresLayer")) {
-      theMap.removeLayer("structuresLayer");
+    if (map.getLayer("structuresLayer")) {
+      map.removeLayer("structuresLayer");
     }
-    if (theMap.getSource("structuresSource")) {
-      theMap.removeSource("structuresSource");
+    if (map.getSource("structuresSource")) {
+      map.removeSource("structuresSource");
     }
 
-    theMap.addSource("structuresSource", {
+    map.addSource("structuresSource", {
       type: "geojson",
       promoteId: "slug",
       data: {
@@ -43,7 +43,7 @@
       },
     });
 
-    theMap.addLayer({
+    map.addLayer({
       id: "structuresLayer",
       type: "circle",
       source: "structuresSource",
@@ -67,30 +67,30 @@
       closeOnClick: false,
     });
 
-    theMap.on("mouseenter", "structuresLayer", function (evt) {
+    map.on("mouseenter", "structuresLayer", function (evt) {
       // Change the cursor style as a UI indicator.
-      theMap.getCanvas().style.cursor = "pointer";
+      map.getCanvas().style.cursor = "pointer";
       const feature = evt.features[0];
       const coordinates = feature.geometry.coordinates.slice();
       selectedStructureSlug = feature.properties.slug;
 
       // Populate the popup and set its coordinates
       // based on the feature found.
-      popup
-        .setLngLat(coordinates)
-        .setHTML(getPopupContent(feature))
-        .addTo(theMap);
+      popup.setLngLat(coordinates).setHTML(getPopupContent(feature)).addTo(map);
       popup._update();
     });
 
-    theMap.on("mouseleave", "structuresLayer", function () {
-      theMap.getCanvas().style.cursor = "";
+    map.on("mouseleave", "structuresLayer", function () {
+      map.getCanvas().style.cursor = "";
       selectedStructureSlug = null;
       popup.remove();
     });
   }
 
-  function zoomToPoints(features) {
+  function zoomToStructures(features) {
+    if (!map) {
+      return;
+    }
     if (features.length) {
       const firstCoordinates = [features[0].longitude, features[0].latitude];
       const bounds = features.reduce(function (acc, feature) {
@@ -102,22 +102,17 @@
           padding: 60,
         });
       }
+    } else if (department) {
+      const coordinates = department.geom.coordinates[0];
+      const bounds = coordinates.reduce(function (acc, coord) {
+        return acc.extend(coord);
+      }, new mlgl.LngLatBounds(coordinates[0], coordinates[0]));
+
+      map.fitBounds(bounds, {
+        padding: 20,
+      });
     }
   }
-
-  // function zoomToDepartment(dept) {
-  //   if (dept) {
-  //     console.log(dept);
-  //     const coordinates = dept.geom.coordinates[0];
-  //     const bounds = coordinates.reduce(function (acc, coord) {
-  //       return acc.extend(coord);
-  //     }, new mlgl.LngLatBounds(coordinates[0], coordinates[0]));
-
-  //     map.fitBounds(bounds, {
-  //       padding: 20,
-  //     });
-  //   }
-  // }
 
   function updateHoveredFeature(structureSlug: string | null) {
     if (map) {
@@ -137,9 +132,8 @@
   }
 
   $: updateHoveredFeature(selectedStructureSlug);
-  $: updateMapContent(map, filteredStructures);
-  $: zoomToPoints(filteredStructures);
-  // $: zoomToDepartment(department);
+  $: updateMapContent(filteredStructures);
+  $: zoomToStructures(filteredStructures);
 </script>
 
 <Map bind:map />
