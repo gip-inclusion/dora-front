@@ -14,6 +14,7 @@
       style: JSON.parse(mapStyle),
       center: [1.5, 46.5],
       zoom: 4,
+      maxZoom: 17,
     });
     currentMap.fitBounds(METROPOLE_BB, {
       padding: 20,

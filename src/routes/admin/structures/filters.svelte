@@ -1,5 +1,7 @@
 <script lang="ts">
+  import Button from "$lib/components/display/button.svelte";
   import Select from "$lib/components/inputs/select/select.svelte";
+  import { arrowDownSIcon, arrowUpSIcon } from "$lib/icons";
   import type {
     AdminShortStructure,
     ServiceCategory,
@@ -11,30 +13,33 @@
   export let structuresOptions: StructuresOptions;
   export let structures: AdminShortStructure[] = [];
   export let filteredStructures: AdminShortStructure[] = [];
+
+  let showAdvancedFilters = true;
   let searchString = "";
   let selectedCategories: ServiceCategory[] = [];
   let selectedTypologies: string[] = [];
 
-  let administrationKind = "all";
-  const administrationChoices = [
+  const ADMINISTRATION_CHOICES = [
     { value: "all", label: "Toutes" },
     { value: "withAdmin", label: "Administrées" },
     { value: "withoutAdmin", label: "Orphelines" },
-  ];
+  ] as const;
+  let administrationKind: (typeof ADMINISTRATION_CHOICES)[number]["value"] =
+    "all";
 
-  let freshnessChoice = "all";
-  const freshnessChoices = [
+  const FRESHNESS_CHOICES = [
     { value: "all", label: "Toutes" },
     { value: "uptodate", label: "À jour" },
     { value: "toupdate", label: "Avec des services à mettre à jour" },
-  ];
+  ] as const;
+  let freshnessChoice: (typeof FRESHNESS_CHOICES)[number]["value"] = "all";
 
-  let numServicesChoice = "all";
-  const numServicesChoices = [
+  const NUM_SERVICES_CHOICES = [
     { value: "all", label: "Toutes" },
     { value: "withServices", label: "Avec des services publiés" },
     { value: "withoutServices", label: "Sans services publiés" },
-  ];
+  ] as const;
+  let numServicesChoice: (typeof NUM_SERVICES_CHOICES)[number]["value"] = "all";
 
   function filterAndSortEntities(
     structs: AdminShortStructure[],
@@ -100,6 +105,15 @@
     searchString = event.target.value.toLowerCase().trim();
   }
 
+  function resetFilters() {
+    administrationKind = "all";
+    freshnessChoice = "all";
+    numServicesChoice = "all";
+    searchString = "";
+    selectedCategories = [];
+    selectedTypologies = [];
+  }
+
   $: filteredStructures = filterAndSortEntities(
     structures,
     searchString,
@@ -111,75 +125,135 @@
   );
 </script>
 
-<div class="mb-s16 flex flex-col gap-s24">
-  <div class="flex justify-between gap-s16">
-    <div class="flex grow flex-col">
-      <label for="typologies">Typologies</label>
-      <Select
-        id="typologies"
-        multiple
-        bind:value={selectedTypologies}
-        choices={structuresOptions.typologies}
-        placeholder="Choisir…"
-        placeholderMulti="Choisir…"
-        sort
-      />
-    </div>
-    <div class="flex grow flex-col">
-      <label for="categories">Thématiques</label>
-      <Select
-        id="categories"
-        multiple
-        bind:value={selectedCategories}
-        choices={servicesOptions.categories}
-        placeholder="Choisir…"
-        placeholderMulti="Choisir…"
-        sort
-      />
-    </div>
-  </div>
-  <div class="flex justify-between gap-s16">
-    <div class="flex grow flex-col">
-      <label for="administration">Administration</label>
-      <Select
-        id="administration"
-        bind:value={administrationKind}
-        choices={administrationChoices}
-      />
-    </div>
-    <div class="flex grow flex-col">
-      <label for="freshness">Fraicheur</label>
-      <Select
-        id="freshness"
-        bind:value={freshnessChoice}
-        choices={freshnessChoices}
-      />
-    </div>
-    <div class="flex grow flex-col">
-      <label for="num-services">Services</label>
-      <Select
-        id="num-services"
-        bind:value={numServicesChoice}
-        choices={numServicesChoices}
-      />
-    </div>
-  </div>
+<div class="mb-s8 font-bold">Afficher les structures :</div>
+<div class="mb-s8 flex gap-s8">
+  <Button
+    on:click={() => {
+      resetFilters();
+    }}
+    label="toutes"
+    secondary
+    small
+  />
+  <Button
+    on:click={() => {
+      resetFilters();
+      administrationKind = "withoutAdmin";
+    }}
+    label="orphelines"
+    secondary
+    small
+  />
+  <Button
+    on:click={() => {
+      resetFilters();
+      freshnessChoice = "toupdate";
+    }}
+    label="nécessitant une mise à jour"
+    secondary
+    small
+  />
+  <Button
+    disabled
+    on:click={() => {
+      resetFilters();
+    }}
+    label="à modérer"
+    secondary
+    small
+  />
+
+  <Button
+    disabled
+    on:click={() => {
+      resetFilters();
+    }}
+    label="ayant reçu des suggestions"
+    secondary
+    small
+  />
 </div>
 
-<div class="flex flex-col gap-s12">
-  <div class="mb-s12 flex w-full flex-row items-center gap-s12">
-    <div class="grow">
-      <input
-        on:input={handleFilterChange}
-        class="w-full border border-gray-02 p-s8"
-        placeholder="Rechercher…"
-      />
-    </div>
-    {#if structures?.length !== filteredStructures?.length}
-      <div class="text-gray-text">
-        ({filteredStructures.length} / {structures.length})
+<div class="mb-s32">
+  <Button
+    label="Voir les filtres avancés"
+    on:click={() => (showAdvancedFilters = !showAdvancedFilters)}
+    icon={!showAdvancedFilters ? arrowDownSIcon : arrowUpSIcon}
+    iconOnRight
+    noBackground
+    small
+  />
+  <div
+    class:hidden={!showAdvancedFilters}
+    class="mx-s8  rounded border border-gray-01 p-s16"
+  >
+    <div class="mb-s16 flex flex-col gap-s24">
+      <div class="flex justify-between gap-s16">
+        <div class="flex grow flex-col">
+          <label for="typologies">Typologies</label>
+          <Select
+            id="typologies"
+            multiple
+            bind:value={selectedTypologies}
+            choices={structuresOptions.typologies}
+            placeholder="Choisir…"
+            placeholderMulti="Choisir…"
+            sort
+          />
+        </div>
+        <div class="flex grow flex-col">
+          <label for="categories">Thématiques</label>
+          <Select
+            id="categories"
+            multiple
+            bind:value={selectedCategories}
+            choices={servicesOptions.categories}
+            placeholder="Choisir…"
+            placeholderMulti="Choisir…"
+            sort
+          />
+        </div>
       </div>
-    {/if}
+      <div class="flex justify-between gap-s16">
+        <div class="flex grow flex-col">
+          <label for="administration">Administration</label>
+          <Select
+            id="administration"
+            bind:value={administrationKind}
+            choices={ADMINISTRATION_CHOICES}
+          />
+        </div>
+        <div class="flex grow flex-col">
+          <label for="freshness">Fraicheur</label>
+          <Select
+            id="freshness"
+            bind:value={freshnessChoice}
+            choices={FRESHNESS_CHOICES}
+          />
+        </div>
+        <div class="flex grow flex-col">
+          <label for="num-services">Services</label>
+          <Select
+            id="num-services"
+            bind:value={numServicesChoice}
+            choices={NUM_SERVICES_CHOICES}
+          />
+        </div>
+      </div>
+    </div>
+
+    <div class="flex flex-col gap-s12">
+      <div class="mb-s12 flex w-full flex-row items-center gap-s12">
+        <div class="grow">
+          <input
+            bind:value={searchString}
+            on:input={handleFilterChange}
+            class="w-full border border-gray-02 p-s8"
+            placeholder="Rechercher par nom…"
+          />
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 
