@@ -7,6 +7,7 @@
   import type { AdminShortStructure, ServicesOptions } from "$lib/types";
 
   import { capitalize, shortenString } from "$lib/utils/misc";
+  import ModerationLabel from "../moderation-label.svelte";
   import StructureModale from "./structure-modale.svelte";
 
   export let servicesOptions: ServicesOptions;
@@ -65,6 +66,11 @@
             {structure.numServices} services, {structure.numOutdatedServices}
             services à mettre à jour
           </div>
+          x
+          <ModerationLabel
+            status={structure.moderationStatus}
+            date={structure.moderationDate}
+          />
         </div>
       </div>
     </div>

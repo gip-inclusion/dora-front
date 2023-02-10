@@ -24,6 +24,12 @@ export type ServiceCategory =
   | "remobilisation"
   | "sante";
 
+export type ModerationStatus =
+  | "NEED_INITIAL_MODERATION"
+  | "NEED_NEW_MODERATION"
+  | "IN_PROGRESS"
+  | "VALIDATED";
+
 export type GeoApiValue = {
   code: string;
   name: string;
@@ -112,6 +118,8 @@ export interface AdminShortStructure {
   hasAdmin: boolean;
   hasPutativeAdmin: boolean;
   hasActiveUsers: boolean;
+  moderationDate: string;
+  moderationStatus: ModerationStatus;
   numServices: boolean;
   numOutdatedServices: boolean;
   shortDesc: string;
@@ -223,12 +231,6 @@ export type OsmOpeningHours = {
 // SERVICES
 
 export type ServiceUpdateStatus = "NOT_NEEDED" | "NEEDED" | "REQUIRED" | "ALL";
-
-export type ModerationStatus =
-  | "NEED_INITIAL_MODERATION"
-  | "NEED_NEW_MODERATION"
-  | "IN_PROGRESS"
-  | "VALIDATED";
 
 export type ServiceKind =
   | "accompagnement"

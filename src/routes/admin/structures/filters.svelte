@@ -4,6 +4,7 @@
   import { arrowDownSIcon, arrowUpSIcon } from "$lib/icons";
   import type {
     AdminShortStructure,
+    ModerationStatus,
     ServiceCategory,
     ServicesOptions,
     StructuresOptions,
@@ -14,7 +15,7 @@
   export let structures: AdminShortStructure[] = [];
   export let filteredStructures: AdminShortStructure[] = [];
 
-  let showAdvancedFilters = true;
+  let showAdvancedFilters = false;
   let searchString = "";
   let selectedCategories: ServiceCategory[] = [];
   let selectedTypologies: string[] = [];
@@ -41,6 +42,17 @@
   ] as const;
   let numServicesChoice: (typeof NUM_SERVICES_CHOICES)[number]["value"] = "all";
 
+  const MODERATION_FILTER_CHOICES = [
+    {
+      value: "NEED_INITIAL_MODERATION",
+      label: "Première modération nécessaire",
+    },
+    { value: "NEED_NEW_MODERATION", label: "Nouvelle modération nécessaire" },
+    { value: "IN_PROGRESS", label: "En cours" },
+    { value: "VALIDATED", label: "Validé" },
+  ];
+  let moderationStatusChoices: ModerationStatus[] = [];
+
   function filterAndSortEntities(
     structs: AdminShortStructure[],
     query: string,
@@ -48,7 +60,8 @@
     typologies = [],
     adminKind = "all",
     freshChoice = "all",
-    numServChoice = "all"
+    numServChoice = "all",
+    modChoices = []
   ) {
     return structs
       .filter((struct) => !query || struct.name.toLowerCase().includes(query))
@@ -58,6 +71,11 @@
           struct.categories.some((structureCat: ServiceCategory) =>
             categories.includes(structureCat)
           )
+        );
+      })
+      .filter((struct) => {
+        return (
+          !modChoices.length || modChoices.includes(struct.moderationStatus)
         );
       })
       .filter((struct) => {
@@ -112,6 +130,7 @@
     searchString = "";
     selectedCategories = [];
     selectedTypologies = [];
+    moderationStatusChoices = [];
   }
 
   $: filteredStructures = filterAndSortEntities(
@@ -121,7 +140,8 @@
     selectedTypologies,
     administrationKind,
     freshnessChoice,
-    numServicesChoice
+    numServicesChoice,
+    moderationStatusChoices
   );
 </script>
 
@@ -154,9 +174,14 @@
     small
   />
   <Button
-    disabled
     on:click={() => {
       resetFilters();
+
+      moderationStatusChoices = [
+        "NEED_INITIAL_MODERATION",
+        "NEED_NEW_MODERATION",
+        "IN_PROGRESS",
+      ];
     }}
     label="à modérer"
     secondary
@@ -237,6 +262,19 @@
             id="num-services"
             bind:value={numServicesChoice}
             choices={NUM_SERVICES_CHOICES}
+          />
+        </div>
+      </div>
+      <div class="flex justify-between gap-s16">
+        <div class="flex grow flex-col">
+          <label for="moderation">État de modération</label>
+          <Select
+            id="moderation"
+            bind:value={moderationStatusChoices}
+            choices={MODERATION_FILTER_CHOICES}
+            placeholder="choisir un ou des états…"
+            placeholderMulti="choisir un ou des états…"
+            multiple
           />
         </div>
       </div>
