@@ -39,6 +39,25 @@
   </div>
 
   {#if department}
+    <div class="my-s32 flex flex-row justify-evenly gap-s24">
+      <div
+        class="flex max-w-fit flex-col rounded border border-gray-01 p-s16 text-center"
+      >
+        <div class="text-bold text-f24 text-france-blue">
+          Nb de structures orphelines :
+        </div>
+        <div class="text-bold text-f38 text-france-blue">XXX</div>
+      </div>
+
+      <div
+        class="flex max-w-fit flex-col rounded border border-gray-01 p-s16 text-center"
+      >
+        <div class="text-bold text-f24 text-france-blue">
+          Nombre de services publiés :
+        </div>
+        <div class="text-bold text-f38 text-france-blue">XXX</div>
+      </div>
+    </div>
     <Filters
       {structures}
       bind:filteredStructures

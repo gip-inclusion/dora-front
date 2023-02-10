@@ -90,7 +90,7 @@
                 <Tag bgColorClass="bg-warning">à mettre à jour</Tag>
               {/if}
 
-              {#if structure.numServices}
+              {#if !structure.numServices}
                 <Tag bgColorClass="bg-warning">pas de services</Tag>
               {/if}
               {#if structure.moderationStatus !== "VALIDATED"}
