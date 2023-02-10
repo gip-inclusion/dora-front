@@ -23,11 +23,7 @@ const config = {
           "https://storage.crisp.chat/users/upload/",
           "wss://client.relay.crisp.chat/",
           "https://openmaptiles.geo.data.gouv.fr/",
-          "https://raw.githack.com",
-          "https://openmaptiles.github.io/",
-          "https://a.tile.openstreetmap.org/",
-          "https://demotiles.maplibre.org/",
-          "https://maplibre.org/maplibre-gl-js-docs/",
+          "https://openmaptiles.github.io/osm-bright-gl-style/",
         ].filter((source) => !!source),
         "script-src": [
           "self",

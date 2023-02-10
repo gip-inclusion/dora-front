@@ -105,8 +105,15 @@ export interface AdminShortStructure {
   slug: string;
   latitude: number;
   longitude: number;
+  typology: string;
   typologyDisplay: string;
   categories: ServiceCategory[];
+  hasAdmin: boolean;
+  hasPutativeAdmin: boolean;
+  hasActiveUsers: boolean;
+  numServices: boolean;
+  numOutdatedServices: boolean;
+  shortDesc: string;
 }
 
 export interface StructureSource {

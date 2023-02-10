@@ -11,7 +11,7 @@
 
   export let id: string;
   export let onChange;
-  export let placeholder = null;
+  export let placeholder = "";
   export let disabled = false;
   export let value = undefined;
   export let initialValue = undefined;
