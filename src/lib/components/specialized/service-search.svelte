@@ -234,6 +234,9 @@
     }
   }
 
+  .subcategories-search :global(.field-wrapper) {
+    @apply relative w-[90%];
+  }
   .subcategories-search :global(.label-container) {
     @apply sr-only;
   }

@@ -35,7 +35,7 @@
 </script>
 
 <div
-  class="items-top flex flex-col items-stretch gap-s8 lg:items-start"
+  class="field-wrapper items-top flex flex-col items-stretch gap-s8 lg:items-start"
   class:lg:flex-row={!vertical}
   class:lg:items-stretch={vertical}
   class:hidden
