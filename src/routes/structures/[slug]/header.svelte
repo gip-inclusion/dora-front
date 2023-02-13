@@ -113,6 +113,6 @@
   {/if}
 
   <div class="mt-s40 print:hidden">
-    <Tabs items={tabs} itemId={tabId} noScrollOnChange />
+    <Tabs items={tabs} itemId={tabId} />
   </div>
 </div>
