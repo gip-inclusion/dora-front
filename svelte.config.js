@@ -48,7 +48,6 @@ const config = {
           "https://client.crisp.chat/",
           "https://tally.so/widgets/embed.js",
           "unsafe-inline",
-          "https://unpkg.com/maplibre-gl@latest/dist/maplibre-gl.css",
         ],
       },
     },

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onDestroy, onMount } from "svelte";
-  import mapStyle from "./map-style.json?raw";
+  import mapStyle from "./map-style.json?raw"; // Basé sur https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json
   import * as mlgl from "maplibre-gl";
 
   const METROPOLE_BB: mlgl.LngLatBoundsLike = [-5, 42, 8, 51];
