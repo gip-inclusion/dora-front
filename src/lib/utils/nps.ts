@@ -18,7 +18,7 @@ function getNpsAnswerLocalStorageKey(formId: TallyFormId): string {
   return `tallyForm-${formId}`;
 }
 
-export function saveNpsCloseDate(formId: TallyFormId): void {
+export function saveNpsFormDateClosed(formId: TallyFormId): void {
   const key = getNpsAnswerLocalStorageKey(formId);
   const item: TallyFormLocalStorageItem = {
     lastSubmitted: dayjs().toString(),

@@ -3,7 +3,7 @@
   import { browser } from "$app/environment";
   import {
     canDisplayNpsForm,
-    saveNpsCloseDate,
+    saveNpsFormDateClosed,
     type TallyFormId,
   } from "$lib/utils/nps";
   import { onDestroy, onMount } from "svelte";
@@ -28,10 +28,10 @@
             hideTitle: true,
             hiddenFields,
             onClose: () => {
-              saveNpsCloseDate(formId);
+              saveNpsFormDateClosed(formId);
             },
             onSubmit: () => {
-              saveNpsCloseDate(formId);
+              saveNpsFormDateClosed(formId);
             },
           });
         }
