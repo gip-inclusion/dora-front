@@ -2,7 +2,7 @@
   import type { TabItem } from "./header.svelte";
 
   export let items: TabItem[] = [];
-  export let itemId: string | undefined = undefined;
+  export let itemId: string;
 </script>
 
 <ul class="flex gap-s8 overflow-x-auto pt-s16 font-bold">

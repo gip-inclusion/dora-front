@@ -11,7 +11,7 @@
   import { page } from "$app/stores";
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import Label from "$lib/components/display/label.svelte";
-  import Tabs from "./tabs-links.svelte";
+  import TabsLink from "./tabs-links.svelte";
   import {
     bookReadLineIcon,
     fileInfoLineIcon,
@@ -121,6 +121,6 @@
   {/if}
 
   <div class="mt-s40 print:hidden">
-    <Tabs items={tabs} itemId={tabId} />
+    <TabsLink items={tabs} itemId={tabId} />
   </div>
 </div>
