@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { TabItem } from "$lib/types";
+  import type { TabItem } from "./header.svelte";
 
   export let items: TabItem[] = [];
   export let itemId: string | undefined = undefined;

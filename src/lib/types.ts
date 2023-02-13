@@ -486,10 +486,3 @@ export type Day =
   | "sunday";
 export type DayPrefix = "Mo" | "Tu" | "We" | "Th" | "Fr" | "Sa" | "Su";
 export type DayPeriod = "timeSlot1" | "timeSlot2";
-
-export type TabItem = {
-  id: string;
-  name: string;
-  icon: string;
-  href: string;
-};
