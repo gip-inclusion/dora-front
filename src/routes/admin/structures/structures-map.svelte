@@ -3,6 +3,7 @@
   import * as mlgl from "maplibre-gl";
   import "maplibre-gl/dist/maplibre-gl.css";
   import Map from "./map.svelte";
+  import insane from "insane";
 
   export let filteredStructures: AdminShortStructure[] = [];
   export let selectedStructureSlug: string | null;
@@ -12,7 +13,9 @@
   let popup: mlgl.Popup;
 
   function getPopupContent(feature): string {
-    return `<strong>${feature.properties.name}</strong><br>${feature.properties.shortDesc}`;
+    return insane(
+      `<strong>${feature.properties.name}</strong><br>${feature.properties.shortDesc}`
+    );
   }
   function updateMapContent(structs: AdminShortStructure[]) {
     if (!map) {

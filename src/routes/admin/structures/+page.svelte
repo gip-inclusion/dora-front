@@ -44,7 +44,7 @@
         class="flex max-w-fit flex-col rounded border border-gray-01 p-s16 text-center"
       >
         <div class="text-bold text-f24 text-france-blue">
-          Nb de structures orphelines :
+          Nb de structures orphelines
         </div>
         <div class="text-bold text-f38 text-france-blue">XXX</div>
       </div>
@@ -53,7 +53,7 @@
         class="flex max-w-fit flex-col rounded border border-gray-01 p-s16 text-center"
       >
         <div class="text-bold text-f24 text-france-blue">
-          Nombre de services publiés :
+          Nombre de services publiés
         </div>
         <div class="text-bold text-f38 text-france-blue">XXX</div>
       </div>

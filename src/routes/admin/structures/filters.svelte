@@ -101,10 +101,10 @@
       })
       .filter((struct) => {
         if (numServChoice === "withServices") {
-          return struct.numServices > 0;
+          return struct.numPublishedServices > 0;
         }
         if (numServChoice === "withoutServices") {
-          return struct.numServices === 0;
+          return struct.numPublishedServices === 0;
         }
         return true;
       })

@@ -116,12 +116,10 @@ export interface AdminShortStructure {
   typologyDisplay: string;
   categories: ServiceCategory[];
   hasAdmin: boolean;
-  hasPutativeAdmin: boolean;
-  hasActiveUsers: boolean;
   moderationDate: string;
   moderationStatus: ModerationStatus;
-  numServices: boolean;
-  numOutdatedServices: boolean;
+  numPublishedServices: number;
+  numOutdatedServices: number;
   shortDesc: string;
 }
 
