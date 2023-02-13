@@ -156,7 +156,7 @@
 </CenteredGrid>
 
 <TallyNpsPopup
-  formId={TallyFormId.NPS_RECOMMANDATION_FORM_ID}
+  formId={TallyFormId.NPS_FORM_ID}
   timeoutSeconds={45}
   hiddenFields={{ user: "chercheur" }}
 />

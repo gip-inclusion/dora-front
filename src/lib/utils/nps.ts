@@ -6,7 +6,7 @@ const MIN_DAYS_BETWEEN_DISPLAYS = 14;
 
 // eslint-disable-next-line no-shadow
 export enum TallyFormId {
-  NPS_RECOMMANDATION_FORM_ID = "nrDeXN",
+  NPS_FORM_ID = "nrDeXN",
   SERVICE_CREATION_FORM_ID = "mRGdpK",
 }
 
