@@ -4,13 +4,14 @@
   import {
     canDisplayNpsForm,
     saveNpsFormDateClosed,
+    type HiddenFields,
     type TallyFormId,
   } from "$lib/utils/nps";
   import { onDestroy, onMount } from "svelte";
 
   export let formId: TallyFormId;
   export let timeoutSeconds;
-  export let hiddenFields = {};
+  export let hiddenFields: Partial<HiddenFields> = {};
 
   let timeoutFn: ReturnType<typeof setTimeout>;
 

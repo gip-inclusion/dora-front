@@ -10,6 +10,10 @@ export enum TallyFormId {
   SERVICE_CREATION_FORM_ID = "mRGdpK",
 }
 
+export type HiddenFields = {
+  user: "offreur" | "chercheur";
+};
+
 interface TallyFormLocalStorageItem {
   lastSubmitted: string;
 }
