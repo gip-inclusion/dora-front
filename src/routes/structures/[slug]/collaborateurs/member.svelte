@@ -10,13 +10,15 @@
 
 <div
   class="flex items-center gap-s16 rounded-md border border-gray-01 py-s16 px-s24"
-  class:bg-gray-01={isMyself}
 >
   <div class="flex flex-col">
-    <h4>{member.user.fullName}</h4>
-    <p class="mb-s0 text-f14 text-gray-text-alt">{member.user.email}</p>
+    <strong class="mb-s4">{member.user.fullName}</strong>
+    <p class="mb-s0 text-f14 text-gray-text">{member.user.email}</p>
   </div>
   <div class="grow" />
+  {#if isMyself}
+    <div class="mr-s12 rounded bg-magenta-10 px-s12 py-s6 text-f14">Vous</div>
+  {/if}
   <slot name="label" />
   {#if !readOnly && !isOnlyAdmin}
     <div>
