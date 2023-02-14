@@ -1,5 +1,4 @@
 <script lang="ts">
-  import LinkButton from "$lib/components/display/link-button.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import MemberInvited from "./member-invited.svelte";
   import MemberStandard from "./member-standard.svelte";
@@ -10,6 +9,8 @@
   import { userInfo } from "$lib/utils/auth";
   import { structure } from "../store";
   import type { PageData } from "./$types";
+  import NoMemberNotice from "./no-member-notice.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
 
   export let data: PageData;
 
@@ -57,6 +58,12 @@
   </div>
 
   {#if data.canSeeMembers}
+    {#if data.canEditMembers && data.members.length < 2}
+      <div class="mt-s32 mb-s32 flex flex-col gap-s8">
+        <NoMemberNotice />
+      </div>
+    {/if}
+
     <div class="mt-s32 mb-s32 flex flex-col gap-s8">
       {#if data.canEditMembers && data.putativeMembers}
         {#each sortedMembers(data.putativeMembers) as member}

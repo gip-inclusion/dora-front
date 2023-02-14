@@ -25,6 +25,7 @@
   import { userInfo } from "$lib/utils/auth";
   import { computeUpdateStatusData } from "$lib/utils/service";
   import Count from "../count.svelte";
+  import NoServiceNotice from "./no-service-notice.svelte";
   import ServiceCard from "./service-card.svelte";
 
   export let structure, total, servicesOptions;
@@ -222,7 +223,10 @@
     {/if}
   </div>
 </div>
-{#if hasOptions && canEdit}
+
+{#if structure.services.length === 0 && canEdit}
+  <NoServiceNotice />
+{:else if hasOptions && canEdit}
   <div
     class="mb-s40 flex h-s80 w-full items-center justify-between rounded-md bg-white px-s24 text-f14 shadow-md"
   >

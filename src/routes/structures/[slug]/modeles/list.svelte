@@ -6,6 +6,7 @@
   import ModelCard from "./model-card.svelte";
   import { copyIcon } from "$lib/icons";
   import Count from "../count.svelte";
+  import NoModelNotice from "./no-model-notice.svelte";
 
   export let structure, models, total;
   export let hasOptions = true;
@@ -91,8 +92,12 @@
   </div>
 </div>
 
-<div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-4">
-  {#each modelsOrdered as model}
-    <ModelCard {model} readOnly={!canEdit} />
-  {/each}
-</div>
+{#if modelsOrdered.length === 0}
+  <NoModelNotice />
+{:else}
+  <div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-4">
+    {#each modelsOrdered as model}
+      <ModelCard {model} readOnly={!canEdit} />
+    {/each}
+  </div>
+{/if}
