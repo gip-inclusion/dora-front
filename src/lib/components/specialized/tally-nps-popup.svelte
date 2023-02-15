@@ -16,6 +16,9 @@
 
   let timeoutFn: ReturnType<typeof setTimeout>;
 
+  // Pour différencier un formulaire fermé par l'utilsateur vs un changement de page
+  let tallyFormClosedByNavigation = false;
+
   onMount(() => {
     if (window.Tally) {
       window.Tally.closePopup(formId, keySuffix);
@@ -30,7 +33,10 @@
             hideTitle: true,
             hiddenFields,
             onClose: () => {
-              saveNpsFormDateClosed(formId, keySuffix);
+              if (!tallyFormClosedByNavigation) {
+                saveNpsFormDateClosed(formId, keySuffix);
+              }
+              tallyFormClosedByNavigation = false;
             },
             onSubmit: () => {
               saveNpsFormDateClosed(formId, keySuffix);
@@ -43,6 +49,7 @@
 
   onDestroy(() => {
     if (browser && window.Tally) {
+      tallyFormClosedByNavigation = true;
       window.Tally.closePopup(formId);
     }
 
