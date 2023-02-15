@@ -10,6 +10,7 @@
   import { onDestroy, onMount } from "svelte";
 
   export let formId: TallyFormId;
+  export let keySuffix = "";
   export let timeoutSeconds;
   export let hiddenFields: Partial<HiddenFields> = {};
 
@@ -17,10 +18,10 @@
 
   onMount(() => {
     if (window.Tally) {
-      window.Tally.closePopup(formId);
+      window.Tally.closePopup(formId, keySuffix);
     }
 
-    if (canDisplayNpsForm(formId)) {
+    if (canDisplayNpsForm(formId, keySuffix)) {
       timeoutFn = setTimeout(() => {
         if (window.Tally) {
           window.Tally.openPopup(formId, {
@@ -29,10 +30,10 @@
             hideTitle: true,
             hiddenFields,
             onClose: () => {
-              saveNpsFormDateClosed(formId);
+              saveNpsFormDateClosed(formId, keySuffix);
             },
             onSubmit: () => {
-              saveNpsFormDateClosed(formId);
+              saveNpsFormDateClosed(formId, keySuffix);
             },
           });
         }
