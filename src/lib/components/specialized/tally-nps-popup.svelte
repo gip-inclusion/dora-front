@@ -16,7 +16,7 @@
 
   let timeoutFn: ReturnType<typeof setTimeout>;
 
-  // Pour différencier un formulaire fermé par l'utilsateur vs un changement de page
+  // Pour différencier un formulaire fermé par l'utilisateur vs un changement de page
   let tallyFormClosedByNavigation = false;
 
   onMount(() => {
