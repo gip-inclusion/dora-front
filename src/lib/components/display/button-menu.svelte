@@ -9,7 +9,7 @@
   export let small = false;
 
   let isOpen = false;
-  const id = crypto.randomUUID();
+  const id = `button-menu-${crypto.randomUUID()}`;
 
   function handleClickOutside(_event) {
     isOpen = false;
