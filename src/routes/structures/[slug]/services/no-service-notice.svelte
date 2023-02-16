@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { externalLinkIcon, pageLineIcon } from "$lib/icons";
+  import { pageLineIcon } from "$lib/icons";
   import illuServices from "$lib/assets/illustrations/services.svg";
 
   import EmptyNotice from "../empty-notice.svelte";
@@ -9,6 +9,25 @@
   textTopIcon={pageLineIcon}
   rightImage={illuServices}
   title="Vous n’avez pas encore renseigné vos services sur DORA"
+  links={[
+    {
+      url: "https://aide.dora.fabrique.social.gouv.fr/fr/article/referencer-son-offre-de-service-xpivaw/",
+      label: "Découvrez comment référencer son premier service",
+    },
+    {
+      url: "https://aide.dora.fabrique.social.gouv.fr/fr/category/conseils-1vz0ity/",
+      label:
+        "Découvrez quelques conseils sur la présentation de votre offre de service",
+    },
+    {
+      url: "https://app.livestorm.co/dora-1",
+      label: "Participez à un webinaire",
+    },
+    {
+      url: "https://www.youtube.com/channel/UCadIsy9gfHgLmLkutRGC5ew/playlists",
+      label: "Consultez les tutoriels",
+    },
+  ]}
 >
   <div class="text-center leading-24">
     Pour rendre visibles vos services sur DORA — mais aussi sur les autres
@@ -16,70 +35,5 @@
     et d’orientation avant de les publier. Vous pouvez à tout moment les mettre
     à jour, les remettre en brouillon ou les archiver si elles ne sont plus
     d’actualité.
-  </div>
-
-  <div class="mt-s20 text-center">
-    <ul class="flex flex-col gap-s20 text-magenta-cta">
-      <li class="flex justify-center">
-        <a
-          href=""
-          class="flex items-center hover:underline"
-          title="Ouverture dans une nouvelle fenêtre"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Découvrez comment référencer son premier service
-          <span class="ml-s8 block h-s20 w-s20 fill-current" aria-hidden>
-            {@html externalLinkIcon}
-          </span>
-        </a>
-      </li>
-
-      <li class="flex justify-center">
-        <a
-          href=""
-          class="flex items-center hover:underline"
-          title="Ouverture dans une nouvelle fenêtre"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Découvrez quelques conseils sur la présentation de votre offre de
-          service
-          <span class="ml-s8 block h-s20 w-s20 fill-current" aria-hidden>
-            {@html externalLinkIcon}
-          </span>
-        </a>
-      </li>
-
-      <li class="flex justify-center">
-        <a
-          href="https://app.livestorm.co/dora-1"
-          class="flex items-center hover:underline"
-          title="Ouverture dans une nouvelle fenêtre"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Participez à un webinaire
-          <span class="ml-s8 block h-s20 w-s20 fill-current" aria-hidden>
-            {@html externalLinkIcon}
-          </span>
-        </a>
-      </li>
-
-      <li class="flex justify-center">
-        <a
-          href="https://www.youtube.com/channel/UCadIsy9gfHgLmLkutRGC5ew/playlists"
-          class="flex items-center hover:underline"
-          title="Ouverture dans une nouvelle fenêtre"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Consultez les tutoriels
-          <span class="ml-s8 block h-s20 w-s20 fill-current" aria-hidden>
-            {@html externalLinkIcon}
-          </span>
-        </a>
-      </li>
-    </ul>
   </div>
 </EmptyNotice>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { externalLinkIcon, bookReadLineIcon } from "$lib/icons";
+  import { bookReadLineIcon } from "$lib/icons";
   import illuModeles from "$lib/assets/illustrations/modeles.svg";
 
   import EmptyNotice from "../empty-notice.svelte";
@@ -9,6 +9,12 @@
   textTopIcon={bookReadLineIcon}
   rightImage={illuModeles}
   title="Vous n’avez pas encore créé votre premier modèle"
+  links={[
+    {
+      url: "https://aide.dora.fabrique.social.gouv.fr/fr/article/creer-des-modeles-et-dupliquer-ses-services-1ts5cd7/",
+      label: "Découvrez comment créer un modèle et l’utiliser",
+    },
+  ]}
 >
   <div class="text-center leading-24">
     Les modèles vous permettent de créer facilement plusieurs services
@@ -20,24 +26,5 @@
   <div class="mt-s20 text-center leading-24">
     Vous aurez de plus la possibilité de synchroniser le modèle avec les
     services, afin de faciliter la mise à jour des informations en commun.
-  </div>
-
-  <div class="mt-s20 text-center">
-    <ul class="flex flex-col gap-s20 text-magenta-cta">
-      <li class="flex justify-center">
-        <a
-          href=""
-          class="flex items-center hover:underline"
-          title="Ouverture dans une nouvelle fenêtre"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Découvrez comment créer un modèle et l’utiliser
-          <span class="ml-s8 block h-s20 w-s20 fill-current" aria-hidden>
-            {@html externalLinkIcon}
-          </span>
-        </a>
-      </li>
-    </ul>
   </div>
 </EmptyNotice>

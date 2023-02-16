@@ -1,7 +1,10 @@
 <script lang="ts">
+  import { externalLinkIcon } from "$lib/icons";
+
   export let textTopIcon = "";
   export let title = "";
   export let rightImage = "";
+  export let links: { label: string; url: string }[] = [];
 </script>
 
 <div class="flex rounded-md border border-gray-03 p-s40">
@@ -17,6 +20,27 @@
 
     <div class="text-gray-text">
       <slot />
+
+      <div class="mt-s20 text-center">
+        <ul class="flex flex-col gap-s20 text-magenta-cta">
+          {#each links as { label, url }}
+            <li class="flex justify-center">
+              <a
+                href={url}
+                class="flex items-center underline"
+                title="Ouverture dans une nouvelle fenêtre"
+                target="_blank"
+                rel="noreferrer"
+              >
+                {label}
+                <span class="ml-s8 block h-s20 w-s20 fill-current" aria-hidden>
+                  {@html externalLinkIcon}
+                </span>
+              </a>
+            </li>
+          {/each}
+        </ul>
+      </div>
     </div>
   </div>
 
