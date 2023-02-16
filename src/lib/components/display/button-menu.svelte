@@ -23,8 +23,10 @@
       {label}
       noBackground
       {hideLabel}
-      ariaExpanded={isOpen}
-      ariaControls={id}
+      ariaAttributes={{
+        "aria-expanded": isOpen,
+        "aria-controls": id,
+      }}
       {disabled}
       {small}
       on:click={() => (isOpen = !isOpen)}

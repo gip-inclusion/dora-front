@@ -15,8 +15,10 @@
   export let hoverUnderline = false;
   export let wFull = false;
   export let preventDefaultOnMouseDown = false;
-  export let ariaExpanded: boolean | undefined = undefined;
-  export let ariaControls: string | undefined = undefined;
+  export let ariaAttributes: Partial<{
+    "aria-expanded": boolean;
+    "aria-controls": string;
+  }> = {};
 
   let paddingX: string, paddingY: string, textSize: string;
 
@@ -78,8 +80,7 @@
   class:flex={icon}
   class:flex-row={icon}
   class:items-center={icon}
-  aria-expanded={ariaExpanded}
-  aria-controls={ariaControls}
+  {...ariaAttributes}
   on:click
   on:mousedown={handleMouseDown}
   {disabled}
