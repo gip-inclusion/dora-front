@@ -5,7 +5,6 @@
   export let name: string | undefined = undefined;
   export let icon: string | undefined = undefined;
   export let extraClass = "";
-  export let extraAttributes = {};
   export let iconOnRight = false;
   export let hideLabel = false;
   export let disabled = false;
@@ -16,6 +15,8 @@
   export let hoverUnderline = false;
   export let wFull = false;
   export let preventDefaultOnMouseDown = false;
+  export let ariaExpanded: boolean | undefined = undefined;
+  export let ariaControls: string | undefined = undefined;
 
   let paddingX: string, paddingY: string, textSize: string;
 
@@ -77,7 +78,8 @@
   class:flex={icon}
   class:flex-row={icon}
   class:items-center={icon}
-  {...extraAttributes}
+  aria-expanded={ariaExpanded}
+  aria-controls={ariaControls}
   on:click
   on:mousedown={handleMouseDown}
   {disabled}

@@ -23,10 +23,8 @@
       {label}
       noBackground
       {hideLabel}
-      extraAttributes={{
-        "aria-expanded": isOpen,
-        "aria-controls": id,
-      }}
+      ariaExpanded={isOpen}
+      ariaControls={id}
       {disabled}
       {small}
       on:click={() => (isOpen = !isOpen)}
