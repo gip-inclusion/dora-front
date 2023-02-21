@@ -21,6 +21,9 @@ module.exports = {
           return true;
         }
       }
+      if (warning.code === "security-anchor-rel-noreferrer") {
+        return true;
+      }
     },
   },
   parserOptions: {
