@@ -80,7 +80,7 @@ const config = {
       return;
     }
 
-    // Le RGAA impose ces `role`
+    // Le RGAA impose l'utilisation de ces `role`
     // et ces avertissements n'ont donc pas lieu d'être
     if (warning.code === "a11y-no-redundant-roles") {
       if (
