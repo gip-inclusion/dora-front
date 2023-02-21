@@ -35,6 +35,8 @@
   export let kindIds: ServiceKind[] = [];
   export let feeConditions: FeeCondition[] = [];
 
+  let innerWidth;
+  const MOBILE_BREAKPOINT = 768; // 'md' from https://tailwindcss.com/docs/screens
   let cityChoiceList;
 
   function handleSearch() {
@@ -79,6 +81,8 @@
       )
     : [];
 </script>
+
+<svelte:window bind:innerWidth />
 
 <div class="w-full rounded-md border border-gray-02 bg-white">
   {#if servicesOptions.categories}
@@ -140,7 +144,7 @@
         </div>
 
         <SelectField
-          inputMode="none"
+          inputMode={innerWidth < MOBILE_BREAKPOINT ? "none" : undefined}
           hideLabel
           isMultiple
           withAutoComplete
