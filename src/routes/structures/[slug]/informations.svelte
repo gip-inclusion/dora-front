@@ -18,6 +18,7 @@
   import QuickStart from "./quick-start.svelte";
 
   export let structure: Structure;
+  export let members;
   export let structuresOptions: StructuresOptions;
 
   let fullDesc;
@@ -73,7 +74,7 @@
 <div class="structure-body">
   <div class="notice">
     {#if canManageStructure}
-      <QuickStart {structure} />
+      <QuickStart {structure} {members} />
     {/if}
   </div>
 

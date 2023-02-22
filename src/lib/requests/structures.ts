@@ -252,8 +252,8 @@ export function isFirstResearchDone(structure): boolean {
   return true;
 }
 export function hasOneService(structure): boolean {
-  return true;
+  return structure.numServices > 0;
 }
-export function hasInviteMembers(structure): boolean {
-  return true;
+export function hasMembers(members: Array<unknown>): boolean {
+  return members.length >= 2;
 }

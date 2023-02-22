@@ -15,10 +15,13 @@
   }
 </script>
 
+{console.log({ da: data.members })}
+ss
 <Informations
   structure={$structure}
+  members={data.members}
   structuresOptions={data.structuresOptions}
-/>
+/>ss
 <div class="mb-s64" />
 
 {#if !!$structure.services?.length || $structure.isMember || $userInfo?.isStaff}

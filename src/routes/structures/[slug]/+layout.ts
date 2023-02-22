@@ -1,4 +1,4 @@
-import { getStructure } from "$lib/requests/structures";
+import { getMembers, getStructure } from "$lib/requests/structures";
 import { userInfo, type UserInfo } from "$lib/utils/auth";
 import { trackStructure } from "$lib/utils/plausible";
 import { userPreferences, type UserPreferences } from "$lib/utils/preferences";
@@ -10,6 +10,8 @@ export const load: LayoutLoad = async ({ params, parent }) => {
   await parent();
 
   const currentStructure = await getStructure(params.slug);
+  const members = await getMembers(params.slug);
+
   let preferences: UserPreferences;
   let info: UserInfo;
 
@@ -57,5 +59,6 @@ export const load: LayoutLoad = async ({ params, parent }) => {
 
   return {
     structure: currentStructure,
+    members: members,
   };
 };

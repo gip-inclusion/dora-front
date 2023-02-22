@@ -10,28 +10,34 @@
     isStructureInformationsComplete,
     isFirstResearchDone,
     hasOneService,
-    hasInviteMembers,
+    hasMembers,
   } from "$lib/requests/structures";
   import type { Structure } from "$lib/types";
+  import type { UserInfo } from "$lib/utils/auth";
 
   export let structure: Structure;
+  export let members: UserInfo[];
 
   $: steps = [
     {
       label: "Compléter le profil de votre structure",
       complete: isStructureInformationsComplete(structure),
+      url: `/structures/${structure.slug}/editer`,
     },
     {
       label: "Inviter vos collaborateurs",
-      complete: hasInviteMembers(structure),
+      complete: hasMembers(members),
+      url: `/structures/${structure.slug}/collaborateurs`,
     },
     {
       label: "Référencer un de vos services",
       complete: hasOneService(structure),
+      url: `/services/creer?structure=${structure.slug}`,
     },
     {
       label: "Faire votre première recherche",
       complete: isFirstResearchDone(structure),
+      url: "/",
     },
   ];
 
@@ -60,16 +66,21 @@
 
     <div class="px-s16 font-bold sm:px-s35">
       <ul>
-        {#each steps as { label, complete }}
+        {#each steps as { label, complete, url }}
           <li
             class:line-through={complete}
-            class:fill-success={complete}
             class="flex items-center border-b border-gray-01 py-s16 sm:py-s35"
           >
-            <span class="mr-s16 h-s24 w-s24">
-              {@html complete ? checkboxCircleFillIcon : checkboxBlankCircle}
-            </span>
-            {label}
+            <a
+              class="flex hover:underline"
+              href={url}
+              class:fill-success={complete}
+            >
+              <span class="mr-s16 h-s24 w-s24">
+                {@html complete ? checkboxCircleFillIcon : checkboxBlankCircle}
+              </span>
+              {label}
+            </a>
           </li>
         {/each}
 
