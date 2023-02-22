@@ -10,6 +10,7 @@
 
   export let structure, models, total;
   export let hasOptions = true;
+  export let withEmptyNotice = false;
   export let limit;
   let canEdit;
 
@@ -92,7 +93,7 @@
   </div>
 </div>
 
-{#if modelsOrdered.length === 0}
+{#if modelsOrdered.length === 0 && withEmptyNotice}
   <NoModelNotice />
 {:else}
   <div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-4">

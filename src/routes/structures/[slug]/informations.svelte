@@ -1,6 +1,5 @@
 <script lang="ts">
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import Notice from "$lib/components/display/notice.svelte";
   import DateLabel from "$lib/components/display/date-label.svelte";
   import TextClamp from "$lib/components/display/text-clamp.svelte";
   import {
@@ -11,12 +10,12 @@
     timeLineIcon,
     wheelChairIcon,
   } from "$lib/icons";
-  import { isStructureInformationsComplete } from "$lib/requests/structures";
   import type { Structure, StructuresOptions } from "$lib/types";
   import { token, userInfo } from "$lib/utils/auth";
   import { formatPhoneNumber, markdownToHTML } from "$lib/utils/misc";
   import { formatOsmHours } from "$lib/utils/opening-hours";
   import DataInclusionNotice from "./data-inclusion-notice.svelte";
+  import QuickStart from "./quick-start.svelte";
 
   export let structure: Structure;
   export let structuresOptions: StructuresOptions;
@@ -74,27 +73,7 @@
 <div class="structure-body">
   <div class="notice">
     {#if canManageStructure}
-      {#if !isStructureInformationsComplete(structure) && !(sourceIsDataInclusion && !structure.hasBeenEdited)}
-        <Notice
-          title="Les informations de votre structure ne sont pas complètes"
-          type="warning"
-          showIcon={false}
-        >
-          <div class="flex flex-col">
-            <p class="mb-s24 text-f14">
-              En complétant votre fiche, vous gagnerez en visibilité auprès des
-              acteurs locaux et régionaux.
-            </p>
-            <p>
-              <LinkButton
-                to={`/structures/${structure.slug}/editer`}
-                label="Mettre à jour"
-                small
-              />
-            </p>
-          </div>
-        </Notice>
-      {/if}
+      <QuickStart {structure} />
     {/if}
   </div>
 

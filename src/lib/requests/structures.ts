@@ -244,3 +244,16 @@ export function isStructureInformationsComplete(structure) {
     showErrors: false,
   }).valid;
 }
+
+export function canShowQuickStart(structure): boolean {
+  return true;
+}
+export function isFirstResearchDone(structure): boolean {
+  return true;
+}
+export function hasOneService(structure): boolean {
+  return true;
+}
+export function hasInviteMembers(structure): boolean {
+  return true;
+}

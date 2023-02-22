@@ -32,6 +32,7 @@
   export let hasOptions = true;
   export let onRefresh;
   export let limit: number | undefined = undefined;
+  export let withEmptyNotice = false;
 
   export let serviceStatus: ServiceStatus | undefined;
   export let updateStatus: ServiceUpdateStatus | undefined;
@@ -224,7 +225,7 @@
   </div>
 </div>
 
-{#if structure.services.length === 0 && canEdit}
+{#if structure.services.length === 0 && canEdit && withEmptyNotice}
   <NoServiceNotice />
 {:else if hasOptions && canEdit}
   <div
