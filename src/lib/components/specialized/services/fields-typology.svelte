@@ -31,7 +31,14 @@
 
 <FieldSet title="Typologie" {showModel} {noTopPadding}>
   <FieldModel {...fieldModelProps.categories ?? {}} type="array">
-    <FieldCategory bind:service {servicesOptions} {model} />
+    <FieldCategory
+      bind:service
+      {servicesOptions}
+      {model}
+      description={!service.useInclusionNumeriqueScheme
+        ? "Cochez jusqu’à 3 thématiques principales."
+        : ""}
+    />
   </FieldModel>
   <div slot="help">
     <p class="mb-s10 text-f14">
@@ -71,7 +78,7 @@
           title="Ouverture dans une nouvelle fenêtre"
           rel="noreferrer"
         >
-          Référencer un service d'inclusion numérique sur Dora
+          Référencer un service d’inclusion numérique sur Dora
         </a>
       </li>
     </ul>

@@ -31,6 +31,7 @@
     id="contactPhone"
     type="tel"
     placeholder="00 00 00 00 00"
+    description="Format attendu : 01 23 45 67 89"
     bind:value={service.contactPhone}
   />
 
@@ -38,6 +39,7 @@
     id="contactEmail"
     type="email"
     placeholder="nom@exemple.org"
+    description="Format attendu : nom@domaine.fr"
     bind:value={service.contactEmail}
   />
 
