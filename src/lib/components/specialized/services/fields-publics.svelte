@@ -31,7 +31,7 @@
   <div slot="help">
     <p class="text-f14">
       Publics auxquels le service s’adresse. Vous pouvez ajouter vos propres
-      valeurs avec le bouton « Ajouter un... ». Si votre service est ouvert à
+      valeurs avec le bouton «&nbsp;Ajouter un...&nbsp;». Si votre service est ouvert à
       tous, sans critères ou prérequis, laissez les champs avec les options par
       défaut.
     </p>
