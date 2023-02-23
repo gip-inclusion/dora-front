@@ -4,6 +4,9 @@
   import FieldWrapper from "$lib/components/inputs/obsolete/field-wrapper.svelte";
   import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
   import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
+
+  import defaultTheme from "tailwindcss/defaultTheme";
+
   import {
     arrowDownSIcon,
     deleteBackIcon,
@@ -36,7 +39,7 @@
   export let feeConditions: FeeCondition[] = [];
 
   let innerWidth;
-  const MOBILE_BREAKPOINT = 768; // 'md' from https://tailwindcss.com/docs/screens
+  const MOBILE_BREAKPOINT = Number(defaultTheme.screens.md.replace("px", "")); // 'md' from https://tailwindcss.com/docs/screens
   let cityChoiceList;
 
   function handleSearch() {
