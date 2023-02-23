@@ -49,7 +49,7 @@
       <li class="mb-s10">
         <a
           href="https://aide.dora.fabrique.social.gouv.fr/fr/article/quelle-thematique-choisir-pour-votre-service-cywvsk/"
-          class="text-magenta-cta"
+          class="text-magenta-cta hover:underline"
           target="_blank"
           title="Ouverture dans une nouvelle fenêtre"
           rel="noreferrer"
@@ -60,7 +60,7 @@
       <li class="mb-s10">
         <a
           href="https://aide.dora.fabrique.social.gouv.fr/fr/article/siae-votre-offre-de-service-sur-dora-jb4405/"
-          class="text-magenta-cta"
+          class="text-magenta-cta hover:underline"
           target="_blank"
           title="Ouverture dans une nouvelle fenêtre"
           rel="noreferrer"
@@ -70,15 +70,27 @@
           </abbr>&nbsp;:&nbsp;votre offre de service sur Dora
         </a>
       </li>
-      <li>
+      <li class="mb-s10">
         <a
           href="https://aide.dora.fabrique.social.gouv.fr/fr/article/referencer-un-service-dinclusion-numerique-sur-dora-et62ua/"
-          class="text-magenta-cta"
+          class="text-magenta-cta hover:underline"
           target="_blank"
           title="Ouverture dans une nouvelle fenêtre"
           rel="noreferrer"
         >
           Référencer un service d’inclusion numérique sur Dora
+        </a>
+      </li>
+      <li>
+        <a
+          href="https://aide.dora.fabrique.social.gouv.fr/fr/article/referencer-votre-offre-de-formation-professionnalisante-ou-qualifiante-sur-dora-1bzkn1k/"
+          class="text-magenta-cta hover:underline"
+          target="_blank"
+          title="Ouverture dans une nouvelle fenêtre"
+          rel="noreferrer"
+        >
+          Référencer votre offre de formation professionnalisante ou qualifiante
+          sur Dora
         </a>
       </li>
     </ul>
