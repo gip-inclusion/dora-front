@@ -39,7 +39,7 @@
   export let feeConditions: FeeCondition[] = [];
 
   let innerWidth;
-  const MOBILE_BREAKPOINT = Number(defaultTheme.screens.md.replace("px", "")); // 'md' from https://tailwindcss.com/docs/screens
+  const MOBILE_BREAKPOINT = Number(defaultTheme.screens.md.replace("px", ""));
   let cityChoiceList;
 
   function handleSearch() {
