@@ -24,6 +24,10 @@
     }
   }
 
+  async function handleStructuresRefresh() {
+    structures = await getStructuresAdmin(department.code);
+  }
+
   if (data.isLocalCoordinator) {
     handleDepartmentChange(data.department);
   }
@@ -94,6 +98,7 @@
               {filteredStructures}
               servicesOptions={data.servicesOptions}
               bind:selectedStructureSlug
+              onRefresh={handleStructuresRefresh}
             />
           </div>
         </div>
