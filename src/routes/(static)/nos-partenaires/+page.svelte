@@ -1,6 +1,7 @@
 <script lang="ts">
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import { PARTNERS } from "../../../lib/partners";
+  import PartnerImage from "../../_index/partner-image.svelte";
 </script>
 
 <CenteredGrid>
@@ -12,9 +13,9 @@
     </p>
 
     <ul class="mt-s24 grid w-full gap-s24">
-      {#each PARTNERS as { name, imgPath }}
+      {#each PARTNERS as partnerName}
         <li>
-          <img src={`/src/lib/assets/logos/partners/${imgPath}`} alt={name} />
+          <PartnerImage {partnerName} />
         </li>
       {/each}
     </ul>

@@ -9,12 +9,13 @@
   import InviteStructureLink from "$lib/components/specialized/invite-structure-link.svelte";
   import SearchForm from "$lib/components/specialized/service-search.svelte";
   import type { PageData } from "./$types";
-  import { pickRandomPartners, type Partner } from "../lib/partners";
+  import { pickRandomPartners } from "../lib/partners";
   import { onMount } from "svelte";
+  import PartnerImage from "./_index/partner-image.svelte";
 
   export let data: PageData;
 
-  let partnersToShow: Partner[] = [];
+  let partnersToShow: string[] = [];
   onMount(() => {
     partnersToShow = pickRandomPartners(6);
   });
@@ -76,13 +77,9 @@
       </p>
       <div class="flex flex-col justify-center gap-s24 md:flex-row">
         <ul class="partners mt-s24 w-full">
-          {#each partnersToShow as { name, imgPath }}
+          {#each partnersToShow as partnerName}
             <li class="text-center">
-              <img
-                class="m-s0 inline h-[60px] sm:h-[100px]"
-                src={`/src/lib/assets/logos/partners/${imgPath}`}
-                alt={name}
-              />
+              <PartnerImage {partnerName} />
             </li>
           {/each}
         </ul>
@@ -154,7 +151,7 @@
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
-  .partners img {
+  .partners {
     filter: grayscale(100%);
   }
   @screen md {
