@@ -2,20 +2,22 @@
   import illuAccompagner from "$lib/assets/illustrations/illu-accompagner.svg";
   import illuMobiliser from "$lib/assets/illustrations/illu-mobiliser.svg";
   import illuRecenser from "$lib/assets/illustrations/illu-recenser.svg";
-  import logoAfpa from "$lib/assets/logos/logo-afpa.svg";
-  import logoCaf from "$lib/assets/logos/logo-caf.svg";
   import logoDataInclusion from "$lib/assets/logos/logo-data-inclusion.svg";
-  import logoDepartementArdennes from "$lib/assets/logos/logo-departement-ardennes.svg";
-  import logoDepartementReunion from "$lib/assets/logos/logo-departement-reunion.svg";
-  import logoMobIn from "$lib/assets/logos/logo-mob-in.svg";
-  import logoPoleEmploi from "$lib/assets/logos/logo-pole-emploi.svg";
+
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import InviteStructureLink from "$lib/components/specialized/invite-structure-link.svelte";
   import SearchForm from "$lib/components/specialized/service-search.svelte";
   import type { PageData } from "./$types";
+  import { pickRandomPartners, type Partner } from "../lib/partners";
+  import { onMount } from "svelte";
 
   export let data: PageData;
+
+  let partnersToShow: Partner[] = [];
+  onMount(() => {
+    partnersToShow = pickRandomPartners(6);
+  });
 </script>
 
 <CenteredGrid
@@ -73,26 +75,25 @@
         sur DORA
       </p>
       <div class="flex flex-col justify-center gap-s24 md:flex-row">
-        <div class="flex justify-center gap-s24">
-          <img src={logoPoleEmploi} alt="logo Pole Emploi" />
-
-          <img src={logoMobIn} alt="logo Mob'In" />
-
-          <img
-            src={logoDepartementArdennes}
-            alt="logo Conseil Départemental des Ardennes"
-          />
-        </div>
-        <div class="flex justify-center gap-s24">
-          <img
-            src={logoDepartementReunion}
-            alt="logo Conseil départemental de la Réunion"
-          />
-
-          <img src={logoAfpa} alt="logo Afpa" />
-
-          <img src={logoCaf} alt="logo Allocations Familiales" />
-        </div>
+        <ul class="partners mt-s24 w-full">
+          {#each partnersToShow as { name, imgPath }}
+            <li class="text-center">
+              <img
+                class="m-s0 inline h-[60px] sm:h-[100px]"
+                src={`/src/lib/assets/logos/partners/${imgPath}`}
+                alt={name}
+              />
+            </li>
+          {/each}
+        </ul>
+      </div>
+      <div class="mt-s10 text-center ">
+        <a
+          href="/nos-partenaires"
+          class="text-center text-f18 text-magenta-cta underline"
+        >
+          Découvrez tous nos partenaires
+        </a>
       </div>
     </div>
   </div>
@@ -147,3 +148,23 @@
     </div>
   </div>
 </CenteredGrid>
+
+<style lang="postcss">
+  .partners {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+  .partners img {
+    filter: grayscale(100%);
+  }
+  @screen md {
+    .partners {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  @screen lg {
+    .partners {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+</style>
