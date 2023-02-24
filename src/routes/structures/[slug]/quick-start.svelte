@@ -14,9 +14,17 @@
   } from "$lib/requests/structures";
   import type { Structure } from "$lib/types";
   import type { UserInfo } from "$lib/utils/auth";
+  import { userInfo } from "$lib/utils/auth";
 
   export let structure: Structure;
   export let members: UserInfo[];
+
+  function updateQuickStartToDone() {
+    // TODO call API
+  }
+  function hideQuickStartTemporary() {
+    // TODO écrire dans le localStorage
+  }
 
   $: steps = [
     {
@@ -36,7 +44,7 @@
     },
     {
       label: "Faire votre première recherche",
-      complete: isFirstResearchDone(structure),
+      complete: isFirstResearchDone($userInfo),
       url: "/",
     },
   ];
@@ -55,11 +63,11 @@
       </div>
 
       {#if canCloseQuickStart}
-        <button class="flex">
+        <button class="flex" on:click={hideQuickStartTemporary}>
           <span class="h-s24 w-s24 fill-magenta-cta">
             {@html closeIcon}
           </span>
-          <span class="sr-only">Masquer le guide</span>
+          <span class="sr-only">Masquer temporairement le guide</span>
         </button>
       {/if}
     </div>
@@ -85,7 +93,11 @@
         {/each}
 
         <li class="py-s35 text-right">
-          <Button label="Masquer le guide" secondary on:click={() => {}} />
+          <Button
+            label="Masquer le guide"
+            secondary
+            on:click={updateQuickStartToDone}
+          />
         </li>
       </ul>
     </div>

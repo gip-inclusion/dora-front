@@ -170,6 +170,7 @@ export interface Structure {
   typologyDisplay: string;
   typology: number;
   url: string;
+  quickStartDone: boolean;
 }
 
 export interface Establishment {
@@ -419,6 +420,10 @@ export interface ShortService {
 export interface Bookmark {
   service: ShortService;
   creationDate: string;
+}
+
+export interface UserExtraInfos {
+  hasDoneASearch: boolean;
 }
 
 export interface CustomChoice {

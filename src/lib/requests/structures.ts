@@ -1,5 +1,5 @@
 import { getApiURL } from "$lib/utils/api";
-import { token } from "$lib/utils/auth";
+import { token, type UserInfo } from "$lib/utils/auth";
 import { fetchData } from "$lib/utils/misc";
 import { structureSchema } from "$lib/validation/schemas/structure";
 import { validate } from "$lib/validation/validation";
@@ -93,7 +93,7 @@ export async function getStructuresOptions(): Promise<StructuresOptions> {
   return structuresOptions;
 }
 
-export async function getMembers(slug) {
+export async function getMembers(slug): Promise<Array<UserInfo>> {
   const url = `${getApiURL()}/structure-members/?structure=${slug}`;
 
   const result = await fetchData(url);
@@ -245,13 +245,13 @@ export function isStructureInformationsComplete(structure) {
   }).valid;
 }
 
-export function canShowQuickStart(structure): boolean {
-  return true;
+export function canShowQuickStart(structure: Structure): boolean {
+  return !structure.quickStartDone;
 }
-export function isFirstResearchDone(structure): boolean {
-  return true;
+export function isFirstResearchDone(userInfos: UserInfo): boolean {
+  return userInfos.extraInfos.hasDoneASearch;
 }
-export function hasOneService(structure): boolean {
+export function hasOneService(structure: Structure): boolean {
   return structure.numServices > 0;
 }
 export function hasMembers(members: Array<unknown>): boolean {
