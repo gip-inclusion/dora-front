@@ -17,7 +17,6 @@
   export let minDropdownWidth = "min-w-full";
   export let value: string | string[] | undefined;
   export let placeholder = "";
-  export let helper = "";
   export let inputMode: "none" | undefined = undefined;
   export let required = false;
   export let isMultiple = false;
