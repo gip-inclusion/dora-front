@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import illuAccompagner from "$lib/assets/illustrations/illu-accompagner.svg";
   import illuMobiliser from "$lib/assets/illustrations/illu-mobiliser.svg";
   import illuRecenser from "$lib/assets/illustrations/illu-recenser.svg";
@@ -9,16 +10,9 @@
   import InviteStructureLink from "$lib/components/specialized/invite-structure-link.svelte";
   import SearchForm from "$lib/components/specialized/service-search.svelte";
   import type { PageData } from "./$types";
-  import { pickRandomPartners } from "../lib/partners";
-  import { onMount } from "svelte";
-  import PartnerImage from "./_index/partner-image.svelte";
+  import PartnerList from "./_index/partner-list.svelte";
 
   export let data: PageData;
-
-  let partnersToShow: string[] = [];
-  onMount(() => {
-    partnersToShow = pickRandomPartners(6);
-  });
 </script>
 
 <CenteredGrid
@@ -76,13 +70,11 @@
         sur DORA
       </p>
       <div class="flex flex-col justify-center gap-s24 md:flex-row">
-        <ul class="partners mt-s24 w-full">
-          {#each partnersToShow as partnerName}
-            <li class="text-center">
-              <PartnerImage {partnerName} />
-            </li>
-          {/each}
-        </ul>
+        {#if browser}
+          <ul class="partners mt-s24 w-full">
+            <PartnerList limit={6} randomOrder />
+          </ul>
+        {/if}
       </div>
       <div class="mt-s10 text-center ">
         <a
@@ -153,6 +145,9 @@
   }
   .partners {
     filter: grayscale(100%);
+  }
+  .partners :global(img) {
+    @apply max-h-[100px];
   }
   @screen md {
     .partners {

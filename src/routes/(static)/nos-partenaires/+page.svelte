@@ -1,7 +1,6 @@
 <script lang="ts">
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import { PARTNERS } from "../../../lib/partners";
-  import PartnerImage from "../../_index/partner-image.svelte";
+  import PartnerList from "../../_index/partner-list.svelte";
 </script>
 
 <CenteredGrid>
@@ -13,11 +12,7 @@
     </p>
 
     <ul class="mt-s24 grid w-full gap-s24">
-      {#each PARTNERS as partnerName}
-        <li>
-          <PartnerImage {partnerName} />
-        </li>
-      {/each}
+      <PartnerList />
     </ul>
   </div>
 </CenteredGrid>
