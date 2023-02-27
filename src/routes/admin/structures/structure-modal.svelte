@@ -6,25 +6,33 @@
   import StructureContacts from "../structure-contacts.svelte";
 
   export let isOpen = false;
-  export let structureSlug: string;
+  export let structureSlug: string | null;
   export let onRefresh;
 
   let structure: AdminShortStructure | null = null;
 
   async function handleRefresh() {
-    structure = await getStructureAdmin(structureSlug);
+    structure = structureSlug ? await getStructureAdmin(structureSlug) : null;
     if (onRefresh) {
       onRefresh();
     }
   }
 
-  $: (async () => (structure = await getStructureAdmin(structureSlug)))();
+  $: (async () =>
+    (structure = structureSlug
+      ? await getStructureAdmin(structureSlug)
+      : null))();
 </script>
 
-<Modal bind:isOpen title={structure?.name} smallWidth overflow>
+<Modal
+  on:close={() => (structureSlug = null)}
+  bind:isOpen
+  title={structure?.name}
+  smallWidth
+  overflow
+>
   {#if structure}
     <ModerationButtonMenu entity={structure} onRefresh={handleRefresh} />
-
     <StructureContacts {structure} />
   {/if}
 </Modal>

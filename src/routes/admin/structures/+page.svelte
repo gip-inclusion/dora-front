@@ -96,7 +96,6 @@
           <div>
             <StructuresTable
               {filteredStructures}
-              servicesOptions={data.servicesOptions}
               bind:selectedStructureSlug
               onRefresh={handleStructuresRefresh}
             />

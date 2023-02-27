@@ -3,22 +3,17 @@
   import LinkButton from "$lib/components/display/link-button.svelte";
   import Tag from "$lib/components/display/tag.svelte";
   import { eyeIcon, phoneLineIcon } from "$lib/icons";
-  import type {
-    AdminShortStructure,
-    ModerationStatus,
-    ServicesOptions,
-  } from "$lib/types";
+  import type { AdminShortStructure, ModerationStatus } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
   import { capitalize, shortenString } from "$lib/utils/misc";
   import StructureModal from "./structure-modal.svelte";
 
-  export let servicesOptions: ServicesOptions;
   export let filteredStructures: AdminShortStructure[];
   export let selectedStructureSlug: string | null;
   export let onRefresh;
 
   let isStructureModalOpen = false;
-  let currentStructure: AdminShortStructure;
+  let currentStructure: AdminShortStructure | null = null;
 
   function getModerationStatusVerbose(status: ModerationStatus): string {
     switch (status) {
@@ -94,9 +89,6 @@
                 {/if}
               </div>
               <!-- Suggestions: bg-success -->
-              nump: {structure.numPublishedServices}
-              numo: {structure.numOutdatedServices}
-              num: {structure.numServices}
             </div>
           </div>
         </div>
