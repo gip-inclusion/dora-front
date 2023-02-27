@@ -11,19 +11,26 @@
     isFirstResearchDone,
     hasOneService,
     hasMembers,
-  } from "$lib/requests/structures";
+    saveQuickStartDone,
+  } from "$lib/utils/quick-start";
   import type { Structure } from "$lib/types";
   import type { UserInfo } from "$lib/utils/auth";
   import { userInfo } from "$lib/utils/auth";
+  import { modifyStructure } from "$lib/requests/structures";
 
   export let structure: Structure;
   export let members: UserInfo[];
 
+  let showQuickStart = canShowQuickStart(structure);
+
   function updateQuickStartToDone() {
-    // TODO call API
+    modifyStructure({ ...structure, quickStartDone: true });
+    showQuickStart = false;
   }
+
   function hideQuickStartTemporary() {
-    // TODO écrire dans le localStorage
+    saveQuickStartDone(structure.slug);
+    showQuickStart = false;
   }
 
   $: steps = [
@@ -50,9 +57,15 @@
   ];
 
   $: canCloseQuickStart = steps.filter(({ complete }) => complete).length >= 2;
+  $: if (
+    steps.filter(({ complete }) => complete).length === steps.length &&
+    structure.quickStartDone === false
+  ) {
+    updateQuickStartToDone();
+  }
 </script>
 
-{#if canShowQuickStart(structure)}
+{#if showQuickStart}
   <div class="rounded-md border border-gray-03">
     <div
       class="relative flex items-center justify-between gap-s16 border-b border-gray-01 px-s16 pb-s24 pt-s24 sm:flex-row sm:px-s35"

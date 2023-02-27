@@ -1,8 +1,6 @@
 import { getApiURL } from "$lib/utils/api";
 import { token, type UserInfo } from "$lib/utils/auth";
 import { fetchData } from "$lib/utils/misc";
-import { structureSchema } from "$lib/validation/schemas/structure";
-import { validate } from "$lib/validation/validation";
 import { get } from "svelte/store";
 import type { ShortStructure, Structure, StructuresOptions } from "../types";
 import { logException } from "../utils/logger";
@@ -236,24 +234,4 @@ export async function rejectMembershipRequest(uuid) {
     }
   }
   return result;
-}
-
-export function isStructureInformationsComplete(structure) {
-  return validate(structure, structureSchema, {
-    noScroll: true,
-    showErrors: false,
-  }).valid;
-}
-
-export function canShowQuickStart(structure: Structure): boolean {
-  return !structure.quickStartDone;
-}
-export function isFirstResearchDone(userInfos: UserInfo): boolean {
-  return userInfos.extraInfos.hasDoneASearch;
-}
-export function hasOneService(structure: Structure): boolean {
-  return structure.numServices > 0;
-}
-export function hasMembers(members: Array<unknown>): boolean {
-  return members.length >= 2;
 }
