@@ -10,12 +10,10 @@
   import logoCravateSolidaire from "$lib/assets/logos/partners/logo_cravatesolidaire.png";
   import logoCresus from "$lib/assets/logos/partners/logo_cresus.png";
   import logoEc2 from "$lib/assets/logos/partners/logo_e2c.png";
-
   import logoFace from "$lib/assets/logos/partners/logo_face.png";
   import logoLesEmplois from "$lib/assets/logos/partners/logo_lesemplois.png";
   import logoOrange from "$lib/assets/logos/partners/logo_orange.png";
   import logoSocialBuilder from "$lib/assets/logos/partners/logo_socialbuilder.png";
-
   import logoFinancesPedagogie from "$lib/assets/logos/partners/logo_financespedagogie.png";
   import logoLigueEnseignement from "$lib/assets/logos/partners/logo_ligueenseignement.png";
   import logoPositivePlanet from "$lib/assets/logos/partners/logo_posplanet.png";
@@ -25,11 +23,9 @@
   import logoRenault from "$lib/assets/logos/partners/logo_renault.png";
   import logoWiMoov from "$lib/assets/logos/partners/logo_wimoov.png";
   import logoEpide from "$lib/assets/logos/partners/logo_epide.png";
-
   import logoGoole from "$lib/assets/logos/partners/logo_google.png";
   import logoMobin from "$lib/assets/logos/partners/logo_mobin.png";
   import logoServiceCivique from "$lib/assets/logos/partners/logo_servicecivique.png";
-
   import logoJeVeuxAider from "$lib/assets/logos/partners/logo_jeveuxaider.png";
   import logoMonEnfant from "$lib/assets/logos/partners/logo_monenfantfr.png";
   import logoSimplon from "$lib/assets/logos/partners/logo_simplon.png";
@@ -37,6 +33,7 @@
   import logoNqt from "$lib/assets/logos/partners/logo_nqt.png";
   import logoSNC from "$lib/assets/logos/partners/logo_snc.png";
   import type { Partner } from "$lib/types";
+  import { shuffleArray } from "$lib/utils/array";
 
   export const PARTNERS: Partner[] = [
     // "Action logement",
@@ -91,13 +88,10 @@
     },
   ];
 
+  export let imgClass = "";
   export let limit: number | undefined = undefined;
-  export let randomOrder = false;
+  let partnersToShow = shuffleArray([...PARTNERS]);
 
-  let partnersToShow = [...PARTNERS];
-  if (randomOrder) {
-    partnersToShow = partnersToShow.sort(() => Math.random() - 0.5);
-  }
   if (limit) {
     partnersToShow = partnersToShow.slice(0, limit);
   }
@@ -105,6 +99,6 @@
 
 {#each partnersToShow as partner}
   <li class="text-center">
-    <img class="m-s0 inline" src={partner.img} alt={partner.name} />
+    <img class="m-s0 inline {imgClass}" src={partner.img} alt={partner.name} />
   </li>
 {/each}

@@ -144,6 +144,9 @@ const config = {
       inner: "inset 0 2px 4px 0 rgba(0, 0, 0, 0.05)",
       focus: "0px 0px 0px 2px #FFFFFF, 0px 0px 0px 4px #0A76F6",
     },
+    gridTemplateColumns: {
+      partners: "repeat(auto-fit, minmax(200px, 1fr))",
+    },
   },
   corePlugins: {
     fontVariantNumeric: false,

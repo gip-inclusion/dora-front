@@ -8,9 +8,9 @@
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import InviteStructureLink from "$lib/components/specialized/invite-structure-link.svelte";
+  import PartnerList from "$lib/components/specialized/partner-list.svelte";
   import SearchForm from "$lib/components/specialized/service-search.svelte";
   import type { PageData } from "./$types";
-  import PartnerList from "./_index/partner-list.svelte";
 
   export let data: PageData;
 </script>
@@ -71,12 +71,14 @@
       </p>
       <div class="flex flex-col justify-center gap-s24 md:flex-row">
         {#if browser}
-          <ul class="partners mt-s24 w-full">
-            <PartnerList limit={6} randomOrder />
+          <ul
+            class="lg:[repeat(6, 1fr)] mt-s24 grid w-full grid-cols-[1fr_1fr] grayscale md:grid-cols-[repeat(3,1fr)]"
+          >
+            <PartnerList limit={6} imgClass="max-h-[100px]" />
           </ul>
         {/if}
       </div>
-      <div class="mt-s10 text-center ">
+      <div class="mt-s10 text-center">
         <a
           href="/nos-partenaires"
           class="text-center text-f18 text-magenta-cta underline"
@@ -137,26 +139,3 @@
     </div>
   </div>
 </CenteredGrid>
-
-<style lang="postcss">
-  .partners {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-  }
-  .partners {
-    filter: grayscale(100%);
-  }
-  .partners :global(img) {
-    @apply max-h-[100px];
-  }
-  @screen md {
-    .partners {
-      grid-template-columns: repeat(3, 1fr);
-    }
-  }
-  @screen lg {
-    .partners {
-      grid-template-columns: repeat(6, 1fr);
-    }
-  }
-</style>

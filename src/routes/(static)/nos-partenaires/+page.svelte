@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import PartnerList from "../../_index/partner-list.svelte";
+  import PartnerList from "../../../lib/components/specialized/partner-list.svelte";
 </script>
 
 <CenteredGrid>
@@ -11,14 +12,10 @@
       DORA
     </p>
 
-    <ul class="mt-s24 grid w-full gap-s24">
-      <PartnerList />
+    <ul class="mt-s24 grid w-full grid-cols-partners gap-s24">
+      {#if browser}
+        <PartnerList />
+      {/if}
     </ul>
   </div>
 </CenteredGrid>
-
-<style>
-  .grid {
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  }
-</style>
