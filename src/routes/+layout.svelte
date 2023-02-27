@@ -5,6 +5,17 @@
   import Footer from "./_index/footer.svelte";
   import Header from "./_index/header.svelte";
   import SkipLink from "./_index/skip-link.svelte";
+  import { browser } from "$app/environment";
+
+  function trackPageView() {
+    if (browser && (window as any)._paq) {
+      (window as any)._paq.push(["setCustomUrl", $page.url.pathname]);
+      (window as any)._paq.push(["setDocumentTitle", $page.data.title]);
+      (window as any)._paq.push(["trackPageView"]);
+    }
+  }
+
+  $: $page.url.pathname, trackPageView();
 </script>
 
 <svelte:head>
@@ -31,7 +42,7 @@
 <SkipLink />
 <Header />
 
-<main id="main-content">
+<main id="main-content" role="main">
   <slot />
 </main>
 
