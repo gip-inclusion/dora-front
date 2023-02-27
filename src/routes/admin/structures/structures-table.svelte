@@ -65,30 +65,38 @@
               </a>
             </strong>
 
-            <div class="flex w-full flex-wrap gap-s4 ">
-              {#if !structure.hasAdmin}
-                <Tag bgColorClass="bg-error">orpheline</Tag>
+            <div class="mt-s4 flex w-full flex-col gap-s4">
+              {#if structure.moderationStatus !== "VALIDATED" || structure.numOutdatedServices}
+                <div class="ap-s4 flex w-full">
+                  {#if structure.moderationStatus !== "VALIDATED"}
+                    <Tag bgColorClass="bg-error"
+                      >{getModerationStatusVerbose(
+                        structure.moderationStatus
+                      )}</Tag
+                    >
+                  {/if}
+                  {#if structure.numOutdatedServices}
+                    <Tag bgColorClass="bg-warning">à mettre à jour</Tag>
+                  {/if}
+                </div>
               {/if}
+              <div class="flex w-full  gap-s4">
+                {#if !structure.hasAdmin}
+                  <Tag bgColorClass="bg-magenta-cta">orpheline</Tag>
+                {/if}
 
-              {#if structure.numOutdatedServices}
-                <Tag bgColorClass="bg-warning">à mettre à jour</Tag>
-              {/if}
+                {#if structure.numServices && !structure.numPublishedServices}
+                  <Tag bgColorClass="bg-info">pas de services publiés</Tag>
+                {/if}
 
-              {#if structure.numServices && !structure.numPublishedServices}
-                <Tag bgColorClass="bg-magenta-brand"
-                  >pas de services publiés</Tag
-                >
-              {/if}
-
-              {#if !structure.numServices}
-                <Tag bgColorClass="bg-magenta-cta">pas de services</Tag>
-              {/if}
-
-              {#if structure.moderationStatus !== "VALIDATED"}
-                <Tag bgColorClass="bg-france-blue"
-                  >{getModerationStatusVerbose(structure.moderationStatus)}</Tag
-                >
-              {/if}
+                {#if !structure.numServices}
+                  <Tag bgColorClass="bg-info">pas de services</Tag>
+                {/if}
+              </div>
+              <!-- Suggestions: bg-success -->
+              nump: {structure.numPublishedServices}
+              numo: {structure.numOutdatedServices}
+              num: {structure.numServices}
             </div>
           </div>
         </div>

@@ -17,7 +17,7 @@
   export let structures: AdminShortStructure[] = [];
   export let filteredStructures: AdminShortStructure[];
 
-  let showAdvancedFilters = true;
+  let showAdvancedFilters = false;
 
   const ADMINISTRATION_CHOICES = [
     { value: "all", label: "Toutes" },
@@ -160,15 +160,30 @@
         }
         return true;
       })
-      .sort((structure1, structure2) =>
-        structure1.department === structure2.department
-          ? structure1.name
-              .toLowerCase()
-              .localeCompare(structure2.name.toLowerCase(), "fr")
-          : structure1.department.localeCompare(structure2.department, "fr", {
-              numeric: true,
-            })
-      );
+      .sort((structure1, structure2) => {
+        // Fait un premier tri par nom
+        return normalizeString(structure1.name).localeCompare(
+          normalizeString(structure2.name),
+          "fr"
+        );
+      })
+      .sort((structure1, structure2) => {
+        // Puis retrie par le critère principal
+        switch (params.sortChoice) {
+          case "numOutdatedServices":
+            return (
+              structure2.numOutdatedServices - structure1.numOutdatedServices
+            );
+          case "numPublishedServices":
+            return (
+              structure2.numPublishedServices - structure1.numPublishedServices
+            );
+          case "numServices":
+            return structure2.numServices - structure1.numServices;
+          default:
+            return 0;
+        }
+      });
   }
 
   function resetSearchParams() {
@@ -210,6 +225,7 @@
     on:click={() => {
       resetSearchParams();
       searchParams.freshnessChoice = "toupdate";
+      searchParams.sortChoice = "numOutdatedServices";
     }}
     label="à actualiser"
     secondary
