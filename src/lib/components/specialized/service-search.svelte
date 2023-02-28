@@ -26,7 +26,7 @@
   } from "$lib/utils/service";
   import { getQuery } from "$lib/utils/service-search";
   import { userInfo, token } from "$lib/utils/auth";
-  import { getApiURL } from "$lib/utils/api";
+  import { saveHasDoneASearch } from "$lib/requests/user";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode;
@@ -51,23 +51,9 @@
       (value) => !value.endsWith("--all")
     );
 
-    // On indique que l'utilisateur a déjà fait une recherche si besoin
+    // On sauvegarde le fait que l'utilisateur a fait une recherche si besoin
     if ($userInfo && $token && !$userInfo.extraInfos.hasDoneASearch) {
-      // TODO
-      const url = `${getApiURL()}/profile/change/`;
-      return fetch(url, {
-        method: "POST",
-        body: JSON.stringify({
-          extraInfos: {
-            hasDoneASearch: true,
-          },
-        }),
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json; version=1.0",
-          Authorization: `Token ${$token}`,
-        },
-      });
+      saveHasDoneASearch($token);
     }
 
     const query = getQuery({

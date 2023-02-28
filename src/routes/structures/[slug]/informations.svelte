@@ -16,9 +16,10 @@
   import { formatOsmHours } from "$lib/utils/opening-hours";
   import DataInclusionNotice from "./data-inclusion-notice.svelte";
   import QuickStart from "./quick-start.svelte";
+  import type { UserInfo } from "$lib/utils/auth";
 
   export let structure: Structure;
-  export let members;
+  export let members: UserInfo[];
   export let structuresOptions: StructuresOptions;
 
   let fullDesc;

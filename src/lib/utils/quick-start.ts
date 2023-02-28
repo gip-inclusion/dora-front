@@ -10,7 +10,7 @@ export function isStructureInformationsComplete(structure) {
   }).valid;
 }
 
-const quickStartKey = "quickStartDone";
+const quickStartKey = "quickStartsDone";
 
 export function getQuickStartDoneValues(): string[] {
   const localStorageValue = window.localStorage.getItem(quickStartKey);
@@ -40,6 +40,6 @@ export function isFirstResearchDone(userInfos: UserInfo): boolean {
 export function hasOneService(structure: Structure): boolean {
   return structure.numServices > 0;
 }
-export function hasMembers(members: Array<unknown>): boolean {
+export function hasMembers(members: Array<any>): boolean {
   return members.length >= 2;
 }

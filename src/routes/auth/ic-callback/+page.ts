@@ -1,6 +1,6 @@
-import { clearQuickStartDoneValues } from "$lib/requests/structures";
 import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
 import { setToken, validateCredsAndFillUserInfo } from "$lib/utils/auth";
+import { clearQuickStartDoneValues } from "$lib/utils/quick-start";
 import { redirect } from "@sveltejs/kit";
 import { getNextPage } from "../utils";
 import type { PageLoad } from "./$types";
@@ -43,7 +43,7 @@ export const load: PageLoad = async ({ url, parent }) => {
     setToken(jsonResult.token);
     await validateCredsAndFillUserInfo();
 
-    // Ré-initialise l'afficha des guides de démarrage des structures
+    // Ré-initialise l'affichage des guides de démarrage des structures
     clearQuickStartDoneValues();
 
     throw redirect(302, nextPage);
