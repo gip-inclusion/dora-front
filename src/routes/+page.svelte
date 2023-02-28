@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
   import illuAccompagner from "$lib/assets/illustrations/illu-accompagner.svg";
   import illuMobiliser from "$lib/assets/illustrations/illu-mobiliser.svg";
   import illuRecenser from "$lib/assets/illustrations/illu-recenser.svg";
@@ -69,15 +68,9 @@
         Plus de 1 000 structures ont déjà commencé à référencer leurs services
         sur DORA
       </p>
-      <div class="flex flex-col justify-center gap-s24 md:flex-row">
-        {#if browser}
-          <ul
-            class="lg:[repeat(6, 1fr)] mt-s24 grid w-full grid-cols-[1fr_1fr] grayscale md:grid-cols-[repeat(3,1fr)]"
-          >
-            <PartnerList limit={6} imgClass="max-h-[100px]" />
-          </ul>
-        {/if}
-      </div>
+      <ul class="mt-s24 flex w-full flex-wrap justify-center grayscale">
+        <PartnerList partnersToShow={data.partnersToShow} imgHeight="small" />
+      </ul>
       <div class="mt-s10 text-center">
         <a
           href="/nos-partenaires"

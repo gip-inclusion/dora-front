@@ -33,72 +33,72 @@
   import logoNqt from "$lib/assets/logos/partners/logo_nqt.png";
   import logoSNC from "$lib/assets/logos/partners/logo_snc.png";
   import type { Partner } from "$lib/types";
-  import { shuffleArray } from "$lib/utils/array";
 
-  export const PARTNERS: Partner[] = [
+  export const PARTNERS: Record<string, Partner> = {
     // "Action logement",
-    { name: "Crésus", img: logoCresus },
-    { name: "Cheops", img: logoCheops },
-    { name: "E2C", img: logoEc2 },
-    { name: "BPI France", img: logoBpi },
-    { name: "BGE", img: logoBge },
-    {
+    afpa: { name: "AFPA", img: logoAfpa },
+    cresus: { name: "Crésus", img: logoCresus },
+    cheops: { name: "Cheops", img: logoCheops },
+    e2c: { name: "E2C", img: logoEc2 },
+    bpi: { name: "BPI France", img: logoBpi },
+    bge: { name: "BGE", img: logoBge },
+    ligueEnseignement: {
       name: "La ligue de l’enseignement",
       img: logoLigueEnseignement,
     },
-    { name: "Fondation FACE", img: logoFace },
-    { name: "Positive Planet", img: logoPositivePlanet },
-    { name: "SNC", img: logoSNC },
-    { name: "Collectif Emploi", img: logoCollectifEmploi },
-    { name: "NQT", img: logoNqt },
-    { name: "Simplon.Co", img: logoSimplon },
-    {
+    fondationFace: { name: "Fondation FACE", img: logoFace },
+    positivePlanet: { name: "Positive Planet", img: logoPositivePlanet },
+    snc: { name: "SNC", img: logoSNC },
+    collectifEmploi: { name: "Collectif Emploi", img: logoCollectifEmploi },
+    nqt: { name: "NQT", img: logoNqt },
+    simplon: { name: "Simplon.Co", img: logoSimplon },
+    cravateSolidaire: {
       name: "La cravate solidaire",
       img: logoCravateSolidaire,
     },
-    { name: "Konexio", img: logoKonexio },
-    { name: "Force Femmes", img: logoForceFemmes },
-    {
+    konexio: { name: "Konexio", img: logoKonexio },
+    forceFemmes: { name: "Force Femmes", img: logoForceFemmes },
+    apprentisAuteuils: {
       name: "Apprentis d’Auteuil",
       img: logoApprentisAuteuils,
     },
-    { name: "AFPA", img: logoAfpa },
-    { name: "La MedNum", img: logoMedNum },
-    { name: "Renault", img: logoRenault },
-
-    { name: "UNIOPSS", img: logoUniopss },
-    { name: "Orange", img: logoOrange },
-    { name: "ANLCI", img: logoAnlci },
-    { name: "Les bons clics", img: logoBonsClics },
-    { name: "Social Builder", img: logoSocialBuilder },
-    { name: "Mobin", img: logoMobin },
-    { name: "EPIDE", img: logoEpide },
-    { name: "Wimoov", img: logoWiMoov },
-    {
+    medNum: { name: "La MedNum", img: logoMedNum },
+    renault: { name: "Renault", img: logoRenault },
+    uniopss: { name: "UNIOPSS", img: logoUniopss },
+    orange: { name: "Orange", img: logoOrange },
+    anlci: { name: "ANLCI", img: logoAnlci },
+    bonsClics: { name: "Les bons clics", img: logoBonsClics },
+    socialBuilder: { name: "Social Builder", img: logoSocialBuilder },
+    mobin: { name: "Mobin", img: logoMobin },
+    epide: { name: "EPIDE", img: logoEpide },
+    wimoov: { name: "Wimoov", img: logoWiMoov },
+    emploisInclusion: {
       name: "Les emplois de l'inclusion",
       img: logoLesEmplois,
     },
-    { name: "JeVeuxAider", img: logoJeVeuxAider },
-    { name: "Google - Ateliers numériques", img: logoGoole },
-    { name: "Service Civique", img: logoServiceCivique },
-    { name: "CNAF - Mon enfant.fr", img: logoMonEnfant },
-    {
+    jeVeuxAider: { name: "JeVeuxAider", img: logoJeVeuxAider },
+    google: { name: "Google - Ateliers numériques", img: logoGoole },
+    serviceCivique: { name: "Service Civique", img: logoServiceCivique },
+    monEnfant: { name: "CNAF - Mon enfant.fr", img: logoMonEnfant },
+    financesPedagogie: {
       name: "Finances et pédagogie (Caisse d’épargne)",
       img: logoFinancesPedagogie,
     },
-  ];
+  };
 
-  export let imgClass = "";
-  export let limit: number | undefined = undefined;
-  let partnersToShow = shuffleArray([...PARTNERS]);
-
-  if (limit) {
-    partnersToShow = partnersToShow.slice(0, limit);
-  }
+  export let imgHeight: "small" | "medium" | undefined = undefined;
+  export let partnersToShow: string[] = [];
 </script>
 
 {#each partnersToShow as partner}
+  {@const partnerData = PARTNERS[partner]}
   <li class="text-center">
-    <img class="m-s0 inline {imgClass}" src={partner.img} alt={partner.name} />
+    <img
+      class="max-w- m-s0 inline"
+      class:max-w-[200px]={imgHeight === "medium"}
+      class:max-w-[150px]={imgHeight === "small"}
+      src={partnerData.img}
+      alt={partnerData.name}
+    />
   </li>
 {/each}

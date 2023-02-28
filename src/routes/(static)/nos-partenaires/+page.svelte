@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { browser } from "$app/environment";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import PartnerList from "../../../lib/components/specialized/partner-list.svelte";
+  import type { PageData } from "./$types";
+
+  export let data: PageData;
 </script>
 
 <CenteredGrid>
@@ -12,10 +14,8 @@
       DORA
     </p>
 
-    <ul class="mt-s24 grid w-full grid-cols-partners gap-s24">
-      {#if browser}
-        <PartnerList />
-      {/if}
+    <ul class="mt-s24 flex w-full flex-wrap justify-center gap-s24">
+      <PartnerList imgHeight="medium" partnersToShow={data.partnersToShow} />
     </ul>
   </div>
 </CenteredGrid>
