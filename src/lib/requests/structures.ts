@@ -1,8 +1,14 @@
 import { getApiURL } from "$lib/utils/api";
-import { token, type UserInfo } from "$lib/utils/auth";
+import { token } from "$lib/utils/auth";
 import { fetchData } from "$lib/utils/misc";
 import { get } from "svelte/store";
-import type { ShortStructure, Structure, StructuresOptions } from "../types";
+import type {
+  InvitedStructureMember,
+  ShortStructure,
+  Structure,
+  StructureMember,
+  StructuresOptions,
+} from "../types";
 import { logException } from "../utils/logger";
 
 export async function siretWasAlreadyClaimed(siret: string) {
@@ -91,22 +97,24 @@ export async function getStructuresOptions(): Promise<StructuresOptions> {
   return structuresOptions;
 }
 
-export async function getMembers(slug): Promise<Array<UserInfo>> {
+export async function getMembers(slug): Promise<Array<StructureMember> | null> {
   const url = `${getApiURL()}/structure-members/?structure=${slug}`;
 
   const result = await fetchData(url);
   if (result.ok) {
-    return result.data;
+    return result.data as Array<StructureMember>;
   }
   return null;
 }
 
-export async function getPutativeMembers(slug) {
+export async function getPutativeMembers(
+  slug
+): Promise<Array<InvitedStructureMember> | null> {
   const url = `${getApiURL()}/structure-putative-members/?structure=${slug}`;
 
   const result = await fetchData(url);
   if (result.ok) {
-    return result.data;
+    return result.data as Array<InvitedStructureMember>;
   }
   return null;
 }

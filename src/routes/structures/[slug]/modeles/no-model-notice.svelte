@@ -1,8 +1,7 @@
 <script lang="ts">
   import { bookReadLineIcon } from "$lib/icons";
   import illuModeles from "$lib/assets/illustrations/modeles.svg";
-
-  import EmptyNotice from "../empty-notice.svelte";
+  import EmptyNotice from "$lib/components/specialized/empty-notice.svelte";
 </script>
 
 <EmptyNotice

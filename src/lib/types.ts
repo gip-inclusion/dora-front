@@ -128,7 +128,6 @@ export interface StructureSource {
   value: string;
   label: string;
 }
-
 export interface Structure {
   accesslibreUrl: string;
   address1: string;
@@ -172,6 +171,24 @@ export interface Structure {
   typology: number;
   url: string;
   quickStartDone: boolean;
+}
+
+interface StructureMemberUserInfos {
+  email: string;
+  firstName: string;
+  fullName: string;
+  lastName: string;
+}
+export interface InvitedStructureMember {
+  id: string;
+  invitedByAdmin: boolean;
+  isAdmin: boolean;
+  user: StructureMemberUserInfos;
+}
+export interface StructureMember {
+  id: string;
+  isAdmin: boolean;
+  user: StructureMemberUserInfos;
 }
 
 export interface Establishment {

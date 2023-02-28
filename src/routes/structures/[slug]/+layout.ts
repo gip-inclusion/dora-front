@@ -14,10 +14,17 @@ export const load: LayoutLoad = async ({ params, parent }) => {
   await parent();
 
   const currentStructure = await getStructure(params.slug);
-  const [members, putativeMembers] = await Promise.all([
+
+  let [members, putativeMembers] = await Promise.all([
     getMembers(params.slug),
     getPutativeMembers(params.slug),
   ]);
+  if (!members) {
+    members = [];
+  }
+  if (!putativeMembers) {
+    putativeMembers = [];
+  }
 
   let preferences: UserPreferences;
   let info: UserInfo;
@@ -66,6 +73,6 @@ export const load: LayoutLoad = async ({ params, parent }) => {
 
   return {
     structure: currentStructure,
-    members: [members, putativeMembers],
+    members: [...members, ...putativeMembers],
   };
 };

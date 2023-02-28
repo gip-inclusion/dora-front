@@ -1,6 +1,6 @@
 import { getApiURL } from "$lib/utils/api";
 
-export function saveHasDoneASearch(token: string): Promise<Response> {
+export function setUserHasDoneASearch(token: string): Promise<Response> {
   const url = `${getApiURL()}/profile/change/`;
   return fetch(url, {
     method: "POST",

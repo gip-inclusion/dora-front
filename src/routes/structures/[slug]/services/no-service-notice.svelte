@@ -1,8 +1,7 @@
 <script lang="ts">
   import { pageLineIcon } from "$lib/icons";
   import illuServices from "$lib/assets/illustrations/services.svg";
-
-  import EmptyNotice from "../empty-notice.svelte";
+  import EmptyNotice from "$lib/components/specialized/empty-notice.svelte";
 </script>
 
 <EmptyNotice

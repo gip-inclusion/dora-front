@@ -1,7 +1,7 @@
 import type { Structure } from "$lib/types";
 import { structureSchema } from "$lib/validation/schemas/structure";
 import { validate } from "$lib/validation/validation";
-import type { UserInfo } from "./auth";
+import type { UserInfo } from "$lib/utils/auth";
 
 export function isStructureInformationsComplete(structure) {
   return validate(structure, structureSchema, {
@@ -24,7 +24,7 @@ export function saveQuickStartDone(structureSlug: string) {
     JSON.stringify([...alreadyDoneQuickStarts, structureSlug])
   );
 }
-export function clearQuickStartDoneValues() {
+export function clearQuickStartsDoneValues() {
   window.localStorage.removeItem(quickStartKey);
 }
 
@@ -41,5 +41,6 @@ export function hasOneService(structure: Structure): boolean {
   return structure.numServices > 0;
 }
 export function hasMembers(members: Array<any>): boolean {
+  console.log({ members });
   return members.length >= 2;
 }

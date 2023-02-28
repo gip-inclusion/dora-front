@@ -11,14 +11,26 @@
   import type { PageData } from "./$types";
   import NoMemberNotice from "./no-member-notice.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
+  import { hasMembers } from "$lib/utils/quick-start";
 
   export let data: PageData;
 
   let modalAddUserIsOpen = false;
 
+  function computeNoMemberNotice() {
+    return !hasMembers([
+      ...(data.putativeMembers || []),
+      ...(data.members || []),
+    ]);
+  }
+
+  let showNoMemberNotice = computeNoMemberNotice();
+
   async function handleRefreshMemberList() {
     data.members = await getMembers($structure.slug);
     data.putativeMembers = await getPutativeMembers($structure.slug);
+
+    showNoMemberNotice = computeNoMemberNotice();
   }
 
   function sortedMembers(items) {
@@ -58,7 +70,7 @@
   </div>
 
   {#if data.canSeeMembers}
-    {#if data.canEditMembers && data.members.length < 2}
+    {#if data.canEditMembers && showNoMemberNotice}
       <div class="mt-s32 mb-s32 flex flex-col gap-s8">
         <NoMemberNotice />
       </div>

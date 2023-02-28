@@ -1,8 +1,7 @@
 <script lang="ts">
   import { teamLineIcon } from "$lib/icons";
   import illuMember from "$lib/assets/illustrations/collaborateurs.svg";
-
-  import EmptyNotice from "../empty-notice.svelte";
+  import EmptyNotice from "$lib/components/specialized/empty-notice.svelte";
 </script>
 
 <EmptyNotice

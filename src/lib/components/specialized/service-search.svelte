@@ -26,7 +26,7 @@
   } from "$lib/utils/service";
   import { getQuery } from "$lib/utils/service-search";
   import { userInfo, token } from "$lib/utils/auth";
-  import { saveHasDoneASearch } from "$lib/requests/user";
+  import { setUserHasDoneASearch } from "$lib/requests/user";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode;
@@ -53,7 +53,7 @@
 
     // On sauvegarde le fait que l'utilisateur a fait une recherche si besoin
     if ($userInfo && $token && !$userInfo.extraInfos.hasDoneASearch) {
-      saveHasDoneASearch($token);
+      setUserHasDoneASearch($token);
     }
 
     const query = getQuery({
