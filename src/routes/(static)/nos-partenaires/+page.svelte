@@ -1,6 +1,6 @@
 <script lang="ts">
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import PartnerList from "../../../lib/components/specialized/partner-list.svelte";
+  import PartnerList from "$lib/components/specialized/partner-list.svelte";
   import type { PageData } from "./$types";
 
   export let data: PageData;

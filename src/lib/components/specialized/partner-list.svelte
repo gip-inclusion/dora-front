@@ -87,18 +87,17 @@
   };
 
   export let imgHeight: "small" | "medium" | undefined = undefined;
-  export let partnersToShow: string[] = [];
+  export let partnersToShow: Partner[] = [];
 </script>
 
 {#each partnersToShow as partner}
-  {@const partnerData = PARTNERS[partner]}
   <li class="text-center">
     <img
-      class="max-w- m-s0 inline"
+      class="m-s0 inline"
       class:max-w-[200px]={imgHeight === "medium"}
       class:max-w-[150px]={imgHeight === "small"}
-      src={partnerData.img}
-      alt={partnerData.name}
+      src={partner.img}
+      alt={partner.name}
     />
   </li>
 {/each}
