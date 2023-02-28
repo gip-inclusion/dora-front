@@ -1,7 +1,7 @@
 import { getPartners } from "$lib/utils/partners";
-import type { PageLoad } from "./$types";
+import type { PageServerLoad } from "./$types";
 
-export const load: PageLoad = () => {
+export const load: PageServerLoad = () => {
   return {
     title: "Nos partenaires | DORA",
     partnersToShow: getPartners(),
