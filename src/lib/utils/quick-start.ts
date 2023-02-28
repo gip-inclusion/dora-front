@@ -18,10 +18,10 @@ export function getQuickStartDoneValues(): string[] {
 }
 
 export function saveQuickStartDone(structureSlug: string) {
-  const alreadyDoneQuickStarts = getQuickStartDoneValues();
+  const quickStartsAlreadyDone = getQuickStartDoneValues();
   window.localStorage.setItem(
     quickStartKey,
-    JSON.stringify([...alreadyDoneQuickStarts, structureSlug])
+    JSON.stringify([...quickStartsAlreadyDone, structureSlug])
   );
 }
 export function clearQuickStartsDoneValues() {
@@ -41,6 +41,5 @@ export function hasOneService(structure: Structure): boolean {
   return structure.numServices > 0;
 }
 export function hasMembers(members: Array<any>): boolean {
-  console.log({ members });
   return members.length >= 2;
 }
