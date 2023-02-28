@@ -99,7 +99,7 @@ export function isEmail(msg = "") {
 export function isPhone(msg = "") {
   return (name, value, _data) => ({
     valid: typeof value === "string" && value.length <= 10,
-    // Some numbers only have 4 digits (Pole Emploi or La CAF for example)
+    // Some numbers only have 4 digits (Pôle emploi or La CAF for example)
     // And we might have stranger cases, like extension numbers.
     // So for now, just ensure we get a string!
     // typeof value === "string" && (value === "" || !!value.match(phoneRegexp)),
@@ -187,6 +187,12 @@ export function arrNotEmpty(msg = "") {
   return (name, value, _data) => ({
     valid: value.length > 0,
     msg: msg || `Veuillez selectionner au moins une option`,
+  });
+}
+export function arrMaxLength(max, msg = "") {
+  return (name, value, _data) => ({
+    valid: value.length <= max,
+    msg: msg || `Vous ne pouvez pas sélectionner plus de ${max} options`,
   });
 }
 

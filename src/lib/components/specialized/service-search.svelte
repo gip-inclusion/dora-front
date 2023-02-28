@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Button from "$lib/components/display/button.svelte";
-  import FieldWrapper from "$lib/components/inputs/obsolete/field-wrapper.svelte";
   import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
   import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
+
   import {
     arrowDownSIcon,
     deleteBackIcon,
@@ -37,6 +37,8 @@
   export let kindIds: ServiceKind[] = [];
   export let feeConditions: FeeCondition[] = [];
 
+  let innerWidth;
+  const MOBILE_BREAKPOINT = 768; // 'md' from https://tailwindcss.com/docs/screens
   let cityChoiceList;
 
   function handleSearch() {
@@ -101,6 +103,8 @@
     : [];
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="w-full rounded-md border border-gray-02 bg-white">
   {#if servicesOptions.categories}
     <form class="grid" on:submit|preventDefault={handleSearch}>
@@ -111,8 +115,12 @@
         <div class="mr-s8 h-s24 w-s24 fill-current text-magenta-cta">
           {@html mapPinIcon}
         </div>
+        <div class="relative w-full">
+          <label class="sr-only" for="city">
+            Lieu
+            <span class="text-error">*</span>
+          </label>
 
-        <FieldWrapper label="Lieu" name="city" required hideLabel>
           <div
             class="absolute top-s12 right-s12 z-10 h-s24 w-s24 text-gray-dark"
           >
@@ -148,11 +156,11 @@
               )})`;
             }}
           />
-        </FieldWrapper>
+        </div>
       </div>
 
       <div
-        class="flex justify-between border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
+        class="subcategories-search flex border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
       >
         <div
           class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
@@ -161,6 +169,7 @@
         </div>
 
         <SelectField
+          inputMode={innerWidth < MOBILE_BREAKPOINT ? "none" : undefined}
           hideLabel
           isMultiple
           withAutoComplete
@@ -252,11 +261,21 @@
     }
   }
 
+  .subcategories-search :global(.field-wrapper) {
+    @apply relative w-[90%];
+  }
+  .subcategories-search :global(.label-container) {
+    @apply sr-only;
+  }
+
   .grid :global(.autocomplete-input) {
     @apply border-0;
   }
   .grid :global(.city) {
     @apply text-magenta-dark;
+  }
+  .grid :global(.city .autocomplete) {
+    @apply block;
   }
   .grid :global(.input-container input) {
     @apply bg-transparent;
