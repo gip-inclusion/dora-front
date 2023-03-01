@@ -22,15 +22,12 @@ function tokenWillExpireSoon(tokenExpirationString: string): boolean {
   return tokenExpirationDate.isBefore(minimalValidityDate);
 }
 
-export const load: LayoutLoad = async ({ url, depends }) => {
+export const load: LayoutLoad = async ({ url }) => {
   if (!browser) {
     // On ne fait pas d'authentification coté serveur
     // => on peut court-circuiter les vérifications ici
     return {};
   }
-
-  // On veut vérifier le token à chaque changement de page
-  depends(url.pathname);
 
   let currentUserInfo = get(userInfo);
   if (!currentUserInfo) {
@@ -38,27 +35,36 @@ export const load: LayoutLoad = async ({ url, depends }) => {
     currentUserInfo = get(userInfo);
   }
 
-  // Si l'utilisateur est connecté, mais que son token expire dans moins de 24h,
-  // on force une deconnexion, afin qu'il récupère un token frais dès qu'il en aura besoin.
-  if (currentUserInfo && tokenWillExpireSoon(currentUserInfo.tokenExpiration)) {
-    // logout and reload page
-    disconnect();
-    window.location.reload();
-  }
+  if (currentUserInfo) {
+    // ⚠ Il est nécessaire d'acceder à url.pathname ici pour que cette fonction `load`
+    // soit rappelée quand l'URL change, sans quoi SvelteKit optimise l'appel.
+    // Voir: https://kit.svelte.dev/docs/load#rerunning-load-functions
+    // Or on veut vérifier le token à chaque changement de page, quand l'utilisateur est
+    // connecté.
+    const currentPathName = url.pathname;
 
-  // Si l'utilisateur existe mais n'est rattaché à aucune structure,
-  // on le force à se rattacher
-  if (
-    currentUserInfo &&
-    !(
-      currentUserInfo.structures.length ||
-      currentUserInfo.pendingStructures.length
-    ) &&
-    !url.pathname.startsWith("/auth/rattachement") &&
-    !url.pathname.startsWith("/auth/invitation") &&
-    !url.pathname.startsWith("/auth/deconnexion")
-  ) {
-    throw redirect(302, "/auth/rattachement");
+    // Si l'utilisateur est connecté, mais que son token expire dans moins de 24h,
+    // on force une deconnexion, afin qu'il récupère un token frais dès qu'il en aura besoin.
+    if (tokenWillExpireSoon(currentUserInfo.tokenExpiration)) {
+      // logout and reload page
+      disconnect();
+      window.location.reload();
+      return {};
+    }
+
+    // Si l'utilisateur est connecté mais n'est rattaché à aucune structure,
+    // on le force à se rattacher
+    if (
+      !(
+        currentUserInfo.structures.length ||
+        currentUserInfo.pendingStructures.length
+      ) &&
+      !currentPathName.startsWith("/auth/rattachement") &&
+      !currentPathName.startsWith("/auth/invitation") &&
+      !currentPathName.startsWith("/auth/deconnexion")
+    ) {
+      throw redirect(302, "/auth/rattachement");
+    }
   }
 
   return {};
