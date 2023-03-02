@@ -3,11 +3,11 @@
 
   export let textTopIcon = "";
   export let title = "";
-  export let rightImage = "";
+  export let illustration = "";
   export let links: { label: string; url: string }[] = [];
 </script>
 
-<div class="flex rounded-md border border-gray-03 p-s40">
+<div class="flex flex-col rounded-md border border-gray-03 p-s40 md:flex-row">
   <div class="flex flex-[4] flex-col">
     <div class="mb-s14 text-center">
       <span
@@ -27,10 +27,10 @@
             <li class="flex justify-center">
               <a
                 href={url}
-                class="flex items-center underline"
+                class="flex items-center"
                 title="Ouverture dans une nouvelle fenêtre"
                 target="_blank"
-                rel="noreferrer"
+                rel="noopener noreferrer"
               >
                 {label}
                 <span class="ml-s8 block h-s20 w-s20 fill-current" aria-hidden>
@@ -45,6 +45,6 @@
   </div>
 
   <div class="flex flex-[3] items-center justify-center">
-    <img alt="" src={rightImage} />
+    <img alt="" src={illustration} />
   </div>
 </div>
