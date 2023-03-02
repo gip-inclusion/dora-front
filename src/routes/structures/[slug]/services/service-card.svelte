@@ -67,7 +67,7 @@
           >
         </div>
       {/if}
-      {#if service.city && service.locationKinds.includes("en-presentiel")}
+      {#if !readOnly && service.city && service.locationKinds.includes("en-presentiel")}
         <div class="mb-s8 flex items-center text-france-blue">
           Lieu d'accueil&nbsp;:&nbsp;<strong>{service.city}</strong>
         </div>
