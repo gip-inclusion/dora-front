@@ -20,7 +20,6 @@
     pageLineIcon,
     teamLineIcon,
   } from "$lib/icons";
-  import { userInfo } from "$lib/utils/auth";
   import { capitalize } from "$lib/utils/misc";
   import AdminNotice from "./admin-notice.svelte";
   import PendingNotice from "./pending-notice.svelte";
@@ -49,10 +48,7 @@
       });
     }
 
-    if (
-      structure.models?.length &&
-      (structure.isMember || $userInfo?.isStaff)
-    ) {
+    if (structure.models?.length && structure.canEditServices) {
       tabs.splice(1, 0, {
         id: "modeles",
         name: "Modèles",
@@ -69,7 +65,7 @@
         href: `/structures/${structure.slug}/services`,
       });
     }
-    if (structure.isMember || $userInfo?.isStaff || $userInfo?.isBizdev) {
+    if (structure.canViewMembers) {
       tabs.splice(1, 0, {
         id: "collaborateurs",
         name: "Collaborateurs",
