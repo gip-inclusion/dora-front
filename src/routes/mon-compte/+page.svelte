@@ -38,7 +38,7 @@
             <LinkButton label="Administration" to="/admin" secondary small />
           </div>
         </div>
-      {:else if $userInfo.isLocalCoordinator}
+      {:else if $userInfo.isManager}
         <div class="mb-s24 rounded-md  border border-gray-03 p-s24">
           <h4>Raccourcis</h4>
           <div class="flex flex-col gap-s8 lg:flex-row">
