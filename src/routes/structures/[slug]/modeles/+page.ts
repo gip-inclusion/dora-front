@@ -18,7 +18,7 @@ export const load: PageLoad = async ({ parent }) => {
   const info = get(userInfo);
   const struct = get(structure);
 
-  const isMember = struct.isMember || info?.isBizdev || info?.isStaff;
+  const isMember = struct.isMember || info?.isStaff;
 
   if (!info || !struct || !isMember) {
     throw error(404, "Page Not Found");

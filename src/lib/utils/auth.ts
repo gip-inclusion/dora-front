@@ -20,7 +20,6 @@ export interface UserInfo {
   isStaff: boolean;
   isManager: boolean;
   department: string;
-  isBizdev: boolean;
   bookmarks: Bookmark[];
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
