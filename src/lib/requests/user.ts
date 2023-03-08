@@ -5,7 +5,7 @@ export function setUserHasDoneASearch(token: string): Promise<Response> {
   return fetch(url, {
     method: "POST",
     body: JSON.stringify({
-      extraInfos: {
+      onboardingActionsAccomplished: {
         hasDoneASearch: true,
       },
     }),

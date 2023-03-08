@@ -440,7 +440,7 @@ export interface Bookmark {
   creationDate: string;
 }
 
-export interface UserExtraInfos {
+export interface UserOnboardingActionsAccomplished {
   hasDoneASearch: boolean;
 }
 

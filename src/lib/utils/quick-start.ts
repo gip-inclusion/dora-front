@@ -32,7 +32,7 @@ export function canShowQuickStart(structure: Structure): boolean {
   return !getQuickStartDoneValues().includes(structure.slug);
 }
 export function isFirstResearchDone(userInfos: UserInfo): boolean {
-  return userInfos.extraInfos.hasDoneASearch;
+  return userInfos.onboardingActionsAccomplished.hasDoneASearch;
 }
 export function hasOneService(structure: Structure): boolean {
   return structure.numServices > 0;

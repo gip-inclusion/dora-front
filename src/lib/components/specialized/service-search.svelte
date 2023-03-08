@@ -52,7 +52,11 @@
     );
 
     // On sauvegarde le fait que l'utilisateur a fait une recherche si besoin
-    if ($userInfo && $token && !$userInfo.extraInfos.hasDoneASearch) {
+    if (
+      $userInfo &&
+      $token &&
+      !$userInfo.onboardingActionsAccomplished.hasDoneASearch
+    ) {
       setUserHasDoneASearch($token);
     }
 
