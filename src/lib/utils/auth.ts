@@ -25,6 +25,7 @@ export interface UserInfo {
   extraInfos: UserExtraInfos;
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
+  tokenExpiration: string;
 }
 
 export const userInfo = writable<UserInfo>(null);
