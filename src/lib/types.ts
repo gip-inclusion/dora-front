@@ -418,6 +418,7 @@ export interface ShortService {
   status: ServiceStatus;
   structure: string;
   structureInfo: ServiceStructure;
+  locationKinds: LocationKind;
   useInclusionNumeriqueScheme: boolean;
 }
 
