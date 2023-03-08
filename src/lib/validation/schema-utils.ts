@@ -137,16 +137,6 @@ export function isAccessLibreUrl(msg = "") {
     msg: msg || "L'URL doit commencer par https://acceslibre.beta.gouv.fr/",
   });
 }
-export function isNotStringInvalid(msg = "") {
-  return (name, value, _data) => ({
-    valid:
-      value == null ||
-      (typeof value === "string" && (value === "" || value !== null)),
-    msg:
-      msg ||
-      "Horaires incomplètes. Veuillez finaliser la saisie de vos horaires, corriger les champs manquants ou incorrects.",
-  });
-}
 
 export function isCustomizablePK(msg = "") {
   return (name, value, _data) => ({
@@ -214,6 +204,15 @@ export function minNum(min, msg = "") {
   return (name, value, _data) => ({
     valid: value >= min,
     msg: msg || `Ce champ doit être une clé étrangère`, // TODO: this is not a valid enduser message
+  });
+}
+
+export function osmHoursNotContainsInvalid(msg = "") {
+  return (name, value, _data) => ({
+    valid: !value.toLowerCase().includes("invalid"),
+    msg:
+      msg ||
+      "Horaires incomplets. Veuillez finaliser la saisie de vos horaires, corriger les champs manquants ou incorrects.",
   });
 }
 
