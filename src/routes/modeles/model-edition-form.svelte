@@ -50,7 +50,7 @@
 >
   <hr />
   <CenteredGrid>
-    {#if model.slug}
+    {#if model.slug && model.categories.length > 3}
       <div class="mb-s40">
         <Notice
           type="warning"
