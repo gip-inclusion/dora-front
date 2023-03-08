@@ -170,7 +170,6 @@ export interface Structure {
   typologyDisplay: string;
   typology: number;
   url: string;
-  quickStartDone: boolean;
 }
 
 interface StructureMemberUserInfos {

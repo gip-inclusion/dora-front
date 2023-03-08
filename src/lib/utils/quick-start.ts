@@ -29,10 +29,7 @@ export function clearQuickStartsDoneValues() {
 }
 
 export function canShowQuickStart(structure: Structure): boolean {
-  return (
-    !structure.quickStartDone &&
-    !getQuickStartDoneValues().includes(structure.slug)
-  );
+  return !getQuickStartDoneValues().includes(structure.slug);
 }
 export function isFirstResearchDone(userInfos: UserInfo): boolean {
   return userInfos.extraInfos.hasDoneASearch;

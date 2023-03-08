@@ -16,19 +16,13 @@
   import type { Structure } from "$lib/types";
   import type { UserInfo } from "$lib/utils/auth";
   import { userInfo } from "$lib/utils/auth";
-  import { modifyStructure } from "$lib/requests/structures";
 
   export let structure: Structure;
   export let members: UserInfo[];
 
   let showQuickStart = canShowQuickStart(structure);
 
-  function updateQuickStartToDone() {
-    modifyStructure({ ...structure, quickStartDone: true });
-    showQuickStart = false;
-  }
-
-  function hideQuickStartTemporary() {
+  function hideQuickStart() {
     saveQuickStartDone(structure.slug);
     showQuickStart = false;
   }
@@ -57,11 +51,8 @@
   ];
 
   $: canCloseQuickStart = steps.filter(({ complete }) => complete).length >= 2;
-  $: if (
-    steps.filter(({ complete }) => complete).length === steps.length &&
-    structure.quickStartDone === false
-  ) {
-    updateQuickStartToDone();
+  $: if (steps.filter(({ complete }) => complete).length === steps.length) {
+    hideQuickStart();
   }
 </script>
 
@@ -76,7 +67,7 @@
       </div>
 
       {#if canCloseQuickStart}
-        <button class="flex" on:click={hideQuickStartTemporary}>
+        <button class="flex" on:click={hideQuickStart}>
           <span class="h-s24 w-s24 fill-magenta-cta">
             {@html closeIcon}
           </span>
@@ -109,7 +100,7 @@
           <Button
             label="Masquer le guide"
             secondary
-            on:click={updateQuickStartToDone}
+            on:click={hideQuickStart}
           />
         </li>
       </ul>
