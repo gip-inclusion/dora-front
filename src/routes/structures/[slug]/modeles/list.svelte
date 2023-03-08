@@ -1,7 +1,4 @@
 <script lang="ts">
-  import { userInfo } from "$lib/utils/auth";
-  // import Input from "$lib/components/forms/input.svelte";
-  // import Select from "$lib/components/forms/select.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import ModelCard from "./model-card.svelte";
   import { copyIcon } from "$lib/icons";
@@ -10,7 +7,6 @@
   export let structure, models, total;
   export let hasOptions = true;
   export let limit;
-  let canEdit;
 
   const orders = [
     { value: "date", label: "Date de mise à jour" },
@@ -47,7 +43,6 @@
     return sortedModels;
   }
 
-  $: canEdit = structure.isMember || $userInfo?.isStaff;
   $: modelsOrdered = modelsOrder(models);
 </script>
 
@@ -65,7 +60,7 @@
         noBackground
       />
     {/if}
-    {#if canEdit}
+    {#if structure.canEditServices}
       <LinkButton
         label="Ajouter un modèle"
         icon={copyIcon}
@@ -93,6 +88,6 @@
 
 <div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-3">
   {#each modelsOrdered as model}
-    <ModelCard {model} readOnly={!canEdit} />
+    <ModelCard {model} readOnly={!structure.canEditServices} />
   {/each}
 </div>

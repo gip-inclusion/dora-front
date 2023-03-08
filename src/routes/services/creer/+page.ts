@@ -1,8 +1,8 @@
 import { getNewService } from "$lib/utils/forms";
 import { getModel, getServicesOptions } from "$lib/requests/services";
-import { getStructures } from "$lib/requests/structures";
 import { userInfo } from "$lib/utils/auth";
 import { get } from "svelte/store";
+import { getStructure } from "../../../lib/requests/structures";
 import type { PageLoad } from "./$types";
 
 // pages authentifiées sur lesquelles la première requête non authentifiée n'a pas de sens
@@ -16,13 +16,7 @@ export const load: PageLoad = async ({ url, parent }) => {
   const modelSlug = query.get("modele");
 
   const user = get(userInfo);
-  let structures = [];
-
-  if (user?.isStaff) {
-    structures = await getStructures();
-  } else if (user) {
-    structures = user.structures;
-  }
+  const structures = user.structures;
 
   let service;
   let model;
@@ -40,14 +34,18 @@ export const load: PageLoad = async ({ url, parent }) => {
 
   let structure;
 
-  if (structures.length === 1) {
-    service.structure = structures[0].slug;
-    structure = structures[0];
-  } else if (structureSlug) {
-    // si la structure est renseignée dans l'URL, force celle-là
+  if (structureSlug) {
     structure = structures.find((struct) => struct.slug === structureSlug);
-    service.structure = structureSlug;
+    if (!structure) {
+      structure = await getStructure(structureSlug);
+      if (structure) {
+        structures.push(structure);
+      }
+    }
+  } else if (structures.length === 1) {
+    structure = structures[0];
   }
+  service.structure = structure ? structure.slug : null;
 
   return {
     noIndex: true,

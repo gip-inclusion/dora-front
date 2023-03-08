@@ -36,11 +36,6 @@ export async function siretWasAlreadyClaimed(siret: string) {
   return result;
 }
 
-export async function getStructures(): Promise<ShortStructure[]> {
-  const url = `${getApiURL()}/structures/`;
-  return (await fetchData<ShortStructure[]>(url)).data;
-}
-
 export async function getActiveStructures(): Promise<ShortStructure[]> {
   const url = `${getApiURL()}/structures/?active=1`;
   return (await fetchData<ShortStructure[]>(url)).data;

@@ -1,8 +1,8 @@
 import { createModelFromService, getNewModel } from "$lib/utils/forms";
 import { getService, getServicesOptions } from "$lib/requests/services";
-import { getStructures } from "$lib/requests/structures";
 import { userInfo } from "$lib/utils/auth";
 import { get } from "svelte/store";
+import { getStructure } from "../../../lib/requests/structures";
 import type { PageLoad } from "./$types";
 
 // pages authentifiées sur lesquelles la première requête non authentifiée n'a pas de sens
@@ -15,13 +15,7 @@ export const load: PageLoad = async ({ url, parent }) => {
   const structureSlug = url.searchParams.get("structure");
 
   const user = get(userInfo);
-  let structures = [];
-
-  if (user?.isStaff) {
-    structures = await getStructures();
-  } else if (user) {
-    structures = user.structures;
-  }
+  const structures = user.structures;
 
   let model;
 
@@ -37,13 +31,18 @@ export const load: PageLoad = async ({ url, parent }) => {
 
   let structure;
 
-  if (structures.length === 1) {
-    model.structure = structures[0].slug;
-    structure = structures[0];
-  } else if (structureSlug) {
+  if (structureSlug) {
     structure = structures.find((struct) => struct.slug === structureSlug);
-    model.structure = structureSlug;
+    if (!structure) {
+      structure = await getStructure(structureSlug);
+      if (structure) {
+        structures.push(structure);
+      }
+    }
+  } else if (structures.length === 1) {
+    structure = structures[0];
   }
+  model.structure = structure ? structure.slug : null;
 
   return {
     title: "Création d’un modèle | DORA",
