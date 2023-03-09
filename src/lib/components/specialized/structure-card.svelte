@@ -1,6 +1,6 @@
 <script lang="ts">
   import Label from "$lib/components/display/label.svelte";
-  import { mapPinIcon, pageLineIcon } from "$lib/icons";
+  import { pageLineIcon } from "$lib/icons";
   import { capitalize } from "$lib/utils/misc";
 
   export let structure;
@@ -9,17 +9,12 @@
 
 <div class="flex flex-col rounded-md bg-white shadow-md">
   <div class="grow rounded-t-md bg-magenta-brand p-s24 pb-s64">
-    <h3 class="mb-s8 text-f19 text-white">
+    <h3 class="mb-s12 text-f19 text-white">
       <a href="/structures/{structure.slug}">{capitalize(structure.name)}</a>
     </h3>
 
     {#if showAddress && (structure.postalCode || structure.city)}
-      <Label
-        label={`${structure.postalCode}, ${structure.city}`}
-        smallIcon
-        darkBg
-        icon={mapPinIcon}
-      />
+      <Label label={`${structure.city} (${structure.postalCode})`} darkBg />
     {/if}
   </div>
   <div class="py-s16 px-s20">

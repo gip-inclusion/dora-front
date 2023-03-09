@@ -56,7 +56,6 @@
           icon={forbidIcon}
           iconOnRight
           small
-          wFull
           extraClass="justify-end w-[190px]"
           noBackground
         />
