@@ -10,15 +10,19 @@
     timeLineIcon,
     wheelChairIcon,
   } from "$lib/icons";
-  import type { Structure, StructuresOptions } from "$lib/types";
+  import type {
+    StructureMember,
+    Structure,
+    StructuresOptions,
+  } from "$lib/types";
   import { formatPhoneNumber, markdownToHTML } from "$lib/utils/misc";
   import { formatOsmHours } from "$lib/utils/opening-hours";
   import DataInclusionNotice from "./data-inclusion-notice.svelte";
   import QuickStart from "./quick-start.svelte";
-  import type { UserInfo } from "$lib/utils/auth";
 
   export let structure: Structure;
-  export let members: UserInfo[];
+  export let members: StructureMember[];
+  export let putativeMembers: StructureMember[];
   export let structuresOptions: StructuresOptions;
 
   let fullDesc;
@@ -73,7 +77,7 @@
 <div class="structure-body">
   <div class="notice">
     {#if structure.canWrite}
-      <QuickStart {structure} {members} />
+      <QuickStart {structure} {members} {putativeMembers} />
     {/if}
   </div>
 

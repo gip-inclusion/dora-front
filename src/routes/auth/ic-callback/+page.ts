@@ -1,6 +1,5 @@
 import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
 import { setToken, validateCredsAndFillUserInfo } from "$lib/utils/auth";
-import { clearQuickStartsDoneValues } from "$lib/utils/quick-start";
 import { redirect } from "@sveltejs/kit";
 import { getNextPage } from "../utils";
 import type { PageLoad } from "./$types";
@@ -42,9 +41,6 @@ export const load: PageLoad = async ({ url, parent }) => {
     jsonResult = await result.json();
     setToken(jsonResult.token);
     await validateCredsAndFillUserInfo();
-
-    // Ré-initialise l'affichage des guides de démarrage des structures
-    clearQuickStartsDoneValues();
 
     throw redirect(302, nextPage);
   }

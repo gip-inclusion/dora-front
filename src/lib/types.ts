@@ -178,14 +178,14 @@ interface StructureMemberUserInfos {
   fullName: string;
   lastName: string;
 }
-export interface InvitedStructureMember {
+export interface StructureMember {
   id: string;
-  invitedByAdmin: boolean;
   isAdmin: boolean;
   user: StructureMemberUserInfos;
 }
-export interface StructureMember {
+export interface PutativeStructureMember {
   id: string;
+  invitedByAdmin: boolean;
   isAdmin: boolean;
   user: StructureMemberUserInfos;
 }

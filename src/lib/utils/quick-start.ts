@@ -1,4 +1,8 @@
-import type { Structure } from "$lib/types";
+import type {
+  PutativeStructureMember,
+  Structure,
+  StructureMember,
+} from "$lib/types";
 import { structureSchema } from "$lib/validation/schemas/structure";
 import { validate } from "$lib/validation/validation";
 import type { UserInfo } from "$lib/utils/auth";
@@ -12,7 +16,7 @@ export function isStructureInformationsComplete(structure) {
 
 const quickStartKey = "quickStartsDone";
 
-export function getQuickStartDoneValues(): string[] {
+function getQuickStartDoneValues(): string[] {
   const localStorageValue = window.localStorage.getItem(quickStartKey);
   return localStorageValue ? JSON.parse(localStorageValue) : [];
 }
@@ -24,19 +28,21 @@ export function saveQuickStartDone(structureSlug: string) {
     JSON.stringify([...quickStartsAlreadyDone, structureSlug])
   );
 }
-export function clearQuickStartsDoneValues() {
-  window.localStorage.removeItem(quickStartKey);
-}
-
 export function canShowQuickStart(structure: Structure): boolean {
   return !getQuickStartDoneValues().includes(structure.slug);
 }
-export function isFirstResearchDone(userInfos: UserInfo): boolean {
+export function isFirstSearchDone(userInfos: UserInfo): boolean {
   return userInfos.onboardingActionsAccomplished.hasDoneASearch;
 }
 export function hasOneService(structure: Structure): boolean {
   return structure.numServices > 0;
 }
-export function hasMembers(members: Array<any>): boolean {
-  return members.length >= 2;
+export function hasMembersOrInvitedMembers(
+  members: Array<StructureMember> = [],
+  putativeMembers: Array<PutativeStructureMember> = []
+): boolean {
+  return (
+    members.length > 1 ||
+    putativeMembers.filter((mbr) => mbr.invitedByAdmin).length > 0
+  );
 }

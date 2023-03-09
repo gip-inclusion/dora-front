@@ -3,7 +3,7 @@ import { token } from "$lib/utils/auth";
 import { fetchData } from "$lib/utils/misc";
 import { get } from "svelte/store";
 import type {
-  InvitedStructureMember,
+  PutativeStructureMember,
   ShortStructure,
   Structure,
   StructureMember,
@@ -109,12 +109,12 @@ export async function getMembers(slug): Promise<Array<StructureMember> | null> {
 
 export async function getPutativeMembers(
   slug
-): Promise<Array<InvitedStructureMember> | null> {
+): Promise<Array<PutativeStructureMember> | null> {
   const url = `${getApiURL()}/structure-putative-members/?structure=${slug}`;
 
   const result = await fetchData(url);
   if (result.ok) {
-    return result.data as Array<InvitedStructureMember>;
+    return result.data as Array<PutativeStructureMember>;
   }
   return null;
 }

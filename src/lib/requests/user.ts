@@ -1,6 +1,8 @@
 import { getApiURL } from "$lib/utils/api";
+import { get } from "svelte/store";
+import { token } from "$lib/utils/auth";
 
-export function setUserHasDoneASearch(token: string): Promise<Response> {
+export function setUserHasDoneASearch(): Promise<Response> {
   const url = `${getApiURL()}/profile/change/`;
   return fetch(url, {
     method: "POST",
@@ -12,7 +14,7 @@ export function setUserHasDoneASearch(token: string): Promise<Response> {
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json; version=1.0",
-      Authorization: `Token ${token}`,
+      Authorization: `Token ${get(token)}`,
     },
   });
 }

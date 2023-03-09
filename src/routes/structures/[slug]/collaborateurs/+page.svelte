@@ -11,26 +11,25 @@
   import type { PageData } from "./$types";
   import NoMemberNotice from "./no-member-notice.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import { hasMembers } from "$lib/utils/quick-start";
+  import { hasMembersOrInvitedMembers } from "$lib/utils/quick-start";
 
   export let data: PageData;
 
   let modalAddUserIsOpen = false;
 
-  function computeNoMemberNotice() {
-    return !hasMembers([
-      ...(data.putativeMembers || []),
-      ...(data.members || []),
-    ]);
-  }
-
-  let showNoMemberNotice = computeNoMemberNotice();
+  let showNoMemberNotice = !hasMembersOrInvitedMembers(
+    data.members,
+    data.putativeMembers
+  );
 
   async function handleRefreshMemberList() {
     data.members = await getMembers($structure.slug);
     data.putativeMembers = await getPutativeMembers($structure.slug);
 
-    showNoMemberNotice = computeNoMemberNotice();
+    showNoMemberNotice = hasMembersOrInvitedMembers(
+      data.members,
+      data.putativeMembers
+    );
   }
 
   function sortedMembers(items) {
@@ -58,7 +57,7 @@
     />
   {/if}
 
-  <div class="md:flex md:items-center md:justify-between">
+  <div class="mb-s24 md:flex md:items-center md:justify-between">
     <h2 class="text-france-blue">Collaborateurs</h2>
     {#if data.canEditMembers}
       <LinkButton
@@ -71,7 +70,7 @@
 
   {#if data.canSeeMembers}
     {#if data.canEditMembers && showNoMemberNotice}
-      <div class="mt-s32 mb-s32 flex flex-col gap-s8">
+      <div class="mb-s24 flex flex-col gap-s8">
         <NoMemberNotice />
       </div>
     {/if}

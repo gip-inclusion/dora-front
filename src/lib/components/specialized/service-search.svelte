@@ -25,7 +25,7 @@
     sortCategory,
   } from "$lib/utils/service";
   import { getQuery } from "$lib/utils/service-search";
-  import { userInfo, token } from "$lib/utils/auth";
+  import { userInfo } from "$lib/utils/auth";
   import { setUserHasDoneASearch } from "$lib/requests/user";
 
   export let servicesOptions: ServicesOptions;
@@ -53,11 +53,10 @@
 
     // On sauvegarde le fait que l'utilisateur a fait une recherche si besoin
     if (
-      $userInfo &&
-      $token &&
+      $userInfo != null &&
       !$userInfo.onboardingActionsAccomplished.hasDoneASearch
     ) {
-      setUserHasDoneASearch($token);
+      setUserHasDoneASearch();
     }
 
     const query = getQuery({

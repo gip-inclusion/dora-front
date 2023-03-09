@@ -73,6 +73,7 @@ export const load: LayoutLoad = async ({ params, parent }) => {
 
   return {
     structure: currentStructure,
-    members: [...members, ...putativeMembers],
+    members,
+    putativeMembers,
   };
 };

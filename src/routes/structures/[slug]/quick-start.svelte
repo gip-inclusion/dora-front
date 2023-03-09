@@ -8,17 +8,21 @@
   import {
     canShowQuickStart,
     isStructureInformationsComplete,
-    isFirstResearchDone,
+    isFirstSearchDone,
     hasOneService,
-    hasMembers,
+    hasMembersOrInvitedMembers,
     saveQuickStartDone,
   } from "$lib/utils/quick-start";
-  import type { Structure } from "$lib/types";
-  import type { UserInfo } from "$lib/utils/auth";
+  import type {
+    PutativeStructureMember,
+    Structure,
+    StructureMember,
+  } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
 
   export let structure: Structure;
-  export let members: UserInfo[];
+  export let members: StructureMember[];
+  export let putativeMembers: PutativeStructureMember[];
 
   let showQuickStart = canShowQuickStart(structure);
 
@@ -35,7 +39,7 @@
     },
     {
       label: "Inviter vos collaborateurs",
-      complete: hasMembers(members),
+      complete: hasMembersOrInvitedMembers(members, putativeMembers),
       url: `/structures/${structure.slug}/collaborateurs`,
     },
     {
@@ -45,7 +49,7 @@
     },
     {
       label: "Faire votre première recherche",
-      complete: isFirstResearchDone($userInfo),
+      complete: isFirstSearchDone($userInfo),
       url: "/",
     },
   ];
@@ -71,7 +75,7 @@
           <span class="h-s24 w-s24 fill-magenta-cta">
             {@html closeIcon}
           </span>
-          <span class="sr-only">Masquer temporairement le guide</span>
+          <span class="sr-only">Masquer le guide</span>
         </button>
       {/if}
     </div>
