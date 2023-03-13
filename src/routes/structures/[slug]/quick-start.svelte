@@ -10,19 +10,14 @@
     isStructureInformationsComplete,
     isFirstSearchDone,
     hasOneService,
-    hasMembersOrInvitedMembers,
+    hasAtLeastTwoMembers,
     saveQuickStartDone,
   } from "$lib/utils/quick-start";
-  import type {
-    PutativeStructureMember,
-    Structure,
-    StructureMember,
-  } from "$lib/types";
+  import type { Structure, StructureMember } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
 
   export let structure: Structure;
   export let members: StructureMember[];
-  export let putativeMembers: PutativeStructureMember[];
 
   let showQuickStart = canShowQuickStart(structure);
 
@@ -39,7 +34,7 @@
     },
     {
       label: "Inviter vos collaborateurs",
-      complete: hasMembersOrInvitedMembers(members, putativeMembers),
+      complete: hasAtLeastTwoMembers(members),
       url: `/structures/${structure.slug}/collaborateurs`,
     },
     {

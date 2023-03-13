@@ -22,7 +22,6 @@
 
   export let structure: Structure;
   export let members: StructureMember[];
-  export let putativeMembers: StructureMember[];
   export let structuresOptions: StructuresOptions;
 
   let fullDesc;
@@ -77,7 +76,7 @@
 <div class="structure-body">
   <div class="notice">
     {#if structure.canWrite}
-      <QuickStart {structure} {members} {putativeMembers} />
+      <QuickStart {structure} {members} />
     {/if}
   </div>
 

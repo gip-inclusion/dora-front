@@ -37,12 +37,13 @@ export function isFirstSearchDone(userInfos: UserInfo): boolean {
 export function hasOneService(structure: Structure): boolean {
   return structure.numServices > 0;
 }
-export function hasMembersOrInvitedMembers(
-  members: Array<StructureMember> = [],
+export function hasAtLeastTwoMembers(
+  members: Array<StructureMember> = []
+): boolean {
+  return members.length > 1;
+}
+export function hasInvitedMembers(
   putativeMembers: Array<PutativeStructureMember> = []
 ): boolean {
-  return (
-    members.length > 1 ||
-    putativeMembers.filter((mbr) => mbr.invitedByAdmin).length > 0
-  );
+  return putativeMembers.filter((mbr) => mbr.invitedByAdmin).length > 0;
 }

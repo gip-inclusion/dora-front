@@ -18,7 +18,6 @@
 <Informations
   structure={$structure}
   members={data.members}
-  putativeMembers={data.putativeMembers}
   structuresOptions={data.structuresOptions}
 />
 <div class="mb-s64" />

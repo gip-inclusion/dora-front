@@ -11,13 +11,20 @@
   import type { PageData } from "./$types";
   import NoMemberNotice from "./no-member-notice.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import { hasMembersOrInvitedMembers } from "$lib/utils/quick-start";
+  import {
+    hasAtLeastTwoMembers,
+    hasInvitedMembers,
+  } from "$lib/utils/quick-start";
 
   export let data: PageData;
 
   let modalAddUserIsOpen = false;
 
-  let showNoMemberNotice = !hasMembersOrInvitedMembers(
+  function hasAtLeastTwoMembersAndInvitedMembers(members, putativeMembers) {
+    return hasAtLeastTwoMembers(members) || hasInvitedMembers(putativeMembers);
+  }
+
+  let showNoMemberNotice = !hasAtLeastTwoMembersAndInvitedMembers(
     data.members,
     data.putativeMembers
   );
@@ -26,7 +33,7 @@
     data.members = await getMembers($structure.slug);
     data.putativeMembers = await getPutativeMembers($structure.slug);
 
-    showNoMemberNotice = hasMembersOrInvitedMembers(
+    showNoMemberNotice = !hasAtLeastTwoMembersAndInvitedMembers(
       data.members,
       data.putativeMembers
     );
