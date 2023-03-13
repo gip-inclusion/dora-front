@@ -12,7 +12,7 @@
     hasOneService,
     hasAtLeastTwoMembers,
     saveQuickStartDone,
-  } from "$lib/utils/quick-start";
+  } from "./quick-start";
   import type { Structure, StructureMember } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
 

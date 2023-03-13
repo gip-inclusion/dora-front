@@ -52,10 +52,7 @@
     );
 
     // On sauvegarde le fait que l'utilisateur a fait une recherche si besoin
-    if (
-      $userInfo != null &&
-      !$userInfo.onboardingActionsAccomplished.hasDoneASearch
-    ) {
+    if ($userInfo && !$userInfo.onboardingActionsAccomplished.hasDoneASearch) {
       setUserHasDoneASearch();
     }
 
