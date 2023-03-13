@@ -61,9 +61,9 @@
     {/if}
   </div>
 
-  {#if canAdd || $structure.canViewMembers}
+  {#if $structure.canViewMembers}
     <div class="mt-s32 mb-s32 flex flex-col gap-s8">
-      {#if ($structure.canEditMembers || canAdd) && data.putativeMembers}
+      {#if canAdd && data.putativeMembers}
         {#each sortedMembers(data.putativeMembers) as member}
           {#if member.invitedByAdmin}
             <MemberInvited

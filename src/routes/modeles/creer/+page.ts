@@ -42,7 +42,7 @@ export const load: PageLoad = async ({ url, parent }) => {
       throw error(404, "Page Not Found");
     }
   } else {
-    if (user?.isStaff || user?.isManager) {
+    if (user.isStaff || user.isManager) {
       structures = await getStructures();
     } else {
       structures = user.structures;
