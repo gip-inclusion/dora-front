@@ -2,8 +2,10 @@ import { createModelFromService, getNewModel } from "$lib/utils/forms";
 import { getService, getServicesOptions } from "$lib/requests/services";
 import { userInfo } from "$lib/utils/auth";
 import { get } from "svelte/store";
-import { getStructure } from "../../../lib/requests/structures";
+import { getStructure, getStructures } from "$lib/requests/structures";
 import type { PageLoad } from "./$types";
+import type { Model, ShortStructure } from "$lib/types";
+import { error } from "@sveltejs/kit";
 
 // pages authentifiées sur lesquelles la première requête non authentifiée n'a pas de sens
 export const ssr = false;
@@ -15,9 +17,9 @@ export const load: PageLoad = async ({ url, parent }) => {
   const structureSlug = url.searchParams.get("structure");
 
   const user = get(userInfo);
-  const structures = user.structures;
-
-  let model;
+  let structures: ShortStructure[] = user.structures;
+  let model: Model;
+  let structure: ShortStructure | undefined;
 
   if (serviceSlug) {
     const service = await getService(serviceSlug);
@@ -29,19 +31,27 @@ export const load: PageLoad = async ({ url, parent }) => {
     model = getNewModel();
   }
 
-  let structure;
-
   if (structureSlug) {
     structure = structures.find((struct) => struct.slug === structureSlug);
-    if (!structure) {
+    if (!structure && (user.isStaff || user.isManager)) {
       structure = await getStructure(structureSlug);
-      if (structure) {
-        structures.push(structure);
-      }
     }
-  } else if (structures.length === 1) {
-    structure = structures[0];
+    if (structure) {
+      structures = [structure];
+    } else {
+      throw error(404, "Page Not Found");
+    }
+  } else {
+    if (user?.isStaff || user?.isManager) {
+      structures = await getStructures();
+    } else {
+      structures = user.structures;
+    }
+    if (structures.length === 1) {
+      structure = structures[0];
+    }
   }
+
   model.structure = structure ? structure.slug : null;
 
   return {

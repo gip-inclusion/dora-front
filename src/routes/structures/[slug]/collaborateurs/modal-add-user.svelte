@@ -80,7 +80,7 @@
   }
 
   $: formData = { email, level };
-  $: level = forceAdmin ? "admin" : "user";
+  $: level = forceAdmin ? "admin" : level;
 </script>
 
 <Modal bind:isOpen title="Nouveau collaborateur">
