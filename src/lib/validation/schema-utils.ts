@@ -1,6 +1,6 @@
 /* eslint-disable */
-import { INVALID } from "$lib/consts";
 import type { ServicesOptions } from "$lib/types";
+import { INVALID_OPENING_HOURS_MARKER } from "$lib/utils/opening-hours";
 
 // From https://github.com/jquense/yup/blob/03584f6758ff43409113c41f58fd41e065aa18a3/src/string.ts
 const urlRegexp =
@@ -210,7 +210,7 @@ export function minNum(min, msg = "") {
 
 export function osmHoursNotContainsInvalid(msg = "") {
   return (name, value, _data) => ({
-    valid: !value.toLowerCase().includes(INVALID),
+    valid: !value.toLowerCase().includes(INVALID_OPENING_HOURS_MARKER),
     msg:
       msg ||
       "Horaires incomplets. Veuillez finaliser la saisie de vos horaires, corriger les champs manquants ou incorrects.",
