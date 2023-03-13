@@ -1,3 +1,4 @@
+import { INVALID } from "$lib/consts";
 import type { DayPeriod, DayPrefix, OsmDay, OsmOpeningHours } from "$lib/types";
 
 function formatDay(lineday: OsmDay, prefix: DayPrefix): string | undefined {
@@ -26,7 +27,7 @@ function formatDay(lineday: OsmDay, prefix: DayPrefix): string | undefined {
     if (timeSlot1Valid) {
       str += `${timeSlot1.openAt}-${timeSlot1.closeAt}`;
     } else {
-      str += "Invalid";
+      str += INVALID;
     }
   }
 
@@ -43,7 +44,7 @@ function formatDay(lineday: OsmDay, prefix: DayPrefix): string | undefined {
     if (timeSlot2Valid) {
       str += `${timeSlot2.openAt}-${timeSlot2.closeAt}`;
     } else {
-      str += "Invalid";
+      str += INVALID;
     }
   }
 

@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { INVALID } from "$lib/consts";
 import type { ServicesOptions } from "$lib/types";
 
 // From https://github.com/jquense/yup/blob/03584f6758ff43409113c41f58fd41e065aa18a3/src/string.ts
@@ -209,7 +210,7 @@ export function minNum(min, msg = "") {
 
 export function osmHoursNotContainsInvalid(msg = "") {
   return (name, value, _data) => ({
-    valid: !value.toLowerCase().includes("invalid"),
+    valid: !value.toLowerCase().includes(INVALID),
     msg:
       msg ||
       "Horaires incomplets. Veuillez finaliser la saisie de vos horaires, corriger les champs manquants ou incorrects.",
