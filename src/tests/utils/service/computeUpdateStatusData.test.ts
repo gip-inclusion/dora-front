@@ -1,11 +1,9 @@
 import type { Service } from "$lib/types";
-import {
-  computeUpdateStatusData,
-  computeUpdateStatusLabel,
-} from "$lib/utils/service";
+import { computeUpdateStatus } from "$lib/utils/service";
+import { computeRelativeDateLabel } from "$lib/utils/date";
 import { afterEach, beforeEach, describe, expect, test, vi } from "vitest";
 
-describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
+describe("computeUpdateStatus et computeRelativeDateLabel", () => {
   beforeEach(() => {
     vi.useFakeTimers();
   });
@@ -23,17 +21,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     // SI je récupère ses données d'actualisation le même jour à 14h
     const date = new Date(2022, 1, 1, 14);
     vi.setSystemTime(date);
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS pas d'actualisation nécessaire et il est considéré comme actualisé aujourd'hui
-    expect(res).toStrictEqual({
-      dayDiff: 0,
-      weekDiff: 0,
-      monthDiff: 0,
-      yearDiff: 0,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé aujourd'hui");
   });
 
@@ -48,17 +40,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 1, 6, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS pas d'actualisation nécessaire et il est considéré comme actualisé il y a 5 jours
-    expect(res).toStrictEqual({
-      dayDiff: 5,
-      weekDiff: 0,
-      monthDiff: 0,
-      yearDiff: 0,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé il y a 5 jours");
   });
 
@@ -73,17 +59,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 1, 13, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS pas d'actualisation nécessaire et il est considéré comme actualisé il y a 1 semaine
-    expect(res).toStrictEqual({
-      dayDiff: 12,
-      weekDiff: 1,
-      monthDiff: 0,
-      yearDiff: 0,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé il y a 1 semaine");
   });
   test("moins d'un mois", () => {
@@ -97,17 +77,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 1, 28, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS pas d'actualisation nécessaire et il est considéré comme actualisé il y a 5 jours
-    expect(res).toStrictEqual({
-      dayDiff: 27,
-      weekDiff: 3,
-      monthDiff: 0,
-      yearDiff: 0,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé il y a 3 semaines");
   });
 
@@ -122,17 +96,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 2, 10, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS pas d'actualisation nécessaire et il est considéré comme actualisé il y a 5 semaines
-    expect(res).toStrictEqual({
-      dayDiff: 37,
-      weekDiff: 5,
-      monthDiff: 1,
-      yearDiff: 0,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé il y a 5 semaines");
   });
 
@@ -147,17 +115,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 4, 10, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS pas d'actualisation nécessaire et il est considéré comme actualisé il y a 3 mois
-    expect(res).toStrictEqual({
-      dayDiff: 98,
-      weekDiff: 14,
-      monthDiff: 3,
-      yearDiff: 0,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé il y a 3 mois");
   });
 
@@ -172,17 +134,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 7, 10, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS l'actualisation est demandée et il est considéré comme actualisé il y a 10 mois
-    expect(res).toStrictEqual({
-      dayDiff: 190,
-      weekDiff: 27,
-      monthDiff: 6,
-      yearDiff: 0,
-      updateStatus: "NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NEEDED");
     expect(label).toStrictEqual("Actualisé il y a 6 mois");
   });
 
@@ -197,17 +153,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 7, 10, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS l'actualisation n'est demandée
-    expect(res).toStrictEqual({
-      dayDiff: 190,
-      weekDiff: 27,
-      monthDiff: 6,
-      yearDiff: 0,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé il y a 6 mois");
   });
 
@@ -222,17 +172,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 10, 10, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS l'actualisation est obligatoire et il est considéré comme actualisé il y a 9 mois
-    expect(res).toStrictEqual({
-      dayDiff: 282,
-      weekDiff: 40,
-      monthDiff: 9,
-      yearDiff: 0,
-      updateStatus: "REQUIRED",
-    });
+    expect(updateStatus).toStrictEqual("REQUIRED");
     expect(label).toStrictEqual("Actualisé il y a 9 mois");
   });
 
@@ -247,17 +191,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2022, 10, 10, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS l'actualisation n'est pas requise
-    expect(res).toStrictEqual({
-      dayDiff: 282,
-      weekDiff: 40,
-      monthDiff: 9,
-      yearDiff: 0,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé il y a 9 mois");
   });
 
@@ -272,17 +210,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2024, 10, 10, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS l'actualisation est obligatoire et il est considéré comme actualisé il y a plus de 2 ans
-    expect(res).toStrictEqual({
-      dayDiff: 1013,
-      weekDiff: 144,
-      monthDiff: 33,
-      yearDiff: 2,
-      updateStatus: "REQUIRED",
-    });
+    expect(updateStatus).toStrictEqual("REQUIRED");
     expect(label).toStrictEqual("Actualisé il y a plus de 2 ans");
   });
 
@@ -297,17 +229,11 @@ describe("computeUpdateStatusData et computeUpdateStatusDataLabel", () => {
     const date = new Date(2024, 10, 10, 14);
     vi.setSystemTime(date);
 
-    const res = computeUpdateStatusData(service);
-    const label = computeUpdateStatusLabel({ ...res });
+    const updateStatus = computeUpdateStatus(service);
+    const label = computeRelativeDateLabel(service.modificationDate);
 
     // ALORS l'actualisation est obligatoire et il est considéré comme actualisé il y a plus de 2 ans
-    expect(res).toStrictEqual({
-      dayDiff: 1013,
-      weekDiff: 144,
-      monthDiff: 33,
-      yearDiff: 2,
-      updateStatus: "NOT_NEEDED",
-    });
+    expect(updateStatus).toStrictEqual("NOT_NEEDED");
     expect(label).toStrictEqual("Actualisé il y a plus de 2 ans");
   });
 });

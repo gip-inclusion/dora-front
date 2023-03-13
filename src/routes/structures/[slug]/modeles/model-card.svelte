@@ -1,5 +1,5 @@
 <script lang="ts">
-  import DateLabel from "$lib/components/display/date-label.svelte";
+  import RelativeDateLabel from "$lib/components/display/relative-date-label.svelte";
   import { copyIcon2, historyLineIcon } from "$lib/icons";
   import ModelMenu from "./model-button-menu.svelte";
 
@@ -39,7 +39,7 @@
           {@html historyLineIcon}
         </span>
       </div>
-      Mis à jour le <DateLabel date={model.modificationDate} />
+      <RelativeDateLabel date={model.modificationDate} prefix="Mis à jour" />
     </div>
   </div>
 </div>

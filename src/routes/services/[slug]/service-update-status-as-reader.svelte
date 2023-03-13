@@ -6,14 +6,15 @@
   import type { Service, ServiceUpdateStatus } from "$lib/types";
   import { trackFeedback } from "$lib/utils/plausible";
   import FeedbackModal from "./feedback-modal.svelte";
+  import dayjs from "dayjs";
+  import RelativeDateLabel from "$lib/components/display/relative-date-label.svelte";
 
   export let service: Service;
 
-  export let label: string;
-  export let monthDiff: number;
   export let updateStatus: ServiceUpdateStatus;
 
   let feedbackModalIsOpen = false;
+  const monthDiff = dayjs().diff(service.modificationDate, "month");
 
   function handleFeedback() {
     feedbackModalIsOpen = true;
@@ -35,7 +36,9 @@
           <span class="hidden print:inline">
             Mis à jour le <DateLabel date={service.modificationDate} />
           </span>
-          <span class="print:hidden">{label}</span>
+          <span class="print:hidden">
+            <RelativeDateLabel date={service.modificationDate} />
+          </span>
         </div>
       {:else if updateStatus === "NEEDED"}
         <div class="flex items-center">
@@ -48,7 +51,9 @@
                 Mis à jour le
                 <DateLabel date={service.modificationDate} />
               </strong>
-              <strong class="print:hidden">{label}</strong>
+              <strong class="print:hidden">
+                <RelativeDateLabel date={service.modificationDate} />
+              </strong>
             </div>
             <div class="text-f14">
               Ce service n’a pas été actualisé récemment, certaines informations

@@ -23,7 +23,7 @@
     ShortService,
   } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
-  import { computeUpdateStatusData } from "$lib/utils/service";
+  import { computeUpdateStatus } from "$lib/utils/service";
   import Count from "../count.svelte";
   import ServiceCard from "./service-card.svelte";
 
@@ -176,8 +176,8 @@
     if (updateStatus) {
       services = services.filter((service) =>
         updateStatus === "ALL"
-          ? computeUpdateStatusData(service).updateStatus !== "NOT_NEEDED"
-          : computeUpdateStatusData(service).updateStatus === updateStatus
+          ? computeUpdateStatus(service) !== "NOT_NEEDED"
+          : computeUpdateStatus(service) === updateStatus
       );
     }
 
