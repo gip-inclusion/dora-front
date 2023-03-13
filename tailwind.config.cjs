@@ -35,7 +35,7 @@ const config = {
         dark: "#2E2E2E",
         text: { DEFAULT: "#555555", alt: "#999999", alt2: "#777777" },
       },
-      "france-blue": "#000091",
+      "france-blue": { DEFAULT: "#000091", hover: "#2323FF" },
       white: "#FFFFFF",
       "marianne-red": "#E1000F",
       magenta: {
