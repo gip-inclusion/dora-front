@@ -11,7 +11,7 @@
   on:click
   {href}
   target={otherTab ? "_blank" : ""}
-  rel="noopener {nofollow ? 'nofollow' : ''}"
+  rel="noopener {nofollow ? 'ugc' : ''}"
   {disabled}
 >
   {label}
