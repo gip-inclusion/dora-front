@@ -78,7 +78,7 @@
   </div>
 
   {#if $structure.canViewMembers}
-    {#if $structure.canEditMembers && showNoMemberNotice}
+    {#if $structure.isMember && $structure.canEditMembers && showNoMemberNotice}
       <div class="mb-s24 flex flex-col gap-s8">
         <NoMemberNotice />
       </div>

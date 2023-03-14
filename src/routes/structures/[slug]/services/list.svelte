@@ -221,7 +221,7 @@
   </div>
 </div>
 
-{#if structure.services.length === 0 && structure.canEditServices && withEmptyNotice}
+{#if structure.services.length === 0 && structure.isMember && structure.canEditServices && withEmptyNotice}
   <NoServiceNotice />
 {:else if hasOptions && structure.canEditServices}
   <div

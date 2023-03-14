@@ -88,7 +88,7 @@
   </div>
 </div>
 
-{#if modelsOrdered.length === 0 && withEmptyNotice}
+{#if structure.isMember && modelsOrdered.length === 0 && withEmptyNotice}
   <NoModelNotice />
 {:else}
   <div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-3">

@@ -75,7 +75,7 @@
 
 <div class="structure-body">
   <div class="notice">
-    {#if structure.canEditInformations}
+    {#if structure.isMember && structure.canEditInformations}
       <QuickStart {structure} {members} />
     {/if}
   </div>
