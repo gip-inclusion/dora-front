@@ -9,15 +9,31 @@
   import { userInfo } from "$lib/utils/auth";
   import { structure } from "../store";
   import type { PageData } from "./$types";
+  import NoMemberNotice from "./no-member-notice.svelte";
+  import { hasAtLeastTwoMembers, hasInvitedMembers } from "../quick-start";
   import Button from "$lib/components/display/button.svelte";
 
   export let data: PageData;
 
   let modalAddUserIsOpen = false;
 
+  function hasAtLeastTwoMembersOrInvitedMembers(members, putativeMembers) {
+    return hasAtLeastTwoMembers(members) || hasInvitedMembers(putativeMembers);
+  }
+
+  let showNoMemberNotice = !hasAtLeastTwoMembersOrInvitedMembers(
+    data.members,
+    data.putativeMembers
+  );
+
   async function handleRefreshMemberList() {
     data.members = await getMembers($structure.slug);
     data.putativeMembers = await getPutativeMembers($structure.slug);
+
+    showNoMemberNotice = !hasAtLeastTwoMembersOrInvitedMembers(
+      data.members,
+      data.putativeMembers
+    );
   }
 
   function sortedMembers(items) {
@@ -50,7 +66,7 @@
     />
   {/if}
 
-  <div class="md:flex md:items-center md:justify-between">
+  <div class="mb-s24 md:flex md:items-center md:justify-between">
     <h2 class="text-france-blue">Collaborateurs</h2>
     {#if canAdd}
       <Button
@@ -62,6 +78,12 @@
   </div>
 
   {#if $structure.canViewMembers}
+    {#if $structure.canEditMembers && showNoMemberNotice}
+      <div class="mb-s24 flex flex-col gap-s8">
+        <NoMemberNotice />
+      </div>
+    {/if}
+
     <div class="mt-s32 mb-s32 flex flex-col gap-s8">
       {#if canAdd && data.putativeMembers}
         {#each sortedMembers(data.putativeMembers) as member}

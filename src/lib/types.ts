@@ -128,7 +128,6 @@ export interface StructureSource {
   value: string;
   label: string;
 }
-
 export interface Structure {
   accesslibreUrl: string;
   address1: string;
@@ -175,6 +174,24 @@ export interface Structure {
   typologyDisplay: string;
   typology: number;
   url: string;
+}
+
+interface StructureMemberUserInfos {
+  email: string;
+  firstName: string;
+  fullName: string;
+  lastName: string;
+}
+export interface StructureMember {
+  id: string;
+  isAdmin: boolean;
+  user: StructureMemberUserInfos;
+}
+export interface PutativeStructureMember {
+  id: string;
+  invitedByAdmin: boolean;
+  isAdmin: boolean;
+  user: StructureMemberUserInfos;
 }
 
 export interface Establishment {
@@ -424,6 +441,10 @@ export interface ShortService {
 export interface Bookmark {
   service: ShortService;
   creationDate: string;
+}
+
+export interface UserOnboardingActionsAccomplished {
+  hasDoneASearch: boolean;
 }
 
 export interface CustomChoice {

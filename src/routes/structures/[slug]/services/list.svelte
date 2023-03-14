@@ -24,12 +24,14 @@
   } from "$lib/types";
   import { computeUpdateStatusData } from "$lib/utils/service";
   import Count from "../count.svelte";
+  import NoServiceNotice from "./no-service-notice.svelte";
   import ServiceCard from "./service-card.svelte";
 
   export let structure, total, servicesOptions;
   export let hasOptions = true;
   export let onRefresh;
   export let limit: number | undefined = undefined;
+  export let withEmptyNotice = false;
 
   export let serviceStatus: ServiceStatus | undefined;
   export let updateStatus: ServiceUpdateStatus | undefined;
@@ -218,7 +220,10 @@
     {/if}
   </div>
 </div>
-{#if hasOptions && structure.canEditServices}
+
+{#if structure.services.length === 0 && structure.canEditServices && withEmptyNotice}
+  <NoServiceNotice />
+{:else if hasOptions && structure.canEditServices}
   <div
     class="mb-s40 flex w-full flex-wrap items-center rounded-md bg-white px-s24 py-s24 text-f14 shadow-md md:h-s80 md:py-s0"
   >

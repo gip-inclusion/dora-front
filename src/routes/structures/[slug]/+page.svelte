@@ -16,6 +16,7 @@
 
 <Informations
   structure={$structure}
+  members={data.members}
   structuresOptions={data.structuresOptions}
 />
 <div class="mb-s64" />
