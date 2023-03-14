@@ -22,7 +22,7 @@ export const load: PageLoad = async ({ url, parent }) => {
   let structure: ShortStructure | undefined;
 
   if (serviceSlug) {
-    const service = await getService(serviceSlug);
+    const service = (await getService(serviceSlug)).data;
     model = createModelFromService(service);
     model.slug = null;
     model.structure = null;

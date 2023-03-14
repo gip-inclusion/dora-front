@@ -88,7 +88,7 @@
     // ça n'est pas le cas sur les cards de la page structure par exemple
 
     if (!Object.prototype.hasOwnProperty.call(service, "fullDesc")) {
-      serviceFull = await getService(service.slug);
+      serviceFull = (await getService(service.slug)).data;
     }
 
     const isValid = validate(serviceFull, serviceSchema, {

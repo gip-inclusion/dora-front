@@ -26,7 +26,7 @@
 
   async function handleRefresh() {
     if (data.service) {
-      data.service = await getService(data.service.slug);
+      data.service = (await getService(data.service.slug)).data;
     }
   }
 

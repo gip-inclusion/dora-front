@@ -35,16 +35,14 @@ function serviceToFront(service) {
   return service;
 }
 
-export async function getService(slug): Promise<Service> {
+export async function getService(slug) {
   const url = `${getApiURL()}/services/${slug}/`;
   const response = await fetchData<Service>(url);
 
-  if (!response.data) {
-    return null;
+  if (response.ok) {
+    response.data = serviceToFront(response.data);
   }
-  // TODO: 404
-
-  return serviceToFront(response.data);
+  return response;
 }
 
 export async function getPublishedServices(): Promise<ShortService[]> {
