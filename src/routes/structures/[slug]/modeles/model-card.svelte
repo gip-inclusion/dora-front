@@ -25,7 +25,7 @@
       <ModelMenu {model} {readOnly} />
     </div>
 
-    <h3 class="m-s0 mt-s12 text-f19 font-bold text-france-blue">
+    <h3 class="m-s0 mt-s12 min-h-[100px] text-f19 font-bold text-france-blue">
       <a href="/modeles/{model.slug}">{model.name}</a>
     </h3>
   </div>
