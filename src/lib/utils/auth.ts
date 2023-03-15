@@ -1,7 +1,11 @@
 import { browser } from "$app/environment";
 import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
 import { get, writable } from "svelte/store";
-import type { Bookmark, ShortStructure } from "../types";
+import type {
+  Bookmark,
+  ShortStructure,
+  UserOnboardingActionsAccomplished,
+} from "../types";
 import { log, logException } from "./logger";
 import { userPreferencesSet } from "./preferences";
 
@@ -18,10 +22,10 @@ export interface UserInfo {
   phoneNumber: string;
   newsletter: boolean;
   isStaff: boolean;
-  isLocalCoordinator: boolean;
+  isManager: boolean;
   department: string;
-  isBizdev: boolean;
   bookmarks: Bookmark[];
+  onboardingActionsAccomplished: UserOnboardingActionsAccomplished;
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
   tokenExpiration: string;
