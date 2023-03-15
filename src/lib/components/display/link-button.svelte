@@ -64,7 +64,7 @@
   {id}
   target={otherTab ? "_blank" : ""}
   title={otherTab ? "Ouverture dans une nouvelle fenêtre" : ""}
-  rel="noopener {nofollow ? 'ugc' : ''} {noreferrer ? 'noreferrer' : ''}"
+  rel="noopener {nofollow ? 'nofollow' : ''} {noreferrer ? 'noreferrer' : ''}"
   href={to}
   on:click
   class="{paddingX} {paddingY} {textSize} {border} {text} {background} {extraClass} inline-flex items-center justify-center whitespace-nowrap rounded leading-normal focus:shadow-focus"
