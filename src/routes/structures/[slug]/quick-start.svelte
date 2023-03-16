@@ -8,22 +8,26 @@
   import {
     canShowQuickStart,
     isStructureInformationsComplete,
-    isFirstSearchDone,
     hasOneService,
-    hasAtLeastTwoMembers,
-    saveQuickStartDone,
+    hasAtLeastTwoMembersOrInvitedMembers,
   } from "./quick-start";
-  import type { Structure, StructureMember } from "$lib/types";
-  import { userInfo } from "$lib/utils/auth";
+  import type {
+    Structure,
+    StructureMember,
+    PutativeStructureMember,
+  } from "$lib/types";
+  import { modifyStructure } from "$lib/requests/structures";
 
   export let structure: Structure;
   export let members: StructureMember[];
+  export let putativeMembers: PutativeStructureMember[];
 
   let showQuickStart = canShowQuickStart(structure);
 
-  function hideQuickStart() {
-    saveQuickStartDone(structure.slug);
-    showQuickStart = false;
+  async function hideQuickStart() {
+    await modifyStructure({ ...structure, quickStartDone: true });
+    structure.quickStartDone = true;
+    showQuickStart = canShowQuickStart(structure);
   }
 
   $: steps = [
@@ -34,7 +38,7 @@
     },
     {
       label: "Inviter vos collaborateurs",
-      complete: hasAtLeastTwoMembers(members),
+      complete: hasAtLeastTwoMembersOrInvitedMembers(members, putativeMembers),
       url: `/structures/${structure.slug}/collaborateurs`,
     },
     {
@@ -42,15 +46,12 @@
       complete: hasOneService(structure),
       url: `/services/creer?structure=${structure.slug}`,
     },
-    {
-      label: "Faire votre première recherche",
-      complete: isFirstSearchDone($userInfo),
-      url: "/",
-    },
   ];
 
-  $: canCloseQuickStart = steps.filter(({ complete }) => complete).length >= 2;
-  $: if (steps.filter(({ complete }) => complete).length === steps.length) {
+  $: if (
+    steps.filter(({ complete }) => complete).length === steps.length &&
+    !structure.quickStartDone
+  ) {
     hideQuickStart();
   }
 </script>
@@ -65,14 +66,12 @@
         <p class="m-s0 text-f14">Vos premiers pas sur DORA</p>
       </div>
 
-      {#if canCloseQuickStart}
-        <button class="flex" on:click={hideQuickStart}>
-          <span class="h-s24 w-s24 fill-magenta-cta">
-            {@html closeIcon}
-          </span>
-          <span class="sr-only">Masquer le guide</span>
-        </button>
-      {/if}
+      <button class="flex" on:click={hideQuickStart}>
+        <span class="h-s24 w-s24 fill-magenta-cta">
+          {@html closeIcon}
+        </span>
+        <span class="sr-only">Masquer le guide</span>
+      </button>
     </div>
 
     <div class="px-s16 font-bold sm:px-s35">
