@@ -10,7 +10,6 @@
     ServiceUpdateStatus,
   } from "$lib/types";
   import RelativeDateLabel from "$lib/components/display/relative-date-label.svelte";
-  import DateLabel from "$lib/components/display/date-label.svelte";
 
   export let service: Service;
   export let servicesOptions: ServicesOptions;
@@ -32,12 +31,7 @@
             <UpdateStatusIcon {updateStatus} />
           </div>
 
-          <span class="hidden print:inline">
-            Mis à jour le <DateLabel date={service.modificationDate} />
-          </span>
-          <span class="print:hidden">
-            <RelativeDateLabel date={service.modificationDate} />
-          </span>
+          <RelativeDateLabel date={service.modificationDate} />
         </div>
       {:else if updateStatus === "NEEDED"}
         <div class="flex items-center">
@@ -46,12 +40,7 @@
           </span>
           <div>
             <div class="text-f18">
-              <strong class="hidden print:inline">
-                Mis à jour le <DateLabel date={service.modificationDate} />
-              </strong>
-              <strong class="print:hidden">
-                <RelativeDateLabel date={service.modificationDate} />
-              </strong>
+              <RelativeDateLabel date={service.modificationDate} bold />
             </div>
             <div class="text-f14">
               Vérifiez et/ou actualisez les informations de ce service dès
@@ -69,9 +58,7 @@
               <strong>Actualisation requise</strong>
             </div>
             <div class="text-f14">
-              <strong class="hidden print:inline">
-                <RelativeDateLabel date={service.modificationDate} />
-              </strong>
+              <RelativeDateLabel date={service.modificationDate} bold />
               <span class="print:hidden">
                 Ce service est dépriorisé dans les résultats de recherche, il
                 doit être actualisé pour gagner à nouveau en visibilité

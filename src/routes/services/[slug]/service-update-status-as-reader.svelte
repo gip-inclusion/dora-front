@@ -33,12 +33,7 @@
             <UpdateStatusIcon {updateStatus} />
           </span>
 
-          <span class="hidden print:inline">
-            Mis à jour le <DateLabel date={service.modificationDate} />
-          </span>
-          <span class="print:hidden">
-            <RelativeDateLabel date={service.modificationDate} />
-          </span>
+          <RelativeDateLabel date={service.modificationDate} />
         </div>
       {:else if updateStatus === "NEEDED"}
         <div class="flex items-center">
@@ -47,13 +42,7 @@
           </span>
           <div>
             <div class="text-f18">
-              <strong class="hidden print:inline">
-                Mis à jour le
-                <DateLabel date={service.modificationDate} />
-              </strong>
-              <strong class="print:hidden">
-                <RelativeDateLabel date={service.modificationDate} />
-              </strong>
+              <RelativeDateLabel date={service.modificationDate} bold />
             </div>
             <div class="text-f14">
               Ce service n’a pas été actualisé récemment, certaines informations

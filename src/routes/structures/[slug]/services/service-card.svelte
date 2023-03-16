@@ -14,7 +14,7 @@
   export let readOnly = true;
   export let onRefresh: () => void;
 
-  $: updateStatusData = computeUpdateStatus(service);
+  $: updateStatus = computeUpdateStatus(service);
 </script>
 
 <Bookmarkable slug={service.slug} let:onBookmark let:isBookmarked>
@@ -39,7 +39,7 @@
                 {service}
                 {servicesOptions}
                 {onRefresh}
-                updateStatus={updateStatusData}
+                {updateStatus}
               />
             </div>
           {/if}
@@ -76,17 +76,17 @@
       class="flex min-h-[100px] flex-col justify-center gap-s10 border-t border-t-gray-03 py-s12 px-s20"
     >
       <div class="flex items-center text-f14 text-gray-text">
-        {#if service.status !== "PUBLISHED" || updateStatusData === "NOT_NEEDED"}
+        {#if service.status !== "PUBLISHED" || updateStatus === "NOT_NEEDED"}
           <span class="mr-s8">
             <UpdateStatusIcon updateStatus="NOT_NEEDED" small />
           </span>
           <RelativeDateLabel date={service.modificationDate} />
-        {:else if updateStatusData === "NEEDED"}
+        {:else if updateStatus === "NEEDED"}
           <span class="mr-s8">
             <UpdateStatusIcon updateStatus="NEEDED" small />
           </span>
           <span class="font-bold">Actualisation conseillée</span>
-        {:else if updateStatusData === "REQUIRED"}
+        {:else if updateStatus === "REQUIRED"}
           <span class="mr-s8">
             <UpdateStatusIcon updateStatus="REQUIRED" small />
           </span>

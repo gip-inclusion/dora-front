@@ -1,8 +1,42 @@
-<script lang="ts">
-  import { computeRelativeDateLabel } from "$lib/utils/date";
+<script lang="ts" context="module">
+  import dayjs from "dayjs";
 
-  export let date;
-  export let prefix: string | undefined = undefined;
+  export function computeRelativeDateLabel(dateString: string) {
+    const day = dayjs(dateString);
+    const dayDiff = dayjs().diff(day, "day");
+    const weekDiff = dayjs().diff(day, "week");
+    const monthDiff = dayjs().diff(day, "month");
+    const yearDiff = dayjs().diff(day, "year");
+
+    let label = "";
+    if (dayDiff < 1) {
+      label = `aujourd'hui`;
+    } else if (dayDiff < 7) {
+      label = `il y a ${dayDiff} jour${dayDiff > 1 ? "s" : ""}`;
+    } else if (weekDiff <= 5) {
+      label = `il y a ${weekDiff} semaine${weekDiff > 1 ? "s" : ""}`;
+    } else if (monthDiff < 12) {
+      label = `il y a ${monthDiff} mois`;
+    } else {
+      label = `il y a plus de ${yearDiff} an${yearDiff > 1 ? "s" : ""}`;
+    }
+    return label;
+  }
 </script>
 
-{computeRelativeDateLabel(date, prefix)}
+<script lang="ts">
+  import DateLabel from "./date-label.svelte";
+
+  export let date;
+  export let bold = false;
+  export let prefix = "Actualisé le";
+
+  const htmlTag = bold ? "strong" : "span";
+</script>
+
+<svelte:element this={htmlTag} class="hidden print:inline">
+  {prefix}&nbsp;<DateLabel {date} />
+</svelte:element>
+<svelte:element this={htmlTag} class="print:hidden">
+  {prefix}&nbsp;{computeRelativeDateLabel(date)}
+</svelte:element>
