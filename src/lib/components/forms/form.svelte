@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { beforeNavigate } from "$app/navigation";
   import type { ServicesOptions } from "$lib/types";
   import type { Schema } from "$lib/validation/schema-utils";
   import {
@@ -19,6 +20,8 @@
   export let onSubmit, onSuccess;
   export let servicesOptions: ServicesOptions | undefined = undefined;
   export let onChange: ((validatedData) => void) | undefined = undefined;
+  export let showExitWarningModal = false;
+
   export let onValidate:
     | ((
         submittedData,
@@ -31,6 +34,19 @@
 
   onMount(() => {
     $formErrors = {};
+  });
+
+  beforeNavigate((navigation) => {
+    if (
+      showExitWarningModal &&
+      // eslint-disable-next-line
+      !window.confirm(
+        "Êtes-vous sûr·e de vouloir quitter cette page ? Les modifications que vous avez effectuées ne seront pas sauvegardées."
+      )
+    ) {
+      return navigation.cancel();
+    }
+    return null;
   });
 
   onDestroy(() => {
@@ -61,6 +77,7 @@
           onChange(validatedData);
         }
 
+        showExitWarningModal = true;
         resolve(true);
       }, 200);
     });
@@ -84,6 +101,9 @@
   async function handleSubmit(event: Event) {
     const submitterId = (event as SubmitEvent).submitter?.id;
     $formErrors = {};
+
+    const oldShowExitWarningModal = showExitWarningModal;
+
     const { validatedData, valid } = onValidate
       ? onValidate(data, submitterId)
       : validate(data, schema, {
@@ -92,6 +112,8 @@
     if (valid) {
       try {
         requesting = true;
+        showExitWarningModal = false;
+
         const result = await onSubmit(validatedData, submitterId);
         if (result.ok) {
           await onSuccess(await getJsonResult(result), submitterId);
@@ -110,6 +132,7 @@
         throw err;
       } finally {
         requesting = false;
+        showExitWarningModal = oldShowExitWarningModal;
       }
     }
   }
