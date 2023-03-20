@@ -29,14 +29,12 @@
 
   export let date;
   export let bold = false;
-  export let prefix = "Actualisé le";
-
-  const htmlTag = bold ? "strong" : "span";
+  export let prefix: string;
 </script>
 
-<svelte:element this={htmlTag} class="hidden print:inline">
+<span class="hidden print:inline" class:font-bold={bold}>
   {prefix}&nbsp;<DateLabel {date} />
-</svelte:element>
-<svelte:element this={htmlTag} class="print:hidden">
+</span>
+<span class="print:hidden" class:font-bold={bold}>
   {prefix}&nbsp;{computeRelativeDateLabel(date)}
-</svelte:element>
+</span>

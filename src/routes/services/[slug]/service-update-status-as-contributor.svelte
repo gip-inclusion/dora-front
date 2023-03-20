@@ -31,7 +31,10 @@
             <UpdateStatusIcon {updateStatus} />
           </div>
 
-          <RelativeDateLabel date={service.modificationDate} />
+          <RelativeDateLabel
+            date={service.modificationDate}
+            prefix="Actualisé"
+          />
         </div>
       {:else if updateStatus === "NEEDED"}
         <div class="flex items-center">
@@ -40,7 +43,11 @@
           </span>
           <div>
             <div class="text-f18">
-              <RelativeDateLabel date={service.modificationDate} bold />
+              <RelativeDateLabel
+                date={service.modificationDate}
+                prefix="Actualisé"
+                bold
+              />
             </div>
             <div class="text-f14">
               Vérifiez et/ou actualisez les informations de ce service dès
@@ -58,7 +65,11 @@
               <strong>Actualisation requise</strong>
             </div>
             <div class="text-f14">
-              <RelativeDateLabel date={service.modificationDate} bold />
+              <RelativeDateLabel
+                date={service.modificationDate}
+                prefix="Actualisé"
+                bold
+              />
               <span class="print:hidden">
                 Ce service est dépriorisé dans les résultats de recherche, il
                 doit être actualisé pour gagner à nouveau en visibilité

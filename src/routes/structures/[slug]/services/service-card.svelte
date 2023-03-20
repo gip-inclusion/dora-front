@@ -80,7 +80,10 @@
           <span class="mr-s8">
             <UpdateStatusIcon updateStatus="NOT_NEEDED" small />
           </span>
-          <RelativeDateLabel date={service.modificationDate} />
+          <RelativeDateLabel
+            date={service.modificationDate}
+            prefix="Actualisé"
+          />
         {:else if updateStatus === "NEEDED"}
           <span class="mr-s8">
             <UpdateStatusIcon updateStatus="NEEDED" small />

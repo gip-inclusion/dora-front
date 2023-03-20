@@ -33,7 +33,10 @@
             <UpdateStatusIcon {updateStatus} />
           </span>
 
-          <RelativeDateLabel date={service.modificationDate} />
+          <RelativeDateLabel
+            date={service.modificationDate}
+            prefix="Actualisé"
+          />
         </div>
       {:else if updateStatus === "NEEDED"}
         <div class="flex items-center">
@@ -42,7 +45,11 @@
           </span>
           <div>
             <div class="text-f18">
-              <RelativeDateLabel date={service.modificationDate} bold />
+              <RelativeDateLabel
+                date={service.modificationDate}
+                prefix="Actualisé"
+                bold
+              />
             </div>
             <div class="text-f14">
               Ce service n’a pas été actualisé récemment, certaines informations
