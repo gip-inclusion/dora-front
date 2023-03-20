@@ -6,9 +6,8 @@
     closeIcon,
   } from "$lib/icons";
   import {
-    canShowQuickStart,
     isStructureInformationsComplete,
-    hasOneService,
+    hasAtLeastOneServiceNotArchived,
     hasAtLeastTwoMembersOrInvitedMembers,
   } from "./quick-start";
   import type {
@@ -22,12 +21,9 @@
   export let members: StructureMember[];
   export let putativeMembers: PutativeStructureMember[];
 
-  let showQuickStart = canShowQuickStart(structure);
-
   async function hideQuickStart() {
-    await modifyStructure({ ...structure, quickStartDone: true });
+    await modifyStructure({ quickStartDone: true });
     structure.quickStartDone = true;
-    showQuickStart = canShowQuickStart(structure);
   }
 
   $: steps = [
@@ -42,8 +38,8 @@
       url: `/structures/${structure.slug}/collaborateurs`,
     },
     {
-      label: "Référencer un de vos services",
-      complete: hasOneService(structure),
+      label: "Référencer un premier service",
+      complete: hasAtLeastOneServiceNotArchived(structure),
       url: `/services/creer?structure=${structure.slug}`,
     },
   ];
@@ -56,7 +52,7 @@
   }
 </script>
 
-{#if showQuickStart}
+{#if structure.quickStartDone}
   <div class="rounded-md border border-gray-03">
     <div
       class="relative flex items-center justify-between gap-s16 border-b border-gray-01 px-s16 pb-s24 pt-s24 sm:flex-row sm:px-s35"

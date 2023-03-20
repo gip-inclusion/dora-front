@@ -12,12 +12,12 @@ export function isStructureInformationsComplete(structure) {
     showErrors: false,
   }).valid;
 }
-
-export function canShowQuickStart(structure: Structure): boolean {
-  return !structure.quickStartDone;
-}
-export function hasOneService(structure: Structure): boolean {
+export function hasAtLeastOneServiceNotArchived(structure: Structure): boolean {
+  // Note: `numServices` ne prend pas en compte les services archivés
   return structure.numServices > 0;
+}
+export function hasArchivedServices(structure: Structure): boolean {
+  return structure.archivedServices.length > 0;
 }
 
 function hasAtLeastTwoMembers(members: Array<StructureMember> = []): boolean {
