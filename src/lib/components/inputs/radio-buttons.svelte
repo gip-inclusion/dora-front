@@ -38,7 +38,7 @@
         />
       </div>
       <span class="ml-s16 inline-block text-f14 text-gray-text">
-        {@html choice.label}
+        {choice.label}
       </span>
     </label>
   {/each}
