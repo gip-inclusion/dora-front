@@ -20,7 +20,8 @@
   export let onSubmit, onSuccess;
   export let servicesOptions: ServicesOptions | undefined = undefined;
   export let onChange: ((validatedData) => void) | undefined = undefined;
-  export let showExitWarningModal = false;
+  export let hasUnsavedChange = false;
+  export let disableExitWarning = false;
 
   export let onValidate:
     | ((
@@ -38,7 +39,8 @@
 
   beforeNavigate((navigation) => {
     if (
-      showExitWarningModal &&
+      hasUnsavedChange &&
+      !disableExitWarning &&
       // eslint-disable-next-line
       !window.confirm(
         "Êtes-vous sûr·e de vouloir quitter cette page ? Les modifications que vous avez effectuées ne seront pas sauvegardées."
@@ -77,7 +79,7 @@
           onChange(validatedData);
         }
 
-        showExitWarningModal = true;
+        hasUnsavedChange = true;
         resolve(true);
       }, 200);
     });
@@ -102,7 +104,7 @@
     const submitterId = (event as SubmitEvent).submitter?.id;
     $formErrors = {};
 
-    const oldShowExitWarningModal = showExitWarningModal;
+    const oldHasUnsavedChange = hasUnsavedChange;
 
     const { validatedData, valid } = onValidate
       ? onValidate(data, submitterId)
@@ -112,7 +114,7 @@
     if (valid) {
       try {
         requesting = true;
-        showExitWarningModal = false;
+        hasUnsavedChange = false;
 
         const result = await onSubmit(validatedData, submitterId);
         if (result.ok) {
@@ -132,7 +134,7 @@
         throw err;
       } finally {
         requesting = false;
-        showExitWarningModal = oldShowExitWarningModal;
+        hasUnsavedChange = oldHasUnsavedChange;
       }
     }
   }
