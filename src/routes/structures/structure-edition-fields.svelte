@@ -71,13 +71,15 @@
   id="phone"
   bind:value={structure.phone}
   placeholder="0X XX XX XX XX"
+  description="Format attendu : 0X XX XX XX XX"
 />
 
 <BasicInputField
   type="email"
   id="email"
   bind:value={structure.email}
-  placeholder="nom.prenom@organisation.fr"
+  description="Format attendu : nom@domaine.fr"
+  placeholder="nom@domaine.fr"
 />
 
 <BasicInputField

@@ -73,7 +73,8 @@
         <BasicInputField
           id="email"
           bind:value={email}
-          placeholder="nom.prenom@organisation.fr"
+          placeholder="nom@domaine.fr"
+          description="Format attendu : nom@domaine.fr"
           disabled
           vertical
         />
@@ -82,6 +83,7 @@
           type="tel"
           id="phoneNumber"
           bind:value={phoneNumber}
+          description="Format attendu : 0X XX XX XX XX"
           placeholder="0X XX XX XX XX"
           vertical
         />
@@ -90,7 +92,7 @@
       <div class="mt-s32 flex flex-col justify-end gap-s16 md:flex-row ">
         <Button
           type="submit"
-          label="Valider"
+          label="Mettre à jour mes données"
           disabled={requesting}
           iconOnRight
           icon={arrowRightSIcon}

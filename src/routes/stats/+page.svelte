@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import { METABASE_EMBED_URL, PLAUSIBLE_EMBED_URL } from "$lib/env";
   import { iframeResize } from "iframe-resizer";
@@ -14,6 +15,7 @@
   <div class="text-center">
     <h1 class="text-france-blue">Statistiques</h1>
   </div>
+  <Breadcrumb currentLocation="stats" dark />
 </CenteredGrid>
 
 <CenteredGrid>

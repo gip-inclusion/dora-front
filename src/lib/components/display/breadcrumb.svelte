@@ -6,6 +6,15 @@
   type BreadcrumbLocation =
     | "home"
     | "search"
+    | "favorites"
+    | "stats"
+    | "legal-terms"
+    | "cgu"
+    | "accessibility"
+    | "confidentiality"
+    | "partners"
+    | "my-account"
+    | "login"
     | "structure-informations"
     | "structure-collaborateurs"
     | "structure-services"
@@ -16,6 +25,20 @@
   export let structure: Structure | undefined = undefined;
   export let service: Service | undefined = undefined;
   export let currentLocation: BreadcrumbLocation;
+  export let dark = false;
+
+  const locationToText: Record<BreadcrumbLocation, string> = {
+    search: "Recherche",
+    favorites: "Mes favoris",
+    stats: "Statistiques",
+    "legal-terms": "Mentions légales",
+    cgu: "Conditions Générales d’Utilisation",
+    accessibility: "Accessibilité",
+    confidentiality: "Données personnelles",
+    partners: "Nos partenaires",
+    "my-account": "Mon compte",
+    login: "Se connecter",
+  };
 
   function getStructureData(location) {
     if (location === "structure-collaborateurs") {
@@ -49,11 +72,7 @@
   $: structureData = getStructureData(currentLocation);
 </script>
 
-<nav
-  aria-label="Fil d'ariane"
-  class="print:hidden"
-  class:search-style={currentLocation === "search"}
->
+<nav aria-label="Fil d'ariane" class="print:hidden" class:search-style={dark}>
   <ol class="text-f14">
     <li class="inline">
       <a
@@ -80,10 +99,10 @@
       </li>
     {/if}
 
-    {#if currentLocation === "search"}
+    {#if Object.keys(locationToText).includes(currentLocation)}
       <li class="inline before:content-['/']">
         <a href={$page.url.href} aria-current="page" class="current">
-          Recherche
+          {locationToText[currentLocation]}
         </a>
       </li>
     {/if}
@@ -126,7 +145,7 @@
   }
 
   .search-style a {
-    @apply text-gray-text-alt2;
+    @apply text-gray-text;
   }
   .search-style li::before,
   .search-style .current {

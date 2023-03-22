@@ -1,9 +1,13 @@
 <script lang="ts">
   import connexionPic from "$lib/assets/illustrations/illu-connexion.svg";
+  import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
 </script>
 
 <CenteredGrid bgColor="bg-magenta-10">
+  <div class="mb-s24">
+    <Breadcrumb currentLocation="login" dark />
+  </div>
   <div class="flex flex-col gap-s24 lg:flex-row">
     <div class="mt-s48 hidden justify-center lg:flex lg:w-1/2">
       <img src={connexionPic} alt="" class="max-h-[460px]" />

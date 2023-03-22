@@ -27,15 +27,17 @@
 <AuthLayout>
   <FieldSet headerBg="bg-magenta-brand" noHeaderBorder noTopPadding>
     <div class="flex-1">
-      <h2 class="mb-s32 text-france-blue">Accédez à votre compte</h2>
+      <h1 class="mb-s32 text-f32 leading-40 text-france-blue">
+        Accédez à votre compte
+      </h1>
 
       <div class="rounded-ml bg-info-light p-s16">
-        <h4 class="flex text-info">
+        <h2 class="flex text-f17 leading-24 text-info">
           <div class="mr-s8 inline-block h-s24 w-s24 fill-current">
             {@html informationLineIcon}
           </div>
           <div>DORA passe à Inclusion Connect&nbsp!</div>
-        </h4>
+        </h2>
         <div class="legend mb-s16 text-gray-text">
           Si vous avez un Compte DORA, il vous suffit de créer un compte
           Inclusion Connect avec la même adresse e-mail afin de retrouver les

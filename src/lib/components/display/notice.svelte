@@ -9,6 +9,7 @@
   import Button from "./button.svelte";
 
   export let title = "";
+  export let titleLevel: "h3" | "h4" = "h4";
   export let type: "info" | "success" | "warning" | "error" = "info";
   export let hasCloseButton = false;
   export let showIcon = true;
@@ -58,7 +59,10 @@
         {/if}
 
         {#if title}
-          <h4 class="mb-s0 {types[type].title} flex leading-32">
+          <svelte:element
+            this={titleLevel}
+            class="mb-s0 {types[type].title} flex leading-32"
+          >
             {#if showIcon}
               <div class="mr-s8 inline-block text-center sm:hidden">
                 <div
@@ -71,7 +75,7 @@
             {/if}
 
             {title}
-          </h4>
+          </svelte:element>
         {/if}
         {#if hasCloseButton}
           <div>

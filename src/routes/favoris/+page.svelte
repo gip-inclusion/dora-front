@@ -1,5 +1,6 @@
 <script lang="ts">
   import illustration from "$lib/assets/illustrations/illu-favs.svg";
+  import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import { starSmileLineIcon } from "$lib/icons";
@@ -19,7 +20,11 @@
 
 <EnsureLoggedIn>
   <CenteredGrid>
+    <div class="mb-s24">
+      <Breadcrumb currentLocation="favorites" dark />
+    </div>
     <h1 class="mb-s64 text-center text-france-blue">Mes favoris</h1>
+
     {#if bookmarks.length}
       <p class="mb-s40 text-f21 font-bold text-gray-dark">
         {$userInfo.bookmarks.length} favori{$userInfo.bookmarks.length > 1

@@ -3,7 +3,7 @@
   import Notice from "$lib/components/display/notice.svelte";
 </script>
 
-<Notice title="Aidez-nous à améliorer DORA">
+<Notice title="Aidez-nous à améliorer DORA" titleLevel="h3">
   <p class="text-f14">
     Partagez votre expérience, des problèmes que vous rencontrez ou des
     propositions d’amélioration.

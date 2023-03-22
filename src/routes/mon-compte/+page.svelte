@@ -8,6 +8,7 @@
 <EnsureLoggedIn>
   <div class="mb-s24 md:flex md:items-center md:justify-between">
     <h2 class="text-france-blue">Mon compte</h2>
+
     <div class="flex gap-s12">
       <LinkButton label="Modifier" to="/mon-compte/editer" small />
     </div>
@@ -15,7 +16,10 @@
 
   <div class="md:flex md:gap-s24">
     <div class="mb-s24 flex-1 rounded-md bg-gray-00 p-s24">
-      <h3>{$userInfo.fullName}</h3>
+      <h3 class="sr-only">Mes informations</h3>
+      <p class="text-f23 font-bold leading-32 text-gray-dark">
+        {$userInfo.fullName}
+      </p>
       <p>{$userInfo.phoneNumber}</p>
       <p>{$userInfo.email}</p>
     </div>
@@ -25,7 +29,7 @@
 
       {#if $userInfo.isStaff}
         <div class="mb-s24 rounded-md  border border-gray-03 p-s24">
-          <h4>Raccourcis</h4>
+          <h3>Raccourcis</h3>
           <p class="text-f14">Pour l’équipe DORA.</p>
           <div class="flex flex-col gap-s8 lg:flex-row">
             <LinkButton
@@ -40,7 +44,7 @@
         </div>
       {:else if $userInfo.isManager}
         <div class="mb-s24 rounded-md  border border-gray-03 p-s24">
-          <h4>Raccourcis</h4>
+          <h3>Raccourcis</h3>
           <div class="flex flex-col gap-s8 lg:flex-row">
             <LinkButton
               label="Tableau de bord département"
