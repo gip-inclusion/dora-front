@@ -46,7 +46,7 @@
   <BooleanRadioButtonsField
     id="isContactInfoPublic"
     bind:value={service.isContactInfoPublic}
-    yesLabel="OUI – visibles pour tout visiteur du site DORA"
+    yesLabel="OUI – visibles pour tous les visiteurs du site DORA"
     noLabel="NON – visibles par les professionnels inscrits sur DORA"
   />
 </FieldSet>
