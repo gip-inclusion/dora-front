@@ -29,7 +29,7 @@
                 href={url}
                 title="Ouverture dans une nouvelle fenêtre"
                 target="_blank"
-                rel="noopener noreferrer"
+                rel="noopener"
               >
                 {label}
                 <span
