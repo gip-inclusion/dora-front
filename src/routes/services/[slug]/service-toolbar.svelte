@@ -24,8 +24,9 @@
 </script>
 
 <div id="service-update-status" class="relative">
-  <div class={updateStatusData.updateStatus}>
+  <div>
     <CenteredGrid
+      bgColor=""
       extraClass="
         py-s32 mb-s14 w-full
         {service.canWrite &&
@@ -126,17 +127,3 @@
     </CenteredGrid>
   {/if}
 </div>
-
-<style lang="postcss">
-  .NOT_NEEDED {
-    @apply mx-auto flex items-center;
-  }
-
-  .NEEDED {
-    @apply bg-service-orange;
-  }
-
-  .REQUIRED {
-    @apply bg-service-red;
-  }
-</style>
