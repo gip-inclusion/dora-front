@@ -29,12 +29,12 @@
 
   export let date;
   export let bold = false;
-  export let prefix: string;
+  export let prefix = "";
 </script>
 
 <span class="hidden print:inline" class:font-bold={bold}>
-  {prefix}&nbsp;<DateLabel {date} />
+  {prefix ? `${prefix}} ` : ""}<DateLabel {date} />
 </span>
 <span class="print:hidden" class:font-bold={bold}>
-  {prefix}&nbsp;{computeRelativeDateLabel(date)}
+  {prefix ? `${prefix} ` : ""}{computeRelativeDateLabel(date)}
 </span>
