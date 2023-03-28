@@ -48,13 +48,13 @@
         </div>
       {/if}
 
-      <div class="mb-s24 flex items-center justify-between">
+      <div class="mb-s24 flex justify-between gap-s8">
         <a
           class="full-card-link text-f19 font-bold text-france-blue hover:underline"
           href="/services/{service.slug}">{service.name}</a
         >
         {#if readOnly}
-          <div class="flex items-center gap-s8">
+          <div class="relative top-s6 flex">
             <FavoriteIcon on:click={onBookmark} active={isBookmarked} small />
           </div>
         {/if}
