@@ -20,9 +20,9 @@
   export let onSubmit, onSuccess;
   export let servicesOptions: ServicesOptions | undefined = undefined;
   export let onChange: ((validatedData) => void) | undefined = undefined;
-  export let hasUnsavedChange = false;
   export let disableExitWarning = false;
 
+  let hasUnsavedChange = false;
   export let onValidate:
     | ((
         submittedData,
@@ -43,7 +43,7 @@
       !disableExitWarning &&
       // eslint-disable-next-line
       !window.confirm(
-        "Êtes-vous sûr·e de vouloir quitter cette page ? Les modifications que vous avez effectuées ne seront pas sauvegardées."
+        "Cette page demande de confirmer sa fermeture; des données saisies pourraient ne pas être enregistrées."
       )
     ) {
       return navigation.cancel();
@@ -104,8 +104,6 @@
     const submitterId = (event as SubmitEvent).submitter?.id;
     $formErrors = {};
 
-    const oldHasUnsavedChange = hasUnsavedChange;
-
     const { validatedData, valid } = onValidate
       ? onValidate(data, submitterId)
       : validate(data, schema, {
@@ -114,11 +112,11 @@
     if (valid) {
       try {
         requesting = true;
-        hasUnsavedChange = false;
 
         const result = await onSubmit(validatedData, submitterId);
         if (result.ok) {
           await onSuccess(await getJsonResult(result), submitterId);
+          hasUnsavedChange = false;
         } else {
           injectAPIErrors(await getJsonResult(result), serverErrorsDict);
         }
@@ -134,7 +132,6 @@
         throw err;
       } finally {
         requesting = false;
-        hasUnsavedChange = oldHasUnsavedChange;
       }
     }
   }
