@@ -48,7 +48,7 @@
         </div>
       {/if}
 
-      <div class="mb-s24 flex justify-between gap-s8">
+      <div class="mb-s24 flex justify-between gap-s10">
         <a
           class="full-card-link text-f19 font-bold text-france-blue hover:underline"
           href="/services/{service.slug}">{service.name}</a
