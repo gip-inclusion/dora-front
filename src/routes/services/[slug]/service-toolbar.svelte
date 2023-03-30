@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { browser } from "$app/environment";
   import cornerLeftBlueImg from "$lib/assets/style/corner-left-blue.png";
   import cornerRightBlueImg from "$lib/assets/style/corner-right-blue.png";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
@@ -24,44 +25,46 @@
 </script>
 
 <div id="service-update-status" class="relative">
-  <div>
-    <CenteredGrid
-      bgColor=""
-      extraClass="
-        py-s32 mb-s14 w-full
-        {service.canWrite &&
-      service.status === 'PUBLISHED' &&
-      updateStatusData.updateStatus === 'NEEDED'
-        ? 'bg-service-orange'
-        : ''}
+  {#if browser}
+    <div>
+      <CenteredGrid
+        bgColor=""
+        extraClass="
+          py-s32 mb-s14 w-full
+          {service.canWrite &&
+        service.status === 'PUBLISHED' &&
+        updateStatusData.updateStatus === 'NEEDED'
+          ? 'bg-service-orange'
+          : ''}
 
-        {service.canWrite &&
-      service.status === 'PUBLISHED' &&
-      updateStatusData.updateStatus === 'REQUIRED'
-        ? 'bg-service-red'
-        : ''}
-      "
-      noPadding
-    >
-      {#if service.canWrite}
-        <ServiceUpdateStatusAsContributor
-          monthDiff={updateStatusData.monthDiff}
-          {label}
-          {onRefresh}
-          updateStatus={updateStatusData.updateStatus}
-          {service}
-          {servicesOptions}
-        />
-      {:else}
-        <ServiceUpdateStatusAsReader
-          {label}
-          monthDiff={updateStatusData.monthDiff}
-          updateStatus={updateStatusData.updateStatus}
-          {service}
-        />
-      {/if}
-    </CenteredGrid>
-  </div>
+          {service.canWrite &&
+        service.status === 'PUBLISHED' &&
+        updateStatusData.updateStatus === 'REQUIRED'
+          ? 'bg-service-red'
+          : ''}
+        "
+        noPadding
+      >
+        {#if service.canWrite}
+          <ServiceUpdateStatusAsContributor
+            monthDiff={updateStatusData.monthDiff}
+            {label}
+            {onRefresh}
+            updateStatus={updateStatusData.updateStatus}
+            {service}
+            {servicesOptions}
+          />
+        {:else}
+          <ServiceUpdateStatusAsReader
+            {label}
+            monthDiff={updateStatusData.monthDiff}
+            updateStatus={updateStatusData.updateStatus}
+            {service}
+          />
+        {/if}
+      </CenteredGrid>
+    </div>
+  {/if}
 
   {#if !service.canWrite || updateStatusData.updateStatus === "NOT_NEEDED" || service.status !== "PUBLISHED"}
     <div
