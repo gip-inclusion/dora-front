@@ -83,7 +83,7 @@
   </div>
 
   <div class="data">
-    <p class="bold mb-s32 text-f21">{structure.shortDesc}</p>
+    <p class="mb-s32 text-f21 font-bold">{structure.shortDesc}</p>
 
     <div class="flex flex-col gap-s32 md:flex-row">
       {#if nationalLabelsDisplay}
