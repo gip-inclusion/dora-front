@@ -22,7 +22,7 @@
   export let putativeMembers: PutativeStructureMember[];
 
   async function hideQuickStart() {
-    await modifyStructure({ quickStartDone: true });
+    await modifyStructure({ slug: structure.slug, quickStartDone: true });
     structure.quickStartDone = true;
   }
 
