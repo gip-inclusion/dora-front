@@ -5,7 +5,7 @@
 
 <CenteredGrid>
   <div class="max-w-3xl">
-    <div class="mb-s24">
+    <div class="mb-s48">
       <Breadcrumb currentLocation="accessibility" dark />
     </div>
 
@@ -102,6 +102,10 @@
 </CenteredGrid>
 
 <style>
+  h1 {
+    @apply text-france-blue;
+  }
+
   a {
     @apply underline;
   }

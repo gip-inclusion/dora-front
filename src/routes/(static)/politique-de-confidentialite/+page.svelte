@@ -8,7 +8,7 @@
 </script>
 
 <CenteredGrid>
-  <div class="mb-s24">
+  <div class="mb-s48">
     <Breadcrumb currentLocation="confidentiality" dark />
   </div>
 
