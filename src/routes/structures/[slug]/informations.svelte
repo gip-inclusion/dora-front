@@ -14,6 +14,7 @@
     StructureMember,
     Structure,
     StructuresOptions,
+    PutativeStructureMember,
   } from "$lib/types";
   import { formatPhoneNumber, markdownToHTML } from "$lib/utils/misc";
   import { formatOsmHours } from "$lib/utils/opening-hours";
@@ -22,6 +23,7 @@
 
   export let structure: Structure;
   export let members: StructureMember[];
+  export let putativeMembers: PutativeStructureMember[];
   export let structuresOptions: StructuresOptions;
 
   let fullDesc;
@@ -48,7 +50,7 @@
   <div
     class="flex flex-col justify-between border-b border-gray-03 pb-s40 sm:flex-row"
   >
-    <h2 class="text-france-blue">Informations</h2>
+    <h2 class="text-france-blue">Présentation de la structure</h2>
     {#if structure.canEditInformations}
       <div class="text-right">
         <LinkButton
@@ -76,12 +78,12 @@
 <div class="structure-body">
   <div class="notice">
     {#if structure.isMember && structure.canEditInformations}
-      <QuickStart {structure} {members} />
+      <QuickStart {structure} {members} {putativeMembers} />
     {/if}
   </div>
 
   <div class="data">
-    <p class="bold mb-s32 text-f21">{structure.shortDesc}</p>
+    <p class="mb-s32 text-f21 font-bold">{structure.shortDesc}</p>
 
     <div class="flex flex-col gap-s32 md:flex-row">
       {#if nationalLabelsDisplay}
@@ -105,9 +107,6 @@
     <hr class="separator" />
 
     <div class="presentation">
-      <h3 class="text-f32 leading-32 text-france-blue md:mt-s32">
-        Présentation de la structure
-      </h3>
       <TextClamp text={fullDesc} />
     </div>
   {/if}
@@ -160,7 +159,7 @@
             <a
               target="_blank"
               title="Ouverture dans une nouvelle fenêtre"
-              rel="noopener nofollow"
+              rel="noopener ugc"
               class="break-all text-gray-text  underline"
               href={structure.url}
             >
@@ -207,7 +206,7 @@
             <a
               target="_blank"
               title="Ouverture dans une nouvelle fenêtre"
-              rel="noopener nofollow"
+              rel="noopener ugc"
               class="items-center break-words text-gray-text underline"
               href={structure.accesslibreUrl}
             >
