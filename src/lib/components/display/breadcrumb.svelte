@@ -6,10 +6,10 @@
   type BreadcrumbLocation =
     | "home"
     | "search"
-    | "legal-terms"
+    | "legal"
     | "cgu"
     | "accessibility"
-    | "confidentiality"
+    | "privacy"
     | "partners"
     | "structure-informations"
     | "structure-collaborateurs"
@@ -25,10 +25,10 @@
 
   const locationToText: Record<string, string> = {
     search: "Recherche",
-    "legal-terms": "Mentions légales",
-    cgu: "Conditions Générales d’Utilisation",
+    legal: "Mentions légales",
+    cgu: "Conditions générales d’utilisation",
     accessibility: "Accessibilité",
-    confidentiality: "Données personnelles",
+    privacy: "Données personnelles",
     partners: "Nos partenaires",
   };
 

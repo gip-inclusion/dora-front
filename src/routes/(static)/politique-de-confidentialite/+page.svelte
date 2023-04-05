@@ -9,7 +9,7 @@
 
 <CenteredGrid>
   <div class="mb-s48">
-    <Breadcrumb currentLocation="confidentiality" dark />
+    <Breadcrumb currentLocation="privacy" dark />
   </div>
 
   <StaticMarkdown content={data.content} />
