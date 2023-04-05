@@ -13,7 +13,7 @@
   </div>
 
   <div>
-    <h1>Nos partenaires</h1>
+    <h1 class="text-france-blue">Nos partenaires</h1>
     <p>
       Plus de 1 000 structures ont déjà commencé à référencer leurs services sur
       DORA
@@ -24,9 +24,3 @@
     </ul>
   </div>
 </CenteredGrid>
-
-<style>
-  h1 {
-    @apply text-france-blue;
-  }
-</style>
