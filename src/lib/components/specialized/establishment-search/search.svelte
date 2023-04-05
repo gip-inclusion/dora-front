@@ -62,8 +62,8 @@
         class="underline"
         target="_blank"
         title="Ouverture dans une nouvelle fenêtre"
-        rel="noopener nofollow"
-        href="https://aide.dora.fabrique.social.gouv.fr/fr/">contactez-nous</a
+        rel="noopener"
+        href="https://aide.dora.inclusion.beta.gouv.fr/fr/">contactez-nous</a
       >.
     </p>
 

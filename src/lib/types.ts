@@ -6,16 +6,16 @@ export type AdminDivisionType =
   | "city";
 
 export type ServiceCategory =
-  | "acces-aux-droits"
-  | "acc-global-indiv"
+  | "acces-aux-droits-et-citoyennete"
+  | "accompagnement-social-et-professionnel-personnalise"
   | "apprendre-francais"
-  | "creation-activite	"
-  | "difficultes-financieres"
-  | "emploi-choisir-metier"
-  | "emploi-preparer-sa-candidature"
-  | "emploi-trouver-emploi"
-  | "equipement-alimentation"
-  | "famille	"
+  | "creation-activite"
+  | "gestion-financiere"
+  | "choisir-un-metier"
+  | "preparer-sa-candidature"
+  | "trouver-un-emploi"
+  | "equipement-et-alimentation"
+  | "famille"
   | "handicap"
   | "illettrisme"
   | "logement-hebergement"
@@ -128,7 +128,6 @@ export interface StructureSource {
   value: string;
   label: string;
 }
-
 export interface Structure {
   accesslibreUrl: string;
   address1: string;
@@ -136,7 +135,11 @@ export interface Structure {
   ape: string;
   archivedServices: StructureService[];
   branches: Branches[];
-  canWrite: boolean;
+  canEditInformations: boolean;
+  canEditMembers: boolean;
+  canEditServices: boolean;
+  canInviteFirstAdmin: boolean;
+  canViewMembers: boolean;
   city: string;
   cityCode: string;
   codeSafirPe: string;
@@ -163,6 +166,7 @@ export interface Structure {
   parent: string;
   phone: number;
   postalCode: string;
+  quickStartDone: boolean;
   services: StructureService[];
   shortDesc: string;
   siret: string | null;
@@ -171,6 +175,24 @@ export interface Structure {
   typologyDisplay: string;
   typology: number;
   url: string;
+}
+
+interface StructureMemberUserInfos {
+  email: string;
+  firstName: string;
+  fullName: string;
+  lastName: string;
+}
+export interface StructureMember {
+  id: string;
+  isAdmin: boolean;
+  user: StructureMemberUserInfos;
+}
+export interface PutativeStructureMember {
+  id: string;
+  invitedByAdmin: boolean;
+  isAdmin: boolean;
+  user: StructureMemberUserInfos;
 }
 
 export interface Establishment {
@@ -207,7 +229,6 @@ export interface StructuresOptions {
 // OSM hours format
 export type OsmPeriodDay = {
   isOpen: boolean;
-  touched: boolean;
   openAt: string;
   closeAt: string;
 };
@@ -414,6 +435,7 @@ export interface ShortService {
   status: ServiceStatus;
   structure: string;
   structureInfo: ServiceStructure;
+  locationKinds: LocationKind;
   useInclusionNumeriqueScheme: boolean;
 }
 
