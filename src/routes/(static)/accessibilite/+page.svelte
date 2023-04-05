@@ -1,9 +1,14 @@
 <script lang="ts">
+  import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
 </script>
 
 <CenteredGrid>
   <div class="max-w-3xl">
+    <div class="mb-s48">
+      <Breadcrumb currentLocation="accessibility" dark />
+    </div>
+
     <h1>Déclaration d’accessibilité</h1>
     <p>Établie le <span>7 décembre 2022</span>.</p>
     <p>
@@ -13,7 +18,7 @@
     </p>
     <p>
       Cette déclaration d’accessibilité s’applique à <strong>DORA</strong>
-      <span> (https://dora.fabrique.social.gouv.fr/)</span>.
+      <span> (https://dora.inclusion.beta.gouv.fr/)</span>.
     </p>
     <h2>État de conformité</h2>
     <p>
@@ -49,8 +54,8 @@
 
       <li>
         Formulaire de contact&nbsp;: <a
-          href="https://aide.dora.fabrique.social.gouv.fr/fr/"
-          >https://aide.dora.fabrique.social.gouv.fr</a
+          href="https://aide.dora.inclusion.beta.gouv.fr/fr/"
+          >https://aide.dora.inclusion.beta.gouv.fr</a
         >
       </li>
       <li>
@@ -97,6 +102,10 @@
 </CenteredGrid>
 
 <style>
+  h1 {
+    @apply text-france-blue;
+  }
+
   a {
     @apply underline;
   }

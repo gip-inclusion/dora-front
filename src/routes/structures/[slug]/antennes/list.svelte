@@ -3,10 +3,8 @@
   import StructureCard from "$lib/components/specialized/structure-card.svelte";
   import { API_URL, CANONICAL_URL } from "$lib/env";
   import { home3Icon } from "$lib/icons";
-  import { userInfo } from "$lib/utils/auth";
   import Count from "../count.svelte";
-  // import Select from "$lib/components/forms/select.svelte";
-  // import Input from "$lib/components/forms/input.svelte";
+
   export let structure, branches, total;
   export let hasOptions = true;
   export let limit;
@@ -69,17 +67,12 @@
         noBackground
       />
     {/if}
-    {#if $userInfo && (structure.isAdmin || $userInfo?.isStaff)}
+    {#if structure.canEditInformations}
       <LinkButton
         label="Ajouter une antenne"
-        to={`https://itou.typeform.com/to/IXADRw7j#courriel_demandeur=${encodeURIComponent(
-          $userInfo.email
-        )}&lien_frontend=${encodeURIComponent(
-          structureFrontEndLink
-        )}&lien_backend=${encodeURIComponent(structureBackEndLink)}`}
+        to="https://aide.dora.inclusion.beta.gouv.fr/fr/article/creer-une-ou-plusieurs-antennes-1xggiaw/"
         icon={home3Icon}
         otherTab
-        nofollow
       />
     {/if}
 
@@ -102,7 +95,7 @@
   </div>
 </div>
 
-<div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-4">
+<div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-3">
   {#each branchesFiltered as branch}
     <StructureCard structure={branch} />
   {/each}
