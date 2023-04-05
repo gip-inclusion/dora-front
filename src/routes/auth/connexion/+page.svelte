@@ -28,7 +28,7 @@
 
 <CenteredGrid>
   <div class="mb-s48">
-    <Breadcrumb currentLocation="search" />
+    <Breadcrumb currentLocation="login" dark />
   </div>
 
   <h1 class="mb-s24 text-france-blue">Accéder à DORA</h1>
