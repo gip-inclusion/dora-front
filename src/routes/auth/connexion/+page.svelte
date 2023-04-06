@@ -117,7 +117,7 @@
 
         <hr class="my-s32" />
         <div
-          class="mb-s24 flex flex-wrap content-center items-center justify-around gap-s8 sm:flex-row"
+          class="mb-s32 flex flex-wrap content-center items-center justify-around gap-s8 sm:flex-row"
         >
           <img
             class="inline-block"
@@ -154,8 +154,9 @@
           <a
             class="text-magenta-cta underline"
             target="_blank"
+            title="Ouverture dans une nouvelle fenêtre"
             rel="noopener"
-            href="https://aide.dora.fabrique.social.gouv.fr/fr/article/inclusion-connect-quesaco-y13f84/"
+            href="https://aide.dora.inclusion.beta.gouv.fr/fr/article/inclusion-connect-quesaco-y13f84/"
           >
             consultez notre documentation.
           </a>
