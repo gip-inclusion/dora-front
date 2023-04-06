@@ -85,7 +85,7 @@
                 target="_blank"
                 title="Ouverture dans une nouvelle fenêtre"
                 rel="noopener"
-                href="https://aide.dora.fabrique.social.gouv.fr/fr/category/inscription-et-gestion-du-compte-ha8m5b/"
+                href="https://aide.dora.inclusion.beta.gouv.fr/fr/category/inscription-et-gestion-du-compte-ha8m5b/"
               >
                 Besoin d’aide&nbsp;? Contactez-nous
               </a>
