@@ -15,7 +15,7 @@ export const load: PageLoad = async ({ url, parent }) => {
     url.searchParams.get("forceLogin") === "1" || false;
 
   const nextPage = getNextPage(url);
-  // Si on a déjà un token et qu'on n'oblige pas au login, on redirige directement sur la destination
+  // Si on a déjà un token et qu'on ne force pas le login, on redirige directement sur la destination
   if (get(token) && !forceLogin) {
     throw redirect(302, nextPage);
   }
