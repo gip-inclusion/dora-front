@@ -8,6 +8,7 @@
     | "search"
     | "legal"
     | "cgu"
+    | "account"
     | "accessibility"
     | "privacy"
     | "partners"
@@ -30,6 +31,7 @@
     accessibility: "Accessibilité",
     privacy: "Données personnelles",
     partners: "Nos partenaires",
+    account: "Mes informations",
   };
 
   function getStructureData(location) {
