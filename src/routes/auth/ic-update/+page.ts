@@ -14,8 +14,13 @@ export const load: PageLoad = async () => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      // On redirige l'utilisateur vers la page de connexion Inclusion Connect
+      // pour mettre à jour les informations de l'utilisateur
+
       // eslint-disable-next-line camelcase
-      referrer_uri: `${CANONICAL_URL}/mon-compte`,
+      referrer_uri: `${CANONICAL_URL}/auth/ic-connect?forceLogin=1&next=${encodeURIComponent(
+        "/mon-compte"
+      )}`,
     }),
   });
 
