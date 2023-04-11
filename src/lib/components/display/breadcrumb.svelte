@@ -77,19 +77,19 @@
 
     {#if structure}
       <li class="inline before:content-['/']">
-        {#if currentLocation === "structure-informations"}
-          <a aria-current="page" class="current">
-            <span class="hidden lg:inline">
-              Structure&nbsp;•&nbsp;
-            </span>{structure.name}
-          </a>
-        {:else}
-          <a href="/structures/{structure.slug}">
-            <span class="hidden lg:inline">
-              Structure&nbsp;•&nbsp;
-            </span>{structure.name}
-          </a>
-        {/if}
+        <a
+          href={currentLocation === "structure-informations"
+            ? null
+            : `/structures/${structure.slug}`}
+          class:current={currentLocation === "structure-informations"}
+          aria-current={currentLocation === "structure-informations"
+            ? "page"
+            : null}
+        >
+          <span class="hidden lg:inline">
+            Structure&nbsp;•&nbsp;
+          </span>{structure.name}
+        </a>
       </li>
     {/if}
 
@@ -103,21 +103,16 @@
 
     {#if service}
       <li class="inline before:content-['/']">
-        {#if currentLocation === "service"}
-          <a
-            href="/services/{service.slug}"
-            class="current"
-            aria-current="page"
-          >
-            <span class="hidden lg:inline">Service&nbsp;•&nbsp;</span>
-            {service.name}
-          </a>
-        {:else}
-          <a href="/services/{service.slug}">
-            <span class="hidden lg:inline">Service&nbsp;•&nbsp;</span>
-            {service.name}
-          </a>
-        {/if}
+        <a
+          href={currentLocation === "service"
+            ? null
+            : `/services/${service.slug}`}
+          class:current={currentLocation === "service"}
+          aria-current={currentLocation === "service" ? "page" : null}
+        >
+          <span class="hidden lg:inline">Service&nbsp;•&nbsp;</span>
+          {service.name}
+        </a>
       </li>
     {:else if currentLocation.startsWith("structure-") && currentLocation !== "structure-informations"}
       <li class="inline before:content-['/']">
