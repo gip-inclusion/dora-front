@@ -9,6 +9,7 @@
     | "legal"
     | "cgu"
     | "account"
+    | "login"
     | "accessibility"
     | "privacy"
     | "partners"
@@ -26,6 +27,7 @@
 
   const locationToText: Record<string, string> = {
     search: "Recherche",
+    login: "Accéder à DORA",
     legal: "Mentions légales",
     cgu: "Conditions générales d’utilisation",
     accessibility: "Accessibilité",
@@ -70,7 +72,7 @@
   <ol class="text-f14">
     <li class="inline">
       <a
-        href={"/"}
+        href="/"
         aria-current={currentLocation === "home" ? "page" : null}
         class:current={currentLocation === "home"}
         title="Retour à l'accueil du site">Accueil</a
