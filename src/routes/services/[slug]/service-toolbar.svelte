@@ -65,12 +65,12 @@
     <img
       src={cornerLeftBlueImg}
       alt=""
-      class="absolute -top-[1px] left-s0 print:hidden"
+      class="absolute top-s0 left-s0 print:hidden"
     />
     <img
       src={cornerRightBlueImg}
       alt=""
-      class="absolute -top-[1px] right-s0 print:hidden"
+      class="absolute top-s0 right-s0 print:hidden"
     />
   {/if}
 

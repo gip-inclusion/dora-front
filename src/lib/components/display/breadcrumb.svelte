@@ -8,6 +8,7 @@
     | "search"
     | "legal"
     | "cgu"
+    | "model"
     | "login"
     | "accessibility"
     | "privacy"
@@ -21,6 +22,7 @@
 
   export let structure: Structure | undefined = undefined;
   export let service: Service | undefined = undefined;
+  export let model: Service | undefined = undefined;
   export let currentLocation: BreadcrumbLocation;
   export let dark = false;
 
@@ -120,6 +122,18 @@
         >
           <span>{structureData.name}</span>
         </a>
+      </li>
+    {/if}
+
+    {#if model}
+      <li class="inline before:content-['/']">
+        <a
+          href={currentLocation === "model" ? null : `/modeles/${model.slug}`}
+          class:current={currentLocation === "model"}
+          aria-current={currentLocation === "model" ? "page" : null}
+          ><span class="hidden lg:inline">Modèle&nbsp;•&nbsp;</span
+          >{model.name}</a
+        >
       </li>
     {/if}
   </ol>
