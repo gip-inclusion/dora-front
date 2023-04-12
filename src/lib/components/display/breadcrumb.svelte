@@ -1,7 +1,7 @@
 <script lang="ts">
   // Source pour l'accessibilité : https://www.w3.org/WAI/ARIA/apg/example-index/breadcrumb/index.html
   import { page } from "$app/stores";
-  import type { Service, Structure } from "$lib/types";
+  import type { Model, Service, Structure } from "$lib/types";
 
   type BreadcrumbLocation =
     | "home"
@@ -22,7 +22,7 @@
 
   export let structure: Structure | undefined = undefined;
   export let service: Service | undefined = undefined;
-  export let model: Service | undefined = undefined;
+  export let model: Model | undefined = undefined;
   export let currentLocation: BreadcrumbLocation;
   export let dark = false;
 

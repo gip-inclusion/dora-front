@@ -1,17 +1,14 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { browser } from "$app/environment";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
+  import type { PageData } from "./$types";
   import ModelHeader from "./model-header.svelte";
   import { trackModel } from "$lib/utils/plausible";
-  import { onMount } from "svelte";
-  import type { PageData } from "./$types";
-
   import cornerLeftLightBlueImg from "$lib/assets/style/corner-left-lightblue.png";
-  import cornerRightLightBlueImg from "$lib/assets/style/corner-right-lightblue.png"; // TODO
-
+  import cornerRightLightBlueImg from "$lib/assets/style/corner-right-lightblue.png";
   import RelativeDateLabel from "$lib/components/display/relative-date-label.svelte";
   import UpdateStatusIcon from "$lib/components/specialized/services/update-status-icon.svelte";
-
   import LinkButton from "$lib/components/display/link-button.svelte";
   import { userInfo } from "$lib/utils/auth";
   import { addCircleIcon, editIcon } from "$lib/icons";
