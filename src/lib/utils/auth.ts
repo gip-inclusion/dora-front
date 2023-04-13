@@ -24,7 +24,6 @@ export interface UserInfo {
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
   tokenExpiration: string;
-  isInclusionConnectUser: boolean;
 }
 
 export const userInfo = writable<UserInfo>(null);

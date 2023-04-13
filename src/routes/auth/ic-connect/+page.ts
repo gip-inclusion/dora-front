@@ -12,7 +12,7 @@ export const load: PageLoad = async ({ url, parent }) => {
   await parent();
 
   const forceLogin: boolean =
-    url.searchParams.get("forceLogin") === "1" || false;
+    url.searchParams.get("force_login") === "1" || false;
 
   const nextPage = getNextPage(url);
   // Si on a déjà un token et qu'on ne force pas le login, on redirige directement sur la destination

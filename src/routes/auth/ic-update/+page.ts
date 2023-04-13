@@ -6,7 +6,7 @@ import type { PageLoad } from "./$types";
 export const ssr = false;
 
 export const load: PageLoad = async () => {
-  const targetUrl = `${getApiURL()}/inclusion-connect-update-info/`;
+  const targetUrl = `${getApiURL()}/inclusion-connect-get-update-info/`;
   const result = await fetch(targetUrl, {
     method: "POST",
     headers: {
@@ -18,7 +18,7 @@ export const load: PageLoad = async () => {
       // pour mettre à jour les informations de l'utilisateur
 
       // eslint-disable-next-line camelcase
-      referrer_uri: `${CANONICAL_URL}/auth/ic-connect?forceLogin=1&next=${encodeURIComponent(
+      referrer_uri: `${CANONICAL_URL}/auth/ic-connect?force_login=1&next=${encodeURIComponent(
         "/mon-compte"
       )}`,
     }),

@@ -22,21 +22,14 @@
           Mes informations
         </h1>
 
-        {#if $userInfo.isInclusionConnectUser}
-          <LinkButton
-            label="Modifier vos informations"
-            to={`/auth/ic-update?next=${encodeURIComponent(
-              `${getApiURL()}/mon-compte`
-            )}`}
-            icon={externalLinkIcon}
-            iconOnRight
-          />
-        {:else}
-          <LinkButton
-            label="Modifier vos informations"
-            to="/mon-compte/editer"
-          />
-        {/if}
+        <LinkButton
+          label="Modifier vos informations"
+          to={`/auth/ic-update?next=${encodeURIComponent(
+            `${getApiURL()}/mon-compte`
+          )}`}
+          icon={externalLinkIcon}
+          iconOnRight
+        />
       </div>
 
       <div class="grid gap-s35 p-s16 md:grid-cols-2 md:p-s35">
@@ -54,18 +47,16 @@
         </div>
       </div>
 
-      {#if $userInfo.isInclusionConnectUser}
-        <div class="bottom-s0 w-full pt-s12 md:absolute">
-          <hr class="mx-s12 md:mx-s35" />
-          <p class="m-s0 py-s12 px-s16 text-f14 text-gray-text md:px-s35">
-            Vous utilisez <a
-              class="underline"
-              href="https://aide.dora.inclusion.beta.gouv.fr/fr/article/inclusion-connect-quesaco-y13f84/"
-              >Inclusion Connect</a
-            > pour vous connecter à DORA.
-          </p>
-        </div>
-      {/if}
+      <div class="bottom-s0 w-full pt-s12 md:absolute">
+        <hr class="mx-s12 md:mx-s35" />
+        <p class="m-s0 py-s12 px-s16 text-f14 text-gray-text md:px-s35">
+          Vous utilisez <a
+            class="underline"
+            href="https://aide.dora.inclusion.beta.gouv.fr/fr/article/inclusion-connect-quesaco-y13f84/"
+            >Inclusion Connect</a
+          > pour vous connecter à DORA.
+        </p>
+      </div>
     </div>
 
     <div class="flex flex-1 flex-col gap-s24">
