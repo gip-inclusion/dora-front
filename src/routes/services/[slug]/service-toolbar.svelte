@@ -1,9 +1,8 @@
 <script lang="ts">
   import { browser } from "$app/environment";
-  import cornerLeftBlueImg from "$lib/assets/style/corner-left-blue.png";
-  import cornerRightBlueImg from "$lib/assets/style/corner-right-blue.png";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
+  import RounderCouner from "$lib/components/specialized/services/display/rounded-corner.svelte";
   import ServiceStateUpdateSelect from "$lib/components/specialized/services/service-state-update-select.svelte";
   import SynchronizedIcon from "$lib/components/specialized/services/synchronized-icon.svelte";
   import { copyIcon2 } from "$lib/icons";
@@ -21,8 +20,17 @@
 </script>
 
 <div id="service-update-status" class="relative">
+  {#if updateStatus === "NOT_NEEDED" || !$token}
+    <div class="absolute top-s0 left-s0">
+      <RounderCouner bgColor="bg-france-blue" position="left" />
+    </div>
+    <div class="absolute top-s0 right-s0">
+      <RounderCouner bgColor="bg-france-blue" position="right" />
+    </div>
+  {/if}
+
   {#if browser}
-    <div>
+    <div class="relative">
       <CenteredGrid
         bgColor=""
         extraClass="
@@ -58,19 +66,6 @@
   {#if !service.canWrite || updateStatus === "NOT_NEEDED" || service.status !== "PUBLISHED"}
     <div
       class="m-auto max-w-6xl border border-t-0 border-r-0 border-l-0 border-gray-02"
-    />
-  {/if}
-
-  {#if updateStatus === "NOT_NEEDED" || !$token}
-    <img
-      src={cornerLeftBlueImg}
-      alt=""
-      class="absolute top-s0 left-s0 print:hidden"
-    />
-    <img
-      src={cornerRightBlueImg}
-      alt=""
-      class="absolute top-s0 right-s0 print:hidden"
     />
   {/if}
 

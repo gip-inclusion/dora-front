@@ -1,7 +1,6 @@
 <script lang="ts">
-  import cornerLeftVioletImg from "$lib/assets/style/corner-left-violet.png";
-  import cornerRightVioletImg from "$lib/assets/style/corner-right-violet.png";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
+  import RounderCouner from "$lib/components/specialized/services/display/rounded-corner.svelte";
   import TallyNpsPopup from "$lib/components/specialized/tally-nps-popup.svelte";
   import { TallyFormId } from "$lib/utils/nps";
   import Header from "./header.svelte";
@@ -17,16 +16,8 @@
 </CenteredGrid>
 
 <div class="relative hidden w-full md:block">
-  <img
-    src={cornerLeftVioletImg}
-    alt=""
-    class="md absolute top-s0 left-s0 print:hidden"
-  />
-  <img
-    src={cornerRightVioletImg}
-    alt=""
-    class="top-0 absolute right-s0 print:hidden"
-  />
+  <RounderCouner bgColor="bg-magenta-brand" position="left" />
+  <RounderCouner bgColor="bg-magenta-brand" position="right" />
 </div>
 
 <CenteredGrid>
@@ -41,15 +32,3 @@
     hiddenFields={{ user: "offreur" }}
   />
 {/if}
-
-<style lang="postcss">
-  img {
-    zoom: 0.6;
-  }
-
-  @screen xl {
-    img {
-      zoom: 1;
-    }
-  }
-</style>
