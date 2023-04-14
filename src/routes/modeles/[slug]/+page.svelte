@@ -11,7 +11,6 @@
   import { userInfo } from "$lib/utils/auth";
   import { addCircleIcon, editIcon } from "$lib/icons";
   import ServiceBody from "$lib/components/specialized/services/display/service-body.svelte";
-  import RounderCorner from "$lib/components/specialized/services/display/rounded-corner.svelte";
 
   export let data: PageData;
 
@@ -24,13 +23,8 @@
   <ModelHeader model={data.model} />
 </CenteredGrid>
 
-<div class="relative hidden w-full md:block">
-  <RounderCorner bgColor="bg-blue-information" position="left" />
-  <RounderCorner bgColor="bg-blue-information" position="right" />
-</div>
-
-{#if browser}
-  <CenteredGrid bgColor="" extraClass="mb-s14 w-full">
+<CenteredGrid roundedColor="bg-blue-information" extraClass="mb-s14 w-full">
+  {#if browser}
     <div class="flex items-center justify-between text-gray-text">
       <div class="flex items-center">
         <span class="mr-s16">
@@ -62,9 +56,9 @@
         {/if}
       </div>
     </div>
-    <hr class="mt-s32" />
-  </CenteredGrid>
-{/if}
+  {/if}
+  <hr class="mt-s32" />
+</CenteredGrid>
 
 <ServiceBody
   service={data.model}

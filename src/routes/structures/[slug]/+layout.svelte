@@ -1,6 +1,5 @@
 <script lang="ts">
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import RounderCouner from "$lib/components/specialized/services/display/rounded-corner.svelte";
   import TallyNpsPopup from "$lib/components/specialized/tally-nps-popup.svelte";
   import { TallyFormId } from "$lib/utils/nps";
   import Header from "./header.svelte";
@@ -15,12 +14,7 @@
   <Header structure={$structure} />
 </CenteredGrid>
 
-<div class="relative hidden w-full md:block">
-  <RounderCouner bgColor="bg-magenta-brand" position="left" />
-  <RounderCouner bgColor="bg-magenta-brand" position="right" />
-</div>
-
-<CenteredGrid>
+<CenteredGrid roundedColor="bg-magenta-brand">
   <slot />
 </CenteredGrid>
 

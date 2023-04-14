@@ -2,7 +2,6 @@
   import { browser } from "$app/environment";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import RounderCouner from "$lib/components/specialized/services/display/rounded-corner.svelte";
   import ServiceStateUpdateSelect from "$lib/components/specialized/services/service-state-update-select.svelte";
   import SynchronizedIcon from "$lib/components/specialized/services/synchronized-icon.svelte";
   import { copyIcon2 } from "$lib/icons";
@@ -17,51 +16,45 @@
   export let onRefresh: () => void;
 
   $: updateStatus = computeUpdateStatus(service);
+
+  $: bgColor = updateStatus === "NOT_NEEDED" || !$token ? "bg-white" : "";
+  $: roundedColor =
+    updateStatus === "NOT_NEEDED" || !$token ? "bg-france-blue" : "";
 </script>
 
-<div id="service-update-status" class="relative">
-  {#if updateStatus === "NOT_NEEDED" || !$token}
-    <div class="absolute top-s0 left-s0">
-      <RounderCouner bgColor="bg-france-blue" position="left" />
-    </div>
-    <div class="absolute top-s0 right-s0">
-      <RounderCouner bgColor="bg-france-blue" position="right" />
-    </div>
-  {/if}
+<div>
+  <CenteredGrid
+    {bgColor}
+    {roundedColor}
+    extraClass="
+      py-s32 mb-s14 w-full
+      {service.canWrite &&
+    service.status === 'PUBLISHED' &&
+    updateStatus === 'NEEDED'
+      ? 'bg-service-orange'
+      : ''}
 
-  {#if browser}
-    <div class="relative">
-      <CenteredGrid
-        bgColor=""
-        extraClass="
-          py-s32 mb-s14 w-full
-          {service.canWrite &&
-        service.status === 'PUBLISHED' &&
-        updateStatus === 'NEEDED'
-          ? 'bg-service-orange'
-          : ''}
-
-          {service.canWrite &&
-        service.status === 'PUBLISHED' &&
-        updateStatus === 'REQUIRED'
-          ? 'bg-service-red'
-          : ''}
+{service.canWrite &&
+    service.status === 'PUBLISHED' &&
+    updateStatus === 'REQUIRED'
+      ? 'bg-service-red'
+      : ''}
         "
-        noPadding
-      >
-        {#if service.canWrite}
-          <ServiceUpdateStatusAsContributor
-            {onRefresh}
-            {updateStatus}
-            {service}
-            {servicesOptions}
-          />
-        {:else}
-          <ServiceUpdateStatusAsReader {updateStatus} {service} />
-        {/if}
-      </CenteredGrid>
-    </div>
-  {/if}
+    noPadding
+  >
+    {#if browser}
+      {#if service.canWrite}
+        <ServiceUpdateStatusAsContributor
+          {onRefresh}
+          {updateStatus}
+          {service}
+          {servicesOptions}
+        />
+      {:else}
+        <ServiceUpdateStatusAsReader {updateStatus} {service} />
+      {/if}
+    {/if}
+  </CenteredGrid>
 
   {#if !service.canWrite || updateStatus === "NOT_NEEDED" || service.status !== "PUBLISHED"}
     <div
