@@ -482,9 +482,13 @@
   }
 
   function onKeyPress(e) {
-    if (e.key === "Enter" && opened) {
-      e.preventDefault();
-      onEnter();
+    if (e.key === "Enter") {
+      if (opened) {
+        e.preventDefault();
+        onEnter();
+      } else {
+        open();
+      }
     }
   }
 
@@ -524,7 +528,6 @@
   }
 
   function onEsc(e) {
-    if (text) return clear();
     e.stopPropagation();
     if (opened) {
       input.focus();
@@ -549,10 +552,10 @@
     // must be loaded when the input is focused.
     if (!listItems.length && value && searchFunction) {
       search();
-      closeIfNoList();
+      // closeIfNoList();
     }
 
-    open();
+    // open();
 
     // find selected item
     if (value) {
