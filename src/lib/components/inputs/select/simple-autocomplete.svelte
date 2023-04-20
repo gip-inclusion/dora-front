@@ -483,8 +483,8 @@
 
   function onKeyPress(e) {
     if (e.key === "Enter") {
+      e.preventDefault();
       if (opened) {
-        e.preventDefault();
         onEnter();
       } else {
         open();
@@ -764,7 +764,9 @@
       on:keypress={onKeyPress}
     />
     {#if clearable && text?.length}
-      <span on:click={clear} class="autocomplete-clear-button">&#10006;</span>
+      <button on:click={clear} class="autocomplete-clear-button"
+        >&#10006;</button
+      >
     {/if}
   </div>
 
@@ -781,8 +783,9 @@
         {#each filteredListItems as listItem, i}
           {#if listItem && (maxItemsToShowInList <= 0 || i < maxItemsToShowInList)}
             {#if listItem}
-              <div
-                class="autocomplete-list-item {i === highlightIndex
+              <button
+                class="autocomplete-list-item block w-full text-left {i ===
+                highlightIndex
                   ? 'selected'
                   : ''}"
                 class:confirmed={isConfirmed(listItem.value)}
@@ -822,7 +825,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </button>
             {/if}
           {/if}
         {/each}
@@ -853,12 +856,12 @@
         {getLabelForValue(tagItem)}
 
         {#if !disabled && !readonly}
-          <span
+          <button
             class="tag-delete"
             on:click|preventDefault={unselectItem(tagItem)}
           >
             {@html closeCircleIcon}
-          </span>
+          </button>
         {/if}
       </div>
     {/each}
