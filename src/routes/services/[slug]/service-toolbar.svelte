@@ -7,7 +7,6 @@
   import { copyIcon2 } from "$lib/icons";
   import type { Service, ServicesOptions } from "$lib/types";
   import { token } from "$lib/utils/auth";
-  import { computeUpdateStatus } from "$lib/utils/service";
   import ServiceUpdateStatusAsContributor from "./service-update-status-as-contributor.svelte";
   import ServiceUpdateStatusAsReader from "./service-update-status-as-reader.svelte";
 
@@ -15,48 +14,48 @@
   export let servicesOptions: ServicesOptions;
   export let onRefresh: () => void;
 
-  $: updateStatus = computeUpdateStatus(service);
-
-  $: bgColor = updateStatus === "NOT_NEEDED" || !$token ? "bg-white" : "";
+  $: bgColor =
+    service.updateStatus === "NOT_NEEDED" || !$token ? "bg-white" : "";
   $: roundedColor =
-    updateStatus === "NOT_NEEDED" || !$token ? "bg-france-blue" : "";
+    service.updateStatus === "NOT_NEEDED" || !$token ? "bg-france-blue" : "";
 </script>
 
-<div>
-  <CenteredGrid
-    {bgColor}
-    {roundedColor}
-    extraClass="
-      py-s32 mb-s14 w-full
-      {service.canWrite &&
-    service.status === 'PUBLISHED' &&
-    updateStatus === 'NEEDED'
-      ? 'bg-service-orange'
-      : ''}
+<div id="service-update-status" class="relative">
+  {#if browser}
+    <div>
+      <CenteredGrid
+        {bgColor}
+        {roundedColor}
+        extraClass="
+          py-s32 mb-s14 w-full
+          {service.canWrite &&
+        service.status === 'PUBLISHED' &&
+        service.updateStatus === 'NEEDED'
+          ? 'bg-service-orange'
+          : ''}
 
-{service.canWrite &&
-    service.status === 'PUBLISHED' &&
-    updateStatus === 'REQUIRED'
-      ? 'bg-service-red'
-      : ''}
+          {service.canWrite &&
+        service.status === 'PUBLISHED' &&
+        service.updateStatus === 'REQUIRED'
+          ? 'bg-service-red'
+          : ''}
         "
-    noPadding
-  >
-    {#if browser}
-      {#if service.canWrite}
-        <ServiceUpdateStatusAsContributor
-          {onRefresh}
-          {updateStatus}
-          {service}
-          {servicesOptions}
-        />
-      {:else}
-        <ServiceUpdateStatusAsReader {updateStatus} {service} />
-      {/if}
-    {/if}
-  </CenteredGrid>
+        noPadding
+      >
+        {#if service.canWrite}
+          <ServiceUpdateStatusAsContributor
+            {onRefresh}
+            {service}
+            {servicesOptions}
+          />
+        {:else}
+          <ServiceUpdateStatusAsReader {service} />
+        {/if}
+      </CenteredGrid>
+    </div>
+  {/if}
 
-  {#if !service.canWrite || updateStatus === "NOT_NEEDED" || service.status !== "PUBLISHED"}
+  {#if !service.canWrite || service.updateStatus === "NOT_NEEDED" || service.status !== "PUBLISHED"}
     <div
       class="m-auto max-w-6xl border border-t-0 border-r-0 border-l-0 border-gray-02"
     />
