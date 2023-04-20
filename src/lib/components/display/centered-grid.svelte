@@ -8,7 +8,7 @@
 <div class={roundedColor}>
   <div
     class="{extraClass} {bgColor} {roundedColor
-      ? 'md:rounded-tl-[30px] md:rounded-tr-[30px] lg:rounded-tl-[45px] lg:rounded-tr-[45px] xl:rounded-tl-[60px] xl:rounded-tr-[60px]'
+      ? 'md:rounded-t-[30px] lg:rounded-t-[45px] xl:rounded-t-[60px]'
       : ''}"
   >
     <div class="px-s16 md:px-s40">
