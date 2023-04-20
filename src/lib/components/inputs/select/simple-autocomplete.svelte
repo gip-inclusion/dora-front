@@ -528,8 +528,9 @@
   }
 
   function onEsc(e) {
-    e.stopPropagation();
     if (opened) {
+      e.stopPropagation();
+
       input.focus();
       close();
     }
@@ -554,8 +555,6 @@
       search();
       // closeIfNoList();
     }
-
-    // open();
 
     // find selected item
     if (value) {
@@ -596,12 +595,6 @@
 
     if (!text && selectFirstIfEmpty) {
       selectItem();
-    }
-  }
-
-  function closeIfNoList() {
-    if (!hasPrependSlot && !showList) {
-      close();
     }
   }
 
