@@ -1,7 +1,7 @@
 <script lang="ts">
   import MultiSelectField from "$lib/components/forms/fields/multi-select-field.svelte";
   import type { Model, Service, ServicesOptions } from "$lib/types";
-  import InclusionNumSwitch from "./inclusion-num-switch.svelte";
+  import InclusionNumSwitch from "../../../../routes/(modeles-services)/_common/inclusion-num-switch.svelte";
 
   export let servicesOptions: ServicesOptions, service: Service;
 
