@@ -101,6 +101,7 @@
       {#each sortedMembers(data.members) as member}
         <MemberStandard
           {member}
+          structureSlug={data.structure.slug}
           onRefresh={handleRefreshMemberList}
           isMyself={member.user.email === $userInfo.email}
           isOnlyAdmin={member.user.email === $userInfo.email &&
