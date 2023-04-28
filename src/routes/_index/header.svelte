@@ -6,7 +6,7 @@
   import HeaderActions from "./menu.svelte";
 
   import { ENVIRONMENT, FLAG_STRIKING } from "$lib/env";
-  import { externalLinkIcon } from "$lib/icons";
+  import SubMenu from "./sub-menu.svelte";
 </script>
 
 <header class:dev-banner={ENVIRONMENT !== "production"} role="banner">
@@ -46,44 +46,7 @@
   </CenteredGrid>
 
   <CenteredGrid noPadding extraClass="border-b border-gray-01">
-    <nav role="navigation">
-      <ul class="inline-flex">
-        <li>
-          <a
-            target="_blank"
-            title="Ouverture dans une nouvelle fenêtre"
-            rel="noopener"
-            href="https://aide.dora.inclusion.beta.gouv.fr/fr/category/quoi-de-neuf-es1img/"
-            class="inline-block h-full items-center p-s16 text-f14 text-gray-text hover:bg-gray-00"
-          >
-            Nouveautés
-            <span
-              class="inline-block h-s20 w-s20 fill-current pt-s6 pl-s4"
-              aria-hidden
-            >
-              {@html externalLinkIcon}
-            </span>
-          </a>
-        </li>
-        <li>
-          <a
-            target="_blank"
-            title="Ouverture dans une nouvelle fenêtre"
-            rel="noopener"
-            href="https://inclusion.beta.gouv.fr/"
-            class="inline-block h-full items-center p-s16 text-f14 text-gray-text hover:bg-gray-00"
-          >
-            Comunauté de l’inclusion
-            <span
-              class="inline-block h-s20 w-s20 fill-current pt-s6 pl-s4"
-              aria-hidden
-            >
-              {@html externalLinkIcon}
-            </span>
-          </a>
-        </li>
-      </ul>
-    </nav>
+    <SubMenu />
   </CenteredGrid>
 
   {#if FLAG_STRIKING}

@@ -6,9 +6,11 @@
   export let icon: string | undefined = undefined;
   export let label: string | undefined = undefined;
   export let hideLabel = false;
+  export let hasLeftSide = false;
+  export let minWidth: string | undefined = undefined;
 
   let isOpen = false;
-  const id = `button-menu-${randomId()}`;
+  const id = `dropdown-menu-${randomId()}`;
 
   function handleClickOutside(_event) {
     isOpen = false;
@@ -16,25 +18,34 @@
 </script>
 
 <div use:clickOutside on:click_outside={handleClickOutside}>
-  <div class="wrapper">
+  <div class="wrapper w-full lg:w-auto">
     <button
       aria-expanded={isOpen}
       aria-controls={id}
       class:bg-magenta-10={isOpen}
+      class="flex w-full items-center justify-between rounded border border-gray-03 py-s12 px-s16 text-left lg:w-auto"
       class:border-magenta-cta={isOpen}
-      class="flex items-center justify-between rounded border border-gray-03 py-s12 px-s16 text-left"
+      class:rounded-l-none={hasLeftSide}
       on:click={() => (isOpen = !isOpen)}
     >
-      {#if icon}
-        <span class="mr-s10 h-s24 w-s24 fill-current text-magenta-cta">
-          {@html icon}
+      <span class="flex items-center">
+        {#if icon}
+          <span class="mr-s10 h-s24 w-s24 fill-current text-magenta-cta">
+            {@html icon}
+          </span>
+        {/if}
+        <span
+          class:sr-only={hideLabel}
+          class="whitespace-nowrap text-left text-gray-text"
+        >
+          {label}
         </span>
-      {/if}
-      <span class:sr-only={hideLabel} class="text-gray-text">
-        {label}
       </span>
 
-      <span class="ml-s10 h-s24 w-s24 fill-current text-magenta-cta">
+      <span
+        class:ml-s10={!hideLabel}
+        class="h-s24 w-s24 fill-current text-magenta-cta"
+      >
         {#if isOpen}
           {@html arrowUpSIcon}
         {:else}
@@ -43,7 +54,11 @@
       </span>
     </button>
 
-    <div {id} class="children top-[100%] p-s12" class:open={isOpen}>
+    <div
+      {id}
+      class="children top-[100%] p-s12 {minWidth ? `min-w-[${minWidth}]` : ''}"
+      class:open={isOpen}
+    >
       <slot />
     </div>
   </div>

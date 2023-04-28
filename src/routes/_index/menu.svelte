@@ -1,12 +1,12 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import ButtonMenu from "$lib/components/display/button-menu.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import { accountCircleLineIcon } from "$lib/icons";
   import type { ShortStructure } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
   import { userPreferences } from "$lib/utils/preferences";
   import MenuMonCompte from "./menu-mon-compte.svelte";
+  import HamburgerMenu from "$lib/components/display/hamburger.svelte";
+  import SubMenu from "./sub-menu.svelte";
 
   let structures: ShortStructure[] = [];
 
@@ -45,25 +45,33 @@
     : [];
 </script>
 
-<div class="flex print:hidden">
-  <LinkButton
-    to="https://aide.dora.inclusion.beta.gouv.fr/fr/"
-    noBackground
-    otherTab
-    extraClass="mr-s8"
-    label="Besoin d'aide ?"
-  />
-
-  {#if !$userInfo}
-    {#if $page.url.pathname !== "/auth/connexion"}
+<HamburgerMenu>
+  <div class="flex flex-col print:hidden lg:flex-row">
+    <div class="my-s20 text-center lg:my-s0 lg:text-left">
       <LinkButton
-        label="Se connecter"
-        to={`/auth/connexion?next=${encodeURIComponent(
-          $page.url.pathname + $page.url.search
-        )}`}
+        to="https://aide.dora.inclusion.beta.gouv.fr/fr/"
+        noBackground
+        otherTab
+        extraClass="mr-s8"
+        label="Besoin d'aide ?"
       />
+    </div>
+
+    {#if !$userInfo}
+      {#if $page.url.pathname !== "/auth/connexion"}
+        <LinkButton
+          label="Se connecter"
+          to={`/auth/connexion?next=${encodeURIComponent(
+            $page.url.pathname + $page.url.search
+          )}`}
+        />
+      {/if}
+    {:else}
+      <MenuMonCompte {structures} />
     {/if}
-  {:else}
-    <MenuMonCompte />
-  {/if}
-</div>
+    <div class="flex flex-col lg:hidden">
+      <hr class="-mx-s32 mt-s64 mb-s16" />
+      <SubMenu mobileDesign />
+    </div>
+  </div>
+</HamburgerMenu>
