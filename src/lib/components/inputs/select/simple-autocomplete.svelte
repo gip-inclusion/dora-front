@@ -553,7 +553,6 @@
     // must be loaded when the input is focused.
     if (!listItems.length && value && searchFunction) {
       search();
-      // closeIfNoList();
     }
 
     // find selected item
