@@ -4,7 +4,6 @@
 
   export let member;
   export let isMyself = false;
-  export let isOnlyAdmin = false;
   export let readOnly = false;
 </script>
 

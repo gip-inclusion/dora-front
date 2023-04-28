@@ -12,7 +12,7 @@
   export let onRefresh;
   export let readOnly = true;
   export let structureSlug: string;
-  export let isMyself, isOnlyAdmin;
+  export let isMyself;
 
   let modalChangeUserIsOpen = false;
   $: userLevel = member.isAdmin ? "Admin" : "Utilisateur";
@@ -37,7 +37,7 @@
 </script>
 
 <ModalChangeUser bind:isOpen={modalChangeUserIsOpen} bind:member {onRefresh} />
-<Member {isOnlyAdmin} {member} {isMyself} {readOnly}>
+<Member {member} {isMyself} {readOnly}>
   <div slot="label">
     <Label label={userLevel} smallIcon icon={userLevelIcon} />
   </div>
