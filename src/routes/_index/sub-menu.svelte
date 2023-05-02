@@ -1,5 +1,6 @@
 <script lang="ts">
   import { externalLinkIcon } from "$lib/icons";
+  import SubMenuDropdown from "./sub-menu-dropdown.svelte";
 
   export let mobileDesign = false;
   export let externalIconColor = mobileDesign
@@ -7,13 +8,60 @@
     : "text-gray-text";
 
   export let aClass = mobileDesign
-    ? "inline-block h-full items-center py-s16 text-f18 font-bold text-gray-dark"
-    : "inline-block h-full items-center text-gray-dark text-f14 text-gray-text p-s16";
+    ? "inline-block h-full py-s16 text-f18 font-bold text-gray-dark"
+    : "inline-block h-full text-f14 text-gray-text p-s16";
 </script>
 
-<nav>
+<div class="{mobileDesign ? 'hidden' : 'block'} py-s10 md:hidden">
+  <div class="text-f20 font-bold text-gray-dark">DORA</div>
+  <div class="text-f14 text-gray-text">Plateforme de l’inclusion</div>
+</div>
+
+<nav class="{mobileDesign ? 'block' : 'hidden'} md:block">
   <ul class={mobileDesign ? "flex flex-col" : "inline-flex"}>
-    <li class="border-b border-gray-03 lg:border-none">
+    <li>
+      <SubMenuDropdown
+        {mobileDesign}
+        label="Contribuer"
+        links={[
+          {
+            href: "https://tally.so/r/nGegBe",
+            label: "Inviter une structure partenaire",
+          },
+          {
+            href: "https://dora.inclusion.beta.gouv.fr/contribuer",
+            label: "Suggérer le service d’un partenaire",
+          },
+          {
+            href: "https://dora.inclusion.beta.gouv.fr/services/creer",
+            label: "Référencer vos services",
+          },
+        ]}
+      />
+    </li>
+
+    <li>
+      <SubMenuDropdown
+        {mobileDesign}
+        label="Ressources"
+        links={[
+          {
+            href: "https://www.youtube.com/channel/UCadIsy9gfHgLmLkutRGC5ew/playlists",
+            label: "Tutoriels vidéo",
+          },
+          {
+            href: "https://app.livestorm.co/dora-1",
+            label: "Webinaires",
+          },
+          {
+            href: "https://aide.dora.inclusion.beta.gouv.fr/fr/category/deploiement-communication-1d0yrk8/",
+            label: "Kit de déploiement",
+          },
+        ]}
+      />
+    </li>
+
+    <li class="border-gray-03 lg:border-none" class:border-b={mobileDesign}>
       <a
         target="_blank"
         title="Ouverture dans une nouvelle fenêtre"
@@ -30,7 +78,7 @@
         </span>
       </a>
     </li>
-    <li class="border-b border-gray-03 lg:border-none">
+    <li class="border-gray-03 lg:border-none" class:border-b={mobileDesign}>
       <a
         target="_blank"
         title="Ouverture dans une nouvelle fenêtre"

@@ -1,24 +1,29 @@
 <script lang="ts">
+  import { afterNavigate } from "$app/navigation";
   import { closeIcon, menuIcon } from "$lib/icons";
 
   let isOpen = true;
+
+  afterNavigate(() => {
+    isOpen = false;
+  });
 </script>
 
 <div class="flex lg:hidden">
   <div>
     <button on:click={() => (isOpen = true)} class="text-gray-text">
-      <span class="inline-block h-s24 w-s24 text-gray-text">
+      <span class="mt-s16 inline-block h-s24 w-s24 self-end text-gray-text">
         {@html menuIcon}
       </span>
     </button>
 
     {#if isOpen}
       <div
-        class="fixed top-s0 right-s0 left-s0 z-20 h-[100%] overflow-y-auto bg-white p-s32"
+        class="fixed top-s0 right-s0 left-s0 z-20 h-[100%] overflow-y-auto bg-white p-s20"
       >
         <div class="flex justify-end">
           <button
-            class="flex items-center p-s20 text-magenta-cta"
+            class="flex items-center pb-s20 text-magenta-cta"
             on:click={() => (isOpen = false)}
           >
             Fermer

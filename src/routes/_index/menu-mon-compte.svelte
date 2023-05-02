@@ -5,21 +5,21 @@
   import type { ShortStructure } from "$lib/types";
   import {
     accountCircleLineIcon,
+    addCircleLineIcon,
     checkIcon,
     homeSmile2Icon,
     logoutBoxLineIcon,
     searchIcon,
     starSmileLineIcon,
   } from "$lib/icons";
-  import LinkButton from "$lib/components/display/link-button.svelte";
 
   export let structures: ShortStructure[] = [];
+  export let mobileDesign = false;
+
   let filterText = "";
   $: structuresToDisplay = filterText
     ? structures.filter((struct) =>
-        struct.name
-          .toLocaleLowerCase()
-          .startsWith(filterText.toLocaleLowerCase())
+        struct.name.toLocaleLowerCase().includes(filterText.toLocaleLowerCase())
       )
     : structures;
 
@@ -28,32 +28,24 @@
 </script>
 
 <div class="mb-s16 lg:mb-s0 lg:mr-s10">
-  {#if structures.length === 0}
-    <LinkButton>Adhérer à une structure ??</LinkButton>
-  {:else}
-    <div class="flex items-center">
-      <div
-        class="flex w-full items-center rounded rounded-r-none border-y border-l border-gray-03 py-s12 px-s16 lg:w-auto"
-      >
-        <span
-          class="mr-s8 inline-block h-s24 w-s24 fill-current text-magenta-cta"
-        >
-          {@html homeSmile2Icon}
-        </span>
-        <a
-          class="block text-gray-text"
-          href={`/structures/${structures[0].slug}`}
-        >
-          {structures[0].name}
-        </a>
-      </div>
+  {#if structures.length !== 0}
+    <div class="flex w-full items-center lg:w-auto">
+      <DropdownMenu label="Mes structures" hideLabel {mobileDesign}>
+        <div slot="label" class="flex w-full items-center">
+          <span
+            class="mr-s8 inline-block h-s24 w-s24 fill-current text-magenta-cta"
+          >
+            {@html homeSmile2Icon}
+          </span>
+          <a
+            class="block w-[150px] overflow-hidden text-ellipsis whitespace-nowrap text-gray-text"
+            on:click={(evt) => evt.stopPropagation()}
+            href={`/structures/${structures[0].slug}`}
+          >
+            {structures[0].name}
+          </a>
+        </div>
 
-      <DropdownMenu
-        label="Mes structures"
-        hideLabel
-        hasLeftSide
-        minWidth="300px"
-      >
         {#if structures.length > 10}
           <div class="relative mt-s10 w-full">
             <label for="structure-filter" class="sr-only">Rechercher</label>
@@ -71,7 +63,7 @@
             </span>
           </div>
         {/if}
-        <div class="w-full" class:mt-s56={structures.length > 10}>
+        <div class:mt-s56={structures.length > 10}>
           <ul class="max-h-[300px] overflow-y-auto">
             {#each structuresToDisplay as structure}
               {@const selected = structures[0].slug === structure.slug}
@@ -95,12 +87,24 @@
             {/each}
           </ul>
         </div>
+
+        <div slot="bottom">
+          <a
+            class="flex whitespace-nowrap text-gray-text"
+            href="/auth/rattachement"
+          >
+            <span class="mr-s10 h-s24 w-s24 fill-current">
+              {@html addCircleLineIcon}
+            </span>
+            <span>Adhérer à une autre structure </span>
+          </a>
+        </div>
       </DropdownMenu>
     </div>
   {/if}
 </div>
 
-<DropdownMenu icon={accountCircleLineIcon} label="Mon compte">
+<DropdownMenu icon={accountCircleLineIcon} label="Mon compte" {mobileDesign}>
   <a href="/mon-compte" class={aClass}>
     <span
       class="mr-s10 inline-block h-s24 w-s24 fill-current"

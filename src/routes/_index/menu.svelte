@@ -67,9 +67,12 @@
         />
       {/if}
     {:else}
-      <MenuMonCompte {structures} />
+      <div class="hidden lg:flex">
+        <MenuMonCompte {structures} />
+      </div>
     {/if}
     <div class="flex flex-col lg:hidden">
+      <MenuMonCompte {structures} mobileDesign />
       <hr class="-mx-s32 mt-s64 mb-s16" />
       <SubMenu mobileDesign />
     </div>

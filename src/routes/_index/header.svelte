@@ -11,7 +11,7 @@
 
 <header class:dev-banner={ENVIRONMENT !== "production"} role="banner">
   <CenteredGrid noPadding extraClass="border-b border-gray-01">
-    <div class="flex items-center justify-between">
+    <div class="flex justify-between lg:items-center">
       <div class="flex flex-row items-center py-s12">
         <div>
           <img
@@ -30,14 +30,14 @@
             width="60"
             height="55"
           />
-          <div>
+          <div class="hidden md:block">
             <div class="text-f20 font-bold text-gray-dark">DORA</div>
             <div class="text-f14 text-gray-text">Plateforme de l’inclusion</div>
           </div>
         </a>
       </div>
 
-      <div>
+      <div class="align-top">
         {#if browser}
           <HeaderActions />
         {/if}
