@@ -12,7 +12,7 @@
 <div class="flex lg:hidden">
   <div>
     <button on:click={() => (isOpen = true)} class="text-gray-text">
-      <span class="mt-s16 inline-block h-s24 w-s24 self-end text-gray-text">
+      <span class="mt-s16 inline-block h-s24 w-s24 self-end text-gray-dark">
         {@html menuIcon}
       </span>
     </button>
