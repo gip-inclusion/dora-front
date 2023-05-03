@@ -1,11 +1,11 @@
 <script lang="ts">
   import { browser } from "$app/environment";
+  import { ENVIRONMENT, FLAG_STRIKING } from "$lib/env";
   import LogoDORA from "$lib/assets/logos/logo-dora.svg";
   import LogoRepublique from "$lib/assets/logos/logo-republique-francaise.svg";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import HeaderActions from "./menu.svelte";
 
-  import { ENVIRONMENT, FLAG_STRIKING } from "$lib/env";
+  import HeaderActions from "./menu.svelte";
   import SubMenu from "./sub-menu.svelte";
 </script>
 
