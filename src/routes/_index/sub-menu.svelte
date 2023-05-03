@@ -29,11 +29,11 @@
             label: "Inviter une structure partenaire",
           },
           {
-            href: "https://dora.inclusion.beta.gouv.fr/contribuer",
+            href: "/contribuer",
             label: "Suggérer le service d’un partenaire",
           },
           {
-            href: "https://dora.inclusion.beta.gouv.fr/services/creer",
+            href: "/services/creer",
             label: "Référencer vos services",
           },
         ]}
