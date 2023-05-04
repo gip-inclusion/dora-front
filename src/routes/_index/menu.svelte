@@ -7,6 +7,7 @@
   import MenuMonCompte from "./menu-mon-compte.svelte";
   import HamburgerMenu from "$lib/components/display/hamburger.svelte";
   import SubMenu from "./sub-menu.svelte";
+  import MenuMesStructures from "./menu-mes-structures.svelte";
 
   let structures: ShortStructure[] = [];
 
@@ -68,11 +69,13 @@
       {/if}
     {:else}
       <div class="hidden lg:flex">
-        <MenuMonCompte {structures} />
+        <MenuMesStructures {structures} />
+        <MenuMonCompte />
       </div>
     {/if}
     <div class="flex flex-col lg:hidden">
-      <MenuMonCompte {structures} mobileDesign />
+      <MenuMesStructures {structures} mobileDesign />
+      <MenuMonCompte mobileDesign />
       <hr class="-mx-s32 mt-s64 mb-s16" />
       <SubMenu mobileDesign />
     </div>
