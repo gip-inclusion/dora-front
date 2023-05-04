@@ -78,13 +78,14 @@
         </span>
       </a>
     </li>
+
     <li class="border-gray-03 lg:border-none" class:border-b={mobileDesign}>
       <a
         target="_blank"
         title="Ouverture dans une nouvelle fenêtre"
         rel="noopener"
         href="https://inclusion.beta.gouv.fr/"
-        class={aClass}
+        class="inline-block h-full {aClass}"
       >
         Communauté de l’inclusion
         <span
