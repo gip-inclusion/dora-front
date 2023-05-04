@@ -1,4 +1,6 @@
 <script lang="ts">
+  // Dropdown avec le design issu du header du DSFR
+  // => https://www.systeme-de-design.gouv.fr/elements-d-interface/composants/en-tete/
   import { afterNavigate } from "$app/navigation";
   import { page } from "$app/stores";
   import { arrowDownSIcon, arrowUpSIcon } from "$lib/icons";
