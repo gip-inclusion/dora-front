@@ -2,7 +2,7 @@
   import { afterNavigate } from "$app/navigation";
   import { closeIcon, menuIcon } from "$lib/icons";
 
-  let isOpen = true;
+  let isOpen = false;
 
   afterNavigate(() => {
     isOpen = false;
