@@ -27,7 +27,7 @@
   on:click_outside={handleClickOutside}
   class="w-full lg:w-auto"
 >
-  <div class="wrapper flex w-full lg:w-auto">
+  <div class="relative flex w-full lg:w-auto">
     <button
       aria-expanded={isOpen}
       aria-controls={id}
@@ -75,9 +75,12 @@
 
     <div
       {id}
-      class="children top-[100%] {minWidth ? `min-w-[${minWidth}]` : ''}"
-      class:fullWidth={mobileDesign}
-      class:open={isOpen}
+      class="
+        right-0 absolute top-[100%] z-[1000] hidden flex-col justify-end rounded-md bg-white shadow-sm
+        {minWidth ? `min-w-[${minWidth}]` : ''}
+        "
+      class:left-0={mobileDesign}
+      class:!flex={isOpen}
     >
       <div class="w-full p-s12">
         <slot />
@@ -91,28 +94,3 @@
     </div>
   </div>
 </div>
-
-<style lang="postcss">
-  .wrapper {
-    position: relative;
-  }
-
-  .children {
-    position: absolute;
-    z-index: 1000;
-    right: 0;
-    display: none;
-    flex-direction: column;
-    align-items: flex-end;
-    background-color: var(--col-white);
-    border-radius: var(--s8);
-    box-shadow: var(--shadow-md);
-  }
-  .children.fullWidth {
-    left: 0;
-  }
-
-  .open {
-    display: flex;
-  }
-</style>
