@@ -73,9 +73,12 @@
         <MenuMonCompte />
       </div>
     {/if}
+
     <div class="flex flex-col lg:hidden">
-      <MenuMesStructures {structures} mobileDesign />
-      <MenuMonCompte mobileDesign />
+      {#if $userInfo}
+        <MenuMesStructures {structures} mobileDesign />
+        <MenuMonCompte mobileDesign />
+      {/if}
       <hr class="-mx-s32 mt-s64 mb-s16" />
       <SubMenu mobileDesign />
     </div>
