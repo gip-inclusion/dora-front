@@ -8,8 +8,8 @@
     : "text-gray-text";
 
   export let aClass = mobileDesign
-    ? "inline-block h-full py-s16 text-f18 font-bold text-gray-dark"
-    : "inline-block h-full text-f14 text-gray-text p-s16";
+    ? "py-s16 text-f18 font-bold text-gray-dark"
+    : "text-f14 text-gray-text p-s16";
 </script>
 
 <div class="{mobileDesign ? 'hidden' : 'block'} py-s10 md:hidden">
@@ -67,7 +67,7 @@
         title="Ouverture dans une nouvelle fenêtre"
         rel="noopener"
         href="https://aide.dora.inclusion.beta.gouv.fr/fr/category/quoi-de-neuf-es1img/"
-        class={aClass}
+        class="inline-block h-full {aClass}"
       >
         Nouveautés
         <span
