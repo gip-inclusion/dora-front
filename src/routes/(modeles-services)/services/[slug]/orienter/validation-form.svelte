@@ -2,14 +2,14 @@
   import Fieldset from "$lib/components/display/fieldset.svelte";
   import Notice from "$lib/components/display/notice.svelte";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
+  import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
 
   import { formatFilePath, isNotFreeService } from "$lib/utils/service";
   import { orientation } from "./store";
 
   export let service;
   export let servicesOptions;
-
-  $: console.log($orientation);
+  $: console.log($orientation.hasOtherConcernedPublic);
 </script>
 
 <div class="">
@@ -29,6 +29,24 @@
         bind:value={$orientation.concernedPublic}
         vertical
       />
+
+      <CheckboxesField
+        id="hasOtherConcernedPublic"
+        choices={[{ value: "other", label: "Autre (à préciser)" }]}
+        bind:value={$orientation.hasOtherConcernedPublic}
+        hideLabel
+        vertical
+      />
+
+      {#if $orientation.hasOtherConcernedPublic?.length}
+        <TextareaField
+          id="otherConcernedPublic"
+          placeholder=""
+          bind:value={$orientation.otherConcernedPublic}
+          hideLabel
+          vertical
+        />
+      {/if}
     </div>
   </Fieldset>
 
@@ -42,14 +60,15 @@
         bind:value={$orientation.requirements}
         vertical
       />
-      <!-- <CheckboxesField
-          id="accessConditions"
-          choices={servicesOptions.accessConditions.filter((elt) =>
-            service.accessConditions.includes(elt.value)
-          )}
-          bind:value={$orientation.accessConditions}
-          vertical
-        /> -->
+      <CheckboxesField
+        id="accessConditions"
+        choices={servicesOptions.accessConditions.filter((elt) =>
+          service.accessConditions.includes(elt.value)
+        )}
+        bind:value={$orientation.accessConditions}
+        vertical
+        hideLabel
+      />
     </div>
   </Fieldset>
 
@@ -65,7 +84,7 @@
     <div class="flex flex-row  gap-s48">
       <div>
         <h4>Documents à compléter</h4>
-        <ul class="list-inside list-disc">
+        <ul class="mb-s16 list-inside list-disc">
           {#each service.formsInfo as form}
             <li>
               <span class="break-word">
@@ -75,6 +94,21 @@
               </span>
             </li>
           {/each}
+        </ul>
+        <h4>Lien</h4>
+        <ul class="list-inside list-disc">
+          <li>
+            <span class="break-word">
+              <a
+                rel="noopener"
+                target="_blank"
+                href={service.onlineForm}
+                class="underline"
+                title="Ouverture dans une nouvelle fenêtre"
+                >{service.onlineForm}</a
+              >
+            </span>
+          </li>
         </ul>
       </div>
       <div>

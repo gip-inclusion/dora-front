@@ -8,10 +8,12 @@
   import ServiceShare from "./service-share.svelte";
   import ServicePresentation from "./service-presentation.svelte";
   import ServiceKeyInformations from "$lib/components/specialized/services/service-key-informations.svelte";
+  import { FLAG_ORIENTATION } from "$lib/env";
 
   export let service: Service | Model;
   export let servicesOptions: ServicesOptions;
   export let showContact = false;
+  false;
   export let isModel = false;
 </script>
 
@@ -35,7 +37,11 @@
           class="block rounded-lg border border-gray-02 p-s24 px-s32"
           class:print:hidden={!showContact}
         >
-          <ServiceMobilisation {service} {showContact} />
+          <ServiceMobilisation
+            {service}
+            showContact="{FLAG_ORIENTATION ? true : showContact};"
+            }
+          />
         </div>
       {/if}
 

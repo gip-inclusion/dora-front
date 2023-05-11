@@ -43,7 +43,11 @@
   bind:requesting
 >
   <Layout {data}>
+    <p class="legend">Étape 1 sur 2</p>
     <h2>Valider la conformité</h2>
+    <p class="legend">
+      <strong>Étape suivante</strong>&nbsp;: Compléter la demande
+    </p>
     <hr class="my-s40" />
     <p class="mb-s40 max-w-2xl">
       Lors de cette étape, vous pouvez vérifier l'éligibilité du bénéficiaire et

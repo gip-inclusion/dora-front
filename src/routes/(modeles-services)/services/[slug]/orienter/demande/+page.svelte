@@ -44,6 +44,8 @@
   bind:requesting
 >
   <Layout {data}>
+    <p class="legend">Étape 2 sur 2</p>
+
     <h2>Compléter la demande</h2>
     <hr class="my-s40" />
     <p class="mb-s40 max-w-2xl">

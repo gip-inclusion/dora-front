@@ -7,7 +7,6 @@ export const ssr = false;
 
 export const load = async ({ params, parent }) => {
   await parent();
-
   const service = await getService(params.slug);
 
   // on ne retourne une 404 que sur le client
