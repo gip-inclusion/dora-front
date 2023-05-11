@@ -62,6 +62,7 @@ export interface StructureService {
   locationKindsDisplay: string;
   model: string;
   modelChanged: boolean;
+  modelName: boolean;
   modificationDate: string;
   name: string;
   postalCode: string;
