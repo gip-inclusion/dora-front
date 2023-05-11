@@ -6,6 +6,7 @@
   import type { PageData } from "./$types";
 
   export let data: PageData;
+  export let updateAllServices = false;
 </script>
 
 <EnsureLoggedIn>
@@ -24,12 +25,19 @@
           Les modifications seront proposées sur tous les services utilisant ce
           modèle.
         </p>
+
+        <label class="flex text-f14 text-gray-text">
+          <input type="checkbox" bind:value={updateAllServices} class="mr-s8" />
+          Cochez cette case pour mettre à jour automatiquement tous les services
+          utilisant ce modèle.
+        </label>
       </Notice>
     {/if}
   </CenteredGrid>
 
   <ModelEditionForm
     model={data.model}
+    {updateAllServices}
     servicesOptions={data.servicesOptions}
     structures={data.structures}
     structure={data.structure}

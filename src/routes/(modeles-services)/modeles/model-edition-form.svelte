@@ -16,30 +16,74 @@
   import type { Model, ServicesOptions, ShortStructure } from "$lib/types";
   import { modelSchema } from "$lib/validation/schemas/service";
   import Notice from "$lib/components/display/notice.svelte";
+  import Modal from "$lib/components/hoc/modal.svelte";
 
   export let model: Model;
   export let servicesOptions: ServicesOptions;
   export let structures: ShortStructure[];
   export let structure: ShortStructure;
+  export let updateAllServices: boolean;
+  export let showUpdateAllServicesModal = false;
 
   let requesting = false;
+  let submitFormInput;
 
   const showMaxCategoriesNotice = (model.categories.length || 0) > 3;
 
   function handleChange(validatedData) {
     structure = { ...model, ...validatedData };
   }
-
   function handleSubmit(validatedData) {
     return createOrModifyModel(validatedData);
   }
-
+  function handleConfirmSubmit() {
+    showUpdateAllServicesModal = false;
+    submitFormInput.dispatchEvent(new MouseEvent("click"));
+  }
   function handleSuccess(result) {
     goto(`/modeles/${result.slug}`);
   }
 </script>
 
 <FormErrors />
+
+<Modal
+  bind:isOpen={showUpdateAllServicesModal}
+  title="Mise à jour automatiquement"
+  on:close={() => (showUpdateAllServicesModal = false)}
+  smallWidth
+>
+  <div class="pt-s16 text-f14 text-gray-text">
+    Vous avez choisi de mettre à jour automatiquement tous vos services
+    utilisant ce modèle. Cela aura pour effet d'effacer également les contenus
+    spécifiques que vous avez modifiés par rapport au modèle (excepté les
+    informations sur la zone d'éligibilité, le lieu de déroulement ou les
+    coordonnées du référent spécifique au service).
+
+    <strong class="mt-s16 block">
+      Si ce n'est pas ce que vous souhaitez, cliquez sur annuler, et décochez la
+      case.
+    </strong>
+  </div>
+
+  <div slot="footer">
+    <div class="mt-s24 flex flex-col-reverse justify-end gap-s24 md:flex-row">
+      <Button
+        label="Annuler"
+        secondary
+        on:click={() => (showUpdateAllServicesModal = false)}
+      />
+
+      <Button
+        id="validate"
+        type="button"
+        on:click={handleConfirmSubmit}
+        extraClass="justify-center"
+        label="Confirmer"
+      />
+    </div>
+  </div>
+</Modal>
 
 <Form
   bind:data={model}
@@ -113,12 +157,27 @@
 
   {#if model?.structure}
     <StickyFormSubmissionRow>
-      <Button
-        name="validate"
-        type="submit"
-        label="Enregistrer"
-        disabled={requesting}
-      />
+      {#if updateAllServices}
+        <Button
+          on:click={() => (showUpdateAllServicesModal = true)}
+          name="validate"
+          type="button"
+          label="Enregistrer"
+        />
+        <input
+          bind:this={submitFormInput}
+          class="hidden"
+          type="submit"
+          value="Valider le formulaire"
+        />
+      {:else}
+        <Button
+          name="validate"
+          type="submit"
+          label="Enregistrer"
+          disabled={requesting}
+        />
+      {/if}
     </StickyFormSubmissionRow>
   {/if}
 </Form>

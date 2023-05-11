@@ -85,7 +85,7 @@ export function createOrModifyService(service: Service) {
   });
 }
 
-export function createOrModifyModel(model) {
+export function createOrModifyModel(model, updateAllServices = false) {
   let method, url;
   if (model.slug) {
     url = `${getApiURL()}/models/${model.slug}/`;
@@ -102,7 +102,7 @@ export function createOrModifyModel(model) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify(serviceToBack(model)),
+    body: JSON.stringify({ ...serviceToBack(model), updateAllServices }),
   });
 }
 

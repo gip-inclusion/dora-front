@@ -75,8 +75,9 @@
         aria-modal="true"
         tabindex="-1"
         bind:this={modalEl}
-        class="max-h-screen min-w-[80vw] rounded-md bg-white p-s24 shadow-md"
+        class="max-h-screen rounded-md bg-white p-s24 shadow-md"
         class:small-width={smallWidth}
+        class:min-w-[80vw]={!smallWidth}
         class:overflow-y-auto={overflow}
         on:click|stopPropagation
       >
