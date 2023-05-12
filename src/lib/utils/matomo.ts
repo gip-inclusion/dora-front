@@ -55,13 +55,15 @@ function _trackEvent({
 
 // *** EXPORT
 export function trackMobilisationService(service: Service) {
+  const user = get(userInfo);
+
   _trackEvent({
     category: "Mobilisation",
     action: "click",
     name: "Click bouton mobiliser",
     value: service.slug,
-    userDepartment: userInfo ? get(userInfo).department : undefined,
+    userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
-    userProfile: userInfo ? get(userInfo).profile : undefined,
+    userProfile: user ? user.profile : undefined,
   });
 }
