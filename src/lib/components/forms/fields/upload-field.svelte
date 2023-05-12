@@ -10,6 +10,7 @@
   export let id: string;
   export let disabled = false;
   export let readonly = $currentSchema?.[id]?.readonly;
+  export let label = $currentSchema?.[id]?.label;
 
   // Spécifique du select
   export let fileKeys: string[];
@@ -26,7 +27,7 @@
   <FieldWrapper
     {id}
     let:onBlur
-    label={$currentSchema[id].label}
+    {label}
     required={isRequired($currentSchema[id], $currentFormData)}
     {description}
     {hidden}
@@ -35,6 +36,8 @@
     {disabled}
     {readonly}
   >
+    <slot slot="description" name="description" />
+
     <Uploader {id} {structureSlug} on:blur={onBlur} bind:fileKeys {disabled} />
   </FieldWrapper>
 {/if}

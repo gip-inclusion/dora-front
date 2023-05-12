@@ -64,7 +64,7 @@
   </Layout>
   <StickyFormSubmissionRow justifyBetween>
     <LinkButton
-      to="/services/{service.slug}/orienter"
+      to="/services/{service.slug}"
       label="Retour à la fiche"
       secondary
     />

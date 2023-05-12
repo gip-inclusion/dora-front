@@ -13,8 +13,9 @@ export const orientationStep1Schema: v.Schema = {
 
   otherConcernedPublic: {
     default: "",
-    rules: [v.isString()],
     post: [v.trim],
+    rules: [v.isString(), v.maxStrLength(480)],
+    maxLength: 480,
     required: (data) => {
       return data?.hasOtherConcernedPublic?.length;
     },
@@ -125,7 +126,8 @@ export const orientationStep2Schema: v.Schema = {
     post: [v.nullEmpty],
   },
   orientationReasons: {
-    rules: [v.isString()],
+    rules: [v.isString(), v.maxStrLength(480)],
+    maxLength: 480,
     post: [v.trim],
   },
 };
