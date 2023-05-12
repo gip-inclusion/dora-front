@@ -24,7 +24,6 @@ function computeActionDimensions(
 // *** GLOBAL
 type Category = "Mobilisation";
 type Action = "click";
-type Name = "Click bouton mobiliser";
 
 function _trackEvent({
   category,
@@ -36,7 +35,7 @@ function _trackEvent({
 }: {
   category: Category;
   action: Action;
-  name: Name;
+  name: string;
   value: string;
   userDepartment: string | undefined;
   structureDepartment: string | undefined;
@@ -57,13 +56,27 @@ function _trackEvent({
 }
 
 // *** EXPORT
+export function trackMobilisationServiceEmail(service: Service) {
+  const user = get(userInfo);
+
+  _trackEvent({
+    category: "Mobilisation",
+    action: "click",
+    name: "Clic sur l'e-mail de contact",
+    value: service.slug,
+    userDepartment: user ? user.department : undefined,
+    structureDepartment: service.department || service.structureInfo.department,
+    userProfile: user ? user.profile : undefined,
+  });
+}
+
 export function trackMobilisationService(service: Service) {
   const user = get(userInfo);
 
   _trackEvent({
     category: "Mobilisation",
     action: "click",
-    name: "Click bouton mobiliser",
+    name: "Clic bouton mobiliser",
     value: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,

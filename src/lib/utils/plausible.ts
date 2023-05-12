@@ -63,14 +63,6 @@ export function trackError(errorStatusCode, path) {
   _track(errorStatusCode, { path });
 }
 
-export function trackMobilisation(service) {
-  _track("mobilisation", _getServiceProps(service, true));
-}
-
-export function trackMobilisationEmail(service) {
-  _track("mobilisation-contact", _getServiceProps(service, true));
-}
-
 export function trackMobilisationLogin(service) {
   _track("mobilisation-login", _getServiceProps(service, false));
 }

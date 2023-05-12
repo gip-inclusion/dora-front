@@ -2,7 +2,7 @@
   import { CANONICAL_URL } from "$lib/env";
   import { mailLineIcon } from "$lib/icons";
   import { userInfo } from "$lib/utils/auth";
-  import { trackMobilisationEmail } from "$lib/utils/plausible";
+  import { trackMobilisationServiceEmail } from "$lib/utils/matomo";
 
   export let service;
   export let preferred = false;
@@ -35,7 +35,7 @@
   );
 
   function trackClick() {
-    trackMobilisationEmail(service);
+    trackMobilisationServiceEmail(service);
   }
 </script>
 
