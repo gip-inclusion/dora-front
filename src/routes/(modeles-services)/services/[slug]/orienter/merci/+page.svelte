@@ -33,7 +33,7 @@
   };
 
   const contactPrefDisplay = $orientation.beneficiaryContactPreferences
-    .map((pref) => contactPrefOptions[pref])
+    ?.map((pref) => contactPrefOptions[pref])
     .join(", ");
 </script>
 
@@ -55,9 +55,9 @@
   <h3>Voici l'email qui serait envoyé à la structure</h3>
   <div class="mx-auto max-w-2xl rounded-md bg-service-gray p-s12">
     Bonjour,<br /><br />
-    {$userInfo.fullName} de la structure
+    {$userInfo?.fullName} de la structure
     <strong>
-      {$userInfo.structures[$userInfo.structures.length - 1].name}
+      {$userInfo?.structures[$userInfo.structures.length - 1].name}
     </strong>
     vous a adressé un bénéficiaire pour le service
     <strong
