@@ -60,8 +60,8 @@ export function trackMobilisationService(service: Service) {
     action: "click",
     name: "Click bouton mobiliser",
     value: service.slug,
-    userDepartment: get(userInfo).department,
+    userDepartment: userInfo ? get(userInfo).department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
-    userProfile: get(userInfo).profile,
+    userProfile: userInfo ? get(userInfo).profile : undefined,
   });
 }
