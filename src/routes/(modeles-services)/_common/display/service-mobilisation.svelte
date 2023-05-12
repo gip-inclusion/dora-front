@@ -2,14 +2,15 @@
   import Button from "$lib/components/display/button.svelte";
   import ServiceContact from "$lib/components/specialized/services/service-contact.svelte";
   import ServiceLoginNotice from "./service-login-notice.svelte";
-  import { trackMobilisation } from "$lib/utils/plausible";
+  import { trackMobilisationService } from "$lib/utils/matomo";
+  import type { Service } from "$lib/types";
 
-  export let service, showContact;
+  export let service: Service, showContact;
   let contactOpen = false;
 
   function trackClick() {
     contactOpen = true;
-    trackMobilisation(service);
+    trackMobilisationService(service);
   }
 </script>
 

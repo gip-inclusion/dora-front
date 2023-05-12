@@ -8,6 +8,7 @@ import { userPreferencesSet } from "./preferences";
 const tokenKey = "token";
 
 export const token = writable<string>(null);
+export type Profile = "offreur" | "chercheur";
 
 export interface UserInfo {
   firstName: string;
@@ -23,6 +24,7 @@ export interface UserInfo {
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
   tokenExpiration: string;
+  profile: Profile;
 }
 
 export const userInfo = writable<UserInfo>(null);
@@ -103,7 +105,13 @@ export async function validateCredsAndFillUserInfo() {
         if (result.status === 200) {
           token.set(lsToken);
           const info = await result.json();
-          userInfo.set(info);
+
+          // TODO: améliorer la détection d'un offreur vs chercheur
+          userInfo.set({
+            ...info,
+            profile: info.structures.length ? "offreur" : "chercheur",
+          });
+
           userPreferencesSet([...info.structures, ...info.pendingStructures]);
         } else if (result.status === 404) {
           // Le token est invalide, on déconnecte l'utilisateur
