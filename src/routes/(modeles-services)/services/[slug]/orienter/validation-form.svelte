@@ -82,35 +82,41 @@
       </Notice>
     {/if}
     <div class="flex flex-row  gap-s48">
-      <div>
-        <h4>Documents à compléter</h4>
-        <ul class="mb-s16 list-inside list-disc">
-          {#each service.formsInfo as form}
-            <li>
-              <span class="break-word">
-                <a href={form.url} class="underline" download
-                  >{formatFilePath(form.name)}</a
-                >
-              </span>
-            </li>
-          {/each}
-        </ul>
-        <h4>Lien</h4>
-        <ul class="list-inside list-disc">
-          <li>
-            <span class="break-word">
-              <a
-                rel="noopener"
-                target="_blank"
-                href={service.onlineForm}
-                class="underline"
-                title="Ouverture dans une nouvelle fenêtre"
-                >{service.onlineForm}</a
-              >
-            </span>
-          </li>
-        </ul>
-      </div>
+      {#if service.onlineForm || service.formsInfo.length}
+        <div>
+          {#if service.formsInfo.length}
+            <h4>Documents à compléter</h4>
+            <ul class="mb-s16 list-inside list-disc">
+              {#each service.formsInfo as form}
+                <li>
+                  <span class="break-word">
+                    <a href={form.url} class="underline" download
+                      >{formatFilePath(form.name)}</a
+                    >
+                  </span>
+                </li>
+              {/each}
+            </ul>
+          {/if}
+          {#if service.onlineForm}
+            <h4>Lien</h4>
+            <ul class="list-inside list-disc">
+              <li>
+                <span class="break-word">
+                  <a
+                    rel="noopener"
+                    target="_blank"
+                    href={service.onlineForm}
+                    class="underline"
+                    title="Ouverture dans une nouvelle fenêtre"
+                    >{service.onlineForm}</a
+                  >
+                </span>
+              </li>
+            </ul>
+          {/if}
+        </div>
+      {/if}
       <div>
         <h4>Justificatifs à fournir</h4>
         <ul class="list-inside list-disc">

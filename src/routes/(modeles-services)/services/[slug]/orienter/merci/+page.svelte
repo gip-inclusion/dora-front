@@ -32,6 +32,14 @@
     ?.map((pref) => contactPrefOptions[pref])
     .join(", ");
 
+  const contactInfoDisplay = [
+    $orientation.beneficiaryEmail,
+    $orientation.beneficiaryPhone,
+    $orientation.beneficiaryOtherContactMethod,
+  ]
+    .filter((info) => !!info)
+    .join(" – ");
+
   const attachments = [];
 
   data.servicesOptions.credentials
@@ -101,12 +109,14 @@
         {$orientation.beneficiaryLastName}
       </li>
       <li>
-        {$orientation.beneficiaryEmail} - {$orientation.beneficiaryPhone} (joignable
-        par {contactPrefDisplay})
+        {contactInfoDisplay}
+        (joignable par {contactPrefDisplay})
       </li>
-      <li>
-        est disponible à partir de {$orientation.beneficiaryDisponibility}.
-      </li>
+      {#if $orientation.beneficiaryDisponibility}
+        <li>
+          est disponible à partir de {$orientation.beneficiaryDisponibility}.
+        </li>
+      {/if}
     </ul>
     <br />
 
