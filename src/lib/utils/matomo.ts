@@ -2,6 +2,7 @@ import type { Service } from "$lib/types";
 import { userInfo } from "$lib/utils/auth";
 import { get } from "svelte/store";
 import type { Profile } from "$lib/utils/auth";
+import { browser } from "$app/environment";
 
 // Documentation : https://developer.matomo.org/guides/tracking-javascript-guide
 
@@ -41,16 +42,18 @@ function _trackEvent({
   structureDepartment: string | undefined;
   userProfile: Profile | undefined;
 }) {
-  window._paq.push([
-    "trackEvent",
-    category,
-    action,
-    name,
-    value,
-    {
-      ...computeActionDimensions(userDepartment, userProfile),
-    },
-  ]);
+  if (browser) {
+    window._paq.push([
+      "trackEvent",
+      category,
+      action,
+      name,
+      value,
+      {
+        ...computeActionDimensions(userDepartment, userProfile),
+      },
+    ]);
+  }
 }
 
 // *** EXPORT
