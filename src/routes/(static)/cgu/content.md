@@ -14,7 +14,7 @@ La plateforme centralise des données et permet aux accompagnateurs de l’inser
 
 ## Article 3 — Définitions
 
-« L’Utilisateur » est :
+« L’Utilisateur » est :
 
 Tout offreur de solutions (acteurs locaux associatifs, institutionnels, et nationaux).
 
@@ -22,9 +22,9 @@ Tout accompagnateur cherchant une solution, à savoir tous les acteurs de l’in
 
 Tout bénéficiaire désirant réussir son insertion professionnelle par l’emploi et engagé dans un parcours d’insertion.
 
-« Le Référent Local » est toute personne considérée comme référente sur un territoire déterminé pour le déploiement de la Plateforme DORA.
+« Le Gestionnaire de Territoire » est toute personne considérée comme correspondante locale ou ambassadrice ayant pour mission d'animer les structures d'un périmètre donné (géographique, thématique ou ciblé sur un réseau particulier) et d'aider au référencement des informations et au maintien des bonnes pratiques de mise à jour de la plateforme DORA.
 
-« Les services » sont l’ensemble des fonctionnalités proposées sur la plateforme DORA qui facilitent l’accompagnement dans la réussite de l’insertion professionnelle par l’emploi.
+« Les services » sont l’ensemble des fonctionnalités proposées sur la plateforme DORA qui facilitent l’accompagnement dans la réussite de l’insertion professionnelle, sociale et socio-professionnel par et vers l'emploi.
 
 ## Article 4 — Fonctionnalités
 
@@ -32,7 +32,7 @@ Tout bénéficiaire désirant réussir son insertion professionnelle par l’emp
 
 **Inscription sur DORA via Inclusion Connect**
 
-Tout Utilisateur peut créer un compte sur DORA grâce à Inclusion Connect en fournissant les informations suivantes :
+Tout Utilisateur peut créer un compte sur DORA grâce à Inclusion Connect en fournissant les informations suivantes :
 
 - Nom ;
 - Prénom ;
@@ -46,21 +46,18 @@ En s’inscrivant aux services proposés par le site, l’Utilisateur s’engage
 
 ### 4.2 Identification de la structure
 
-Lorsque l’Utilisateur se connecte (via son adresse e-mail et son mot de passe Inclusion Connect), il doit identifier sa structure soit en renseignant sa commune et le nom de sa structure soit en renseignant un numéro SIRET.
+Lorsque l’Utilisateur se connecte (via son adresse e-mail et son mot de passe Inclusion Connect), il doit identifier sa structure soit en renseignant sa commune et le nom de sa structure soit en renseignant un numéro SIRET ou le numéro RNA.
 
-### 4.3 Fonctionnalités du compte Référent Local
+### 4.3 Fonctionnalités uniquement ouvertes au compte Gestionnaire de Territoire
 
-Le Référent Local peut visualiser sur le territoire concerné les offreurs de solution et les accompagnateurs cherchant une solution ayant un compte Utilisateur.
+Le Gestionnaire de Territoire dispose d'un compte dédié à partir duquel il peut :
 
-Le Référent Local a accès aux informations suivantes sur lesdits Utilisateurs : noms et prénoms, adresse e-mail et numéro de téléphone.
+- visualiser sur le territoire concerné les offreurs de solution et les accompagnateurs cherchant une solution ayant un compte Utilisateur;
+- accéder aux informations suivantes sur lesdits Utilisateurs : noms et prénoms, adresse e-mail et numéro de téléphone et à l'ensemble des données des structures ;
+- modifier les informations de la structure et des services. Il peut notamment inviter un administrateur ou un collaborateur ;
+- imprimer les données de contact.
 
-Le Référent Local dispose également des mêmes fonctionnalités que les Utilisateurs.
-
-Le Référent Local a accès à toutes les données des structures.
-
-Le Référent Local peut modifier les informations de la structure et des services. Il peut notamment inviter un administrateur ou un collaborateur.
-
-Le Référent Local peut imprimer les données de contact. Il doit s’assurer de les imprimer dans un environnement sécurisé et ainsi mettre en œuvre toutes les mesures techniques et organisationnelles appropriées afin de garantir la sécurité des données de contact.
+Le Gestionnaire de territoire dispose également des mêmes fonctionnalités que les Utilisateurs.
 
 ## Article 5 — Suspension ou Suppression de l’espace de la structure
 
@@ -68,7 +65,7 @@ Tout Utilisateur membre régulièrement inscrit pourra solliciter sa désinscrip
 
 ## Article 6 — Abonnements
 
-Tout offreur de solution ou accompagnateur qui le souhaite peut s’abonner à la newsletter de Dora et se maintenir informer de manière hebdomadaire sur les offres d’insertions proposées sur son territoire : en cliquant sur le lien « s’abonner à l’infolettre » depuis la page d’accueil du site.
+Tout offreur de solution ou accompagnateur qui le souhaite peut s’abonner à la newsletter de Dora et se maintenir informer de manière hebdomadaire sur les offres d’insertions proposées sur son territoire : en cliquant sur le lien « s’abonner à l’infolettre » depuis la page d’accueil du site.
 
 ## Article 7 — Responsabilités
 
@@ -86,24 +83,28 @@ Ce site peut mettre à disposition des liens pouvant orienter l’utilisateur ve
 
 ### 7.2 Responsabilités de l’Utilisateur
 
-Toute information transmise par l’Utilisateur est de sa seule responsabilité. Il appartient à l’Utilisateur de ne divulguer que des informations de contact professionnel dans la zone de texte dédiée à la rédaction du message dans le formulaire de contact. Cette obligation concerne également les informations qu’il fournit concernant une autre structure.
+Toute information transmise par l’Utilisateur est de sa seule responsabilité. Il appartient à l’Utilisateur de ne divulguer que des informations de contact professionnel dans la zone de texte dédiée à la rédaction des messages sur l'ensemble des formulaires du site. Cette obligation concerne également les informations qu’il fournit concernant une autre structure.
+
+Tout partage de données ou d'information non autorisée hors de la plateforme est de la responsabilité de l’Utilisateur.
 
 L’Utilisateur s’engage à ne pas mettre en ligne de contenus ou informations contraires aux dispositions légales et règlementaires en vigueur. En particulier, il s’engage à ne pas publier, à quelque endroit que ce soit, de messages racistes, sexistes, injurieux, insultants ou contraires à l’ordre public.
 
-Il est rappelé que toute personne procédant à une fausse déclaration pour elle-même ou pour autrui s’expose, notamment, aux sanctions prévues à l’article 441-1 du code pénal, prévoyant des peines pouvant aller jusqu’à trois ans d’emprisonnement et 45 000 euros d’amendes.
+Il est rappelé que toute personne procédant à une fausse déclaration pour elle-même ou pour autrui s’expose, notamment, aux sanctions prévues à l’article 441-1 du code pénal, prévoyant des peines pouvant aller jusqu’à trois ans d’emprisonnement et 45 000 euros d’amendes.
 
-### 7.3. Responsabilités du Référent Local
+### 7.3. Responsabilités du Gestionnaire de Territoire
 
-Toute information transmise par le Référent Local est de sa seule responsabilité. Il appartient au Référent Local de ne divulguer que des informations de contact professionnel dans la zone de texte dédiée à la rédaction du message dans le formulaire de contact. Cette obligation concerne également les informations qu’il fournit concernant une autre structure.
+Toute information transmise par le Gestionnaire de Territoire est de sa seule responsabilité. Il appartient au Gestionnaire de Territoire de ne divulguer que des informations de contact professionnel dans la zone de texte dédiée à la rédaction des messages sur l'ensemble des formulaires du site. Cette obligation concerne également les informations qu’il fournit concernant une autre structure.
 
-Le Référent Local s’engage à ne pas mettre en ligne de contenus ou informations contraires aux dispositions légales et règlementaires en vigueur. En particulier, il s’engage à ne pas publier, à quelque endroit que ce soit, de messages racistes, sexistes, injurieux, insultants ou contraires à l’ordre public.
+Tout partage de données ou d'information non autorisée hors de la plateforme est de la responsabilité du gestionnaire de territoire.
 
-Il est rappelé que toute personne procédant à une fausse déclaration pour elle-même ou pour autrui s’expose, notamment, aux sanctions prévues à l’article 441-1 du code pénal, prévoyant des peines pouvant aller jusqu’à trois ans d’emprisonnement et 45 000 euros d’amendes.
+Le Gestionnaire de Territoire s’engage à ne pas mettre en ligne de contenus ou informations contraires aux dispositions légales et règlementaires en vigueur. En particulier, il s’engage à ne pas publier, à quelque endroit que ce soit, de messages racistes, sexistes, injurieux, insultants ou contraires à l’ordre public.
+
+Il est rappelé que toute personne procédant à une fausse déclaration pour elle-même ou pour autrui s’expose, notamment, aux sanctions prévues à l’article 441-1 du code pénal, prévoyant des peines pouvant aller jusqu’à trois ans d’emprisonnement et 45 000 euros d’amendes.
 
 ## Article 8 — Mise à jour des conditions d’utilisation
 
 Les termes des présentes conditions d’utilisation peuvent être amendés à tout moment, en fonction des modifications apportées à la plateforme, de l’évolution de la législation ou pour tout autre motif jugé nécessaire. Chaque modification donne lieu à une nouvelle version qui est acceptée par les parties.
 
-Vous pouvez avoir accès à l’historique des différentes versions des conditions générales d’utilisation ici :
+Vous pouvez avoir accès à l’historique des différentes versions des conditions générales d’utilisation ici :
 
 - [Version du 13/12/2022](/cgu/cgu-20221213)
