@@ -49,6 +49,9 @@
   $: canAdd =
     $structure.canEditMembers ||
     (!$structure.hasAdmin && $structure.canInviteFirstAdmin);
+
+  $: canOnlyAddFirstAdmin =
+    !$structure.canEditMembers && $structure.canInviteFirstAdmin;
 </script>
 
 <EnsureLoggedIn>
@@ -66,7 +69,9 @@
     <h2 class="text-france-blue">Collaborateurs</h2>
     {#if canAdd}
       <Button
-        label="Ajouter un collaborateur"
+        label={canOnlyAddFirstAdmin
+          ? "Ajouter un administrateur"
+          : "Ajouter un collaborateur"}
         icon={userAddIcon}
         on:click={() => (modalAddUserIsOpen = true)}
       />
@@ -101,10 +106,9 @@
       {#each sortedMembers(data.members) as member}
         <MemberStandard
           {member}
+          structureSlug={data.structure.slug}
           onRefresh={handleRefreshMemberList}
           isMyself={member.user.email === $userInfo.email}
-          isOnlyAdmin={member.user.email === $userInfo.email &&
-            data.members.filter((memb) => memb.isAdmin).length === 1}
           readOnly={!$structure.canEditMembers}
         />
       {/each}
