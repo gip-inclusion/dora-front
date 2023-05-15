@@ -8,7 +8,7 @@ Le responsable de l'utilisation des données est le GIP Plateforme de l'inclusio
 
 ## Pourquoi manipulons-nous ces données ?
 
-DORA manipule des données à caractère personnelles pour :
+DORA manipule des données à caractère personnel pour :
 
 - Permettre aux accompagnateurs de l'insertion de mobiliser rapidement l'offre d'insertion adaptée aux besoins des bénéficiaires qu'ils accompagnent via une recherche simple et personnalisée, des résultats qualifiées et des fiches solutions claires et actionnables ;
 - Avoir une visibilité au niveau territorial sur le déploiement de la plateforme DORA.
@@ -63,8 +63,10 @@ Nous nous engageons à vous répondre dans un délai raisonnable qui ne saurait 
 
 Les accès aux données sont strictement encadrés et juridiquement justifiés. Les personnes suivantes vont avoir accès aux données :
 
-- Les membres de DORA qui ont besoin des données dans leurs missions ou qui y ont accès de fait (développeur, etc.).
-- Les données de contact sont transmises à Data Inclusion : 1) publiquement lorsque les informations sont diffusées en open data et via l'API de Data Inclusion et 2) en privée lorsque les informations ne sont pas diffusées en open data mais disponible via l'API de Data Inclusion conventionnée (1 token est envoyé à chaque utilisateur signataire des CGU de DORA).
+- Les membres de l'équipe DORA qui ont besoin des données dans leurs missions ou qui y ont accès de fait (développeur, etc.) ;
+- Agent ou toute personne désigné comme des gestionnaires de territoire et ambassadeurs dans les territoires pour Dora
+- Les données de contact sont transmises à Data Inclusion : 1) publiquement et diffusées en open data et via l'API de Data Inclusion lorsque ces données ont été validées comme pouvant être visible publiquement et 2) et non diffusées en open data lorsque ces données ont été validées comme devant rester privée aux utilisateurs connectés de DORA. Elles sont disponibles via l'API de Data Inclusion et conventionnée (1 token est envoyé à chaque utilisateur signataire des CGU de data·inclusion.
+- Les données peuvent être transmises à France Transfert.
 
 ## Quelles mesures de sécurité mettons-nous en place ?
 
@@ -75,7 +77,6 @@ Nous mettons en place plusieurs mesures pour sécuriser les données : (liste à
 - Cloisonnement des données ;
 - Mesures de traçabilité ;
 - Surveillance ;
-- Protection contre les virus, malwares et logiciels espions ;
 - Protection des réseaux ;
 - Sauvegarde ;
 - Mesures restrictives limitant l'accès physiques aux données à caractère personnel.
@@ -84,18 +85,22 @@ Nous mettons en place plusieurs mesures pour sécuriser les données : (liste à
 
 Certaines des données sont envoyées à d'autres acteurs, appelés "sous-traitants de données", pour qu'ils nous aident à les manipuler. Nous nous assurons qu'ils respectent strictement le RGPD et qu'ils apportent des garanties suffisantes en matière de sécurité.
 
-| **Partenaire**     | **Pays destinataire** | **Traitement réalisé**                   | **Garanties**                                                                                                                                                                                                  |
-| ------------------ | --------------------- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Scalingo**       | France                | Hébergement                              | ​[https://scalingo.com/fr/contrat-gestion-traitements-donnees-personnelles](https://scalingo.com/fr/contrat-gestion-traitements-donnees-personnelles)                                                          |
-| **Crisp**          | Union européenne      | Outil de chat                            | ​[https://crisp.chat/en/privacy/​](https://crisp.chat/en/privacy/)                                                                                                                                             |
-| **Tipimail**       | France                | Outil de transfert et d'échange de mails | ​[https://fr.tipimail.com/rgpd​](https://fr.tipimail.com/rgpd)                                                                                                                                                 |
-| **Data Inclusion** | France                | API/Open Data                            | [https://www.data.inclusion.beta.gouv.fr/juridique-et-rgpd/politique-de-confidentialite-data-inclusion](https://www.data.inclusion.beta.gouv.fr/juridique-et-rgpd/politique-de-confidentialite-data-inclusion) |
+| **Partenaire**       | **Pays destinataire** | **Traitement réalisé**                                | **Garanties**                                                                                                                                                                                                  |
+| -------------------- | --------------------- | ----------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Scalingo**         | France                | Hébergement                                           | ​[https://scalingo.com/fr/contrat-gestion-traitements-donnees-personnelles](https://scalingo.com/fr/contrat-gestion-traitements-donnees-personnelles)                                                          |
+| **Crisp**            | Union européenne      | Outil de chat                                         | ​[https://crisp.chat/en/privacy/​](https://crisp.chat/en/privacy/)                                                                                                                                             |
+| **Tipimail**         | France                | Outil de transfert et d'échange de mails              | ​[https://fr.tipimail.com/rgpd​](https://fr.tipimail.com/rgpd)                                                                                                                                                 |
+| **Data Inclusion**   | France                | API/Open Data                                         | [https://www.data.inclusion.beta.gouv.fr/juridique-et-rgpd/politique-de-confidentialite-data-inclusion](https://www.data.inclusion.beta.gouv.fr/juridique-et-rgpd/politique-de-confidentialite-data-inclusion) |
+| **Tally**            | Belgique              | Outil de sondage                                      | ​ https://tally.so/help/privacy-policy                                                                                                                                                                         |
+| **France Transfert** | France                | Outil de transfert de documents                       | ​[https://francetransfert.numerique.gouv.fr/cgu](https://)                                                                                                                                                     |
+| **Zapier**           | Etats-Unis            | Outil d'automatisation de la gestion des applications | ​[https://zapier.com/legal/data-processing-addendum](https://)                                                                                                                                                 |
+| **Livestorm**        | Ireland et Etats-Unis | Outil de visioconférence et webinar                   | ​[https://livestorm.imgix.net/1127/1675174056-privacy-policy-fr.pdf](https://)                                                                                                                                 |
 
 ## Cookies
 
 En application de l'article 5(3) de la directive 2002/58/CE modifiée concernant le traitement des données à caractère personnel et la protection de la vie privée dans le secteur des communications électroniques, transposée à l'article 82 de la loi n°78-17 du 6 janvier 1978 relative à l'informatique, aux fichiers et aux libertés, les traceurs ou cookies suivent deux régimes distincts.
 
-Les cookies n'étant pas strictement nécessaires au service ou n'ayant pas pour finalité exclusive de faciliter la communication par voie électronique doivent être consenti par l'utilisateur.
+Les cookies n'étant pas strictement nécessaires au service ou n'ayant pas pour finalité exclusive de faciliter la communication par voie électronique doivent être consentis par l'utilisateur.
 
 Ce consentement de la personne concernée pour une ou plusieurs finalités spécifiques constitue une base légale au sens du RGPD et doit être entendu au sens de l'article 6-a du Règlement (UE) 2016/679 du Parlement européen et du Conseil du 27 avril 2016 relatif à la protection des personnes physiques à l'égard du traitement des données à caractère personnel et à la libre circulation de ces données.
 
@@ -108,8 +113,10 @@ Cookies recensés sur DORA :
 | **Editeur**   | **Nom du cookie** | **Durée de vie du cookie** | **Finalités**       |
 | ------------- | ----------------- | -------------------------- | ------------------- |
 | Crisp Chat    | crisp-client/\*   | Session                    | Outil de Chatbot    |
-| ---           | ---               | ---                        | ---                 |
 | tarteaucitron | tarteaucitron     | 1 an                       | Gestion des cookies |
+| Matomo        | \_pk_id           | 13 mois                    | Gestion des cookies |
+| Matomo        | \_pk_ses          | 30 minutes                 | Gestion des cookies |
+| Matomo        | \_pk_ref          | 6 mois                     | Gestion des cookies |
 
 Des cookies relatifs aux statistiques publiques et anonymes sont également déposés.
 
