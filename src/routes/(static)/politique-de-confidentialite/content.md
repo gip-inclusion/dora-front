@@ -109,5 +109,3 @@ Pour aller plus loin, vous pouvez consulter les fiches proposées par la Commiss
 
 - ​[Cookies & traceurs : que dit la loi ?](https://www.cnil.fr/fr/cookies-traceurs-que-dit-la-loi)​
 - ​[Cookies : les outils pour les maîtriser](https://www.cnil.fr/fr/cookies-les-outils-pour-les-maitriser)​
-
-En outre, nous utilisons l'outil Plausible, qui permet de suivre, sans déposer de cookies, les tendances d’utilisation générales du site. Plausible ne traite aucune données à caractère personnel, ne dépose aucun cookie et ne permet pas de traquer la tendance individuelle de comportement de chaque personne.

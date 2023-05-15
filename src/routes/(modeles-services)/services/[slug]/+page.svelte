@@ -8,7 +8,7 @@
   import { getService } from "$lib/requests/services";
   import { token } from "$lib/utils/auth";
   import { TallyFormId } from "$lib/utils/nps";
-  import { trackService } from "$lib/utils/plausible";
+  import { trackService } from "$lib/utils/matomo";
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
   import type { Service } from "$lib/types";

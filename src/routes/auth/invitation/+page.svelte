@@ -5,7 +5,7 @@
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
   import { token, validateCredsAndFillUserInfo } from "$lib/utils/auth";
-  import { trackJoinStructure } from "$lib/utils/plausible";
+  import { trackJoinStructure } from "$lib/utils/matomo";
   import { get } from "svelte/store";
   import AuthLayout from "../auth-layout.svelte";
   import type { PageData } from "./$types";

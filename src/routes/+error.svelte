@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import { logException } from "$lib/utils/logger";
-  import { trackError } from "$lib/utils/plausible";
+  import { trackError } from "$lib/utils/matomo";
   import { onMount } from "svelte";
 
   const notFound = $page.status === 404;

@@ -3,7 +3,7 @@
   import { CANONICAL_URL, PDF_SERVICE_URL } from "$lib/env";
   import { checkIcon, downloadIcon, linkIcon } from "$lib/icons";
   import type { Service, ShortService } from "$lib/types";
-  import { trackPDFDownload } from "$lib/utils/plausible";
+  import { trackPDFDownload } from "$lib/utils/matomo";
   import { fly } from "svelte/transition";
 
   export let service: Service | ShortService;

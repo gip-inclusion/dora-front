@@ -4,7 +4,7 @@
   import DateLabel from "$lib/components/display/date-label.svelte";
   import { editIcon } from "$lib/icons";
   import type { Service } from "$lib/types";
-  import { trackFeedback } from "$lib/utils/plausible";
+  import { trackFeedback } from "$lib/utils/matomo";
   import FeedbackModal from "./feedback-modal.svelte";
   import dayjs from "dayjs";
   import RelativeDateLabel from "$lib/components/display/relative-date-label.svelte";

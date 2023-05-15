@@ -4,7 +4,7 @@
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import type { PageData } from "./$types";
   import ModelHeader from "./model-header.svelte";
-  import { trackModel } from "$lib/utils/plausible";
+  import { trackModel } from "$lib/utils/matomo";
   import RelativeDateLabel from "$lib/components/display/relative-date-label.svelte";
   import UpdateStatusIcon from "$lib/components/specialized/services/update-status-icon.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
