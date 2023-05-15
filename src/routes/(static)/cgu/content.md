@@ -8,7 +8,7 @@ La plateforme DORA est accessible gratuitement pour l’Utilisateur inscrit à s
 
 ## Article 2 — Objet
 
-La plateforme DORA développée au sein du GIP Plateforme de l’inclusion est un service public numérique alimenté par les offreurs de solutions d’insertions locales, nationales et numériques.
+La plateforme DORA développée au sein du GIP Plateforme de l’inclusion est un service public numérique alimenté par les offreurs de solutions d’insertion locales, nationales et numériques.
 
 La plateforme centralise des données et permet aux accompagnateurs de l’insertion de mobiliser rapidement l’offre d’insertion adaptée aux besoins des bénéficiaires qu’ils accompagnent par le biais d’une recherche simple et personnalisée, des résultats qualifiés et des fiches de solutions claires.
 
@@ -65,7 +65,7 @@ Tout Utilisateur membre régulièrement inscrit pourra solliciter sa désinscrip
 
 ## Article 6 — Abonnements
 
-Tout offreur de solution ou accompagnateur qui le souhaite peut s’abonner à la newsletter de Dora et se maintenir informer de manière hebdomadaire sur les offres d’insertions proposées sur son territoire : en cliquant sur le lien « s’abonner à l’infolettre » depuis la page d’accueil du site.
+Tout offreur de solution ou accompagnateur qui le souhaite peut s’abonner à la newsletter de Dora et se maintenir informer de manière hebdomadaire sur les offres d’insertion proposées sur son territoire : en cliquant sur le lien « s’abonner à l’infolettre » depuis la page d’accueil du site.
 
 ## Article 7 — Responsabilités
 
