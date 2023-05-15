@@ -25,12 +25,6 @@
           Les modifications seront proposées sur tous les services utilisant ce
           modèle.
         </p>
-
-        <label class="flex text-f14 text-gray-text">
-          <input type="checkbox" bind:value={updateAllServices} class="mr-s8" />
-          Cochez cette case pour mettre à jour automatiquement tous les services
-          utilisant ce modèle.
-        </label>
       </Notice>
     {/if}
   </CenteredGrid>

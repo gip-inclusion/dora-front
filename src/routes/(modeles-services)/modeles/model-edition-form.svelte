@@ -157,27 +157,41 @@
 
   {#if model?.structure}
     <StickyFormSubmissionRow>
-      {#if updateAllServices}
-        <Button
-          on:click={() => (showUpdateAllServicesModal = true)}
-          name="validate"
-          type="button"
-          label="Enregistrer"
-        />
-        <input
-          bind:this={submitFormInput}
-          class="hidden"
-          type="submit"
-          value="Valider le formulaire"
-        />
-      {:else}
-        <Button
-          name="validate"
-          type="submit"
-          label="Enregistrer"
-          disabled={requesting}
-        />
-      {/if}
+      <div class="flex w-full justify-between">
+        <div class="flex items-center">
+          <label class="flex text-f14 text-gray-text">
+            <input
+              type="checkbox"
+              bind:value={updateAllServices}
+              class="mr-s8"
+            />
+            Cochez cette case pour mettre à jour automatiquement tous les services
+            utilisant ce modèle.
+          </label>
+        </div>
+
+        {#if updateAllServices}
+          <Button
+            on:click={() => (showUpdateAllServicesModal = true)}
+            name="validate"
+            type="button"
+            label="Enregistrer"
+          />
+          <input
+            bind:this={submitFormInput}
+            class="hidden"
+            type="submit"
+            value="Valider le formulaire"
+          />
+        {:else}
+          <Button
+            name="validate"
+            type="submit"
+            label="Enregistrer"
+            disabled={requesting}
+          />
+        {/if}
+      </div>
     </StickyFormSubmissionRow>
   {/if}
 </Form>
