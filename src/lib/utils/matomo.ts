@@ -14,15 +14,15 @@ function computeActionDimensions(
   userProfile: Profile | undefined
 ): { dimension3?: Profile; dimension4?: string } {
   const result: {
-    dimension3?: Profile;
-    dimension4?: string;
+    dimension3?: string;
+    dimension4?: Profile;
     dimension5?: string;
   } = {};
-  if (userProfile) {
-    result.dimension3 = userProfile;
-  }
   if (userDepartment) {
-    result.dimension4 = userDepartment;
+    result.dimension3 = userDepartment;
+  }
+  if (userProfile) {
+    result.dimension4 = userProfile;
   }
   if (structureDepartment) {
     result.dimension5 = structureDepartment;
