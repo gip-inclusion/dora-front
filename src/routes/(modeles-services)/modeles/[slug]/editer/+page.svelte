@@ -6,7 +6,6 @@
   import type { PageData } from "./$types";
 
   export let data: PageData;
-  export let updateAllServices = false;
 </script>
 
 <EnsureLoggedIn>
@@ -31,7 +30,6 @@
 
   <ModelEditionForm
     model={data.model}
-    {updateAllServices}
     servicesOptions={data.servicesOptions}
     structures={data.structures}
     structure={data.structure}

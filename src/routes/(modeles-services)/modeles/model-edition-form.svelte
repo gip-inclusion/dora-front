@@ -22,8 +22,8 @@
   export let servicesOptions: ServicesOptions;
   export let structures: ShortStructure[];
   export let structure: ShortStructure;
-  export let updateAllServices: boolean;
   export let showUpdateAllServicesModal = false;
+  let updateAllServices = false;
 
   let requesting = false;
   let submitFormInput;
@@ -34,7 +34,7 @@
     structure = { ...model, ...validatedData };
   }
   function handleSubmit(validatedData) {
-    return createOrModifyModel(validatedData);
+    return createOrModifyModel(validatedData, updateAllServices);
   }
   function handleConfirmSubmit() {
     showUpdateAllServicesModal = false;
@@ -162,7 +162,7 @@
           <label class="flex text-f14 text-gray-text">
             <input
               type="checkbox"
-              bind:value={updateAllServices}
+              bind:checked={updateAllServices}
               class="mr-s8"
             />
             Cochez cette case pour mettre à jour automatiquement tous les services

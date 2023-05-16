@@ -6,7 +6,9 @@
 
   export let data: PageData;
   async function handleRefresh() {
+    console.log("handleRefresh1");
     $structure = await getStructure($structure.slug);
+    console.log("handleRefresh2");
   }
 </script>
 

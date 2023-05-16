@@ -10,6 +10,10 @@ import type {
   ShortService,
 } from "$lib/types";
 import { logException } from "$lib/utils/logger";
+import {
+  showModelNotice,
+  removeIgnoredServiceToUpdate,
+} from "$lib/utils/service-updates-via-model";
 
 function serviceToBack(service) {
   if (service.longitude && service.latitude) {
@@ -85,7 +89,7 @@ export function createOrModifyService(service: Service) {
   });
 }
 
-export function createOrModifyModel(model, updateAllServices = false) {
+export async function createOrModifyModel(model, updateAllServices = false) {
   let method, url;
   if (model.slug) {
     url = `${getApiURL()}/models/${model.slug}/`;
@@ -95,7 +99,7 @@ export function createOrModifyModel(model, updateAllServices = false) {
     method = "POST";
   }
 
-  return fetch(url, {
+  const result = await fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
@@ -104,6 +108,12 @@ export function createOrModifyModel(model, updateAllServices = false) {
     },
     body: JSON.stringify({ ...serviceToBack(model), updateAllServices }),
   });
+
+  // On ré-affiche les fenêtres de mises à jour des services
+  showModelNotice();
+  removeIgnoredServiceToUpdate(model.slug);
+
+  return result;
 }
 
 export async function deleteService(serviceSlug) {

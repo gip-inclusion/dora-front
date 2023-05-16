@@ -1,30 +1,95 @@
 <script lang="ts">
-  // TODO: tout accepter - tout refuser - tout montrer - accepter/refuser individuellement
-
   import Button from "$lib/components/display/button.svelte";
   import Notice from "$lib/components/display/notice.svelte";
+  import {
+    createOrModifyService,
+    getModel,
+    getService,
+  } from "$lib/requests/services";
   import type { StructureService } from "$lib/types";
+  import {
+    addIgnoredServicesToUpdate,
+    updateServiceFromModel,
+    getIgnoredServicesToUpdate,
+    hideModelNotice,
+    isModelNoticeHidden,
+  } from "$lib/utils/service-updates-via-model";
+  import { onMount } from "svelte";
 
   export let services: StructureService[] = [];
+  export let requesting = false;
+  export let onRefresh: () => void;
 
   const LIST_LENGTH = 3;
   let showAll = false;
+  let servicesToUpdate: StructureService[] = [];
 
-  $: servicesToUpdate = services.filter(({ modelChanged }) => modelChanged);
+  $: showNotice = servicesToUpdate.length && !isModelNoticeHidden();
   $: updatedModels = new Set(
     servicesToUpdate.map(({ modelName }) => modelName)
   );
 
-  async function cancelUpdate(serviceSlug: string) {}
-  async function doUpdate(serviceSlug: string) {}
+  function computeServicesToUpdate(): void {
+    const servicesToIgnore = getIgnoredServicesToUpdate().map(
+      (serv) => serv.serviceSlug
+    );
+
+    servicesToUpdate = services.filter(
+      ({ slug, modelChanged }) =>
+        modelChanged && !servicesToIgnore.includes(slug)
+    );
+  }
+
+  onMount(() => computeServicesToUpdate());
+
+  async function doUpdate(service: StructureService, doRefresh = false) {
+    requesting = true;
+    const serviceToUpdate = await getService(service.slug);
+    const model = await getModel(service.model);
+
+    const newService = updateServiceFromModel(model, serviceToUpdate);
+    await createOrModifyService(newService);
+
+    if (doRefresh) {
+      await onRefresh();
+    }
+    requesting = false;
+  }
+
+  async function updateAll() {
+    requesting = true;
+
+    const promises: Promise<void>[] = [];
+    for (const service of servicesToUpdate) {
+      promises.push(doUpdate(service));
+    }
+
+    await Promise.all(promises);
+    await onRefresh();
+    requesting = false;
+  }
+
+  function reject(modelSlug: string, serviceSlug: string) {
+    addIgnoredServicesToUpdate([{ modelSlug, serviceSlug }]);
+    computeServicesToUpdate();
+  }
+  function rejectAll() {
+    addIgnoredServicesToUpdate(
+      servicesToUpdate.map((serv) => ({
+        modelSlug: serv.model,
+        serviceSlug: serv.slug,
+      }))
+    );
+    computeServicesToUpdate();
+  }
 </script>
 
-{#if services.length}
+{#if showNotice}
   <Notice
     title="Il existe des mises à jour pour {servicesToUpdate.length} de vos services"
     type="info"
   >
-    <div>
+    <div class="w-full">
       <p class="block text-f14">
         Suite à la mise à jour de {Array.from(updatedModels)
           .map((name) => `"${name}"`)
@@ -41,19 +106,17 @@
                 extraClass="ml-s16 text-magenta-cta !text-f14 !p-s0"
                 noBackground
                 noPadding
+                disabled={requesting}
                 label="Mettre à jour"
-                on:click={() => {
-                  doUpdate(service.slug);
-                }}
+                on:click={() => doUpdate(service)}
               />
               <Button
                 extraClass="ml-s10 text-marianne-red !text-f14 !p-s0"
                 noBackground
                 noPadding
+                disabled={requesting}
                 label="Refuser"
-                on:click={() => {
-                  cancelUpdate(service.slug);
-                }}
+                on:click={() => reject(service.model, service.slug)}
               />
             </li>
           {/if}
@@ -74,23 +137,26 @@
       {/if}
     </div>
 
-    <div class="mt-s16">
+    <div class="mt-s16 w-full">
       <Button
         label="Tout mettre à jour"
-        extraClass="py-s8 !px-s12"
-        on:click={() => {}}
+        extraClass="py-s8 !text-f14 !px-s12"
+        on:click={updateAll}
       />
       <Button
         secondary
-        extraClass="py-s8 !px-s12"
+        extraClass="py-s8 !text-f14 !px-s12"
         label="Tout refuser"
-        on:click={() => {}}
+        on:click={rejectAll}
       />
       <Button
         secondary
-        extraClass="py-s8 !px-s12"
+        extraClass="py-s8 !text-f14 !px-s12"
         label="Cacher cette fenêtre"
-        on:click={() => {}}
+        on:click={() => {
+          hideModelNotice();
+          showNotice = false;
+        }}
       />
     </div>
   </Notice>

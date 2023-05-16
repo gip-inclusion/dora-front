@@ -27,9 +27,9 @@
     hasArchivedServices,
     hasAtLeastOneServiceNotArchived,
   } from "../quick-start";
-  import NoServiceNotice from "./services-to-update-notice.svelte";
+  import NoServiceNotice from "./no-service-notice.svelte";
   import ServiceCard from "./service-card.svelte";
-  import ServicesToUpdateNotice from "./services-to-update-notice.svelte";
+  import ServicesToUpdateViaModelNotice from "./services-to-update-notice.svelte";
 
   export let structure, total, servicesOptions;
   export let hasOptions = true;
@@ -308,10 +308,9 @@
     </div>
   </div>
 {/if}
-
 {#if hasOptions}
   <div class="mb-s24">
-    <ServicesToUpdateNotice services={structure.services} />
+    <ServicesToUpdateViaModelNotice services={structure.services} {onRefresh} />
   </div>
 {/if}
 

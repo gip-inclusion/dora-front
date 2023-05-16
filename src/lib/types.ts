@@ -346,6 +346,7 @@ export interface Point {
 }
 
 export interface Service {
+  markSynced?: boolean;
   accessConditions: CustomizableFK[];
   accessConditionsDisplay: string[];
   address1: string;
