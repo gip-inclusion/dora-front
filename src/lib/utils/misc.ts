@@ -175,7 +175,7 @@ export function orderAndReformatSubcategories(
   });
 }
 
-export function arraysEquals(a, b) {
+export function arraysCompare(a, b) {
   if (a === b) {
     return true;
   }

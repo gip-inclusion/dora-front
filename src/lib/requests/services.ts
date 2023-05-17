@@ -8,6 +8,7 @@ import type {
   ServicesOptions,
   ServiceStatus,
   ShortService,
+  StructureService,
 } from "$lib/types";
 import { logException } from "$lib/utils/logger";
 import {
@@ -282,4 +283,20 @@ export async function convertSuggestionToDraft(serviceSlug) {
 export async function getServicesOptions(): Promise<ServicesOptions | null> {
   const url = `${getApiURL()}/services-options/`;
   return (await fetchData<ServicesOptions>(url)).data;
+}
+
+export function updateServiceFromModel(
+  services: Service[] | StructureService[]
+) {
+  return fetch(`${getApiURL()}/services/update-from-model/`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({
+      services: services.map((serv) => serv.slug),
+    }),
+  });
 }

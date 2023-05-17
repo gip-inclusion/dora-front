@@ -1,9 +1,4 @@
 import { browser } from "$app/environment";
-import type { Model, Service } from "$lib/types";
-import { klona } from "klona";
-import { modelSchema } from "$lib/validation/schemas/service";
-import { arraysEquals, htmlToMarkdown, markdownToHTML } from "./misc";
-
 // LOCAL STORAGE
 type ModelToService = {
   modelSlug: string;
@@ -70,47 +65,4 @@ export function hideModelNotice(): void {
 }
 export function showModelNotice(): void {
   window.localStorage.removeItem(MODEL_NOTICE_HIDDEN_KEY);
-}
-
-// COMPARATOR
-export function equals(type, val1, val2) {
-  if (type === "array" || type === "files") {
-    return arraysEquals(val1, val2);
-  }
-
-  // tiptap insère des caractères en fin de chaine.
-  // on les supprime pour faire la comparaison
-  if (type === "markdown") {
-    // la description du service est passée par l'éditeur, ce qui réécrit les liens.
-    // on le simule ainsi:
-    const rewrittenVal1 = htmlToMarkdown(markdownToHTML(val1));
-    return rewrittenVal1.trim() === val2.trim();
-  }
-
-  return val1 === val2;
-}
-
-export function updateServiceFromModel(
-  model: Model,
-  service: Service
-): Service {
-  const fields = Object.keys(modelSchema);
-
-  const newService = klona(service);
-
-  fields.forEach((field) => {
-    let type = "text";
-    if (field === "fullDesc") {
-      type = "markdown";
-    } else if (Array.isArray(model[field])) {
-      type = "array";
-    }
-
-    if (!equals(type, model[field], newService[field])) {
-      newService[field] = model[field];
-    }
-  });
-
-  newService.markSynced = true;
-  return newService;
 }

@@ -1,15 +1,10 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
   import Notice from "$lib/components/display/notice.svelte";
-  import {
-    createOrModifyService,
-    getModel,
-    getService,
-  } from "$lib/requests/services";
+  import { updateServiceFromModel } from "$lib/requests/services";
   import type { StructureService } from "$lib/types";
   import {
     addIgnoredServicesToUpdate,
-    updateServiceFromModel,
     getIgnoredServicesToUpdate,
     hideModelNotice,
     isModelNoticeHidden,
@@ -42,29 +37,9 @@
 
   onMount(() => computeServicesToUpdate());
 
-  async function doUpdate(service: StructureService, doRefresh = false) {
+  async function doUpdate(selectedServices: StructureService[]) {
     requesting = true;
-    const serviceToUpdate = await getService(service.slug);
-    const model = await getModel(service.model);
-
-    const newService = updateServiceFromModel(model, serviceToUpdate);
-    await createOrModifyService(newService);
-
-    if (doRefresh) {
-      await onRefresh();
-    }
-    requesting = false;
-  }
-
-  async function updateAll() {
-    requesting = true;
-
-    const promises: Promise<void>[] = [];
-    for (const service of servicesToUpdate) {
-      promises.push(doUpdate(service));
-    }
-
-    await Promise.all(promises);
+    await updateServiceFromModel(selectedServices);
     await onRefresh();
     requesting = false;
   }
@@ -101,14 +76,19 @@
         {#each servicesToUpdate as service, index}
           {#if index < LIST_LENGTH || showAll}
             <li class="mb-s12 text-f14 font-bold">
-              {service.name}
+              <a
+                class="full-result-link hover:underline"
+                href="/services/{service.slug}"
+              >
+                {service.name}
+              </a>
               <Button
                 extraClass="ml-s16 text-magenta-cta !text-f14 !p-s0"
                 noBackground
                 noPadding
                 disabled={requesting}
                 label="Mettre à jour"
-                on:click={() => doUpdate(service)}
+                on:click={() => doUpdate([service])}
               />
               <Button
                 extraClass="ml-s10 text-marianne-red !text-f14 !p-s0"
@@ -122,7 +102,7 @@
           {/if}
         {/each}
       </ul>
-      {#if servicesToUpdate.length >= LIST_LENGTH}
+      {#if servicesToUpdate.length > LIST_LENGTH}
         <div>
           <Button
             extraClass="ml-s16 text-magenta-cta !text-f14 !p-s0"
@@ -141,7 +121,7 @@
       <Button
         label="Tout mettre à jour"
         extraClass="py-s8 !text-f14 !px-s12"
-        on:click={updateAll}
+        on:click={() => doUpdate(servicesToUpdate)}
       />
       <Button
         secondary

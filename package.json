@@ -79,8 +79,5 @@
     "*": [
       "ggshield secret scan pre-commit"
     ]
-  },
-  "dependencies": {
-    "klona": "^2.0.6"
   }
 }
