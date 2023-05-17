@@ -9,33 +9,32 @@
     hideModelNotice,
     isModelNoticeHidden,
   } from "$lib/utils/service-updates-via-model";
-  import { onMount } from "svelte";
 
   export let services: StructureService[] = [];
   export let requesting = false;
   export let onRefresh: () => void;
 
-  const LIST_LENGTH = 3;
-  let showAll = false;
-  let servicesToUpdate: StructureService[] = [];
-
-  $: showNotice = servicesToUpdate.length && !isModelNoticeHidden();
-  $: updatedModels = new Set(
-    servicesToUpdate.map(({ modelName }) => modelName)
-  );
-
-  function computeServicesToUpdate(): void {
+  function computeServicesToUpdate(
+    servicesToCompute: StructureService[]
+  ): StructureService[] {
     const servicesToIgnore = getIgnoredServicesToUpdate().map(
       (serv) => serv.serviceSlug
     );
 
-    servicesToUpdate = services.filter(
+    return servicesToCompute.filter(
       ({ slug, modelChanged }) =>
         modelChanged && !servicesToIgnore.includes(slug)
     );
   }
 
-  onMount(() => computeServicesToUpdate());
+  const LIST_LENGTH = 3;
+  let showAll = false;
+  $: servicesToUpdate = computeServicesToUpdate(services);
+
+  $: showNotice = servicesToUpdate.length && !isModelNoticeHidden();
+  $: updatedModels = new Set(
+    servicesToUpdate.map(({ modelName }) => modelName)
+  );
 
   async function doUpdate(selectedServices: StructureService[]) {
     requesting = true;
@@ -46,7 +45,7 @@
 
   function reject(modelSlug: string, serviceSlug: string) {
     addIgnoredServicesToUpdate([{ modelSlug, serviceSlug }]);
-    computeServicesToUpdate();
+    computeServicesToUpdate(services);
   }
   function rejectAll() {
     addIgnoredServicesToUpdate(
@@ -55,7 +54,7 @@
         serviceSlug: serv.slug,
       }))
     );
-    computeServicesToUpdate();
+    computeServicesToUpdate(services);
   }
 </script>
 
