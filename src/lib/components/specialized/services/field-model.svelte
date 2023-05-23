@@ -3,8 +3,8 @@
   import Tag from "$lib/components/display/tag.svelte";
   import {
     arraysCompare,
-    htmlToMarkdown,
     markdownToHTML,
+    htmlToMarkdown,
   } from "$lib/utils/misc";
 
   export let value: any | undefined = undefined;
@@ -23,6 +23,7 @@
     if (type === "array" || type === "files") {
       return arraysCompare(val1, val2);
     }
+
     // tiptap insère des caractères en fin de chaine.
     // on les supprime pour faire la comparaison
     if (type === "markdown") {
@@ -31,6 +32,7 @@
       const rewrittenVal1 = htmlToMarkdown(markdownToHTML(val1));
       return rewrittenVal1.trim() === val2.trim();
     }
+
     return val1 === val2;
   }
 

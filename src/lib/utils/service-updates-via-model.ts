@@ -1,5 +1,5 @@
 import { browser } from "$app/environment";
-// LOCAL STORAGE
+
 type ModelToService = {
   modelSlug: string;
   serviceSlug: string;

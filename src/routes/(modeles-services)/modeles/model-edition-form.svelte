@@ -38,6 +38,11 @@
   }
   function handleConfirmSubmit() {
     showUpdateAllServicesModal = false;
+
+    /*
+      La modale n'étant à l'intérieur de la balise <form />, nous ne pouvons pas utiliser un <input type="submit" />
+      Du coup, nous simulons programmatiquement un clic sur le bouton `submit`
+    */
     submitFormInput.dispatchEvent(new MouseEvent("click"));
   }
   function handleSuccess(result) {
