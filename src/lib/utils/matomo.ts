@@ -9,16 +9,12 @@ import { getDepartmentFromCityCode } from "./misc";
 // Documentation : https://developer.matomo.org/guides/tracking-javascript-guide
 
 // *** GLOBAL
-type Category =
-  | "Mobilisation"
-  | "Inscription"
-  | "Service"
-  | "Structure"
-  | "Erreurs"
-  | "Recherche"
-  | "Modèle";
-
-type Action = "clic-sur-mobiliser";
+type Action =
+  | "clic-sur-mobiliser"
+  | "clic-bouton-login"
+  | "clic-email-contact"
+  | "recherche-effectuee"
+  | "consultation-structure";
 
 type ExtraData = {
   cityCode: number;
@@ -44,7 +40,6 @@ function resetTagManager() {
 }
 
 function _trackEvent({
-  category,
   action,
   name,
   value,
@@ -53,7 +48,6 @@ function _trackEvent({
   structureDepartment,
   extraData,
 }: {
-  category: Category;
   action: Action;
   name?: string;
   value?: string;
@@ -130,8 +124,7 @@ export function trackMobilisationServiceEmail(service: Service) {
   const user = get(userInfo);
 
   _trackEvent({
-    category: "Mobilisation",
-    action: "Clic sur l'e-mail de contact",
+    action: "clic-email-contact",
     value: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
@@ -157,8 +150,7 @@ export function trackMobilisationLogin(service) {
   const user = get(userInfo);
 
   _trackEvent({
-    category: "Mobilisation",
-    action: "Clic bouton login",
+    action: "clic-bouton-login",
     value: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
@@ -225,16 +217,14 @@ export function trackModel(model: Model) {
 
 export function trackService(service: Service) {
   _trackEvent({
-    category: "Service",
-    action: "Consultation d'un service",
+    action: "consultation-service",
     extraData: _getServiceProps(service, true),
   });
 }
 
 export function trackStructure(structure) {
   _trackEvent({
-    category: "Structure",
-    action: "Consultation d'une structure",
+    action: "consultation-structure",
     extraData: _getStructureProps(structure, true),
   });
 }
@@ -270,8 +260,7 @@ export function trackSearch(
       department: getDepartmentFromCityCode(cityCode),
     };
     _trackEvent({
-      category: "Recherche",
-      action: "Réalisation d'une recherche",
+      action: "recherche-effectuee",
       extraData: props,
     });
   }
