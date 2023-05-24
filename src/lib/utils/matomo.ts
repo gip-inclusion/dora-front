@@ -33,12 +33,6 @@ type ExtraData = {
   url: string;
 };
 
-function resetTagManager() {
-  if (window._mtm.length > 1) {
-    window._mtm.length = 1;
-  }
-}
-
 function _trackEvent({
   action,
   userDepartment,
@@ -56,8 +50,6 @@ function _trackEvent({
 }) {
   if (browser) {
     if (window._mtm) {
-      resetTagManager();
-
       window._mtm.push({
         event: action,
         userDepartment,
