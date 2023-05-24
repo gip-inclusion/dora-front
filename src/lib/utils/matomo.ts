@@ -21,7 +21,6 @@ type Category =
 type ExtraData = {
   cityCode: number;
   cityLabel: string;
-  departement: number;
   department: number;
   loggedIn: boolean;
   numResults: string;
@@ -66,10 +65,11 @@ function _trackEvent({
       resetTagManager();
 
       window._mtm.push({
-        ...extraData,
+        event: category,
         userDepartment,
         structureDepartment,
         userProfile,
+        ...extraData,
       });
     }
 
@@ -84,7 +84,6 @@ function _getServiceProps(service, withUserData = false) {
     service: service.name,
     slug: service.slug,
     structure: service.structureInfo.name,
-    departement: service.department || service.structureInfo.department,
     department: service.department || service.structureInfo.department,
     perimeter: service.diffusionZoneType,
     url: `${CANONICAL_URL}/services/${service.slug}`,
@@ -107,7 +106,6 @@ function _getStructureProps(structure, withUserData = false) {
   let props = {
     structure: structure.name,
     slug: structure.slug,
-    departement: structure.department,
     department: structure.department,
     url: `${CANONICAL_URL}/structures/${structure.slug}`,
   };
