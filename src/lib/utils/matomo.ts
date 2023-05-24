@@ -4,31 +4,9 @@ import { get } from "svelte/store";
 import type { Profile } from "$lib/utils/auth";
 import { browser } from "$app/environment";
 import { CANONICAL_URL } from "$lib/env";
+import { getDepartmentFromCityCode } from "./misc";
 
 // Documentation : https://developer.matomo.org/guides/tracking-javascript-guide
-
-// Pour en savoir plus : https://matomo.inclusion.beta.gouv.fr/index.php?module=CustomDimensions&action=manage&idSite=210
-function computeActionDimensions(
-  userDepartment: string | undefined,
-  structureDepartment: string | undefined,
-  userProfile: Profile | undefined
-): { dimension3?: Profile; dimension4?: string } {
-  const result: {
-    dimension3?: string;
-    dimension4?: Profile;
-    dimension5?: string;
-  } = {};
-  if (userDepartment) {
-    result.dimension3 = userDepartment;
-  }
-  if (userProfile) {
-    result.dimension4 = userProfile;
-  }
-  if (structureDepartment) {
-    result.dimension5 = structureDepartment;
-  }
-  return result;
-}
 
 // *** GLOBAL
 type Category =
@@ -37,7 +15,32 @@ type Category =
   | "Service"
   | "Structure"
   | "Erreurs"
+  | "Recherche"
   | "Modèle";
+
+type ExtraData = {
+  cityCode: number;
+  cityLabel: string;
+  departement: number;
+  department: number;
+  loggedIn: boolean;
+  numResults: string;
+  categoryIds: string[];
+  userDepartment: string;
+  userProfile: string;
+  structureDepartment: string;
+  service: string;
+  slug: string;
+  structure: string;
+  perimeter: string;
+  url: string;
+};
+
+function resetTagManager() {
+  if (window._mtm.length > 1) {
+    window._mtm.length = 1;
+  }
+}
 
 function _trackEvent({
   category,
@@ -47,7 +50,7 @@ function _trackEvent({
   userDepartment,
   userProfile,
   structureDepartment,
-  extraData = {},
+  extraData,
 }: {
   category: Category;
   action: string;
@@ -56,24 +59,23 @@ function _trackEvent({
   userDepartment?: string | undefined;
   structureDepartment?: string | undefined;
   userProfile?: Profile | undefined;
-  extraData?: Record<string, any>;
+  extraData?: Partial<ExtraData>;
 }) {
   if (browser) {
-    window._paq.push([
-      "trackEvent",
-      category,
-      action,
-      name,
-      value,
-      {
+    if (window._mtm) {
+      resetTagManager();
+
+      window._mtm.push({
         ...extraData,
-        ...computeActionDimensions(
-          userDepartment,
-          structureDepartment,
-          userProfile
-        ),
-      },
-    ]);
+        userDepartment,
+        structureDepartment,
+        userProfile,
+      });
+    }
+
+    if (window._paq) {
+      window._paq.push(["trackEvent", category, action, name, value]);
+    }
   }
 }
 
@@ -268,12 +270,11 @@ export function trackSearch(
       numResults: numResultsCat,
       department: getDepartmentFromCityCode(cityCode),
     };
-
-    window._paq.push([
-      "trackSiteSearch",
-      JSON.stringify(props),
-      "",
-      numResults,
-    ]);
+    console.log({ props });
+    _trackEvent({
+      category: "Recherche",
+      action: "Réalisation d'une recherche",
+      extraData: props,
+    });
   }
 }

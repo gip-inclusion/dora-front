@@ -10,7 +10,7 @@ const config = {
     csp: {
       mode: "nonce",
       directives: {
-        "base-uri": ["self"],
+        "base-uri": ["self", "https://matomo.inclusion.beta.gouv.fr/"],
         "default-src": ["none"],
         "connect-src": [
           "self",
@@ -32,19 +32,26 @@ const config = {
           "unsafe-inline",
           "https://client.crisp.chat/",
           "https://tally.so/widgets/embed.js",
+          "https://matomo.inclusion.beta.gouv.fr/",
         ],
         "worker-src": ["self", "blob:"],
         "child-src": [
           "https://aide.dora.inclusion.beta.gouv.fr/",
           "https://metabase.dora.inclusion.beta.gouv.fr",
+          "https://matomo.inclusion.beta.gouv.fr/",
           "https://tally.so",
         ],
-        "font-src": ["self", "https://client.crisp.chat/static/"],
+        "font-src": [
+          "self",
+          "https://client.crisp.chat/static/",
+          "https://matomo.inclusion.beta.gouv.fr/",
+        ],
         "img-src": ["self", "data:", "https://*.crisp.chat/"],
         "style-src": [
           "self",
           "https://client.crisp.chat/",
           "https://tally.so/widgets/embed.js",
+          "https://matomo.inclusion.beta.gouv.fr/",
           "unsafe-inline",
         ],
       },
