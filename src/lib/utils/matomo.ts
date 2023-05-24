@@ -41,8 +41,6 @@ function resetTagManager() {
 
 function _trackEvent({
   action,
-  name,
-  value,
   userDepartment,
   userProfile,
   structureDepartment,
@@ -67,10 +65,6 @@ function _trackEvent({
         userProfile,
         ...extraData,
       });
-    }
-
-    if (window._paq) {
-      window._paq.push(["trackEvent", category, action, name, value]);
     }
   }
 }
