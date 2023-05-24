@@ -18,6 +18,8 @@ type Category =
   | "Recherche"
   | "Modèle";
 
+type Action = "clic-sur-mobiliser";
+
 type ExtraData = {
   cityCode: number;
   cityLabel: string;
@@ -52,7 +54,7 @@ function _trackEvent({
   extraData,
 }: {
   category: Category;
-  action: string;
+  action: Action;
   name?: string;
   value?: string;
   userDepartment?: string | undefined;
@@ -65,7 +67,7 @@ function _trackEvent({
       resetTagManager();
 
       window._mtm.push({
-        event: category,
+        event: action,
         userDepartment,
         structureDepartment,
         userProfile,
@@ -142,8 +144,7 @@ export function trackMobilisationService(service: Service) {
   const user = get(userInfo);
 
   _trackEvent({
-    category: "Mobilisation",
-    action: "Clic bouton mobiliser",
+    action: "clic-sur-mobiliser",
     value: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
@@ -268,7 +269,6 @@ export function trackSearch(
       numResults: numResultsCat,
       department: getDepartmentFromCityCode(cityCode),
     };
-    console.log({ props });
     _trackEvent({
       category: "Recherche",
       action: "Réalisation d'une recherche",
