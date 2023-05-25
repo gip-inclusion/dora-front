@@ -9,55 +9,50 @@ import { getDepartmentFromCityCode } from "./misc";
 // Documentation : https://developer.matomo.org/guides/tracking-javascript-guide
 
 // *** GLOBAL
-type Action =
-  | "clic-sur-mobiliser"
-  | "clic-bouton-login"
-  | "clic-email-contact"
-  | "recherche-effectuee"
-  | "consultation-structure";
-
-type ExtraData = {
-  cityCode: number;
-  cityLabel: string;
-  department: number;
-  loggedIn: boolean;
-  numResults: string;
-  categoryIds: string[];
-  userDepartment: string;
-  userProfile: string;
-  structureDepartment: string;
-  service: string;
-  slug: string;
-  structure: string;
-  perimeter: string;
-  url: string;
-};
+type Category =
+  | "Mobilisation"
+  | "Inscription"
+  | "Service"
+  | "Structure"
+  | "Recherche"
+  | "Erreurs"
+  | "Modèle";
 
 function _trackEvent({
+  category,
   action,
+  name,
+  value,
+  extraData,
   userDepartment,
   userProfile,
   structureDepartment,
-  extraData,
 }: {
-  action: Action;
+  category: Category;
+  action: string;
   name?: string;
   value?: string;
+  extraData?: Record<string, any>;
   userDepartment?: string | undefined;
   structureDepartment?: string | undefined;
   userProfile?: Profile | undefined;
-  extraData?: Partial<ExtraData>;
 }) {
   if (browser) {
-    if (window._mtm) {
-      window._mtm.push({
-        event: action,
-        userDepartment,
-        structureDepartment,
-        userProfile,
-        ...extraData,
-      });
-    }
+    window._paq.push([
+      "trackEvent",
+      category,
+      action,
+      name,
+      value,
+      {
+        dimension6: JSON.stringify({
+          ...extraData,
+          userDepartment,
+          structureDepartment,
+          userProfile,
+        }),
+      },
+    ]);
   }
 }
 
@@ -66,6 +61,7 @@ function _getServiceProps(service, withUserData = false) {
     service: service.name,
     slug: service.slug,
     structure: service.structureInfo.name,
+    departement: service.department || service.structureInfo.department,
     department: service.department || service.structureInfo.department,
     perimeter: service.diffusionZoneType,
     url: `${CANONICAL_URL}/services/${service.slug}`,
@@ -88,6 +84,7 @@ function _getStructureProps(structure, withUserData = false) {
   let props = {
     structure: structure.name,
     slug: structure.slug,
+    departement: structure.department,
     department: structure.department,
     url: `${CANONICAL_URL}/structures/${structure.slug}`,
   };
@@ -110,8 +107,9 @@ export function trackMobilisationServiceEmail(service: Service) {
   const user = get(userInfo);
 
   _trackEvent({
-    action: "clic-email-contact",
-    value: service.slug,
+    category: "Mobilisation",
+    action: "Clic sur l'e-mail de contact",
+    name: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
     userProfile: user ? user.profile : undefined,
@@ -123,8 +121,9 @@ export function trackMobilisationService(service: Service) {
   const user = get(userInfo);
 
   _trackEvent({
-    action: "clic-sur-mobiliser",
-    value: service.slug,
+    category: "Mobilisation",
+    action: "Clic bouton mobiliser",
+    name: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
     userProfile: user ? user.profile : undefined,
@@ -136,8 +135,9 @@ export function trackMobilisationLogin(service) {
   const user = get(userInfo);
 
   _trackEvent({
-    action: "clic-bouton-login",
-    value: service.slug,
+    category: "Mobilisation",
+    action: "Clic bouton login",
+    name: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
     userProfile: user ? user.profile : undefined,
@@ -158,7 +158,7 @@ export function trackPDFDownload(service: Service) {
   _trackEvent({
     category: "Service",
     action: "Clic pdf download",
-    value: service.slug,
+    name: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
     userProfile: user ? user.profile : undefined,
@@ -171,7 +171,7 @@ export function trackFeedback(service) {
   _trackEvent({
     category: "Service",
     action: "Suggérer modification",
-    value: service.slug,
+    name: service.slug,
     userDepartment: user ? user.department : undefined,
     structureDepartment: service.department || service.structureInfo.department,
     userProfile: user ? user.profile : undefined,
@@ -183,9 +183,7 @@ export function trackError(errorStatusCode, path) {
   _trackEvent({
     category: "Erreurs",
     action: "Affichage de la page d'erreur",
-    extraData: {
-      path,
-    },
+    extraData: { path },
   });
 }
 
@@ -203,14 +201,16 @@ export function trackModel(model: Model) {
 
 export function trackService(service: Service) {
   _trackEvent({
-    action: "consultation-service",
+    category: "Service",
+    action: "Consultation d'un service",
     extraData: _getServiceProps(service, true),
   });
 }
 
 export function trackStructure(structure) {
   _trackEvent({
-    action: "consultation-structure",
+    category: "Structure",
+    action: "Consultation d'une structure",
     extraData: _getStructureProps(structure, true),
   });
 }
@@ -233,21 +233,21 @@ export function trackSearch(
     numResultsCat = "Plus de 5";
   }
 
-  if (browser) {
-    const props = {
-      categoryIds: categoryIds.join(","),
-      subCategoryIds: subCategoryIds.join(","),
-      cityCode,
-      cityLabel,
-      serviceKinds: kindIds.join(","),
-      feeConditions: feeConditions.join(","),
-      loggedIn: !!get(token),
-      numResults: numResultsCat,
-      department: getDepartmentFromCityCode(cityCode),
-    };
-    _trackEvent({
-      action: "recherche-effectuee",
-      extraData: props,
-    });
-  }
+  const props = {
+    categoryIds: categoryIds.join(","),
+    subCategoryIds: subCategoryIds.join(","),
+    cityCode,
+    cityLabel,
+    serviceKinds: kindIds.join(","),
+    feeConditions: feeConditions.join(","),
+    loggedIn: !!get(token),
+    numResults: numResultsCat,
+    department: getDepartmentFromCityCode(cityCode),
+  };
+
+  _trackEvent({
+    category: "Recherche",
+    action: "Réalisation d'une recherche",
+    extraData: props,
+  });
 }
