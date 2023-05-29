@@ -4,7 +4,7 @@ import { get, writable } from "svelte/store";
 import type { Bookmark, ShortStructure } from "../types";
 import { log, logException } from "./logger";
 import { userPreferencesSet } from "./preferences";
-import { setUserId } from "./matomo";
+import { isUserAcceptsMatomoTracking, setUserId } from "./matomo";
 
 const tokenKey = "token";
 
@@ -108,7 +108,7 @@ export async function validateCredsAndFillUserInfo() {
           userInfo.set(info);
           userPreferencesSet([...info.structures, ...info.pendingStructures]);
 
-          if (window.tarteaucitron?.state?.matomo) {
+          if (isUserAcceptsMatomoTracking()) {
             setUserId(info.id);
           }
         } else if (result.status === 404) {
