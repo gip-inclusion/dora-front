@@ -965,13 +965,11 @@ var tarteaucitron = {
                     document.getElementById(id).style[property] = value;
 
                     if (property == "display" && value == "block" && (id == "tarteaucitron" || id == "tarteaucitronAlertBig")) {
-                        document.getElementById(id).style["opacity"] = "0";
-                        /*setTimeout(function() {*/document.getElementById(id).style["opacity"] = "1";/*}, 1);*/
+                        document.getElementById(id).style["opacity"] = "1";
                     }
 
                     if (property == "display" && value == "block" && id == "tarteaucitronBack") {
-                        document.getElementById(id).style["opacity"] = "0";
-                        /*setTimeout(function() {*/document.getElementById(id).style["opacity"] = "0.7";/*}, 1);*/
+                        document.getElementById(id).style["opacity"] = "0.7";
                     }
                 }
             }
@@ -1823,8 +1821,8 @@ var tarteaucitron = {
         }
 
         // get the html lang
-        if (availableLanguages.indexOf(document.documentElement.getAttribute("lang")) !== -1) {
-            return document.documentElement.getAttribute("lang");
+        if (availableLanguages.indexOf(document.documentElement.getAttribute("lang").substr(0, 2)) !== -1) {
+          return document.documentElement.getAttribute("lang").substr(0, 2);
         }
 
         if (!navigator) { return defaultLanguage; }
