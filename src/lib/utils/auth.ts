@@ -4,12 +4,14 @@ import { get, writable } from "svelte/store";
 import type { Bookmark, ShortStructure } from "../types";
 import { log, logException } from "./logger";
 import { userPreferencesSet } from "./preferences";
+import { setUserId } from "./matomo";
 
 const tokenKey = "token";
 
 export const token = writable<string>(null);
 
 export interface UserInfo {
+  id: number;
   firstName: string;
   lastName: string;
   fullName: string;
@@ -105,6 +107,10 @@ export async function validateCredsAndFillUserInfo() {
           const info = await result.json();
           userInfo.set(info);
           userPreferencesSet([...info.structures, ...info.pendingStructures]);
+
+          if (window.tarteaucitron?.state?.matomo) {
+            setUserId(info.id);
+          }
         } else if (result.status === 404) {
           // Le token est invalide, on déconnecte l'utilisateur
           disconnect();
