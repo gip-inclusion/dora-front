@@ -21,13 +21,13 @@
       />
     </div>
     <div class="flex items-baseline justify-between">
-      <h1 class="mb-s0 mr-s12 leading-[3rem] text-white">
+      <h1 class="mb-s0 mr-s12 leading-[3rem] text-white print:text-france-blue">
         {service.name}
       </h1>
       <Favorite big on:click={onBookmark} active={isBookmarked} inverted />
     </div>
     <div
-      class="mt-s16 mb-s48 flex flex-col text-f18 text-white md:flex-row md:items-center"
+      class="mt-s16 mb-s48 flex flex-col text-f18 text-white print:text-france-blue md:flex-row md:items-center"
     >
       <div><strong>{capitalize(service.structureInfo.name)}</strong></div>
       <div
@@ -46,7 +46,7 @@
     </div>
 
     <div
-      class="mb-s32 flex flex-col text-f18 text-white md:flex-row md:items-center"
+      class="mb-s32 flex flex-col text-f18 text-white print:text-france-blue md:flex-row md:items-center"
     >
       <div>
         Périmètre : <strong>{service.diffusionZoneDetailsDisplay}</strong>
