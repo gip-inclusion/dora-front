@@ -88,21 +88,22 @@
   }
 </script>
 
-<div class="relative mx-auto max-w-6xl pt-s40">
+<div class="relative mx-auto max-w-6xl pt-s40 print:py-s20">
   <Breadcrumb {structure} currentLocation="structure-{tabId}" />
 
-  <h1 class="pt-s40 text-white print:text-magenta-brand">
+  <h1 class="pt-s40 text-white">
     {capitalize(structure.name)}
   </h1>
 
-  <Label
-    label={`${structure.address1}${
-      structure.address2 ? `, ${structure.address2}` : ""
-    }, ${structure.postalCode} ${structure.city}`}
-    icon={mapPinIcon}
-    darkBg
-    smallIcon
-  />
+  <div class="text-white">
+    <Label
+      label={`${structure.address1}${
+        structure.address2 ? `, ${structure.address2}` : ""
+      }, ${structure.postalCode} ${structure.city}`}
+      icon={mapPinIcon}
+      smallIcon
+    />
+  </div>
 
   {#if structure.isPendingMember}
     <div class="mt-s24">
