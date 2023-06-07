@@ -11,10 +11,7 @@ import type {
   StructureService,
 } from "$lib/types";
 import { logException } from "$lib/utils/logger";
-import {
-  showModelNotice,
-  removeIgnoredServiceToUpdate,
-} from "$lib/utils/service-updates-via-model";
+import { showModelNotice } from "$lib/utils/service-updates-via-model";
 
 function serviceToBack(service) {
   if (service.longitude && service.latitude) {
@@ -100,6 +97,11 @@ export async function createOrModifyModel(model, updateAllServices = false) {
     method = "POST";
   }
 
+  let data = { ...serviceToBack(model) };
+  if (updateAllServices) {
+    data = { ...data, updateAllServices };
+  }
+
   const result = await fetch(url, {
     method,
     headers: {
@@ -107,12 +109,11 @@ export async function createOrModifyModel(model, updateAllServices = false) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ ...serviceToBack(model), updateAllServices }),
+    body: JSON.stringify(data),
   });
 
   // On ré-affiche les fenêtres de mises à jour des services
   showModelNotice();
-  removeIgnoredServiceToUpdate(model.slug);
 
   return result;
 }
@@ -297,6 +298,27 @@ export function updateServiceFromModel(
     },
     body: JSON.stringify({
       services: services.map((serv) => serv.slug),
+    }),
+  });
+}
+
+type ModelToService = {
+  modelSlug: string;
+  serviceSlug: string;
+};
+
+export function addIgnoredServicesToUpdate(
+  modelToServiceSlugs: ModelToService[]
+) {
+  return fetch(`${getApiURL()}/services/reject-update-from-model/`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({
+      data: modelToServiceSlugs,
     }),
   });
 }

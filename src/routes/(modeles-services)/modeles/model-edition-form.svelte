@@ -34,16 +34,8 @@
     structure = { ...model, ...validatedData };
   }
   function handleSubmit(validatedData) {
-    return createOrModifyModel(validatedData, updateAllServices);
-  }
-  function handleConfirmSubmit() {
     showUpdateAllServicesModal = false;
-
-    /*
-      La modale n'étant à l'intérieur de la balise <form />, nous ne pouvons pas utiliser un <input type="submit" />
-      Du coup, nous simulons programmatiquement un clic sur le bouton `submit`
-    */
-    submitFormInput.dispatchEvent(new MouseEvent("click"));
+    return createOrModifyModel(validatedData, updateAllServices);
   }
   function handleSuccess(result) {
     goto(`/modeles/${result.slug}`);
@@ -51,44 +43,6 @@
 </script>
 
 <FormErrors />
-
-<Modal
-  bind:isOpen={showUpdateAllServicesModal}
-  title="Mise à jour automatiquement"
-  on:close={() => (showUpdateAllServicesModal = false)}
-  smallWidth
->
-  <div class="pt-s16 text-f14 text-gray-text">
-    Vous avez choisi de mettre à jour automatiquement tous vos services
-    utilisant ce modèle. Cela aura pour effet d'effacer également les contenus
-    spécifiques que vous avez modifiés par rapport au modèle (excepté les
-    informations sur la zone d'éligibilité, le lieu de déroulement ou les
-    coordonnées du référent spécifique au service).
-
-    <strong class="mt-s16 block">
-      Si ce n'est pas ce que vous souhaitez, cliquez sur annuler, et décochez la
-      case.
-    </strong>
-  </div>
-
-  <div slot="footer">
-    <div class="mt-s24 flex flex-col-reverse justify-end gap-s24 md:flex-row">
-      <Button
-        label="Annuler"
-        secondary
-        on:click={() => (showUpdateAllServicesModal = false)}
-      />
-
-      <Button
-        id="validate"
-        type="button"
-        on:click={handleConfirmSubmit}
-        extraClass="justify-center"
-        label="Confirmer"
-      />
-    </div>
-  </div>
-</Modal>
 
 <Form
   bind:data={model}
@@ -99,6 +53,8 @@
   onSuccess={handleSuccess}
   bind:requesting
 >
+  <div id="modal-container" />
+
   <hr />
   <CenteredGrid>
     {#if model.slug && showMaxCategoriesNotice}
@@ -158,6 +114,48 @@
         <FieldsPeriodicity bind:service={model} {servicesOptions} {model} />
       {/if}
     </div>
+
+    {#if updateAllServices}
+      <Modal
+        targetId="modal-container"
+        bind:isOpen={showUpdateAllServicesModal}
+        title="Mise à jour automatiquement"
+        on:close={() => (showUpdateAllServicesModal = false)}
+        smallWidth
+      >
+        <div class="pt-s16 text-f14 text-gray-text">
+          Vous avez choisi de mettre à jour automatiquement tous les services
+          utilisant ce modèle. Cela aura pour effet d'effacer également les
+          contenus spécifiques que vous avez modifiés par rapport au modèle
+          (excepté les informations sur la zone d'éligibilité, le lieu de
+          déroulement ou les coordonnées du référent spécifique au service).
+
+          <strong class="mt-s16 block">
+            Si ce n'est pas ce que vous souhaitez, cliquez sur annuler, et
+            décochez la case.
+          </strong>
+        </div>
+
+        <div slot="footer">
+          <div
+            class="mt-s24 flex flex-col-reverse justify-end gap-s24 md:flex-row"
+          >
+            <Button
+              label="Annuler"
+              secondary
+              on:click={() => (showUpdateAllServicesModal = false)}
+            />
+
+            <Button
+              id="validate"
+              type="submit"
+              extraClass="justify-center"
+              label="Confirmer"
+            />
+          </div>
+        </div>
+      </Modal>
+    {/if}
   </CenteredGrid>
 
   {#if model?.structure}

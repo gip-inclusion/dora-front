@@ -11,6 +11,11 @@
   export let title: string | undefined = undefined;
   export let subtitle: string | undefined = undefined;
   export let smallWidth = false;
+  export let targetId: string | undefined = undefined;
+
+  const target = (
+    targetId ? document.getElementById(targetId) : document.body
+  ) as HTMLElement;
 
   const dispatch = createEventDispatcher();
 
@@ -31,13 +36,15 @@
           modalEl.focus();
 
           // On limite le parcours clavier à la modale en excluant la div immédiatement après le body
-          document.querySelector(appSelector).setAttribute("inert", "");
+          if (!targetId) {
+            document.querySelector(appSelector)?.setAttribute("inert", "");
+          }
         }, 10);
       } else {
         document.body.style.overflow = "inherit";
 
         if (modalEl) {
-          document.querySelector(appSelector).removeAttribute("inert");
+          document.querySelector(appSelector)?.removeAttribute("inert");
         }
 
         // Retour du focus sur le bouton d'ouverture
@@ -62,7 +69,7 @@
 <svelte:window on:keydown={handleKeydown} />
 
 {#if isOpen}
-  <Portal target={document.body}>
+  <Portal {target}>
     <div
       id="background"
       class="flex items-center justify-center"

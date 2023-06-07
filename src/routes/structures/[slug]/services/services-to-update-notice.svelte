@@ -1,11 +1,12 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
   import Notice from "$lib/components/display/notice.svelte";
-  import { updateServiceFromModel } from "$lib/requests/services";
-  import type { StructureService } from "$lib/types";
   import {
     addIgnoredServicesToUpdate,
-    getIgnoredServicesToUpdate,
+    updateServiceFromModel,
+  } from "$lib/requests/services";
+  import type { StructureService } from "$lib/types";
+  import {
     hideModelNotice,
     isModelNoticeHidden,
   } from "$lib/utils/service-updates-via-model";
@@ -14,22 +15,9 @@
   export let requesting = false;
   export let onRefresh: () => void;
 
-  function computeServicesToUpdate(
-    servicesToCompute: StructureService[]
-  ): StructureService[] {
-    const servicesToIgnore = getIgnoredServicesToUpdate().map(
-      (serv) => serv.serviceSlug
-    );
-
-    return servicesToCompute.filter(
-      ({ slug, modelChanged }) =>
-        modelChanged && !servicesToIgnore.includes(slug)
-    );
-  }
-
   const LIST_LENGTH = 3;
   let showAll = false;
-  $: servicesToUpdate = computeServicesToUpdate(services);
+  $: servicesToUpdate = services.filter(({ modelChanged }) => modelChanged);
 
   $: showNotice = servicesToUpdate.length && !isModelNoticeHidden();
   $: updatedModels = new Set(
@@ -43,18 +31,18 @@
     requesting = false;
   }
 
-  function reject(modelSlug: string, serviceSlug: string) {
-    addIgnoredServicesToUpdate([{ modelSlug, serviceSlug }]);
-    computeServicesToUpdate(services);
+  async function reject(modelSlug: string, serviceSlug: string) {
+    await addIgnoredServicesToUpdate([{ modelSlug, serviceSlug }]);
+    await onRefresh();
   }
-  function rejectAll() {
-    addIgnoredServicesToUpdate(
+  async function rejectAll() {
+    await addIgnoredServicesToUpdate(
       servicesToUpdate.map((serv) => ({
         modelSlug: serv.model,
         serviceSlug: serv.slug,
       }))
     );
-    computeServicesToUpdate(services);
+    await onRefresh();
   }
 </script>
 
