@@ -3,7 +3,7 @@
   import Notice from "$lib/components/display/notice.svelte";
   import {
     addIgnoredServicesToUpdate,
-    updateServiceFromModel,
+    updateServicesFromModel,
   } from "$lib/requests/services";
   import type { StructureService } from "$lib/types";
   import {
@@ -26,7 +26,7 @@
 
   async function doUpdate(selectedServices: StructureService[]) {
     requesting = true;
-    await updateServiceFromModel(selectedServices);
+    await updateServicesFromModel(selectedServices);
     await onRefresh();
     requesting = false;
   }

@@ -32,7 +32,7 @@
   import ServicesToUpdateViaModelNotice from "./services-to-update-notice.svelte";
 
   export let structure, total, servicesOptions;
-  export let hasOptions = true;
+  export let tabDisplay = true;
   export let onRefresh;
   export let limit: number | undefined = undefined;
   export let withEmptyNotice = false;
@@ -207,7 +207,7 @@
     {#if limit}<Count>{total}</Count>{/if}
   </div>
   <div class="flex flex-wrap gap-s16">
-    {#if !!servicesDisplayed.length && !hasOptions}
+    {#if !!servicesDisplayed.length && !tabDisplay}
       <LinkButton
         label="Voir tous les services"
         to="/structures/{structure.slug}/services"
@@ -231,7 +231,7 @@
   </div>
 {/if}
 
-{#if (hasAtLeastOneServiceNotArchived(structure) || hasArchivedServices(structure)) && hasOptions && structure.canEditServices}
+{#if (hasAtLeastOneServiceNotArchived(structure) || hasArchivedServices(structure)) && tabDisplay && structure.canEditServices}
   <div
     class="mb-s40 flex w-full flex-wrap items-center rounded-md bg-white px-s24 py-s24 text-f14 shadow-md md:h-s80 md:py-s0"
   >
@@ -308,7 +308,7 @@
     </div>
   </div>
 {/if}
-{#if hasOptions}
+{#if tabDisplay}
   <div class="mb-s24">
     <ServicesToUpdateViaModelNotice services={structure.services} {onRefresh} />
   </div>
