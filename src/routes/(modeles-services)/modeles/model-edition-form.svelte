@@ -17,6 +17,7 @@
   import { modelSchema } from "$lib/validation/schemas/service";
   import Notice from "$lib/components/display/notice.svelte";
   import Modal from "$lib/components/hoc/modal.svelte";
+  import { showModelNotice } from "$lib/utils/service-updates-via-model";
 
   export let model: Model;
   export let servicesOptions: ServicesOptions;
@@ -35,6 +36,7 @@
   }
   function handleSubmit(validatedData) {
     showUpdateAllServicesModal = false;
+    showModelNotice(structure.slug);
     return createOrModifyModel(validatedData, shouldUpdateAllServices);
   }
   function handleSuccess(result) {

@@ -310,7 +310,11 @@
 {/if}
 {#if tabDisplay}
   <div class="mb-s24">
-    <ServicesToUpdateViaModelNotice services={structure.services} {onRefresh} />
+    <ServicesToUpdateViaModelNotice
+      structureSlug={structure.slug}
+      services={structure.services}
+      {onRefresh}
+    />
   </div>
 {/if}
 

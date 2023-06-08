@@ -11,6 +11,7 @@
     isModelNoticeHidden,
   } from "$lib/utils/service-updates-via-model";
 
+  export let structureSlug: string;
   export let services: StructureService[] = [];
   export let requesting = false;
   export let onRefresh: () => void;
@@ -19,7 +20,8 @@
   let showAll = false;
   $: servicesToUpdate = services.filter(({ modelChanged }) => modelChanged);
 
-  $: showNotice = servicesToUpdate.length && !isModelNoticeHidden();
+  $: showNotice =
+    servicesToUpdate.length && !isModelNoticeHidden(structureSlug);
   $: updatedModels = new Set(
     servicesToUpdate.map(({ modelName }) => modelName)
   );
@@ -121,7 +123,7 @@
         extraClass="py-s8 !text-f14 !px-s12"
         label="Cacher cette fenêtre"
         on:click={() => {
-          hideModelNotice();
+          hideModelNotice(structureSlug);
           showNotice = false;
         }}
       />

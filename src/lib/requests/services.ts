@@ -11,7 +11,6 @@ import type {
   StructureService,
 } from "$lib/types";
 import { logException } from "$lib/utils/logger";
-import { showModelNotice } from "$lib/utils/service-updates-via-model";
 
 function serviceToBack(service) {
   if (service.longitude && service.latitude) {
@@ -111,9 +110,6 @@ export async function createOrModifyModel(model, updateAllServices = false) {
     },
     body: JSON.stringify(data),
   });
-
-  // On ré-affiche les fenêtres de mises à jour des services
-  showModelNotice();
 
   return result;
 }
