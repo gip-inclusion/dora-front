@@ -286,7 +286,7 @@ export async function getServicesOptions(): Promise<ServicesOptions | null> {
   return (await fetchData<ServicesOptions>(url)).data;
 }
 
-export function updateServiceFromModel(
+export function updateServicesFromModel(
   services: Service[] | StructureService[]
 ) {
   return fetch(`${getApiURL()}/services/update-from-model/`, {

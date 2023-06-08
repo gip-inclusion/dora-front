@@ -23,7 +23,7 @@
   export let structures: ShortStructure[];
   export let structure: ShortStructure;
   export let showUpdateAllServicesModal = false;
-  let updateAllServices = false;
+  let shouldUpdateAllServices = false;
 
   let requesting = false;
   let submitFormInput;
@@ -35,7 +35,7 @@
   }
   function handleSubmit(validatedData) {
     showUpdateAllServicesModal = false;
-    return createOrModifyModel(validatedData, updateAllServices);
+    return createOrModifyModel(validatedData, shouldUpdateAllServices);
   }
   function handleSuccess(result) {
     goto(`/modeles/${result.slug}`);
@@ -115,7 +115,7 @@
       {/if}
     </div>
 
-    {#if updateAllServices}
+    {#if shouldUpdateAllServices}
       <Modal
         targetId="modal-container"
         bind:isOpen={showUpdateAllServicesModal}
@@ -165,7 +165,7 @@
           <label class="flex text-f14 text-gray-text">
             <input
               type="checkbox"
-              bind:checked={updateAllServices}
+              bind:checked={shouldUpdateAllServices}
               class="mr-s8"
             />
             Cochez cette case pour mettre à jour automatiquement tous les services
@@ -173,7 +173,7 @@
           </label>
         </div>
 
-        {#if updateAllServices}
+        {#if shouldUpdateAllServices}
           <Button
             on:click={() => (showUpdateAllServicesModal = true)}
             name="validate"
