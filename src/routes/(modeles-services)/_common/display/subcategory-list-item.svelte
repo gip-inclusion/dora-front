@@ -25,6 +25,15 @@
     </strong>
   </div>
 
+  <Button
+    label="Voir tous les besoins"
+    on:click={() => (expanded = true)}
+    noBackground
+    small
+    noPadding
+    hoverUnderline
+  />
+
   <span class="mr-s4">•</span>
   {getSubCategoryLabel(subCategorySlug, servicesOptions)}
 </div>

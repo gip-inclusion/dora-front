@@ -6,29 +6,24 @@
   export let service: Service;
   export let servicesOptions: ServicesOptions;
 
-  const numberOfSubcategories = 3;
-  let expanded = false;
+  let categoriesRecord: Record<string, string[]> = {};
+  $: {
+    categoriesRecord = {};
 
-  $: subcategories = expanded
-    ? service.subcategories
-    : service.subcategories.slice(0, numberOfSubcategories);
+    service.subcategories.forEach((subCategorySlug) => {
+      const [category, subcategory] = subCategorySlug.split("--");
+
+      if (!categoriesRecord[category]) {
+        categoriesRecord[category] = [];
+      }
+      categoriesRecord[category].push(subcategory);
+    });
+  }
 </script>
 
 <ul>
-  {#each subcategories as subCategory, i (subCategory)}
-    <li class="mb-s8">
-      <SubcategoryListItem subCategorySlug={subCategory} {servicesOptions} />
-    </li>
+  {#each Object.entries(categoriesRecord) as [category, subcategory]}
+    {category} => {subcategory}
+    <hr />
   {/each}
 </ul>
-
-{#if !expanded && service.subcategories.length > numberOfSubcategories}
-  <Button
-    label="Voir tous les besoins"
-    on:click={() => (expanded = true)}
-    noBackground
-    small
-    noPadding
-    hoverUnderline
-  />
-{/if}

@@ -19,6 +19,7 @@
     <div class="presentation">
       <ServicePresentation {service} {servicesOptions} />
     </div>
+
     <hr class="separator-1" />
     <div class="beneficiaries">
       <ServiceBeneficiaries {service} />
@@ -36,10 +37,6 @@
           <ServiceMobilisation {service} />
         </div>
       {/if}
-
-      <div class="rounded-lg border border-gray-02 p-s32 pb-s48">
-        <ServiceKeyInformations {service} {servicesOptions} display="sidebar" />
-      </div>
 
       {#if !isModel}
         <div class="rounded-lg border border-gray-02 p-s32 pb-s48 print:hidden">
