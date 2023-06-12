@@ -14,6 +14,7 @@
   import SearchPromo from "./search-promo.svelte";
   import SearchResult from "./search-result.svelte";
   import ServiceSuggestionNotice from "./service-suggestion-notice.svelte";
+  import SearchResultDI from "./search-result-di.svelte";
 
   export let data: PageData;
 
@@ -130,7 +131,11 @@
       <h2 class="sr-only">Résultats de votre recherche</h2>
       {#each data.services as service, index}
         {#if index < currentPageLength}
-          <SearchResult id={getResultId(index)} result={service} />
+          {#if service.type === "di"}
+            <SearchResultDI id={getResultId(index)} result={service} />
+          {:else}
+            <SearchResult id={getResultId(index)} result={service} />
+          {/if}
         {/if}
       {/each}
 

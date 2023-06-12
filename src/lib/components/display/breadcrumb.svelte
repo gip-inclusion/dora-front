@@ -81,19 +81,31 @@
 
     {#if structure}
       <li class="inline before:content-['/']">
-        <a
-          href={currentLocation === "structure-informations"
-            ? null
-            : `/structures/${structure.slug}`}
-          class:current={currentLocation === "structure-informations"}
-          aria-current={currentLocation === "structure-informations"
-            ? "page"
-            : null}
-        >
-          <span class="hidden lg:inline">
+        {#if structure.slug}
+          <a
+            href={currentLocation === "structure-informations"
+              ? null
+              : `/structures/${structure.slug}`}
+            class:current={currentLocation === "structure-informations"}
+            aria-current={currentLocation === "structure-informations"
+              ? "page"
+              : null}
+          >
+            <span class="hidden lg:inline">
+              Structure&nbsp;•&nbsp;
+            </span>{structure.name}
+          </a>
+        {:else}
+          <span
+            class="hidden text-white print:text-france-blue lg:inline"
+            class:text-gray-text={dark}
+          >
             Structure&nbsp;•&nbsp;
-          </span>{structure.name}
-        </a>
+          </span><span
+            class=" text-white  print:text-france-blue lg:inline"
+            class:text-gray-text={dark}>{structure.name}</span
+          >
+        {/if}
       </li>
     {/if}
 
