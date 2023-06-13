@@ -1,5 +1,4 @@
 <script lang="ts">
-  import Button from "$lib/components/display/button.svelte";
   import type { Service, ServicesOptions } from "$lib/types";
   import SubcategoryListItem from "./subcategory-list-item.svelte";
 
@@ -11,19 +10,18 @@
     categoriesRecord = {};
 
     service.subcategories.forEach((subCategorySlug) => {
-      const [category, subcategory] = subCategorySlug.split("--");
+      const category = subCategorySlug.split("--")[0];
 
       if (!categoriesRecord[category]) {
         categoriesRecord[category] = [];
       }
-      categoriesRecord[category].push(subcategory);
+      categoriesRecord[category].push(subCategorySlug);
     });
   }
 </script>
 
-<ul>
-  {#each Object.entries(categoriesRecord) as [category, subcategory]}
-    {category} => {subcategory}
-    <hr />
+<div>
+  {#each Object.entries(categoriesRecord) as [categorySlug, subCategorySlugs]}
+    <SubcategoryListItem {categorySlug} {subCategorySlugs} {servicesOptions} />
   {/each}
-</ul>
+</div>

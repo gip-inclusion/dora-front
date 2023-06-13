@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { addIcon, substractIcon } from "$lib/icons";
   import type { ServicesOptions } from "$lib/types";
   import {
     getCategoryIcon,
@@ -6,10 +7,11 @@
     getSubCategoryLabel,
   } from "$lib/utils/service";
 
-  export let subCategorySlug: string;
+  export let categorySlug: string;
+  export let subCategorySlugs: string[];
   export let servicesOptions: ServicesOptions;
 
-  const categorySlug = subCategorySlug.split("--")[0];
+  let expanded = false;
 </script>
 
 <div
@@ -23,17 +25,22 @@
     <strong>
       {getCategoryLabel(categorySlug, servicesOptions).toUpperCase()}
     </strong>
+
+    <button
+      class="ml-s10 h-s24 w-s24 fill-current text-magenta-cta print:hidden"
+      on:click={() => (expanded = !expanded)}
+    >
+      {#if !expanded}
+        {@html addIcon}
+      {:else}
+        {@html substractIcon}
+      {/if}
+    </button>
   </div>
 
-  <Button
-    label="Voir tous les besoins"
-    on:click={() => (expanded = true)}
-    noBackground
-    small
-    noPadding
-    hoverUnderline
-  />
-
-  <span class="mr-s4">•</span>
-  {getSubCategoryLabel(subCategorySlug, servicesOptions)}
+  <div class:hidden={!expanded} class="print:!block">
+    {#each subCategorySlugs as subCategorySlug}
+      {getSubCategoryLabel(subCategorySlug, servicesOptions)}
+    {/each}
+  </div>
 </div>

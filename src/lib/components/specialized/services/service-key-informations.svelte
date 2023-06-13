@@ -76,7 +76,7 @@
   {/if}
 
   <div class="flex">
-    <div>
+    <div class="flex-1">
       <h3>
         <span class="mr-s8 h-s24 w-s24 fill-current">
           {@html priceTagIcon}
@@ -92,14 +92,14 @@
     </div>
 
     {#if service.feeCondition && isNotFreeService(service.feeCondition)}
-      <div>
+      <div class="flex-1">
         <h3>
           <span class="mr-s8 h-s24 w-s24 fill-current">
             {@html euroLineIcon}
           </span>
           Frais à charge
         </h3>
-        <p class="block">
+        <p class="block pb-s10">
           {getLabelFromValue(
             service.feeCondition,
             servicesOptions.feeConditions

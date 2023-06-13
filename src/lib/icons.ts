@@ -54,6 +54,7 @@ export { default as repeatIcon } from "remixicon/icons/Media/repeat-line.svg?raw
 export { default as addCircleIcon } from "remixicon/icons/System/add-circle-fill.svg?raw";
 export { default as addCircleLineIcon } from "remixicon/icons/System/add-circle-line.svg?raw";
 export { default as addIcon } from "remixicon/icons/System/add-fill.svg?raw";
+export { default as substractIcon } from "remixicon/icons/System/subtract-line.svg?raw";
 export { default as alertIcon } from "remixicon/icons/System/alert-fill.svg?raw";
 export { default as alertLine } from "remixicon/icons/System/alert-line.svg?raw";
 export { default as arrowDownLineIcon } from "remixicon/icons/System/arrow-down-line.svg?raw";
