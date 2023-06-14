@@ -1,21 +1,26 @@
 import { between } from "./random";
 import { difference } from "./array";
+import { browser } from "$app/environment";
 
-const AB_TESTING_KEY = "testingGroup";
+const AB_TESTING_KEY = "testingGroups";
 
-type ABTestingData = {
-  name: string;
-  numberOfGroup: number;
-};
-type ABTestingUserGroups = Record<string, number>;
+type ABTestingData = { name: string; groupNames: string[] };
 
-const currentABTests: ABTestingData[] = [
-  { name: "mobilization", numberOfGroup: 3 },
+const CURRENT_AB_TESTS: ABTestingData[] = [
+  {
+    name: "mobilization",
+    groupNames: [
+      "mobilisation-fond-bleu",
+      "mobilisation-fond-blanc",
+      "mobilisation-ancien-design",
+    ],
+  },
 ];
+type ABTestingUserGroups = Record<string, string>;
 
 function getABTestingUserGroups(): ABTestingUserGroups {
   const abTestingUserGroups =
-    window.localStorage.getItem(AB_TESTING_KEY) || "[]";
+    window.localStorage.getItem(AB_TESTING_KEY) || "{}";
   try {
     return JSON.parse(abTestingUserGroups);
   } catch (_err) {
@@ -27,10 +32,11 @@ export function refreshExperiments() {
   const abTestingUserGroups = getABTestingUserGroups();
 
   // Pas de groupes existants, on les initialise
-  if (abTestingUserGroups.length === 0) {
+  if (Object.keys(abTestingUserGroups).length === 0) {
     const newAbTestingUserGroups: ABTestingUserGroups = {};
-    currentABTests.forEach((abTest) => {
-      newAbTestingUserGroups[abTest.name] = between(1, abTest.numberOfGroup);
+    CURRENT_AB_TESTS.forEach((abTest) => {
+      newAbTestingUserGroups[abTest.name] =
+        abTest.groupNames[between(1, abTest.groupNames.length) - 1];
     });
     window.localStorage.setItem(
       AB_TESTING_KEY,
@@ -40,7 +46,7 @@ export function refreshExperiments() {
   }
 
   // On vérifie que les groupes existants sont toujours valides
-  const currentABTestNames = currentABTests.map((abTest) => abTest.name);
+  const currentABTestNames = CURRENT_AB_TESTS.map((abTest) => abTest.name);
   const userExperimentsNames = Object.keys(abTestingUserGroups);
 
   const abTestsDifference = difference(
@@ -54,16 +60,14 @@ export function refreshExperiments() {
     };
 
     abTestsDifference.forEach((abTestName) => {
-      const abTestToAdd = currentABTests.find(
+      const abTestToAdd = CURRENT_AB_TESTS.find(
         ({ name }) => abTestName === name
       );
 
       // AB-testing à ajouter
       if (abTestToAdd) {
-        newAbTestingUserGroups[abTestToAdd.name] = between(
-          1,
-          abTestToAdd.numberOfGroup
-        );
+        newAbTestingUserGroups[abTestToAdd.name] =
+          abTestToAdd.groupNames[between(1, abTestToAdd.groupNames.length) - 1];
       } else {
         // AB-testing à supprimer
         delete abTestingUserGroups[abTestName];
@@ -77,10 +81,19 @@ export function refreshExperiments() {
   }
 }
 
-export function getABTestingUserGroup(abTestingName: string): number {
+export function getABTestingUserGroup(abTestingName: string): string {
+  // Pour le SEO
+  if (!browser) {
+    return CURRENT_AB_TESTS[abTestingName].groupNames[0];
+  }
+
   const abTestUserGroup = getABTestingUserGroups()[abTestingName];
   if (!abTestUserGroup) {
     refreshExperiments();
   }
   return getABTestingUserGroups()[abTestingName];
+}
+
+export function clearABTestingUserGroups() {
+  window.localStorage.removeItem(AB_TESTING_KEY);
 }
