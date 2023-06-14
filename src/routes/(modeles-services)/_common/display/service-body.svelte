@@ -5,9 +5,8 @@
   import ServiceBeneficiaries from "./service-beneficiaries.svelte";
   import ServiceMobilisation from "./service-mobilisation.svelte";
   import ServiceMobilize from "./service-mobilize.svelte";
-  import ServiceShare from "./service-share.svelte";
+  import SmallServiceShare from "./small-service-share.svelte";
   import ServicePresentation from "./service-presentation.svelte";
-  import ServiceKeyInformations from "$lib/components/specialized/services/service-key-informations.svelte";
 
   export let service: Service | Model;
   export let servicesOptions: ServicesOptions;
@@ -39,9 +38,7 @@
       {/if}
 
       {#if !isModel}
-        <div class="rounded-lg border border-gray-02 p-s32 pb-s48 print:hidden">
-          <ServiceShare {service} />
-        </div>
+        <SmallServiceShare {service} />
       {/if}
     </div>
   </div>

@@ -22,6 +22,12 @@
 
 <div>
   {#each Object.entries(categoriesRecord) as [categorySlug, subCategorySlugs]}
-    <SubcategoryListItem {categorySlug} {subCategorySlugs} {servicesOptions} />
+    <div class="mb-s12">
+      <SubcategoryListItem
+        {categorySlug}
+        {subCategorySlugs}
+        {servicesOptions}
+      />
+    </div>
   {/each}
 </div>

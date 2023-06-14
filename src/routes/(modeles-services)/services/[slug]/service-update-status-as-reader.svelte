@@ -5,7 +5,7 @@
   import { editIcon } from "$lib/icons";
   import type { Service } from "$lib/types";
   import { trackFeedback } from "$lib/utils/plausible";
-  import FeedbackModal from "./feedback-modal.svelte";
+  import FeedbackModal from "$lib/components/specialized/services/feedback/feedback-modal.svelte";
   import dayjs from "dayjs";
   import RelativeDateLabel from "$lib/components/display/relative-date-label.svelte";
 

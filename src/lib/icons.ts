@@ -13,6 +13,7 @@ export { default as chatQuoteIcon } from "remixicon/icons/Communication/chat-quo
 export { default as chatSmileIcon } from "remixicon/icons/Communication/chat-smile-3-line.svg?raw";
 export { default as editIcon } from "remixicon/icons/Design/edit-2-line.svg?raw";
 export { default as quillPenIcon } from "remixicon/icons/Design/quill-pen-line.svg?raw";
+export { default as markPenIcon } from "remixicon/icons/Design/mark-pen-line.svg?raw";
 export { default as computerIcon } from "remixicon/icons/Device/computer-line.svg?raw";
 export { default as macLineIcon } from "remixicon/icons/Device/mac-line.svg?raw";
 export { default as phoneLineIcon } from "remixicon/icons/Device/phone-line.svg?raw";
