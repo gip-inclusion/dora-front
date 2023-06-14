@@ -4,6 +4,7 @@ import { CANONICAL_URL } from "$lib/env";
 import { token, userInfo } from "$lib/utils/auth";
 import { getDepartmentFromCityCode } from "$lib/utils/misc";
 import { get } from "svelte/store";
+import { getABTestingUserGroup } from "$lib/utils/ab-testing";
 
 function _track(tag, props) {
   if (browser) {
@@ -64,7 +65,10 @@ export function trackError(errorStatusCode, path) {
 }
 
 export function trackMobilisation(service) {
-  _track("mobilisation", _getServiceProps(service, true));
+  _track("mobilisation", {
+    ..._getServiceProps(service, true),
+    abTestingGroup: `mobilization--${getABTestingUserGroup("mobilization")}`,
+  });
 }
 
 export function trackMobilisationEmail(service) {
