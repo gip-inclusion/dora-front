@@ -7,6 +7,7 @@
   import FeedbackModal from "$lib/components/specialized/services/feedback/feedback-modal.svelte";
   import FavoriteIcon from "$lib/components/specialized/favorite-icon.svelte";
   import Bookmarkable from "$lib/components/hoc/bookmarkable.svelte";
+  import { browser } from "$app/environment";
 
   export let service: Service;
 
@@ -33,7 +34,7 @@
   }
 </script>
 
-{#if !service.canWrite}
+{#if !service.canWrite && browser}
   <div class="ml-s24 text-f16 text-gray-text print:hidden">
     <FeedbackModal {service} bind:isOpen={feedbackModalIsOpen} />
     <button class="flex" on:click={handleFeedback}>
@@ -84,18 +85,20 @@
   </div>
 {/if}
 
-<Bookmarkable slug={service.slug} let:onBookmark let:isBookmarked>
-  <button
-    class="ml-s24 flex text-f16 text-gray-text print:hidden"
-    on:click={onBookmark}
-  >
-    <FavoriteIcon active={isBookmarked} />
-    <span class="ml-s10 text-f16">
-      {#if isBookmarked}
-        Retirer des favoris
-      {:else}
-        Ajouter aux favoris
-      {/if}
-    </span>
-  </button>
-</Bookmarkable>
+{#if browser}
+  <Bookmarkable slug={service.slug} let:onBookmark let:isBookmarked>
+    <button
+      class="ml-s24 flex text-f16 text-gray-text print:hidden"
+      on:click={onBookmark}
+    >
+      <FavoriteIcon active={isBookmarked} />
+      <span class="ml-s10 text-f16">
+        {#if isBookmarked}
+          Retirer des favoris
+        {:else}
+          Ajouter aux favoris
+        {/if}
+      </span>
+    </button>
+  </Bookmarkable>
+{/if}

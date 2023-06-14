@@ -10,9 +10,9 @@ const CURRENT_AB_TESTS: ABTestingData[] = [
   {
     name: "mobilization",
     groupNames: [
-      "mobilisation-fond-bleu",
-      "mobilisation-fond-blanc",
-      "mobilisation-ancien-design",
+      "mobilization--fond-bleu",
+      "mobilization--fond-blanc",
+      "mobilization--ancien-design",
     ],
   },
 ];
@@ -83,14 +83,20 @@ export function refreshExperiments() {
 
 export function getABTestingUserGroup(abTestingName: string): string {
   // Pour le SEO
+  const abTest = CURRENT_AB_TESTS.find(({ name }) => name === abTestingName);
+  if (!abTest) {
+    return "";
+  }
+
   if (!browser) {
-    return CURRENT_AB_TESTS[abTestingName].groupNames[0];
+    return abTest.groupNames[0];
   }
 
   const abTestUserGroup = getABTestingUserGroups()[abTestingName];
   if (!abTestUserGroup) {
     refreshExperiments();
   }
+
   return getABTestingUserGroups()[abTestingName];
 }
 
