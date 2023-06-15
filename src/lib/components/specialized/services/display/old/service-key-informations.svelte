@@ -7,12 +7,12 @@
     mapPinUserFillIcon,
     timeLineIcon,
   } from "$lib/icons";
-  import type { Service, ServicesOptions } from "$lib/types";
+  import type { Service, ServicesOptions, ShortService } from "$lib/types";
   import { getLabelFromValue } from "$lib/utils/choice";
   import { shortenString } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
 
-  export let service: Service;
+  export let service: Service | ShortService;
   export let servicesOptions: ServicesOptions;
   export let display: "sidebar" | "full" = "full";
 </script>

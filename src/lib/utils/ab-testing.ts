@@ -82,12 +82,12 @@ export function refreshExperiments() {
 }
 
 export function getABTestingUserGroup(abTestingName: string): string {
-  // Pour le SEO
   const abTest = CURRENT_AB_TESTS.find(({ name }) => name === abTestingName);
   if (!abTest) {
     return "";
   }
 
+  // Pour le SEO, affichage du premier groupe
   if (!browser) {
     return abTest.groupNames[0];
   }
@@ -98,8 +98,4 @@ export function getABTestingUserGroup(abTestingName: string): string {
   }
 
   return getABTestingUserGroups()[abTestingName];
-}
-
-export function clearABTestingUserGroups() {
-  window.localStorage.removeItem(AB_TESTING_KEY);
 }

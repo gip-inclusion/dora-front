@@ -8,6 +8,7 @@
   import FeedbackModal from "$lib/components/specialized/services/feedback/feedback-modal.svelte";
   import dayjs from "dayjs";
   import RelativeDateLabel from "$lib/components/display/relative-date-label.svelte";
+  import AbTestingSection from "$lib/components/specialized/ab-testing-section.svelte";
 
   export let service: Service;
 
@@ -82,7 +83,13 @@
   </div>
 
   <div class="print:hidden">
-    <FeedbackModal {service} bind:isOpen={feedbackModalIsOpen} />
+    <AbTestingSection
+      abTestingName="mobilization"
+      showIfGroups={["mobilization--ancien-design"]}
+    >
+      <FeedbackModal {service} bind:isOpen={feedbackModalIsOpen} />
+    </AbTestingSection>
+
     <Button
       id="feedback-update"
       label="Suggérer une modification"

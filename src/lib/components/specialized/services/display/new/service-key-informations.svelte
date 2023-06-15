@@ -17,10 +17,9 @@
 
   export let service: Service;
   export let servicesOptions: ServicesOptions;
-  export let display: "sidebar" | "full" = "full";
 </script>
 
-<h2 class:text-f23={display === "sidebar"}>Informations clés</h2>
+<h2 class="text-f23">Informations clés</h2>
 
 <div class="flex flex-col gap-s12">
   {#if service.isCumulative}
@@ -57,9 +56,7 @@
     </div>
   {/if}
 
-  {#if display === "sidebar"}
-    <hr class="mt-s20 mb-s10" />
-  {/if}
+  <hr class="mt-s20 mb-s10" />
 
   <div>
     <h3 class="!mb-s10 text-f17">
@@ -71,9 +68,7 @@
     <SubcategoryList {service} {servicesOptions} />
   </div>
 
-  {#if display === "sidebar"}
-    <hr class="mt-s20 mb-s10" />
-  {/if}
+  <hr class="mt-s20 mb-s10" />
 
   <div class="flex">
     <div class="flex-1">

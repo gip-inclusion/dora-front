@@ -4,7 +4,7 @@
   export let abTestingName: string;
   export let showIfGroups: string[] = [];
 
-  $: userGroup = getABTestingUserGroup(abTestingName);
+  const userGroup = getABTestingUserGroup(abTestingName);
 </script>
 
 {#if showIfGroups.includes(userGroup)}
