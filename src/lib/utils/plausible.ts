@@ -7,7 +7,6 @@ import { get } from "svelte/store";
 import { getABTestingUserGroup } from "$lib/utils/ab-testing";
 
 function _track(tag, props) {
-  console.log({ tag, props });
   if (browser) {
     plausible(tag, {
       props,
@@ -66,18 +65,32 @@ export function trackError(errorStatusCode, path) {
 }
 
 export function trackMobilisation(service) {
-  _track("mobilisation", {
+  const props = {
     ..._getServiceProps(service, true),
     abTestingGroup: getABTestingUserGroup("mobilization"),
-  });
+  };
+  _track("mobilisation", props);
+  _track("mobilisation-abTesting", props);
 }
 
 export function trackMobilisationEmail(service) {
-  _track("mobilisation-contact", _getServiceProps(service, true));
+  const props = {
+    ..._getServiceProps(service, true),
+    abTestingGroup: getABTestingUserGroup("mobilization"),
+  };
+
+  _track("mobilisation-contact", props);
+  _track("mobilisation-contact-abTesting", props);
 }
 
 export function trackMobilisationLogin(service) {
-  _track("mobilisation-login", _getServiceProps(service, false));
+  const props = {
+    ..._getServiceProps(service, false),
+    abTestingGroup: getABTestingUserGroup("mobilization"),
+  };
+
+  _track("mobilisation-login", props);
+  _track("mobilisation-login-abTesting", props);
 }
 
 export function trackFeedback(service) {
