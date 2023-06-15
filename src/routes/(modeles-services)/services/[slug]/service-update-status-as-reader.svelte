@@ -82,22 +82,22 @@
     {/if}
   </div>
 
-  <div class="print:hidden">
-    <AbTestingSection
-      abTestingName="mobilization"
-      showIfGroups={["mobilization--ancien-design"]}
-    >
+  <AbTestingSection
+    abTestingName="mobilization"
+    showIfGroups={["mobilization--ancien-design"]}
+  >
+    <div class="print:hidden">
       <FeedbackModal {service} bind:isOpen={feedbackModalIsOpen} />
-    </AbTestingSection>
 
-    <Button
-      id="feedback-update"
-      label="Suggérer une modification"
-      icon={editIcon}
-      secondary
-      small
-      extraClass="py-s9"
-      on:click={handleFeedback}
-    />
-  </div>
+      <Button
+        id="feedback-update"
+        label="Suggérer une modification"
+        icon={editIcon}
+        secondary
+        small
+        extraClass="py-s9"
+        on:click={handleFeedback}
+      />
+    </div>
+  </AbTestingSection>
 </div>
