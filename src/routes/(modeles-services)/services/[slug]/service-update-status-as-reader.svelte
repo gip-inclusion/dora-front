@@ -83,8 +83,8 @@
   </div>
 
   <AbTestingSection
-    abTestingName="mobilization"
-    showIfGroups={["mobilization--ancien-design"]}
+    abTestingName="mobilisation"
+    showIfGroups={["mobilisation--ancien-design"]}
   >
     <div class="print:hidden">
       <FeedbackModal {service} bind:isOpen={feedbackModalIsOpen} />

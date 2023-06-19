@@ -4,7 +4,7 @@ import { CANONICAL_URL } from "$lib/env";
 import { token, userInfo } from "$lib/utils/auth";
 import { getDepartmentFromCityCode } from "$lib/utils/misc";
 import { get } from "svelte/store";
-import { getABTestingUserGroup } from "$lib/utils/ab-testing";
+import { getAbTestingUserGroup } from "$lib/utils/ab-testing";
 
 function _track(tag, props) {
   if (browser) {
@@ -67,7 +67,7 @@ export function trackError(errorStatusCode, path) {
 export function trackMobilisation(service) {
   const props = {
     ..._getServiceProps(service, true),
-    abTestingGroup: getABTestingUserGroup("mobilization"),
+    abTestingGroup: getAbTestingUserGroup("mobilisation"),
   };
   _track("mobilisation", props);
   _track("mobilisation-abTesting", props);
@@ -76,7 +76,7 @@ export function trackMobilisation(service) {
 export function trackMobilisationEmail(service) {
   const props = {
     ..._getServiceProps(service, true),
-    abTestingGroup: getABTestingUserGroup("mobilization"),
+    abTestingGroup: getAbTestingUserGroup("mobilisation"),
   };
 
   _track("mobilisation-contact", props);
@@ -86,7 +86,7 @@ export function trackMobilisationEmail(service) {
 export function trackMobilisationLogin(service) {
   const props = {
     ..._getServiceProps(service, false),
-    abTestingGroup: getABTestingUserGroup("mobilization"),
+    abTestingGroup: getAbTestingUserGroup("mobilisation"),
   };
 
   _track("mobilisation-login", props);

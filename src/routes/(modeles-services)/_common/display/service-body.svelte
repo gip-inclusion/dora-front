@@ -35,8 +35,8 @@
     <div class="sidebar flex flex-col gap-y-s24">
       {#if !isModel}
         <AbTestingSection
-          abTestingName="mobilization"
-          showIfGroups={["mobilization--fond-bleu"]}
+          abTestingName="mobilisation"
+          showIfGroups={["mobilisation--fond-bleu"]}
         >
           <div
             class="block rounded-lg border border-gray-02 bg-france-blue p-s24 px-s32 text-white print:hidden"
@@ -46,10 +46,10 @@
         </AbTestingSection>
 
         <AbTestingSection
-          abTestingName="mobilization"
+          abTestingName="mobilisation"
           showIfGroups={[
-            "mobilization--fond-blanc",
-            "mobilization--ancien-design",
+            "mobilisation--fond-blanc",
+            "mobilisation--ancien-design",
           ]}
         >
           <div
@@ -61,8 +61,8 @@
       {/if}
 
       <AbTestingSection
-        abTestingName="mobilization"
-        showIfGroups={["mobilization--ancien-design"]}
+        abTestingName="mobilisation"
+        showIfGroups={["mobilisation--ancien-design"]}
       >
         <div class="rounded-lg border border-gray-02 p-s32 pb-s48">
           <ServiceKeyInformations
@@ -82,8 +82,8 @@
       </AbTestingSection>
 
       <AbTestingSection
-        abTestingName="mobilization"
-        showIfGroups={["mobilization--fond-bleu", "mobilization--fond-blanc"]}
+        abTestingName="mobilisation"
+        showIfGroups={["mobilisation--fond-bleu", "mobilisation--fond-blanc"]}
       >
         {#if !isModel}
           <SmallServiceShare {service} />

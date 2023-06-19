@@ -1,24 +1,24 @@
-import { between } from "./random";
+import { getRandomIntBetween } from "./random";
 import { difference } from "./array";
 import { browser } from "$app/environment";
 
 const AB_TESTING_KEY = "testingGroups";
 
-type ABTestingData = { name: string; groupNames: string[] };
+type AbTestingData = { name: string; groupNames: string[] };
 
-const CURRENT_AB_TESTS: ABTestingData[] = [
+const CURRENT_AB_TESTS: AbTestingData[] = [
   {
-    name: "mobilization",
+    name: "mobilisation",
     groupNames: [
-      "mobilization--fond-bleu",
-      "mobilization--fond-blanc",
-      "mobilization--ancien-design",
+      "mobilisation--fond-bleu",
+      "mobilisation--fond-blanc",
+      "mobilisation--ancien-design",
     ],
   },
 ];
-type ABTestingUserGroups = Record<string, string>;
+type UserAbTestingGroups = Record<string, string>;
 
-function getABTestingUserGroups(): ABTestingUserGroups {
+function getAbTestingUserGroups(): UserAbTestingGroups {
   const abTestingUserGroups =
     window.localStorage.getItem(AB_TESTING_KEY) || "{}";
   try {
@@ -29,14 +29,14 @@ function getABTestingUserGroups(): ABTestingUserGroups {
 }
 
 export function refreshExperiments() {
-  const abTestingUserGroups = getABTestingUserGroups();
+  const abTestingUserGroups = getAbTestingUserGroups();
 
   // Pas de groupes existants, on les initialise
   if (Object.keys(abTestingUserGroups).length === 0) {
-    const newAbTestingUserGroups: ABTestingUserGroups = {};
+    const newAbTestingUserGroups: UserAbTestingGroups = {};
     CURRENT_AB_TESTS.forEach((abTest) => {
       newAbTestingUserGroups[abTest.name] =
-        abTest.groupNames[between(1, abTest.groupNames.length) - 1];
+        abTest.groupNames[getRandomIntBetween(1, abTest.groupNames.length) - 1];
     });
     window.localStorage.setItem(
       AB_TESTING_KEY,
@@ -46,16 +46,16 @@ export function refreshExperiments() {
   }
 
   // On vérifie que les groupes existants sont toujours valides
-  const currentABTestNames = CURRENT_AB_TESTS.map((abTest) => abTest.name);
+  const currentAbTestNames = CURRENT_AB_TESTS.map((abTest) => abTest.name);
   const userExperimentsNames = Object.keys(abTestingUserGroups);
 
   const abTestsDifference = difference(
-    currentABTestNames,
+    currentAbTestNames,
     userExperimentsNames
   );
 
   if (abTestsDifference.length > 0) {
-    const newAbTestingUserGroups: ABTestingUserGroups = {
+    const newAbTestingUserGroups: UserAbTestingGroups = {
       ...abTestingUserGroups,
     };
 
@@ -67,7 +67,9 @@ export function refreshExperiments() {
       // AB-testing à ajouter
       if (abTestToAdd) {
         newAbTestingUserGroups[abTestToAdd.name] =
-          abTestToAdd.groupNames[between(1, abTestToAdd.groupNames.length) - 1];
+          abTestToAdd.groupNames[
+            getRandomIntBetween(1, abTestToAdd.groupNames.length) - 1
+          ];
       } else {
         // AB-testing à supprimer
         delete abTestingUserGroups[abTestName];
@@ -81,7 +83,7 @@ export function refreshExperiments() {
   }
 }
 
-export function getABTestingUserGroup(abTestingName: string): string {
+export function getAbTestingUserGroup(abTestingName: string): string {
   const abTest = CURRENT_AB_TESTS.find(({ name }) => name === abTestingName);
   if (!abTest) {
     return "";
@@ -92,10 +94,10 @@ export function getABTestingUserGroup(abTestingName: string): string {
     return abTest.groupNames[0];
   }
 
-  const abTestUserGroup = getABTestingUserGroups()[abTestingName];
+  const abTestUserGroup = getAbTestingUserGroups()[abTestingName];
   if (!abTestUserGroup) {
     refreshExperiments();
   }
 
-  return getABTestingUserGroups()[abTestingName];
+  return getAbTestingUserGroups()[abTestingName];
 }

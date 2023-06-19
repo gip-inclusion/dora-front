@@ -16,8 +16,8 @@
 </p>
 
 <AbTestingSection
-  abTestingName="mobilization"
-  showIfGroups={["mobilization--ancien-design"]}
+  abTestingName="mobilisation"
+  showIfGroups={["mobilisation--ancien-design"]}
 >
   <div class="mb-s40">
     <h3 class="text-f17">Ce service répond aux besoins</h3>
@@ -35,8 +35,8 @@
 </AbTestingSection>
 
 <AbTestingSection
-  abTestingName="mobilization"
-  showIfGroups={["mobilization--fond-bleu", "mobilization--fond-blanc"]}
+  abTestingName="mobilisation"
+  showIfGroups={["mobilisation--fond-bleu", "mobilisation--fond-blanc"]}
 >
   <div class="rounded-lg border border-gray-02 p-s32 pb-s48">
     <ServiceKeyInformations {service} {servicesOptions} />
