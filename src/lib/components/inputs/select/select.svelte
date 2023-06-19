@@ -24,7 +24,7 @@
   export let initialValue = undefined;
   export let postfixValueFunction = undefined;
   export let showClear = true;
-  export let errorMessages = [];
+  export let errorMessages: string[] = [];
 
   // on pourra supprimer cette ligne lorsque cette issue sera résolue
   // https://github.com/sveltejs/svelte/issues/5604

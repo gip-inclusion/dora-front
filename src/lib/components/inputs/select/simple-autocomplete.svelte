@@ -106,7 +106,7 @@
   // adds the disabled tag to the HTML input and tag deletion
   export let disabled = false;
 
-  export let errorMessages = false;
+  export let errorMessages: string[] = [];
 
   // --- Public State ----
 
@@ -720,8 +720,6 @@
   }
 </script>
 
-errorMessages -
-
 <div
   class="{className || ''}
   {hideArrow || !items.length ? 'hide-arrow' : ''}
@@ -760,7 +758,7 @@ errorMessages -
       on:keydown={onKeyDown}
       on:click={onInputClick}
       on:keypress={onKeyPress}
-      aria-describedby={formatErrors(errorMessages)}
+      aria-describedby={formatErrors(name, errorMessages)}
     />
     {#if clearable && text?.length}
       <button on:click={clear} class="autocomplete-clear-button"

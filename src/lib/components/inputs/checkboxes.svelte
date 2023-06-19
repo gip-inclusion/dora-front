@@ -8,7 +8,7 @@
     disabled,
     name,
     readonly,
-    errorMessages = [];
+    errorMessages: string[] = [];
 
   const dispatch = createEventDispatcher();
 
@@ -38,7 +38,7 @@
         class="sr-only"
         {disabled}
         {readonly}
-        aria-describedby={formatErrors(errorMessages)}
+        aria-describedby={formatErrors(id, errorMessages)}
       />
       <div
         class="flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"

@@ -8,7 +8,7 @@
     disabled = false,
     name: string,
     readonly = false,
-    errorMessages = [];
+    errorMessages: string[] = [];
 
   let focusValue = undefined;
   const dispatch = createEventDispatcher();
@@ -38,7 +38,7 @@
         class="sr-only"
         {disabled}
         {readonly}
-        aria-describedby={formatErrors(errorMessages)}
+        aria-describedby={formatErrors(id, errorMessages)}
       />
       <div
         class="toggle-path flex h-s24 w-s24 shrink-0 justify-center rounded-full border border-gray-03 bg-white "

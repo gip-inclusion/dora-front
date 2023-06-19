@@ -51,7 +51,7 @@
         {readonly}
         {placeholder}
         {rows}
-        aria-describedby={formatErrors(errorMessages)}
+        aria-describedby={formatErrors(id, errorMessages)}
       />
       {#if value && maxLength != null && !readonly && !disabled}
         <div

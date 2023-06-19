@@ -7,6 +7,7 @@ import { writable } from "svelte/store";
 export type ValidationContext = {
   onBlur: (evt: any) => Promise<void>;
   onChange: (evt: any) => Promise<void>;
+  errorMessages: string[];
 };
 export const contextValidationKey = {};
 
@@ -247,7 +248,7 @@ export function injectAPIErrors(err, serverErrorsTranslation) {
   );
 }
 
-export function formatErrors(id, errorsMessages = []) {
+export function formatErrors(id, errorsMessages: string[] = []) {
   const errors = errorsMessages
     .map((_err, index) => `${id}-error-${index}`)
     .join(" ");
