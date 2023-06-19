@@ -6,6 +6,7 @@
   // TODO: lint this file properly
   /* eslint-disable */
   import { checkIcon, closeCircleIcon } from "$lib/icons";
+  import { formatErrors } from "$lib/validation/validation";
 
   // the list of items  the user can select from
   export let items = [];
@@ -104,6 +105,8 @@
   export let dropdownClassName = "";
   // adds the disabled tag to the HTML input and tag deletion
   export let disabled = false;
+
+  export let errorMessages = false;
 
   // --- Public State ----
 
@@ -717,6 +720,8 @@
   }
 </script>
 
+errorMessages -
+
 <div
   class="{className || ''}
   {hideArrow || !items.length ? 'hide-arrow' : ''}
@@ -755,6 +760,7 @@
       on:keydown={onKeyDown}
       on:click={onInputClick}
       on:keypress={onKeyPress}
+      aria-describedby={formatErrors(errorMessages)}
     />
     {#if clearable && text?.length}
       <button on:click={clear} class="autocomplete-clear-button"

@@ -246,3 +246,11 @@ export function injectAPIErrors(err, serverErrorsTranslation) {
     }
   );
 }
+
+export function formatErrors(id, errorsMessages = []) {
+  const errors = errorsMessages
+    .map((_err, index) => `${id}-error-${index}`)
+    .join(" ");
+
+  return errors ? errors : null;
+}
