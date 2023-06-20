@@ -1,6 +1,6 @@
 import { browser } from "$app/environment";
-import * as Sentry from "@sentry/browser";
 import { getRandomIntBetween } from "./random";
+import { log } from "./logger";
 
 const AB_TESTING_KEY = "testingGroups";
 
@@ -52,11 +52,9 @@ export function refreshExperiments() {
   CURRENT_AB_TESTS.map((abTest) => abTest.name).forEach((abTestName) => {
     if (userExperimentsNames.includes(abTestName)) {
       // On conserve le groupe existant
-      console.log("keep", abTestName);
       newAbTestingUserGroups[abTestName] = abTestingUserGroups[abTestName];
     } else {
       // On ajoute le nouveau groupe
-      console.log("add", abTestName);
       const abTest = CURRENT_AB_TESTS.find(({ name }) => name === abTestName);
       if (abTest) {
         newAbTestingUserGroups[abTestName] =
@@ -67,9 +65,6 @@ export function refreshExperiments() {
     }
   });
 
-  console.log(abTestingUserGroups);
-  console.log(newAbTestingUserGroups);
-
   window.localStorage.setItem(
     AB_TESTING_KEY,
     JSON.stringify(newAbTestingUserGroups)
@@ -79,9 +74,7 @@ export function refreshExperiments() {
 export function getAbTestingUserGroup(abTestingName: string): string {
   const abTest = CURRENT_AB_TESTS.find(({ name }) => name === abTestingName);
   if (!abTest) {
-    Sentry.captureException(
-      `${abTestingName} non trouvé dans les AB-tests en cours`
-    );
+    log(`${abTestingName} non trouvé dans les AB-tests en cours`);
     return "";
   }
 
