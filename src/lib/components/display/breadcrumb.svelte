@@ -35,6 +35,7 @@
     privacy: "Données personnelles",
     partners: "Nos partenaires",
     account: "Mes informations",
+    preference: "Mes préférences",
   };
 
   function getStructureData(location) {
