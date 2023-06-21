@@ -3,7 +3,7 @@ import type { PageLoad } from "./$types";
 
 export const load: PageLoad = async () => {
   return {
-    title: "Mon compte | DORA",
+    title: "Mes préférences | DORA",
     noIndex: true,
     servicesOptions: await getServicesOptions(),
   };

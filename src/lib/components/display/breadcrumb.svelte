@@ -9,6 +9,7 @@
     | "cgu"
     | "model"
     | "account"
+    | "preferences"
     | "login"
     | "accessibility"
     | "privacy"
@@ -35,7 +36,7 @@
     privacy: "Données personnelles",
     partners: "Nos partenaires",
     account: "Mes informations",
-    preference: "Mes préférences",
+    preferences: "Mes préférences",
   };
 
   function getStructureData(location) {
