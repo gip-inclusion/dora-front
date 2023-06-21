@@ -22,6 +22,9 @@ export interface UserInfo {
   bookmarks: Bookmark[];
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
+
+  objectives: string[];
+  mostSearchedCategories: string[];
 }
 
 export const userInfo = writable<UserInfo>(null);

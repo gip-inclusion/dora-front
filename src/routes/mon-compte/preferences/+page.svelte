@@ -4,47 +4,70 @@
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import type { PageData } from "./$types";
   import * as v from "$lib/validation/schema-utils";
+  import { userInfo } from "$lib/utils/auth";
+  import { onMount } from "svelte";
+  import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
+  import { goto } from "$app/navigation";
+  import MultiSelectField from "$lib/components/forms/fields/multi-select-field.svelte";
+  import Button from "$lib/components/display/button.svelte";
+  import { getApiURL } from "$lib/utils/api";
 
   export let data: PageData;
 
+  let objectives: string[] = [],
+    mostSearchedCategories: string[] = [];
   let requesting = false;
 
-  const feedbackSchema: v.Schema = {
-    fullName: {
-      label: "Nom",
-      default: "",
-      rules: [v.isString(), v.maxStrLength(140)],
-      post: [v.trim],
+  const objectivesOptions = [
+    {
+      value: "consult-offers",
+      label:
+        "Je consulte les offres d'insertion de mon territoire dans le but de rester informée des offres existantes et accompagner/orienter mes bénéficiaires",
+    },
+    {
+      value: "create-my-services",
+      label: "Je référence l'offre de service de ma ou mes structures sur DORA",
+    },
+    {
+      value: "structure-admin",
+      label:
+        "Je suis administrateur de ma structure sur DORA - je suis responsable du référencement adéquat de celle-ci sur DORA et je gère la liste des collaborateurs",
+    },
+    {
+      value: "categories-or-territory-manager",
+      label:
+        "Je suis responsable du pilotage et de l'animation du déploiement de DORA sur mon territoire ou dans un domaine/thématique spécifique",
+    },
+  ];
+
+  const preferencesSchema: v.Schema = {
+    objectives: {
+      label: "Quels sont vos objectifs lors de l'utilisation de DORA ?",
+      default: [],
+      rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
       required: true,
     },
-    email: {
-      label: "Courriel",
-      default: "",
-      rules: [v.isEmail(), v.maxStrLength(255)],
-      post: [v.lower, v.trim],
-      required: true,
-    },
-    message: {
-      label: "Message",
-      default: "",
-      rules: [v.isString()],
+    mostSearchedCategories: {
+      label:
+        "Quels sont les thématiques pour lesquelles vous réalisez le plus de recherches ?",
+      default: [],
+      rules: [
+        v.isArray([v.isString(), v.maxStrLength(255)]),
+        v.arrMaxLength(3, "Vous avez choisi plus de 3 thématiques"),
+      ],
       required: true,
     },
   };
 
   onMount(() => {
     if ($userInfo) {
-      suggesterFullName = $userInfo.fullName;
-      suggesterEmail = $userInfo.email;
+      objectives = $userInfo.objectives;
+      mostSearchedCategories = $userInfo.mostSearchedCategories;
     }
   });
 
-  function handleChange(_validatedData) {}
-
   function handleSubmit(validatedData) {
-    // TODO
-    /*
-    return fetch(url, {
+    return fetch(`${getApiURL()}/auth/update-preferences`, {
       method: "POST",
       body: JSON.stringify({
         ...validatedData,
@@ -54,17 +77,15 @@
         Accept: "application/json; version=1.0",
       },
     });
-    */
   }
 
   function handleSuccess(_jsonResult) {
-    // TODO
+    goto("/mon-compte");
   }
 
   $: formData = {
-    fullName: suggesterFullName,
-    email: suggesterEmail,
-    message,
+    objectives,
+    mostSearchedCategories,
   };
 </script>
 
@@ -85,39 +106,40 @@
       <div class="flex flex-col gap-s35 p-s35">
         <Form
           bind:data={formData}
-          schema={feedbackSchema}
-          onChange={handleChange}
+          schema={preferencesSchema}
           onSubmit={handleSubmit}
           onSuccess={handleSuccess}
           bind:requesting
         >
-          <Fieldset>
-            <BasicInputField
-              id="fullName"
-              bind:value={suggesterFullName}
-              vertical
-              placeholder="Aurélien Durand"
-              autocomplete="name"
-            />
+          <CheckboxesField
+            id="objectives"
+            choices={objectivesOptions}
+            description="Plusieurs choix possibles"
+            bind:value={objectives}
+            vertical
+          />
 
-            <BasicInputField
-              type="email"
-              id="email"
-              bind:value={suggesterEmail}
-              placeholder="nom.prenom@organisation.fr"
-              autocomplete="email"
+          <div class="mt-s32">
+            <MultiSelectField
+              id="mostSearchedCategories"
+              bind:value={mostSearchedCategories}
+              choices={data.servicesOptions.categories}
+              placeholder="Sélectionner"
+              placeholderMulti="Sélectionner"
+              description="Trois choix maximum"
+              sort
               vertical
             />
+          </div>
 
-            <TextareaField
-              id="message"
-              bind:value={message}
-              description="Détaillez les éléments qui vous semblent erronés ou incomplets."
-              vertical
-              rows={6}
-              placeholder="Renseigner ici les détails"
+          <div class="mt-s32 text-right">
+            <Button
+              name="validate"
+              type="submit"
+              label="Valider"
+              disabled={requesting}
             />
-          </Fieldset>
+          </div>
         </Form>
       </div>
     </div>
