@@ -128,12 +128,12 @@
         <div class="pt-s16 text-f14 text-gray-text">
           Vous avez choisi de mettre à jour automatiquement tous les services
           utilisant ce modèle. Si vous aviez ajouté du contenu spécifique dans
-          l'un de ses services, il sera remplacé par les nouvelles informations
-          du modèle (excepté les informations sur la zone d'éligibilité, le lieu
+          l’un de ces services, il sera remplacé par les nouvelles informations
+          du modèle (excepté les informations sur la zone d’éligibilité, le lieu
           de déroulement ou les coordonnées du référent spécifique au service).
 
           <strong class="mt-s16 block">
-            Si ce n'est pas ce que vous souhaitez, cliquez sur annuler, et
+            Si ce n’est pas ce que vous souhaitez, cliquez sur annuler, et
             décochez la case.
           </strong>
         </div>
