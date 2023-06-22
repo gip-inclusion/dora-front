@@ -9,6 +9,12 @@ const tokenKey = "token";
 
 export const token = writable<string>(null);
 
+export type MainActivity =
+  | "accompagnateur"
+  | "offreur"
+  | "accompagnateur_offreur"
+  | "autre";
+
 export interface UserInfo {
   firstName: string;
   lastName: string;
@@ -22,9 +28,7 @@ export interface UserInfo {
   bookmarks: Bookmark[];
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
-
-  objectives: string[];
-  mostSearchedCategories: string[];
+  mainActivity: MainActivity;
 }
 
 export const userInfo = writable<UserInfo>(null);
