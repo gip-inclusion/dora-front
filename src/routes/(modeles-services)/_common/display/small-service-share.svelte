@@ -80,7 +80,7 @@
         </span>
       {/if}
 
-      <span class="ml-s32">Partager ce service</span>
+      <span class="ml-s32">Copier le lien du service</span>
     </button>
   </div>
 {/if}
@@ -92,7 +92,7 @@
       on:click={onBookmark}
     >
       <FavoriteIcon active={isBookmarked} />
-      <span class="ml-s10 text-f16">
+      <span class="ml-s10 text-f16" class:text-france-blue={isBookmarked}>
         {#if isBookmarked}
           Retirer des favoris
         {:else}
