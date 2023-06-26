@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import Form from "$lib/components/forms/form.svelte";
   import * as v from "$lib/validation/schema-utils";
-  import { userInfo } from "$lib/utils/auth";
-  import { onMount } from "svelte";
+  import { refreshUserInfo, userInfo } from "$lib/utils/auth";
   import Button from "$lib/components/display/button.svelte";
-  import { getApiURL } from "$lib/utils/api";
-  import RadioButtonsField from "../forms/fields/radio-buttons-field.svelte";
+  import RadioButtonsField from "$lib/components/forms/fields/radio-buttons-field.svelte";
+  import { updateMainActivity } from "$lib/utils/user";
 
   let mainActivity = "";
   let requesting = false;
@@ -37,6 +38,7 @@
     mainActivity: {
       label: "Quels sont vos objectifs lors de l'utilisation de DORA ?",
       default: "",
+      rules: [v.isString(), v.maxStrLength(255)],
       required: true,
     },
   };
@@ -47,17 +49,9 @@
     }
   });
 
-  function handleSubmit(validatedData) {
-    return fetch(`${getApiURL()}/auth/update-preferences`, {
-      method: "POST",
-      body: JSON.stringify({
-        ...validatedData,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-        Accept: "application/json; version=1.0",
-      },
-    });
+  async function handleSubmit(validatedData) {
+    await updateMainActivity(validatedData.mainActivity);
+    return refreshUserInfo();
   }
 
   function handleSuccess(_jsonResult) {
@@ -66,9 +60,7 @@
     }
   }
 
-  $: formData = {
-    mainActivity: $userInfo.mainActivity,
-  };
+  $: formData = { mainActivity };
 </script>
 
 <Form
@@ -78,13 +70,15 @@
   onSuccess={handleSuccess}
   bind:requesting
 >
-  <RadioButtonsField
-    id="mainActivity"
-    choices={mainActivityOptions}
-    description="Veuillez choisir la réponse qui correspond le mieux à votre utilisation actuelle (ou future, si vous venez de vous inscrire)."
-    bind:value={mainActivity}
-    vertical
-  />
+  <div class="mx-s4">
+    <RadioButtonsField
+      id="mainActivity"
+      choices={mainActivityOptions}
+      description="Veuillez choisir la réponse qui correspond le mieux à votre utilisation actuelle (ou future, si vous venez de vous inscrire)."
+      bind:value={mainActivity}
+      vertical
+    />
+  </div>
 
   <div class="mt-s32 text-right">
     <Button
