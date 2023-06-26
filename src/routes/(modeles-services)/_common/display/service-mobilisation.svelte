@@ -31,6 +31,9 @@
         <div class="mb-s16" class:text-white={backgroundColor === "blue"}>
           <Button
             on:click={trackClick}
+            extraClass={backgroundColor === "blue"
+              ? "bg-white !text-france-blue hover:!text-white"
+              : ""}
             label="Voir les informations de contact"
             wFull
           />

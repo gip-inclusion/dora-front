@@ -167,7 +167,13 @@ export function trackService(service, url) {
     });
   }
 
-  _track("service", _getServiceProps(service, true));
+  const props = {
+    ..._getServiceProps(service, false),
+    abTestingGroup: getAbTestingUserGroup("mobilisation"),
+  };
+
+  _track("service", props);
+  _track("service-abTesting", props);
 }
 
 export function trackStructure(structure, url) {
