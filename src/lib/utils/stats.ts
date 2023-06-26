@@ -27,7 +27,7 @@ export function logAnalyticsEvent(tag, path, params = {}) {
     headers: {
       Accept: "application/json; version=1.0",
       "Content-Type": "application/json",
-      Authorization: currentToken ? `Token ${get(token)}` : undefined,
+      Authorization: currentToken ? `Token ${currentToken}` : undefined,
     },
     body: JSON.stringify(data),
   });
