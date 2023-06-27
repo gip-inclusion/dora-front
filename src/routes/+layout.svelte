@@ -6,8 +6,8 @@
   import Header from "./_index/header.svelte";
   import SkipLink from "./_index/skip-link.svelte";
   import { browser } from "$app/environment";
-  import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
-  import MainActivityModal from "$lib/components/user/main-activity-modal.svelte";
+  import UserProfileModal from "$lib/components/user/user-profile-modal.svelte";
+  import { userInfo } from "$lib/utils/auth";
 
   function trackPageView() {
     if (browser && (window as any)._paq) {
@@ -45,9 +45,9 @@
 <Header />
 
 <main id="main-content" role="main">
-  <EnsureLoggedIn>
-    <MainActivityModal />
-  </EnsureLoggedIn>
+  {#if $userInfo}
+    <UserProfileModal />
+  {/if}
 
   <slot />
 </main>

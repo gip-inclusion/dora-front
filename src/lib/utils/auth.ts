@@ -9,7 +9,7 @@ const tokenKey = "token";
 
 export const token = writable<string>(null);
 
-export type MainActivity =
+export type UserProfile =
   | "accompagnateur"
   | "offreur"
   | "accompagnateur_offreur"
@@ -28,7 +28,7 @@ export interface UserInfo {
   bookmarks: Bookmark[];
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
-  mainActivity: MainActivity;
+  mainActivity: UserProfile;
 }
 
 export const userInfo = writable<UserInfo>(null);

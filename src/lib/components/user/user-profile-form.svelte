@@ -6,14 +6,14 @@
   import { refreshUserInfo, userInfo } from "$lib/utils/auth";
   import Button from "$lib/components/display/button.svelte";
   import RadioButtonsField from "$lib/components/forms/fields/radio-buttons-field.svelte";
-  import { updateMainActivity } from "$lib/utils/user";
+  import { updateUserProfile } from "$lib/utils/user";
 
-  let mainActivity = "";
+  let userProfile = "";
   let requesting = false;
 
   export let onSuccess;
 
-  const mainActivityOptions = [
+  const userProfileOptions = [
     {
       value: "accompagnateur",
       label:
@@ -34,8 +34,8 @@
     },
   ];
 
-  const mainActivitySchema: v.Schema = {
-    mainActivity: {
+  const userProfileSchema: v.Schema = {
+    userProfile: {
       label: "Quels sont vos objectifs lors de l'utilisation de DORA ?",
       default: "",
       rules: [v.isString(), v.maxStrLength(255)],
@@ -45,12 +45,12 @@
 
   onMount(() => {
     if ($userInfo) {
-      mainActivity = $userInfo.mainActivity;
+      userProfile = $userInfo.mainActivity;
     }
   });
 
   async function handleSubmit(validatedData) {
-    await updateMainActivity(validatedData.mainActivity);
+    await updateUserProfile(validatedData.userProfile);
     return refreshUserInfo();
   }
 
@@ -60,22 +60,22 @@
     }
   }
 
-  $: formData = { mainActivity };
+  $: formData = { userProfile };
 </script>
 
 <Form
   bind:data={formData}
-  schema={mainActivitySchema}
+  schema={userProfileSchema}
   onSubmit={handleSubmit}
   onSuccess={handleSuccess}
   bind:requesting
 >
   <div class="mx-s4">
     <RadioButtonsField
-      id="mainActivity"
-      choices={mainActivityOptions}
+      id="userProfile"
+      choices={userProfileOptions}
       description="Veuillez choisir la réponse qui correspond le mieux à votre utilisation actuelle (ou future, si vous venez de vous inscrire)."
-      bind:value={mainActivity}
+      bind:value={userProfile}
       vertical
     />
   </div>

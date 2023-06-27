@@ -1,25 +1,25 @@
 <script lang="ts">
   import { userInfo } from "$lib/utils/auth";
-  import MainActivityForm from "./main-activity-form.svelte";
+  import UserProfileForm from "./user-profile-form.svelte";
   import Modal from "$lib/components/hoc/modal.svelte";
   import dayjs from "dayjs";
 
-  const MAIN_ACTIVITY_KEY = "noMainActivityModalUntil";
+  const USER_PROFILE_MODAL_KEY = "noUserProfileModalUntil";
 
   let isOpen = false;
 
-  function isMainActivityModalOpen(): boolean {
+  function isUserProfileModalOpen(): boolean {
     if ($userInfo.mainActivity) {
       return false;
     }
 
-    const mainActivityUntil = localStorage.getItem(MAIN_ACTIVITY_KEY);
-    if (mainActivityUntil === null) {
+    const userProfileModalUntil = localStorage.getItem(USER_PROFILE_MODAL_KEY);
+    if (userProfileModalUntil === null) {
       return true;
     }
 
     try {
-      return dayjs().isAfter(dayjs(mainActivityUntil));
+      return dayjs().isAfter(dayjs(userProfileModalUntil));
     } catch (_err) {
       return true;
     }
@@ -31,15 +31,15 @@
 
   function onClose() {
     localStorage.setItem(
-      MAIN_ACTIVITY_KEY,
+      USER_PROFILE_MODAL_KEY,
       dayjs().add(10, "hours").toISOString()
     );
     isOpen = false;
   }
 
-  $: isOpen = isMainActivityModalOpen();
+  $: isOpen = isUserProfileModalOpen();
 </script>
 
 <Modal bind:isOpen title="Dites-nous plus sur vous !" on:close={onClose}>
-  <MainActivityForm {onSuccess} />
+  <UserProfileForm {onSuccess} />
 </Modal>
