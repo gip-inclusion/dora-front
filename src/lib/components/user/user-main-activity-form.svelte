@@ -51,7 +51,8 @@
 
   async function handleSubmit(validatedData) {
     await updateUserMainActivity(validatedData.userMainActivity);
-    return refreshUserInfo();
+    await refreshUserInfo();
+    return { ok: true };
   }
 
   function handleSuccess(_jsonResult) {

@@ -4,7 +4,7 @@
   import Modal from "$lib/components/hoc/modal.svelte";
   import dayjs from "dayjs";
 
-  const USER_MAIN_ACTIVITY_MODAL_KEY = "noMainActivityModalUntil";
+  const USER_MAIN_ACTIVITY_MODAL_KEY = "noUserMainActivityModalUntil";
 
   let isOpen = false;
 
