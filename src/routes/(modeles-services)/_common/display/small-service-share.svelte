@@ -93,13 +93,15 @@
 {#if browser && $userInfo}
   <Bookmarkable slug={service.slug} let:onBookmark let:isBookmarked>
     <button
-      class="ml-s24 flex text-f16 text-gray-text hover:text-magenta-cta print:hidden"
+      class="ml-s24 flex text-f16 text-gray-text print:hidden {isBookmarked
+        ? 'text-magenta-cta hover:text-gray-text'
+        : 'hover:text-magenta-cta'}"
       on:click={onBookmark}
     >
       <span class="h-s24 w-s24 fill-current">
         {@html isBookmarked ? starSmileFillIcon : starSmileLineIcon}
       </span>
-      <span class="ml-s10 text-f16" class:text-france-blue={isBookmarked}>
+      <span class="ml-s10 text-f16">
         {#if isBookmarked}
           Retirer des favoris
         {:else}
