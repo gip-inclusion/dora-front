@@ -6,7 +6,7 @@
   import Header from "./_index/header.svelte";
   import SkipLink from "./_index/skip-link.svelte";
   import { browser } from "$app/environment";
-  import UserProfileModal from "$lib/components/user/user-profile-modal.svelte";
+  import MainActivityModal from "$lib/components/user/user-main-activity-modal.svelte";
   import { userInfo } from "$lib/utils/auth";
 
   function trackPageView() {
@@ -46,7 +46,7 @@
 
 <main id="main-content" role="main">
   {#if $userInfo}
-    <UserProfileModal />
+    <MainActivityModal />
   {/if}
 
   <slot />

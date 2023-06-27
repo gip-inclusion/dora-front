@@ -1,11 +1,11 @@
 import { get } from "svelte/store";
 import { getApiURL } from "./api";
-import { token, type UserProfile } from "./auth";
+import { token, type UserMainActivity } from "./auth";
 
-export function updateUserProfile(userProfile: UserProfile) {
+export function updateUserMainActivity(userMainActivity: UserMainActivity) {
   return fetch(`${getApiURL()}/profile/update-main-activity/`, {
     method: "PATCH",
-    body: JSON.stringify({ mainActivity: userProfile }),
+    body: JSON.stringify({ mainActivity: userMainActivity }),
     headers: {
       "Content-Type": "application/json",
       Accept: "application/json; version=1.0",
