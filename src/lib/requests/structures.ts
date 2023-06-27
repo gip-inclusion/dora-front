@@ -11,6 +11,26 @@ import type {
 } from "../types";
 import { logException } from "../utils/logger";
 
+function structureToBack(structure: Structure) {
+  const result = { ...structure, otherLabels: [] };
+  if (structure.otherLabels) {
+    result.otherLabels = structure.otherLabels
+      .split(",")
+      .filter((label) => label !== "")
+      .map((label) => label.trim());
+  }
+
+  return result;
+}
+
+function structureToFront(structure: Structure): Structure {
+  const result = { ...structure };
+  if (structure.otherLabels.length) {
+    result.otherLabels = structure.otherLabels.join(", ");
+  }
+  return result;
+}
+
 export async function siretWasAlreadyClaimed(siret: string) {
   const url = `${getApiURL()}/siret-claimed/${siret}`;
   const res = await fetch(url, {
@@ -50,9 +70,10 @@ export async function getActiveStructures(): Promise<ShortStructure[]> {
   return (await fetchData<ShortStructure[]>(url)).data;
 }
 
-export async function getStructure(slug: string): Promise<Structure> {
+export async function getStructure(slug: string): Promise<Structure | null> {
   const url = `${getApiURL()}/structures/${slug}/`;
-  return (await fetchData<Structure>(url)).data;
+  const structure = (await fetchData<Structure>(url)).data;
+  return structure ? structureToFront(structure) : null;
 }
 
 export function createStructure(structure) {
@@ -66,7 +87,7 @@ export function createStructure(structure) {
 
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify(structure),
+    body: JSON.stringify(structureToBack(structure)),
   });
 }
 
@@ -82,7 +103,7 @@ export function modifyStructure(structure) {
 
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify(structure),
+    body: JSON.stringify(structureToBack(structure)),
   });
 }
 

@@ -5,15 +5,19 @@
   import ServiceBeneficiaries from "./service-beneficiaries.svelte";
   import ServiceMobilisation from "./service-mobilisation.svelte";
   import ServiceMobilize from "./service-mobilize.svelte";
-  import ServiceShare from "./service-share.svelte";
+  import SmallServiceShare from "./small-service-share.svelte";
   import ServicePresentation from "./service-presentation.svelte";
-  import ServiceKeyInformations from "$lib/components/specialized/services/service-key-informations.svelte";
   import { FLAG_ORIENTATION } from "$lib/env";
+  import AbTestingSection from "$lib/components/specialized/ab-testing-section.svelte";
+
+  import ServiceKeyInformations from "$lib/components/specialized/services/display/old/service-key-informations.svelte";
+  import ServiceShare from "$lib/components/specialized/services/display/old/service-share.svelte";
+  import { browser } from "$app/environment";
 
   export let service: Service | Model;
   export let servicesOptions: ServicesOptions;
   export let showContact = false;
-  false;
+
   export let isModel = false;
 </script>
 
@@ -22,6 +26,7 @@
     <div class="presentation">
       <ServicePresentation {service} {servicesOptions} />
     </div>
+
     <hr class="separator-1" />
     <div class="beneficiaries">
       <ServiceBeneficiaries {service} />
@@ -31,30 +36,77 @@
       <ServiceMobilize {service} />
     </div>
 
-    <div class="sidebar flex flex-col gap-y-s24">
-      {#if !isModel}
-        <div
-          class="block rounded-lg border border-gray-02 p-s24 px-s32"
-          class:print:hidden={!showContact}
+    {#if browser}
+      <div class="sidebar flex flex-col gap-y-s24">
+        {#if !isModel}
+          <div class="sticky top-s32">
+            <AbTestingSection
+              abTestingName="mobilisation"
+              showIfGroups={["mobilisation--fond-bleu"]}
+            >
+              <div
+                class="block rounded-lg border border-gray-02 bg-france-blue p-s24 px-s32 text-white print:hidden"
+              >
+                <ServiceMobilisation {service} backgroundColor="blue" />
+              </div>
+            </AbTestingSection>
+
+            <AbTestingSection
+              abTestingName="mobilisation"
+              showIfGroups={["mobilisation--fond-blanc"]}
+            >
+              <div class="block rounded-lg p-s24 px-s32 shadow-md print:hidden">
+                <ServiceMobilisation {service} />
+              </div>
+            </AbTestingSection>
+
+            <AbTestingSection
+              abTestingName="mobilisation"
+              showIfGroups={[
+                "mobilisation--fond-bleu",
+                "mobilisation--fond-blanc",
+              ]}
+            >
+              {#if !isModel}
+                <div class="mt-s24 flex flex-col gap-y-s24">
+                  <SmallServiceShare {service} />
+                </div>
+              {/if}
+            </AbTestingSection>
+          </div>
+        {/if}
+
+        <AbTestingSection
+          abTestingName="mobilisation"
+          showIfGroups={["mobilisation--ancien-design"]}
         >
-          <ServiceMobilisation
-            {service}
-            showContact="{FLAG_ORIENTATION ? true : showContact};"
-            }
-          />
-        </div>
-      {/if}
+          <div
+            class="block rounded-lg border border-gray-02 p-s24 px-s32 print:hidden"
+          >
+            <ServiceMobilisation
+              {service}
+              showContact={FLAG_ORIENTATION ? true : showContact}
+            />
+          </div>
 
-      <div class="rounded-lg border border-gray-02 p-s32 pb-s48">
-        <ServiceKeyInformations {service} {servicesOptions} display="sidebar" />
+          <div class="rounded-lg border border-gray-02 p-s32 pb-s48">
+            <ServiceKeyInformations
+              {service}
+              {servicesOptions}
+              display="sidebar"
+            />
+          </div>
+
+          {#if !isModel}
+            <div
+              class="rounded-lg border border-gray-02 p-s32 pb-s48 print:hidden"
+            >
+              <ServiceShare {service} />
+            </div>
+          {/if}
+        </AbTestingSection>
       </div>
-
-      {#if !isModel}
-        <div class="rounded-lg border border-gray-02 p-s32 pb-s48 print:hidden">
-          <ServiceShare {service} />
-        </div>
-      {/if}
-    </div>
+    {/if}
   </div>
 </CenteredGrid>
 

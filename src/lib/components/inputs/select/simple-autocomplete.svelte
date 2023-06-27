@@ -6,6 +6,7 @@
   // TODO: lint this file properly
   /* eslint-disable */
   import { checkIcon, closeCircleIcon } from "$lib/icons";
+  import { formatErrors } from "$lib/validation/validation";
 
   // the list of items  the user can select from
   export let items = [];
@@ -104,6 +105,8 @@
   export let dropdownClassName = "";
   // adds the disabled tag to the HTML input and tag deletion
   export let disabled = false;
+
+  export let errorMessages: string[] = [];
 
   // --- Public State ----
 
@@ -554,6 +557,7 @@
     if (!listItems.length && value && searchFunction) {
       search();
     }
+    open();
 
     // find selected item
     if (value) {
@@ -754,6 +758,7 @@
       on:keydown={onKeyDown}
       on:click={onInputClick}
       on:keypress={onKeyPress}
+      aria-describedby={formatErrors(name, errorMessages)}
     />
     {#if clearable && text?.length}
       <button on:click={clear} class="autocomplete-clear-button"
@@ -781,7 +786,7 @@
                   ? 'selected'
                   : ''}"
                 class:confirmed={isConfirmed(listItem.value)}
-                on:click={() => onListItemClick(listItem)}
+                on:click|preventDefault={() => onListItemClick(listItem)}
                 on:pointerenter={() => {
                   highlightIndex = i;
                 }}
@@ -935,7 +940,7 @@
 
   .autocomplete-list-item {
     padding: 6px 15px;
-    color: var(--col-text-alt);
+    color: var(--col-text);
     cursor: pointer;
     line-height: 1.25;
   }

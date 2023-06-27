@@ -1,12 +1,12 @@
 <script lang="ts">
   import { browser } from "$app/environment";
+  import { page } from "$app/stores";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import ServiceHeader from "./service-header.svelte";
   import ServiceToolbar from "./service-toolbar.svelte";
   import TallyNpsPopup from "$lib/components/specialized/tally-nps-popup.svelte";
   import ServiceBody from "../../_common/display/service-body.svelte";
   import { getService } from "$lib/requests/services";
-  import { token } from "$lib/utils/auth";
   import { TallyFormId } from "$lib/utils/nps";
   import { trackService } from "$lib/utils/plausible";
   import { onMount } from "svelte";
@@ -16,7 +16,7 @@
   export let data: PageData;
 
   onMount(() => {
-    trackService(data.service);
+    trackService(data.service, $page.url);
   });
 
   async function handleRefresh() {
@@ -38,14 +38,13 @@
     data.service.status === "PUBLISHED" &&
     getMinutesSincePublication(data.service) < 1;
 
-  $: showContact = data.service?.isContactInfoPublic || $token;
   $: structureHasPublishedServices = data.structure?.services.filter(
     (service) => service.status === "PUBLISHED"
   ).length;
 </script>
 
 {#if data.service}
-  <CenteredGrid bgColor="bg-france-blue">
+  <CenteredGrid bgColor="bg-france-blue print:bg-white">
     <ServiceHeader service={data.service} />
   </CenteredGrid>
 
@@ -57,11 +56,7 @@
     />
   </div>
 
-  <ServiceBody
-    service={data.service}
-    servicesOptions={data.servicesOptions}
-    {showContact}
-  />
+  <ServiceBody service={data.service} servicesOptions={data.servicesOptions} />
 
   {#if browser}
     {#if data.service.canWrite}

@@ -4,6 +4,8 @@ import { CANONICAL_URL } from "$lib/env";
 import { token, userInfo } from "$lib/utils/auth";
 import { getDepartmentFromCityCode } from "$lib/utils/misc";
 import { get } from "svelte/store";
+import { logAnalyticsEvent } from "$lib/utils/stats";
+import { getAbTestingUserGroup } from "$lib/utils/ab-testing";
 
 function _track(tag, props) {
   if (browser) {
@@ -63,16 +65,40 @@ export function trackError(errorStatusCode, path) {
   _track(errorStatusCode, { path });
 }
 
-export function trackMobilisation(service) {
-  _track("mobilisation", _getServiceProps(service, true));
+export function trackMobilisation(service, url) {
+  if (browser) {
+    logAnalyticsEvent("mobilisation", url.pathname, {
+      service: service.slug,
+      abTestingGroup: getAbTestingUserGroup("mobilisation"),
+    });
+  }
+
+  const props = {
+    ..._getServiceProps(service, true),
+    abTestingGroup: getAbTestingUserGroup("mobilisation"),
+  };
+  _track("mobilisation", props);
+  _track("mobilisation-abTesting", props);
 }
 
 export function trackMobilisationEmail(service) {
-  _track("mobilisation-contact", _getServiceProps(service, true));
+  const props = {
+    ..._getServiceProps(service, true),
+    abTestingGroup: getAbTestingUserGroup("mobilisation"),
+  };
+
+  _track("mobilisation-contact", props);
+  _track("mobilisation-contact-abTesting", props);
 }
 
 export function trackMobilisationLogin(service) {
-  _track("mobilisation-login", _getServiceProps(service, false));
+  const props = {
+    ..._getServiceProps(service, false),
+    abTestingGroup: getAbTestingUserGroup("mobilisation"),
+  };
+
+  _track("mobilisation-login", props);
+  _track("mobilisation-login-abTesting", props);
 }
 
 export function trackFeedback(service) {
@@ -84,6 +110,7 @@ export function trackPDFDownload(service) {
 }
 
 export function trackSearch(
+  url,
   categoryIds,
   subCategoryIds,
   cityCode,
@@ -92,6 +119,15 @@ export function trackSearch(
   feeConditions,
   numResults
 ) {
+  if (browser) {
+    logAnalyticsEvent("search", url.pathname, {
+      searchCityCode: cityCode,
+      searchNumResults: numResults,
+      categoryIds: categoryIds,
+      subCategoryIds: subCategoryIds,
+    });
+  }
+
   let numResultsCat;
   if (numResults === 0) {
     numResultsCat = "0";
@@ -124,10 +160,27 @@ export function trackModel(model) {
   _track("modele", props);
 }
 
-export function trackService(service) {
-  _track("service", _getServiceProps(service, true));
+export function trackService(service, url) {
+  if (browser) {
+    logAnalyticsEvent("service", url.pathname, {
+      service: service.slug,
+    });
+  }
+
+  const props = {
+    ..._getServiceProps(service, false),
+    abTestingGroup: getAbTestingUserGroup("mobilisation"),
+  };
+
+  _track("service", props);
+  _track("service-abTesting", props);
 }
 
-export function trackStructure(structure) {
+export function trackStructure(structure, url) {
+  if (browser) {
+    logAnalyticsEvent("structure", url.pathname, {
+      structure: structure.slug,
+    });
+  }
   _track("structure", _getStructureProps(structure, true));
 }

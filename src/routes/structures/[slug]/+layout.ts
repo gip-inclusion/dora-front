@@ -12,7 +12,7 @@ import { structure } from "./store";
 import { browser } from "$app/environment";
 import type { PutativeStructureMember, StructureMember } from "$lib/types";
 
-export const load: LayoutLoad = async ({ params, parent }) => {
+export const load: LayoutLoad = async ({ params, parent, url }) => {
   await parent();
 
   const currentStructure = await getStructure(params.slug);
@@ -35,13 +35,9 @@ export const load: LayoutLoad = async ({ params, parent }) => {
     ].map((struct) => struct.slug);
 
     if (userStructuresSlugs.includes(currentStructure.slug)) {
-      const slugIndex = preferences.visitedStructures.indexOf(
-        currentStructure.slug
+      preferences.visitedStructures = preferences.visitedStructures.filter(
+        (slug) => slug !== currentStructure.slug
       );
-
-      if (slugIndex > 0) {
-        preferences.visitedStructures.splice(slugIndex, 1);
-      }
 
       preferences.visitedStructures.unshift(currentStructure.slug);
 
@@ -73,7 +69,7 @@ export const load: LayoutLoad = async ({ params, parent }) => {
 
   // TODO: can we get rid of this store, and just cascade the structure?
   structure.set(currentStructure);
-  trackStructure(currentStructure);
+  trackStructure(currentStructure, url);
 
   return {
     structure: currentStructure,
