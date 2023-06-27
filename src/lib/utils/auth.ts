@@ -56,12 +56,15 @@ export async function refreshUserInfo() {
       const info = (await result.json()) as UserInfo;
       userInfo.set(info);
       userPreferencesSet([...info.structures, ...info.pendingStructures]);
+
+      return result;
     } else {
       log("Unexpected status code", { result });
     }
   } catch (err) {
     logException(err);
   }
+  return Promise.reject();
 }
 
 export function disconnect() {
