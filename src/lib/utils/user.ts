@@ -3,7 +3,7 @@ import { getApiURL } from "./api";
 import { token, type UserMainActivity } from "./auth";
 
 export function updateUserMainActivity(userMainActivity: UserMainActivity) {
-  return fetch(`${getApiURL()}/profile/update-main-activity/`, {
+  return fetch(`${getApiURL()}/profile/main-activity/`, {
     method: "PATCH",
     body: JSON.stringify({ mainActivity: userMainActivity }),
     headers: {
