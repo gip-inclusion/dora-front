@@ -40,11 +40,10 @@
   abTestingName="mobilisation"
   showIfGroups={["mobilisation--fond-bleu", "mobilisation--fond-blanc"]}
 >
-  <div
-    class="mb-s24 text-f14 text-gray-text"
-    class:text-white={getAbTestingUserGroup("mobilisation") ===
-      "mobilisation--fond-bleu"}
-  >
+  {@const blueDesign =
+    getAbTestingUserGroup("mobilisation") === "mobilisation--fond-bleu"}
+
+  <div class="mb-s24 text-f14 text-gray-text" class:text-white={blueDesign}>
     Pour accéder aux informations de contact de ce service, vous devez vous
     connecter.
   </div>
@@ -52,6 +51,9 @@
   <div>
     <LinkButton
       on:click={trackClick}
+      extraClass={blueDesign
+        ? "bg-white !text-france-blue hover:!text-white"
+        : ""}
       label="S‘identifier avec Inclusion Connect"
       to={`/auth/connexion?next=${encodeURIComponent($page.url.pathname)}`}
     />
