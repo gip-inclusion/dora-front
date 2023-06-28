@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { userInfo } from "$lib/utils/auth";
   import UserMainActivityForm from "./user-main-activity-form.svelte";
   import Modal from "$lib/components/hoc/modal.svelte";
   import dayjs from "dayjs";
@@ -9,10 +8,6 @@
   let isOpen = false;
 
   function isMainActivityModalOpen(): boolean {
-    if ($userInfo.mainActivity) {
-      return false;
-    }
-
     const userMainActivityModalUntil = localStorage.getItem(
       USER_MAIN_ACTIVITY_MODAL_KEY
     );
