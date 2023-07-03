@@ -21,3 +21,10 @@ export interface Orientation {
   beneficiaryOtherContactMethod?: string;
   orientationReasons?: string;
 }
+
+export interface SendOrientation extends Orientation {
+  id: string;
+  sendDate: string;
+  status: "ACCEPTED" | "REFUSED" | "PENDING";
+  answerDate?: Date;
+}
