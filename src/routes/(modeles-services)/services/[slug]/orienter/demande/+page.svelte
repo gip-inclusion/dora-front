@@ -24,7 +24,7 @@
   }
 
   function handleSubmit(_validatedData) {
-    // Pas de soumission au backend à cette étape
+    // TODO
     return { ok: true };
   }
 

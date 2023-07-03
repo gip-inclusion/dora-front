@@ -1,7 +1,6 @@
 import type { CustomizableFK } from "$lib/types";
 
 export interface Orientation {
-  nom: string;
   otherConcernedPublic: string;
   requirements: CustomizableFK[];
   accessConditions: CustomizableFK[];
@@ -11,6 +10,7 @@ export interface Orientation {
   referentFirstName?: string;
   referentPhone?: string;
   referentEmail?: string;
+  structure?: string;
 
   beneficiaryLastName?: string;
   beneficiaryFirstName?: string;

@@ -6,6 +6,7 @@ export const orientation = writable<Orientation>({
   otherConcernedPublic: "",
   accessConditions: [],
   requirements: [],
+  structure: undefined,
 
   referentLastName: undefined,
   referentFirstName: undefined,

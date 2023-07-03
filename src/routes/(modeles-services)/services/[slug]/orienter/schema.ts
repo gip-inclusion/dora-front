@@ -20,7 +20,6 @@ export const orientationStep1Schema: v.Schema = {
       return data?.concernedPublic?.includes("other");
     },
   },
-
   requirements: {
     label: "Cochez les critères auxquels le ou la bénéficiaire répond",
     default: [],
@@ -36,6 +35,12 @@ export const orientationStep1Schema: v.Schema = {
 };
 
 export const orientationStep2Schema: v.Schema = {
+  structure: {
+    label: "Confirmez votre structure",
+    rules: [v.isString(), v.maxStrLength(255)],
+    maxLength: 255,
+    required: true,
+  },
   referentLastName: {
     label: "Nom",
     default: "",

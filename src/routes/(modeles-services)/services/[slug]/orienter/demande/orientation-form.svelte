@@ -8,9 +8,10 @@
   import { formatFilePath } from "$lib/utils/service";
   import { orientation } from "../store";
   import { orientationStep2Schema } from "../schema";
-  // import * as v from "$lib/validation/schema-utils";
+  import { userInfo } from "$lib/utils/auth";
   import { onMount } from "svelte";
   import Accordion from "$lib/components/display/accordion.svelte";
+  import SelectField from "$lib/components/forms/fields/select-field.svelte";
 
   export let service;
   export let servicesOptions;
@@ -45,6 +46,10 @@
       };
       $orientation[form.name] = { files: [] };
     });
+
+    if ($userInfo.structures?.length === 1) {
+      $orientation.structure = $userInfo.structures[0].slug;
+    }
   });
 
   const concernedPublicLabels = $orientation.concernedPublic.map(
@@ -70,6 +75,22 @@
 </script>
 
 <div>
+  {#if $userInfo.structures.length > 1}
+    <div class="mb-s32">
+      <SelectField
+        id="structure"
+        placeholder="Nom de la structure active (citée dans le header)"
+        description="Vous faites partie de plusieurs structures, veuillez choisir celle qui sera mentionnée dans les e-mails envoyés aux partenaires."
+        bind:value={$orientation.structure}
+        vertical
+        choices={$userInfo.structures.map((struct) => ({
+          value: struct.slug,
+          label: struct.name,
+        }))}
+      />
+    </div>
+  {/if}
+
   <Fieldset title="Conseiller ou conseillère référente" noTopPadding>
     <Notice type="info" title="Conseiller ou conseillère référente">
       <p class="mb-s0 text-f14 text-gray-text">
@@ -102,7 +123,7 @@
         <BasicInputField
           id="referentPhone"
           type="tel"
-          description="Format attendu : 01 23 45 67 89"
+          description="Format attendu : 0123456789"
           bind:value={$orientation.referentPhone}
           vertical
         />
@@ -152,34 +173,43 @@
       </p>
     </BasicInputField>
 
-    <div class="rounded-md bg-info-light px-s20 py-s20">
-      <Accordion
-        title="Profil et critères du ou de la bénéficiaire"
-        subTitle="Récapitulatif des critères que vous avez confirmé à l’étape précédente."
-        titleLevel="h3"
-        noTitleMargin
-        titleClass="text-f18"
-        expanded={true}
-      >
-        <div class="mt-s20">
-          <h4 class="mb-s6 text-gray-text">Profil de votre bénéficiaire :</h4>
-          <ul class="ml-s20 list-disc">
-            {#each concernedPublicLabels as label}
-              <li class="text-gray-text">{label}</li>
-            {/each}
-          </ul>
-          <h4 class="mb-s6 mt-s16 text-gray-text">Critères correspondants :</h4>
+    {#if requirementsAndAccessConditionsLabels.length || concernedPublicLabels.length}
+      <div class="rounded-md bg-info-light px-s20 py-s20">
+        <Accordion
+          title="Profil et critères du ou de la bénéficiaire"
+          subTitle="Récapitulatif des critères que vous avez confirmé à l’étape précédente."
+          titleLevel="h3"
+          noTitleMargin
+          titleClass="text-f18"
+          expanded={true}
+        >
+          <div class="mt-s20">
+            {#if concernedPublicLabels.length}
+              <h4 class="mb-s6 text-gray-text">
+                Profil de votre bénéficiaire :
+              </h4>
+              <ul class="ml-s20 list-disc">
+                {#each concernedPublicLabels as label}
+                  <li class="text-gray-text">{label}</li>
+                {/each}
+              </ul>
+            {/if}
 
-          {#if requirementsAndAccessConditionsLabels}
-            <ul class="ml-s20 list-disc">
-              {#each requirementsAndAccessConditionsLabels as label}
-                <li class="text-gray-text">{label}</li>
-              {/each}
-            </ul>
-          {/if}
-        </div>
-      </Accordion>
-    </div>
+            {#if requirementsAndAccessConditionsLabels.length}
+              <h4 class="mb-s6 mt-s16 text-gray-text">
+                Critères correspondants :
+              </h4>
+              <ul class="ml-s20 list-disc">
+                {#each requirementsAndAccessConditionsLabels as label}
+                  <li class="text-gray-text">{label}</li>
+                {/each}
+              </ul>
+            {/if}
+          </div>
+        </Accordion>
+      </div>
+    {/if}
+
     <CheckboxesField
       id="beneficiaryContactPreferences"
       choices={contactPrefOptions}
@@ -193,7 +223,7 @@
         <BasicInputField
           id="beneficiaryPhone"
           type="tel"
-          description="Format attendu : 01 23 45 67 89"
+          description="Format attendu : 0123456789"
           bind:value={$orientation.beneficiaryPhone}
           vertical
         />
@@ -226,6 +256,12 @@
       description="Merci de ne pas fournir des informations considérés comme sensibles (situation personnelle ou professionnelle autre que celles cochées à l’étape un de la demande, etc.)."
       bind:value={$orientation.orientationReasons}
       vertical
+    />
+
+    <Notice
+      type="info"
+      title="L’accompagnateur s’engage à informer la personne concernée de ce
+    traitement de données."
     />
   </Fieldset>
 
