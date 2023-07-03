@@ -7,7 +7,6 @@
   import ServiceMobilize from "./service-mobilize.svelte";
   import SmallServiceShare from "./small-service-share.svelte";
   import ServicePresentation from "./service-presentation.svelte";
-  import { FLAG_ORIENTATION } from "$lib/env";
   import AbTestingSection from "$lib/components/specialized/ab-testing-section.svelte";
 
   import ServiceKeyInformations from "$lib/components/specialized/services/display/old/service-key-informations.svelte";
@@ -83,10 +82,7 @@
           <div
             class="block rounded-lg border border-gray-02 p-s24 px-s32 print:hidden"
           >
-            <ServiceMobilisation
-              {service}
-              showContact={FLAG_ORIENTATION ? true : showContact}
-            />
+            <ServiceMobilisation {service} {showContact} />
           </div>
 
           <div class="rounded-lg border border-gray-02 p-s32 pb-s48">

@@ -18,6 +18,7 @@
     info: {
       background: "bg-info-light",
       text: "text-info",
+      title: "text-info",
       icon: informationLineIcon,
     },
     success: {
@@ -47,7 +48,7 @@
 </script>
 
 {#if visible}
-  <div class="rounded-lg {types[type].background} py-s24 pr-s24 pl-s24">
+  <div class="rounded-lg {types[type].background} py-s24 pl-s24 pr-s24">
     {#if title || hasCloseButton}
       <div class="flex items-center">
         {#if showIcon}

@@ -10,6 +10,7 @@
   import { orientationStep2Schema } from "../schema";
   // import * as v from "$lib/validation/schema-utils";
   import { onMount } from "svelte";
+  import Accordion from "$lib/components/display/accordion.svelte";
 
   export let service;
   export let servicesOptions;
@@ -45,15 +46,38 @@
       $orientation[form.name] = { files: [] };
     });
   });
+
+  const concernedPublicLabels = $orientation.concernedPublic.map(
+    (concernedPublic) =>
+      servicesOptions.concernedPublic.find(
+        ({ value }) => value === concernedPublic
+      ).label
+  );
+
+  const requirementsAndAccessConditionsLabels = [
+    ...$orientation.accessConditions.map(
+      (accessConditions) =>
+        servicesOptions.accessConditions.find(
+          ({ value }) => value === accessConditions
+        ).label
+    ),
+    ...$orientation.requirements.map(
+      (requirements) =>
+        servicesOptions.requirements.find(({ value }) => value === requirements)
+          .label
+    ),
+  ];
 </script>
 
-<div class="">
-  <Fieldset title="Vos coordonnées ou celles de la personne référente ">
-    <Notice type="info" title="Personne référente ">
-      Professionnel chargé de l’accompagnement et du suivi de la situation de la
-      personne concernée par l’orientation.
+<div>
+  <Fieldset title="Conseiller ou conseillère référente" noTopPadding>
+    <Notice type="info" title="Conseiller ou conseillère référente">
+      <p class="mb-s0 text-f14 text-gray-text">
+        Personne en charge de l'accompagnement et du suivi professionnel de la
+        situation du bénéficiaire. Si ce n'est pas vous, veuillez modifier les
+        informations ci-dessous.
+      </p>
     </Notice>
-    <div class="flex flex-col lg:gap-s8" />
 
     <div class="flex flex-row justify-items-stretch gap-s24">
       <div class="flex-1">
@@ -95,8 +119,7 @@
     </div>
   </Fieldset>
 
-  <Fieldset title="La personne orientée (bénéficiaire)">
-    <div class="flex flex-col lg:gap-s8" />
+  <Fieldset title="Le ou la bénéficiaire">
     <div class="flex flex-row justify-items-stretch gap-s24">
       <div class="flex-1">
         <BasicInputField
@@ -115,11 +138,54 @@
         />
       </div>
     </div>
+
+    <BasicInputField
+      id="beneficiaryDisponibility"
+      type="date"
+      description=""
+      bind:value={$orientation.beneficiaryDisponibility}
+      vertical
+    >
+      <p slot="description" class="legend italic">
+        Date à partir de laquelle la personne est disponible. <br />
+        Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier 2023)
+      </p>
+    </BasicInputField>
+
+    <div class="rounded-md bg-info-light px-s20 py-s20">
+      <Accordion
+        title="Profil et critères du ou de la bénéficiaire"
+        subTitle="Récapitulatif des critères que vous avez confirmé à l’étape précédente."
+        titleLevel="h3"
+        noTitleMargin
+        titleClass="text-f18"
+        expanded={true}
+      >
+        <div class="mt-s20">
+          <h4 class="mb-s6 text-gray-text">Profil de votre bénéficiaire :</h4>
+          <ul class="ml-s20 list-disc">
+            {#each concernedPublicLabels as label}
+              <li class="text-gray-text">{label}</li>
+            {/each}
+          </ul>
+          <h4 class="mb-s6 mt-s16 text-gray-text">Critères correspondants :</h4>
+
+          {#if requirementsAndAccessConditionsLabels}
+            <ul class="ml-s20 list-disc">
+              {#each requirementsAndAccessConditionsLabels as label}
+                <li class="text-gray-text">{label}</li>
+              {/each}
+            </ul>
+          {/if}
+        </div>
+      </Accordion>
+    </div>
     <CheckboxesField
       id="beneficiaryContactPreferences"
       choices={contactPrefOptions}
       bind:value={$orientation.beneficiaryContactPreferences}
       vertical
+      verticalOptions
     />
 
     <div class="flex flex-row justify-items-stretch gap-s24">
@@ -144,25 +210,26 @@
     </div>
     <TextareaField
       id="beneficiaryOtherContactMethod"
-      description="Préciser quelle autre méthode de contact est préférable  "
+      description="Préciser quelle autre méthode de contact est possible"
       bind:value={$orientation.beneficiaryOtherContactMethod}
       vertical
     />
 
-    <BasicInputField
-      id="beneficiaryDisponibility"
-      type="date"
-      description=""
-      bind:value={$orientation.beneficiaryDisponibility}
+    <TextareaField
+      id="orientationReasons"
+      forceLabel={`Si besoin, détaillez ici le motif de l’orientation du bénéficiaire ${
+        $orientation.beneficiaryFirstName || ""
+      }
+      ${$orientation.beneficiaryLastName || ""} pour le service "${
+        service.name
+      }"`}
+      description="Merci de ne pas fournir des informations considérés comme sensibles (situation personnelle ou professionnelle autre que celles cochées à l’étape un de la demande, etc.)."
+      bind:value={$orientation.orientationReasons}
       vertical
-      ><p slot="description" class="legend italic">
-        Date à partir de laquelle la personne est disponible. <br />
-        Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier 2023)
-      </p></BasicInputField
-    >
+    />
   </Fieldset>
 
-  <Fieldset title="Documents et justificatifs requis ">
+  <Fieldset title="Documents et justificatifs requis">
     {#each service.formsInfo as form}
       {#if $orientation?.[form.name]}
         <UploadField
@@ -170,14 +237,13 @@
           vertical
           id={form.name}
           structureSlug={service.structure}
-          description="Taille maximale : 500 Mo. Formats supportés : jpg, png, doc, pdf"
+          description="Taille maximale : 5 Mo. Formats supportés : jpg, png, doc, pdf"
           bind:fileKeys={$orientation[form.name].files}
-          disabled
         >
           <p slot="description">
-            <a href={form.url} class="font-bold underline"
-              >{formatFilePath(form.name)}</a
-            >
+            <a href={form.url} class="font-bold underline">
+              {formatFilePath(form.name)}
+            </a>
           </p>
         </UploadField>
       {/if}
@@ -188,26 +254,10 @@
           vertical
           id={cred.value}
           structureSlug={service.structure}
-          description="Taille maximale : 500 Mo. Formats supportés : jpg, png, doc, pdf"
+          description="Taille maximale : 5 Mo. Formats supportés : jpg, png, doc, pdf"
           bind:fileKeys={$orientation[cred.value].files}
-          disabled
         />
       {/if}
     {/each}
-  </Fieldset>
-
-  <Fieldset title="Motif de l’orientation">
-    <div class="flex flex-col lg:gap-s8" />
-    <h4>
-      Si besoin, détaillez ici le motif de l’orientation de {$orientation.beneficiaryFirstName ||
-        ""}
-      {$orientation.beneficiaryLastName || ""} pour le service {service.name}
-    </h4>
-    <TextareaField
-      id="orientationReasons"
-      description=""
-      bind:value={$orientation.orientationReasons}
-      vertical
-    />
   </Fieldset>
 </div>

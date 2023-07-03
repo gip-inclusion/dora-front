@@ -3,7 +3,7 @@ import * as v from "$lib/validation/schema-utils";
 export const orientationStep1Schema: v.Schema = {
   concernedPublic: {
     label:
-      "Cochez les éléments correspondants à la situation de la personne orientée",
+      "Cochez les éléments correspondants à la situation du ou de la bénéficiaire",
     default: [],
     rules: [v.isArray([v.isCustomizablePK()])],
     required: true,
@@ -17,13 +17,14 @@ export const orientationStep1Schema: v.Schema = {
     rules: [v.isString(), v.maxStrLength(480)],
     maxLength: 480,
     required: (data) => {
-      return data?.hasOtherConcernedPublic?.length;
+      return data?.concernedPublic?.includes("other");
     },
   },
 
   requirements: {
-    label: "Merci de cocher les critères auxquelles le bénéficiaire répond",
+    label: "Cochez les critères auxquels le ou la bénéficiaire répond",
     default: [],
+    required: true,
     rules: [v.isArray([v.isCustomizablePK()])],
   },
 
@@ -111,9 +112,10 @@ export const orientationStep2Schema: v.Schema = {
     required: true,
   },
   beneficiaryOtherContactMethod: {
-    label: "Autre",
+    label: "Autre méthode de contact",
     default: "",
     rules: [v.isString()],
+    maxLength: 600,
     post: [v.trim],
     required: (data) => {
       return data?.beneficiaryContactPreferences?.includes("other");
@@ -127,7 +129,7 @@ export const orientationStep2Schema: v.Schema = {
   },
   orientationReasons: {
     rules: [v.isString(), v.maxStrLength(480)],
-    maxLength: 480,
+    maxLength: 600,
     post: [v.trim],
   },
 };

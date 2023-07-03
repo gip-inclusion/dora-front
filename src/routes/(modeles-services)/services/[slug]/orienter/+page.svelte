@@ -10,6 +10,7 @@
   import FormErrors from "$lib/components/forms/form-errors.svelte";
   import { orientationStep1Schema } from "./schema";
   import { goto } from "$app/navigation";
+  import { arrowLeftLineIcon } from "$lib/icons";
 
   export let data;
 
@@ -29,6 +30,21 @@
   function handleSuccess(_result) {
     goto(`/services/${service.slug}/orienter/demande`);
   }
+
+  // Requirement choices & access conditions choices
+  const requirementChoices = servicesOptions?.requirements.filter((elt) =>
+    service.requirements.includes(elt.value)
+  );
+  const accessConditionsChoices = servicesOptions?.accessConditions.filter(
+    (elt) => service.accessConditions.includes(elt.value)
+  );
+  $: if (
+    requirementChoices.length === 0 &&
+    accessConditionsChoices.length === 0
+  ) {
+    orientationStep1Schema.requirements.required = false;
+    orientationStep1Schema.accessConditions.required = false;
+  }
 </script>
 
 <FormErrors />
@@ -44,26 +60,32 @@
 >
   <Layout {data}>
     <p class="legend">Étape 1 sur 2</p>
-    <h2>Valider la conformité</h2>
+    <h2 class="mb-s0">Valider la conformité</h2>
     <p class="legend">
       <strong>Étape suivante</strong>&nbsp;: Compléter la demande
     </p>
     <hr class="my-s40" />
-    <p class="mb-s40 max-w-2xl">
-      Lors de cette étape, vous pouvez vérifier l'éligibilité du bénéficiaire et
-      consulter la liste des documents requis avant de commencer la procédure
-      d'orientation.
+    <p class="mb-s40 max-w-2xl text-f18">
+      Avant de commencer la procédure, vérifiez l‘éligibilité du ou de la
+      bénéficiaire et consultez la liste des documents requis.
     </p>
 
     <div class=" flex flex-row justify-between gap-x-s24">
-      <ValidationForm {service} {servicesOptions} />
+      <ValidationForm
+        {service}
+        {servicesOptions}
+        {requirementChoices}
+        {accessConditionsChoices}
+      />
       <div class="w-[384px] shrink-0">
         <ContactBox {service} />
       </div>
     </div>
   </Layout>
+
   <StickyFormSubmissionRow justifyBetween>
     <LinkButton
+      icon={arrowLeftLineIcon}
       to="/services/{service.slug}"
       label="Retour à la fiche"
       secondary

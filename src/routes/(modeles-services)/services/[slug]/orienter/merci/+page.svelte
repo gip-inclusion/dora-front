@@ -55,7 +55,7 @@
 
 <Layout {data}>
   <div
-    class="gap-s46 mt-s56 flex flex-col-reverse items-center justify-around rounded-md border border-gray-03 px-s20 py-s32 lg:flex-row "
+    class="gap-s46 mt-s56 flex flex-col-reverse items-center justify-around rounded-md border border-gray-03 px-s20 py-s32 lg:flex-row"
   >
     <div class="max-w-lg basis-1/2 text-center">
       <div class="mx-auto mb-s12 h-s24 w-s24">
@@ -64,14 +64,14 @@
       <h2 class=" font-bold text-gray-text">
         Votre demande a été transmise à la structure porteuse du service
       </h2>
-      <p class="legend ">
+      <p class="legend">
         Une copie de cette demande vous sera transmise par e-mail, et le
         bénéficiaire recevra également une notice d’information.
       </p>
       <LinkButton
+        icon={arrowLeftLineIcon}
         label="Retour à la fiche"
         to="/services/{data.service.slug}"
-        icon={arrowLeftLineIcon}
         noBackground
       />
     </div>

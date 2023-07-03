@@ -11,6 +11,7 @@
   import { orientationStep2Schema } from "../schema";
   import Form from "$lib/components/forms/form.svelte";
   import { goto } from "$app/navigation";
+  import { arrowLeftLineIcon } from "$lib/icons";
 
   export let data: PageData;
 
@@ -48,14 +49,16 @@
 
     <h2>Compléter la demande</h2>
     <hr class="my-s40" />
-    <p class="mb-s40 max-w-2xl">
-      Ce formulaire collecte les informations nécessaires pour réaliser une
-      demande d’orientation. Incluant les informations du bénéficiaire, la
-      personne référente, et les documents requis. Une copie de cette demande
-      vous sera transmise, ainsi qu’au bénéficiaire.
+    <p class="mb-s40 max-w-2xl text-f18">
+      Ce formulaire collecte les informations nécessaires pour la demande
+      d'orientation. Veuillez fournir tous les éléments demandés.
+    </p>
+    <p>
+      Vous recevrez une copie de cette demande, tout comme le ou la
+      bénéficiaire.
     </p>
 
-    <div class=" flex flex-row justify-between gap-x-s24">
+    <div class="mt-s40 flex flex-row justify-between gap-x-s24">
       <OrientationForm {service} {servicesOptions} />
       <div class="w-[384px] shrink-0">
         <ContactBox {service} />
@@ -65,6 +68,7 @@
 
   <StickyFormSubmissionRow justifyBetween>
     <LinkButton
+      icon={arrowLeftLineIcon}
       to="/services/{data.service.slug}/orienter"
       label="Revenir à l’étape précédente "
       secondary

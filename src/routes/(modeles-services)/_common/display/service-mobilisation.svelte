@@ -5,7 +5,6 @@
   import ServiceLoginNotice from "./service-login-notice.svelte";
   import { trackMobilisation } from "$lib/utils/plausible";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import { FLAG_ORIENTATION } from "$lib/env";
   import { token } from "$lib/utils/auth";
 
   export let service, showContact;
@@ -34,25 +33,26 @@
           <Button
             on:click={handleShowContactClick}
             extraClass={backgroundColor === "blue"
-              ? "bg-white !text-france-blue hover:!text-white"
+              ? "!bg-france-blue text-white !border !border-white hover:!bg-magenta-cta"
               : ""}
+            secondary={backgroundColor === "white"}
             label="Voir les informations de contact"
             wFull
-            secondary={!!FLAG_ORIENTATION}
           />
         </div>
       {:else}
         <ServiceContact {service} useWhiteText={backgroundColor === "blue"} />
       {/if}
-      {#if FLAG_ORIENTATION}
-        <div class="mb-s16">
-          <LinkButton
-            to="/services/{service.slug}/orienter"
-            label="Orienter"
-            wFull
-          />
-        </div>
-      {/if}
+      <div class="mb-s16">
+        <LinkButton
+          to="/services/{service.slug}/orienter"
+          extraClass={backgroundColor === "blue"
+            ? "bg-white !text-france-blue hover:!text-white"
+            : ""}
+          label="Orienter un ou une bénéficiaire"
+          wFull
+        />
+      </div>
     </div>
   </div>
 {:else}
