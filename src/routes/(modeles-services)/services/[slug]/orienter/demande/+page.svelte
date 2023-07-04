@@ -1,7 +1,11 @@
 <script lang="ts">
+  import { get } from "svelte/store";
+
   import Button from "$lib/components/display/button.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import StickyFormSubmissionRow from "$lib/components/forms/sticky-form-submission-row.svelte";
+  import { getApiURL } from "$lib/utils/api";
+  import { token } from "$lib/utils/auth";
   import Layout from "../layout.svelte";
   import type { PageData } from "./$types";
   import { orientation } from "../store";
@@ -23,14 +27,31 @@
     $orientation = { ...validatedData };
   }
 
-  function handleSubmit(_validatedData) {
-    // TODO
-    return { ok: true };
+  async function handleSubmit(validatedData) {
+    const url = `${getApiURL()}/orientation/`;
+
+    const result = await fetch(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json; version=1.0",
+        "Content-Type": "application/json",
+        Authorization: `Token ${get(token)}`,
+      },
+      body: JSON.stringify({
+        ...validatedData,
+        service: service.slug,
+      }),
+    });
+    const jsonResult = await result.json();
+    console.log(jsonResult);
+    return result;
   }
 
   function handleSuccess(_result) {
     goto(`/services/${service.slug}/orienter/merci`);
   }
+
+  $: console.log($orientation);
 </script>
 
 <FormErrors />

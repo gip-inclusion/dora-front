@@ -32,19 +32,22 @@
   }
 
   // Requirement choices & access conditions choices
-  const requirementChoices = servicesOptions?.requirements.filter((elt) =>
-    service.requirements.includes(elt.value)
-  );
-  const accessConditionsChoices = servicesOptions?.accessConditions.filter(
-    (elt) => service.accessConditions.includes(elt.value)
-  );
-  $: if (
-    requirementChoices.length === 0 &&
-    accessConditionsChoices.length === 0
-  ) {
+  const requirementChoices = servicesOptions
+    ? [
+        ...servicesOptions.requirements.filter((elt) =>
+          service.requirements.includes(elt.value)
+        ),
+        ...servicesOptions.accessConditions.filter((elt) =>
+          service.accessConditions.includes(elt.value)
+        ),
+      ]
+    : [];
+
+  $: if (requirementChoices.length === 0) {
     orientationStep1Schema.requirements.required = false;
-    orientationStep1Schema.accessConditions.required = false;
   }
+
+  $: console.log($orientation);
 </script>
 
 <FormErrors />
@@ -71,12 +74,7 @@
     </p>
 
     <div class=" flex flex-row justify-between gap-x-s24">
-      <ValidationForm
-        {service}
-        {servicesOptions}
-        {requirementChoices}
-        {accessConditionsChoices}
-      />
+      <ValidationForm {service} {servicesOptions} {requirementChoices} />
       <div class="w-[384px] shrink-0">
         <ContactBox {service} />
       </div>
