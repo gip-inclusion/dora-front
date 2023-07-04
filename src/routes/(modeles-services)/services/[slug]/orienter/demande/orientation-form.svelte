@@ -20,9 +20,9 @@
   let credentials = [];
   onMount(() => {
     contactPrefOptions = [
-      { value: "phone", label: "Téléphone" },
+      { value: "telephone", label: "Téléphone" },
       { value: "email", label: "E-mail" },
-      { value: "other", label: "Autre" },
+      { value: "autre", label: "Autre" },
     ];
 
     credentials = servicesOptions.credentials.filter((elt) =>
@@ -48,40 +48,19 @@
     });
 
     if ($userInfo.structures?.length === 1) {
-      $orientation.structure = $userInfo.structures[0].slug;
+      $orientation.prescriberStructure = $userInfo.structures[0].slug;
     }
   });
-
-  const concernedPublicLabels = $orientation.concernedPublic.map(
-    (concernedPublic) =>
-      servicesOptions.concernedPublic.find(
-        ({ value }) => value === concernedPublic
-      ).label
-  );
-
-  const requirementsAndAccessConditionsLabels = [
-    ...$orientation.accessConditions.map(
-      (accessConditions) =>
-        servicesOptions.accessConditions.find(
-          ({ value }) => value === accessConditions
-        ).label
-    ),
-    ...$orientation.requirements.map(
-      (requirements) =>
-        servicesOptions.requirements.find(({ value }) => value === requirements)
-          .label
-    ),
-  ];
 </script>
 
 <div>
   {#if $userInfo.structures.length > 1}
     <div class="mb-s32">
       <SelectField
-        id="structure"
+        id="prescriberStructure"
         placeholder="Nom de la structure active (citée dans le header)"
         description="Vous faites partie de plusieurs structures, veuillez choisir celle qui sera mentionnée dans les e-mails envoyés aux partenaires."
-        bind:value={$orientation.structure}
+        bind:value={$orientation.prescriberStructure}
         vertical
         choices={$userInfo.structures.map((struct) => ({
           value: struct.slug,
@@ -161,10 +140,10 @@
     </div>
 
     <BasicInputField
-      id="beneficiaryDisponibility"
+      id="beneficiaryAvailability"
       type="date"
       description=""
-      bind:value={$orientation.beneficiaryDisponibility}
+      bind:value={$orientation.beneficiaryAvailability}
       vertical
     >
       <p slot="description" class="legend italic">
@@ -173,7 +152,7 @@
       </p>
     </BasicInputField>
 
-    {#if requirementsAndAccessConditionsLabels.length || concernedPublicLabels.length}
+    {#if $orientation.requirements.length || $orientation.situation.length}
       <div class="rounded-md bg-info-light px-s20 py-s20">
         <Accordion
           title="Profil et critères du ou de la bénéficiaire"
@@ -184,23 +163,23 @@
           expanded={true}
         >
           <div class="mt-s20">
-            {#if concernedPublicLabels.length}
+            {#if $orientation.situation.length}
               <h4 class="mb-s6 text-gray-text">
                 Profil de votre bénéficiaire :
               </h4>
               <ul class="ml-s20 list-disc">
-                {#each concernedPublicLabels as label}
+                {#each $orientation.situation as label}
                   <li class="text-gray-text">{label}</li>
                 {/each}
               </ul>
             {/if}
 
-            {#if requirementsAndAccessConditionsLabels.length}
+            {#if $orientation.requirements.length}
               <h4 class="mb-s6 mt-s16 text-gray-text">
                 Critères correspondants :
               </h4>
               <ul class="ml-s20 list-disc">
-                {#each requirementsAndAccessConditionsLabels as label}
+                {#each $orientation.requirements as label}
                   <li class="text-gray-text">{label}</li>
                 {/each}
               </ul>

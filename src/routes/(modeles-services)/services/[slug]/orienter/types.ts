@@ -1,20 +1,17 @@
-import type { CustomizableFK } from "$lib/types";
-
 export interface Orientation {
-  otherConcernedPublic: string;
-  requirements: CustomizableFK[];
-  accessConditions: CustomizableFK[];
-  concernedPublic: CustomizableFK[];
+  situation: string[];
+  situationOther: string;
+  requirements: string[];
 
   referentLastName?: string;
   referentFirstName?: string;
   referentPhone?: string;
   referentEmail?: string;
-  structure?: string;
+  prescriberStructure?: string;
 
   beneficiaryLastName?: string;
   beneficiaryFirstName?: string;
-  beneficiaryDisponibility?: string;
+  beneficiaryAvailability?: string;
   beneficiaryContactPreferences?: string[];
   beneficiaryPhone?: string;
   beneficiaryEmail?: string;

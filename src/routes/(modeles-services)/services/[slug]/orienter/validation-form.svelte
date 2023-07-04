@@ -10,16 +10,16 @@
   export let service;
   export let servicesOptions;
   export let requirementChoices;
-  export let accessConditionsChoices;
 
   const concernedPublicChoices = [
     ...servicesOptions.concernedPublic.filter((elt) =>
       service.concernedPublic.includes(elt.value)
     ),
     { value: "other", label: "Autre (à préciser)" },
-  ];
-  $: if (!$orientation.concernedPublic?.includes("other")) {
-    $orientation.otherConcernedPublic = "";
+  ].map((choice) => ({ value: choice.label, label: choice.label }));
+  $: console.log(concernedPublicChoices);
+  $: if (!$orientation.situation?.includes("other")) {
+    $orientation.situationOther = "";
   }
 </script>
 
@@ -33,18 +33,18 @@
   <Fieldset title="Publics concernés par ce service" noTopPadding>
     <div class="flex flex-col lg:gap-s8">
       <CheckboxesField
-        id="concernedPublic"
+        id="situation"
         choices={concernedPublicChoices}
         description="Merci de cocher au moins un profil ou situation"
-        bind:value={$orientation.concernedPublic}
+        bind:value={$orientation.situation}
         vertical
       />
 
-      {#if $orientation.concernedPublic?.includes("other")}
+      {#if $orientation.situation?.includes("other")}
         <TextareaField
-          id="otherConcernedPublic"
+          id="situationOther"
           placeholder=""
-          bind:value={$orientation.otherConcernedPublic}
+          bind:value={$orientation.situationOther}
           hideLabel
           vertical
         />
@@ -52,7 +52,7 @@
     </div>
   </Fieldset>
 
-  {#if requirementChoices.length !== 0 || accessConditionsChoices.length !== 0}
+  {#if requirementChoices.length !== 0}
     <Fieldset title="Critères et conditions d’accès">
       <div class="flex flex-col lg:gap-s8">
         <CheckboxesField
@@ -61,13 +61,6 @@
           description="Merci de cocher au moins un critère ou une condition"
           bind:value={$orientation.requirements}
           vertical
-        />
-        <CheckboxesField
-          id="accessConditions"
-          choices={accessConditionsChoices}
-          bind:value={$orientation.accessConditions}
-          vertical
-          hideLabel
         />
       </div>
     </Fieldset>
