@@ -7,7 +7,6 @@
   import UploadField from "$lib/components/forms/fields/upload-field.svelte";
   import { formatFilePath } from "$lib/utils/service";
   import { orientation } from "../store";
-  import { orientationStep2Schema } from "../schema";
   import { userInfo } from "$lib/utils/auth";
   import { onMount } from "svelte";
   import Accordion from "$lib/components/display/accordion.svelte";
@@ -18,6 +17,7 @@
 
   let contactPrefOptions = [];
   let credentials = [];
+
   onMount(() => {
     contactPrefOptions = [
       { value: "telephone", label: "Téléphone" },
@@ -29,24 +29,13 @@
       service.credentials.includes(elt.value)
     );
     credentials.forEach((cred) => {
-      orientationStep2Schema[cred.value] = {
-        label: cred.label,
-        default: [],
-        rules: [],
-        // rules: [v.isArray([v.isString(), v.maxStrLength(1024)])],
-      };
-      $orientation[cred.value] = { files: [] };
+      $orientation.attachments[cred.label] = [];
     });
     service.formsInfo.forEach((form) => {
-      orientationStep2Schema[form.name] = {
-        label: form.name,
-        default: [],
-        rules: [],
-        // rules: [v.isArray([v.isString(), v.maxStrLength(1024)])],
-      };
-      $orientation[form.name] = { files: [] };
+      $orientation.attachments[form.name] = [];
     });
 
+    // TODO: utiliser le champ structure
     if ($userInfo.structures?.length === 1) {
       $orientation.prescriberStructure = $userInfo.structures[0].slug;
     }
@@ -246,14 +235,14 @@
 
   <Fieldset title="Documents et justificatifs requis">
     {#each service.formsInfo as form}
-      {#if $orientation?.[form.name]}
+      {#if $orientation.attachments[form.name]}
         <UploadField
+          dynamicId
           label="Document à compléter"
           vertical
           id={form.name}
-          structureSlug={service.structure}
           description="Taille maximale : 5 Mo. Formats supportés : jpg, png, doc, pdf"
-          bind:fileKeys={$orientation[form.name].files}
+          bind:fileKeys={$orientation.attachments[form.name]}
         >
           <p slot="description">
             <a href={form.url} class="font-bold underline">
@@ -264,15 +253,16 @@
       {/if}
     {/each}
 
-    {#each credentials as cred}{#if $orientation?.[cred.value]}
+    {#each credentials as cred}
+      {#if $orientation.attachments[cred.label]}
         <UploadField
+          dynamicId
+          label={cred.label}
           vertical
-          id={cred.value}
-          structureSlug={service.structure}
+          id={cred.label}
           description="Taille maximale : 5 Mo. Formats supportés : jpg, png, doc, pdf"
-          bind:fileKeys={$orientation[cred.value].files}
-        />
-      {/if}
+          bind:fileKeys={$orientation.attachments[cred.label]}
+        />{/if}
     {/each}
   </Fieldset>
 </div>

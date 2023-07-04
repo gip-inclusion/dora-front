@@ -17,4 +17,6 @@ export interface Orientation {
   beneficiaryEmail?: string;
   beneficiaryOtherContactMethod?: string;
   orientationReasons?: string;
+
+  attachments: { [key: string]: string[] };
 }

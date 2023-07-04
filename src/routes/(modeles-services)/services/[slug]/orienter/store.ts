@@ -23,6 +23,8 @@ export const orientation = writable<Orientation>({
   beneficiaryOtherContactMethod: "autre mode de contact",
   orientationReasons: "Motif de l'orientation",
 
+  attachments: {},
+
   // situation: [],
   // situationOther: "",
   // situationOther: [],

@@ -129,4 +129,7 @@ export const orientationStep2Schema: v.Schema = {
     maxLength: 600,
     post: [v.trim],
   },
+  attachments: {
+    rules: [],
+  },
 };

@@ -28,9 +28,11 @@
   }
 
   async function handleSubmit(validatedData) {
-    const url = `${getApiURL()}/orientation/`;
+    const beneficiaryAttachments = Object.values(
+      validatedData.attachments
+    ).flat();
 
-    const result = await fetch(url, {
+    const result = await fetch(`${getApiURL()}/orientation/`, {
       method: "POST",
       headers: {
         Accept: "application/json; version=1.0",
@@ -40,6 +42,7 @@
       body: JSON.stringify({
         ...validatedData,
         service: service.slug,
+        beneficiaryAttachments,
       }),
     });
     const jsonResult = await result.json();
