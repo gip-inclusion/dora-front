@@ -84,7 +84,7 @@
 
     <div class="mt-s40 flex flex-row justify-between gap-x-s24">
       <OrientationForm {service} {servicesOptions} />
-      <div class="w-[384px] shrink-0">
+      <div class="mb-s32 w-full shrink-0 md:w-[384px]">
         <ContactBox {service} />
       </div>
     </div>

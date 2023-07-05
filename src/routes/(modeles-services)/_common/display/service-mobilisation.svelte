@@ -47,8 +47,8 @@
         <LinkButton
           to="/services/{service.slug}/orienter"
           extraClass={backgroundColor === "blue"
-            ? "bg-white !text-france-blue hover:!text-white"
-            : ""}
+            ? "bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
+            : "!whitespace-normal text-center"}
           label="Orienter un ou une bénéficiaire"
           wFull
         />

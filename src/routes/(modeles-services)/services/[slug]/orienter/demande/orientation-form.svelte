@@ -11,12 +11,23 @@
   import { onMount } from "svelte";
   import Accordion from "$lib/components/display/accordion.svelte";
   import SelectField from "$lib/components/forms/fields/select-field.svelte";
+  import { userPreferences } from "$lib/utils/preferences";
 
   export let service;
   export let servicesOptions;
 
   let contactPrefOptions = [];
   let credentials = [];
+
+  if ($userInfo.structures?.length === 1) {
+    $orientation.prescriberStructure = $userInfo.structures[0].slug;
+  } else {
+    $orientation.prescriberStructure = $userPreferences.visitedStructures.length
+      ? $userInfo.structures.find(
+          ({ slug }) => slug === $userPreferences.visitedStructures[0]
+        )?.slug
+      : $userInfo.structures[0].slug;
+  }
 
   onMount(() => {
     contactPrefOptions = [
@@ -34,11 +45,6 @@
     service.formsInfo.forEach((form) => {
       $orientation.attachments[form.name] = [];
     });
-
-    // TODO: utiliser le champ structure
-    if ($userInfo.structures?.length === 1) {
-      $orientation.prescriberStructure = $userInfo.structures[0].slug;
-    }
   });
 </script>
 
@@ -47,7 +53,7 @@
     <div class="mb-s32">
       <SelectField
         id="prescriberStructure"
-        placeholder="Nom de la structure active (citée dans le header)"
+        placeholder="Structure concernée"
         description="Vous faites partie de plusieurs structures, veuillez choisir celle qui sera mentionnée dans les e-mails envoyés aux partenaires."
         bind:value={$orientation.prescriberStructure}
         vertical

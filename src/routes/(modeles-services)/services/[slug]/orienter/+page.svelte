@@ -73,9 +73,9 @@
       bénéficiaire et consultez la liste des documents requis.
     </p>
 
-    <div class=" flex flex-row justify-between gap-x-s24">
+    <div class="flex flex-col justify-between gap-x-s24 md:flex-row">
       <ValidationForm {service} {servicesOptions} {requirementChoices} />
-      <div class="w-[384px] shrink-0">
+      <div class="mt-s32 w-full shrink-0 md:mt-s0 md:w-[384px]">
         <ContactBox {service} />
       </div>
     </div>
