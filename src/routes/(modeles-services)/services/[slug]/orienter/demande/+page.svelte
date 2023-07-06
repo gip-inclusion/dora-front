@@ -41,7 +41,7 @@
       },
       body: JSON.stringify({
         ...validatedData,
-        service: service.slug,
+        serviceSlug: service.slug,
         beneficiaryAttachments,
       }),
     });
