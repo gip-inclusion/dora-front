@@ -40,7 +40,7 @@
     },
     {
       value: "add-referent-contact",
-      label: "Ajouter en copie le conseiller ou la conseillère référente ",
+      label: "Ajouter en copie le conseiller ou la conseillère référente",
     },
   ];
 

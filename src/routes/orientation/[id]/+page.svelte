@@ -123,7 +123,7 @@
                       icon={inboxLineIcon}
                       text={`Autre méthode de contact : ${sendOrientation.beneficiaryOtherContactMethod}`}
                       isPreference={sendOrientation.beneficiaryContactPreferences?.includes(
-                        "telephone"
+                        "other"
                       )}
                     />
                   {/if}
