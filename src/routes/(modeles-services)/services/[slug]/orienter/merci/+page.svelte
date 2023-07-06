@@ -35,7 +35,7 @@
           <Notice type="info" title="Pensez à informer le ou la bénéficiaire">
             <p class="text-left text-f14 text-gray-text">
               Conformément aux préférences de contact du ou de la bénéficiaire,
-              veuillez prendre contact avec lui ou elle pour l'informer qu'une
+              veuillez prendre contact avec lui ou elle pour l‘informer qu‘une
               prescription a été réalisée en son nom.
             </p>
           </Notice>
