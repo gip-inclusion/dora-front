@@ -11,6 +11,7 @@ export const load: PageLoad = async ({ params }) => {
   }
 
   return {
+    orientationId: params.id,
     title: `Demande d‘orientation ${sendOrientation.id}| DORA`,
     noIndex: true,
     sendOrientation: sendOrientation as SendOrientation,
