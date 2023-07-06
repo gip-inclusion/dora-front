@@ -1,8 +1,7 @@
 import type { PageLoad } from "./$types";
-import { getServicesOptions } from "$lib/requests/services";
 import { getOrientation } from "$lib/utils/orientation";
-import type { SendOrientation } from "../../services/[slug]/orienter/types";
 import { error } from "@sveltejs/kit";
+import type { SendOrientation } from "../../services/[slug]/orienter/types";
 
 export const load: PageLoad = async ({ params }) => {
   const sendOrientation = await getOrientation(params.uid);
@@ -12,8 +11,8 @@ export const load: PageLoad = async ({ params }) => {
   }
 
   return {
-    title: `Demande orientation ${sendOrientation.id}| DORA`,
+    title: `Demande orientation ${sendOrientation.uid}| DORA`,
+    noIndex: true,
     sendOrientation: sendOrientation as SendOrientation,
-    servicesOptions: await getServicesOptions(),
   };
 };

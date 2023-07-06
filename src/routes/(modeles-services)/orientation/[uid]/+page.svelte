@@ -1,6 +1,5 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { PageData } from "../$types";
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
 
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
@@ -24,10 +23,10 @@
   import ContactListItem from "./contact-list-item.svelte";
   import { formatPhoneNumber } from "$lib/utils/misc";
   import { getOrientation } from "$lib/utils/orientation";
+  import type { PageData } from "./$types";
 
   export let data: PageData;
   let { sendOrientation } = data;
-  const { servicesOptions } = data;
 
   onMount(() => {
     // trackOrientationConsultation(data.id, $page.url);
@@ -46,7 +45,7 @@
 
 <CenteredGrid>
   <div>
-    <h1>Demande d’orientation #{sendOrientation.id}</h1>
+    <h1>Demande d’orientation #{sendOrientation.uid}</h1>
     <p class="text-f16">
       <span class="font-bold">Date d‘envoi de la demande :</span>
       <DateLabelNumeric date={sendOrientation.sendDate} />
@@ -139,16 +138,14 @@
             </div>
             <hr class="border border-gray-02" />
 
-            {#if sendOrientation.accessConditions.length}
+            {#if sendOrientation.situation.length}
               <div>
                 <SubTitle label="Situation" icon={listCheckIcon} />
                 <div class="ml-s64">
                   <ul>
-                    {#each sendOrientation.accessConditions as accessCondition}
+                    {#each sendOrientation.situation as beneficiarySituation}
                       <li class="ml-s16 list-disc text-f16 text-gray-text">
-                        {servicesOptions?.accessConditions.find(
-                          (acc) => acc.value === accessCondition
-                        )?.label}
+                        {beneficiarySituation}
                       </li>
                     {/each}
                   </ul>
@@ -167,9 +164,7 @@
                   <ul>
                     {#each sendOrientation.requirements as requirement}
                       <li class="ml-s16 list-disc text-f16 text-gray-text">
-                        {servicesOptions?.requirements.find(
-                          (req) => req.value === requirement
-                        )?.label}
+                        {requirement}
                       </li>
                     {/each}
                   </ul>

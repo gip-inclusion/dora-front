@@ -1,32 +1,27 @@
-import type { CustomizableFK, Service } from "$lib/types";
-
 export interface Orientation {
-  otherConcernedPublic: string;
-  requirements: CustomizableFK[];
-  accessConditions: CustomizableFK[];
-  concernedPublic: CustomizableFK[];
+  situation: string[];
+  situationOther: string;
+  requirements: string[];
 
   referentLastName?: string;
   referentFirstName?: string;
   referentPhone?: string;
   referentEmail?: string;
-  structure?: string;
-  service?: Service;
+  prescriberStructure?: string;
 
   beneficiaryLastName?: string;
   beneficiaryFirstName?: string;
-  beneficiaryDisponibility?: string;
+  beneficiaryAvailability?: string;
   beneficiaryContactPreferences?: string[];
   beneficiaryPhone?: string;
   beneficiaryEmail?: string;
   beneficiaryOtherContactMethod?: string;
   orientationReasons?: string;
 
-  files?: string[];
+  attachments: { [key: string]: string[] };
 }
 
 export interface SendOrientation extends Orientation {
-  id: string;
   uid: string;
   sendDate: string;
   emailSubject: string;
