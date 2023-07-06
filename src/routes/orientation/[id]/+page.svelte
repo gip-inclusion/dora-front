@@ -203,9 +203,7 @@
                     le <strong>
                       <DateLabelNumeric date={sendOrientation.creationDate} />
                     </strong>. Sujet de l‘e-mail : «&nbsp;
-                    <strong>
-                      {sendOrientation.emailSubject}
-                    </strong>
+                    <strong>Nouvelle demande d'orientation reçue</strong>
                     ».
                   </div>
 
