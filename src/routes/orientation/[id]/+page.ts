@@ -1,7 +1,7 @@
 import type { PageLoad } from "./$types";
 import { getOrientation } from "$lib/utils/orientation";
 import { error } from "@sveltejs/kit";
-import type { SendOrientation } from "../../services/[slug]/orienter/types";
+import type { SendOrientation } from "../../(modeles-services)/services/[slug]/orienter/types";
 
 export const load: PageLoad = async ({ params }) => {
   const sendOrientation = await getOrientation(params.id);

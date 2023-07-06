@@ -7,7 +7,7 @@
   import { acceptOrientation } from "$lib/utils/orientation";
   import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
-  import type { SendOrientation } from "../../services/[slug]/orienter/types";
+  import type { SendOrientation } from "./types";
 
   export let isOpen = false;
   export let onRefresh;

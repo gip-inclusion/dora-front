@@ -6,7 +6,7 @@
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import { denyOrientation } from "$lib/utils/orientation";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
-  import type { SendOrientation } from "../../services/[slug]/orienter/types";
+  import type { SendOrientation } from "./types";
 
   export let isOpen = false;
   export let onRefresh;

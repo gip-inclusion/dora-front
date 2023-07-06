@@ -6,7 +6,7 @@
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import { contactService } from "$lib/utils/orientation";
-  import type { SendOrientation } from "../../services/[slug]/orienter/types";
+  import type { SendOrientation } from "./types";
 
   export let isOpen = false;
   export let onRefresh;

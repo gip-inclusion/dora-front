@@ -1,8 +1,8 @@
 import { get } from "svelte/store";
 import { getApiURL } from "./api";
 import { token } from "./auth";
-import type { SendOrientation } from "../../routes/(modeles-services)/services/[slug]/orienter/types";
 import { fetchData } from "./misc";
+import type { SendOrientation } from "../../routes/orientation/[id]/types";
 
 export async function getOrientation(
   uid: string

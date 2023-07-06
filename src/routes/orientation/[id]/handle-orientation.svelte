@@ -5,7 +5,7 @@
   import ContactBeneficiaryModal from "./contact-beneficiary-modal.svelte";
   import ContactServiceModal from "./contact-service-modal.svelte";
   import { browser } from "$app/environment";
-  import type { SendOrientation } from "../../services/[slug]/orienter/types";
+  import type { SendOrientation } from "./types";
   import Notice from "$lib/components/display/notice.svelte";
   import { formatNumericDate } from "$lib/utils/date";
 

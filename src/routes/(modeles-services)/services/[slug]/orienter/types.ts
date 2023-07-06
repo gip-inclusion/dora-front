@@ -20,11 +20,3 @@ export interface Orientation {
 
   attachments: { [key: string]: string[] };
 }
-
-export interface SendOrientation extends Orientation {
-  id: string;
-  creationDate: string;
-  emailSubject: string;
-  answerDate?: string;
-  status: "ACCEPTED" | "REFUSED" | "PENDING";
-}
