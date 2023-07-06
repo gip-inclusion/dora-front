@@ -43,14 +43,12 @@
     isOpen={modalOpened === "deny"}
     on:close={closeModal}
     {sendOrientation}
-    onSuccess={closeModal}
     {onRefresh}
   />
   <AcceptOrientationModal
     isOpen={modalOpened === "accept"}
     on:close={closeModal}
     {sendOrientation}
-    onSuccess={closeModal}
     {onRefresh}
   />
 
@@ -59,14 +57,12 @@
     on:close={closeModal}
     {onRefresh}
     {sendOrientation}
-    onSuccess={closeModal}
   />
   <ContactServiceModal
     isOpen={modalOpened === "contact-service"}
     on:close={closeModal}
     {sendOrientation}
     {onRefresh}
-    onSuccess={closeModal}
   />
 {/if}
 

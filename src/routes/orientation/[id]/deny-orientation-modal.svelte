@@ -7,11 +7,13 @@
   import { denyOrientation } from "$lib/utils/orientation";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import type { SendOrientation } from "./types";
+  import ConfirmationBloc from "./confirmation-bloc.svelte";
 
   export let isOpen = false;
   export let onRefresh;
-  export let onSuccess;
   export let sendOrientation: SendOrientation;
+
+  let showConfirmation = false;
 
   let otherDetails = "";
   let reasons: string[] = [];
@@ -88,9 +90,11 @@
     );
     await onRefresh();
   }
+
   function handleSuccess(_jsonResult) {
-    onSuccess();
+    showConfirmation = true;
   }
+
   $: formData = { reasons, otherDetails };
   $: denyOrientationSchema.otherDetails.required = reasons.includes("other");
 </script>
@@ -115,34 +119,42 @@
     </div>
   </div>
 
-  <Form
-    bind:data={formData}
-    schema={denyOrientationSchema}
-    onSubmit={handleSubmit}
-    onSuccess={handleSuccess}
-    bind:requesting
-  >
-    <div class="mx-s4 mb-s20">
-      <CheckboxesField
-        id="reasons"
-        choices={reasonChoices}
-        bind:value={reasons}
-        vertical
-      />
-    </div>
-    {#if reasons.includes("other")}
-      <div class="mx-s4">
-        <TextareaField id="otherDetails" bind:value={otherDetails} vertical />
+  {#if showConfirmation}
+    <ConfirmationBloc
+      title="Votre réponse a été transmise"
+      subtitle="Le prescripteur sera informé par e-mail de votre décision."
+      withThunder
+    />
+  {:else}
+    <Form
+      bind:data={formData}
+      schema={denyOrientationSchema}
+      onSubmit={handleSubmit}
+      onSuccess={handleSuccess}
+      bind:requesting
+    >
+      <div class="mx-s4 mb-s20">
+        <CheckboxesField
+          id="reasons"
+          choices={reasonChoices}
+          bind:value={reasons}
+          vertical
+        />
       </div>
-    {/if}
+      {#if reasons.includes("other")}
+        <div class="mx-s4">
+          <TextareaField id="otherDetails" bind:value={otherDetails} vertical />
+        </div>
+      {/if}
 
-    <div class="mt-s32 text-right">
-      <Button
-        name="validate"
-        type="submit"
-        label="Refuser la demande"
-        disabled={requesting}
-      />
-    </div>
-  </Form>
+      <div class="mt-s32 text-right">
+        <Button
+          name="validate"
+          type="submit"
+          label="Refuser la demande"
+          disabled={requesting}
+        />
+      </div>
+    </Form>
+  {/if}
 </Modal>

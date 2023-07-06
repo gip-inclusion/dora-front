@@ -8,11 +8,13 @@
   import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import type { SendOrientation } from "./types";
+  import ConfirmationBloc from "./confirmation-bloc.svelte";
 
   export let isOpen = false;
   export let onRefresh;
-  export let onSuccess;
   export let sendOrientation: SendOrientation;
+
+  let showConfirmation = false;
 
   let requesting = false;
 
@@ -64,9 +66,11 @@
     await acceptOrientation(sendOrientation.id, validatedData);
     await onRefresh();
   }
+
   function handleSuccess(_jsonResult) {
-    onSuccess();
+    showConfirmation = true;
   }
+
   $: formData = {
     response: "",
     orientationStartDate: "",
@@ -105,113 +109,123 @@
     </a>
   </div>
 
-  <Form
-    bind:data={formData}
-    schema={acceptOrientationSchema}
-    onSubmit={handleSubmit}
-    onSuccess={handleSuccess}
-    bind:requesting
-  >
-    <TextareaField
-      id="response"
-      description="Commentaire privé à destination du prescripteur ou de la prescriptrice, ainsi que du conseiller ou de la conseillère référente s‘il ne s‘agit pas de la même personne. Ce message n‘est pas envoyé au bénéficiaire."
-      bind:value={formData.response}
-      vertical
+  {#if showConfirmation}
+    <ConfirmationBloc
+      title="Votre réponse a été transmise"
+      subtitle="Le prescripteur et le bénéficiaire seront informés par e-mail de votre décision. "
+      withThunder
     />
-
-    <div class="mt-s20">
-      <BasicInputField
-        id="orientationStartDate"
-        type="date"
-        bind:value={formData.orientationStartDate}
-        vertical
-      >
-        <p slot="description" class="legend italic">
-          Date à partir de laquelle le ou la bénéficiaire est prise en charge.
-          <br />
-          Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier 2023)
-        </p>
-      </BasicInputField>
-    </div>
-
-    <div class="mt-s20">
-      <BasicInputField
-        id="orientationEndDate"
-        type="date"
-        bind:value={formData.orientationEndDate}
-        vertical
-      >
-        <p slot="description" class="legend italic">
-          Date prévisionnelle de sortie.<br />
-          Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier 2023)
-        </p>
-      </BasicInputField>
-    </div>
-
-    <div class="mt-s20">
+  {:else}
+    <Form
+      bind:data={formData}
+      schema={acceptOrientationSchema}
+      onSubmit={handleSubmit}
+      onSuccess={handleSuccess}
+      bind:requesting
+    >
       <TextareaField
-        id="orientationLocation"
-        description="Merci de préciser l’adresse de déroulement "
-        bind:value={formData.orientationLocation}
+        id="response"
+        description="Commentaire privé à destination du prescripteur ou de la prescriptrice, ainsi que du conseiller ou de la conseillère référente s‘il ne s‘agit pas de la même personne. Ce message n‘est pas envoyé au bénéficiaire."
+        bind:value={formData.response}
         vertical
       />
-    </div>
 
-    <div class="mt-s20">
-      <CheckboxesField
-        id="addExtraRecipients"
-        bind:value={formData.addExtraRecipients}
-        description="Si vous souhaitez ajouter d‘autres personnes en copie, cochez cette
+      <div class="mt-s20">
+        <BasicInputField
+          id="orientationStartDate"
+          type="date"
+          bind:value={formData.orientationStartDate}
+          vertical
+        >
+          <p slot="description" class="legend italic">
+            Date à partir de laquelle le ou la bénéficiaire est prise en charge.
+            <br />
+            Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
+            2023)
+          </p>
+        </BasicInputField>
+      </div>
+
+      <div class="mt-s20">
+        <BasicInputField
+          id="orientationEndDate"
+          type="date"
+          bind:value={formData.orientationEndDate}
+          vertical
+        >
+          <p slot="description" class="legend italic">
+            Date prévisionnelle de sortie.<br />
+            Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
+            2023)
+          </p>
+        </BasicInputField>
+      </div>
+
+      <div class="mt-s20">
+        <TextareaField
+          id="orientationLocation"
+          description="Merci de préciser l’adresse de déroulement "
+          bind:value={formData.orientationLocation}
+          vertical
+        />
+      </div>
+
+      <div class="mt-s20">
+        <CheckboxesField
+          id="addExtraRecipients"
+          bind:value={formData.addExtraRecipients}
+          description="Si vous souhaitez ajouter d‘autres personnes en copie, cochez cette
         case et saisissez l‘adresse ou les adresses électroniques concernées
         (séparées par un espace si plusieurs). Format attendu :
         nom@domaine.fr."
-        vertical
-        choices={[
-          {
-            label: "Ajouter d’autres personnes en copie de ce message",
-            value: "addExtraRecipients",
-          },
-        ]}
-      />
-    </div>
+          vertical
+          choices={[
+            {
+              label: "Ajouter d’autres personnes en copie de ce message",
+              value: "addExtraRecipients",
+            },
+          ]}
+        />
+      </div>
 
-    {#if formData.addExtraRecipients.includes("addExtraRecipients")}
-      <TextareaField
-        id="extraRecipients"
-        bind:value={formData.extraRecipients}
-        vertical
-      />
-    {/if}
+      {#if formData.addExtraRecipients.includes("addExtraRecipients")}
+        <TextareaField
+          id="extraRecipients"
+          bind:value={formData.extraRecipients}
+          vertical
+        />
+      {/if}
 
-    <div class="mt-s20">
-      <CheckboxesField
-        id="addBeneficiaryMessage"
-        bind:value={formData.addBeneficiaryMessage}
-        description="Un message par défaut est envoyé, si vous souhaitez modifier le contenu cochez la case suivante."
-        vertical
-        choices={[
-          {
-            label: "Ajouter un message pour le ou la bénéficiaire",
-            value: "addBeneficiaryMessage",
-          },
-        ]}
-      />
-    </div>
-    {#if formData.addBeneficiaryMessage.includes("addBeneficiaryMessage")}
-      <TextareaField
-        id="beneficiaryMessage"
-        bind:value={formData.beneficiaryMessage}
-        vertical
-      />
-    {/if}
+      <div class="mt-s20">
+        <CheckboxesField
+          id="addBeneficiaryMessage"
+          bind:value={formData.addBeneficiaryMessage}
+          description="Un message par défaut est envoyé, si vous souhaitez modifier le contenu cochez la case suivante."
+          vertical
+          choices={[
+            {
+              label: "Ajouter un message pour le ou la bénéficiaire",
+              value: "addBeneficiaryMessage",
+            },
+          ]}
+        />
+      </div>
+      {#if formData.addBeneficiaryMessage.includes("addBeneficiaryMessage")}
+        <TextareaField
+          id="beneficiaryMessage"
+          bind:value={formData.beneficiaryMessage}
+          vertical
+        />
+      {/if}
 
-    <div class="mt-s32 text-right">
-      <Button
-        name="validate"
-        type="submit"
-        label="Accepter la demande"
-        disabled={requesting}
-      />
-    </div>
-  </Form>
+      <div class="mt-s32 text-right">
+        <Button
+          name="validate"
+          type="submit"
+          label="Accepter la demande"
+          disabled={requesting}
+        />
+      </div>
+    </Form>
+  {/if}
 </Modal>
