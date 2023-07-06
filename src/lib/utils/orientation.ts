@@ -65,7 +65,7 @@ export function denyOrientation(
   reason: string,
   otherDetails?: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/reject`;
+  const url = `${getApiURL()}/orientation/${uid}/reject/`;
   const method = "POST";
   return fetch(url, {
     method,
@@ -104,7 +104,7 @@ export function acceptOrientation(
     beneficiaryMessage: string;
   }
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/validate`;
+  const url = `${getApiURL()}/orientation/${uid}/validate/`;
   const method = "POST";
   return fetch(url, {
     method,

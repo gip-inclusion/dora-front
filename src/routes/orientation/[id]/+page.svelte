@@ -186,12 +186,12 @@
               </div>
             {/if}
 
-            {#if sendOrientation.files?.length}
+            {#if sendOrientation.beneficiaryAttachments?.length}
               <div>
                 <SubTitle label="Pièces jointes" icon={attachmentIcon} />
                 <div class="ml-s64 text-gray-text">
                   <ul class="mb-s24">
-                    {#each sendOrientation.files as file}
+                    {#each sendOrientation.beneficiaryAttachments as file}
                       <li class="ml-s16 list-disc text-f16 text-gray-text">
                         {file}
                       </li>
