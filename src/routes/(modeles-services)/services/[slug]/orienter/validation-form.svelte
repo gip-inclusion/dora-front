@@ -5,19 +5,35 @@
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
 
   import { formatFilePath, isNotFreeService } from "$lib/utils/service";
+  import { orientationStep1Schema } from "./schema";
   import { orientation } from "./store";
 
   export let service;
   export let servicesOptions;
-  export let requirementChoices;
 
   const concernedPublicChoices = [
-    ...servicesOptions.concernedPublic.filter((elt) =>
-      service.concernedPublic.includes(elt.value)
-    ),
-    { value: "other", label: "Autre (à préciser)" },
-  ].map((choice) => ({ value: choice.label, label: choice.label }));
-  $: if (!$orientation.situation?.includes("other")) {
+    ...servicesOptions.concernedPublic
+      .filter((elt) => service.concernedPublic.includes(elt.value))
+      .map((choice) => ({ value: choice.label, label: choice.label })),
+    { value: "Autre", label: "Autre (à préciser)" },
+  ];
+
+  const requirementChoices = servicesOptions
+    ? [
+        ...servicesOptions.requirements.filter((elt) =>
+          service.requirements.includes(elt.value)
+        ),
+        ...servicesOptions.accessConditions.filter((elt) =>
+          service.accessConditions.includes(elt.value)
+        ),
+      ].map((choice) => ({ value: choice.label, label: choice.label }))
+    : [];
+
+  $: if (requirementChoices.length === 0) {
+    orientationStep1Schema.requirements.required = false;
+  }
+
+  $: if (!$orientation.situation?.includes("Autre")) {
     $orientation.situationOther = "";
   }
 </script>
@@ -39,7 +55,7 @@
         vertical
       />
 
-      {#if $orientation.situation?.includes("other")}
+      {#if $orientation.situation?.includes("Autre")}
         <TextareaField
           id="situationOther"
           placeholder=""

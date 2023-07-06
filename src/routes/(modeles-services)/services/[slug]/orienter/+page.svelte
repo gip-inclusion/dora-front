@@ -30,22 +30,6 @@
   function handleSuccess(_result) {
     goto(`/services/${service.slug}/orienter/demande`);
   }
-
-  // Requirement choices & access conditions choices
-  const requirementChoices = servicesOptions
-    ? [
-        ...servicesOptions.requirements.filter((elt) =>
-          service.requirements.includes(elt.value)
-        ),
-        ...servicesOptions.accessConditions.filter((elt) =>
-          service.accessConditions.includes(elt.value)
-        ),
-      ]
-    : [];
-
-  $: if (requirementChoices.length === 0) {
-    orientationStep1Schema.requirements.required = false;
-  }
 </script>
 
 <FormErrors />
@@ -72,7 +56,7 @@
     </p>
 
     <div class="flex flex-col justify-between gap-x-s24 md:flex-row">
-      <ValidationForm {service} {servicesOptions} {requirementChoices} />
+      <ValidationForm {service} {servicesOptions} />
       <div class="mt-s32 w-full shrink-0 md:mt-s0 md:w-[384px]">
         <ContactBox {service} />
       </div>
