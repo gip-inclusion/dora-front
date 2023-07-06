@@ -19,8 +19,8 @@
 
   const showMobilisation =
     service.contactEmail &&
-    (service.coachOrientationMode.includes("envoyer-courriel") ||
-      service.coachOrientationMode.includes("envoyer-fiche-prescription") ||
+    (service.coachOrientationModes.includes("envoyer-courriel") ||
+      service.coachOrientationModes.includes("envoyer-fiche-prescription") ||
       service.beneficiariesAccessModes.includes("envoyer-courriel"));
 </script>
 
