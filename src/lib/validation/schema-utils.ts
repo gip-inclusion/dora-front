@@ -57,13 +57,10 @@ export function isString(msg = "") {
 }
 
 export function isBool(msg = "") {
-  return (name, value, _data) => {
-    console.log(value);
-    return {
-      valid: typeof value === "boolean",
-      msg: msg || `Ce champ doit être un booléen`, // TODO: this is not a valid enduser message
-    };
-  };
+  return (name, value, _data) => ({
+    valid: typeof value === "boolean",
+    msg: msg || `Ce champ doit être un booléen`, // TODO: this is not a valid enduser message
+  });
 }
 
 export function isInteger(msg = "") {

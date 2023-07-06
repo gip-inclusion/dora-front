@@ -1,7 +1,11 @@
 <script lang="ts">
+  import { get } from "svelte/store";
+
   import Button from "$lib/components/display/button.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import StickyFormSubmissionRow from "$lib/components/forms/sticky-form-submission-row.svelte";
+  import { getApiURL } from "$lib/utils/api";
+  import { token } from "$lib/utils/auth";
   import Layout from "../layout.svelte";
   import type { PageData } from "./$types";
   import { orientation } from "../store";
@@ -23,9 +27,28 @@
     $orientation = { ...validatedData };
   }
 
-  function handleSubmit(_validatedData) {
-    // TODO
-    return { ok: true };
+  async function handleSubmit(validatedData) {
+    const beneficiaryAttachments = Object.values(
+      validatedData.attachments
+    ).flat();
+
+    const result = await fetch(`${getApiURL()}/orientation/`, {
+      method: "POST",
+      headers: {
+        Accept: "application/json; version=1.0",
+        "Content-Type": "application/json",
+        Authorization: `Token ${get(token)}`,
+      },
+      body: JSON.stringify({
+        ...validatedData,
+        service: service.slug,
+        beneficiaryAttachments,
+      }),
+    });
+    const jsonResult = await result.json();
+    console.log(jsonResult);
+
+    return result;
   }
 
   function handleSuccess(_result) {
@@ -51,7 +74,7 @@
     <hr class="my-s40" />
     <p class="mb-s40 max-w-2xl text-f18">
       Ce formulaire collecte les informations nécessaires pour la demande
-      d'orientation. Veuillez fournir tous les éléments demandés.
+      d‘orientation. Veuillez fournir tous les éléments demandés.
     </p>
     <p>
       Vous recevrez une copie de cette demande, tout comme le ou la
@@ -60,7 +83,7 @@
 
     <div class="mt-s40 flex flex-row justify-between gap-x-s24">
       <OrientationForm {service} {servicesOptions} />
-      <div class="w-[384px] shrink-0">
+      <div class="mb-s32 w-full shrink-0 md:w-[384px]">
         <ContactBox {service} />
       </div>
     </div>
@@ -70,10 +93,10 @@
     <LinkButton
       icon={arrowLeftLineIcon}
       to="/services/{data.service.slug}/orienter"
-      label="Revenir à l’étape précédente "
+      label="Revenir à l’étape précédente"
       secondary
     />
 
-    <Button id="publish" type="submit" label="Envoyer l'orientation" />
+    <Button id="publish" type="submit" label="Envoyer l‘orientation" />
   </StickyFormSubmissionRow>
 </Form>

@@ -12,23 +12,24 @@
   export let readonly = $currentSchema?.[id]?.readonly;
   export let label = $currentSchema?.[id]?.label;
 
-  // Spécifique du select
+  // Spécifique
   export let fileKeys: string[];
-  export let structureSlug;
+  export let structureSlug: string | undefined = undefined;
 
   // Proxy vers le FieldWrapper
   export let description = "";
   export let hidden = false;
   export let hideLabel = false;
   export let vertical = false;
+  export let dynamicId = false;
 </script>
 
-{#if $currentSchema && id in $currentSchema}
+{#if $currentSchema && (id in $currentSchema || dynamicId)}
   <FieldWrapper
     {id}
     let:onBlur
     {label}
-    required={isRequired($currentSchema[id], $currentFormData)}
+    required={isRequired($currentSchema?.[id], $currentFormData)}
     {description}
     {hidden}
     {hideLabel}

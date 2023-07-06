@@ -7,81 +7,55 @@
   import UploadField from "$lib/components/forms/fields/upload-field.svelte";
   import { formatFilePath } from "$lib/utils/service";
   import { orientation } from "../store";
-  import { orientationStep2Schema } from "../schema";
   import { userInfo } from "$lib/utils/auth";
   import { onMount } from "svelte";
   import Accordion from "$lib/components/display/accordion.svelte";
   import SelectField from "$lib/components/forms/fields/select-field.svelte";
+  import { userPreferences } from "$lib/utils/preferences";
 
   export let service;
   export let servicesOptions;
 
   let contactPrefOptions = [];
   let credentials = [];
+
+  if ($userInfo.structures?.length === 1) {
+    $orientation.prescriberStructure = $userInfo.structures[0].slug;
+  } else {
+    $orientation.prescriberStructure = $userPreferences.visitedStructures.length
+      ? $userInfo.structures.find(
+          ({ slug }) => slug === $userPreferences.visitedStructures[0]
+        )?.slug
+      : $userInfo.structures[0].slug;
+  }
+
   onMount(() => {
     contactPrefOptions = [
-      { value: "phone", label: "Téléphone" },
+      { value: "telephone", label: "Téléphone" },
       { value: "email", label: "E-mail" },
-      { value: "other", label: "Autre" },
+      { value: "autre", label: "Autre" },
     ];
 
     credentials = servicesOptions.credentials.filter((elt) =>
       service.credentials.includes(elt.value)
     );
     credentials.forEach((cred) => {
-      orientationStep2Schema[cred.value] = {
-        label: cred.label,
-        default: [],
-        rules: [],
-        // rules: [v.isArray([v.isString(), v.maxStrLength(1024)])],
-      };
-      $orientation[cred.value] = { files: [] };
+      $orientation.attachments[cred.label] = [];
     });
     service.formsInfo.forEach((form) => {
-      orientationStep2Schema[form.name] = {
-        label: form.name,
-        default: [],
-        rules: [],
-        // rules: [v.isArray([v.isString(), v.maxStrLength(1024)])],
-      };
-      $orientation[form.name] = { files: [] };
+      $orientation.attachments[form.name] = [];
     });
-
-    if ($userInfo.structures?.length === 1) {
-      $orientation.structure = $userInfo.structures[0].slug;
-    }
   });
-
-  const concernedPublicLabels = $orientation.concernedPublic.map(
-    (concernedPublic) =>
-      servicesOptions.concernedPublic.find(
-        ({ value }) => value === concernedPublic
-      ).label
-  );
-
-  const requirementsAndAccessConditionsLabels = [
-    ...$orientation.accessConditions.map(
-      (accessConditions) =>
-        servicesOptions.accessConditions.find(
-          ({ value }) => value === accessConditions
-        ).label
-    ),
-    ...$orientation.requirements.map(
-      (requirements) =>
-        servicesOptions.requirements.find(({ value }) => value === requirements)
-          .label
-    ),
-  ];
 </script>
 
 <div>
   {#if $userInfo.structures.length > 1}
     <div class="mb-s32">
       <SelectField
-        id="structure"
-        placeholder="Nom de la structure active (citée dans le header)"
+        id="prescriberStructure"
+        placeholder="Structure concernée"
         description="Vous faites partie de plusieurs structures, veuillez choisir celle qui sera mentionnée dans les e-mails envoyés aux partenaires."
-        bind:value={$orientation.structure}
+        bind:value={$orientation.prescriberStructure}
         vertical
         choices={$userInfo.structures.map((struct) => ({
           value: struct.slug,
@@ -161,10 +135,10 @@
     </div>
 
     <BasicInputField
-      id="beneficiaryDisponibility"
+      id="beneficiaryAvailability"
       type="date"
       description=""
-      bind:value={$orientation.beneficiaryDisponibility}
+      bind:value={$orientation.beneficiaryAvailability}
       vertical
     >
       <p slot="description" class="legend italic">
@@ -173,7 +147,7 @@
       </p>
     </BasicInputField>
 
-    {#if requirementsAndAccessConditionsLabels.length || concernedPublicLabels.length}
+    {#if $orientation.requirements.length || $orientation.situation.length}
       <div class="rounded-md bg-info-light px-s20 py-s20">
         <Accordion
           title="Profil et critères du ou de la bénéficiaire"
@@ -184,23 +158,23 @@
           expanded={true}
         >
           <div class="mt-s20">
-            {#if concernedPublicLabels.length}
+            {#if $orientation.situation.length}
               <h4 class="mb-s6 text-gray-text">
                 Profil de votre bénéficiaire :
               </h4>
               <ul class="ml-s20 list-disc">
-                {#each concernedPublicLabels as label}
+                {#each $orientation.situation as label}
                   <li class="text-gray-text">{label}</li>
                 {/each}
               </ul>
             {/if}
 
-            {#if requirementsAndAccessConditionsLabels.length}
+            {#if $orientation.requirements.length}
               <h4 class="mb-s6 mt-s16 text-gray-text">
                 Critères correspondants :
               </h4>
               <ul class="ml-s20 list-disc">
-                {#each requirementsAndAccessConditionsLabels as label}
+                {#each $orientation.requirements as label}
                   <li class="text-gray-text">{label}</li>
                 {/each}
               </ul>
@@ -253,7 +227,7 @@
       ${$orientation.beneficiaryLastName || ""} pour le service "${
         service.name
       }"`}
-      description="Merci de ne pas fournir des informations considérés comme sensibles (situation personnelle ou professionnelle autre que celles cochées à l’étape un de la demande, etc.)."
+      description="Merci de ne pas fournir des informations considérées comme sensibles (situation personnelle ou professionnelle autre que celles cochées à l’étape un de la demande, etc.)."
       bind:value={$orientation.orientationReasons}
       vertical
     />
@@ -267,14 +241,14 @@
 
   <Fieldset title="Documents et justificatifs requis">
     {#each service.formsInfo as form}
-      {#if $orientation?.[form.name]}
+      {#if $orientation.attachments[form.name]}
         <UploadField
+          dynamicId
           label="Document à compléter"
           vertical
           id={form.name}
-          structureSlug={service.structure}
           description="Taille maximale : 5 Mo. Formats supportés : jpg, png, doc, pdf"
-          bind:fileKeys={$orientation[form.name].files}
+          bind:fileKeys={$orientation.attachments[form.name]}
         >
           <p slot="description">
             <a href={form.url} class="font-bold underline">
@@ -285,15 +259,16 @@
       {/if}
     {/each}
 
-    {#each credentials as cred}{#if $orientation?.[cred.value]}
+    {#each credentials as cred}
+      {#if $orientation.attachments[cred.label]}
         <UploadField
+          dynamicId
+          label={cred.label}
           vertical
-          id={cred.value}
-          structureSlug={service.structure}
+          id={cred.label}
           description="Taille maximale : 5 Mo. Formats supportés : jpg, png, doc, pdf"
-          bind:fileKeys={$orientation[cred.value].files}
-        />
-      {/if}
+          bind:fileKeys={$orientation.attachments[cred.label]}
+        />{/if}
     {/each}
   </Fieldset>
 </div>

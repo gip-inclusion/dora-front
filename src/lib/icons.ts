@@ -67,7 +67,6 @@ export { default as alertIcon } from "remixicon/icons/System/alert-fill.svg?raw"
 export { default as alertLine } from "remixicon/icons/System/alert-line.svg?raw";
 export { default as arrowDownLineIcon } from "remixicon/icons/System/arrow-down-line.svg?raw";
 export { default as arrowLeftLineIcon } from "remixicon/icons/System/arrow-left-s-line.svg?raw";
-
 export { default as arrowDownSIcon } from "remixicon/icons/System/arrow-down-s-line.svg?raw";
 export { default as arrowRightSIcon } from "remixicon/icons/System/arrow-right-s-line.svg?raw";
 export { default as arrowUpLineIcon } from "remixicon/icons/System/arrow-up-line.svg?raw";

@@ -32,18 +32,19 @@
   }
 
   // Requirement choices & access conditions choices
-  const requirementChoices = servicesOptions?.requirements.filter((elt) =>
-    service.requirements.includes(elt.value)
-  );
-  const accessConditionsChoices = servicesOptions?.accessConditions.filter(
-    (elt) => service.accessConditions.includes(elt.value)
-  );
-  $: if (
-    requirementChoices.length === 0 &&
-    accessConditionsChoices.length === 0
-  ) {
+  const requirementChoices = servicesOptions
+    ? [
+        ...servicesOptions.requirements.filter((elt) =>
+          service.requirements.includes(elt.value)
+        ),
+        ...servicesOptions.accessConditions.filter((elt) =>
+          service.accessConditions.includes(elt.value)
+        ),
+      ]
+    : [];
+
+  $: if (requirementChoices.length === 0) {
     orientationStep1Schema.requirements.required = false;
-    orientationStep1Schema.accessConditions.required = false;
   }
 </script>
 
@@ -70,14 +71,9 @@
       bénéficiaire et consultez la liste des documents requis.
     </p>
 
-    <div class=" flex flex-row justify-between gap-x-s24">
-      <ValidationForm
-        {service}
-        {servicesOptions}
-        {requirementChoices}
-        {accessConditionsChoices}
-      />
-      <div class="w-[384px] shrink-0">
+    <div class="flex flex-col justify-between gap-x-s24 md:flex-row">
+      <ValidationForm {service} {servicesOptions} {requirementChoices} />
+      <div class="mt-s32 w-full shrink-0 md:mt-s0 md:w-[384px]">
         <ContactBox {service} />
       </div>
     </div>

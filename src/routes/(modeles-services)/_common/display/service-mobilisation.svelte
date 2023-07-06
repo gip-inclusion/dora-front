@@ -16,6 +16,12 @@
     contactOpen = true;
     trackMobilisation(service, $page.url);
   }
+
+  const showMobilisation =
+    service.contactEmail &&
+    (service.coachOrientationModes.includes("envoyer-courriel") ||
+      service.coachOrientationModes.includes("envoyer-fiche-prescription") ||
+      service.beneficiariesAccessModes.includes("envoyer-courriel"));
 </script>
 
 <h2 class="text-f23" class:text-white={backgroundColor === "blue"}>
@@ -43,16 +49,20 @@
       {:else}
         <ServiceContact {service} useWhiteText={backgroundColor === "blue"} />
       {/if}
-      <div class="mb-s16">
-        <LinkButton
-          to="/services/{service.slug}/orienter"
-          extraClass={backgroundColor === "blue"
-            ? "bg-white !text-france-blue hover:!text-white"
-            : ""}
-          label="Orienter un ou une bénéficiaire"
-          wFull
-        />
-      </div>
+
+      {#if showMobilisation}
+        <div class="mb-s16">
+          <LinkButton
+            nofollow
+            to="/services/{service.slug}/orienter"
+            extraClass={backgroundColor === "blue"
+              ? "bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
+              : "!whitespace-normal text-center"}
+            label="Orienter un ou une bénéficiaire"
+            wFull
+          />
+        </div>
+      {/if}
     </div>
   </div>
 {:else}
