@@ -61,7 +61,7 @@
   };
 
   async function handleSubmit(validatedData) {
-    await acceptOrientation(sendOrientation.uid, validatedData);
+    await acceptOrientation(sendOrientation.id, validatedData);
     await onRefresh();
   }
   function handleSuccess(_jsonResult) {

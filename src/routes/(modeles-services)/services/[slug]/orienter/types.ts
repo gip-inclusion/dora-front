@@ -22,9 +22,9 @@ export interface Orientation {
 }
 
 export interface SendOrientation extends Orientation {
-  uid: string;
-  sendDate: string;
+  id: string;
+  creationDate: string;
   emailSubject: string;
+  answerDate?: string;
   status: "ACCEPTED" | "REFUSED" | "PENDING";
-  answerDate?: Date;
 }

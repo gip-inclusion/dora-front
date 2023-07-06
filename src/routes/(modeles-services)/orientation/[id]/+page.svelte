@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { afterUpdate, onMount } from "svelte";
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
 
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
@@ -24,6 +24,7 @@
   import { formatPhoneNumber } from "$lib/utils/misc";
   import { getOrientation } from "$lib/utils/orientation";
   import type { PageData } from "./$types";
+  import { formatNumericDate } from "$lib/utils/date";
 
   export let data: PageData;
   let { sendOrientation } = data;
@@ -32,8 +33,12 @@
     // trackOrientationConsultation(data.id, $page.url);
   });
 
+  afterUpdate(() => {
+    console.log("update page");
+  });
+
   async function onRefresh() {
-    sendOrientation = await getOrientation(sendOrientation.uid);
+    sendOrientation = await getOrientation(sendOrientation.id);
   }
 </script>
 
@@ -45,10 +50,10 @@
 
 <CenteredGrid>
   <div>
-    <h1>Demande d’orientation #{sendOrientation.uid}</h1>
+    <h1>Demande d’orientation #{sendOrientation.id}</h1>
     <p class="text-f16">
       <span class="font-bold">Date d‘envoi de la demande :</span>
-      <DateLabelNumeric date={sendOrientation.sendDate} />
+      <DateLabelNumeric date={sendOrientation.creationDate} />
     </p>
 
     <div
@@ -125,13 +130,9 @@
 
                   <ContactListItem
                     icon={calendarEventLineIcon}
-                    text={`Disponible à partir de ${new Date(
-                      sendOrientation.beneficiaryDisponibility
-                    ).toLocaleDateString("fr-FR", {
-                      year: "numeric",
-                      month: "numeric",
-                      day: "numeric",
-                    })}`}
+                    text={`Disponible à partir de ${formatNumericDate(
+                      sendOrientation.beneficiaryAvailability
+                    )}`}
                   />
                 </ul>
               </div>
@@ -200,7 +201,7 @@
                   <div>
                     Toutes les pièces jointes vous ont été transmises par e-mail
                     le <strong>
-                      <DateLabelNumeric date={sendOrientation.sendDate} />
+                      <DateLabelNumeric date={sendOrientation.creationDate} />
                     </strong>. Sujet de l‘e-mail : «&nbsp;
                     <strong>
                       {sendOrientation.emailSubject}

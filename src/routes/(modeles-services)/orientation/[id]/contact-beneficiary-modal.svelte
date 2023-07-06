@@ -5,7 +5,7 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
-  import { contactService } from "$lib/utils/orientation";
+  import { contactBeneficiary } from "$lib/utils/orientation";
   import type { SendOrientation } from "../../services/[slug]/orienter/types";
 
   export let isOpen = false;
@@ -17,9 +17,9 @@
   let extraRecipients = [];
   let requesting = false;
 
-  const contactServiceSchema: v.Schema = {
+  const contactBeneficiarySchema: v.Schema = {
     extraRecipients: {
-      label: "Ajouter d'autres destinataires",
+      label: "Ajouter d‘autres destinataires",
       default: [],
       rules: [],
     },
@@ -33,18 +33,18 @@
   };
   const extraRecipientsChoices = [
     {
-      value: "add-beneficiary",
-      label: `Ajouter le ou la bénéficiaire en copie (${sendOrientation.beneficiaryFirstName} ${sendOrientation.beneficiaryLastName})`,
+      value: "add-service-contact",
+      label: "Ajouter en copie le prescripteur ou la prescriptrice",
     },
     {
       value: "add-referent-contact",
-      label: `Ajouter le conseiller ou la conseillère référente en copie (${sendOrientation.referentFirstName} ${sendOrientation.referentLastName})`,
+      label: "Ajouter en copie le conseiller ou la conseillère référente ",
     },
   ];
 
   async function handleSubmit(validatedData) {
-    await contactService(
-      sendOrientation.uid,
+    await contactBeneficiary(
+      sendOrientation.id,
       validatedData.extraRecipients,
       validatedData.message
     );
@@ -56,25 +56,22 @@
   $: formData = { extraRecipients, message };
 </script>
 
-<Modal
-  bind:isOpen
-  on:close
-  overflow
-  title="Contacter le prescripteur ou la prescriptrice"
->
+<Modal bind:isOpen on:close overflow title="Contacter le ou la bénéficiaire">
   <div slot="subtitle">
-    Contacter {sendOrientation.service?.contactName} - concernant l’orientation qui
-    vous a été adressé pour le service «
+    Contacter {sendOrientation.beneficiaryFirstName}
+    {sendOrientation.beneficiaryLastName} - qui vous a été adressé·e par {sendOrientation.referentFirstName}
+    {sendOrientation.referentLastName}, pour le service «
     <a
       class="text-magenta-cta"
       href="/services/{sendOrientation.service?.slug}"
     >
       {sendOrientation.service?.name}
-    </a> ».
+    </a> »
   </div>
+
   <Form
     bind:data={formData}
-    schema={contactServiceSchema}
+    schema={contactBeneficiarySchema}
     onSubmit={handleSubmit}
     onSuccess={handleSuccess}
     bind:requesting

@@ -82,7 +82,7 @@
 
   async function handleSubmit(validatedData) {
     await denyOrientation(
-      sendOrientation.uid,
+      sendOrientation.id,
       validatedData.reason,
       validatedData.otherDetails
     );
