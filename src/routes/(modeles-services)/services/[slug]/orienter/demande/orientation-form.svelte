@@ -68,8 +68,8 @@
   <Fieldset title="Conseiller ou conseillère référente" noTopPadding>
     <Notice type="info" title="Conseiller ou conseillère référente">
       <p class="mb-s0 text-f14 text-gray-text">
-        Personne en charge de l'accompagnement et du suivi professionnel de la
-        situation du bénéficiaire. Si ce n'est pas vous, veuillez modifier les
+        Personne en charge de l‘accompagnement et du suivi professionnel de la
+        situation du bénéficiaire. Si ce n‘est pas vous, veuillez modifier les
         informations ci-dessous.
       </p>
     </Notice>

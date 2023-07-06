@@ -53,6 +53,7 @@
       {#if showMobilisation}
         <div class="mb-s16">
           <LinkButton
+            nofollow
             to="/services/{service.slug}/orienter"
             extraClass={backgroundColor === "blue"
               ? "bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
