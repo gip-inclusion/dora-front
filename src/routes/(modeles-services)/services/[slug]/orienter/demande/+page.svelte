@@ -47,14 +47,13 @@
     });
     const jsonResult = await result.json();
     console.log(jsonResult);
+
     return result;
   }
 
   function handleSuccess(_result) {
     goto(`/services/${service.slug}/orienter/merci`);
   }
-
-  $: console.log($orientation);
 </script>
 
 <FormErrors />

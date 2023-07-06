@@ -46,8 +46,6 @@
   $: if (requirementChoices.length === 0) {
     orientationStep1Schema.requirements.required = false;
   }
-
-  $: console.log($orientation);
 </script>
 
 <FormErrors />

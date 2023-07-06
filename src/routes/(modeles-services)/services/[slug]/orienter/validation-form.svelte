@@ -17,7 +17,6 @@
     ),
     { value: "other", label: "Autre (à préciser)" },
   ].map((choice) => ({ value: choice.label, label: choice.label }));
-  $: console.log(concernedPublicChoices);
   $: if (!$orientation.situation?.includes("other")) {
     $orientation.situationOther = "";
   }
