@@ -93,7 +93,7 @@
     <LinkButton
       icon={arrowLeftLineIcon}
       to="/services/{data.service.slug}/orienter"
-      label="Revenir à l’étape précédente "
+      label="Revenir à l’étape précédente"
       secondary
     />
 

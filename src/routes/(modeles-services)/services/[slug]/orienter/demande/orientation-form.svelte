@@ -227,7 +227,7 @@
       ${$orientation.beneficiaryLastName || ""} pour le service "${
         service.name
       }"`}
-      description="Merci de ne pas fournir des informations considérés comme sensibles (situation personnelle ou professionnelle autre que celles cochées à l’étape un de la demande, etc.)."
+      description="Merci de ne pas fournir des informations considérées comme sensibles (situation personnelle ou professionnelle autre que celles cochées à l’étape un de la demande, etc.)."
       bind:value={$orientation.orientationReasons}
       vertical
     />
