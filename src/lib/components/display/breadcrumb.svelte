@@ -18,9 +18,9 @@
     | "structure-services"
     | "structure-modeles"
     | "structure-antennes"
-    | "serviceOrientationStep1"
-    | "serviceOrientationStep2"
-    | "serviceOrientationConfirmation"
+    | "service-orientation-step1"
+    | "service-orientation-step2"
+    | "service-orientation-confirmation"
     | "service";
 
   export let structure: Structure | undefined = undefined;
@@ -38,9 +38,9 @@
     privacy: "Données personnelles",
     partners: "Nos partenaires",
     account: "Mes informations",
-    serviceOrientationStep1: "Orienter • Étape 1/2",
-    serviceOrientationStep2: "Orienter • Étape 2/2",
-    serviceOrientationConfirmation: "Orienter • Confirmation",
+    "service-orientation-step1": "Orienter • Étape 1/2",
+    "service-orientation-step2": "Orienter • Étape 2/2",
+    "service-orientation-confirmation": "Orienter • Confirmation",
   };
 
   function getStructureData(location) {
