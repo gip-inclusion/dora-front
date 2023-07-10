@@ -32,7 +32,7 @@
       validatedData.attachments
     ).flat();
 
-    const result = await fetch(`${getApiURL()}/orientation/`, {
+    const result = await fetch(`${getApiURL()}/orientations/`, {
       method: "POST",
       headers: {
         Accept: "application/json; version=1.0",

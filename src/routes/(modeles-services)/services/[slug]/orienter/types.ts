@@ -1,3 +1,5 @@
+type ContactPreferences = "TELEPHONE" | "EMAIL" | "AUTRE";
+
 export interface Orientation {
   situation: string[];
   situationOther: string;
@@ -12,7 +14,7 @@ export interface Orientation {
   beneficiaryLastName: string;
   beneficiaryFirstName: string;
   beneficiaryAvailability: string | null;
-  beneficiaryContactPreferences: string[];
+  beneficiaryContactPreferences: ContactPreferences[];
   beneficiaryPhone: string;
   beneficiaryEmail: string;
   beneficiaryOtherContactMethod: string;
