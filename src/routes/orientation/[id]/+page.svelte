@@ -38,7 +38,7 @@
   });
 
   async function onRefresh() {
-    sendOrientation = await getOrientation(data.orientationId);
+    sendOrientation = await getOrientation(sendOrientation.queryId);
   }
 </script>
 

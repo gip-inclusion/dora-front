@@ -46,7 +46,7 @@
 
   async function handleSubmit(validatedData) {
     await contactService(
-      sendOrientation.id,
+      sendOrientation.queryId,
       validatedData.extraRecipients,
       validatedData.message
     );
