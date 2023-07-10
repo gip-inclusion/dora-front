@@ -250,36 +250,39 @@
     />
   </Fieldset>
 
-  <Fieldset title="Documents et justificatifs requis">
-    {#each service.formsInfo as form}
-      {#if $orientation.attachments[form.name]}
-        <UploadField
-          dynamicId
-          label="Document à compléter"
-          vertical
-          id={form.name}
-          description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: jpg, png, doc, pdf"
-          bind:fileKeys={$orientation.attachments[form.name]}
-        >
-          <p slot="description">
-            <a href={form.url} class="font-bold underline">
-              {formatFilePath(form.name)}
-            </a>
-          </p>
-        </UploadField>
-      {/if}
-    {/each}
+  {#if service.formsInfo.length}
+    <Fieldset title="Documents et justificatifs requis">
+      {#each service.formsInfo as form}
+        {#if $orientation.attachments[form.name]}
+          <UploadField
+            dynamicId
+            label="Document à compléter"
+            vertical
+            id={form.name}
+            description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: jpg, png, doc, pdf"
+            bind:fileKeys={$orientation.attachments[form.name]}
+          >
+            <p slot="description">
+              <a href={form.url} class="font-bold underline">
+                {formatFilePath(form.name)}
+              </a>
+            </p>
+          </UploadField>
+        {/if}
+      {/each}
 
-    {#each credentials as cred}
-      {#if $orientation.attachments[cred.label]}
-        <UploadField
-          dynamicId
-          label={cred.label}
-          vertical
-          id={cred.label}
-          description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: jpg, png, doc, pdf"
-          bind:fileKeys={$orientation.attachments[cred.label]}
-        />{/if}
-    {/each}
-  </Fieldset>
+      {#each credentials as cred}
+        {#if $orientation.attachments[cred.label]}
+          <UploadField
+            dynamicId
+            label={cred.label}
+            vertical
+            id={cred.label}
+            description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: jpg, png, doc, pdf"
+            bind:fileKeys={$orientation.attachments[cred.label]}
+          />
+        {/if}
+      {/each}
+    </Fieldset>
+  {/if}
 </div>

@@ -4,7 +4,8 @@ import type { Orientation } from "./types";
 export const OTHER_LABEL = "Autre (à préciser)";
 
 export const orientation = writable<Orientation>({
-  // TODO: valeurs par defaut temporaires pour faciliter les tests du formulaire
+  /*
+  TODO: valeurs par defaut temporaires pour faciliter les tests du formulaire
 
   situation: ["Public femme en difficulté"],
   situationOther: "autre...",
@@ -24,25 +25,25 @@ export const orientation = writable<Orientation>({
   beneficiaryEmail: "ben@example.com",
   beneficiaryOtherContactMethod: "autre mode de contact",
   orientationReasons: "Motif de l‘orientation",
+  */
 
+  situation: [],
+  situationOther: "",
+  requirements: [],
+  prescriberStructure: "",
+
+  referentLastName: "",
+  referentFirstName: "",
+  referentPhone: "",
+  referentEmail: "",
+
+  beneficiaryLastName: "",
+  beneficiaryFirstName: "",
+  beneficiaryAvailability: null,
+  beneficiaryContactPreferences: [],
+  beneficiaryPhone: "",
+  beneficiaryEmail: "",
+  beneficiaryOtherContactMethod: "",
+  orientationReasons: "",
   attachments: {},
-
-  // situation: [],
-  // situationOther: "",
-  // requirements: [],
-  // prescriberStructure: "",
-  //
-  // referentLastName: "",
-  // referentFirstName: "",
-  // referentPhone: "",
-  // referentEmail: "",
-  //
-  // beneficiaryLastName: "",
-  // beneficiaryFirstName: "",
-  // beneficiaryAvailability: null,
-  // beneficiaryContactPreferences: [],
-  // beneficiaryPhone: "",
-  // beneficiaryEmail: "",
-  // beneficiaryOtherContactMethod: "",
-  // orientationReasons: "",
 });
