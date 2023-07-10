@@ -6,12 +6,12 @@
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import { contactService } from "$lib/utils/orientation";
-  import type { SendOrientation } from "./types";
+  import type { SendOrientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
   export let isOpen = false;
   export let onRefresh;
-  export let sendOrientation: SendOrientation;
+  export let orientation: SendOrientation;
 
   let showConfirmation = false;
 
@@ -36,17 +36,17 @@
   const extraRecipientsChoices = [
     {
       value: "add-beneficiary",
-      label: `Ajouter le ou la bénéficiaire en copie (${sendOrientation.beneficiaryFirstName} ${sendOrientation.beneficiaryLastName})`,
+      label: `Ajouter le ou la bénéficiaire en copie (${orientation.beneficiaryFirstName} ${orientation.beneficiaryLastName})`,
     },
     {
       value: "add-referent-contact",
-      label: `Ajouter le conseiller ou la conseillère référente en copie (${sendOrientation.referentFirstName} ${sendOrientation.referentLastName})`,
+      label: `Ajouter le conseiller ou la conseillère référente en copie (${orientation.referentFirstName} ${orientation.referentLastName})`,
     },
   ];
 
   async function handleSubmit(validatedData) {
     await contactService(
-      sendOrientation.queryId,
+      orientation.queryId,
       validatedData.extraRecipients,
       validatedData.message
     );
@@ -67,13 +67,10 @@
   title="Contacter le prescripteur ou la prescriptrice"
 >
   <div slot="subtitle">
-    Contacter {sendOrientation.service?.contactName} - concernant l’orientation qui
-    vous a été adressé pour le service «
-    <a
-      class="text-magenta-cta"
-      href="/services/{sendOrientation.service?.slug}"
-    >
-      {sendOrientation.service?.name}
+    Contacter {orientation.service?.contactName} - concernant l’orientation qui vous
+    a été adressé pour le service «
+    <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
+      {orientation.service?.name}
     </a> ».
   </div>
 

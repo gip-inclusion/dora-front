@@ -5,11 +5,11 @@
   import ContactBeneficiaryModal from "./contact-beneficiary-modal.svelte";
   import ContactServiceModal from "./contact-service-modal.svelte";
   import { browser } from "$app/environment";
-  import type { SendOrientation } from "./types";
+  import type { SendOrientation } from "$lib/types";
   import Notice from "$lib/components/display/notice.svelte";
   import { formatNumericDate } from "$lib/utils/date";
 
-  export let sendOrientation: SendOrientation;
+  export let orientation: SendOrientation;
   export let onRefresh;
 
   let modalOpened:
@@ -25,14 +25,14 @@
 
   let statusMessage: { label?: string; cssClass?: string } = {};
   $: {
-    if (sendOrientation.status === "validée") {
+    if (orientation.status === "VALIDÉE") {
       statusMessage = { label: "Validé", cssClass: "text-success" };
-    } else if (sendOrientation.status === "ouverte") {
+    } else if (orientation.status === "OUVERTE") {
       statusMessage = {
         label: "Ouverte / En cours de traitement",
         cssClass: "text-blue-information-dark",
       };
-    } else if (sendOrientation.status === "refusée") {
+    } else if (orientation.status === "REFUSÉE") {
       statusMessage = { label: "Refusé", cssClass: "text-error" };
     }
   }
@@ -42,13 +42,13 @@
   <DenyOrientationModal
     isOpen={modalOpened === "deny"}
     on:close={closeModal}
-    {sendOrientation}
+    {orientation}
     {onRefresh}
   />
   <AcceptOrientationModal
     isOpen={modalOpened === "accept"}
     on:close={closeModal}
-    {sendOrientation}
+    {orientation}
     {onRefresh}
   />
 
@@ -56,12 +56,12 @@
     isOpen={modalOpened === "contact-beneficiary"}
     on:close={closeModal}
     {onRefresh}
-    {sendOrientation}
+    {orientation}
   />
   <ContactServiceModal
     isOpen={modalOpened === "contact-service"}
     on:close={closeModal}
-    {sendOrientation}
+    {orientation}
     {onRefresh}
   />
 {/if}
@@ -78,7 +78,7 @@
     {/if}
   </div>
 
-  {#if sendOrientation.status === "ouverte"}
+  {#if orientation.status === "OUVERTE"}
     <div class="flex flex-col gap-s12">
       <Button
         label="Valider la demande"
@@ -103,22 +103,22 @@
         on:click={() => (modalOpened = "contact-service")}
       />
     </div>
-  {:else if sendOrientation.status === "validée"}
+  {:else if orientation.status === "VALIDÉE"}
     <Notice
       type="info"
       title="Vous avez validé cette demande le {formatNumericDate(
-        sendOrientation.processingDate
+        orientation.processingDate
       )}"
     >
       <p class="text-left text-f14 text-gray-text">
         Vous ne pouvez plus revenir sur une décision qui a déjà été actée.
       </p>
     </Notice>
-  {:else if sendOrientation.status === "refusée"}
+  {:else if orientation.status === "REFUSÉE"}
     <Notice
       type="error"
       title="Vous avez refusé cette demande le {formatNumericDate(
-        sendOrientation.processingDate
+        orientation.processingDate
       )}"
     >
       <p class="text-left text-f14 text-gray-text">

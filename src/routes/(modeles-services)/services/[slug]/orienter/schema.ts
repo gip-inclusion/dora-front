@@ -115,7 +115,7 @@ export const orientationStep2Schema: v.Schema = {
     maxLength: 280,
     post: [v.trim],
     required: (data) => {
-      return data?.beneficiaryContactPreferences?.includes("other");
+      return data?.beneficiaryContactPreferences?.includes("autre");
     },
   },
   beneficiaryAvailability: {

@@ -1,35 +1,27 @@
-import { get } from "svelte/store";
 import { getApiURL } from "./api";
-import { token } from "./auth";
 import { fetchData } from "./misc";
-import type { SendOrientation } from "../../routes/orientation/[id]/types";
+import type { SendOrientation } from "$lib/types";
 
 export async function getOrientation(
-  uid: string
-): Promise<SendOrientation | undefined> {
-  const url = `${getApiURL()}/orientation/${uid}/`;
-  const { data } = await fetchData<SendOrientation>(url);
+  queryId: string
+): Promise<SendOrientation | null> {
+  const url = `${getApiURL()}/orientations/${queryId}/`;
 
-  if (!data) {
-    return undefined;
-  }
-  return data;
+  return (await fetchData<SendOrientation>(url)).data;
 }
 
 export function contactBeneficiary(
-  uid: string,
+  queryId: string,
   extraRecipients: string[],
   message: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/contact/beneficiary/`;
+  const url = `${getApiURL()}/orientations/${queryId}/contact/beneficiary/`;
   const method = "POST";
   return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
       "Content-Type": "application/json",
-
-      Authorization: `Token ${get(token)}`,
     },
     body: JSON.stringify({
       extraRecipients,
@@ -39,19 +31,17 @@ export function contactBeneficiary(
 }
 
 export function contactService(
-  uid: string,
+  queryId: string,
   extraRecipients: string[],
   message: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/contact/prescriber/`;
+  const url = `${getApiURL()}/orientations/${queryId}/contact/prescriber/`;
   const method = "POST";
   return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
       "Content-Type": "application/json",
-
-      Authorization: `Token ${get(token)}`,
     },
     body: JSON.stringify({
       extraRecipients,
@@ -61,19 +51,17 @@ export function contactService(
 }
 
 export function denyOrientation(
-  uid: string,
+  queryId: string,
   reason: string,
   otherDetails?: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/reject/`;
+  const url = `${getApiURL()}/orientations/${queryId}/reject/`;
   const method = "POST";
   return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
       "Content-Type": "application/json",
-
-      Authorization: `Token ${get(token)}`,
     },
     body: JSON.stringify({
       reason,
@@ -83,7 +71,7 @@ export function denyOrientation(
 }
 
 export function acceptOrientation(
-  uid: string,
+  queryId: string,
   {
     response,
     orientationStartDate,
@@ -104,15 +92,13 @@ export function acceptOrientation(
     beneficiaryMessage: string;
   }
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/validate/`;
+  const url = `${getApiURL()}/orientations/${queryId}/validate/`;
   const method = "POST";
   return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
       "Content-Type": "application/json",
-
-      Authorization: `Token ${get(token)}`,
     },
     body: JSON.stringify({
       response,

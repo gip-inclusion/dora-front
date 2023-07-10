@@ -540,3 +540,44 @@ export type Day =
   | "sunday";
 export type DayPrefix = "Mo" | "Tu" | "We" | "Th" | "Fr" | "Sa" | "Su";
 export type DayPeriod = "timeSlot1" | "timeSlot2";
+
+type ContactPreferences = "TELEPHONE" | "EMAIL" | "AUTRE";
+
+export interface Orientation {
+  situation: string[];
+  situationOther: string;
+  requirements: string[];
+
+  referentLastName: string;
+  referentFirstName: string;
+  referentPhone: string;
+  referentEmail: string;
+  prescriberStructure: string;
+
+  beneficiaryLastName: string;
+  beneficiaryFirstName: string;
+  beneficiaryAvailability: string | null;
+  beneficiaryContactPreferences: ContactPreferences[];
+  beneficiaryPhone: string;
+  beneficiaryEmail: string;
+  beneficiaryOtherContactMethod: string;
+  orientationReasons: string;
+
+  attachments: { [key: string]: string[] };
+}
+
+export interface SendOrientation extends Orientation {
+  queryId: string;
+  creationDate: string;
+  processingDate?: string;
+  status: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
+  beneficiaryAttachments: string[];
+  service: {
+    name: string;
+    slug: string;
+    contactName?: string;
+    contactPhone?: string;
+    contactEmail?: string;
+    contactOtherMethod?: string;
+  };
+}

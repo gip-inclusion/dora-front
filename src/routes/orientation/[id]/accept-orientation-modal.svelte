@@ -7,12 +7,12 @@
   import { acceptOrientation } from "$lib/utils/orientation";
   import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
-  import type { SendOrientation } from "./types";
+  import type { SendOrientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
   export let isOpen = false;
   export let onRefresh;
-  export let sendOrientation: SendOrientation;
+  export let orientation: SendOrientation;
 
   let showConfirmation = false;
 
@@ -24,6 +24,7 @@
       default: "",
       required: true,
       rules: [v.maxStrLength(1000)],
+      maxLength: 1000,
     },
     orientationStartDate: {
       label: "Date d’entrée en parcours",
@@ -39,6 +40,7 @@
       label: "Lieu de déroulement",
       default: "",
       rules: [v.maxStrLength(1000)],
+      maxLength: 1000,
     },
     addExtraRecipients: {
       label: "Informer d’autres personnes",
@@ -49,6 +51,7 @@
       label: "Courriel des personnes à informer",
       default: false,
       rules: [v.maxStrLength(1000)],
+      maxLength: 1000,
     },
     addBeneficiaryMessage: {
       label: "Ajouter un message pour le ou la bénéficiaire",
@@ -59,11 +62,12 @@
       label: "Message pour le ou la bénéficiaire",
       default: false,
       rules: [v.maxStrLength(1000)],
+      maxLength: 1000,
     },
   };
 
   async function handleSubmit(validatedData) {
-    await acceptOrientation(sendOrientation.queryId, validatedData);
+    await acceptOrientation(orientation.queryId, validatedData);
     await onRefresh();
   }
 
@@ -99,13 +103,10 @@
 <Modal bind:isOpen on:close$ title="Accepter la demande" overflow>
   <div slot="subtitle">
     Vous êtes sur le point de valider une demande d’orientation qui vous a été
-    adressée par {sendOrientation.referentFirstName}
-    {sendOrientation.referentLastName} pour le service «
-    <a
-      class="text-magenta-cta"
-      href="/services/{sendOrientation.service?.slug}"
-    >
-      {sendOrientation.service?.name}
+    adressée par {orientation.referentFirstName}
+    {orientation.referentLastName} pour le service «
+    <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
+      {orientation.service?.name}
     </a>
   </div>
 

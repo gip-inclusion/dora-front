@@ -6,12 +6,12 @@
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import { denyOrientation } from "$lib/utils/orientation";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
-  import type { SendOrientation } from "./types";
+  import type { SendOrientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
   export let isOpen = false;
   export let onRefresh;
-  export let sendOrientation: SendOrientation;
+  export let orientation: SendOrientation;
 
   let showConfirmation = false;
 
@@ -84,7 +84,7 @@
 
   async function handleSubmit(validatedData) {
     await denyOrientation(
-      sendOrientation.queryId,
+      orientation.queryId,
       validatedData.reason,
       validatedData.otherDetails
     );
@@ -102,20 +102,17 @@
 <Modal bind:isOpen on:close$ title="Refuser la demande" overflow>
   <div slot="subtitle">
     Vous êtes sur le point de refuser une demande de prescription de service qui
-    vous a été adressée par {sendOrientation.referentFirstName}
-    {sendOrientation.referentLastName} de la structure {sendOrientation.structure}
+    vous a été adressée par {orientation.referentFirstName}
+    {orientation.referentLastName} de la structure {orientation.structure}
     pour le service «
-    <a
-      class="text-magenta-cta"
-      href="/services/{sendOrientation.service?.slug}"
-    >
-      {sendOrientation.service?.name}
+    <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
+      {orientation.service?.name}
     </a>
     ».<br />
     <div class="mt-s16">
-      Le ou la bénéficiaire, {sendOrientation.beneficiaryFirstName}
-      {sendOrientation.beneficiaryLastName}, sera informé•e de la décision par {sendOrientation.referentFirstName}
-      {sendOrientation.referentLastName}.
+      Le ou la bénéficiaire, {orientation.beneficiaryFirstName}
+      {orientation.beneficiaryLastName}, sera informé•e de la décision par {orientation.referentFirstName}
+      {orientation.referentLastName}.
     </div>
   </div>
 

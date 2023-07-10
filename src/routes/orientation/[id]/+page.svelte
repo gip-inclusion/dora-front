@@ -1,9 +1,7 @@
 <script lang="ts">
-  import { afterUpdate, onMount } from "svelte";
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
 
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import DateLabelNumeric from "$lib/components/display/date-label-numeric.svelte";
   import {
     attachmentIcon,
     calendarEventLineIcon,
@@ -25,35 +23,30 @@
   import { getOrientation } from "$lib/utils/orientation";
   import type { PageData } from "./$types";
   import { formatNumericDate } from "$lib/utils/date";
+  import type { SendOrientation } from "$lib/types";
 
   export let data: PageData;
-  let { sendOrientation } = data;
-
-  onMount(() => {
-    // trackOrientationConsultation(data.id, $page.url);
-  });
-
-  afterUpdate(() => {
-    console.log("update page");
-  });
+  let { orientation } = data;
 
   async function onRefresh() {
-    sendOrientation = await getOrientation(sendOrientation.queryId);
+    orientation = (await getOrientation(
+      orientation.queryId
+    )) as SendOrientation;
   }
 </script>
 
 <CenteredGrid noPadding>
   <div class="mt-s24 print:mb-s0">
-    <Breadcrumb currentLocation="service-orientation-answer" dark />
+    <Breadcrumb currentLocation="orientation" dark />
   </div>
 </CenteredGrid>
 
 <CenteredGrid>
   <div>
-    <h1>Demande d’orientation #{sendOrientation.id}</h1>
+    <h1>Demande d’orientation #{orientation.id}</h1>
     <p class="text-f16">
-      <span class="font-bold">Date d‘envoi de la demande :</span>
-      <DateLabelNumeric date={sendOrientation.creationDate} />
+      <span class="font-bold">Date d’envoi de la demande&nbsp;:</span>
+      {formatNumericDate(orientation.creationDate)}
     </p>
 
     <div
@@ -61,7 +54,7 @@
     >
       <div class="flex flex-1 flex-col gap-s32">
         <div
-          class="flex w-full items-center rounded-md border border-blue-information bg-blue-light p-s24"
+          class="border-blue-information flex w-full items-center rounded-md border bg-blue-light p-s24"
         >
           <div
             class="mr-s16 inline-block rounded-xl bg-blue-information-dark p-s12"
@@ -73,9 +66,9 @@
 
           <div>
             <p class="m-s0 text-f14 text-gray-text">
-              Service concernée :<br />
+              Service concernée&nbsp;:<br />
               <span class="text-f23 font-bold text-france-blue"
-                >{sendOrientation.service?.name}</span
+                >{orientation.service?.name}</span
               >
             </p>
           </div>
@@ -95,35 +88,35 @@
                 <ul class="flex flex-col gap-s12">
                   <ContactListItem
                     icon={user6Icon}
-                    text={`${sendOrientation.beneficiaryFirstName} ${sendOrientation.beneficiaryLastName}`}
+                    text={`${orientation.beneficiaryFirstName} ${orientation.beneficiaryLastName}`}
                   />
 
-                  {#if sendOrientation.beneficiaryEmail}
+                  {#if orientation.beneficiaryEmail}
                     <ContactListItem
                       icon={mailAddLineIcon}
-                      text={sendOrientation.beneficiaryEmail}
-                      isPreference={sendOrientation.beneficiaryContactPreferences?.includes(
-                        "email"
+                      text={orientation.beneficiaryEmail}
+                      isPreference={orientation.beneficiaryContactPreferences?.includes(
+                        "EMAIL"
                       )}
                     />
                   {/if}
 
-                  {#if sendOrientation.beneficiaryPhone}
+                  {#if orientation.beneficiaryPhone}
                     <ContactListItem
                       icon={phoneLineIcon}
-                      text={formatPhoneNumber(sendOrientation.beneficiaryPhone)}
-                      isPreference={sendOrientation.beneficiaryContactPreferences?.includes(
-                        "telephone"
+                      text={formatPhoneNumber(orientation.beneficiaryPhone)}
+                      isPreference={orientation.beneficiaryContactPreferences?.includes(
+                        "TELEPHONE"
                       )}
                     />
                   {/if}
 
-                  {#if sendOrientation.beneficiaryOtherContactMethod}
+                  {#if orientation.beneficiaryOtherContactMethod}
                     <ContactListItem
                       icon={inboxLineIcon}
-                      text={`Autre méthode de contact : ${sendOrientation.beneficiaryOtherContactMethod}`}
-                      isPreference={sendOrientation.beneficiaryContactPreferences?.includes(
-                        "other"
+                      text={`Autre méthode de contact&nbsp;: ${orientation.beneficiaryOtherContactMethod}`}
+                      isPreference={orientation.beneficiaryContactPreferences?.includes(
+                        "AUTRE"
                       )}
                     />
                   {/if}
@@ -131,7 +124,7 @@
                   <ContactListItem
                     icon={calendarEventLineIcon}
                     text={`Disponible à partir de ${formatNumericDate(
-                      sendOrientation.beneficiaryAvailability
+                      orientation.beneficiaryAvailability
                     )}`}
                   />
                 </ul>
@@ -139,12 +132,12 @@
             </div>
             <hr class="border border-gray-02" />
 
-            {#if sendOrientation.situation.length}
+            {#if orientation.situation.length}
               <div>
                 <SubTitle label="Situation" icon={listCheckIcon} />
                 <div class="ml-s64">
                   <ul>
-                    {#each sendOrientation.situation as beneficiarySituation}
+                    {#each orientation.situation as beneficiarySituation}
                       <li class="ml-s16 list-disc text-f16 text-gray-text">
                         {beneficiarySituation}
                       </li>
@@ -155,7 +148,7 @@
               <hr class="border border-gray-02" />
             {/if}
 
-            {#if sendOrientation.requirements.length}
+            {#if orientation.requirements.length}
               <div>
                 <SubTitle
                   label="Critères auxquels le ou la bénéficiaire répond"
@@ -163,7 +156,7 @@
                 />
                 <div class="ml-s64">
                   <ul>
-                    {#each sendOrientation.requirements as requirement}
+                    {#each orientation.requirements as requirement}
                       <li class="ml-s16 list-disc text-f16 text-gray-text">
                         {requirement}
                       </li>
@@ -174,24 +167,24 @@
               <hr class="border border-gray-02" />
             {/if}
 
-            {#if sendOrientation.orientationReasons}
+            {#if orientation.orientationReasons}
               <div>
                 <SubTitle
                   label="Motifs de l’orientation"
                   icon={messageLineIcon}
                 />
                 <div class="ml-s64 text-f16 italic text-gray-text">
-                  {sendOrientation.orientationReasons}
+                  {orientation.orientationReasons}
                 </div>
               </div>
             {/if}
 
-            {#if sendOrientation.beneficiaryAttachments?.length}
+            {#if orientation.beneficiaryAttachments?.length}
               <div>
                 <SubTitle label="Pièces jointes" icon={attachmentIcon} />
                 <div class="ml-s64 text-gray-text">
                   <ul class="mb-s24">
-                    {#each sendOrientation.beneficiaryAttachments as file}
+                    {#each orientation.beneficiaryAttachments as file}
                       <li class="ml-s16 list-disc text-f16 text-gray-text">
                         {file}
                       </li>
@@ -201,8 +194,8 @@
                   <div>
                     Toutes les pièces jointes vous ont été transmises par e-mail
                     le <strong>
-                      <DateLabelNumeric date={sendOrientation.creationDate} />
-                    </strong>. Sujet de l‘e-mail : «&nbsp;
+                      {formatNumericDate(orientation.creationDate)}
+                    </strong>. Sujet de l’e-mail&nbsp;: «&nbsp;
                     <strong>Nouvelle demande d'orientation reçue</strong>
                     ».
                   </div>
@@ -237,40 +230,40 @@
               />
               <div class="ml-s64 text-f16 text-gray-text">
                 <ul class="flex flex-col gap-s12">
-                  {#if sendOrientation.service?.contactName}
+                  {#if orientation.service?.contactName}
                     <ContactListItem
                       icon={user6Icon}
-                      text={sendOrientation.service?.contactName}
+                      text={orientation.service?.contactName}
                     />
                   {/if}
 
-                  {#if sendOrientation.service?.contactEmail}
+                  {#if orientation.service?.contactEmail}
                     <ContactListItem
                       icon={mailAddLineIcon}
-                      text={sendOrientation.service?.contactEmail}
+                      text={orientation.service?.contactEmail}
                     />
                   {/if}
 
-                  {#if sendOrientation.service?.contactPhone}
+                  {#if orientation.service?.contactPhone}
                     <ContactListItem
                       icon={phoneLineIcon}
                       text={formatPhoneNumber(
-                        sendOrientation.service?.contactPhone
+                        orientation.service?.contactPhone
                       )}
                     />
                   {/if}
 
-                  {#if sendOrientation.service?.contactOtherMethod}
+                  {#if orientation.service?.contactOtherMethod}
                     <ContactListItem
                       icon={inboxLineIcon}
-                      text={`Autre méthode de contact : ${sendOrientation.service?.contactOtherMethod}`}
+                      text={`Autre méthode de contact&nbsp;: ${orientation.service?.contactOtherMethod}`}
                     />
                   {/if}
 
                   <ContactListItem
                     icon={homeSmile2Icon}
-                    text={sendOrientation.service?.name}
-                    link={`/services/${sendOrientation.service?.slug}`}
+                    text={orientation.service?.name}
+                    link={`/services/${orientation.service?.slug}`}
                   />
                 </ul>
               </div>
@@ -286,19 +279,19 @@
                 <ul class="flex flex-col gap-s12">
                   <ContactListItem
                     icon={user6Icon}
-                    text={`${sendOrientation.referentFirstName} ${sendOrientation.referentLastName}`}
+                    text={`${orientation.referentFirstName} ${orientation.referentLastName}`}
                   />
-                  {#if sendOrientation.referentEmail}
+                  {#if orientation.referentEmail}
                     <ContactListItem
                       icon={mailAddLineIcon}
-                      text={sendOrientation.referentEmail}
+                      text={orientation.referentEmail}
                     />
                   {/if}
 
-                  {#if sendOrientation.referentPhone}
+                  {#if orientation.referentPhone}
                     <ContactListItem
                       icon={phoneLineIcon}
-                      text={formatPhoneNumber(sendOrientation.referentPhone)}
+                      text={formatPhoneNumber(orientation.referentPhone)}
                     />
                   {/if}
                 </ul>
@@ -309,7 +302,7 @@
       </div>
 
       <div class="mb-s32 w-full shrink-0 md:w-[384px]">
-        <HandleOrientation {sendOrientation} {onRefresh} />
+        <HandleOrientation {orientation} {onRefresh} />
       </div>
     </div>
   </div></CenteredGrid

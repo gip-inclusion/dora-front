@@ -6,12 +6,12 @@
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import { contactBeneficiary } from "$lib/utils/orientation";
-  import type { SendOrientation } from "../../services/[slug]/orienter/types";
+  import type { SendOrientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
   export let isOpen = false;
   export let onRefresh;
-  export let sendOrientation: SendOrientation;
+  export let orientation: SendOrientation;
 
   let showConfirmation = false;
 
@@ -46,7 +46,7 @@
 
   async function handleSubmit(validatedData) {
     await contactBeneficiary(
-      sendOrientation.queryId,
+      orientation.queryId,
       validatedData.extraRecipients,
       validatedData.message
     );
@@ -62,14 +62,11 @@
 
 <Modal bind:isOpen on:close overflow title="Contacter le ou la bénéficiaire">
   <div slot="subtitle">
-    Contacter {sendOrientation.beneficiaryFirstName}
-    {sendOrientation.beneficiaryLastName} - qui vous a été adressé·e par {sendOrientation.referentFirstName}
-    {sendOrientation.referentLastName}, pour le service «
-    <a
-      class="text-magenta-cta"
-      href="/services/{sendOrientation.service?.slug}"
-    >
-      {sendOrientation.service?.name}
+    Contacter {orientation.beneficiaryFirstName}
+    {orientation.beneficiaryLastName} - qui vous a été adressé·e par {orientation.referentFirstName}
+    {orientation.referentLastName}, pour le service «
+    <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
+      {orientation.service?.name}
     </a> »
   </div>
 

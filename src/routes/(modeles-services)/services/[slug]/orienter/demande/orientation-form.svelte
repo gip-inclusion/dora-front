@@ -31,9 +31,9 @@
 
   onMount(() => {
     contactPrefOptions = [
-      { value: "telephone", label: "Téléphone" },
-      { value: "email", label: "E-mail" },
-      { value: "autre", label: "Autre" },
+      { value: "TELEPHONE", label: "Téléphone" },
+      { value: "EMAIL", label: "E-mail" },
+      { value: "AUTRE", label: "Autre" },
     ];
 
     $orientation.referentLastName = $userInfo.lastName;
