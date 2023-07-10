@@ -7,7 +7,7 @@
   import LinkButton from "$lib/components/display/link-button.svelte";
   import { token } from "$lib/utils/auth";
 
-  export let service, showContact;
+  export let service;
   let contactOpen = false;
 
   export let backgroundColor: "blue" | "white" = "white";
@@ -28,7 +28,7 @@
   Mobiliser le service
 </h2>
 
-{#if showContact || $token}
+{#if $token}
   <div class="w-full sm:w-auto">
     <div class="hidden print:inline">
       <ServiceContact {service} />

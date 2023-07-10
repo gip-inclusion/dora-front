@@ -30,6 +30,7 @@
     warning: {
       background: "bg-warning-light",
       text: "text-warning",
+      title: "text-warning",
       icon: alertLine,
     },
     error: {
@@ -62,8 +63,7 @@
         {#if title}
           <svelte:element
             this={titleLevel}
-            class="mb-s0 flex text-f18 leading-32 text-gray-dark {types[type]
-              .title}"
+            class="mb-s0 flex text-f18 leading-32 {types[type].title}"
           >
             {#if showIcon}
               <div class="mr-s8 inline-block text-center sm:hidden">

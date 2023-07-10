@@ -1,6 +1,8 @@
 import { writable } from "svelte/store";
 import type { Orientation } from "./types";
 
+export const OTHER_LABEL = "Autre (à préciser)";
+
 export const orientation = writable<Orientation>({
   // TODO: valeurs par defaut temporaires pour faciliter les tests du formulaire
 
@@ -27,21 +29,20 @@ export const orientation = writable<Orientation>({
 
   // situation: [],
   // situationOther: "",
-  // situationOther: [],
   // requirements: [],
-  // prescriberStructure: undefined,
+  // prescriberStructure: "",
   //
-  // referentLastName: undefined,
-  // referentFirstName: undefined,
-  // referentPhone: undefined,
-  // referentEmail: undefined,
+  // referentLastName: "",
+  // referentFirstName: "",
+  // referentPhone: "",
+  // referentEmail: "",
   //
-  // beneficiaryLastName: undefined,
-  // beneficiaryFirstName: undefined,
-  // beneficiaryAvailability: undefined,
-  // beneficiaryContactPreferences: undefined,
-  // beneficiaryPhone: undefined,
-  // beneficiaryEmail: undefined,
-  // beneficiaryOtherContactMethod: undefined,
-  // orientationReasons: undefined,
+  // beneficiaryLastName: "",
+  // beneficiaryFirstName: "",
+  // beneficiaryAvailability: null,
+  // beneficiaryContactPreferences: [],
+  // beneficiaryPhone: "",
+  // beneficiaryEmail: "",
+  // beneficiaryOtherContactMethod: "",
+  // orientationReasons: "",
 });

@@ -123,7 +123,7 @@
               Informations complémentaires ou formulaires à compléter
             </p>
 
-            <ul class="list-inside list-disc">
+            <ul class="list-disc pl-s20">
               <li>
                 <span class="break-word">
                   <a

@@ -24,13 +24,13 @@
       <p class="legend">
         Vous allez recevoir une copie de cette demande par e-mail, dans quelques
         instants.
-        {#if $orientation.beneficiaryContactPreferences?.includes("email")}
+        {#if $orientation.beneficiaryContactPreferences.includes("email")}
           <br />Le ou la bénéficiaire recevra également une notice
           d’information.
         {/if}
       </p>
 
-      {#if $orientation.beneficiaryContactPreferences?.length === 1 && ($orientation.beneficiaryContactPreferences[0] === "email" || $orientation.beneficiaryContactPreferences[0] === "phone")}
+      {#if $orientation.beneficiaryContactPreferences?.length === 1 && ($orientation.beneficiaryContactPreferences[0] === "autre" || $orientation.beneficiaryContactPreferences[0] === "telephone")}
         <div class="mb-s28">
           <Notice type="info" title="Pensez à informer le ou la bénéficiaire">
             <p class="text-left text-f14 text-gray-text">

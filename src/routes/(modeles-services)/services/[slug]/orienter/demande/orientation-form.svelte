@@ -6,7 +6,7 @@
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import UploadField from "$lib/components/forms/fields/upload-field.svelte";
   import { formatFilePath } from "$lib/utils/service";
-  import { orientation } from "../store";
+  import { OTHER_LABEL, orientation } from "../store";
   import { userInfo } from "$lib/utils/auth";
   import { onMount } from "svelte";
   import Accordion from "$lib/components/display/accordion.svelte";
@@ -35,6 +35,10 @@
       { value: "email", label: "E-mail" },
       { value: "autre", label: "Autre" },
     ];
+
+    $orientation.referentLastName = $userInfo.lastName;
+    $orientation.referentFirstName = $userInfo.firstName;
+    $orientation.referentEmail = $userInfo.email;
 
     credentials = servicesOptions.credentials.filter((elt) =>
       service.credentials.includes(elt.value)
@@ -142,7 +146,7 @@
       vertical
     >
       <p slot="description" class="legend italic">
-        Date à partir de laquelle la personne est disponible. <br />
+        Date à partir de laquelle la personne est disponible.<br />
         Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier 2023)
       </p>
     </BasicInputField>
@@ -160,18 +164,24 @@
           <div class="mt-s20">
             {#if $orientation.situation.length}
               <h4 class="mb-s6 text-gray-text">
-                Profil de votre bénéficiaire :
+                Profil de votre bénéficiaire&nbsp;:
               </h4>
               <ul class="ml-s20 list-disc">
                 {#each $orientation.situation as label}
-                  <li class="text-gray-text">{label}</li>
+                  {#if label === OTHER_LABEL}
+                    <li class="text-gray-text">
+                      {label} : {$orientation.situationOther}
+                    </li>
+                  {:else}
+                    <li class="text-gray-text">{label}</li>
+                  {/if}
                 {/each}
               </ul>
             {/if}
 
             {#if $orientation.requirements.length}
               <h4 class="mb-s6 mt-s16 text-gray-text">
-                Critères correspondants :
+                Critères correspondants&nbsp;:
               </h4>
               <ul class="ml-s20 list-disc">
                 {#each $orientation.requirements as label}
@@ -189,7 +199,7 @@
       choices={contactPrefOptions}
       bind:value={$orientation.beneficiaryContactPreferences}
       vertical
-      verticalOptions
+      horizontalCheckboxes
     />
 
     <div class="flex flex-row justify-items-stretch gap-s24">
@@ -221,7 +231,7 @@
 
     <TextareaField
       id="orientationReasons"
-      forceLabel={`Si besoin, détaillez ici le motif de l’orientation du bénéficiaire ${
+      label={`Si besoin, détaillez ici le motif de l’orientation du bénéficiaire ${
         $orientation.beneficiaryFirstName || ""
       }
       ${$orientation.beneficiaryLastName || ""} pour le service "${
