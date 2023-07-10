@@ -101,7 +101,7 @@
         <BasicInputField
           id="referentPhone"
           type="tel"
-          description="Format attendu : 0123456789"
+          description="Format attendu&nbsp;: 0123456789"
           bind:value={$orientation.referentPhone}
           vertical
         />
@@ -110,7 +110,7 @@
         <BasicInputField
           id="referentEmail"
           type="email"
-          description="Format attendu : nom@domaine.fr"
+          description="Format attendu&nbsp;: nom@domaine.fr"
           bind:value={$orientation.referentEmail}
           vertical
         />
@@ -147,7 +147,8 @@
     >
       <p slot="description" class="legend italic">
         Date à partir de laquelle la personne est disponible.<br />
-        Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier 2023)
+        Format attendu&nbsp;: JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
+        2023)
       </p>
     </BasicInputField>
 
@@ -207,7 +208,7 @@
         <BasicInputField
           id="beneficiaryPhone"
           type="tel"
-          description="Format attendu : 0123456789"
+          description="Format attendu&nbsp;: 0123456789"
           bind:value={$orientation.beneficiaryPhone}
           vertical
         />
@@ -216,7 +217,7 @@
         <BasicInputField
           id="beneficiaryEmail"
           type="email"
-          description="Format attendu : nom@domaine.fr"
+          description="Format attendu&nbsp;: nom@domaine.fr"
           bind:value={$orientation.beneficiaryEmail}
           vertical
         />
@@ -257,7 +258,7 @@
           label="Document à compléter"
           vertical
           id={form.name}
-          description="Taille maximale : 5 Mo. Formats supportés : jpg, png, doc, pdf"
+          description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: jpg, png, doc, pdf"
           bind:fileKeys={$orientation.attachments[form.name]}
         >
           <p slot="description">
@@ -276,7 +277,7 @@
           label={cred.label}
           vertical
           id={cred.label}
-          description="Taille maximale : 5 Mo. Formats supportés : jpg, png, doc, pdf"
+          description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: jpg, png, doc, pdf"
           bind:fileKeys={$orientation.attachments[cred.label]}
         />{/if}
     {/each}
