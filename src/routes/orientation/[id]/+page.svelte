@@ -43,7 +43,7 @@
 
 <CenteredGrid>
   <div>
-    <h1>Demande d’orientation #{orientation.id}</h1>
+    <h1>Demande d’orientation #{orientation.queryId}</h1>
     <p class="text-f16">
       <span class="font-bold">Date d’envoi de la demande&nbsp;:</span>
       {formatNumericDate(orientation.creationDate)}

@@ -60,7 +60,13 @@
   $: formData = { extraRecipients, message };
 </script>
 
-<Modal bind:isOpen on:close overflow title="Contacter le ou la bénéficiaire">
+<Modal
+  bind:isOpen
+  on:close
+  overflow
+  title="Contacter le ou la bénéficiaire"
+  width="medium"
+>
   <div slot="subtitle">
     Contacter {orientation.beneficiaryFirstName}
     {orientation.beneficiaryLastName} - qui vous a été adressé·e par {orientation.referentFirstName}

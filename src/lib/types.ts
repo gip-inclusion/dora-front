@@ -569,6 +569,7 @@ export interface Orientation {
 export interface SendOrientation extends Orientation {
   queryId: string;
   creationDate: string;
+  structure: string;
   processingDate?: string;
   status: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
   beneficiaryAttachments: string[];

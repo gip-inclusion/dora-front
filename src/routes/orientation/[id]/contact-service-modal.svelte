@@ -64,6 +64,7 @@
   bind:isOpen
   on:close
   overflow
+  width="medium"
   title="Contacter le prescripteur ou la prescriptrice"
 >
   <div slot="subtitle">

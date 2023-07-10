@@ -100,7 +100,13 @@
   }
 </script>
 
-<Modal bind:isOpen on:close$ title="Accepter la demande" overflow>
+<Modal
+  bind:isOpen
+  on:close$
+  title="Accepter la demande"
+  overflow
+  width="medium"
+>
   <div slot="subtitle">
     Vous êtes sur le point de valider une demande d’orientation qui vous a été
     adressée par {orientation.referentFirstName}
@@ -141,7 +147,7 @@
           <p slot="description" class="legend italic">
             Date à partir de laquelle le ou la bénéficiaire est prise en charge.
             <br />
-            Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
+            Format attendu&nbsp;: JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
             2023)
           </p>
         </BasicInputField>
@@ -156,7 +162,7 @@
         >
           <p slot="description" class="legend italic">
             Date prévisionnelle de sortie.<br />
-            Format attendu : JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
+            Format attendu&nbsp;: JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
             2023)
           </p>
         </BasicInputField>
@@ -177,7 +183,7 @@
           bind:value={formData.addExtraRecipients}
           description="Si vous souhaitez ajouter d‘autres personnes en copie, cochez cette
         case et saisissez l‘adresse ou les adresses électroniques concernées
-        (séparées par un espace si plusieurs). Format attendu :
+        (séparées par un espace si plusieurs). Format attendu&nbsp;:
         nom@domaine.fr."
           vertical
           choices={[
