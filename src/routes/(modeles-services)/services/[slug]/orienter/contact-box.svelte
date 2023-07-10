@@ -8,7 +8,8 @@
 <div class="block rounded-ml border border-gray-02 p-s24 px-s32">
   <h3 class="text-france-blue">Contact</h3>
   <p class="text-f16">
-    En cas de doutes, vous pouvez contacter la personne responsable du service :
+    En cas de doute, vous pouvez contacter la personne responsable du
+    service&nbsp;:
   </p>
   <div class="flex flex-col gap-s4">
     {#if service.contactName}
