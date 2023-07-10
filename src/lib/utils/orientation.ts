@@ -21,7 +21,7 @@ export function contactBeneficiary(
   extraRecipients: string[],
   message: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/contact/beneficiaire/`;
+  const url = `${getApiURL()}/orientation/${uid}/contact/beneficiary/`;
   const method = "POST";
   return fetch(url, {
     method,
@@ -43,7 +43,7 @@ export function contactService(
   extraRecipients: string[],
   message: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/contact/prescripteur/`;
+  const url = `${getApiURL()}/orientation/${uid}/contact/prescriber/`;
   const method = "POST";
   return fetch(url, {
     method,

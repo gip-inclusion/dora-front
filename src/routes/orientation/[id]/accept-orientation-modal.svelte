@@ -63,7 +63,7 @@
   };
 
   async function handleSubmit(validatedData) {
-    await acceptOrientation(sendOrientation.id, validatedData);
+    await acceptOrientation(sendOrientation.queryId, validatedData);
     await onRefresh();
   }
 
