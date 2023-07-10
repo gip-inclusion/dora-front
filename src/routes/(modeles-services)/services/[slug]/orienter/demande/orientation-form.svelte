@@ -170,7 +170,7 @@
                 {#each $orientation.situation as label}
                   {#if label === OTHER_LABEL}
                     <li class="text-gray-text">
-                      {label} : {$orientation.situationOther}
+                      {label}&nbsp;:&nbsp;{$orientation.situationOther}
                     </li>
                   {:else}
                     <li class="text-gray-text">{label}</li>
