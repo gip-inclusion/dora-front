@@ -4,5 +4,5 @@ export interface SendOrientation extends Orientation {
   id: string;
   creationDate: string;
   processingDate?: string;
-  status: "ouverte" | "validée" | "refusée";
+  status: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
 }

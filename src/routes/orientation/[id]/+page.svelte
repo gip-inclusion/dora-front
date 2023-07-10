@@ -103,7 +103,7 @@
                       icon={mailAddLineIcon}
                       text={sendOrientation.beneficiaryEmail}
                       isPreference={sendOrientation.beneficiaryContactPreferences?.includes(
-                        "email"
+                        "EMAIL"
                       )}
                     />
                   {/if}
@@ -113,7 +113,7 @@
                       icon={phoneLineIcon}
                       text={formatPhoneNumber(sendOrientation.beneficiaryPhone)}
                       isPreference={sendOrientation.beneficiaryContactPreferences?.includes(
-                        "telephone"
+                        "TELEPHONE"
                       )}
                     />
                   {/if}
@@ -123,7 +123,7 @@
                       icon={inboxLineIcon}
                       text={`Autre méthode de contact : ${sendOrientation.beneficiaryOtherContactMethod}`}
                       isPreference={sendOrientation.beneficiaryContactPreferences?.includes(
-                        "other"
+                        "OTHER"
                       )}
                     />
                   {/if}

@@ -89,7 +89,7 @@ export const orientationStep2Schema: v.Schema = {
     rules: [v.isPhone()],
     maxLength: 10,
     required: (data) => {
-      return data?.beneficiaryContactPreferences?.includes("phone");
+      return data?.beneficiaryContactPreferences?.includes("TELEPHONE");
     },
   },
   beneficiaryEmail: {
@@ -99,7 +99,7 @@ export const orientationStep2Schema: v.Schema = {
     post: [v.lower, v.trim],
     maxLength: 254,
     required: (data) => {
-      return data?.beneficiaryContactPreferences?.includes("email");
+      return data?.beneficiaryContactPreferences?.includes("EMAIL");
     },
   },
   beneficiaryContactPreferences: {
@@ -115,7 +115,7 @@ export const orientationStep2Schema: v.Schema = {
     maxLength: 280,
     post: [v.trim],
     required: (data) => {
-      return data?.beneficiaryContactPreferences?.includes("other");
+      return data?.beneficiaryContactPreferences?.includes("AUTRE");
     },
   },
   beneficiaryAvailability: {

@@ -25,14 +25,14 @@
 
   let statusMessage: { label?: string; cssClass?: string } = {};
   $: {
-    if (sendOrientation.status === "validée") {
+    if (sendOrientation.status === "VALIDÉE") {
       statusMessage = { label: "Validé", cssClass: "text-success" };
-    } else if (sendOrientation.status === "ouverte") {
+    } else if (sendOrientation.status === "OUVERTE") {
       statusMessage = {
         label: "Ouverte / En cours de traitement",
         cssClass: "text-blue-information-dark",
       };
-    } else if (sendOrientation.status === "refusée") {
+    } else if (sendOrientation.status === "REFUSÉE") {
       statusMessage = { label: "Refusé", cssClass: "text-error" };
     }
   }
@@ -78,7 +78,7 @@
     {/if}
   </div>
 
-  {#if sendOrientation.status === "ouverte"}
+  {#if sendOrientation.status === "OUVERTE"}
     <div class="flex flex-col gap-s12">
       <Button
         label="Valider la demande"
@@ -103,7 +103,7 @@
         on:click={() => (modalOpened = "contact-service")}
       />
     </div>
-  {:else if sendOrientation.status === "validée"}
+  {:else if sendOrientation.status === "VALIDÉE"}
     <Notice
       type="info"
       title="Vous avez validé cette demande le {formatNumericDate(
@@ -114,7 +114,7 @@
         Vous ne pouvez plus revenir sur une décision qui a déjà été actée.
       </p>
     </Notice>
-  {:else if sendOrientation.status === "refusée"}
+  {:else if sendOrientation.status === "REFUSÉE"}
     <Notice
       type="error"
       title="Vous avez refusé cette demande le {formatNumericDate(

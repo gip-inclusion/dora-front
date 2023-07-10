@@ -7,7 +7,7 @@ import type { SendOrientation } from "../../routes/orientation/[id]/types";
 export async function getOrientation(
   uid: string
 ): Promise<SendOrientation | undefined> {
-  const url = `${getApiURL()}/orientation/${uid}/`;
+  const url = `${getApiURL()}/orientations/${uid}/`;
   const { data } = await fetchData<SendOrientation>(url);
 
   if (!data) {
@@ -21,7 +21,7 @@ export function contactBeneficiary(
   extraRecipients: string[],
   message: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/contact/beneficiary/`;
+  const url = `${getApiURL()}/orientations/${uid}/contact/beneficiary/`;
   const method = "POST";
   return fetch(url, {
     method,
@@ -43,7 +43,7 @@ export function contactService(
   extraRecipients: string[],
   message: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/contact/prescriber/`;
+  const url = `${getApiURL()}/orientations/${uid}/contact/prescriber/`;
   const method = "POST";
   return fetch(url, {
     method,
@@ -65,7 +65,7 @@ export function denyOrientation(
   reason: string,
   otherDetails?: string
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/reject/`;
+  const url = `${getApiURL()}/orientations/${uid}/reject/`;
   const method = "POST";
   return fetch(url, {
     method,
@@ -104,7 +104,7 @@ export function acceptOrientation(
     beneficiaryMessage: string;
   }
 ) {
-  const url = `${getApiURL()}/orientation/${uid}/validate/`;
+  const url = `${getApiURL()}/orientations/${uid}/validate/`;
   const method = "POST";
   return fetch(url, {
     method,
