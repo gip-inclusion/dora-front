@@ -51,6 +51,7 @@
       validatedData.message
     );
     await onRefresh();
+    return { ok: true };
   }
 
   function handleSuccess(_jsonResult) {

@@ -89,6 +89,7 @@
       validatedData.otherDetails
     );
     await onRefresh();
+    return { ok: true };
   }
 
   function handleSuccess(_jsonResult) {
