@@ -43,9 +43,6 @@
 
   $: if (!$orientation.situation?.includes("Autre")) {
     $orientation.situationOther = "";
-    orientationStep1Schema.situationOther.required = false;
-  } else {
-    orientationStep1Schema.situationOther.required = true;
   }
 </script>
 
@@ -92,7 +89,7 @@
         />
       {:else}
         <p class="mb-s0 italic">
-          Ce service n'a aucun critère ou conditions d'accès
+          Ce service n’a aucun critère ou conditions d’accès
         </p>
       {/if}
     </div>
