@@ -11,7 +11,7 @@ export const load: PageLoad = async ({ params }) => {
   }
 
   return {
-    title: `Demande d’orientation ${orientation.queryId}| DORA`,
+    title: `Demande d’orientation ${orientation.id}| DORA`,
     noIndex: true,
     orientation: orientation as Orientation,
   };

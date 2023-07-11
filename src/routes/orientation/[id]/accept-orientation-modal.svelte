@@ -85,10 +85,10 @@
   <div slot="subtitle">
     Vous êtes sur le point de valider une demande d’orientation qui vous a été
     adressée par {orientation.referentFirstName}
-    {orientation.referentLastName} pour le service «
+    {orientation.referentLastName} pour le service&nbsp;«
     <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
       {orientation.service?.name}
-    </a>
+    </a>&nbsp;»
   </div>
 
   {#if showConfirmation}

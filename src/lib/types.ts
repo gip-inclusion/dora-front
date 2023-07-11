@@ -566,6 +566,7 @@ export interface Orientation {
   attachments: { [key: string]: string[] };
 
   // Champs après la création de l'orientation
+  id?: string;
   queryId?: string;
   creationDate?: string;
   structure?: {

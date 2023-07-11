@@ -42,7 +42,7 @@
 
 <CenteredGrid>
   <div>
-    <h1>Demande d’orientation #{orientation.queryId}</h1>
+    <h1>Demande d’orientation #{orientation.id}</h1>
     <p class="text-f16">
       <span class="font-bold">Date d’envoi de la demande&nbsp;:</span>
       {formatNumericDate(orientation.creationDate)}
@@ -213,7 +213,7 @@
                     <strong>
                       {formatNumericDate(orientation.creationDate)}
                     </strong>. Sujet de l’e-mail&nbsp;: «<strong
-                      >&nbsp;Nouvelle demande d'orientation reçue</strong
+                      >[DORA]&nbsp;: Nouvelle demande d'orientation reçue</strong
                     >nbsp;».
                   </div>
 
@@ -232,7 +232,7 @@
           </div>
         </div>
 
-        {#if orientation.prescriber?.name || orientation.prescriber?.email || orientation.structure?.name}
+        {#if orientation.prescriber?.name || orientation.prescriber?.email || orientation.prescriberStructure}
           <div class="flex-[2] rounded-md border border-gray-02 md:relative">
             <div
               class="flex flex-wrap items-center justify-between gap-s12 border-b border-gray-02 px-s16 py-s20 md:px-s35"
