@@ -70,10 +70,10 @@
   <div slot="subtitle">
     Contacter {orientation.beneficiaryFirstName}
     {orientation.beneficiaryLastName} - qui vous a été adressé·e par {orientation.referentFirstName}
-    {orientation.referentLastName}, pour le service «
+    {orientation.referentLastName}, pour le service&nbsp;«
     <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
       {orientation.service?.name}
-    </a> »
+    </a>&nbsp;»
   </div>
 
   {#if showConfirmation}

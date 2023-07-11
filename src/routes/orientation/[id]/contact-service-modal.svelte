@@ -69,10 +69,10 @@
 >
   <div slot="subtitle">
     Contacter {orientation.service?.contactName} - concernant l’orientation qui vous
-    a été adressé pour le service «
+    a été adressé pour le service&nbsp;«
     <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
       {orientation.service?.name}
-    </a> ».
+    </a>&nbsp;».
   </div>
 
   {#if showConfirmation}

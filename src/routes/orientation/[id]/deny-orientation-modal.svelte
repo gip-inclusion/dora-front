@@ -104,11 +104,10 @@
     Vous êtes sur le point de refuser une demande de prescription de service qui
     vous a été adressée par {orientation.referentFirstName}
     {orientation.referentLastName} de la structure {orientation.structure}
-    pour le service «
+    pour le service&nbsp;«
     <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
       {orientation.service?.name}
-    </a>
-    ».<br />
+    </a>&nbsp;».<br />
     <div class="mt-s16">
       Le ou la bénéficiaire, {orientation.beneficiaryFirstName}
       {orientation.beneficiaryLastName}, sera informé•e de la décision par {orientation.referentFirstName}
