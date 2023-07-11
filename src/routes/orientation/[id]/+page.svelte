@@ -213,7 +213,7 @@
                     <strong>
                       {formatNumericDate(orientation.creationDate)}
                     </strong>. Sujet de l’e-mail&nbsp;: «<strong
-                      >[DORA]&nbsp;: Nouvelle demande d'orientation reçue</strong
+                      >Nouvelle demande d'orientation reçue</strong
                     >nbsp;».
                   </div>
 

@@ -44,17 +44,16 @@
     },
   ];
 
-  async function handleSubmit(validatedData) {
-    await contactService(
+  function handleSubmit(validatedData) {
+    return contactService(
       orientation.queryId,
       validatedData.extraRecipients,
       validatedData.message
     );
-    await onRefresh();
-    return { ok: true };
   }
 
-  function handleSuccess(_jsonResult) {
+  async function handleSuccess(_jsonResult) {
+    await onRefresh();
     showConfirmation = true;
   }
 
@@ -70,8 +69,10 @@
 >
   <div slot="subtitle">
     Contacter {orientation.service?.contactName} - concernant l’orientation qui vous
-    a été adressé pour le service&nbsp;«
-    <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
+    a été adressé pour le service «&nbsp;<a
+      class="text-magenta-cta"
+      href="/services/{orientation.service?.slug}"
+    >
       {orientation.service?.name}
     </a>&nbsp;».
   </div>

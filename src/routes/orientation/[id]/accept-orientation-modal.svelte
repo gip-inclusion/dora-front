@@ -55,13 +55,12 @@
     },
   };
 
-  async function handleSubmit(validatedData) {
-    await acceptOrientation(orientation.queryId, validatedData);
-    await onRefresh();
-    return { ok: true };
+  function handleSubmit(validatedData) {
+    return acceptOrientation(orientation.queryId, validatedData);
   }
 
-  function handleSuccess(_jsonResult) {
+  async function handleSuccess(_jsonResult) {
+    await onRefresh();
     showConfirmation = true;
   }
 
@@ -86,8 +85,10 @@
   <div slot="subtitle">
     Vous êtes sur le point de valider une demande d’orientation qui vous a été
     adressée par {orientation.referentFirstName}
-    {orientation.referentLastName} pour le service&nbsp;«
-    <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
+    {orientation.referentLastName} pour le service «&nbsp;<a
+      class="text-magenta-cta"
+      href="/services/{orientation.service?.slug}"
+    >
       {orientation.service?.name}
     </a>&nbsp;»
   </div>

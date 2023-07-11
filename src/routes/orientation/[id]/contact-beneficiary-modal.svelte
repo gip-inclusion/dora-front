@@ -44,17 +44,16 @@
     },
   ];
 
-  async function handleSubmit(validatedData) {
-    await contactBeneficiary(
+  function handleSubmit(validatedData) {
+    return contactBeneficiary(
       orientation.queryId,
       validatedData.extraRecipients,
       validatedData.message
     );
-    await onRefresh();
-    return { ok: true };
   }
 
-  function handleSuccess(_jsonResult) {
+  async function handleSuccess(_jsonResult) {
+    await onRefresh();
     showConfirmation = true;
   }
 
@@ -71,8 +70,10 @@
   <div slot="subtitle">
     Contacter {orientation.beneficiaryFirstName}
     {orientation.beneficiaryLastName} - qui vous a été adressé·e par {orientation.referentFirstName}
-    {orientation.referentLastName}, pour le service&nbsp;«
-    <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
+    {orientation.referentLastName}, pour le service «&nbsp;<a
+      class="text-magenta-cta"
+      href="/services/{orientation.service?.slug}"
+    >
       {orientation.service?.name}
     </a>&nbsp;»
   </div>

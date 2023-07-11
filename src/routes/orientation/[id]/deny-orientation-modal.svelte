@@ -82,17 +82,17 @@
     },
   ];
 
-  async function handleSubmit(validatedData) {
-    await denyOrientation(
+  function handleSubmit(validatedData) {
+    return denyOrientation(
       orientation.queryId,
       validatedData.reason,
       validatedData.otherDetails
     );
-    await onRefresh();
-    return { ok: true };
   }
 
-  function handleSuccess(_jsonResult) {
+  async function handleSuccess(_jsonResult) {
+    await onRefresh();
+
     showConfirmation = true;
   }
 
@@ -105,8 +105,10 @@
     Vous êtes sur le point de refuser une demande de prescription de service qui
     vous a été adressée par {orientation.referentFirstName}
     {orientation.referentLastName} de la structure {orientation.structure}
-    pour le service&nbsp;«
-    <a class="text-magenta-cta" href="/services/{orientation.service?.slug}">
+    pour le service «&nbsp;<a
+      class="text-magenta-cta"
+      href="/services/{orientation.service?.slug}"
+    >
       {orientation.service?.name}
     </a>&nbsp;».<br />
     <div class="mt-s16">
