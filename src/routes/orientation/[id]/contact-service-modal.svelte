@@ -68,7 +68,7 @@
   title="Contacter le prescripteur ou la prescriptrice"
 >
   <div slot="subtitle">
-    Contacter {orientation.service?.contactName} - concernant l’orientation qui vous
+    Contacter {orientation.prescriber?.name} - concernant l’orientation qui vous
     a été adressé pour le service «&nbsp;<a
       class="text-magenta-cta"
       href="/services/{orientation.service?.slug}"

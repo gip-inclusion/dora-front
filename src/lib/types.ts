@@ -569,7 +569,7 @@ export interface Orientation {
   id?: number;
   queryId?: string;
   creationDate?: string;
-  structure?: {
+  prescriberStructure?: {
     name: string;
     slug: string;
   };

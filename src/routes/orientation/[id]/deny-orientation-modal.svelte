@@ -104,7 +104,8 @@
   <div slot="subtitle">
     Vous êtes sur le point de refuser une demande de prescription de service qui
     vous a été adressée par {orientation.referentFirstName}
-    {orientation.referentLastName} de la structure {orientation.structure}
+    {orientation.referentLastName} de la structure {orientation
+      .prescriberStructure?.name}
     pour le service «&nbsp;<a
       class="text-magenta-cta"
       href="/services/{orientation.service?.slug}"

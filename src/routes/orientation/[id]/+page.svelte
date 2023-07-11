@@ -67,7 +67,7 @@
             <p class="m-s0 text-f14 text-gray-text">
               Service concerné&nbsp;:<br />
               <span class="text-f23 font-bold text-france-blue">
-                {#if orientation.service}
+                {#if orientation.service?.slug}
                   <a
                     href="/services/{orientation.service.slug}"
                     target="_blank"
@@ -75,7 +75,7 @@
                     {orientation.service?.name}
                   </a>
                 {:else}
-                  Service supprimé
+                  {orientation.service?.name}
                 {/if}
               </span>
             </p>
@@ -232,7 +232,7 @@
           </div>
         </div>
 
-        {#if orientation.prescriber?.name || orientation.prescriber?.email || orientation.structure?.name}
+        {#if orientation.prescriber?.name || orientation.prescriber?.email || orientation.prescriberStructure?.name}
           <div class="flex-[2] rounded-md border border-gray-02 md:relative">
             <div
               class="flex flex-wrap items-center justify-between gap-s12 border-b border-gray-02 px-s16 py-s20 md:px-s35"
@@ -263,11 +263,11 @@
                       />
                     {/if}
 
-                    {#if orientation.structure?.name}
+                    {#if orientation.prescriberStructure?.name}
                       <ContactListItem
                         icon={homeSmile2Icon}
-                        text={orientation.structure?.name}
-                        link={`/structures/${orientation.structure?.slug}`}
+                        text={orientation.prescriberStructure?.name}
+                        link={`/structures/${orientation.prescriberStructure?.slug}`}
                       />
                     {/if}
                   </ul>
