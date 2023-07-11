@@ -577,7 +577,7 @@ export interface Orientation {
   beneficiaryAttachments: string[];
   service?: {
     name: string;
-    email: string;
+    slug: string;
   };
   prescriber?: {
     name: string;
