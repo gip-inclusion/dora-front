@@ -1,13 +1,13 @@
 import { getApiURL } from "./api";
 import { fetchData } from "./misc";
-import type { SendOrientation } from "$lib/types";
+import type { Orientation } from "$lib/types";
 
 export async function getOrientation(
   queryId: string
-): Promise<SendOrientation | null> {
+): Promise<Orientation | null> {
   const url = `${getApiURL()}/orientations/${queryId}/`;
 
-  return (await fetchData<SendOrientation>(url)).data;
+  return (await fetchData<Orientation>(url)).data;
 }
 
 export function contactBeneficiary(
@@ -77,8 +77,6 @@ export function acceptOrientation(
     orientationStartDate,
     orientationEndDate,
     orientationLocation,
-    addExtraRecipients,
-    extraRecipients,
     addBeneficiaryMessage,
     beneficiaryMessage,
   }: {
@@ -86,8 +84,6 @@ export function acceptOrientation(
     orientationStartDate: string;
     orientationEndDate: string;
     orientationLocation: string;
-    addExtraRecipients: string[];
-    extraRecipients: string;
     addBeneficiaryMessage: string[];
     beneficiaryMessage: string;
   }
@@ -105,8 +101,6 @@ export function acceptOrientation(
       orientationStartDate,
       orientationEndDate,
       orientationLocation,
-      addExtraRecipients,
-      extraRecipients,
       addBeneficiaryMessage,
       beneficiaryMessage,
     }),

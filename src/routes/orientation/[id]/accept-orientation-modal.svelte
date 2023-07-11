@@ -7,12 +7,12 @@
   import { acceptOrientation } from "$lib/utils/orientation";
   import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
-  import type { SendOrientation } from "$lib/types";
+  import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
   export let isOpen = false;
   export let onRefresh;
-  export let orientation: SendOrientation;
+  export let orientation: Orientation;
 
   let showConfirmation = false;
 
@@ -39,17 +39,6 @@
     orientationLocation: {
       label: "Lieu de déroulement",
       default: "",
-      rules: [v.maxStrLength(1000)],
-      maxLength: 1000,
-    },
-    addExtraRecipients: {
-      label: "Informer d’autres personnes",
-      default: [],
-      rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-    },
-    extraRecipients: {
-      label: "Courriel des personnes à informer",
-      default: false,
       rules: [v.maxStrLength(1000)],
       maxLength: 1000,
     },
@@ -80,17 +69,9 @@
     orientationStartDate: "",
     orientationEndDate: "",
     orientationLocation: "",
-    addExtraRecipients: [] as string[],
-    extraRecipients: "",
     addBeneficiaryMessage: [] as string[],
     beneficiaryMessage: "",
   };
-  $: if (formData.addExtraRecipients.length > 0) {
-    acceptOrientationSchema.extraRecipients.required = true;
-  } else {
-    acceptOrientationSchema.extraRecipients.required = false;
-    formData.extraRecipients = "";
-  }
 
   $: if (formData.addBeneficiaryMessage.length > 0) {
     acceptOrientationSchema.beneficiaryMessage.required = true;
@@ -172,32 +153,6 @@
             vertical
           />
         </div>
-
-        <div class="mt-s20">
-          <CheckboxesField
-            id="addExtraRecipients"
-            bind:value={formData.addExtraRecipients}
-            description="Si vous souhaitez ajouter d‘autres personnes en copie, cochez cette
-        case et saisissez l‘adresse ou les adresses électroniques concernées
-        (séparées par un espace si plusieurs). Format attendu&nbsp;:
-        nom@domaine.fr."
-            vertical
-            choices={[
-              {
-                label: "Ajouter d’autres personnes en copie de ce message",
-                value: "addExtraRecipients",
-              },
-            ]}
-          />
-        </div>
-
-        {#if formData.addExtraRecipients.includes("addExtraRecipients")}
-          <TextareaField
-            id="extraRecipients"
-            bind:value={formData.extraRecipients}
-            vertical
-          />
-        {/if}
 
         <div class="mt-s20">
           <CheckboxesField

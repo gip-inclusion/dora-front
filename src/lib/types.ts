@@ -564,20 +564,20 @@ export interface Orientation {
   orientationReasons: string;
 
   attachments: { [key: string]: string[] };
-}
 
-export interface SendOrientation extends Orientation {
-  queryId: string;
-  creationDate: string;
-  structure: string;
+  // Champs après la création de l'orientation
+  queryId?: string;
+  creationDate?: string;
+  structure?: {
+    name: string;
+    slug: string;
+  };
   processingDate?: string;
-  status: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
+  status?: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
   beneficiaryAttachments: string[];
-  service: string;
-  prescriber: {
+  service?: string;
+  prescriber?: {
     name: string;
     email: string;
-    structureName: string;
-    structureSlug: string;
   };
 }

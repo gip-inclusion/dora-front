@@ -6,12 +6,12 @@
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import { contactService } from "$lib/utils/orientation";
-  import type { SendOrientation } from "$lib/types";
+  import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
   export let isOpen = false;
   export let onRefresh;
-  export let orientation: SendOrientation;
+  export let orientation: Orientation;
 
   let showConfirmation = false;
 

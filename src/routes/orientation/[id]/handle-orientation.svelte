@@ -5,11 +5,11 @@
   import ContactBeneficiaryModal from "./contact-beneficiary-modal.svelte";
   import ContactServiceModal from "./contact-service-modal.svelte";
   import { browser } from "$app/environment";
-  import type { SendOrientation } from "$lib/types";
+  import type { Orientation } from "$lib/types";
   import Notice from "$lib/components/display/notice.svelte";
   import { formatNumericDate } from "$lib/utils/date";
 
-  export let orientation: SendOrientation;
+  export let orientation: Orientation;
   export let onRefresh;
 
   let modalOpened:
