@@ -31,7 +31,7 @@
       default: "",
       rules: [v.isString(), v.maxStrLength(1000)],
       required: false,
-      maxLength: 480,
+      maxLength: 1000,
     },
   };
   const reasonChoices = [
@@ -99,7 +99,7 @@
   $: denyOrientationSchema.otherDetails.required = reasons.includes("other");
 </script>
 
-<Modal bind:isOpen on:close$ title="Refuser la demande" overflow width="medium">
+<Modal bind:isOpen on:close title="Refuser la demande" overflow width="medium">
   <div slot="subtitle">
     Vous êtes sur le point de refuser une demande de prescription de service qui
     vous a été adressée par {orientation.referentFirstName}
@@ -123,35 +123,41 @@
       withThunder
     />
   {:else}
-    <Form
-      bind:data={formData}
-      schema={denyOrientationSchema}
-      onSubmit={handleSubmit}
-      onSuccess={handleSuccess}
-      bind:requesting
-    >
-      <div class="mx-s4 mb-s20">
-        <CheckboxesField
-          id="reasons"
-          choices={reasonChoices}
-          bind:value={reasons}
-          vertical
-        />
-      </div>
-      {#if reasons.includes("other")}
-        <div class="mx-s4">
-          <TextareaField id="otherDetails" bind:value={otherDetails} vertical />
+    <div class="pr-s16">
+      <Form
+        bind:data={formData}
+        schema={denyOrientationSchema}
+        onSubmit={handleSubmit}
+        onSuccess={handleSuccess}
+        bind:requesting
+      >
+        <div class="mx-s4 mb-s20">
+          <CheckboxesField
+            id="reasons"
+            choices={reasonChoices}
+            bind:value={reasons}
+            vertical
+          />
         </div>
-      {/if}
+        {#if reasons.includes("other")}
+          <div class="mx-s4">
+            <TextareaField
+              id="otherDetails"
+              bind:value={otherDetails}
+              vertical
+            />
+          </div>
+        {/if}
 
-      <div class="mt-s32 text-right">
-        <Button
-          name="validate"
-          type="submit"
-          label="Refuser la demande"
-          disabled={requesting}
-        />
-      </div>
-    </Form>
+        <div class="mt-s32 text-right">
+          <Button
+            name="validate"
+            type="submit"
+            label="Refuser la demande"
+            disabled={requesting}
+          />
+        </div>
+      </Form>
+    </div>
   {/if}
 </Modal>

@@ -573,12 +573,11 @@ export interface SendOrientation extends Orientation {
   processingDate?: string;
   status: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
   beneficiaryAttachments: string[];
-  service: {
+  service: string;
+  prescriber: {
     name: string;
-    slug: string;
-    contactName?: string;
-    contactPhone?: string;
-    contactEmail?: string;
-    contactOtherMethod?: string;
+    email: string;
+    structureName: string;
+    structureSlug: string;
   };
 }

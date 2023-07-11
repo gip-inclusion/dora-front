@@ -79,34 +79,36 @@
   {#if showConfirmation}
     <ConfirmationBloc title="Votre message a été transmis" />
   {:else}
-    <Form
-      bind:data={formData}
-      schema={contactBeneficiarySchema}
-      onSubmit={handleSubmit}
-      onSuccess={handleSuccess}
-      bind:requesting
-    >
-      <div class="mx-s4 mb-s20">
-        <CheckboxesField
-          id="extraRecipients"
-          choices={extraRecipientsChoices}
-          bind:value={extraRecipients}
-          hideLabel
-          vertical
-        />
-      </div>
-      <div class="mx-s4">
-        <TextareaField id="message" bind:value={message} vertical />
-      </div>
+    <div class="pr-s16">
+      <Form
+        bind:data={formData}
+        schema={contactBeneficiarySchema}
+        onSubmit={handleSubmit}
+        onSuccess={handleSuccess}
+        bind:requesting
+      >
+        <div class="mx-s4 mb-s20">
+          <CheckboxesField
+            id="extraRecipients"
+            choices={extraRecipientsChoices}
+            bind:value={extraRecipients}
+            hideLabel
+            vertical
+          />
+        </div>
+        <div class="mx-s4">
+          <TextareaField id="message" bind:value={message} vertical />
+        </div>
 
-      <div class="mt-s32 text-right">
-        <Button
-          name="validate"
-          type="submit"
-          label="Envoyer le message"
-          disabled={requesting}
-        />
-      </div>
-    </Form>
+        <div class="mt-s32 text-right">
+          <Button
+            name="validate"
+            type="submit"
+            label="Envoyer le message"
+            disabled={requesting}
+          />
+        </div>
+      </Form>
+    </div>
   {/if}
 </Modal>

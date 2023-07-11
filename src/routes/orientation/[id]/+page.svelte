@@ -24,6 +24,7 @@
   import type { PageData } from "./$types";
   import { formatNumericDate } from "$lib/utils/date";
   import type { SendOrientation } from "$lib/types";
+  import { formatLongDate } from "$lib/utils/date";
 
   export let data: PageData;
   let { orientation } = data;
@@ -54,7 +55,7 @@
     >
       <div class="flex flex-1 flex-col gap-s32">
         <div
-          class="border-blue-information flex w-full items-center rounded-md border bg-blue-light p-s24"
+          class="flex w-full items-center rounded-md border border-blue-information bg-blue-light p-s24"
         >
           <div
             class="mr-s16 inline-block rounded-xl bg-blue-information-dark p-s12"
@@ -66,10 +67,19 @@
 
           <div>
             <p class="m-s0 text-f14 text-gray-text">
-              Service concernée&nbsp;:<br />
-              <span class="text-f23 font-bold text-france-blue"
-                >{orientation.service?.name}</span
-              >
+              Service concerné&nbsp;:<br />
+              <span class="text-f23 font-bold text-france-blue">
+                {#if orientation.service}
+                  <a
+                    href="/services/{orientation.service.slug}"
+                    target="_blank"
+                  >
+                    {orientation.service?.name}
+                  </a>
+                {:else}
+                  Service supprimé
+                {/if}
+              </span>
             </p>
           </div>
         </div>
@@ -95,7 +105,8 @@
                     <ContactListItem
                       icon={mailAddLineIcon}
                       text={orientation.beneficiaryEmail}
-                      isPreference={orientation.beneficiaryContactPreferences?.includes(
+                      link={`mailto:${orientation.beneficiaryEmail}`}
+                      isPreference={orientation.beneficiaryContactPreferences.includes(
                         "EMAIL"
                       )}
                     />
@@ -105,7 +116,8 @@
                     <ContactListItem
                       icon={phoneLineIcon}
                       text={formatPhoneNumber(orientation.beneficiaryPhone)}
-                      isPreference={orientation.beneficiaryContactPreferences?.includes(
+                      link={`tel:${orientation.beneficiaryPhone}`}
+                      isPreference={orientation.beneficiaryContactPreferences.includes(
                         "TELEPHONE"
                       )}
                     />
@@ -115,7 +127,7 @@
                     <ContactListItem
                       icon={inboxLineIcon}
                       text={`Autre méthode de contact&nbsp;: ${orientation.beneficiaryOtherContactMethod}`}
-                      isPreference={orientation.beneficiaryContactPreferences?.includes(
+                      isPreference={orientation.beneficiaryContactPreferences.includes(
                         "AUTRE"
                       )}
                     />
@@ -124,7 +136,7 @@
                   {#if orientation.beneficiaryAvailability}
                     <ContactListItem
                       icon={calendarEventLineIcon}
-                      text={`Disponible à partir de ${formatNumericDate(
+                      text={`Disponible à partir de ${formatLongDate(
                         orientation.beneficiaryAvailability
                       )}`}
                     />
@@ -141,7 +153,11 @@
                   <ul>
                     {#each orientation.situation as beneficiarySituation}
                       <li class="ml-s16 list-disc text-f16 text-gray-text">
-                        {beneficiarySituation}
+                        {#if beneficiarySituation === "Autre"}
+                          {beneficiarySituation}&nbsp;: {orientation.situationOther}
+                        {:else}
+                          {beneficiarySituation}
+                        {/if}
                       </li>
                     {/each}
                   </ul>
@@ -233,73 +249,62 @@
               />
               <div class="ml-s64 text-f16 text-gray-text">
                 <ul class="flex flex-col gap-s12">
-                  {#if orientation.service?.contactName}
+                  {#if orientation.prescriber?.name}
                     <ContactListItem
                       icon={user6Icon}
-                      text={orientation.service?.contactName}
+                      text={orientation.prescriber?.name}
                     />
                   {/if}
 
-                  {#if orientation.service?.contactEmail}
+                  {#if orientation.prescriber?.email}
                     <ContactListItem
                       icon={mailAddLineIcon}
-                      text={orientation.service?.contactEmail}
-                    />
-                  {/if}
-
-                  {#if orientation.service?.contactPhone}
-                    <ContactListItem
-                      icon={phoneLineIcon}
-                      text={formatPhoneNumber(
-                        orientation.service?.contactPhone
-                      )}
-                    />
-                  {/if}
-
-                  {#if orientation.service?.contactOtherMethod}
-                    <ContactListItem
-                      icon={inboxLineIcon}
-                      text={`Autre méthode de contact&nbsp;: ${orientation.service?.contactOtherMethod}`}
+                      text={orientation.prescriber?.email}
+                      link={`mailto:${orientation.prescriber?.email}`}
                     />
                   {/if}
 
                   <ContactListItem
                     icon={homeSmile2Icon}
-                    text={orientation.service?.name}
-                    link={`/services/${orientation.service?.slug}`}
+                    text={orientation.prescriber?.structureName}
+                    link={`/structures/${orientation.prescriber?.structureSlug}`}
                   />
                 </ul>
               </div>
             </div>
 
-            <hr class="border border-gray-02" />
-            <div>
-              <SubTitle
-                label="Conseiller ou conseillère référente"
-                icon={serviceIcon}
-              />
-              <div class="ml-s64 text-f16 text-gray-text">
-                <ul class="flex flex-col gap-s12">
-                  <ContactListItem
-                    icon={user6Icon}
-                    text={`${orientation.referentFirstName} ${orientation.referentLastName}`}
-                  />
-                  {#if orientation.referentEmail}
+            {#if orientation.referentEmail !== orientation.prescriber.email}
+              <hr class="border border-gray-02" />
+              <div>
+                <SubTitle
+                  label="Conseiller ou conseillère référente"
+                  icon={serviceIcon}
+                />
+                <div class="ml-s64 text-f16 text-gray-text">
+                  <ul class="flex flex-col gap-s12">
                     <ContactListItem
-                      icon={mailAddLineIcon}
-                      text={orientation.referentEmail}
+                      icon={user6Icon}
+                      text={`${orientation.referentFirstName} ${orientation.referentLastName}`}
                     />
-                  {/if}
+                    {#if orientation.referentEmail}
+                      <ContactListItem
+                        icon={mailAddLineIcon}
+                        text={orientation.referentEmail}
+                        link={`mailto:${orientation.referentEmail}`}
+                      />
+                    {/if}
 
-                  {#if orientation.referentPhone}
-                    <ContactListItem
-                      icon={phoneLineIcon}
-                      text={formatPhoneNumber(orientation.referentPhone)}
-                    />
-                  {/if}
-                </ul>
+                    {#if orientation.referentPhone}
+                      <ContactListItem
+                        icon={phoneLineIcon}
+                        text={formatPhoneNumber(orientation.referentPhone)}
+                        link={`tel:${orientation.referentPhone}`}
+                      />
+                    {/if}
+                  </ul>
+                </div>
               </div>
-            </div>
+            {/if}
           </div>
         </div>
       </div>
