@@ -1,5 +1,5 @@
 import { writable } from "svelte/store";
-import type { Orientation } from "./types";
+import type { Orientation } from "$lib/types";
 
 export const orientation = writable<Orientation>({
   /*
