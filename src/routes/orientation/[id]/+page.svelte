@@ -121,12 +121,14 @@
                     />
                   {/if}
 
-                  <ContactListItem
-                    icon={calendarEventLineIcon}
-                    text={`Disponible à partir de ${formatNumericDate(
-                      orientation.beneficiaryAvailability
-                    )}`}
-                  />
+                  {#if orientation.beneficiaryAvailability}
+                    <ContactListItem
+                      icon={calendarEventLineIcon}
+                      text={`Disponible à partir de ${formatNumericDate(
+                        orientation.beneficiaryAvailability
+                      )}`}
+                    />
+                  {/if}
                 </ul>
               </div>
             </div>
@@ -193,11 +195,12 @@
 
                   <div>
                     Toutes les pièces jointes vous ont été transmises par e-mail
-                    le <strong>
+                    le
+                    <strong>
                       {formatNumericDate(orientation.creationDate)}
-                    </strong>. Sujet de l’e-mail&nbsp;: «&nbsp;
-                    <strong>Nouvelle demande d'orientation reçue</strong>
-                    ».
+                    </strong>. Sujet de l’e-mail&nbsp;: «<strong
+                      >&nbsp;Nouvelle demande d'orientation reçue</strong
+                    >nbsp;».
                   </div>
 
                   <hr class="mt-s24 w-s32" />
