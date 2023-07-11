@@ -14,7 +14,8 @@
   const concernedPublicChoices = [
     ...servicesOptions.concernedPublic
       .filter((elt) => service.concernedPublic.includes(elt.value))
-      .map((choice) => ({ value: choice.label, label: choice.label })),
+      .map((choice) => ({ value: choice.label, label: choice.label }))
+      .filter((elt) => elt.value !== "Autre"),
     { value: "Autre", label: "Autre (à préciser)" },
   ];
 
@@ -26,15 +27,25 @@
         ...servicesOptions.accessConditions.filter((elt) =>
           service.accessConditions.includes(elt.value)
         ),
-      ].map((choice) => ({ value: choice.label, label: choice.label }))
+      ]
+        .map((choice) => ({ value: choice.label, label: choice.label }))
+        .filter(
+          (elt) => elt.value !== "Aucun" && elt.value !== "Sans condition"
+        )
     : [];
 
-  $: if (requirementChoices.length === 0) {
+  if (requirementChoices.length === 0) {
     orientationStep1Schema.requirements.required = false;
+  }
+  if (concernedPublicChoices.length === 0) {
+    orientationStep1Schema.situation.required = false;
   }
 
   $: if (!$orientation.situation?.includes("Autre")) {
     $orientation.situationOther = "";
+    orientationStep1Schema.situationOther.required = false;
+  } else {
+    orientationStep1Schema.situationOther.required = true;
   }
 </script>
 
@@ -69,9 +80,9 @@
     </div>
   </Fieldset>
 
-  {#if requirementChoices.length !== 0}
-    <Fieldset title="Critères et conditions d‘accès">
-      <div class="flex flex-col lg:gap-s8">
+  <Fieldset title="Critères et conditions d‘accès">
+    <div class="flex flex-col lg:gap-s8">
+      {#if requirementChoices.length !== 0}
         <CheckboxesField
           id="requirements"
           choices={requirementChoices}
@@ -79,9 +90,13 @@
           bind:value={$orientation.requirements}
           vertical
         />
-      </div>
-    </Fieldset>
-  {/if}
+      {:else}
+        <p class="mb-s0 italic">
+          Ce service n'a aucun critère ou conditions d'accès
+        </p>
+      {/if}
+    </div>
+  </Fieldset>
 
   {#if service.onlineForm || service.formsInfo.length || service.credentialsDisplay.length}
     <Fieldset title="Documents et justificatifs requis">

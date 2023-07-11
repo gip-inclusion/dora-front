@@ -1,8 +1,6 @@
 import { writable } from "svelte/store";
 import type { Orientation } from "./types";
 
-export const OTHER_LABEL = "Autre (à préciser)";
-
 export const orientation = writable<Orientation>({
   /*
   TODO: valeurs par defaut temporaires pour faciliter les tests du formulaire

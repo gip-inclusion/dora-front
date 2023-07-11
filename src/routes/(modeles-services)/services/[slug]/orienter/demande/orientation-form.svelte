@@ -6,7 +6,7 @@
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import UploadField from "$lib/components/forms/fields/upload-field.svelte";
   import { formatFilePath } from "$lib/utils/service";
-  import { OTHER_LABEL, orientation } from "../store";
+  import { orientation } from "../store";
   import { userInfo } from "$lib/utils/auth";
   import { onMount } from "svelte";
   import Accordion from "$lib/components/display/accordion.svelte";
@@ -169,7 +169,7 @@
               </h4>
               <ul class="ml-s20 list-disc">
                 {#each $orientation.situation as label}
-                  {#if label === OTHER_LABEL}
+                  {#if label === "Autre"}
                     <li class="text-gray-text">
                       {label}&nbsp;: {$orientation.situationOther}
                     </li>
