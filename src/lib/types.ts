@@ -575,7 +575,10 @@ export interface Orientation {
   processingDate?: string;
   status?: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
   beneficiaryAttachments: string[];
-  service?: string;
+  service?: {
+    name: string;
+    email: string;
+  };
   prescriber?: {
     name: string;
     email: string;
