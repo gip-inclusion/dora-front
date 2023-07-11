@@ -552,7 +552,7 @@ export interface Orientation {
   referentFirstName: string;
   referentPhone: string;
   referentEmail: string;
-  prescriberStructure: string;
+  prescriberStructureSlug: string;
 
   beneficiaryLastName: string;
   beneficiaryFirstName: string;

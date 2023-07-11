@@ -7,7 +7,7 @@ export const orientation = writable<Orientation>({
     situation: ["Public femme en difficulté"],
     situationOther: "autre...",
     requirements: ["prerequis-1"],
-    prescriberStructure: "nenettes-co-le-resea",
+    prescriberStructureSlug: "nenettes-co-le-resea",
 
     referentLastName: "RefName",
     referentFirstName: "RefFirstname",
@@ -27,7 +27,7 @@ export const orientation = writable<Orientation>({
   situation: [],
   situationOther: "",
   requirements: [],
-  prescriberStructure: "",
+  prescriberStructureSlug: "",
 
   referentLastName: "",
   referentFirstName: "",
