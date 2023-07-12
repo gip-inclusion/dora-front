@@ -1,7 +1,7 @@
 import { writable } from "svelte/store";
 import type { Orientation } from "$lib/types";
 
-export function initEmptyOrientation() {
+export function initEmptyOrientation(): Orientation {
   return {
     /*
       // TODO: valeurs par defaut temporaires pour faciliter les tests du formulaire

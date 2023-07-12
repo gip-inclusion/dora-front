@@ -3,11 +3,19 @@
   import { arrowLeftLineIcon, flashLightIcon } from "$lib/icons";
   import Layout from "../layout.svelte";
   import type { PageData } from "./$types";
-  import { orientation } from "../store";
+  import { initEmptyOrientation, orientation } from "../store";
   import illustration from "$lib/assets/illustrations/illu-favs.svg";
   import Notice from "$lib/components/display/notice.svelte";
+  import { onMount } from "svelte";
 
   export let data: PageData;
+
+  let showContactBeneficiary = false;
+
+  onMount(() => {
+    showContactBeneficiary = !!$orientation.beneficiaryEmail;
+    $orientation = initEmptyOrientation();
+  });
 </script>
 
 <Layout {data}>
@@ -30,7 +38,7 @@
         {/if}
       </p>
 
-      {#if !$orientation.beneficiaryEmail}
+      {#if showContactBeneficiary}
         <div class="mb-s28">
           <Notice type="info" title="Pensez à informer le ou la bénéficiaire">
             <p class="text-left text-f14 text-gray-text">
