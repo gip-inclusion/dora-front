@@ -74,6 +74,12 @@
       />
 
       {#if $orientation.situation?.includes("Autre")}
+        <p class="mb-s0 text-f14 italic text-gray-text">
+          Merci de renseigner uniquement des informations concernant le profil
+          de la personne ; les informations sur la motivation peuvent être
+          référencées à l'étape 2
+        </p>
+
         <TextareaField
           id="situationOther"
           placeholder=""

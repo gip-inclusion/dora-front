@@ -6,6 +6,10 @@
   import { trackMobilisation } from "$lib/utils/plausible";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import { token } from "$lib/utils/auth";
+  import {
+    initEmptyOrientation,
+    orientation,
+  } from "../../services/[slug]/orienter/store";
 
   export let service;
   let contactOpen = false;
@@ -55,6 +59,7 @@
           <LinkButton
             nofollow
             to="/services/{service.slug}/orienter"
+            on:click={() => ($orientation = initEmptyOrientation())}
             extraClass={backgroundColor === "blue"
               ? "bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
               : "!whitespace-normal text-center"}
