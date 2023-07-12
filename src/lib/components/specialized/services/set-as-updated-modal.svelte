@@ -15,7 +15,7 @@
 
   async function setAsUpdated() {
     // TODO: il serait sans doute mieux d'avoir un endpoint dédié.
-    await createOrModifyService(service);
+    await createOrModifyService({ ...service, markSynced: true });
     isOpen = false;
     await onRefresh();
   }
@@ -27,13 +27,14 @@
   subtitle=" Avant de marquer votre service comme à jour, veuillez vérifier que ces
   informations sur le service sont exactes."
   on:close={() => (isOpen = false)}
-  smallWidth
+  width="small"
+  overflow
 >
   <div class="pt-s16 text-f18 text-france-blue">
     Périmètre : <strong>{service.diffusionZoneDetailsDisplay}</strong>
   </div>
 
-  <hr class="my-s24 " />
+  <hr class="my-s24" />
   <ServiceContact {service} />
   <hr class="my-s24" />
   <ServiceKeyInformations {service} {servicesOptions} />
