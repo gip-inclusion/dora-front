@@ -12,12 +12,14 @@
   import Accordion from "$lib/components/display/accordion.svelte";
   import SelectField from "$lib/components/forms/fields/select-field.svelte";
   import { userPreferences } from "$lib/utils/preferences";
+  import { alertIcon } from "$lib/icons";
 
   export let service;
   export let servicesOptions;
+  export let credentials;
+  export let credentialInError;
 
   let contactPrefOptions = [];
-  let credentials = [];
 
   if ($userInfo.structures?.length === 1) {
     $orientation.prescriberStructureSlug = $userInfo.structures[0].slug;
@@ -40,18 +42,6 @@
     $orientation.referentLastName = $userInfo.lastName;
     $orientation.referentFirstName = $userInfo.firstName;
     $orientation.referentEmail = $userInfo.email;
-
-    credentials = servicesOptions.credentials.filter(
-      (elt) =>
-        service.credentials.includes(elt.value) &&
-        !elt.label.toLowerCase().includes("vitale")
-    );
-    credentials.forEach((cred) => {
-      $orientation.attachments[cred.label] = [];
-    });
-    service.formsInfo.forEach((form) => {
-      $orientation.attachments[form.name] = [];
-    });
   });
 </script>
 
@@ -263,6 +253,15 @@
           </strong>
         </p>
       </div>
+
+      {#if credentialInError}
+        <div id="attachments" class="flex text-f12 text-error">
+          <div class="mr-s8 h-s16 w-s16 fill-current">
+            {@html alertIcon}
+          </div>
+          Veuillez renseigner au minumum un document
+        </div>
+      {/if}
 
       {#each service.formsInfo as form}
         {#if $orientation.attachments[form.name]}
