@@ -9,6 +9,9 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
+  import { renderTemplate } from "./mail-template/templating";
+  import { ACCEPTED_MAIL_TEMPLATE } from "./mail-template/accept-template";
+  import { formatNumericDate } from "$lib/utils/date";
 
   export let isOpen = false;
   export let onRefresh;
@@ -43,7 +46,7 @@
       maxLength: 1000,
     },
     addBeneficiaryMessage: {
-      label: "Ajouter un message pour le ou la bénéficiaire",
+      label: "Message pour le ou la bénéficiaire",
       default: [],
       rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
     },
@@ -75,6 +78,15 @@
 
   $: if (formData.addBeneficiaryMessage.length > 0) {
     acceptOrientationSchema.beneficiaryMessage.required = true;
+    formData.beneficiaryMessage = renderTemplate(ACCEPTED_MAIL_TEMPLATE, {
+      prescriberStructure: orientation.prescriberStructure?.name,
+      prescriberName: orientation.prescriber?.name,
+      serviceName: orientation.service?.name,
+      startDate: formatNumericDate(formData.orientationStartDate),
+      endDate: formatNumericDate(formData.orientationEndDate),
+      location: formData.orientationLocation,
+      structurePhone: orientation.prescriberStructure?.phone,
+    });
   } else {
     acceptOrientationSchema.beneficiaryMessage.required = false;
     formData.beneficiaryMessage = "";
@@ -172,6 +184,7 @@
         </div>
         {#if formData.addBeneficiaryMessage.includes("addBeneficiaryMessage")}
           <TextareaField
+            rows="15"
             id="beneficiaryMessage"
             bind:value={formData.beneficiaryMessage}
             vertical
