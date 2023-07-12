@@ -9,9 +9,8 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
-  import { renderTemplate } from "./mail-template/templating";
-  import { ACCEPTED_MAIL_TEMPLATE } from "./mail-template/accept-template";
   import { formatNumericDate } from "$lib/utils/date";
+  import { renderAcceptMessage } from "$lib/utils/orientation-templates";
 
   export let isOpen = false;
   export let onRefresh;
@@ -78,7 +77,7 @@
 
   $: if (formData.addBeneficiaryMessage.length > 0) {
     acceptOrientationSchema.beneficiaryMessage.required = true;
-    formData.beneficiaryMessage = renderTemplate(ACCEPTED_MAIL_TEMPLATE, {
+    formData.beneficiaryMessage = renderAcceptMessage({
       prescriberStructure: orientation.prescriberStructure?.name,
       prescriberName: orientation.prescriber?.name,
       serviceName: orientation.service?.name,
