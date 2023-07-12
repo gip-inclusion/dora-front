@@ -36,7 +36,7 @@ export const orientation = writable<Orientation>({
 
   beneficiaryLastName: "",
   beneficiaryFirstName: "",
-  beneficiaryAvailability: null,
+  beneficiaryAvailability: new Date().toISOString().split("T")[0],
   beneficiaryContactPreferences: [],
   beneficiaryPhone: "",
   beneficiaryEmail: "",

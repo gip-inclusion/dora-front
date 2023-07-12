@@ -30,7 +30,7 @@
         {/if}
       </p>
 
-      {#if $orientation.beneficiaryContactPreferences?.length === 1 && ($orientation.beneficiaryContactPreferences[0] === "AUTRE" || $orientation.beneficiaryContactPreferences[0] === "TELEPHONE")}
+      {#if !$orientation.beneficiaryEmail}
         <div class="mb-s28">
           <Notice type="info" title="Pensez à informer le ou la bénéficiaire">
             <p class="text-left text-f14 text-gray-text">

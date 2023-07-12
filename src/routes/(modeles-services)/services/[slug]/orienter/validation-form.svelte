@@ -11,11 +11,14 @@
   export let service;
   export let servicesOptions;
 
+  const excludedConcernedPublicLabels = ["Autre", "Tous public"];
+  const excludedRequirementLabels = ["Aucun", "Sans condition"];
+
   const concernedPublicChoices = [
     ...servicesOptions.concernedPublic
       .filter((elt) => service.concernedPublic.includes(elt.value))
       .map((choice) => ({ value: choice.label, label: choice.label }))
-      .filter((elt) => elt.value !== "Autre"),
+      .filter((elt) => excludedConcernedPublicLabels.includes(elt.value)),
     { value: "Autre", label: "Autre (à préciser)" },
   ];
 
@@ -33,9 +36,7 @@
         ),
       ]
         .map((choice) => ({ value: choice.label, label: choice.label }))
-        .filter(
-          (elt) => elt.value !== "Aucun" && elt.value !== "Sans condition"
-        )
+        .filter((elt) => !excludedRequirementLabels.includes(elt.value))
     : [];
 
   if (requirementChoices.length === 0) {

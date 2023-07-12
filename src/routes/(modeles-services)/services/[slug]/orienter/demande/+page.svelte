@@ -16,12 +16,20 @@
   import Form from "$lib/components/forms/form.svelte";
   import { goto } from "$app/navigation";
   import { arrowLeftLineIcon } from "$lib/icons";
+  import { onMount } from "svelte";
 
   export let data: PageData;
 
   const { service, servicesOptions } = data;
 
   let requesting = false;
+
+  onMount(() => {
+    // On redirige vers l'étape 1 si l'utilisateur n'a pas passé l'étape 1
+    if ($orientation.situation.length === 0) {
+      goto(`/services/${data.service.slug}/orienter`);
+    }
+  });
 
   function handleChange(validatedData) {
     $orientation = { ...validatedData };

@@ -64,6 +64,7 @@
   bind:isOpen
   on:close
   overflow
+  hideTitle={showConfirmation}
   width="medium"
   title="Contacter le prescripteur ou la prescriptrice"
 >

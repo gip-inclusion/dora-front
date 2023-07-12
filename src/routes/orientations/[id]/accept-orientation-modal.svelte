@@ -81,7 +81,14 @@
   }
 </script>
 
-<Modal bind:isOpen on:close title="Valider la demande" overflow width="medium">
+<Modal
+  bind:isOpen
+  on:close
+  title="Valider la demande"
+  hideTitle={showConfirmation}
+  overflow
+  width="medium"
+>
   <div slot="subtitle">
     Vous êtes sur le point de valider une demande d’orientation qui vous a été
     adressée par {orientation.referentFirstName}
