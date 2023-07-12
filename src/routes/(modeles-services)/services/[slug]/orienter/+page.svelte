@@ -11,12 +11,17 @@
   import { orientationStep1Schema } from "./schema";
   import { goto } from "$app/navigation";
   import { arrowLeftLineIcon } from "$lib/icons";
+  import { onMount } from "svelte";
 
   export let data;
 
   const { service, servicesOptions } = data;
 
   let requesting = false;
+
+  onMount(() => {
+    $orientation.firstStepView = true;
+  });
 
   function handleChange(validatedData) {
     $orientation = { ...validatedData };

@@ -24,6 +24,7 @@ export function initEmptyOrientation() {
       beneficiaryOtherContactMethod: "autre mode de contact",
       orientationReasons: "Motif de l‘orientation",
     */
+    firstStepView: false,
 
     situation: [],
     situationOther: "",

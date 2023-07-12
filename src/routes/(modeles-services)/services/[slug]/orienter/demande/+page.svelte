@@ -25,8 +25,7 @@
   let requesting = false;
 
   onMount(() => {
-    // On redirige vers l'étape 1 si l'utilisateur n'a pas passé l'étape 1
-    if ($orientation.situation.length === 0) {
+    if (!$orientation.firstStepView) {
       goto(`/services/${data.service.slug}/orienter`);
     }
   });
