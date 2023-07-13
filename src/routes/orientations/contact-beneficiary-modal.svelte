@@ -16,12 +16,18 @@
   let showConfirmation = false;
 
   let message = "";
-  let extraRecipients = [];
+  let ccPrescriber: string[] = [];
+  let ccReferent: string[] = [];
   let requesting = false;
 
   const contactBeneficiarySchema: v.Schema = {
-    extraRecipients: {
-      label: "Ajouter d’autres destinataires",
+    ccPrescriber: {
+      label: `Ajouter en copie le prescripteur ou la prescriptrice`,
+      default: [],
+      rules: [],
+    },
+    ccReferent: {
+      label: `Ajouter en copie le conseiller ou la conseillère référente`,
       default: [],
       rules: [],
     },
@@ -33,13 +39,16 @@
       maxLength: 1000,
     },
   };
-  const extraRecipientsChoices = [
+  const ccPrescriberChoices = [
     {
-      value: "add-service-contact",
+      value: "cc-prescriber",
       label: "Ajouter en copie le prescripteur ou la prescriptrice",
     },
+  ];
+
+  const ccReferentChoices = [
     {
-      value: "add-referent-contact",
+      value: "cc-referent",
       label: "Ajouter en copie le conseiller ou la conseillère référente",
     },
   ];
@@ -47,7 +56,8 @@
   function handleSubmit(validatedData) {
     return contactBeneficiary(
       orientation.queryId,
-      validatedData.extraRecipients,
+      validatedData.ccPrescriber.includes("cc-prescriber"),
+      validatedData.ccReferent.includes("cc-referent"),
       validatedData.message
     );
   }
@@ -57,7 +67,7 @@
     showConfirmation = true;
   }
 
-  $: formData = { extraRecipients, message };
+  $: formData = { ccPrescriber, ccReferent, message };
 </script>
 
 <Modal
@@ -92,9 +102,16 @@
       >
         <div class="mx-s4 mb-s20">
           <CheckboxesField
-            id="extraRecipients"
-            choices={extraRecipientsChoices}
-            bind:value={extraRecipients}
+            id="ccPrescriber"
+            choices={ccPrescriberChoices}
+            bind:value={ccPrescriber}
+            hideLabel
+            vertical
+          />
+          <CheckboxesField
+            id="ccReferent"
+            choices={ccReferentChoices}
+            bind:value={ccReferent}
             hideLabel
             vertical
           />

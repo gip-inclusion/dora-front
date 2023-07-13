@@ -5,7 +5,7 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
-  import { contactService } from "$lib/utils/orientation";
+  import { contactPrescriber } from "$lib/utils/orientation";
   import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
@@ -16,12 +16,18 @@
   let showConfirmation = false;
 
   let message = "";
-  let extraRecipients = [];
+  let ccBeneficiary: string[] = [];
+  let ccReferent: string[] = [];
   let requesting = false;
 
-  const contactServiceSchema: v.Schema = {
-    extraRecipients: {
-      label: "Ajouter d’autres destinataires",
+  const contactPrescriberSchema: v.Schema = {
+    ccBeneficiary: {
+      label: `Ajouter le ou la bénéficiaire en copie (${orientation.beneficiaryFirstName} ${orientation.beneficiaryLastName})`,
+      default: [],
+      rules: [],
+    },
+    ccReferent: {
+      label: `Ajouter le conseiller ou la conseillère référente en copie (${orientation.referentFirstName} ${orientation.referentLastName})`,
       default: [],
       rules: [],
     },
@@ -33,21 +39,25 @@
       maxLength: 1000,
     },
   };
-  const extraRecipientsChoices = [
+
+  const ccBeneficiaryChoices = [
     {
-      value: "add-beneficiary",
+      value: "cc-beneficiary",
       label: `Ajouter le ou la bénéficiaire en copie (${orientation.beneficiaryFirstName} ${orientation.beneficiaryLastName})`,
-    },
-    {
-      value: "add-referent-contact",
-      label: `Ajouter le conseiller ou la conseillère référente en copie (${orientation.referentFirstName} ${orientation.referentLastName})`,
     },
   ];
 
+  const ccReferentChoices = [
+    {
+      value: "cc-referent",
+      label: `Ajouter le conseiller ou la conseillère référente en copie (${orientation.referentFirstName} ${orientation.referentLastName})`,
+    },
+  ];
   function handleSubmit(validatedData) {
-    return contactService(
+    return contactPrescriber(
       orientation.queryId,
-      validatedData.extraRecipients,
+      validatedData.ccBeneficiary.includes("cc-beneficiary"),
+      validatedData.ccReferent.includes("cc-referent"),
       validatedData.message
     );
   }
@@ -57,7 +67,7 @@
     showConfirmation = true;
   }
 
-  $: formData = { extraRecipients, message };
+  $: formData = { ccBeneficiary, ccReferent, message };
 </script>
 
 <Modal
@@ -84,16 +94,23 @@
     <div class="pr-s16">
       <Form
         bind:data={formData}
-        schema={contactServiceSchema}
+        schema={contactPrescriberSchema}
         onSubmit={handleSubmit}
         onSuccess={handleSuccess}
         bind:requesting
       >
         <div class="mx-s4 mb-s20">
           <CheckboxesField
-            id="extraRecipients"
-            choices={extraRecipientsChoices}
-            bind:value={extraRecipients}
+            id="ccBeneficiary"
+            bind:value={ccBeneficiary}
+            choices={ccBeneficiaryChoices}
+            hideLabel
+            vertical
+          />
+          <CheckboxesField
+            id="ccReferent"
+            bind:value={ccReferent}
+            choices={ccReferentChoices}
             hideLabel
             vertical
           />

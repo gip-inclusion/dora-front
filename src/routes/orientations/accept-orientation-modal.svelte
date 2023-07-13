@@ -5,7 +5,6 @@
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import { acceptOrientation } from "$lib/utils/orientation";
-  import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
@@ -23,22 +22,6 @@
       label: "Message de réponse",
       default: "",
       required: true,
-      rules: [v.maxStrLength(1000)],
-      maxLength: 1000,
-    },
-    orientationStartDate: {
-      label: "Date d’entrée en parcours",
-      default: "",
-      rules: [v.isDate()],
-    },
-    orientationEndDate: {
-      label: "Date de sortie du parcours",
-      default: "",
-      rules: [v.isDate()],
-    },
-    orientationLocation: {
-      label: "Lieu de déroulement",
-      default: "",
       rules: [v.maxStrLength(1000)],
       maxLength: 1000,
     },
@@ -66,9 +49,6 @@
 
   $: formData = {
     response: "",
-    orientationStartDate: "",
-    orientationEndDate: "",
-    orientationLocation: "",
     addBeneficiaryMessage: [] as string[],
     beneficiaryMessage: "",
   };
@@ -121,47 +101,6 @@
           bind:value={formData.response}
           vertical
         />
-
-        <div class="mt-s20">
-          <BasicInputField
-            id="orientationStartDate"
-            type="date"
-            bind:value={formData.orientationStartDate}
-            vertical
-          >
-            <p slot="description" class="legend italic">
-              Date à partir de laquelle le ou la bénéficiaire est prise en
-              charge.
-              <br />
-              Format attendu&nbsp;: JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
-              2023)
-            </p>
-          </BasicInputField>
-        </div>
-
-        <div class="mt-s20">
-          <BasicInputField
-            id="orientationEndDate"
-            type="date"
-            bind:value={formData.orientationEndDate}
-            vertical
-          >
-            <p slot="description" class="legend italic">
-              Date prévisionnelle de sortie.<br />
-              Format attendu&nbsp;: JJ/MM/AAAA (par exemple, 17/01/2023 pour 17 janvier
-              2023)
-            </p>
-          </BasicInputField>
-        </div>
-
-        <div class="mt-s20">
-          <TextareaField
-            id="orientationLocation"
-            description="Merci de préciser l’adresse de déroulement "
-            bind:value={formData.orientationLocation}
-            vertical
-          />
-        </div>
 
         <div class="mt-s20">
           <CheckboxesField

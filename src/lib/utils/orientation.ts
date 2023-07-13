@@ -12,7 +12,8 @@ export async function getOrientation(
 
 export function contactBeneficiary(
   queryId: string,
-  extraRecipients: string[],
+  ccPrescriber: boolean,
+  ccReferent: boolean,
   message: string
 ) {
   const url = `${getApiURL()}/orientations/${queryId}/contact/beneficiary/`;
@@ -24,15 +25,17 @@ export function contactBeneficiary(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      extraRecipients,
+      ccPrescriber,
+      ccReferent,
       message,
     }),
   });
 }
 
-export function contactService(
+export function contactPrescriber(
   queryId: string,
-  extraRecipients: string[],
+  ccBeneficiary: boolean,
+  ccReferent: boolean,
   message: string
 ) {
   const url = `${getApiURL()}/orientations/${queryId}/contact/prescriber/`;
@@ -44,7 +47,8 @@ export function contactService(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      extraRecipients,
+      ccBeneficiary,
+      ccReferent,
       message,
     }),
   });
@@ -74,16 +78,10 @@ export function acceptOrientation(
   queryId: string,
   {
     response,
-    orientationStartDate,
-    orientationEndDate,
-    orientationLocation,
     addBeneficiaryMessage,
     beneficiaryMessage,
   }: {
     response: string;
-    orientationStartDate: string;
-    orientationEndDate: string;
-    orientationLocation: string;
     addBeneficiaryMessage: string[];
     beneficiaryMessage: string;
   }
@@ -98,9 +96,6 @@ export function acceptOrientation(
     },
     body: JSON.stringify({
       response,
-      orientationStartDate,
-      orientationEndDate,
-      orientationLocation,
       addBeneficiaryMessage,
       beneficiaryMessage,
     }),
