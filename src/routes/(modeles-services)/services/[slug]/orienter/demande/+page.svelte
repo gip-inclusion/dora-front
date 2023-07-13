@@ -132,12 +132,7 @@
     </p>
 
     <div class="mt-s40 flex flex-row justify-between gap-x-s24">
-      <OrientationForm
-        {attachmentsInvalid}
-        {credentials}
-        {service}
-        {servicesOptions}
-      />
+      <OrientationForm {attachmentsInvalid} {credentials} {service} />
       <div class="mb-s32 w-full shrink-0 md:w-[384px]">
         <ContactBox {service} />
       </div>

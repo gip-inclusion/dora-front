@@ -15,7 +15,6 @@
   import { alertIcon } from "$lib/icons";
 
   export let service;
-  export let servicesOptions;
   export let credentials;
   export let attachmentsInvalid;
 
