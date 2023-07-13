@@ -270,7 +270,7 @@
             label="Document à compléter"
             vertical
             id={form.name}
-            description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: doc, docx, pdf, png, jpeg, jpg, odt"
+            description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: doc, docx, pdf, png, jpeg, jpg, odt, xls, xlsx, ods"
             bind:fileKeys={$orientation.attachments[form.name]}
           >
             <p slot="description">
@@ -289,7 +289,7 @@
             label={cred.label}
             vertical
             id={cred.label}
-            description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: doc, docx, pdf, png, jpeg, jpg, odt"
+            description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: doc, docx, pdf, png, jpeg, jpg, odt, xls, xlsx, ods"
             bind:fileKeys={$orientation.attachments[cred.label]}
           />
         {/if}
