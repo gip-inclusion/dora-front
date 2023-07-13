@@ -193,16 +193,21 @@
               </div>
             {/if}
 
-            {#if orientation.beneficiaryAttachments?.length}
+            {#if orientation.beneficiaryAttachmentsDetails?.length}
               <div>
                 <SubTitle label="Pièces jointes" icon={attachmentIcon} />
                 <div class="ml-s64 text-gray-text">
                   <ul class="mb-s24">
-                    {#each orientation.beneficiaryAttachments as file}
+                    {#each orientation.beneficiaryAttachmentsDetails as attachment}
                       <li
                         class="break-word ml-s16 list-disc text-f16 text-gray-text"
                       >
-                        {formatFilePath(file)}
+                        <a
+                          href={attachment.url}
+                          target="_blank"
+                          rel="noopener ugc"
+                          class="underline">{formatFilePath(attachment.name)}</a
+                        >
                       </li>
                     {/each}
                   </ul>
