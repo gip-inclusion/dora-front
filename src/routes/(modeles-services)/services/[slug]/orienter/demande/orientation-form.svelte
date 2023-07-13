@@ -300,7 +300,7 @@
     </Fieldset>
   {/if}
 
-  <div class="mt-s32">
+  <div class="my-s32">
     <Notice
       type="info"
       title="L’accompagnateur s’engage à informer la personne concernée de ce traitement de données."
