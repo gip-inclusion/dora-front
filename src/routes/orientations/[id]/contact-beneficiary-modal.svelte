@@ -21,7 +21,7 @@
 
   const contactBeneficiarySchema: v.Schema = {
     extraRecipients: {
-      label: "Ajouter d‘autres destinataires",
+      label: "Ajouter d’autres destinataires",
       default: [],
       rules: [],
     },

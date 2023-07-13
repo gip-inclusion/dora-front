@@ -56,7 +56,7 @@
     </p>
     <hr class="my-s40" />
     <p class="mb-s40 max-w-2xl text-f18">
-      Avant de commencer la procédure, vérifiez l‘éligibilité du ou de la
+      Avant de commencer la procédure, vérifiez l’éligibilité du ou de la
       bénéficiaire et consultez la liste des documents requis.
     </p>
 

@@ -117,7 +117,7 @@
       >
         <TextareaField
           id="response"
-          description="Commentaire privé à destination du prescripteur ou de la prescriptrice, ainsi que du conseiller ou de la conseillère référente s‘il ne s‘agit pas de la même personne. Ce message n‘est pas envoyé au bénéficiaire."
+          description="Commentaire privé à destination du prescripteur ou de la prescriptrice, ainsi que du conseiller ou de la conseillère référente s’il ne s’agit pas de la même personne. Ce message n’est pas envoyé au bénéficiaire."
           bind:value={formData.response}
           vertical
         />

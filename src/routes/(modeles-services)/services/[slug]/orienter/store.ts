@@ -22,7 +22,7 @@ export function initEmptyOrientation(): Orientation {
       beneficiaryPhone: "2222222222",
       beneficiaryEmail: "ben@example.com",
       beneficiaryOtherContactMethod: "autre mode de contact",
-      orientationReasons: "Motif de l‘orientation",
+      orientationReasons: "Motif de l’orientation",
     */
     firstStepView: false,
 

@@ -91,7 +91,7 @@
     </div>
   </Fieldset>
 
-  <Fieldset title="Critères et conditions d‘accès">
+  <Fieldset title="Critères et conditions d’accès">
     <div class="flex flex-col lg:gap-s8">
       {#if requirementChoices.length !== 0}
         <CheckboxesField

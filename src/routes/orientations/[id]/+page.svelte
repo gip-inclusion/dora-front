@@ -222,7 +222,7 @@
                   <p class="mt-s12 text-f12 italic text-gray-text">
                     Pour des raisons de confidentialité et de sécurité, DORA ne
                     peut pas stocker de données sensibles sur sa plateforme. Si
-                    vous ne parvenez pas à retrouver l‘e-mail contenant les
+                    vous ne parvenez pas à retrouver l’e-mail contenant les
                     pièces jointes, veuillez vérifier le dossier
                     Indésirables/Spam de votre boîte e-mail et contacter la
                     personne qui a réalisé la prescription.

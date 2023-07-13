@@ -124,7 +124,7 @@
     <hr class="my-s40" />
     <p class="mb-s40 max-w-2xl text-f18">
       Ce formulaire collecte les informations nécessaires pour la demande
-      d‘orientation. Veuillez fournir tous les éléments demandés.
+      d’orientation. Veuillez fournir tous les éléments demandés.
     </p>
     <p>
       Vous recevrez une copie de cette demande, tout comme le ou la
@@ -156,7 +156,7 @@
       id="publish"
       type="submit"
       disabled={requesting}
-      label="Envoyer l‘orientation"
+      label="Envoyer l’orientation"
     />
   </StickyFormSubmissionRow>
 </Form>
