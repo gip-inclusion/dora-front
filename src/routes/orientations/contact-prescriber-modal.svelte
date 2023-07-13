@@ -16,20 +16,15 @@
   let showConfirmation = false;
 
   let message = "";
-  let ccBeneficiary: string[] = [];
-  let ccReferent: string[] = [];
+  let extraRecipients: string[] = [];
   let requesting = false;
 
   const contactPrescriberSchema: v.Schema = {
-    ccBeneficiary: {
-      label: `Ajouter le ou la bénéficiaire en copie (${orientation.beneficiaryFirstName} ${orientation.beneficiaryLastName})`,
+    extraRecipients: {
+      label: `Ajouter des destinataires supplémentaires`,
       default: [],
-      rules: [],
-    },
-    ccReferent: {
-      label: `Ajouter le conseiller ou la conseillère référente en copie (${orientation.referentFirstName} ${orientation.referentLastName})`,
-      default: [],
-      rules: [],
+      required: false,
+      rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
     },
     message: {
       label: "Votre message",
@@ -40,24 +35,22 @@
     },
   };
 
-  const ccBeneficiaryChoices = [
+  const extraRecipientsChoices = [
     {
       value: "cc-beneficiary",
       label: `Ajouter le ou la bénéficiaire en copie (${orientation.beneficiaryFirstName} ${orientation.beneficiaryLastName})`,
     },
-  ];
-
-  const ccReferentChoices = [
     {
       value: "cc-referent",
       label: `Ajouter le conseiller ou la conseillère référente en copie (${orientation.referentFirstName} ${orientation.referentLastName})`,
     },
   ];
+
   function handleSubmit(validatedData) {
     return contactPrescriber(
       orientation.queryId,
-      validatedData.ccBeneficiary.includes("cc-beneficiary"),
-      validatedData.ccReferent.includes("cc-referent"),
+      validatedData.extraRecipients.includes("cc-beneficiary"),
+      validatedData.extraRecipients.includes("cc-referent"),
       validatedData.message
     );
   }
@@ -67,7 +60,7 @@
     showConfirmation = true;
   }
 
-  $: formData = { ccBeneficiary, ccReferent, message };
+  $: formData = { extraRecipients, message };
 </script>
 
 <Modal
@@ -101,16 +94,9 @@
       >
         <div class="mx-s4 mb-s20">
           <CheckboxesField
-            id="ccBeneficiary"
-            bind:value={ccBeneficiary}
-            choices={ccBeneficiaryChoices}
-            hideLabel
-            vertical
-          />
-          <CheckboxesField
-            id="ccReferent"
-            bind:value={ccReferent}
-            choices={ccReferentChoices}
+            id="extraRecipients"
+            bind:value={extraRecipients}
+            choices={extraRecipientsChoices}
             hideLabel
             vertical
           />

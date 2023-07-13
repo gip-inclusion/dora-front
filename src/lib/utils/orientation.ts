@@ -77,12 +77,10 @@ export function denyOrientation(
 export function acceptOrientation(
   queryId: string,
   {
-    response,
-    addBeneficiaryMessage,
+    message,
     beneficiaryMessage,
   }: {
-    response: string;
-    addBeneficiaryMessage: string[];
+    message: string;
     beneficiaryMessage: string;
   }
 ) {
@@ -95,8 +93,7 @@ export function acceptOrientation(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      response,
-      addBeneficiaryMessage,
+      message,
       beneficiaryMessage,
     }),
   });

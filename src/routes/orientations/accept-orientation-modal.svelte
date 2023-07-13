@@ -5,7 +5,6 @@
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import { acceptOrientation } from "$lib/utils/orientation";
-  import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
@@ -18,22 +17,18 @@
   let requesting = false;
 
   const acceptOrientationSchema: v.Schema = {
-    response: {
+    message: {
       label: "Message de réponse",
       default: "",
       required: true,
       rules: [v.maxStrLength(1000)],
       maxLength: 1000,
     },
-    addBeneficiaryMessage: {
-      label: "Ajouter un message pour le ou la bénéficiaire",
-      default: [],
-      rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-    },
     beneficiaryMessage: {
       label: "Message pour le ou la bénéficiaire",
       default: "",
       rules: [v.maxStrLength(1000)],
+      required: false,
       maxLength: 1000,
     },
   };
@@ -48,17 +43,9 @@
   }
 
   $: formData = {
-    response: "",
-    addBeneficiaryMessage: [] as string[],
+    message: "",
     beneficiaryMessage: "",
   };
-
-  $: if (formData.addBeneficiaryMessage.length > 0) {
-    acceptOrientationSchema.beneficiaryMessage.required = true;
-  } else {
-    acceptOrientationSchema.beneficiaryMessage.required = false;
-    formData.beneficiaryMessage = "";
-  }
 </script>
 
 <Modal
@@ -96,34 +83,20 @@
         bind:requesting
       >
         <TextareaField
-          id="response"
+          id="message"
           description="Commentaire privé à destination du prescripteur ou de la prescriptrice, ainsi que du conseiller ou de la conseillère référente s’il ne s’agit pas de la même personne. Ce message n’est pas envoyé au bénéficiaire."
-          bind:value={formData.response}
+          bind:value={formData.message}
           vertical
         />
 
         {#if orientation.beneficiaryEmail}
           <div class="mt-s20">
-            <CheckboxesField
-              id="addBeneficiaryMessage"
-              bind:value={formData.addBeneficiaryMessage}
-              description="Un message par défaut est envoyé, si vous souhaitez modifier le contenu cochez la case suivante."
-              vertical
-              choices={[
-                {
-                  label: "Ajouter un message pour le ou la bénéficiaire",
-                  value: "addBeneficiaryMessage",
-                },
-              ]}
-            />
-          </div>
-          {#if formData.addBeneficiaryMessage.includes("addBeneficiaryMessage")}
             <TextareaField
               id="beneficiaryMessage"
               bind:value={formData.beneficiaryMessage}
               vertical
             />
-          {/if}
+          </div>
         {/if}
 
         <div class="mt-s32 text-right">

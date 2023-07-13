@@ -276,7 +276,7 @@
                 href={form.url}
                 class="font-bold underline"
                 target="_blank"
-                rel="noopener"
+                rel="noopener nofollow ugc"
               >
                 {formatFilePath(form.name)}
               </a>

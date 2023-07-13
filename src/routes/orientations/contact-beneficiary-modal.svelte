@@ -16,20 +16,15 @@
   let showConfirmation = false;
 
   let message = "";
-  let ccPrescriber: string[] = [];
-  let ccReferent: string[] = [];
+  let extraRecipients: string[] = [];
   let requesting = false;
 
   const contactBeneficiarySchema: v.Schema = {
-    ccPrescriber: {
-      label: `Ajouter en copie le prescripteur ou la prescriptrice`,
+    extraRecipients: {
+      label: `Ajouter des destinataires supplémentaires`,
       default: [],
-      rules: [],
-    },
-    ccReferent: {
-      label: `Ajouter en copie le conseiller ou la conseillère référente`,
-      default: [],
-      rules: [],
+      required: false,
+      rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
     },
     message: {
       label: "Votre message",
@@ -39,25 +34,25 @@
       maxLength: 1000,
     },
   };
-  const ccPrescriberChoices = [
+  const extraRecipientsChoices = [
     {
       value: "cc-prescriber",
       label: "Ajouter en copie le prescripteur ou la prescriptrice",
     },
   ];
 
-  const ccReferentChoices = [
-    {
+  if (orientation.referentEmail !== orientation.prescriber?.email) {
+    extraRecipientsChoices.push({
       value: "cc-referent",
       label: "Ajouter en copie le conseiller ou la conseillère référente",
-    },
-  ];
+    });
+  }
 
   function handleSubmit(validatedData) {
     return contactBeneficiary(
       orientation.queryId,
-      validatedData.ccPrescriber.includes("cc-prescriber"),
-      validatedData.ccReferent.includes("cc-referent"),
+      validatedData.extraRecipients.includes("cc-prescriber"),
+      validatedData.extraRecipients.includes("cc-referent"),
       validatedData.message
     );
   }
@@ -67,7 +62,7 @@
     showConfirmation = true;
   }
 
-  $: formData = { ccPrescriber, ccReferent, message };
+  $: formData = { extraRecipients, message };
 </script>
 
 <Modal
@@ -102,23 +97,14 @@
       >
         <div class="mx-s4 mb-s20">
           <CheckboxesField
-            id="ccPrescriber"
-            choices={ccPrescriberChoices}
-            bind:value={ccPrescriber}
+            id="extraRecipients"
+            choices={extraRecipientsChoices}
+            bind:value={extraRecipients}
             hideLabel
             vertical
           />
-
-          {#if orientation.referentEmail !== orientation.prescriber?.email}
-            <CheckboxesField
-              id="ccReferent"
-              choices={ccReferentChoices}
-              bind:value={ccReferent}
-              hideLabel
-              vertical
-            />
-          {/if}
         </div>
+
         <div class="mx-s4">
           <TextareaField id="message" bind:value={message} vertical />
         </div>
