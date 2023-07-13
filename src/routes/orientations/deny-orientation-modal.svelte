@@ -83,11 +83,7 @@
   ];
 
   function handleSubmit(validatedData) {
-    return denyOrientation(
-      orientation.queryId,
-      validatedData.reason,
-      validatedData.otherDetails
-    );
+    return denyOrientation(orientation.queryId, validatedData);
   }
 
   async function handleSuccess(_jsonResult) {
