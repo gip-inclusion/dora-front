@@ -32,7 +32,7 @@
     },
     beneficiaryMessage: {
       label: "Message pour le ou la bénéficiaire",
-      default: false,
+      default: "",
       rules: [v.maxStrLength(1000)],
       maxLength: 1000,
     },
@@ -102,26 +102,28 @@
           vertical
         />
 
-        <div class="mt-s20">
-          <CheckboxesField
-            id="addBeneficiaryMessage"
-            bind:value={formData.addBeneficiaryMessage}
-            description="Un message par défaut est envoyé, si vous souhaitez modifier le contenu cochez la case suivante."
-            vertical
-            choices={[
-              {
-                label: "Ajouter un message pour le ou la bénéficiaire",
-                value: "addBeneficiaryMessage",
-              },
-            ]}
-          />
-        </div>
-        {#if formData.addBeneficiaryMessage.includes("addBeneficiaryMessage")}
-          <TextareaField
-            id="beneficiaryMessage"
-            bind:value={formData.beneficiaryMessage}
-            vertical
-          />
+        {#if orientation.beneficiaryEmail}
+          <div class="mt-s20">
+            <CheckboxesField
+              id="addBeneficiaryMessage"
+              bind:value={formData.addBeneficiaryMessage}
+              description="Un message par défaut est envoyé, si vous souhaitez modifier le contenu cochez la case suivante."
+              vertical
+              choices={[
+                {
+                  label: "Ajouter un message pour le ou la bénéficiaire",
+                  value: "addBeneficiaryMessage",
+                },
+              ]}
+            />
+          </div>
+          {#if formData.addBeneficiaryMessage.includes("addBeneficiaryMessage")}
+            <TextareaField
+              id="beneficiaryMessage"
+              bind:value={formData.beneficiaryMessage}
+              vertical
+            />
+          {/if}
         {/if}
 
         <div class="mt-s32 text-right">

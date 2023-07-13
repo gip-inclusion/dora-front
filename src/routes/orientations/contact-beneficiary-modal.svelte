@@ -108,13 +108,16 @@
             hideLabel
             vertical
           />
-          <CheckboxesField
-            id="ccReferent"
-            choices={ccReferentChoices}
-            bind:value={ccReferent}
-            hideLabel
-            vertical
-          />
+
+          {#if orientation.referentEmail !== orientation.prescriber?.email}
+            <CheckboxesField
+              id="ccReferent"
+              choices={ccReferentChoices}
+              bind:value={ccReferent}
+              hideLabel
+              vertical
+            />
+          {/if}
         </div>
         <div class="mx-s4">
           <TextareaField id="message" bind:value={message} vertical />
