@@ -38,7 +38,8 @@
     credentials = servicesOptions.credentials.filter(
       (elt) =>
         service.credentials.includes(elt.value) &&
-        !elt.label.toLowerCase().includes("vitale")
+        !elt.label.toLowerCase().includes("vitale") &&
+        elt.label !== "Aucun"
     );
     credentials.forEach((cred) => {
       $orientation.attachments[cred.label] = [];
