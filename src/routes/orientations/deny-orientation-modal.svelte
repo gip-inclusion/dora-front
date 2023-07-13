@@ -8,6 +8,7 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
+  import { renderRejectMessage } from "$lib/utils/orientation-templates";
 
   export let isOpen = false;
   export let onRefresh;
@@ -93,7 +94,15 @@
   }
 
   $: formData = { reasons, otherDetails };
-  $: denyOrientationSchema.otherDetails.required = reasons.includes("autre");
+  $: otherDetails = renderRejectMessage(reasons, reasonChoices, {
+    referentFirstName: orientation.referentFirstName,
+    referentLastName: orientation.referentLastName,
+    beneficiaryFirstName: orientation.beneficiaryFirstName,
+    beneficiaryLastName: orientation.beneficiaryLastName,
+    serviceName: orientation.service?.name,
+    prescriberName: orientation.prescriber?.name,
+    prescriberStructureName: orientation.prescriberStructure?.name,
+  });
 </script>
 
 <Modal
@@ -145,15 +154,15 @@
             vertical
           />
         </div>
-        {#if reasons.includes("autre")}
-          <div class="mx-s4">
-            <TextareaField
-              id="otherDetails"
-              bind:value={otherDetails}
-              vertical
-            />
-          </div>
-        {/if}
+
+        <div class="mx-s4">
+          <TextareaField
+            id="otherDetails"
+            bind:value={otherDetails}
+            vertical
+            description="Commentaire privé à destination du prescripteur (n’est pas envoyé au candidat)."
+          />
+        </div>
 
         <div class="mt-s32 text-right">
           <Button
