@@ -16,7 +16,6 @@
   import Form from "$lib/components/forms/form.svelte";
   import { goto } from "$app/navigation";
   import { arrowLeftLineIcon } from "$lib/icons";
-  import { onMount } from "svelte";
   import { validate } from "$lib/validation/validation";
 
   export let data: PageData;
@@ -27,36 +26,29 @@
 
   // Fichiers à uploader
   let credentials = [];
-  let attachmentsInvalid = false;
+  let atLeastOneAttachmentError = false;
 
-  onMount(() => {
-    if (!$orientation.firstStepView) {
-      goto(`/services/${data.service.slug}/orienter`);
-    }
-
-    // Gestion de l'upload des fichiers
-    credentials = servicesOptions.credentials.filter(
-      (elt) =>
-        service.credentials.includes(elt.value) &&
-        !elt.label.toLowerCase().includes("vitale") &&
-        elt.label !== "Aucun"
-    );
-    credentials.forEach((cred) => {
-      $orientation.attachments[cred.label] = [];
-    });
-    service.formsInfo.forEach((form) => {
-      $orientation.attachments[form.name] = [];
-    });
+  credentials = servicesOptions.credentials.filter(
+    (elt) =>
+      service.credentials.includes(elt.value) &&
+      !elt.label.toLowerCase().includes("vitale") &&
+      elt.label !== "Aucun"
+  );
+  credentials.forEach((cred) => {
+    $orientation.attachments[cred.label] = [];
+  });
+  service.formsInfo.forEach((form) => {
+    $orientation.attachments[form.name] = [];
   });
 
   function handleValidate(formData) {
     const result = validate(formData, orientationStep2Schema);
 
     if (credentials.length || service.formsInfo.length) {
-      attachmentsInvalid =
+      atLeastOneAttachmentError =
         Object.values(formData.attachments).flat().length === 0;
 
-      if (attachmentsInvalid) {
+      if (atLeastOneAttachmentError) {
         result.errorFields.push("attachments");
         result.valid = false;
 
@@ -132,7 +124,7 @@
     </p>
 
     <div class="mt-s40 flex flex-row justify-between gap-x-s24">
-      <OrientationForm {attachmentsInvalid} {credentials} {service} />
+      <OrientationForm {atLeastOneAttachmentError} {credentials} {service} />
       <div class="mb-s32 w-full shrink-0 md:w-[384px]">
         <ContactBox {service} />
       </div>

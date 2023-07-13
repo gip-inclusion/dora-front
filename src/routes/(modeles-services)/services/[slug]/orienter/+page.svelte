@@ -20,7 +20,7 @@
   let requesting = false;
 
   onMount(() => {
-    $orientation.firstStepView = true;
+    $orientation.firstStepDone = true;
   });
 
   function handleChange(validatedData) {

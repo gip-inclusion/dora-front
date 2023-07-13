@@ -4,7 +4,8 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
 
-  import { formatFilePath, isNotFreeService } from "$lib/utils/service";
+  import { formatFilePath } from "$lib/utils/file";
+  import { isNotFreeService } from "$lib/utils/service";
   import { orientationStep1Schema } from "./schema";
   import { orientation } from "./store";
 

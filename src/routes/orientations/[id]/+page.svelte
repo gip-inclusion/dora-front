@@ -25,7 +25,7 @@
   import { formatNumericDate } from "$lib/utils/date";
   import type { Orientation } from "$lib/types";
   import { formatLongDate } from "$lib/utils/date";
-  import { extractFileName } from "$lib/utils/file";
+  import { formatFilePath } from "$lib/utils/file";
 
   export let data: PageData;
   let { orientation } = data;
@@ -203,7 +203,7 @@
                       <li
                         class="break-word ml-s16 list-disc text-f16 text-gray-text"
                       >
-                        {extractFileName(file)}
+                        {formatFilePath(file)}
                       </li>
                     {/each}
                   </ul>

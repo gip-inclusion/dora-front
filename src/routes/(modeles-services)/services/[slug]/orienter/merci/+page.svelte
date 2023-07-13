@@ -6,16 +6,11 @@
   import { initEmptyOrientation, orientation } from "../store";
   import illustration from "$lib/assets/illustrations/illu-favs.svg";
   import Notice from "$lib/components/display/notice.svelte";
-  import { onMount } from "svelte";
 
   export let data: PageData;
 
-  let showContactBeneficiary = false;
-
-  onMount(() => {
-    showContactBeneficiary = !!$orientation.beneficiaryEmail;
-    $orientation = initEmptyOrientation();
-  });
+  const showContactBeneficiary = !!$orientation.beneficiaryEmail;
+  $orientation = initEmptyOrientation();
 </script>
 
 <Layout {data}>

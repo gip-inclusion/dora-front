@@ -5,7 +5,7 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import UploadField from "$lib/components/forms/fields/upload-field.svelte";
-  import { formatFilePath } from "$lib/utils/service";
+  import { formatFilePath } from "$lib/utils/file";
   import { orientation } from "../store";
   import { userInfo } from "$lib/utils/auth";
   import { onMount } from "svelte";
@@ -16,7 +16,7 @@
 
   export let service;
   export let credentials;
-  export let attachmentsInvalid;
+  export let atLeastOneAttachmentError;
 
   let contactPrefOptions = [];
 
@@ -253,12 +253,12 @@
         </p>
       </div>
 
-      {#if attachmentsInvalid}
+      {#if atLeastOneAttachmentError}
         <div id="attachments" class="flex text-f12 text-error">
           <div class="mr-s8 h-s16 w-s16 fill-current">
             {@html alertIcon}
           </div>
-          Veuillez renseigner au minumum un document
+          Merci de téléverser au moins un justificatif
         </div>
       {/if}
 
