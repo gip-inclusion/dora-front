@@ -27,7 +27,7 @@
 
   // Fichiers à uploader
   let credentials = [];
-  let credentialInError = false;
+  let attachmentsInvalid = false;
 
   onMount(() => {
     if (!$orientation.firstStepView) {
@@ -52,10 +52,10 @@
     const result = validate(formData, orientationStep2Schema);
 
     if (credentials.length || service.formsInfo.length) {
-      credentialInError =
+      attachmentsInvalid =
         Object.values(formData.attachments).flat().length === 0;
 
-      if (credentialInError) {
+      if (attachmentsInvalid) {
         result.errorFields.push("attachments");
         result.valid = false;
 
@@ -132,7 +132,7 @@
 
     <div class="mt-s40 flex flex-row justify-between gap-x-s24">
       <OrientationForm
-        {credentialInError}
+        {attachmentsInvalid}
         {credentials}
         {service}
         {servicesOptions}

@@ -17,7 +17,7 @@
   export let service;
   export let servicesOptions;
   export let credentials;
-  export let credentialInError;
+  export let attachmentsInvalid;
 
   let contactPrefOptions = [];
 
@@ -254,7 +254,7 @@
         </p>
       </div>
 
-      {#if credentialInError}
+      {#if attachmentsInvalid}
         <div id="attachments" class="flex text-f12 text-error">
           <div class="mr-s8 h-s16 w-s16 fill-current">
             {@html alertIcon}
