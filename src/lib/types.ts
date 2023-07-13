@@ -576,6 +576,7 @@ export interface Orientation {
   prescriberStructure?: {
     name: string;
     slug: string;
+    phone: string;
   };
   processingDate?: string;
   status?: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
