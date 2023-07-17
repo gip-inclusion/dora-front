@@ -62,7 +62,10 @@
     referentFirstName: orientation.referentFirstName,
     referentLastName: orientation.referentLastName,
     serviceName: orientation.service?.name,
-    prescriberStructurePhone: orientation.prescriberStructure?.phone,
+    prescriberStructurePhone:
+      orientation.referentEmail === orientation.prescriber?.email
+        ? orientation.referentPhone
+        : undefined,
     prescriberName: orientation.prescriber?.name,
   });
 

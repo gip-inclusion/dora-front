@@ -16,7 +16,7 @@
 
   let showConfirmation = false;
 
-  let otherDetails = "";
+  let message = "";
   let reasons: string[] = [];
   let requesting = false;
   let messageTouched = false;
@@ -28,7 +28,7 @@
       required: true,
       rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
     },
-    otherDetails: {
+    message: {
       label: "Détaillez ici le motif du refus",
       default: "",
       rules: [v.isString(), v.maxStrLength(1000)],
@@ -97,18 +97,18 @@
   }
 
   function handleChange(_validatedData, fieldName) {
-    if (fieldName === "otherDetails") {
-      messageTouched = otherDetails !== "";
+    if (fieldName === "message") {
+      messageTouched = message !== "";
     } else if (fieldName === "reasons" && !messageTouched) {
-      otherDetails = generateMessage();
+      message = generateMessage();
     }
   }
 
   function handleSubmit(validatedData) {
     return denyOrientation(orientation.queryId, {
       ...validatedData,
-      reasons: validatedData.otherDetails
-        ? validatedData.otherDetails
+      message: validatedData.message
+        ? validatedData.message
         : generateMessage(),
     });
   }
@@ -119,7 +119,7 @@
     showConfirmation = true;
   }
 
-  $: formData = { reasons, otherDetails };
+  $: formData = { reasons, message };
 </script>
 
 <Modal
@@ -175,8 +175,8 @@
 
         <div class="mx-s4">
           <TextareaField
-            id="otherDetails"
-            bind:value={otherDetails}
+            id="message"
+            bind:value={message}
             vertical
             description="Commentaire privé à destination du prescripteur (n’est pas envoyé au candidat)."
           />
