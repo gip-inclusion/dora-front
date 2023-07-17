@@ -10,15 +10,13 @@
   import { orientation } from "./store";
 
   export let service;
-  export let servicesOptions;
 
   const excludedConcernedPublicLabels = ["Autre", "Tous public"];
   const excludedRequirementLabels = ["Aucun", "Sans condition"];
 
   const concernedPublicChoices = [
-    ...servicesOptions.concernedPublic
-      .filter((elt) => service.concernedPublic.includes(elt.value))
-      .map((choice) => ({ value: choice.label, label: choice.label }))
+    ...service.concernedPublicDisplay
+      .map((value) => ({ value: value, label: value }))
       .filter((elt) => !excludedConcernedPublicLabels.includes(elt.value)),
     { value: "Autre", label: "Autre (à préciser)" },
   ];
@@ -27,18 +25,12 @@
     (elt) => !elt.toLowerCase().includes("vitale")
   );
 
-  const requirementChoices = servicesOptions
-    ? [
-        ...servicesOptions.requirements.filter((elt) =>
-          service.requirements.includes(elt.value)
-        ),
-        ...servicesOptions.accessConditions.filter((elt) =>
-          service.accessConditions.includes(elt.value)
-        ),
-      ]
-        .map((choice) => ({ value: choice.label, label: choice.label }))
-        .filter((elt) => !excludedRequirementLabels.includes(elt.value))
-    : [];
+  const requirementChoices = [
+    ...service.requirementsDisplay,
+    ...service.accessConditionsDisplay,
+  ]
+    .map((value) => ({ value: value, label: value }))
+    .filter((elt) => !excludedRequirementLabels.includes(elt.value));
 
   if (requirementChoices.length === 0) {
     orientationStep1Schema.requirements.required = false;
