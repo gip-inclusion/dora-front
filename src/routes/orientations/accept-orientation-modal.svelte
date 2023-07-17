@@ -46,26 +46,27 @@
     showConfirmation = true;
   }
 
-  $: formData = {
-    message: renderPrescripterAcceptMessage({
-      beneficiaryFirstName: orientation.beneficiaryFirstName,
-      beneficiaryLastName: orientation.beneficiaryLastName,
-      prescriberStructureName: orientation.prescriberStructure?.name,
-      referentFirstName: orientation.referentFirstName,
-      referentLastName: orientation.referentLastName,
-      referentEmail: orientation.referentEmail,
-      referentPhone: orientation.referentPhone,
-      prescriberName: orientation.prescriber?.name,
-    }),
-    beneficiaryMessage: renderBeneficiaryAcceptMessage({
-      prescriberStructureName: orientation.prescriberStructure?.name,
-      referentFirstName: orientation.referentFirstName,
-      referentLastName: orientation.referentLastName,
-      serviceName: orientation.service?.name,
-      prescriberStructurePhone: orientation.prescriberStructure?.phone,
-      prescriberName: orientation.prescriber?.name,
-    }),
-  };
+  const message = renderPrescripterAcceptMessage({
+    beneficiaryFirstName: orientation.beneficiaryFirstName,
+    beneficiaryLastName: orientation.beneficiaryLastName,
+    prescriberStructureName: orientation.prescriberStructure?.name,
+    referentFirstName: orientation.referentFirstName,
+    referentLastName: orientation.referentLastName,
+    referentEmail: orientation.referentEmail,
+    referentPhone: orientation.referentPhone,
+    prescriberName: orientation.prescriber?.name,
+  });
+
+  const beneficiaryMessage = renderBeneficiaryAcceptMessage({
+    prescriberStructureName: orientation.prescriberStructure?.name,
+    referentFirstName: orientation.referentFirstName,
+    referentLastName: orientation.referentLastName,
+    serviceName: orientation.service?.name,
+    prescriberStructurePhone: orientation.prescriberStructure?.phone,
+    prescriberName: orientation.prescriber?.name,
+  });
+
+  $: formData = { message, beneficiaryMessage };
 </script>
 
 <Modal
