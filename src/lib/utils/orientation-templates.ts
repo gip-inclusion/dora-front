@@ -2,13 +2,13 @@ import { formatPhoneNumber } from "./misc";
 
 // prettier-ignore
 export function renderPrescripterAcceptMessage(data: Record<string, string | undefined>) {
-    return `Bonjour,
+  return `Bonjour,
 
 Nous avons le plaisir de vous informer que votre demande d’orientation a été acceptée ! 🎉
 
 Votre demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} à été validée par la structure « ${data.prescriberStructureName} ».
 
-Si vous avez des questions supplémentaires ou si vous souhaitez obtenir plus d’informations, n’hésitez pas à contacter le référent de l’action, ${data.referentFirstName} ${data.referentLastName} - ${data.referentEmail} - ${data.referentPhone}.
+Si vous avez des questions supplémentaires ou si vous souhaitez obtenir plus d’informations, n’hésitez pas à contacter le référent de l’action, ${data.referentFirstName} ${data.referentLastName} (${data.referentEmail} - ${data.referentPhone}).
 
 Cordialement,
 ${data.prescriberName}
@@ -17,9 +17,9 @@ ${data.prescriberStructureName}`;
 
 // prettier-ignore
 export function renderBeneficiaryAcceptMessage(data: Record<string, string | undefined>) {
-  return `Bonjour,
+return `Bonjour,
 
-Nous avons le plaisir de vous informer que la structure « ${data.prescriberStructureName}" a validé la demande réalisée par ${data.referentFirstName} ${data.referentLastName} concernant votre positionnement sur « ${data.serviceName} ».
+Nous avons le plaisir de vous informer que la structure « ${data.prescriberStructureName} » a validé la demande réalisée par ${data.referentFirstName} ${data.referentLastName} concernant votre positionnement sur « ${data.serviceName} ».
 
 Pour toute information supplémentaire, n’hésitez pas à contacter votre référent${ data.prescriberStructurePhone ? ` ou la structure directement au ${formatPhoneNumber(data.prescriberStructurePhone)}`: ""}.
 
@@ -41,8 +41,13 @@ export function renderRejectMessage(
     return "";
   }
 
+  const textStart = `Bonjour ${data.referentFirstName} ${data.referentLastName},`;
+  const textEnd = `Bien à vous,
+${data.prescriberName}
+${data.prescriberStructureName}`;
+
   if (reasons.length > 1) {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous vous remercions d’avoir soumis la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Après avoir examiné attentivement la situation, nous regrettons de vous informer que nous ne pouvons pas donner suite à cette demande pour le moment. Plusieurs raisons spécifiques ont été identifiées, notamment :
 
@@ -52,13 +57,11 @@ Ces facteurs combinés ont conduit à notre décision de ne pas donner suite à 
 
 Si vous avez des questions supplémentaires ou si vous souhaitez discuter plus en détail des raisons du refus, n’hésitez pas à nous contacter.
 
-Cordialement,
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
   }
 
   if (reasons[0] === "bénéficiaire-non-joignable") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Après avoir effectué plusieurs tentatives pour contacter ${data.beneficiaryFirstName} ${data.beneficiaryLastName}, nous n’avons pas réussi à le ou la joindre. Malgré nos efforts répétés, nous n’avons pas pu recueillir les informations nécessaires pour donner une réponse positive à la demande.
 
@@ -66,12 +69,9 @@ Nous tenions à vous remercier pour avoir positionné ${data.beneficiaryFirstNam
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
   } else if (reasons[0] === "bénéficiaire-absent") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous vous contactons aujourd’hui pour vous informer qu’à la suite de notre entretien prévu avec ${data.beneficiaryFirstName} ${data.beneficiaryLastName}, celui-ci/celle-ci n’a malheureusement pas honoré le rendez-vous convenu.
 
@@ -81,13 +81,10 @@ Nous tenions à vous remercier pour avoir positionné ${data.beneficiaryFirstNam
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
   } else if (reasons[0] === "bénéficiaire-en-emploi") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous tenons à vous informer que nous avons examiné attentivement la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Malheureusement, nous ne sommes pas en mesure de donner une suite favorable à cette demande pour le moment.
 
@@ -95,13 +92,10 @@ Nous avons été informé que ${data.beneficiaryFirstName} ${data.beneficiaryLas
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
   } else if (reasons[0] === "bénéficiaire-en-formation") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous tenons à vous informer que nous avons examiné attentivement la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Malheureusement, nous ne sommes pas en mesure de donner une suite favorable à cette demande pour le moment.
 
@@ -109,13 +103,10 @@ Nous avons été informé que ${data.beneficiaryFirstName} ${data.beneficiaryLas
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
   } else if (reasons[0] === "bénéficiaire-non-éligible") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous vous remercions d’avoir soumis la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Après l’avoir étudiée attentivement, nous regrettons de vous informer que nous ne pouvons pas donner suite à cette demande pour le moment.
 
@@ -123,13 +114,10 @@ Après avoir évalué les critères et les prérequis nécessaires, nous constat
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
   } else if (reasons[0] === "bénéficiaire-non-mobile") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous tenons à vous informer que nous avons examiné attentivement la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Malheureusement, nous ne sommes pas en mesure de donner une suite favorable à cette demande pour le moment.
 
@@ -137,13 +125,10 @@ Après avoir pris en compte divers éléments, nous avons constaté que ${data.b
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
   } else if (reasons[0] === "bénéficiaire-non-intéressé") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous tenons à vous informer que nous avons examiné attentivement la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Malheureusement, nous ne sommes pas en mesure de donner une suite favorable à cette demande pour le moment.
 
@@ -153,13 +138,10 @@ Nous vous encourageons à discuter davantage avec ${data.beneficiaryFirstName} $
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
   } else if (reasons[0] === "freins-périphériques") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous tenons à vous informer que nous avons examiné attentivement la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Malheureusement, nous ne sommes pas en mesure de donner une suite favorable à cette demande pour le moment.
 
@@ -169,13 +151,10 @@ Nous vous encourageons à explorer d’autres options qui pourraient mieux corre
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
   } else if (reasons[0] === "session-complète") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous tenons à vous informer que nous avons examiné attentivement la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Malheureusement, nous ne sommes pas en mesure de donner une suite favorable à cette demande pour le moment.
 
@@ -185,13 +164,10 @@ Nous vous encourageons néanmoins à rester à l’écoute de nos prochaines ses
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
   } else if (reasons[0] === "orientation-en-doublon") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous vous remercions d’avoir soumis une nouvelle demande pour ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ».
 
@@ -201,14 +177,11 @@ Nous tenons à vous assurer que nos équipes reviendront rapidement vers vous av
 
 N’hésitez pas à nous contacter si vous avez des questions supplémentaires ou si vous souhaitez fournir des mises à jour pertinentes concernant la situation de ${data.beneficiaryFirstName} ${data.beneficiaryLastName}.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
 
 
   } else if (reasons[0] === "autre") {
-    return `Bonjour ${data.referentFirstName} ${data.referentLastName},
+    return textStart + `
 
 Nous tenons à vous informer que nous avons examiné attentivement la demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} pour le service « ${data.serviceName} ». Malheureusement, nous ne sommes pas en mesure de donner une suite favorable à cette demande pour le moment.
 
@@ -216,10 +189,7 @@ Nous tenons à vous informer que nous avons examiné attentivement la demande co
 
 Si vous avez des questions supplémentaires, n’hésitez pas à nous contacter.
 
-Bien à vous,
-
-${data.prescriberName}
-${data.prescriberStructureName}`;
+`+ textEnd;
   }
 
   return "";

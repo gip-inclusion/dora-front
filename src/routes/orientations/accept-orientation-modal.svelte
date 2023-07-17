@@ -46,7 +46,6 @@
     showConfirmation = true;
   }
 
-  console.log(orientation);
   $: formData = {
     message: renderPrescripterAcceptMessage({
       beneficiaryFirstName: orientation.beneficiaryFirstName,

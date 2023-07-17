@@ -19,6 +19,7 @@
   let otherDetails = "";
   let reasons: string[] = [];
   let requesting = false;
+  let messageTouched = false;
 
   const denyOrientationSchema: v.Schema = {
     reasons: {
@@ -83,8 +84,33 @@
     },
   ];
 
+  function generateMessage() {
+    return renderRejectMessage(reasons, reasonChoices, {
+      referentFirstName: orientation.referentFirstName,
+      referentLastName: orientation.referentLastName,
+      beneficiaryFirstName: orientation.beneficiaryFirstName,
+      beneficiaryLastName: orientation.beneficiaryLastName,
+      serviceName: orientation.service?.name,
+      prescriberName: orientation.prescriber?.name,
+      prescriberStructureName: orientation.prescriberStructure?.name,
+    });
+  }
+
+  function handleChange(_validatedData, fieldName) {
+    if (fieldName === "otherDetails") {
+      messageTouched = otherDetails !== "";
+    } else if (fieldName === "reasons" && !messageTouched) {
+      otherDetails = generateMessage();
+    }
+  }
+
   function handleSubmit(validatedData) {
-    return denyOrientation(orientation.queryId, validatedData);
+    return denyOrientation(orientation.queryId, {
+      ...validatedData,
+      reasons: validatedData.otherDetails
+        ? validatedData.otherDetails
+        : generateMessage(),
+    });
   }
 
   async function handleSuccess(_jsonResult) {
@@ -94,15 +120,6 @@
   }
 
   $: formData = { reasons, otherDetails };
-  $: otherDetails = renderRejectMessage(reasons, reasonChoices, {
-    referentFirstName: orientation.referentFirstName,
-    referentLastName: orientation.referentLastName,
-    beneficiaryFirstName: orientation.beneficiaryFirstName,
-    beneficiaryLastName: orientation.beneficiaryLastName,
-    serviceName: orientation.service?.name,
-    prescriberName: orientation.prescriber?.name,
-    prescriberStructureName: orientation.prescriberStructure?.name,
-  });
 </script>
 
 <Modal
@@ -143,6 +160,7 @@
         bind:data={formData}
         schema={denyOrientationSchema}
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onSuccess={handleSuccess}
         bind:requesting
       >
