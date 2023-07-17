@@ -32,7 +32,7 @@
       label: "Détaillez ici le motif du refus",
       default: "",
       rules: [v.isString(), v.maxStrLength(1000)],
-      required: false,
+      required: true,
       maxLength: 1000,
     },
   };
@@ -84,32 +84,26 @@
     },
   ];
 
-  function generateMessage() {
-    return renderRejectMessage(reasons, reasonChoices, {
-      referentFirstName: orientation.referentFirstName,
-      referentLastName: orientation.referentLastName,
-      beneficiaryFirstName: orientation.beneficiaryFirstName,
-      beneficiaryLastName: orientation.beneficiaryLastName,
-      serviceName: orientation.service?.name,
-      prescriberName: orientation.prescriber?.name,
-      prescriberStructureName: orientation.prescriberStructure?.name,
-    });
-  }
-
   function handleChange(_validatedData, fieldName) {
     if (fieldName === "message") {
       messageTouched = message !== "";
     } else if (fieldName === "reasons" && !messageTouched) {
-      message = generateMessage();
+      message = renderRejectMessage(reasons, reasonChoices, {
+        referentFirstName: orientation.referentFirstName,
+        referentLastName: orientation.referentLastName,
+        beneficiaryFirstName: orientation.beneficiaryFirstName,
+        beneficiaryLastName: orientation.beneficiaryLastName,
+        serviceName: orientation.service?.name,
+        prescriberName: orientation.prescriber?.name,
+        prescriberStructureName: orientation.prescriberStructure?.name,
+      });
     }
   }
 
   function handleSubmit(validatedData) {
     return denyOrientation(orientation.queryId, {
       ...validatedData,
-      message: validatedData.message
-        ? validatedData.message
-        : generateMessage(),
+      message: validatedData.message,
     });
   }
 
