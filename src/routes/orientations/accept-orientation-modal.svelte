@@ -112,7 +112,7 @@
           <div class="mt-s20">
             <TextareaField
               id="beneficiaryMessage"
-              description="Commentaire privé à destination du ou de la bénéficiaire. "
+              description="Commentaire privé à destination du ou de la bénéficiaire."
               bind:value={formData.beneficiaryMessage}
               vertical
             />
