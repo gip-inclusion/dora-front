@@ -8,7 +8,7 @@ Nous avons le plaisir de vous informer que votre demande d’orientation a été
 
 Votre demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} à été validée par la structure « ${data.serviceStructureName} ».
 
-Si vous avez des questions supplémentaires ou si vous souhaitez obtenir plus d’informations, n’hésitez à pas nous contacter.
+Si vous avez des questions supplémentaires ou si vous souhaitez obtenir plus d’informations, n’hésitez pas à nous contacter.
 
 Cordialement,`;
 
