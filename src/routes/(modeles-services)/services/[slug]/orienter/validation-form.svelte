@@ -21,6 +21,7 @@
     { value: "Autre", label: "Autre (à préciser)" },
   ];
 
+  // Que l'option "Autre"
   const serviceAcceptsAllPublic = concernedPublicChoices.length === 1;
 
   const credentialsDisplay = service.credentialsDisplay.filter(
