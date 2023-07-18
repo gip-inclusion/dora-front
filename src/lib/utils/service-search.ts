@@ -3,7 +3,7 @@ import { logException } from "./logger";
 
 const LAST_SEARCH_CITY_KEY = "lastSearch";
 
-export function getQuery({
+export function getQueryString({
   categoryIds,
   subCategoryIds,
   cityCode,
