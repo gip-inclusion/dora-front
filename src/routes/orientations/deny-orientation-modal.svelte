@@ -123,9 +123,9 @@
 
 <Modal
   bind:isOpen
+  on:close
   title="Refuser la demande"
   overflow
-  on:close
   width="medium"
   hideTitle={showConfirmation}
 >
