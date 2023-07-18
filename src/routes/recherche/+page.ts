@@ -16,6 +16,7 @@ async function getResults({
   cityLabel,
   kindIds,
   feeConditions,
+  useDI,
 }: SearchQuery): Promise<ServiceSearchResult[]> {
   const query = getQuery({
     categoryIds,
@@ -24,6 +25,7 @@ async function getResults({
     cityLabel,
     kindIds,
     feeConditions,
+    useDI,
   });
   const url = `${getApiURL()}/search/?${query}`;
 
@@ -54,6 +56,7 @@ export const load: PageLoad = async ({ url, parent }) => {
   const cityLabel = query.get("cl");
   const kindIds = query.get("kinds") ? query.get("kinds").split(",") : [];
   const feeConditions = query.get("fees") ? query.get("fees").split(",") : [];
+  const useDI = query.get("di");
 
   const services = await getResults({
     categoryIds,
@@ -62,6 +65,7 @@ export const load: PageLoad = async ({ url, parent }) => {
     cityLabel,
     kindIds,
     feeConditions,
+    useDI,
   });
 
   trackSearch(
