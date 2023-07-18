@@ -9,7 +9,7 @@
   import ConfirmationBloc from "./confirmation-bloc.svelte";
   import {
     renderBeneficiaryAcceptMessage,
-    renderPrescripterAcceptMessage,
+    renderPrescriberAcceptMessage,
   } from "$lib/utils/orientation-templates";
   import { formatPhoneNumber } from "$lib/utils/misc";
 
@@ -47,7 +47,7 @@
     showConfirmation = true;
   }
 
-  const message = renderPrescripterAcceptMessage({
+  const message = renderPrescriberAcceptMessage({
     beneficiaryFirstName: orientation.beneficiaryFirstName,
     beneficiaryLastName: orientation.beneficiaryLastName,
     serviceStructureName: orientation.service?.structureName,

@@ -1,18 +1,20 @@
 import { formatPhoneNumber } from "./misc";
 
 // prettier-ignore
-export function renderPrescripterAcceptMessage(data: Record<string, string | undefined>) {
+export function renderPrescriberAcceptMessage(data: Record<string, string | undefined>) {
   let result = `Bonjour,
 
 Nous avons le plaisir de vous informer que votre demande d’orientation a été acceptée ! 🎉
 
 Votre demande concernant ${data.beneficiaryFirstName} ${data.beneficiaryLastName} à été validée par la structure « ${data.serviceStructureName} ».
 
-Si vous avez des questions supplémentaires ou si vous souhaitez obtenir plus d’informations, n’hésitez pas nous contacter.
+Si vous avez des questions supplémentaires ou si vous souhaitez obtenir plus d’informations, n’hésitez à pas nous contacter.
 
-Cordialement,
-${data.serviceContactName}`;
+Cordialement,`;
 
+  if(data.serviceContactName) {
+    result += `\n${data.serviceContactName}`;
+  }
   if(data.serviceContactEmail) {
     result += `\n${data.serviceContactEmail}`;
   }
@@ -36,10 +38,11 @@ Pour toute information supplémentaire, n’hésitez pas à contacter votre réf
 
 Nous vous souhaitons une bonne continuation.
 
-Bien à vous,
+Bien à vous,`;
 
-${data.serviceContactName}`;
-
+  if(data.serviceContactName) {
+    result += `\n${data.serviceContactName}`;
+  }
   if(data.serviceContactEmail) {
     result += `\n${data.serviceContactEmail}`;
   }
@@ -64,9 +67,11 @@ export function renderRejectMessage(
   }
 
   const textStart = `Bonjour ${data.referentFirstName} ${data.referentLastName},`;
-  let textEnd = `Bien à vous,
-${data.serviceContactName}`;
+  let textEnd = `Bien à vous,`;
 
+  if(data.serviceContactName) {
+    textEnd += `\n${data.serviceContactName}`;
+  }
   if(data.serviceContactEmail) {
     textEnd += `\n${data.serviceContactEmail}`;
   }
