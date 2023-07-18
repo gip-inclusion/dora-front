@@ -50,10 +50,6 @@
   const message = renderPrescripterAcceptMessage({
     beneficiaryFirstName: orientation.beneficiaryFirstName,
     beneficiaryLastName: orientation.beneficiaryLastName,
-    referentFirstName: orientation.referentFirstName,
-    referentLastName: orientation.referentLastName,
-    referentEmail: orientation.referentEmail,
-    referentPhone: orientation.referentPhone,
     serviceStructureName: orientation.service?.structureName,
     serviceContactName: orientation.service?.contactName,
     serviceContactPhone: orientation.service?.contactPhone
