@@ -5,7 +5,7 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import Button from "$lib/components/display/button.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
-  import { contactService } from "$lib/utils/orientation";
+  import { contactBeneficiary } from "$lib/utils/orientation";
   import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
 
@@ -16,14 +16,15 @@
   let showConfirmation = false;
 
   let message = "";
-  let extraRecipients = [];
+  let extraRecipients: string[] = [];
   let requesting = false;
 
-  const contactServiceSchema: v.Schema = {
+  const contactBeneficiarySchema: v.Schema = {
     extraRecipients: {
-      label: "Ajouter d‘autres destinataires",
+      label: `Ajouter des destinataires supplémentaires`,
       default: [],
-      rules: [],
+      required: false,
+      rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
     },
     message: {
       label: "Votre message",
@@ -35,19 +36,23 @@
   };
   const extraRecipientsChoices = [
     {
-      value: "add-beneficiary",
-      label: `Ajouter le ou la bénéficiaire en copie (${orientation.beneficiaryFirstName} ${orientation.beneficiaryLastName})`,
-    },
-    {
-      value: "add-referent-contact",
-      label: `Ajouter le conseiller ou la conseillère référente en copie (${orientation.referentFirstName} ${orientation.referentLastName})`,
+      value: "cc-prescriber",
+      label: "Ajouter en copie le prescripteur ou la prescriptrice",
     },
   ];
 
+  if (orientation.referentEmail !== orientation.prescriber?.email) {
+    extraRecipientsChoices.push({
+      value: "cc-referent",
+      label: "Ajouter en copie le conseiller ou la conseillère référente",
+    });
+  }
+
   function handleSubmit(validatedData) {
-    return contactService(
+    return contactBeneficiary(
       orientation.queryId,
-      validatedData.extraRecipients,
+      validatedData.extraRecipients.includes("cc-prescriber"),
+      validatedData.extraRecipients.includes("cc-referent"),
       validatedData.message
     );
   }
@@ -64,17 +69,19 @@
   bind:isOpen
   on:close
   overflow
+  hideTitle={showConfirmation}
+  title="Contacter le ou la bénéficiaire"
   width="medium"
-  title="Contacter le prescripteur ou la prescriptrice"
 >
   <div slot="subtitle">
-    Contacter {orientation.prescriber?.name} - concernant l’orientation qui vous
-    a été adressé pour le service «&nbsp;<a
+    Contacter {orientation.beneficiaryFirstName}
+    {orientation.beneficiaryLastName} - qui vous a été adressé·e par {orientation.referentFirstName}
+    {orientation.referentLastName}, pour le service «&nbsp;<a
       class="text-magenta-cta"
       href="/services/{orientation.service?.slug}"
     >
       {orientation.service?.name}
-    </a>&nbsp;».
+    </a>&nbsp;»
   </div>
 
   {#if showConfirmation}
@@ -83,7 +90,7 @@
     <div class="pr-s16">
       <Form
         bind:data={formData}
-        schema={contactServiceSchema}
+        schema={contactBeneficiarySchema}
         onSubmit={handleSubmit}
         onSuccess={handleSuccess}
         bind:requesting
@@ -97,6 +104,7 @@
             vertical
           />
         </div>
+
         <div class="mx-s4">
           <TextareaField id="message" bind:value={message} vertical />
         </div>

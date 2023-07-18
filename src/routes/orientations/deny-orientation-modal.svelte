@@ -8,6 +8,7 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import type { Orientation } from "$lib/types";
   import ConfirmationBloc from "./confirmation-bloc.svelte";
+  import { renderRejectMessage } from "$lib/utils/orientation-templates";
 
   export let isOpen = false;
   export let onRefresh;
@@ -15,9 +16,10 @@
 
   let showConfirmation = false;
 
-  let otherDetails = "";
+  let message = "";
   let reasons: string[] = [];
   let requesting = false;
+  let messageTouched = false;
 
   const denyOrientationSchema: v.Schema = {
     reasons: {
@@ -26,68 +28,83 @@
       required: true,
       rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
     },
-    otherDetails: {
+    message: {
       label: "Détaillez ici le motif du refus",
       default: "",
       rules: [v.isString(), v.maxStrLength(1000)],
-      required: false,
+      required: true,
       maxLength: 1000,
     },
   };
   const reasonChoices = [
     {
-      value: "beneficiary-not-answering",
+      value: "bénéficiaire-non-joignable",
       label: "Bénéficiaire non joignable",
     },
     {
-      value: "beneficiary-not-showing-up",
+      value: "bénéficiaire-absent",
       label: "Bénéficiaire ne s’étant pas présenté à l’entretien",
     },
     {
-      value: "beneficiary-working",
-      label: "Bénéficiaire indisponible&nbsp;: en emploi",
+      value: "bénéficiaire-en-emploi",
+      label: "Bénéficiaire indisponible : en emploi",
     },
     {
-      value: "beneficiary-in-formation",
-      label: "Bénéficiaire indisponible&nbsp;: en formation",
+      value: "bénéficiaire-en-formation",
+      label: "Bénéficiaire indisponible : en formation",
     },
     {
-      value: "beneficiary-not-eligible",
+      value: "bénéficiaire-non-éligible",
       label: "Bénéficiaire non éligible (ne répond pas aux pré-requis)",
     },
     {
-      value: "beneficiary-not-movable",
+      value: "bénéficiaire-non-mobile",
       label: "Bénéficiaire non mobile",
     },
     {
-      value: "beneficiary-not-interested",
+      value: "bénéficiaire-non-intéressé",
       label: "Bénéficiaire non intéressé",
     },
     {
-      value: "beneficiary-cant-continue",
+      value: "freins-périphériques",
       label:
         "Un ou plusieurs freins périphériques empêchent le bénéficiaire de poursuivre",
     },
     {
-      value: "session-full",
+      value: "session-complète",
       label: "Session complète",
     },
     {
-      value: "orientation-duplicate",
+      value: "orientation-en-doublon",
       label: "Orientation en doublon",
     },
     {
-      value: "other",
+      value: "autre",
       label: "Autre (détails dans le message ci-dessous)",
     },
   ];
 
+  function handleChange(_validatedData, fieldName) {
+    if (fieldName === "message") {
+      messageTouched = message !== "";
+    } else if (fieldName === "reasons" && !messageTouched) {
+      message = renderRejectMessage(reasons, reasonChoices, {
+        referentFirstName: orientation.referentFirstName,
+        referentLastName: orientation.referentLastName,
+        beneficiaryFirstName: orientation.beneficiaryFirstName,
+        beneficiaryLastName: orientation.beneficiaryLastName,
+        serviceName: orientation.service?.name,
+        prescriberName: orientation.prescriber?.name,
+        prescriberStructureName: orientation.prescriberStructure?.name,
+      });
+    }
+  }
+
   function handleSubmit(validatedData) {
-    return denyOrientation(
-      orientation.queryId,
-      validatedData.reason,
-      validatedData.otherDetails
-    );
+    return denyOrientation(orientation.queryId, {
+      ...validatedData,
+      message: validatedData.message,
+    });
   }
 
   async function handleSuccess(_jsonResult) {
@@ -96,15 +113,21 @@
     showConfirmation = true;
   }
 
-  $: formData = { reasons, otherDetails };
-  $: denyOrientationSchema.otherDetails.required = reasons.includes("other");
+  $: formData = { reasons, message };
 </script>
 
-<Modal bind:isOpen on:close title="Refuser la demande" overflow width="medium">
+<Modal
+  bind:isOpen
+  on:close
+  title="Refuser la demande"
+  overflow
+  width="medium"
+  hideTitle={showConfirmation}
+>
   <div slot="subtitle">
     Vous êtes sur le point de refuser une demande de prescription de service qui
-    vous a été adressée par {orientation.referentFirstName}
-    {orientation.referentLastName} de la structure {orientation
+    vous a été adressée par {orientation.beneficiaryFirstName}
+    {orientation.beneficiaryLastName} de la structure {orientation
       .prescriberStructure?.name}
     pour le service «&nbsp;<a
       class="text-magenta-cta"
@@ -131,6 +154,7 @@
         bind:data={formData}
         schema={denyOrientationSchema}
         onSubmit={handleSubmit}
+        onChange={handleChange}
         onSuccess={handleSuccess}
         bind:requesting
       >
@@ -142,15 +166,15 @@
             vertical
           />
         </div>
-        {#if reasons.includes("other")}
-          <div class="mx-s4">
-            <TextareaField
-              id="otherDetails"
-              bind:value={otherDetails}
-              vertical
-            />
-          </div>
-        {/if}
+
+        <div class="mx-s4">
+          <TextareaField
+            id="message"
+            bind:value={message}
+            vertical
+            description="Commentaire privé à destination du prescripteur (n’est pas envoyé au candidat)."
+          />
+        </div>
 
         <div class="mt-s32 text-right">
           <Button

@@ -4,18 +4,20 @@
   import CheckboxesField from "$lib/components/forms/fields/checkboxes-field.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
 
-  import { formatFilePath, isNotFreeService } from "$lib/utils/service";
+  import { formatFilePath } from "$lib/utils/file";
+  import { isNotFreeService } from "$lib/utils/service";
   import { orientationStep1Schema } from "./schema";
   import { orientation } from "./store";
 
   export let service;
-  export let servicesOptions;
+
+  const excludedConcernedPublicLabels = ["Autre", "Tous public"];
+  const excludedRequirementLabels = ["Aucun", "Sans condition"];
 
   const concernedPublicChoices = [
-    ...servicesOptions.concernedPublic
-      .filter((elt) => service.concernedPublic.includes(elt.value))
-      .map((choice) => ({ value: choice.label, label: choice.label }))
-      .filter((elt) => elt.value !== "Autre"),
+    ...service.concernedPublicDisplay
+      .map((value) => ({ value: value, label: value }))
+      .filter((elt) => !excludedConcernedPublicLabels.includes(elt.value)),
     { value: "Autre", label: "Autre (à préciser)" },
   ];
 
@@ -23,20 +25,12 @@
     (elt) => !elt.toLowerCase().includes("vitale")
   );
 
-  const requirementChoices = servicesOptions
-    ? [
-        ...servicesOptions.requirements.filter((elt) =>
-          service.requirements.includes(elt.value)
-        ),
-        ...servicesOptions.accessConditions.filter((elt) =>
-          service.accessConditions.includes(elt.value)
-        ),
-      ]
-        .map((choice) => ({ value: choice.label, label: choice.label }))
-        .filter(
-          (elt) => elt.value !== "Aucun" && elt.value !== "Sans condition"
-        )
-    : [];
+  const requirementChoices = [
+    ...service.requirementsDisplay,
+    ...service.accessConditionsDisplay,
+  ]
+    .map((value) => ({ value: value, label: value }))
+    .filter((elt) => !excludedRequirementLabels.includes(elt.value));
 
   if (requirementChoices.length === 0) {
     orientationStep1Schema.requirements.required = false;
@@ -73,6 +67,12 @@
       />
 
       {#if $orientation.situation?.includes("Autre")}
+        <p class="mb-s0 text-f14 italic text-gray-text">
+          Merci de fournir uniquement des informations relatives au profil de la
+          personne et d’éviter les données sensibles. Le motif de l’orientation
+          sera détaillé lors de la deuxième étape de ce formulaire.
+        </p>
+
         <TextareaField
           id="situationOther"
           placeholder=""
@@ -84,7 +84,7 @@
     </div>
   </Fieldset>
 
-  <Fieldset title="Critères et conditions d‘accès">
+  <Fieldset title="Critères et conditions d’accès">
     <div class="flex flex-col lg:gap-s8">
       {#if requirementChoices.length !== 0}
         <CheckboxesField

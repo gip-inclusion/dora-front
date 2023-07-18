@@ -11,12 +11,17 @@
   import { orientationStep1Schema } from "./schema";
   import { goto } from "$app/navigation";
   import { arrowLeftLineIcon } from "$lib/icons";
+  import { onMount } from "svelte";
 
   export let data;
 
-  const { service, servicesOptions } = data;
+  const { service } = data;
 
   let requesting = false;
+
+  onMount(() => {
+    $orientation.firstStepDone = true;
+  });
 
   function handleChange(validatedData) {
     $orientation = { ...validatedData };
@@ -51,12 +56,12 @@
     </p>
     <hr class="my-s40" />
     <p class="mb-s40 max-w-2xl text-f18">
-      Avant de commencer la procédure, vérifiez l‘éligibilité du ou de la
+      Avant de commencer la procédure, vérifiez l’éligibilité du ou de la
       bénéficiaire et consultez la liste des documents requis.
     </p>
 
     <div class="flex flex-col justify-between gap-x-s24 md:flex-row">
-      <ValidationForm {service} {servicesOptions} />
+      <ValidationForm {service} />
       <div class="mt-s32 w-full shrink-0 md:mt-s0 md:w-[384px]">
         <ContactBox {service} />
       </div>
