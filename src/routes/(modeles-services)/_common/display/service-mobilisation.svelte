@@ -35,11 +35,11 @@
     </div>
     <div class="print:hidden">
       {#if !contactOpen}
-        <div class="mb-s16" class:text-white={backgroundColor === "blue"}>
+        <div class:text-white={backgroundColor === "blue"}>
           <Button
             on:click={handleShowContactClick}
             extraClass={backgroundColor === "blue"
-              ? "!bg-france-blue text-white !border !border-white hover:!bg-magenta-cta"
+              ? "!bg-france-blue text-white !border !border-white hover:!bg-magenta-cta hover:!border-france-blue"
               : ""}
             secondary={backgroundColor === "white"}
             label="Voir les informations de contact"
@@ -51,7 +51,7 @@
       {/if}
 
       {#if showMobilisation}
-        <div class="mb-s16">
+        <div class="mt-s16 mb-s16">
           <LinkButton
             nofollow
             to="/services/{service.slug}/orienter"
