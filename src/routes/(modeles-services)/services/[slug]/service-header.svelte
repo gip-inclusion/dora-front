@@ -28,12 +28,14 @@
         {service.name}
       </h1>
 
-      <AbTestingSection
-        abTestingName="mobilisation"
-        showIfGroups={["mobilisation--ancien-design"]}
-      >
-        <Favorite big on:click={onBookmark} active={isBookmarked} inverted />
-      </AbTestingSection>
+      {#if !isDI}
+        <AbTestingSection
+          abTestingName="mobilisation"
+          showIfGroups={["mobilisation--ancien-design"]}
+        >
+          <Favorite big on:click={onBookmark} active={isBookmarked} inverted />
+        </AbTestingSection>
+      {/if}
     </div>
     <div
       class="mb-s48 mt-s16 flex flex-col text-f18 text-white print:text-france-blue md:flex-row md:items-center"

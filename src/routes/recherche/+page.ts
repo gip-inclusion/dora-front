@@ -82,7 +82,7 @@ export const load: PageLoad = async ({ url, parent }) => {
     cityLabel,
     kindIds,
     feeConditions,
-    services.length
+    services
   );
 
   if (cityCode && cityLabel) {

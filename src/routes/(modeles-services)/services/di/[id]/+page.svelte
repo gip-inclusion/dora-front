@@ -1,16 +1,16 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
+  import { trackDIService } from "$lib/utils/plausible";
   import ServiceHeader from "../../[slug]/service-header.svelte";
   import ServiceBody from "../../../_common/display/service-body.svelte";
-  // import { trackService } from "$lib/utils/plausible";
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
   onMount(() => {
-    // TODO
-    // trackService(data.service);
+    trackDIService(data.service, $page.url);
   });
 </script>
 
