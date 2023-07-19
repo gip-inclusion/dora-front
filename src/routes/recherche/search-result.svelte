@@ -50,7 +50,9 @@
       </h3>
 
       <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
-        <a href="/services/{result.slug}">{result.shortDesc}</a>
+        <a href="/services/{isDI ? `di/` : ``}{result.slug}"
+          >{result.shortDesc}</a
+        >
       </p>
       {#if isDI}
         <div
