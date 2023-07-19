@@ -66,8 +66,7 @@
       partielles et certaines fonctionnalités peuvent être indisponibles. Il
       s'agit d’une expérimentation en cours, n'hésitez pas à <a
         class="underline"
-        href="mailto:contact@dora.inclusion.beta.gouv.fr"
-        >nous faire part de vos retours</a
+        href="https://tally.so/r/nrBNqv ">nous faire part de vos retours</a
       >.
     </p>
   </Notice>
