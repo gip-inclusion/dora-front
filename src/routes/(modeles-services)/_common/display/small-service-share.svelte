@@ -72,14 +72,14 @@
       {#if copied}
         <span
           class="absolute h-s24 w-s24 fill-current"
-          transition:fly={{ y: 50, duration: 500 }}
+          transition:fly|global={{ y: 50, duration: 500 }}
         >
           {@html checkIcon}
         </span>
       {:else}
         <span
           class="absolute h-s24 w-s24 fill-current"
-          transition:fly={{ y: 50, duration: 500 }}
+          transition:fly|global={{ y: 50, duration: 500 }}
         >
           {@html linkIcon}
         </span>

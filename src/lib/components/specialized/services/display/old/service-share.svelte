@@ -33,14 +33,14 @@
     {#if copied}
       <span
         class="absolute h-s24 w-s24 fill-current p-s2"
-        transition:fly={{ y: 50, duration: 250 }}
+        transition:fly|global={{ y: 50, duration: 250 }}
       >
         {@html checkIcon}
       </span>
     {:else}
       <span
         class="absolute h-s24 w-s24 fill-current p-s2"
-        transition:fly={{ y: 50, duration: 250 }}
+        transition:fly|global={{ y: 50, duration: 250 }}
       >
         {@html linkIcon}
       </span>
