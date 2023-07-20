@@ -1,26 +1,30 @@
 import { ENVIRONMENT, SENTRY_DSN } from "$lib/env";
-import * as Sentry from "@sentry/svelte";
+import * as Sentry from "@sentry/sveltekit";
+import { sequence } from "@sveltejs/kit/hooks";
 import type { Handle, HandleServerError } from "@sveltejs/kit";
 
-if (ENVIRONMENT !== "local") {
-  Sentry.init({
-    dsn: SENTRY_DSN,
-    environment: ENVIRONMENT,
-    tracesSampleRate: 0,
-  });
-}
+// if (ENVIRONMENT !== "local") {
+Sentry.init({
+  dsn: SENTRY_DSN,
+  environment: ENVIRONMENT,
+  tracesSampleRate: 0,
+  tracePropagationTargets: [],
+});
+// }
 
-export const handleError: HandleServerError = ({ error, event }) => {
-  Sentry.captureException(error, { event });
+export const handleError: HandleServerError = Sentry.handleErrorWithSentry();
 
-  const message = ENVIRONMENT === "local" ? error.message : "Erreur inattendue";
+// export const handleError: HandleServerError = ({ error, event }) => {
+//   Sentry.captureException(error, { event });
+//
+//   const message = ENVIRONMENT === "local" ? error.message : "Erreur inattendue";
+//
+//   return {
+//     message,
+//   };
+// };
 
-  return {
-    message,
-  };
-};
-
-export const handle: Handle = async ({ event, resolve }) => {
+export const addResponseHeadersHandler: Handle = async ({ event, resolve }) => {
   const response = await resolve(event);
 
   if (ENVIRONMENT !== "production") {
@@ -33,3 +37,8 @@ export const handle: Handle = async ({ event, resolve }) => {
 
   return response;
 };
+
+export const handle = sequence(
+  Sentry.sentryHandle(),
+  addResponseHeadersHandler,
+);

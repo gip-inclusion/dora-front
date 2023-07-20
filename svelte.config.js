@@ -51,11 +51,9 @@ const config = {
     },
   },
   vitePlugin: {
-    experimental: {
-      inspector: {
-        showToggleButton: "always",
-        toggleButtonPos: "bottom-right",
-      },
+    inspector: {
+      showToggleButton: "always",
+      toggleButtonPos: "bottom-right",
     },
   },
   onwarn(warning, defaultHandler) {

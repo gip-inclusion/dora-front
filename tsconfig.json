@@ -10,8 +10,7 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "sourceMap": true,
-    "strict": true,
-    "target": "ES2017"
+    "strict": true
   },
   "exclude": ["./src/tests/**"]
 }
