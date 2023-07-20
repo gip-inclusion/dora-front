@@ -92,8 +92,8 @@ export function trackDiMobilisation(service, url) {
       diServiceId: service.slug.split("--")[1],
       diServiceName: service.name,
       diSource: service.source,
-      diCategories: service.categories,
-      diSubcategories: service.subcategories,
+      diCategories: service.categories || [],
+      diSubcategories: service.subcategories || [],
       abTestingGroup: getAbTestingUserGroup("mobilisation"),
     });
   }
@@ -221,8 +221,8 @@ export function trackDIService(service, url) {
       diServiceId: service.slug.split("--")[1],
       diServiceName: service.name,
       diSource: service.source,
-      diCategories: service.categories,
-      diSubcategories: service.subcategories,
+      diCategories: service.categories || [],
+      diSubcategories: service.subcategories || [],
     });
   }
 }

@@ -20,20 +20,22 @@
 <h2 class:text-f23={display === "sidebar"}>Informations clés</h2>
 
 <div class="flex flex-col gap-s12">
-  {#if service.isCumulative}
-    <div class="bold flex items-center font-bold text-available">
-      <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
-        {@html addCircleIcon}
-      </span>
-      Ce service est cumulable avec d’autres dispositifs
-    </div>
-  {:else}
-    <div class="bold flex items-center font-bold text-error">
-      <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
-        {@html errorWarningIcon}
-      </span>
-      Ce service n'est pas cumulable avec d’autres dispositifs
-    </div>
+  {#if service.isCumulative != null}
+    {#if service.isCumulative}
+      <div class="bold flex items-center font-bold text-available">
+        <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
+          {@html addCircleIcon}
+        </span>
+        Ce service est cumulable avec d’autres dispositifs
+      </div>
+    {:else}
+      <div class="bold flex items-center font-bold text-error">
+        <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
+          {@html errorWarningIcon}
+        </span>
+        Ce service n'est pas cumulable avec d’autres dispositifs
+      </div>
+    {/if}
   {/if}
 
   {#if service.feeCondition && isNotFreeService(service.feeCondition)}

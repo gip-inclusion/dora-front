@@ -7,7 +7,6 @@ export const load: PageLoad = async ({ params, parent }) => {
   await parent();
 
   const service = (await getServiceDI(params.id)) as Service;
-  console.log(service);
 
   if (!service) {
     throw error(404, "Page Not Found");

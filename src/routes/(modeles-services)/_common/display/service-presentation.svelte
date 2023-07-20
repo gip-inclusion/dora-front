@@ -15,7 +15,7 @@
 <h2 class="mb-s40">Présentation du service</h2>
 
 <p class="mb-s40 font-bold">
-  {service.shortDesc}
+  {service.shortDesc || ""}
 </p>
 
 <AbTestingSection
@@ -30,9 +30,13 @@
   <div class="mb-s40">
     <h3>Type de service</h3>
     <ul class="inline-flex flex-wrap text-f18 text-gray-text">
-      {#each service.kindsDisplay as kind, index (kind)}
-        <li class:separator={index > 0}>{kind}</li>
-      {/each}
+      {#if Array.isArray(service.kindsDisplay)}
+        {#each service.kindsDisplay as kind, index (kind)}
+          <li class:separator={index > 0}>{kind}</li>
+        {/each}
+      {:else}
+        <li>Non renseigné</li>
+      {/if}
     </ul>
   </div>
 </AbTestingSection>

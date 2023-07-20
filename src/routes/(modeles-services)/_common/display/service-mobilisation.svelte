@@ -26,9 +26,9 @@
   const showMobilisation =
     !isDI &&
     service.contactEmail &&
-    (service.coachOrientationModes.includes("envoyer-courriel") ||
-      service.coachOrientationModes.includes("envoyer-fiche-prescription") ||
-      service.beneficiariesAccessModes.includes("envoyer-courriel"));
+    (service.coachOrientationModes?.includes("envoyer-courriel") ||
+      service.coachOrientationModes?.includes("envoyer-fiche-prescription") ||
+      service.beneficiariesAccessModes?.includes("envoyer-courriel"));
 </script>
 
 <h2 class="text-f23" class:text-white={backgroundColor === "blue"}>

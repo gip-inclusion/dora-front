@@ -22,22 +22,23 @@
 <h2 class="text-f23">Informations clés</h2>
 
 <div class="flex flex-col gap-s12">
-  {#if service.isCumulative}
-    <div class="bold flex items-center font-bold text-available">
-      <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
-        {@html addCircleIcon}
-      </span>
-      Ce service est cumulable avec d’autres dispositifs
-    </div>
-  {:else}
-    <div class="bold flex items-center font-bold text-warning">
-      <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
-        {@html errorWarningIcon}
-      </span>
-      Ce service n'est pas cumulable avec d’autres dispositifs
-    </div>
+  {#if service.isCumulative != null}
+    {#if service.isCumulative}
+      <div class="bold flex items-center font-bold text-available">
+        <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
+          {@html addCircleIcon}
+        </span>
+        Ce service est cumulable avec d’autres dispositifs
+      </div>
+    {:else}
+      <div class="bold flex items-center font-bold text-warning">
+        <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
+          {@html errorWarningIcon}
+        </span>
+        Ce service n'est pas cumulable avec d’autres dispositifs
+      </div>
+    {/if}
   {/if}
-
   {#if service.feeCondition && isNotFreeService(service.feeCondition)}
     <div class="bold flex items-center font-bold text-warning">
       <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
@@ -80,9 +81,13 @@
       </h3>
 
       <ul class="inline-flex flex-wrap text-f16 text-gray-text">
-        {#each service.kindsDisplay as kind, index (kind)}
-          <li class:separator={index > 0}>{kind}</li>
-        {/each}
+        {#if Array.isArray(service.kindsDisplay)}
+          {#each service.kindsDisplay as kind, index (kind)}
+            <li class:separator={index > 0}>{kind}</li>
+          {/each}
+        {:else}
+          <li>Non renseigné</li>
+        {/if}
       </ul>
     </div>
 
@@ -108,6 +113,7 @@
   <hr class="mt-s20 mb-s10" />
 
   <div class="flex w-full gap-s32">
+    <!--    todo -->
     {#if service.locationKinds?.length}
       <div class="flex-1">
         <h3>

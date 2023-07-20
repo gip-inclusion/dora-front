@@ -62,7 +62,9 @@
       class="mb-s32 flex flex-col text-f18 text-white print:text-france-blue md:flex-row md:items-center"
     >
       <div>
-        Périmètre : <strong>{service.diffusionZoneDetailsDisplay}</strong>
+        Périmètre : <strong
+          >{service.diffusionZoneDetailsDisplay || "Non renseigné"}</strong
+        >
       </div>
     </div>
   </div>
