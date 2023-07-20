@@ -9,30 +9,37 @@ const tokenKey = "token";
 
 export const token = writable<string>(null);
 
+export type UserMainActivity =
+  | "accompagnateur"
+  | "offreur"
+  | "accompagnateur_offreur"
+  | "autre";
+
 export interface UserInfo {
   firstName: string;
   lastName: string;
   fullName: string;
   shortName: string;
   email: string;
-  phoneNumber: string;
   newsletter: boolean;
   isStaff: boolean;
-  isBizdev: boolean;
+  isManager: boolean;
+  department: string;
   bookmarks: Bookmark[];
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
+  mainActivity: UserMainActivity;
 }
 
 export const userInfo = writable<UserInfo>(null);
 
-export function setToken(t: string) {
-  token.set(t);
-  localStorage.setItem(tokenKey, t);
+export function setToken(newToken: string) {
+  token.set(newToken);
+  localStorage.setItem(tokenKey, newToken);
 }
 
-async function getUserInfo(authToken) {
-  return await fetch(`${getApiURL()}/auth/user-info/`, {
+function getUserInfo(authToken) {
+  return fetch(`${getApiURL()}/auth/user-info/`, {
     method: "POST",
     headers: {
       Accept: defaultAcceptHeader,
@@ -57,35 +64,10 @@ export async function refreshUserInfo() {
   }
 }
 
-export function deleteCookies() {
-  const cookies = document.cookie.split(";").reduce((acc, cookie) => {
-    const [name] = cookie.split("=").map((c) => c.trim());
-    acc.push(name);
-
-    return acc;
-  }, []);
-
-  const cookieNames = Object.keys(window.tarteaucitron.services).reduce(
-    (acc, name) => {
-      acc.push(...window.tarteaucitron.services[name].cookies);
-
-      return acc;
-    },
-    ["tarteaucitron"]
-  );
-
-  cookieNames.forEach((n) => {
-    const name = cookies.find((c) => c.includes(n));
-
-    document.cookie = `${name}=; Max-Age=0; path=/; domain=${location.hostname}`;
-  });
-}
-
 export function disconnect() {
   token.set(null);
   userInfo.set(null);
   localStorage.clear();
-  deleteCookies();
 }
 
 export async function validateCredsAndFillUserInfo() {

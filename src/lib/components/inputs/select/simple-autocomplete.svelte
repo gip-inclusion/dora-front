@@ -6,6 +6,7 @@
   // TODO: lint this file properly
   /* eslint-disable */
   import { checkIcon, closeCircleIcon } from "$lib/icons";
+  import { formatErrors } from "$lib/validation/validation";
 
   // the list of items  the user can select from
   export let items = [];
@@ -75,19 +76,19 @@
   export let loadingText = "Chargement des résultats…";
 
   // the text displayed when no option is selected
-  export let placeholder = undefined;
+  export let placeholder = "";
 
   // the text displayed when at least one option is selected
-  export let placeholderMulti = undefined;
+  export let placeholderMulti = "";
 
   // apply a className to the control
-  export let className = undefined;
+  export let className = "";
 
   // HTML input UI properties
   // apply a className to the input control
-  export let inputClassName = undefined;
+  export let inputClassName = "";
   // apply a id to the input control
-  export let inputId = undefined;
+  export let inputId: string;
   // generate an HTML input with this name
   export let name = undefined;
   // generate a <select> tag that holds the value
@@ -97,13 +98,15 @@
   // add the title to the HTML input
   export let title = undefined;
   // enable the html5 autocompletion to the HTML input
-  export let html5autocomplete = undefined;
+  export let html5autocomplete = false;
   // make the input readonly
-  export let readonly = undefined;
+  export let readonly = false;
   // apply a className to the dropdown div
-  export let dropdownClassName = undefined;
+  export let dropdownClassName = "";
   // adds the disabled tag to the HTML input and tag deletion
   export let disabled = false;
+
+  export let errorMessages: string[] = [];
 
   // --- Public State ----
 
@@ -482,9 +485,13 @@
   }
 
   function onKeyPress(e) {
-    if (e.key === "Enter" && opened) {
+    if (e.key === "Enter") {
       e.preventDefault();
-      onEnter();
+      if (opened) {
+        onEnter();
+      } else {
+        open();
+      }
     }
   }
 
@@ -524,9 +531,9 @@
   }
 
   function onEsc(e) {
-    if (text) return clear();
-    e.stopPropagation();
     if (opened) {
+      e.stopPropagation();
+
       input.focus();
       close();
     }
@@ -549,9 +556,7 @@
     // must be loaded when the input is focused.
     if (!listItems.length && value && searchFunction) {
       search();
-      closeIfNoList();
     }
-
     open();
 
     // find selected item
@@ -593,12 +598,6 @@
 
     if (!text && selectFirstIfEmpty) {
       selectItem();
-    }
-  }
-
-  function closeIfNoList() {
-    if (!hasPrependSlot && !showList) {
-      close();
     }
   }
 
@@ -759,9 +758,12 @@
       on:keydown={onKeyDown}
       on:click={onInputClick}
       on:keypress={onKeyPress}
+      aria-describedby={formatErrors(name, errorMessages)}
     />
     {#if clearable && text?.length}
-      <span on:click={clear} class="autocomplete-clear-button">&#10006;</span>
+      <button on:click={clear} class="autocomplete-clear-button"
+        >&#10006;</button
+      >
     {/if}
   </div>
 
@@ -778,12 +780,13 @@
         {#each filteredListItems as listItem, i}
           {#if listItem && (maxItemsToShowInList <= 0 || i < maxItemsToShowInList)}
             {#if listItem}
-              <div
-                class="autocomplete-list-item {i === highlightIndex
+              <button
+                class="autocomplete-list-item block w-full text-left {i ===
+                highlightIndex
                   ? 'selected'
                   : ''}"
                 class:confirmed={isConfirmed(listItem.value)}
-                on:click={() => onListItemClick(listItem)}
+                on:click|preventDefault={() => onListItemClick(listItem)}
                 on:pointerenter={() => {
                   highlightIndex = i;
                 }}
@@ -819,7 +822,7 @@
                     </div>
                   </div>
                 </div>
-              </div>
+              </button>
             {/if}
           {/if}
         {/each}
@@ -850,12 +853,12 @@
         {getLabelForValue(tagItem)}
 
         {#if !disabled && !readonly}
-          <span
+          <button
             class="tag-delete"
             on:click|preventDefault={unselectItem(tagItem)}
           >
             {@html closeCircleIcon}
-          </span>
+          </button>
         {/if}
       </div>
     {/each}
@@ -937,7 +940,7 @@
 
   .autocomplete-list-item {
     padding: 6px 15px;
-    color: var(--col-text-alt);
+    color: var(--col-text);
     cursor: pointer;
     line-height: 1.25;
   }

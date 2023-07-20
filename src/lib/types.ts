@@ -1,27 +1,45 @@
-export type InputType =
-  | "text"
-  | "textarea"
-  | "url"
-  | "number"
-  | "email"
-  | "hidden"
-  | "richtext"
-  | "tel"
-  | "checkboxes"
-  | "radios"
-  | "select"
-  | "multiselect"
-  | "toggle"
-  | "date";
-
-export type DiffusionZoneType =
+export type AdminDivisionType =
   | "country"
   | "region"
   | "department"
   | "epci"
   | "city";
 
+export type ServiceCategory =
+  | "acces-aux-droits-et-citoyennete"
+  | "accompagnement-social-et-professionnel-personnalise"
+  | "apprendre-francais"
+  | "creation-activite"
+  | "gestion-financiere"
+  | "choisir-un-metier"
+  | "preparer-sa-candidature"
+  | "trouver-un-emploi"
+  | "equipement-et-alimentation"
+  | "famille"
+  | "handicap"
+  | "illettrisme"
+  | "logement-hebergement"
+  | "mobilite"
+  | "numerique"
+  | "remobilisation"
+  | "sante";
+
+export type ModerationStatus =
+  | "NEED_INITIAL_MODERATION"
+  | "NEED_NEW_MODERATION"
+  | "IN_PROGRESS"
+  | "VALIDATED";
+
+export type GeoApiValue = {
+  code: string;
+  name: string;
+  similarity: number;
+  geom?: object;
+};
+
 export type LocationKind = "a-distance" | "en-presentiel";
+
+export type ServiceStatus = "DRAFT" | "SUGGESTION" | "PUBLISHED" | "ARCHIVED";
 
 export interface StructureService {
   address1: string;
@@ -36,7 +54,7 @@ export interface StructureService {
   contactPhone: string;
   department: string;
   diffusionZoneDetailsDisplay: string;
-  diffusionZoneType: DiffusionZoneType;
+  diffusionZoneType: AdminDivisionType;
   diffusionZoneTypeDisplay: string;
   isAvailable: boolean;
   isCumulative: boolean;
@@ -44,6 +62,7 @@ export interface StructureService {
   locationKindsDisplay: string;
   model: string;
   modelChanged: boolean;
+  modelName: boolean;
   modificationDate: string;
   name: string;
   postalCode: string;
@@ -85,6 +104,31 @@ export interface ShortStructure {
   typologyDisplay: string;
 }
 
+export interface AdminShortStructure {
+  department: string;
+  modificationDate: string;
+  name: string;
+  parent: string;
+  siret: string;
+  slug: string;
+  latitude: number;
+  longitude: number;
+  typology: string;
+  typologyDisplay: string;
+  categories: ServiceCategory[];
+  hasAdmin: boolean;
+  moderationDate: string;
+  moderationStatus: ModerationStatus;
+  numPublishedServices: number;
+  numOutdatedServices: number;
+  numServices: number;
+  shortDesc: string;
+}
+
+export interface StructureSource {
+  value: string;
+  label: string;
+}
 export interface Structure {
   accesslibreUrl: string;
   address1: string;
@@ -92,7 +136,11 @@ export interface Structure {
   ape: string;
   archivedServices: StructureService[];
   branches: Branches[];
-  canWrite: boolean;
+  canEditInformations: boolean;
+  canEditMembers: boolean;
+  canEditServices: boolean;
+  canInviteFirstAdmin: boolean;
+  canViewMembers: boolean;
   city: string;
   cityCode: string;
   codeSafirPe: string;
@@ -119,6 +167,7 @@ export interface Structure {
   parent: string;
   phone: number;
   postalCode: string;
+  quickStartDone: boolean;
   services: StructureService[];
   shortDesc: string;
   siret: string | null;
@@ -128,6 +177,40 @@ export interface Structure {
   typology: number;
   url: string;
 }
+
+interface StructureMemberUserInfos {
+  email: string;
+  firstName: string;
+  fullName: string;
+  lastName: string;
+}
+export interface StructureMember {
+  id: string;
+  isAdmin: boolean;
+  user: StructureMemberUserInfos;
+}
+export interface PutativeStructureMember {
+  id: string;
+  invitedByAdmin: boolean;
+  isAdmin: boolean;
+  user: StructureMemberUserInfos;
+}
+
+export interface Establishment {
+  address1: string;
+  address2: string;
+  ape: string;
+  city: string;
+  cityCode: string;
+  isSiege: boolean;
+  latitude: number;
+  longitude: number;
+  name: "string";
+  postalCode: "string";
+  siren: "string";
+  siret: "string";
+}
+
 export interface NationalLabel {
   value: string;
   label: string;
@@ -144,15 +227,9 @@ export interface StructuresOptions {
   typologies: Typology[];
 }
 
-export interface StructureSource {
-  value: string;
-  label: string;
-}
-
 // OSM hours format
 export type OsmPeriodDay = {
   isOpen: boolean;
-  touched: boolean;
   openAt: string;
   closeAt: string;
 };
@@ -173,34 +250,8 @@ export type OsmOpeningHours = {
 };
 
 // SERVICES
-export type ServiceStatus = "DRAFT" | "SUGGESTION" | "PUBLISHED" | "ARCHIVED";
 
 export type ServiceUpdateStatus = "NOT_NEEDED" | "NEEDED" | "REQUIRED" | "ALL";
-
-export type ServiceCategory =
-  | "acces-aux-droits"
-  | "acc-global-indiv"
-  | "apprendre-francais"
-  | "creation-activite	"
-  | "difficultes-financieres"
-  | "emploi-choisir-metier"
-  | "emploi-preparer-sa-candidature"
-  | "emploi-trouver-emploi"
-  | "equipement-alimentation"
-  | "famille	"
-  | "handicap"
-  | "illettrisme"
-  | "logement-hebergement"
-  | "mobilite"
-  | "numerique"
-  | "remobilisation"
-  | "sante";
-
-export type ModerationStatus =
-  | "NEED_INITIAL_MODERATION"
-  | "NEED_NEW_MODERATION"
-  | "IN_PROGRESS"
-  | "VALIDATED";
 
 export type ServiceKind =
   | "accompagnement"
@@ -222,8 +273,17 @@ export type FeeCondition =
   | "adhesion"
   | "pass-numerique";
 
-export type CoachOrientationModes = "EM" | "EP" | "FO" | "OT" | "PH";
-export type BeneficiaryAccessModes = "EM" | "OS" | "OT" | "PH";
+export type CoachOrientationModes =
+  | "envoyer-courriel"
+  | "envoyer-fiche-prescription"
+  | "envoyer-formulaire"
+  | "autre"
+  | "telephoner";
+export type BeneficiaryAccessModes =
+  | "envoyer-courriel"
+  | "se-presenter"
+  | "autre"
+  | "telephoner";
 
 export interface SearchQuery {
   categoryIds: string[];
@@ -244,6 +304,7 @@ export interface ServiceSearchResult {
   slug: string;
   structure: string;
   status: ServiceStatus;
+  updateStatus: ServiceUpdateStatus;
   structureInfo: {
     address1: string;
     address2: string;
@@ -285,6 +346,7 @@ export interface Point {
 }
 
 export interface Service {
+  markSynced?: boolean;
   accessConditions: CustomizableFK[];
   accessConditionsDisplay: string[];
   address1: string;
@@ -302,7 +364,7 @@ export interface Service {
   coachOrientationModes: CoachOrientationModes[];
   coachOrientationModesDisplay: string[];
   coachOrientationModesOther: string;
-  concernedPublic: CustomizableFK[]; // TODO: should be public
+  concernedPublic: CustomizableFK[]; // TODO: should be plural
   concernedPublicDisplay: string[];
   contactEmail: string;
   contactName: string;
@@ -313,7 +375,7 @@ export interface Service {
   department: string;
   diffusionZoneDetails: string;
   diffusionZoneDetailsDisplay: string;
-  diffusionZoneType: DiffusionZoneType;
+  diffusionZoneType: AdminDivisionType;
   diffusionZoneTypeDisplay: string;
   feeCondition: FeeCondition;
   feeDetails: string;
@@ -336,6 +398,7 @@ export interface Service {
   name: string;
   onlineForm: string;
   postalCode: string;
+  publicationDate: string;
   qpvOrZrr: boolean;
   recurrence: string;
   remoteUrl: string;
@@ -350,21 +413,21 @@ export interface Service {
   subcategoriesDisplay: string[];
   suspensionDate: string;
   useInclusionNumeriqueScheme: boolean;
-}
-
-export interface Bookmark {
-  service: ShortService;
-  creationDate: string;
+  updateStatus: ServiceUpdateStatus;
 }
 
 export interface ShortService {
   categoriesDisplay: string[];
   category: string;
   categoryDisplay: string[];
+  coachOrientationModes: CoachOrientationModes[];
+  contactEmail: string;
+  contactName: string;
+  contactPhone: string;
   city: string;
   department: string;
   diffusionZoneDetailsDisplay: string;
-  diffusionZoneType: DiffusionZoneType;
+  diffusionZoneType: AdminDivisionType;
   diffusionZoneTypeDisplay: string;
   model: string;
   modelChanged: boolean;
@@ -376,7 +439,14 @@ export interface ShortService {
   status: ServiceStatus;
   structure: string;
   structureInfo: ServiceStructure;
+  locationKinds: LocationKind;
   useInclusionNumeriqueScheme: boolean;
+  updateStatus: ServiceUpdateStatus;
+}
+
+export interface Bookmark {
+  service: ShortService;
+  creationDate: string;
 }
 
 export interface CustomChoice {
@@ -394,7 +464,7 @@ export type ServicesOptions = {
   concernedPublic: CustomChoice[];
   credentials: CustomChoice[];
   deploymentDepartments: string[];
-  diffusionZoneType: { value: DiffusionZoneType; label: string }; // TODO: should be plural
+  diffusionZoneType: { value: AdminDivisionType; label: string }; // TODO: should be plural
   feeConditions: { value: FeeCondition; label: string }[];
   kinds: { value: ServiceKind; label: string }[];
   locationKinds: { value: LocationKind; label: string }[];
@@ -408,7 +478,6 @@ export type Model = {
   beneficiariesAccessModes: BeneficiaryAccessModes[];
   beneficiariesAccessModesDisplay: string[];
   beneficiariesAccessModesOther: string;
-  canUpdateCategories: boolean;
   canWrite: boolean;
   categories: ServiceCategory[];
   categoriesDisplay: string[];
@@ -420,7 +489,6 @@ export type Model = {
   creationDate: string;
   credentials: CustomizableFK[];
   credentialsDisplay: string[];
-  customizableChoicesSet: any; // TODO: a supprimer
   department: string;
   feeCondition: FeeCondition;
   feeDetails: string;
@@ -447,6 +515,11 @@ export type Model = {
   suspensionDate: string;
 };
 
+export type Partner = {
+  name: string;
+  img: string;
+};
+
 // FORM
 export type Choice<T = string> = {
   value: T;
@@ -467,3 +540,56 @@ export type Day =
   | "sunday";
 export type DayPrefix = "Mo" | "Tu" | "We" | "Th" | "Fr" | "Sa" | "Su";
 export type DayPeriod = "timeSlot1" | "timeSlot2";
+
+type ContactPreferences = "TELEPHONE" | "EMAIL" | "AUTRE";
+
+export interface Orientation {
+  // Tous les champs de l'étape 1 pouvant être optionnels
+  // on est contraint de se baser sur un booléen pour s'assurer que l'étape 1 a bien été visionnée
+  firstStepDone: boolean;
+
+  situation: string[];
+  situationOther: string;
+  requirements: string[];
+
+  referentLastName: string;
+  referentFirstName: string;
+  referentPhone: string;
+  referentEmail: string;
+  prescriberStructureSlug: string;
+
+  beneficiaryLastName: string;
+  beneficiaryFirstName: string;
+  beneficiaryAvailability: string | null;
+  beneficiaryContactPreferences: ContactPreferences[];
+  beneficiaryPhone: string;
+  beneficiaryEmail: string;
+  beneficiaryOtherContactMethod: string;
+  orientationReasons: string;
+
+  attachments: { [key: string]: string[] };
+
+  // Champs après la création de l'orientation
+  id?: number;
+  queryId?: string;
+  creationDate?: string;
+  prescriberStructure?: {
+    name: string;
+    slug: string;
+  };
+  processingDate?: string;
+  status?: "OUVERTE" | "VALIDÉE" | "REFUSÉE";
+  beneficiaryAttachmentsDetails?: string[];
+  service?: {
+    name: string;
+    slug: string;
+    contactName: string;
+    contactPhone: string;
+    contactEmail: string;
+    structureName: string;
+  };
+  prescriber?: {
+    name: string;
+    email: string;
+  };
+}

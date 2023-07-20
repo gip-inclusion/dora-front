@@ -1,8 +1,7 @@
 <script lang="ts">
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import Notice from "$lib/components/display/notice.svelte";
-  import Date from "$lib/components/utilities/date.svelte";
-  import TextClamp from "$lib/components/utilities/text-clamp.svelte";
+  import DateLabel from "$lib/components/display/date-label.svelte";
+  import TextClamp from "$lib/components/display/text-clamp.svelte";
   import {
     computerIcon,
     externalLinkIcon,
@@ -11,14 +10,20 @@
     timeLineIcon,
     wheelChairIcon,
   } from "$lib/icons";
-  import { isStructureInformationsComplete } from "$lib/requests/structures";
-  import type { Structure, StructuresOptions } from "$lib/types";
-  import { token, userInfo } from "$lib/utils/auth";
+  import type {
+    StructureMember,
+    Structure,
+    StructuresOptions,
+    PutativeStructureMember,
+  } from "$lib/types";
   import { formatPhoneNumber, markdownToHTML } from "$lib/utils/misc";
-  import { formatOsmHours } from "$lib/utils/structure";
+  import { formatOsmHours } from "$lib/utils/opening-hours";
   import DataInclusionNotice from "./data-inclusion-notice.svelte";
+  import QuickStart from "./quick-start.svelte";
 
   export let structure: Structure;
+  export let members: StructureMember[];
+  export let putativeMembers: PutativeStructureMember[];
   export let structuresOptions: StructuresOptions;
 
   let fullDesc;
@@ -27,11 +32,10 @@
   $: nationalLabelsDisplay = structure.nationalLabels
     .map((nationalLabel: string) => {
       return structuresOptions.nationalLabels.find(
-        (n) => n.value === nationalLabel
+        (label) => label.value === nationalLabel
       ).label;
     })
     .join(", ");
-  $: canManageStructure = $token && (structure.isAdmin || $userInfo?.isStaff);
   $: sourceIsDataInclusion = structure.source?.value.startsWith("di-");
   $: structureHasInfo =
     structure.phone ||
@@ -46,8 +50,8 @@
   <div
     class="flex flex-col justify-between border-b border-gray-03 pb-s40 sm:flex-row"
   >
-    <h2 class="text-france-blue">Informations</h2>
-    {#if canManageStructure}
+    <h2 class="text-france-blue">Présentation de la structure</h2>
+    {#if structure.canEditInformations}
       <div class="text-right">
         <LinkButton
           id="update-structure"
@@ -61,10 +65,10 @@
   {#if structure.modificationDate}
     <p class="mt-s40 mb-s0 text-f12 text-gray-dark">
       Informations sur la structure mises à jour le
-      <Date date={structure.modificationDate} />
+      <DateLabel date={structure.modificationDate} />
     </p>
   {/if}
-  {#if canManageStructure && sourceIsDataInclusion && !structure.hasBeenEdited}
+  {#if structure.canEditInformations && sourceIsDataInclusion && !structure.hasBeenEdited}
     <div>
       <DataInclusionNotice {structure} />
     </div>
@@ -73,33 +77,13 @@
 
 <div class="structure-body">
   <div class="notice">
-    {#if canManageStructure}
-      {#if !isStructureInformationsComplete(structure) && !(sourceIsDataInclusion && !structure.hasBeenEdited)}
-        <Notice
-          title="Les informations de votre structure ne sont pas complètes"
-          type="warning"
-          showIcon={false}
-        >
-          <div class="flex flex-col">
-            <p class="mb-s24 text-f14">
-              En complétant votre fiche, vous gagnerez en visibilité auprès des
-              acteurs locaux et régionaux.
-            </p>
-            <p>
-              <LinkButton
-                to={`/structures/${structure.slug}/editer`}
-                label="Mettre à jour"
-                small
-              />
-            </p>
-          </div>
-        </Notice>
-      {/if}
+    {#if structure.isMember && structure.canEditInformations}
+      <QuickStart {structure} {members} {putativeMembers} />
     {/if}
   </div>
 
   <div class="data">
-    <p class="bold mb-s32 text-f21">{structure.shortDesc}</p>
+    <p class="mb-s32 text-f21 font-bold">{structure.shortDesc}</p>
 
     <div class="flex flex-col gap-s32 md:flex-row">
       {#if nationalLabelsDisplay}
@@ -123,9 +107,6 @@
     <hr class="separator" />
 
     <div class="presentation">
-      <h3 class="text-f32 leading-32 text-france-blue md:mt-s32">
-        Présentation de la structure
-      </h3>
       <TextClamp text={fullDesc} />
     </div>
   {/if}
@@ -178,7 +159,7 @@
             <a
               target="_blank"
               title="Ouverture dans une nouvelle fenêtre"
-              rel="noopener nofollow"
+              rel="noopener ugc"
               class="break-all text-gray-text  underline"
               href={structure.url}
             >
@@ -225,7 +206,7 @@
             <a
               target="_blank"
               title="Ouverture dans une nouvelle fenêtre"
-              rel="noopener nofollow"
+              rel="noopener ugc"
               class="items-center break-words text-gray-text underline"
               href={structure.accesslibreUrl}
             >

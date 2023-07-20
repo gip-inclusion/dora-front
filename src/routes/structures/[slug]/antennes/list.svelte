@@ -3,12 +3,10 @@
   import StructureCard from "$lib/components/specialized/structure-card.svelte";
   import { API_URL, CANONICAL_URL } from "$lib/env";
   import { home3Icon } from "$lib/icons";
-  import { userInfo } from "$lib/utils/auth";
   import Count from "../count.svelte";
-  // import Select from "$lib/components/forms/select.svelte";
-  // import Input from "$lib/components/forms/input.svelte";
+
   export let structure, branches, total;
-  export let hasOptions = true;
+  export let tabDisplay = true;
   export let limit;
 
   let departements = [];
@@ -17,21 +15,23 @@
   let filters;
   let branchesFiltered = [];
 
-  function branchesFilter(br) {
-    let bb = br.filter(
+  function branchesFilter(allBranches) {
+    let filteredBranches = allBranches.filter(
       (b) =>
         (departement === "tous" || b.department === departement) &&
         (!filters ||
           filters
             .split(" ")
-            .every((f) => b.name.toLowerCase().includes(f.toLowerCase())))
+            .every((filter) =>
+              b.name.toLowerCase().includes(filter.toLowerCase())
+            ))
     );
 
     if (limit) {
-      bb = bb.slice(0, limit);
+      filteredBranches = filteredBranches.slice(0, limit);
     }
 
-    return bb;
+    return filteredBranches;
   }
 
   $: structureFrontEndLink = `${CANONICAL_URL}/structures/${encodeURIComponent(
@@ -41,12 +41,12 @@
     structure.slug
   )}`;
   $: departements = branches.reduce(
-    (acc, b) => {
-      if (!acc.map((d) => d.value).includes(b.department)) {
-        acc.push({ value: b.department, label: b.department });
+    (depts, branch) => {
+      if (!depts.map((dept) => dept.value).includes(branch.department)) {
+        depts.push({ value: branch.department, label: branch.department });
       }
 
-      return acc;
+      return depts;
     },
     [{ value: "tous", label: "Tous" }]
   );
@@ -59,7 +59,7 @@
     {#if limit}<Count>{total}</Count>{/if}
   </div>
   <div class="flex gap-s16">
-    {#if !!branches.length && !hasOptions}
+    {#if !!branches.length && !tabDisplay}
       <LinkButton
         label="Voir toutes les antennes"
         to="/structures/{structure.slug}/antennes"
@@ -67,17 +67,12 @@
         noBackground
       />
     {/if}
-    {#if $userInfo && (structure.isAdmin || $userInfo?.isStaff)}
+    {#if structure.canEditInformations}
       <LinkButton
         label="Ajouter une antenne"
-        to={`https://itou.typeform.com/to/IXADRw7j#courriel_demandeur=${encodeURIComponent(
-          $userInfo.email
-        )}&lien_frontend=${encodeURIComponent(
-          structureFrontEndLink
-        )}&lien_backend=${encodeURIComponent(structureBackEndLink)}`}
+        to="https://aide.dora.inclusion.beta.gouv.fr/fr/article/creer-une-ou-plusieurs-antennes-1xggiaw/"
         icon={home3Icon}
         otherTab
-        nofollow
       />
     {/if}
 
@@ -100,7 +95,7 @@
   </div>
 </div>
 
-<div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-4">
+<div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-3">
   {#each branchesFiltered as branch}
     <StructureCard structure={branch} />
   {/each}

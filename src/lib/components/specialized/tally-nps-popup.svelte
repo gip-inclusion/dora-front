@@ -3,41 +3,61 @@
   import { browser } from "$app/environment";
   import {
     canDisplayNpsForm,
-    handleSubmitNpsForm,
+    saveNpsFormDateClosed,
+    type HiddenFields,
     type TallyFormId,
   } from "$lib/utils/nps";
   import { onDestroy, onMount } from "svelte";
 
   export let formId: TallyFormId;
-  export let timeout = 45000;
-  export let hiddenFields = {};
+  export let keySuffix = "";
+  export let timeoutSeconds;
+  export let hiddenFields: Partial<HiddenFields> = {};
 
   let timeoutFn: ReturnType<typeof setTimeout>;
 
-  onMount(() => {
-    if (window.Tally) window.Tally.closePopup(formId);
+  // Pour différencier un formulaire fermé par l'utilisateur vs un changement de page
+  let tallyFormClosedByNavigation = false;
 
-    if (canDisplayNpsForm(formId)) {
+  onMount(() => {
+    if (!window.Tally) {
+      // Chargement dynamique de Tally
+      const tallyScript = window.document.createElement("script");
+      tallyScript.setAttribute("src", "https://tally.so/widgets/embed.js");
+      document.head.appendChild(tallyScript);
+    } else {
+      // On ferme une éventuelle popup en cours d'affichage
+      window.Tally.closePopup(formId, keySuffix);
+    }
+
+    if (canDisplayNpsForm(formId, keySuffix)) {
       timeoutFn = setTimeout(() => {
         if (window.Tally) {
           window.Tally.openPopup(formId, {
             layout: "default",
             width: 420,
             hideTitle: true,
-            autoClose: 0,
             hiddenFields,
-
+            onClose: () => {
+              if (!tallyFormClosedByNavigation) {
+                saveNpsFormDateClosed(formId, keySuffix);
+              }
+              tallyFormClosedByNavigation = false;
+            },
             onSubmit: () => {
-              handleSubmitNpsForm(formId);
+              saveNpsFormDateClosed(formId, keySuffix);
             },
           });
         }
-      }, timeout);
+      }, timeoutSeconds * 1000);
     }
   });
 
   onDestroy(() => {
-    if (browser && window.Tally) window.Tally.closePopup(formId);
+    if (browser && window.Tally) {
+      tallyFormClosedByNavigation = true;
+      window.Tally.closePopup(formId);
+    }
 
     clearTimeout(timeoutFn);
   });

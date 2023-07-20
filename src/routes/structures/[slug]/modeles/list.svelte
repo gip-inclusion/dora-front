@@ -1,16 +1,14 @@
 <script lang="ts">
-  import { userInfo } from "$lib/utils/auth";
-  // import Input from "$lib/components/forms/input.svelte";
-  // import Select from "$lib/components/forms/select.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import ModelCard from "./model-card.svelte";
   import { copyIcon } from "$lib/icons";
   import Count from "../count.svelte";
+  import NoModelNotice from "./no-model-notice.svelte";
 
   export let structure, models, total;
-  export let hasOptions = true;
+  export let tabDisplay = true;
+  export let withEmptyNotice = false;
   export let limit;
-  let canEdit;
 
   const orders = [
     { value: "date", label: "Date de mise à jour" },
@@ -21,8 +19,8 @@
   let modelsOrdered;
   let filters;
 
-  function modelsOrder(se) {
-    let ss = se
+  function modelsOrder(allModels) {
+    let sortedModels = allModels
       .sort((a, b) => {
         if (order === "alpha") {
           return a.name.localeCompare(b.name, "fr", { numeric: true });
@@ -31,21 +29,22 @@
         return new Date(b.modificationDate) - new Date(a.modificationDate);
       })
       .filter(
-        (s) =>
+        (model) =>
           !filters ||
           filters
             .split(" ")
-            .every((f) => s.name.toLowerCase().includes(f.toLowerCase()))
+            .every((filter) =>
+              model.name.toLowerCase().includes(filter.toLowerCase())
+            )
       );
 
     if (limit) {
-      ss = ss.slice(0, limit);
+      sortedModels = sortedModels.slice(0, limit);
     }
 
-    return ss;
+    return sortedModels;
   }
 
-  $: canEdit = structure.isMember || $userInfo?.isStaff;
   $: modelsOrdered = modelsOrder(models);
 </script>
 
@@ -54,8 +53,8 @@
     <h2 class="mb-s0 text-france-blue">Modèles</h2>
     {#if limit}<Count>{total}</Count>{/if}
   </div>
-  <div class="flex gap-s16">
-    {#if !!models.length && !hasOptions}
+  <div class="flex flex-wrap gap-s16">
+    {#if !!models.length && !tabDisplay}
       <LinkButton
         label="Voir tous les modèles"
         to="/structures/{structure.slug}/modeles"
@@ -63,7 +62,7 @@
         noBackground
       />
     {/if}
-    {#if canEdit}
+    {#if structure.canEditServices}
       <LinkButton
         label="Ajouter un modèle"
         icon={copyIcon}
@@ -89,8 +88,12 @@
   </div>
 </div>
 
-<div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-4">
-  {#each modelsOrdered as model}
-    <ModelCard {model} readOnly={!canEdit} />
-  {/each}
-</div>
+{#if structure.isMember && modelsOrdered.length === 0 && withEmptyNotice}
+  <NoModelNotice />
+{:else}
+  <div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-3">
+    {#each modelsOrdered as model}
+      <ModelCard {model} readOnly={!structure.canEditServices} />
+    {/each}
+  </div>
+{/if}

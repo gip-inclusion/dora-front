@@ -1,8 +1,17 @@
+<script lang="ts" context="module">
+  export type TabItem = {
+    id: string;
+    name: string;
+    icon: string;
+    href: string;
+  };
+</script>
+
 <script lang="ts">
   import { page } from "$app/stores";
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import Label from "$lib/components/display/label.svelte";
-  import Tabs from "$lib/components/display/tabs-links.svelte";
+  import TabsLink from "./tabs-links.svelte";
   import {
     bookReadLineIcon,
     fileInfoLineIcon,
@@ -11,7 +20,6 @@
     pageLineIcon,
     teamLineIcon,
   } from "$lib/icons";
-  import { userInfo } from "$lib/utils/auth";
   import { capitalize } from "$lib/utils/misc";
   import AdminNotice from "./admin-notice.svelte";
   import PendingNotice from "./pending-notice.svelte";
@@ -19,7 +27,7 @@
   export let structure;
   export let tabId = "informations";
 
-  let tabs = [];
+  let tabs: TabItem[] = [];
 
   $: {
     tabs = [
@@ -31,20 +39,23 @@
       },
     ];
 
-    if (!structure.parent && structure.branches?.length) {
-      tabs.splice(1, 0, {
-        id: "antennes",
-        name: "Antennes",
-        icon: homeSmile2Icon,
-        href: `/structures/${structure.slug}/antennes`,
+    if (structure.canViewMembers) {
+      tabs.push({
+        id: "collaborateurs",
+        name: "Collaborateurs",
+        icon: teamLineIcon,
+        href: `/structures/${structure.slug}/collaborateurs`,
       });
     }
+    tabs.push({
+      id: "services",
+      name: "Services",
+      icon: pageLineIcon,
+      href: `/structures/${structure.slug}/services`,
+    });
 
-    if (
-      !!structure.models?.length &&
-      (structure.isMember || $userInfo?.isStaff)
-    ) {
-      tabs.splice(1, 0, {
+    if (structure.canEditServices) {
+      tabs.push({
         id: "modeles",
         name: "Modèles",
         icon: bookReadLineIcon,
@@ -52,20 +63,12 @@
       });
     }
 
-    if (structure.services?.length || structure.archivedServices?.length) {
-      tabs.splice(1, 0, {
-        id: "services",
-        name: "Services",
-        icon: pageLineIcon,
-        href: `/structures/${structure.slug}/services`,
-      });
-    }
-    if (structure.isMember || $userInfo?.isStaff || $userInfo?.isBizdev) {
-      tabs.splice(1, 0, {
-        id: "collaborateurs",
-        name: "Collaborateurs",
-        icon: teamLineIcon,
-        href: `/structures/${structure.slug}/collaborateurs`,
+    if (!structure.parent && structure.branches?.length) {
+      tabs.push({
+        id: "antennes",
+        name: "Antennes",
+        icon: homeSmile2Icon,
+        href: `/structures/${structure.slug}/antennes`,
       });
     }
   }
@@ -85,7 +88,7 @@
   }
 </script>
 
-<div class="relative mx-auto max-w-6xl pt-s40">
+<div class="relative mx-auto max-w-6xl pt-s40 print:py-s40">
   <Breadcrumb {structure} currentLocation="structure-{tabId}" />
 
   <h1 class="pt-s40 text-white print:text-magenta-brand">
@@ -112,6 +115,6 @@
   {/if}
 
   <div class="mt-s40 print:hidden">
-    <Tabs items={tabs} itemId={tabId} />
+    <TabsLink items={tabs} itemId={tabId} />
   </div>
 </div>

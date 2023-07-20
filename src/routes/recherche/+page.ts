@@ -2,7 +2,6 @@ import { getServicesOptions } from "$lib/requests/services";
 import type { SearchQuery, ServiceSearchResult } from "$lib/types";
 import { getApiURL } from "$lib/utils/api";
 import { trackSearch } from "$lib/utils/plausible";
-import { computeUpdateStatusData } from "$lib/utils/service";
 import { getQuery, storeLastSearchCity } from "$lib/utils/service-search";
 import type { PageLoad } from "./$types";
 
@@ -33,7 +32,7 @@ async function getResults({
   });
 
   if (res.ok) {
-    return await res.json();
+    return res.json();
   }
 
   // TODO: log errors
@@ -65,11 +64,8 @@ export const load: PageLoad = async ({ url, parent }) => {
     feeConditions,
   });
 
-  services.forEach((service) => {
-    service.updateStatus = computeUpdateStatusData(service).updateStatus;
-  });
-
   trackSearch(
+    url,
     categoryIds,
     subCategoryIds,
     cityCode,

@@ -22,26 +22,31 @@
     ServiceUpdateStatus,
     ShortService,
   } from "$lib/types";
-  import { userInfo } from "$lib/utils/auth";
-  import { computeUpdateStatusData } from "$lib/utils/service";
   import Count from "../count.svelte";
+  import {
+    hasArchivedServices,
+    hasAtLeastOneServiceNotArchived,
+  } from "../quick-start";
+  import NoServiceNotice from "./no-service-notice.svelte";
   import ServiceCard from "./service-card.svelte";
+  import ServicesToUpdateViaModelNotice from "./services-to-update-notice.svelte";
 
   export let structure, total, servicesOptions;
-  export let hasOptions = true;
+  export let tabDisplay = true;
   export let onRefresh;
   export let limit: number | undefined = undefined;
+  export let withEmptyNotice = false;
 
   export let serviceStatus: ServiceStatus | undefined;
   export let updateStatus: ServiceUpdateStatus | undefined;
   export let servicesDisplayed: ShortService[] = [];
 
-  let canEdit;
-
   function updateUrlQueryParams() {
-    if (!browser) return;
+    if (!browser) {
+      return;
+    }
 
-    let searchParams = $page.url.searchParams;
+    const searchParams = $page.url.searchParams;
 
     if (serviceStatus) {
       searchParams.set("service-status", encodeURIComponent(serviceStatus));
@@ -56,7 +61,9 @@
     }
 
     let newUrl = $page.url.pathname;
-    if (searchParams.toString()) newUrl += `?${searchParams.toString()}`;
+    if (searchParams.toString()) {
+      newUrl += `?${searchParams.toString()}`;
+    }
 
     goto(newUrl, { replaceState: true, keepFocus: true, noScroll: true });
   }
@@ -115,7 +122,7 @@
 
   // Service order
   let selectedOrder = "modificationDateDesc";
-  let serviceOrderOptions: Choice[] = [
+  const serviceOrderOptions: Choice[] = [
     {
       value: "modificationDateDesc",
       label: "Trier par ordre décroissant",
@@ -132,8 +139,8 @@
     },
   ];
 
-  function sortService(se) {
-    let sse = se.sort((a, b) => {
+  function sortService(services) {
+    let sortedServices = services.sort((a, b) => {
       let diff =
         new Date(b.modificationDate).getTime() -
         new Date(a.modificationDate).getTime();
@@ -151,10 +158,33 @@
     });
 
     if (limit) {
-      sse = sse.slice(0, limit);
+      sortedServices = sortedServices.slice(0, limit);
+    }
+    return sortedServices;
+  }
+
+  function filterAndSortServices(services) {
+    if (serviceStatus) {
+      // By status
+      if (serviceStatus === "ARCHIVED") {
+        services = structure.archivedServices;
+      } else {
+        services = structure.services.filter(
+          (service) => service.status === serviceStatus
+        );
+      }
     }
 
-    return sse;
+    // By update status
+    if (updateStatus) {
+      services = services.filter((service) =>
+        updateStatus === "ALL"
+          ? service.updateStatus !== "NOT_NEEDED"
+          : service.updateStatus === updateStatus
+      );
+    }
+
+    return sortService(services);
   }
 
   function handleEltChange(event) {
@@ -168,29 +198,7 @@
     updateUrlQueryParams();
   }
 
-  function filterAndSortServices(services) {
-    if (serviceStatus) {
-      // By status
-      if (serviceStatus === "ARCHIVED") services = structure.archivedServices;
-      else {
-        services = structure.services.filter((s) => s.status === serviceStatus);
-      }
-    }
-
-    // By update status
-    if (updateStatus) {
-      services = services.filter((s) =>
-        updateStatus === "ALL"
-          ? computeUpdateStatusData(s).updateStatus !== "NOT_NEEDED"
-          : computeUpdateStatusData(s).updateStatus === updateStatus
-      );
-    }
-
-    return sortService(services);
-  }
-
   $: servicesDisplayed = filterAndSortServices(structure.services);
-  $: canEdit = structure.isMember || $userInfo?.isStaff;
 </script>
 
 <div class="mb-s24 md:flex md:items-center md:justify-between">
@@ -198,8 +206,8 @@
     <h2 class="mb-s0 text-france-blue">Services</h2>
     {#if limit}<Count>{total}</Count>{/if}
   </div>
-  <div class="flex gap-s16">
-    {#if !!servicesDisplayed.length && !hasOptions}
+  <div class="flex flex-wrap gap-s16">
+    {#if !!servicesDisplayed.length && !tabDisplay}
       <LinkButton
         label="Voir tous les services"
         to="/structures/{structure.slug}/services"
@@ -207,7 +215,7 @@
         noBackground
       />
     {/if}
-    {#if canEdit}
+    {#if structure.canEditServices}
       <LinkButton
         label="Ajouter un service"
         icon={addIcon}
@@ -216,12 +224,21 @@
     {/if}
   </div>
 </div>
-{#if hasOptions && canEdit}
+
+{#if !hasAtLeastOneServiceNotArchived(structure) && structure.isMember && structure.canEditServices && withEmptyNotice}
+  <div class="mb-s24">
+    <NoServiceNotice />
+  </div>
+{/if}
+
+{#if (hasAtLeastOneServiceNotArchived(structure) || hasArchivedServices(structure)) && tabDisplay && structure.canEditServices}
   <div
-    class="mb-s40 flex h-s80 w-full items-center justify-between rounded-md bg-white px-s24 text-f14 shadow-md"
+    class="mb-s40 flex w-full flex-wrap items-center rounded-md bg-white px-s24 py-s24 text-f14 shadow-md md:h-s80 md:py-s0"
   >
-    <div class="flex items-center gap-s16">
-      <div class="text-f16 font-bold">Filtrer par&nbsp;:</div>
+    <div class="flex w-full flex-wrap items-center gap-s16">
+      <div class="flex w-full items-center text-f16 font-bold md:w-auto">
+        Filtrer par&nbsp;:
+      </div>
 
       <div>
         <SelectField
@@ -249,24 +266,24 @@
           onChange={handleEltChange}
         />
       </div>
-    </div>
 
-    <div>
-      <button
-        class:!text-magenta-cta={serviceStatus || updateStatus}
-        class="text-gray-text-alt"
-        on:click={() => {
-          serviceStatus = undefined;
-          updateStatus = undefined;
-        }}
-      >
-        Tout effacer
-      </button>
+      <div class="text-right sm:flex-1">
+        <button
+          class:!text-magenta-cta={serviceStatus || updateStatus}
+          class="text-gray-text-alt"
+          on:click={() => {
+            serviceStatus = undefined;
+            updateStatus = undefined;
+          }}
+        >
+          Tout effacer
+        </button>
+      </div>
     </div>
   </div>
 
-  <div class="mb-s40 flex justify-between gap-s16">
-    <span>
+  <div class="mb-s40 flex flex-col justify-between gap-s16 sm:flex-row">
+    <div>
       <strong>
         {servicesDisplayed.length} service{servicesDisplayed.length > 1
           ? "s"
@@ -275,7 +292,7 @@
       <span class:hidden={!serviceStatus && !updateStatus}>
         correspond{servicesDisplayed.length > 1 ? "ent" : ""} à votre recherche
       </span>
-    </span>
+    </div>
 
     <div class="inline-block min-w-[280px] text-f14">
       <SelectField
@@ -291,9 +308,23 @@
     </div>
   </div>
 {/if}
+{#if tabDisplay && structure.canEditServices}
+  <div class="mb-s24">
+    <ServicesToUpdateViaModelNotice
+      structureSlug={structure.slug}
+      services={structure.services}
+      {onRefresh}
+    />
+  </div>
+{/if}
 
 <div class="mb-s48 grid gap-s16 md:grid-cols-2 lg:grid-cols-3">
   {#each servicesDisplayed as service}
-    <ServiceCard {service} {servicesOptions} readOnly={!canEdit} {onRefresh} />
+    <ServiceCard
+      {service}
+      {servicesOptions}
+      readOnly={!structure.canEditServices}
+      {onRefresh}
+    />
   {/each}
 </div>

@@ -8,19 +8,27 @@
   export let big = false;
   export let small = false;
 
+  let title;
+
   const dispatch = createEventDispatcher();
 
   function handleClick(evt: MouseEvent) {
-    if (!disabled) dispatch("click", evt);
+    if (!disabled) {
+      dispatch("click", evt);
+    }
   }
 
   $: currentIcon = active ? starSmileFillIcon : starSmileLineIcon;
   $: disabled = !$userInfo;
-  $: title = disabled
-    ? "Connectez-vous"
-    : active
-    ? "Supprimer des favoris"
-    : "Ajouter aux favoris";
+  $: {
+    if (disabled) {
+      title = "Connectez-vous pour ajouter<br/> ce service à vos favoris";
+    } else if (active) {
+      title = "Supprimer des favoris";
+    } else {
+      title = "Ajouter aux favoris";
+    }
+  }
 </script>
 
 <button
@@ -34,7 +42,7 @@
   on:click={handleClick}
 >
   {@html currentIcon}
-  <div class="tooltiptext" aria-hidden="true">{title}</div>
+  <div class="tooltiptext">{@html title}</div>
 </button>
 
 <style lang="postcss">
@@ -44,6 +52,10 @@
 
   .inverted {
     @apply text-gray-01 hover:text-white;
+  }
+
+  .inverted.disabled {
+    @apply text-gray-01;
   }
 
   .inverted.active {
@@ -61,13 +73,12 @@
   .disabled {
     @apply text-gray-text-alt;
   }
-
   .tooltip {
-    @apply relative inline-block;
+    @apply relative inline-block print:hidden;
   }
 
   .tooltip .tooltiptext {
-    @apply invisible absolute top-s28 left-1/2 z-10 w-max -translate-x-1/2 rounded bg-magenta-dark px-s8 py-s2 text-center text-f12 font-bold text-white opacity-0 transition-opacity;
+    @apply invisible absolute top-[-1000px] left-[-1000px] z-10 w-max -translate-x-1/2 rounded bg-magenta-dark px-s8 py-s2 text-center text-f12 font-bold text-white;
   }
 
   .tooltip.big .tooltiptext {
@@ -79,7 +90,8 @@
     @apply absolute bottom-full left-1/2 -ml-s4 border-4 border-solid border-transparent border-b-magenta-dark;
   }
 
-  .tooltip:hover .tooltiptext {
-    @apply visible opacity-100;
+  .tooltip:hover .tooltiptext,
+  .tooltip:focus .tooltiptext {
+    @apply visible top-s28 left-1/2 opacity-100;
   }
 </style>

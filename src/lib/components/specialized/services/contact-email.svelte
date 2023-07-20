@@ -15,7 +15,7 @@
 
   Je vous contacte concernant l’offre ${
     service.name
-  } sur dora.fabrique.social.gouv.fr.
+  } sur dora.inclusion.beta.gouv.fr.
   ${CANONICAL_URL}/services/${service.slug}
 
 
@@ -28,7 +28,9 @@
 
   [Rappel des justificatifs à joindre:]
 
-  ${service.credentialsDisplay.map((s) => `- ${s}`).join("\n")}
+  ${service.credentialsDisplay
+    ?.map((credential) => `- ${credential}`)
+    .join("\n")}
   `.trim()
   );
 
@@ -40,11 +42,11 @@
 <div>
   <a
     on:click={trackClick}
-    class="flex items-center text-f16"
+    class="flex items-center break-all text-f16"
     class:font-bold={preferred}
     href="mailto:{service.contactEmail}?subject={emailSubject}&body={emailBody}"
   >
-    <span class="mr-s8 h-s24 w-s24 text-gray-text" aria-label="E-mail">
+    <span class="mr-s8 h-s24 w-s24 fill-current" aria-label="E-mail">
       {@html mailLineIcon}
     </span>
     {service.contactEmail}

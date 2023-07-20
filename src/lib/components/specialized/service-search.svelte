@@ -1,9 +1,9 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import Button from "$lib/components/display/button.svelte";
-  import FieldWrapper from "$lib/components/inputs/obsolete/field-wrapper.svelte";
   import SelectField from "$lib/components/inputs/obsolete/select-field.svelte";
-  import CitySearch from "$lib/components/specialized/city-search.svelte";
+  import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
+
   import {
     arrowDownSIcon,
     deleteBackIcon,
@@ -35,21 +35,18 @@
   export let kindIds: ServiceKind[] = [];
   export let feeConditions: FeeCondition[] = [];
 
+  let innerWidth;
+  const MOBILE_BREAKPOINT = 768; // 'md' from https://tailwindcss.com/docs/screens
   let cityChoiceList;
 
-  function handleSearchIfNotDisabled() {
-    if (cityCode && subCategoryIds.length) {
-      handleSearch();
-    }
-  }
   function handleSearch() {
     const categoryIds = subCategoryIds
-      .filter((v) => v.endsWith("--all"))
-      .map((v) => v.replace("--all", ""));
+      .filter((value) => value.endsWith("--all"))
+      .map((value) => value.replace("--all", ""));
 
     // Remove sub-categories ending with --all
     const finalSubCategoryIds = subCategoryIds.filter(
-      (v) => !v.endsWith("--all")
+      (value) => !value.endsWith("--all")
     );
 
     const query = getQuery({
@@ -61,6 +58,12 @@
       feeConditions,
     });
     goto(`recherche?${query}`);
+  }
+
+  function handleSearchIfNotDisabled() {
+    if (cityCode && subCategoryIds.length) {
+      handleSearch();
+    }
   }
 
   const categories = servicesOptions.categories
@@ -79,6 +82,8 @@
     : [];
 </script>
 
+<svelte:window bind:innerWidth />
+
 <div class="w-full rounded-md border border-gray-02 bg-white">
   {#if servicesOptions.categories}
     <form class="grid" on:submit|preventDefault={handleSearch}>
@@ -89,8 +94,25 @@
         <div class="mr-s8 h-s24 w-s24 fill-current text-magenta-cta">
           {@html mapPinIcon}
         </div>
+        <div class="relative w-full">
+          <label class="sr-only" for="city">
+            Lieu
+            <span class="text-error">*</span>
+          </label>
 
-        <FieldWrapper label="Lieu" name="city" required hideLabel>
+          <CitySearch
+            id="city"
+            initialValue={cityLabel}
+            bind:value={cityChoiceList}
+            placeholder="Rechercher par lieu : ville"
+            onChange={(city) => {
+              cityCode = city?.code;
+              cityLabel = `${city?.name} (${getDepartmentFromCityCode(
+                city?.code
+              )})`;
+            }}
+          />
+
           <div
             class="absolute top-s12 right-s12 z-10 h-s24 w-s24 text-gray-dark"
           >
@@ -106,6 +128,7 @@
                 <span class="h-s24 w-s24 fill-current text-gray-text-alt">
                   {@html deleteBackIcon}
                 </span>
+                <span class="sr-only">Supprimer la ville sélectionnée</span>
               </button>
             {:else}
               <span class="h-s24 w-s24 fill-current">
@@ -113,24 +136,11 @@
               </span>
             {/if}
           </div>
-
-          <CitySearch
-            name="city"
-            initialValue={cityLabel}
-            bind:value={cityChoiceList}
-            placeholder="Rechercher par lieu : ville"
-            onChange={(city) => {
-              cityCode = city?.code;
-              cityLabel = `${city?.name} (${getDepartmentFromCityCode(
-                city?.code
-              )})`;
-            }}
-          />
-        </FieldWrapper>
+        </div>
       </div>
 
       <div
-        class="flex justify-between border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
+        class="subcategories-search flex border-b border-gray-02 py-s24 px-s16 text-f14 lg:border-r lg:border-b-0 lg:py-s16"
       >
         <div
           class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
@@ -139,6 +149,7 @@
         </div>
 
         <SelectField
+          inputMode={innerWidth < MOBILE_BREAKPOINT ? "none" : undefined}
           hideLabel
           isMultiple
           withAutoComplete
@@ -188,7 +199,7 @@
           style="filter"
           label="Type de service"
           minDropdownWidth="min-w-[200px]"
-          name="subcategories"
+          name="kinds"
           placeholder="Type de service"
           bind:value={kindIds}
           choices={servicesOptions.kinds}
@@ -230,11 +241,21 @@
     }
   }
 
+  .subcategories-search :global(.field-wrapper) {
+    @apply relative w-[100%];
+  }
+  .subcategories-search :global(.label-container) {
+    @apply sr-only;
+  }
+
   .grid :global(.autocomplete-input) {
     @apply border-0;
   }
   .grid :global(.city) {
     @apply text-magenta-dark;
+  }
+  .grid :global(.city .autocomplete) {
+    @apply block;
   }
   .grid :global(.input-container input) {
     @apply bg-transparent;

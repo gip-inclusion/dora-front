@@ -2,14 +2,7 @@
   import ContributionPic from "$lib/assets/illustrations/illu-contribution.svg";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
-  import EmailButton from "$lib/components/specialized/email-button.svelte";
   import { addCircleIcon } from "$lib/icons";
-  import { serviceSubmissionTimeMeter } from "$lib/stores/service-submission-time-meter";
-  import { onDestroy } from "svelte";
-
-  onDestroy(() => {
-    serviceSubmissionTimeMeter.clear();
-  });
 </script>
 
 <CenteredGrid extraClass="bg-gradient-to-b from-magenta-10 to-magenta-10/0">
@@ -32,21 +25,17 @@
           icon={addCircleIcon}
           iconOnRight
         />
-
-        <EmailButton />
       </div>
 
-      {#if $serviceSubmissionTimeMeter.id && $serviceSubmissionTimeMeter.duration}
-        <iframe
-          src="https://tally.so/embed/n0Q749?alignLeft=1&hideTitle=1&transparentBackground=1&service={$serviceSubmissionTimeMeter.id}&temps={$serviceSubmissionTimeMeter.duration}"
-          width="100%"
-          height="512"
-          frameborder="0"
-          marginheight="0"
-          marginwidth="0"
-          title="Formulaire d'évaluation de la proposition d'un service"
-        />
-      {/if}
+      <iframe
+        src="https://tally.so/embed/n0Q749?alignLeft=1&hideTitle=1&transparentBackground=1"
+        width="100%"
+        height="512"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="Formulaire d'évaluation de la proposition d'un service"
+      />
     </div>
   </div>
 </CenteredGrid>

@@ -5,6 +5,20 @@
   import Footer from "./_index/footer.svelte";
   import Header from "./_index/header.svelte";
   import SkipLink from "./_index/skip-link.svelte";
+  import { browser } from "$app/environment";
+  import UserMainActivityModal from "$lib/components/user/user-main-activity-modal.svelte";
+  import { userInfo } from "$lib/utils/auth";
+  import { logAnalyticsEvent } from "$lib/utils/stats";
+
+  function trackPageView() {
+    if (browser) {
+      logAnalyticsEvent("pageview", $page.url.pathname, {
+        title: $page.data.title,
+      });
+    }
+  }
+
+  $: $page.url.pathname, trackPageView();
 </script>
 
 <svelte:head>
@@ -31,7 +45,11 @@
 <SkipLink />
 <Header />
 
-<main id="main-content">
+<main id="main-content" role="main">
+  {#if $userInfo && !$userInfo.mainActivity}
+    <UserMainActivityModal />
+  {/if}
+
   <slot />
 </main>
 

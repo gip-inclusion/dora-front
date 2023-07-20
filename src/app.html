@@ -13,7 +13,7 @@
 
     <script
       type="text/javascript"
-      data-domain="%plausible-domain%"
+      data-domain="%sveltekit.env.VITE_PUBLIC_PLAUSIBLE_DOMAIN%"
       src="https://plausible.io/js/plausible.js"
       nonce="%sveltekit.nonce%"
     ></script>
@@ -27,22 +27,6 @@
 
     %sveltekit.head%
 
-    <script
-      type="text/javascript"
-      src="/tarteaucitron-1.9.4/tarteaucitron.js"
-      nonce="%sveltekit.nonce%"
-    ></script>
-    <script
-      type="text/javascript"
-      src="/tarteaucitron.init.js"
-      nonce="%sveltekit.nonce%"
-    ></script>
-    <script
-      type="text/javascript"
-      src="https://tally.so/widgets/embed.js"
-      nonce="%sveltekit.nonce%"
-    ></script>
-
     <style nonce="%sveltekit.nonce%">
       .main-content {
         display: contents;
@@ -52,8 +36,5 @@
 
   <body>
     <div class="main-content">%sveltekit.body%</div>
-    <script type="text/javascript" nonce="%sveltekit.nonce%">
-      (tarteaucitron.job = tarteaucitron.job || []).push("crisp");
-    </script>
   </body>
 </html>

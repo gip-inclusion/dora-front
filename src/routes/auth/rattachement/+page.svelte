@@ -1,23 +1,20 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
-  import { page } from "$app/stores";
   import Button from "$lib/components/display/button.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
   import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
-  import {
-    token,
-    userInfo,
-    validateCredsAndFillUserInfo,
-  } from "$lib/utils/auth";
+  import { token, userInfo, refreshUserInfo } from "$lib/utils/auth";
   import { trackJoinStructure } from "$lib/utils/plausible";
   import { get } from "svelte/store";
   import AuthLayout from "../auth-layout.svelte";
+  import type { PageData } from "./$types";
 
-  let siret = $page.url.searchParams.get("siret");
+  export let data: PageData;
 
-  let establishment;
-  let tabId;
+  let cguAccepted = false;
+  let { establishment } = data;
+  let ctaLabel = "";
 
   async function handleJoin() {
     trackJoinStructure();
@@ -42,7 +39,8 @@
 
     if (response.ok) {
       result.data = await response.json();
-      await validateCredsAndFillUserInfo();
+
+      await refreshUserInfo();
       await goto(`/structures/${result.data.slug}`);
     } else {
       try {
@@ -55,16 +53,26 @@
   }
 
   $: alreadyMember = $userInfo?.structures
-    ?.map((s) => s.siret)
+    ?.map((struct) => struct.siret)
     ?.includes(establishment?.siret);
   $: alreadyRequested = $userInfo?.pendingStructures
-    ?.map((s) => s.siret)
+    ?.map((struct) => struct.siret)
     ?.includes(establishment?.siret);
+
+  $: {
+    if (alreadyRequested) {
+      ctaLabel = "Relancer l’administrateur";
+    } else if (alreadyMember) {
+      ctaLabel = "Accéder à la structure";
+    } else {
+      ctaLabel = "Adhérer à la structure";
+    }
+  }
 </script>
 
 <EnsureLoggedIn>
   <AuthLayout>
-    <StructureSearch {siret} bind:establishment bind:tabId blockPoleEmploi>
+    <StructureSearch bind:establishment title="Identifiez votre structure">
       <div slot="cta">
         {#if establishment?.siret}
           <div class="mt-s24">
@@ -75,22 +83,39 @@
               par l’administrateur de la structure.
             {:else}
               <div class="legend">
-                En cliquant sur <span class="italic"
-                  >Adhérer à la structure</span
-                >, je déclare faire partie de la structure mentionnée ci-dessus
-                et j’atteste connaître les risques encourus en cas de faux et
-                d’usage de faux.
+                <label class="flex flex-row items-start">
+                  <input
+                    bind:checked={cguAccepted}
+                    type="checkbox"
+                    class="hidden "
+                  />
+                  <div
+                    class="flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
+                  >
+                    <div
+                      class=" h-s12 w-s12 self-center bg-magenta-cta"
+                      class:hidden={!cguAccepted}
+                    />
+                  </div>
+                  <span class="ml-s16 inline-block  text-f14 text-gray-text">
+                    Je déclare avoir lu les
+                    <a
+                      href="/cgu"
+                      class="underline"
+                      target="_blank"
+                      rel="noopener">Conditions générales d’utilisation</a
+                    > et faire partie de la structure mentionnée ci-dessus.</span
+                  >
+                </label>
               </div>
             {/if}
             <div class="mt-s24 flex justify-end">
               <Button
-                label={alreadyRequested
-                  ? "Relancer l’administrateur"
-                  : alreadyMember
-                  ? "Accéder à la structure"
-                  : "Adhérer à la structure"}
+                type="submit"
+                label={ctaLabel}
                 on:click={handleJoin}
                 preventDefaultOnMouseDown
+                disabled={!cguAccepted}
               />
             </div>
           </div>

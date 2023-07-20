@@ -11,9 +11,12 @@ export const ssr = false;
 export const load: PageLoad = async ({ url, parent }) => {
   await parent();
 
+  const forceLogin: boolean =
+    url.searchParams.get("force_login") === "1" || false;
+
   const nextPage = getNextPage(url);
-  // Si on a déjà un token, on redirige directement sur la destination
-  if (get(token)) {
+  // Si on a déjà un token et qu'on ne force pas le login, on redirige directement sur la destination
+  if (get(token) && !forceLogin) {
     throw redirect(302, nextPage);
   }
 
@@ -25,10 +28,11 @@ export const load: PageLoad = async ({ url, parent }) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
+      // eslint-disable-next-line camelcase
       redirect_uri: `${CANONICAL_URL}/auth/ic-callback?next=${encodeURIComponent(
         nextPage
       )}`,
-      loginHint: url.searchParams.get("login_hint"),
+      loginHint: url.searchParams.get("login_hint") || undefined,
     }),
   });
 

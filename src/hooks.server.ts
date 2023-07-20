@@ -1,4 +1,4 @@
-import { CANONICAL_URL, ENVIRONMENT, SENTRY_DSN } from "$lib/env";
+import { ENVIRONMENT, SENTRY_DSN } from "$lib/env";
 import * as Sentry from "@sentry/svelte";
 import type { Handle, HandleServerError } from "@sveltejs/kit";
 
@@ -13,8 +13,10 @@ if (ENVIRONMENT !== "local") {
 export const handleError: HandleServerError = ({ error, event }) => {
   Sentry.captureException(error, { event });
 
+  const message = ENVIRONMENT === "local" ? error.message : "Erreur inattendue";
+
   return {
-    message: "Erreur inattendue",
+    message,
   };
 };
 
@@ -27,13 +29,7 @@ export const handle: Handle = async ({ event, resolve }) => {
   response.headers.set("X-Frame-Options", "DENY");
   response.headers.set("X-XSS-Protection", "1; mode=block");
   response.headers.set("X-Content-Type-Options", "nosniff");
+  response.headers.set("Referrer-Policy", "strict-origin");
 
-  if (response.headers.get("content-type")?.startsWith("text/html")) {
-    const body = await response.text();
-    return new Response(
-      body.replace("%plausible-domain%", CANONICAL_URL.split("//")[1]),
-      response
-    );
-  }
   return response;
 };

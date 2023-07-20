@@ -3,15 +3,14 @@
   export let otherTab = false;
   export let disabled = false;
   export let href;
-  export let nofollow = false;
 </script>
 
 <a
-  class="text-f14 text-gray-text-alt2"
+  class="text-f14 text-gray-text"
   on:click
   {href}
   target={otherTab ? "_blank" : ""}
-  rel="noopener {nofollow ? 'nofollow' : ''}"
+  rel="noopener"
   {disabled}
 >
   {label}

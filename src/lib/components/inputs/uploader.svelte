@@ -3,19 +3,19 @@
   import { getApiURL } from "$lib/utils/api";
   import { shortenString } from "$lib/utils/misc";
 
-  export let structureSlug;
-  export let fileKeys = [];
+  export let id: string;
+  export let structureSlug: string | undefined;
+  export let fileKeys: string[] = [];
   export let disabled = false;
-  export let name;
 
-  let progress = null;
-  let uploadInput;
+  let progress: number | null = null;
+  let uploadInput: HTMLInputElement;
 
   function handleRemove(fileKey) {
-    fileKeys = fileKeys.filter((k) => k !== fileKey);
+    fileKeys = fileKeys.filter((key) => key !== fileKey);
   }
 
-  async function handleSubmit() {
+  function handleSubmit() {
     function updateProgress(loaded, total) {
       progress = (loaded / total) * 100;
     }
@@ -36,15 +36,17 @@
     for (let i = 0; i < files.length; i++) {
       const file = files.item(i);
       // We can't use fetch if we want a progress indicator
-      const url = `${getApiURL()}/upload/${structureSlug}/${file.name}/`;
+      const url = structureSlug
+        ? `${getApiURL()}/upload/${structureSlug}/${file.name}/`
+        : `${getApiURL()}/safe-upload/${file.name}/`;
       const request = new XMLHttpRequest();
       request.open("POST", url);
       request.setRequestHeader("Accept", "application/json; version=1.0");
 
       // upload progress event
-      request.upload.addEventListener("progress", (e) => {
+      request.upload.addEventListener("progress", (event) => {
         // upload progress as percentage
-        updateProgress(e.loaded, e.total);
+        updateProgress(event.loaded, event.total);
       });
 
       // request finished event
@@ -59,22 +61,23 @@
 
   function urlStringPathRemove(string) {
     const pathElements = string.split("/");
-
-    return pathElements[2];
+    return pathElements[pathElements.length - 1];
   }
 </script>
 
 <form on:submit|preventDefault={handleSubmit} class="mb-s8 cursor-pointer">
   <label>
     <input
-      {name}
+      name={id}
+      {id}
       bind:this={uploadInput}
       on:blur
       on:change={handleSubmit}
       {disabled}
       type="file"
+      accept=".doc, .docx, .pdf, .png, .jpeg, .jpg, .odt, .xls, .xlsx, .ods"
       multiple
-      class="font-bold file:rounded file:border file:border-magenta-cta file:bg-white file:px-s8 file:py-s6 file:text-f14 file:leading-normal file:text-magenta-cta file:hover:border-magenta-hover file:hover:bg-magenta-hover file:hover:text-white file:active:border-france-blue file:active:text-france-blue file:disabled:border-gray-01 file:disabled:disabled:text-gray-text-alt2 file:lg:px-s10"
+      class="font-bold file:rounded file:border file:border-magenta-cta file:bg-white file:px-s8 file:py-s6 file:text-f14 file:leading-normal file:text-magenta-cta file:hover:border-magenta-hover file:hover:bg-magenta-hover file:hover:!text-white file:active:border-france-blue file:active:text-france-blue file:disabled:border-gray-01 file:disabled:disabled:text-gray-text-alt2 file:lg:px-s10"
     />{progress != null ? `${Math.round(progress)} %` : ""}
   </label>
 </form>

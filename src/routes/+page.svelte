@@ -2,17 +2,13 @@
   import illuAccompagner from "$lib/assets/illustrations/illu-accompagner.svg";
   import illuMobiliser from "$lib/assets/illustrations/illu-mobiliser.svg";
   import illuRecenser from "$lib/assets/illustrations/illu-recenser.svg";
-  import logoAfpa from "$lib/assets/logos/logo-afpa.svg";
-  import logoCaf from "$lib/assets/logos/logo-caf.svg";
   import logoDataInclusion from "$lib/assets/logos/logo-data-inclusion.svg";
-  import logoDepartementArdennes from "$lib/assets/logos/logo-departement-ardennes.svg";
-  import logoDepartementReunion from "$lib/assets/logos/logo-departement-reunion.svg";
-  import logoMobIn from "$lib/assets/logos/logo-mob-in.svg";
-  import logoPoleEmploi from "$lib/assets/logos/logo-pole-emploi.svg";
+
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
+  import InviteStructureLink from "$lib/components/specialized/invite-structure-link.svelte";
+  import PartnerList from "$lib/components/specialized/partner-list.svelte";
   import SearchForm from "$lib/components/specialized/service-search.svelte";
-  import NewletterNotice from "$lib/components/specialized/newletter-notice.svelte";
   import type { PageData } from "./$types";
 
   export let data: PageData;
@@ -43,7 +39,7 @@
     <a
       target="_blank"
       class="text-magenta-cta underline"
-      rel="no-follow"
+      rel="noopener"
       href="https://app.livestorm.co/dora-1"
     >
       Découvrez DORA en participant à un de nos webinaires d’appropriation.
@@ -59,11 +55,12 @@
       </h2>
       <p class="mb-s0">
         Publiez, mettez à jour et rendez vos services disponibles partout grâce
-        à l'Open Data.
+        à l'<span lang="en">Open Data</span>.
       </p>
     </div>
-    <div class="flex justify-center">
+    <div class="flex flex-wrap justify-center gap-s16">
       <LinkButton label="Référencer un service" to={`/services/creer`} />
+      <InviteStructureLink />
     </div>
 
     <div class="mt-s16">
@@ -71,27 +68,16 @@
         Plus de 1 000 structures ont déjà commencé à référencer leurs services
         sur DORA
       </p>
-      <div class="flex flex-col justify-center gap-s24 md:flex-row">
-        <div class="flex justify-center gap-s24">
-          <img src={logoPoleEmploi} alt="logo Pole Emploi" />
-
-          <img src={logoMobIn} alt="logo Mob'In" />
-
-          <img
-            src={logoDepartementArdennes}
-            alt="logo Conseil Départemental des Ardennes"
-          />
-        </div>
-        <div class="flex justify-center gap-s24">
-          <img
-            src={logoDepartementReunion}
-            alt="logo Conseil départemental de la Réunion"
-          />
-
-          <img src={logoAfpa} alt="logo Afpa" />
-
-          <img src={logoCaf} alt="logo Allocations Familiales" />
-        </div>
+      <ul class="mt-s24 flex w-full flex-wrap justify-center grayscale">
+        <PartnerList partnersToShow={data.partnersToShow} imgHeight="small" />
+      </ul>
+      <div class="mt-s10 text-center">
+        <a
+          href="/nos-partenaires"
+          class="text-center text-f18 text-magenta-cta underline"
+        >
+          Découvrez tous nos partenaires
+        </a>
       </div>
     </div>
   </div>
@@ -106,7 +92,7 @@
       <p class="text-f16">
         Vous proposez des services d'insertion ? Rendez les visibles sur votre
         territoire et sur tous les sites partenaires grâce à notre démarche
-        collective d'open data.
+        collective d'<span lang="en">open data</span>.
       </p>
     </div>
     <div class="md:flex-1">
@@ -131,20 +117,22 @@
   <div class="flex flex-col gap-s24 rounded-md bg-magenta-10 p-s24 md:flex-row">
     <div class="w-1/3 self-center text-center">
       <a href="https://www.data.inclusion.beta.gouv.fr/">
-        <img src={logoDataInclusion} alt="logo data inclusion" class="inline" />
+        <img
+          src={logoDataInclusion}
+          alt="Data inclusion - Contributeur officiel"
+          class="inline"
+        />
       </a>
     </div>
     <div class="md:w-2/3">
-      <h4>Dites-le-nous une fois</h4>
+      <h2 class="text-f17 leading-24 text-gray-dark">Dites-le-nous une fois</h2>
       <p class="text-f16">
-        Nous sommes engagés dans une démarche d’Open Data et rendons disponibles
-        nos données à travers un référentiel commun — partagé par toutes les
-        plateformes et sites web partenaires. Grâce à cette dynamique
-        collective, vous référencez votre offre une seule fois tout en la
-        rendant disponible partout.
+        Nous sommes engagés dans une démarche d’<span lang="en">Open Data</span>
+        et rendons disponibles nos données à travers un référentiel commun — partagé
+        par toutes les plateformes et sites web partenaires. Grâce à cette dynamique
+        collective, vous référencez votre offre une seule fois tout en la rendant
+        disponible partout.
       </p>
     </div>
   </div>
 </CenteredGrid>
-
-<NewletterNotice />

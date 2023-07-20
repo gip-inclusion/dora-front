@@ -1,16 +1,18 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
-  import Form from "$lib/components/display/form.svelte";
-  import Modal from "$lib/components/display/modal.svelte";
-  import Field from "$lib/components/inputs/field.svelte";
+  import Form from "$lib/components/forms/form.svelte";
+  import Modal from "$lib/components/hoc/modal.svelte";
   import { getApiURL } from "$lib/utils/api";
   import { token } from "$lib/utils/auth";
   import { addUserSchema } from "$lib/validation/schemas/dashboard";
-  import { formErrors } from "$lib/validation/validation";
   import { get } from "svelte/store";
   import ConfirmationModal from "./modal-confirmation.svelte";
+  import FormErrors from "$lib/components/forms/form-errors.svelte";
+  import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
+  import Fieldset from "$lib/components/display/fieldset.svelte";
+  import SelectField from "$lib/components/forms/fields/select-field.svelte";
 
-  const levelChoices = [
+  const USER_LEVEL_CHOICES = [
     {
       value: "user",
       label: "Utilisateur (saisie d’offres, modification profil)",
@@ -20,20 +22,24 @@
       label:
         "Administrateur (saisie d’offres, modification profil, édition de la structure, gestion des utilisateurs)",
     },
-  ];
+  ] as const;
+  type userLevelKind = (typeof USER_LEVEL_CHOICES)[number]["value"];
+
   export let isOpen = false;
   export let structure;
   export let members;
   export let onRefresh;
+  export let forceAdmin = false;
 
-  let email;
-  let level = "user";
+  let email = "";
+  let level: userLevelKind = "user";
+
   let successEmailMsg;
   let confirmationModalIsOpen = false;
   let requesting = false;
 
   function handleSubmit(validatedData) {
-    const membersEmails = members.map((m) => m.user.email);
+    const membersEmails = members.map((member) => member.user.email);
     if (membersEmails.includes(validatedData.email)) {
       return {
         ok: false,
@@ -68,43 +74,44 @@
     isOpen = false;
     successEmailMsg = email;
 
-    email = null;
-    level = "user";
+    email = "";
+
     confirmationModalIsOpen = true;
   }
+
+  $: formData = { email, level };
+  $: level = forceAdmin ? "admin" : level;
 </script>
 
 <Modal bind:isOpen title="Nouveau collaborateur">
+  <FormErrors />
+
   <Form
-    data={{ email, level }}
+    bind:data={formData}
     schema={addUserSchema}
     onSubmit={handleSubmit}
     onSuccess={handleSuccess}
+    disableExitWarning
     bind:requesting
   >
-    <Field
-      name="email"
-      errorMessages={$formErrors.email}
-      label="Courriel"
-      vertical
-      type="email"
-      bind:value={email}
-      required
-      placeholder="nom@exemple.org"
-    />
+    <Fieldset noTopPadding>
+      <BasicInputField
+        type="email"
+        id="email"
+        bind:value={email}
+        vertical
+        placeholder="nom@exemple.org"
+      />
 
-    <Field
-      name="level"
-      errorMessages={$formErrors.level}
-      label="Permissions"
-      vertical
-      type="select"
-      bind:value={level}
-      choices={levelChoices}
-      required
-      placeholder="Permissions"
-    />
-
+      <SelectField
+        id="level"
+        vertical
+        bind:value={level}
+        choices={USER_LEVEL_CHOICES}
+        placeholder="Permissions"
+        disabled={forceAdmin}
+      />
+    </Fieldset>
     <div class="mt-s32 flex flex-row justify-end gap-s16">
       <Button
         type="submit"

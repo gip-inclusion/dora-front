@@ -1,40 +1,45 @@
-import { getStructure } from "$lib/requests/structures";
+import {
+  getMembers,
+  getPutativeMembers,
+  getStructure,
+} from "$lib/requests/structures";
 import { userInfo, type UserInfo } from "$lib/utils/auth";
 import { trackStructure } from "$lib/utils/plausible";
 import { userPreferences, type UserPreferences } from "$lib/utils/preferences";
 import { error } from "@sveltejs/kit";
 import type { LayoutLoad } from "./$types";
 import { structure } from "./store";
+import { browser } from "$app/environment";
+import type { PutativeStructureMember, StructureMember } from "$lib/types";
 
-export const load: LayoutLoad = async ({ params, parent }) => {
+export const load: LayoutLoad = async ({ params, parent, url }) => {
   await parent();
 
-  const s = await getStructure(params.slug);
+  const currentStructure = await getStructure(params.slug);
+
   let preferences: UserPreferences;
   let info: UserInfo;
 
-  userPreferences.subscribe((p) => {
-    preferences = p;
+  userPreferences.subscribe((pref) => {
+    preferences = pref;
   });
 
-  userInfo.subscribe((u: UserInfo) => {
-    info = u;
+  userInfo.subscribe((newUserInfo: UserInfo) => {
+    info = newUserInfo;
   });
 
   if (info && preferences) {
     const userStructuresSlugs = [
       ...info.pendingStructures,
       ...info.structures,
-    ].map((us) => us.slug);
+    ].map((struct) => struct.slug);
 
-    if (userStructuresSlugs.includes(s.slug)) {
-      const slugIndex = preferences.visitedStructures.indexOf(s.slug);
+    if (userStructuresSlugs.includes(currentStructure.slug)) {
+      preferences.visitedStructures = preferences.visitedStructures.filter(
+        (slug) => slug !== currentStructure.slug
+      );
 
-      if (slugIndex > 0) {
-        preferences.visitedStructures.splice(slugIndex, 1);
-      }
-
-      preferences.visitedStructures.unshift(s.slug);
+      preferences.visitedStructures.unshift(currentStructure.slug);
 
       localStorage.setItem(
         "visitedStructures",
@@ -45,15 +50,30 @@ export const load: LayoutLoad = async ({ params, parent }) => {
     }
   }
 
-  if (!s) {
+  if (!currentStructure) {
     throw error(404, "Page Not Found");
   }
 
+  // Récupération des membres
+  let members: StructureMember[] = [];
+  let putativeMembers: PutativeStructureMember[] = [];
+
+  if (browser && info && currentStructure.canViewMembers) {
+    const [membersResults, putativeMembersResults] = await Promise.all([
+      getMembers(params.slug),
+      getPutativeMembers(params.slug),
+    ]);
+    members = membersResults || [];
+    putativeMembers = putativeMembersResults || [];
+  }
+
   // TODO: can we get rid of this store, and just cascade the structure?
-  structure.set(s);
-  trackStructure(s);
+  structure.set(currentStructure);
+  trackStructure(currentStructure, url);
 
   return {
-    structure: s,
+    structure: currentStructure,
+    members,
+    putativeMembers,
   };
 };

@@ -1,58 +1,60 @@
 <script lang="ts">
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import Tabs from "$lib/components/display/tabs.svelte";
-  import SearchByCommune from "$lib/components/specialized/establishment-search/search-by-commune.svelte";
-  import SearchBySiret from "$lib/components/specialized/establishment-search/search-by-siret.svelte";
-  import PoleEmploiWarning from "../pole-emploi-warning.svelte";
+  import SearchByCommune from "./search-by-commune.svelte";
+  import SearchBySiret from "./search-by-siret.svelte";
+  import type { Establishment, GeoApiValue } from "$lib/types";
 
-  export let blockPoleEmploi = false;
-  export let onCityChange = null;
-  export let onEstablishmentChange = null;
-  export let establishment = null;
-  export let siret = "";
+  type Tab = "nom" | "siret";
+
+  export let onCityChange: ((city: GeoApiValue | null) => void) | undefined =
+    undefined;
+
+  export let onEstablishmentChange:
+    | ((establishment: Establishment | null) => void)
+    | undefined = undefined;
+
+  export let establishment: Establishment | null = null;
   export let isOwnStructure = true;
+  export let tabId: Tab = "nom";
+  export let title = "Structure";
 
-  export let tabId = "nom";
-
-  function handleCityChange(newCity) {
+  function handleCityChange(newCity: GeoApiValue | null) {
     establishment = null;
 
-    if (onCityChange) onCityChange(newCity);
+    if (onCityChange) {
+      onCityChange(newCity);
+    }
   }
 
-  async function handleEstablishmentChange(newEstablishment) {
+  function handleEstablishmentChange(newEstablishment: Establishment | null) {
     establishment = newEstablishment;
-
-    if (onEstablishmentChange) onEstablishmentChange(newEstablishment);
+    if (onEstablishmentChange) {
+      onEstablishmentChange(newEstablishment);
+    }
   }
 
-  function handleTabChange(newTab) {
-    establishment = null;
-    tabId = newTab;
-
-    if (onEstablishmentChange) onEstablishmentChange(establishment);
+  function handleTabChange(newTab: Tab) {
+    if (newTab !== tabId) {
+      establishment = null;
+      tabId = newTab;
+      if (onEstablishmentChange) {
+        onEstablishmentChange(establishment);
+      }
+    }
   }
 
-  const tabs = [
+  const tabs: { id: Tab; name: string }[] = [
     { id: "nom", name: "Nom" },
     { id: "siret", name: "Siret" },
   ];
 
-  if (blockPoleEmploi) {
-    tabs.push({ id: "pe", name: "Pôle emploi" });
-  }
-
-  if (siret) {
+  if (establishment?.siret) {
     tabId = "siret";
   }
 </script>
 
-<FieldSet
-  title="Structure"
-  headerBg="bg-magenta-brand"
-  noHeaderBorder
-  noTopPadding
->
+<FieldSet {title} headerBg="bg-magenta-brand" noHeaderBorder noTopPadding>
   <div slot="description">
     <p class="text-f14 text-white">
       Choisissez une méthode d'identification. En cas de doute,
@@ -60,8 +62,8 @@
         class="underline"
         target="_blank"
         title="Ouverture dans une nouvelle fenêtre"
-        rel="noopener nofollow"
-        href="https://aide.dora.fabrique.social.gouv.fr/fr/">contactez-nous</a
+        rel="noopener"
+        href="https://aide.dora.inclusion.beta.gouv.fr/fr/">contactez-nous</a
       >.
     </p>
 
@@ -69,7 +71,10 @@
   </div>
 
   {#if tabId === "siret"}
-    <SearchBySiret onEstablishmentChange={handleEstablishmentChange} {siret} />
+    <SearchBySiret
+      onEstablishmentChange={handleEstablishmentChange}
+      {establishment}
+    />
   {:else if tabId === "nom"}
     <SearchByCommune
       bind:establishment
@@ -77,25 +82,19 @@
       onCityChange={handleCityChange}
       {isOwnStructure}
     />
-  {:else if tabId === "pe"}
-    <PoleEmploiWarning />
   {/if}
 
-  {#if blockPoleEmploi && tabId !== "pe" && establishment?.siret?.startsWith("130005481")}
-    <PoleEmploiWarning />
-  {:else}
-    {#if establishment?.siret}
-      <div class="border border-gray-01 p-s24">
-        <h4 class="text-gray-text">{establishment.name}</h4>
-        <div class="legend">{establishment.siret}</div>
-        <div class="legend">{establishment.address1}</div>
-        <div class="legend">{establishment.address2}</div>
-        <div class="legend">
-          {establishment.postalCode}
-          {establishment.city}
-        </div>
+  {#if establishment?.siret}
+    <div class="border border-gray-01 p-s24">
+      <h4 class="text-gray-text">{establishment.name}</h4>
+      <div class="legend">{establishment.siret}</div>
+      <div class="legend">{establishment.address1}</div>
+      <div class="legend">{establishment.address2}</div>
+      <div class="legend">
+        {establishment.postalCode}
+        {establishment.city}
       </div>
-    {/if}
-    <slot name="cta" />
+    </div>
   {/if}
+  <slot name="cta" />
 </FieldSet>

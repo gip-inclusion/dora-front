@@ -1,11 +1,35 @@
 import { getApiURL } from "$lib/utils/api";
 import { token } from "$lib/utils/auth";
 import { fetchData } from "$lib/utils/misc";
-import structureSchema from "$lib/validation/schemas/structure";
-import { validate } from "$lib/validation/validation";
 import { get } from "svelte/store";
-import type { ShortStructure, Structure, StructuresOptions } from "../types";
+import type {
+  PutativeStructureMember,
+  ShortStructure,
+  Structure,
+  StructureMember,
+  StructuresOptions,
+} from "../types";
 import { logException } from "../utils/logger";
+
+function structureToBack(structure: Structure) {
+  const result = { ...structure, otherLabels: [] };
+  if (structure.otherLabels) {
+    result.otherLabels = structure.otherLabels
+      .split(",")
+      .filter((label) => label !== "")
+      .map((label) => label.trim());
+  }
+
+  return result;
+}
+
+function structureToFront(structure: Structure): Structure {
+  const result = { ...structure };
+  if (Array.isArray(structure.otherLabels)) {
+    result.otherLabels = structure.otherLabels.join(", ");
+  }
+  return result;
+}
 
 export async function siretWasAlreadyClaimed(siret: string) {
   const url = `${getApiURL()}/siret-claimed/${siret}`;
@@ -25,18 +49,19 @@ export async function siretWasAlreadyClaimed(siret: string) {
   if (res.ok) {
     result.result = await res.json();
   } else {
-    if (res.status !== 404)
+    if (res.status !== 404) {
       try {
         result.error = await res.json();
       } catch (err) {
         console.error(err);
       }
+    }
   }
   return result;
 }
 
-export async function getStructures(): Promise<ShortStructure[]> {
-  const url = `${getApiURL()}/structures/`;
+export async function getManagedStructures(): Promise<ShortStructure[]> {
+  const url = `${getApiURL()}/structures/?managed=1`;
   return (await fetchData<ShortStructure[]>(url)).data;
 }
 
@@ -45,15 +70,16 @@ export async function getActiveStructures(): Promise<ShortStructure[]> {
   return (await fetchData<ShortStructure[]>(url)).data;
 }
 
-export async function getStructure(slug: string): Promise<Structure> {
+export async function getStructure(slug: string): Promise<Structure | null> {
   const url = `${getApiURL()}/structures/${slug}/`;
-  return (await fetchData<Structure>(url)).data;
+  const structure = (await fetchData<Structure>(url)).data;
+  return structure ? structureToFront(structure) : null;
 }
 
-export async function createStructure(structure) {
+export function createStructure(structure) {
   const url = `${getApiURL()}/structures/`;
   const method = "POST";
-  const res = await fetch(url, {
+  return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
@@ -61,30 +87,15 @@ export async function createStructure(structure) {
 
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify(structure),
+    body: JSON.stringify(structureToBack(structure)),
   });
-
-  const result = {
-    ok: res.ok,
-    status: res.status,
-  };
-  if (res.ok) {
-    result.result = await res.json();
-  } else {
-    try {
-      result.error = await res.json();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  return result;
 }
 
-export async function modifyStructure(structure) {
+export function modifyStructure(structure) {
   const url = `${getApiURL()}/structures/${structure.slug}/`;
 
   const method = "PATCH";
-  const res = await fetch(url, {
+  return fetch(url, {
     method,
     headers: {
       Accept: "application/json; version=1.0",
@@ -92,23 +103,8 @@ export async function modifyStructure(structure) {
 
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify(structure),
+    body: JSON.stringify(structureToBack(structure)),
   });
-
-  const result = {
-    ok: res.ok,
-    status: res.status,
-  };
-  if (res.ok) {
-    result.result = await res.json();
-  } else {
-    try {
-      result.error = await res.json();
-    } catch (err) {
-      console.error(err);
-    }
-  }
-  return result;
 }
 
 let structuresOptions;
@@ -122,19 +118,25 @@ export async function getStructuresOptions(): Promise<StructuresOptions> {
   return structuresOptions;
 }
 
-export async function getMembers(slug) {
+export async function getMembers(slug): Promise<Array<StructureMember> | null> {
   const url = `${getApiURL()}/structure-members/?structure=${slug}`;
 
   const result = await fetchData(url);
-  if (result.ok) return result.data;
+  if (result.ok) {
+    return result.data as Array<StructureMember>;
+  }
   return null;
 }
 
-export async function getPutativeMembers(slug) {
+export async function getPutativeMembers(
+  slug
+): Promise<Array<PutativeStructureMember> | null> {
   const url = `${getApiURL()}/structure-putative-members/?structure=${slug}`;
 
   const result = await fetchData(url);
-  if (result.ok) return result.data;
+  if (result.ok) {
+    return result.data as Array<PutativeStructureMember>;
+  }
   return null;
 }
 
@@ -261,8 +263,4 @@ export async function rejectMembershipRequest(uuid) {
     }
   }
   return result;
-}
-
-export function isStructureInformationsComplete(structure) {
-  return validate(structure, structureSchema, { noScroll: true }).valid;
 }

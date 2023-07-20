@@ -1,34 +1,43 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
   import Tag from "$lib/components/display/tag.svelte";
-  import { arraysCompare, markdownToHTML } from "$lib/utils/misc";
+  import {
+    arraysCompare,
+    markdownToHTML,
+    htmlToMarkdown,
+  } from "$lib/utils/misc";
 
-  export let value;
-  export let useValue;
-  export let showUseValue = true;
+  export let value: any | undefined = undefined;
+  export let onUseValue: (() => void) | undefined = undefined;
+  export let showUseButton = true;
   export let showModel = false;
   export let type = "text";
-  export let options = undefined;
+  export let options: any | undefined = undefined;
 
   export let paddingTop = false;
-  export let serviceValue;
+  export let serviceValue: any | undefined = undefined;
 
   let haveSameValue = false;
 
-  function compare(a, b) {
+  function compare(val1, val2) {
     if (type === "array" || type === "files") {
-      return arraysCompare(a, b);
+      return arraysCompare(val1, val2);
     }
 
-    // tiptap insert des carctères en fin de chaine
+    // tiptap insère des caractères en fin de chaine.
     // on les supprime pour faire la comparaison
     if (type === "markdown") {
-      const bb = b.replace(/\n\n$/u, "");
-
-      return a === bb;
+      // la description du service est passée par l'éditeur, ce qui réécrit les liens.
+      // on le simule ainsi:
+      const rewrittenVal1 = htmlToMarkdown(markdownToHTML(val1));
+      return rewrittenVal1.trim() === val2.trim();
     }
 
-    return a === b;
+    return val1 === val2;
+  }
+
+  function handleUseValue(_evt: MouseEvent) {
+    onUseValue && onUseValue();
   }
 
   $: haveSameValue = showModel && compare(value, serviceValue);
@@ -59,7 +68,10 @@
           {:else if type === "array"}
             <div class="flex flex-wrap gap-s8">
               {#each value as v}
-                <Tag>{options.find((o) => o.value === v)?.label || v}</Tag>
+                <Tag
+                  >{options.find((option) => option.value === v)?.label ||
+                    v}</Tag
+                >
               {/each}
             </div>
           {:else if type === "files"}
@@ -69,7 +81,7 @@
               {/each}
             </div>
           {:else if type === "markdown"}
-            {@html markdownToHTML(value)}
+            {@html markdownToHTML(value, 2)}
           {:else if type === "boolean"}
             <p class="mb-s0 text-f14">{value === true ? "Oui" : "Non"}</p>
           {:else if type === "text"}
@@ -80,9 +92,14 @@
 
       <div class="flex items-center">
         <h5 class="mb-s0 lg:hidden">Modèle</h5>
-        {#if !haveSameValue && showUseValue}
+        {#if !haveSameValue && showUseButton}
           <div class="ml-auto lg:ml-s0">
-            <Button label="Utiliser" small secondary on:click={useValue} />
+            <Button
+              label="Utiliser"
+              small
+              secondary
+              on:click={handleUseValue}
+            />
           </div>
         {/if}
       </div>

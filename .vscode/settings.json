@@ -18,7 +18,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "editor.codeActionsOnSave": {
-    "source.organizeImports": true
+    "source.organizeImports": false
   },
   "editor.formatOnSave": true,
   "editor.quickSuggestions": {
@@ -30,7 +30,8 @@
     ".husky": true,
     ".svelte-kit": true,
     "build": true,
-    ".cache_ggshield": true
+    ".cache_ggshield": true,
+    ".idea": true
   },
   "search.exclude": {
     "static/**": true
@@ -42,5 +43,6 @@
     "security-anchor-rel-noreferrer": "ignore"
   },
   "svelte.plugin.svelte.defaultScriptLanguage": "ts",
-  "tailwindCSS.validate": true
+  "tailwindCSS.validate": true,
+  "githubPullRequests.ignoredPullRequestBranches": ["main"]
 }

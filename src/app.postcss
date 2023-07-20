@@ -143,56 +143,31 @@
     margin: 1cm;
   }
 
-  /* Tarte au citron */
-
-  #tarteaucitronAlertBig {
-    @apply !bg-white !font-sans !text-gray-text !shadow-md;
-  }
-
-  #tarteaucitronAlertBig #tarteaucitronDisclaimerAlert {
-    @apply !font-sans !text-gray-text;
-  }
-  #tarteaucitronAlertBig #tarteaucitronPersonalize2 {
-    @apply !bg-magenta-cta !font-sans;
-  }
-
-  #tarteaucitronAlertBig #tarteaucitronAllDenied2 {
-    @apply !bg-gray-dark !font-sans;
-  }
-
-  #tarteaucitronAlertBig #tarteaucitronCloseAlert {
-    @apply !font-sans !text-gray-text-alt2;
-  }
-
-  #tarteaucitronAlertBig #tarteaucitronPrivacyUrl {
-    @apply !font-sans !text-magenta-cta;
-  }
-
-  #tarteaucitronRoot #tarteaucitronCloseCross {
-    @apply !font-sans !text-gray-text;
-  }
-}
-
-.breakpoint-hack::before {
-  display: none;
-  content: "xs";
-  visibility: hidden;
-}
-
-@screen md {
   .breakpoint-hack::before {
-    content: "md";
+    display: none;
+    content: "xs";
+    visibility: hidden;
   }
-}
 
-@screen lg {
-  .breakpoint-hack::before {
-    content: "lg";
+  @screen md {
+    .breakpoint-hack::before {
+      content: "md";
+    }
   }
-}
 
-@screen xl {
-  .breakpoint-hack::before {
-    content: "xl";
+  @screen lg {
+    .breakpoint-hack::before {
+      content: "lg";
+    }
+  }
+
+  @screen xl {
+    .breakpoint-hack::before {
+      content: "xl";
+    }
+  }
+
+  ::placeholder {
+    @apply !text-gray-text;
   }
 }

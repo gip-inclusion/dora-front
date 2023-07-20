@@ -1,7 +1,7 @@
 <script lang="ts">
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import Date from "$lib/components/utilities/date.svelte";
-  import TextClamp from "$lib/components/utilities/text-clamp.svelte";
+  import DateLabel from "$lib/components/display/date-label.svelte";
+  import TextClamp from "$lib/components/display/text-clamp.svelte";
   import { getStructureAdmin } from "$lib/requests/admin";
   import { markdownToHTML } from "$lib/utils/misc";
   import History from "../../history.svelte";
@@ -10,19 +10,19 @@
   import SmallLink from "../../small-link.svelte";
   import StructureContacts from "../../structure-contacts.svelte";
   import UserInfo from "../../user-info.svelte";
-  import WebSearchLink from "../../web-search-link.svelte";
+  import GoogleSearchLink from "../../google-search-link.svelte";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
-  const description = markdownToHTML(data.structure.fullDesc);
+  const description = markdownToHTML(data.structure.fullDesc, 2);
 
   async function handleRefresh() {
     data.structure = await getStructureAdmin(data.structure.slug);
   }
 </script>
 
-<CenteredGrid bgColor="bg-gray-bg">
+<CenteredGrid>
   <div class="text-f12">
     <div class="flex flex-row items-baseline justify-between">
       <h2>
@@ -49,7 +49,7 @@
     <h3>
       {data.structure.name}
       <SmallLink link="/structures/{data.structure.slug}" label="front" />
-      <WebSearchLink searchString={data.structure.name} />
+      <GoogleSearchLink searchString={data.structure.name} />
     </h3>
 
     {#if data.structure.parent.slug}
@@ -84,7 +84,7 @@
         href={data.structure.url}
         class="underline"
         target="_blank"
-        rel="noopener nofollow">{data.structure.url}</a
+        rel="noopener ugc">{data.structure.url}</a
       >
     </InfoLine>
 
@@ -99,7 +99,7 @@
           .structure.siret}"
         label="annuaire entreprise"
       />
-      <WebSearchLink searchString={data.structure.siret} />
+      <GoogleSearchLink searchString={data.structure.siret} />
     </InfoLine>
 
     <InfoLine condition={data.structure.typologyDisplay}>
@@ -141,8 +141,8 @@
     </InfoLine>
 
     <InfoLine>
-      date de création: <Date date={data.structure.creationDate} /><br />
-      date de dernière modification: <Date
+      date de création: <DateLabel date={data.structure.creationDate} /><br />
+      date de dernière modification: <DateLabel
         date={data.structure.modificationDate}
       />
     </InfoLine>

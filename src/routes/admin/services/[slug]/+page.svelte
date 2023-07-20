@@ -1,7 +1,7 @@
 <script lang="ts">
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
-  import Date from "$lib/components/utilities/date.svelte";
-  import TextClamp from "$lib/components/utilities/text-clamp.svelte";
+  import DateLabel from "$lib/components/display/date-label.svelte";
+  import TextClamp from "$lib/components/display/text-clamp.svelte";
   import { getServiceAdmin } from "$lib/requests/admin";
   import { markdownToHTML } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
@@ -12,20 +12,20 @@
   import SmallLink from "../../small-link.svelte";
   import StructureContacts from "../../structure-contacts.svelte";
   import UserInfo from "../../user-info.svelte";
-  import WebSearchLink from "../../web-search-link.svelte";
+  import GoogleSearchLink from "../../google-search-link.svelte";
   import type { PageData } from "./$types";
 
   export let data: PageData;
 
   const structure = data.service.structure;
-  const description = markdownToHTML(data.service.fullDesc);
+  const description = markdownToHTML(data.service.fullDesc, 2);
 
   async function handleRefresh() {
     data.service = await getServiceAdmin(data.service.slug);
   }
 </script>
 
-<CenteredGrid bgColor="bg-gray-bg">
+<CenteredGrid>
   <div class="text-f12">
     <div class="flex flex-row items-baseline justify-between">
       <h2>
@@ -41,7 +41,7 @@
       {data.service.name}
       <SmallLink link="/services/{data.service.slug}" label="front" />
       <SmallLink link="/admin/services/{data.service.slug}" label="admin" />
-      <WebSearchLink searchString="{data.service.name} {structure.name}" />
+      <GoogleSearchLink searchString="{data.service.name} {structure.name}" />
     </h3>
     <InfoLine>
       Structure : <strong>{structure.name}</strong>
@@ -58,7 +58,7 @@
     <InfoLine>
       {#if data.service.contactName}<div>
           <strong>{data.service.contactName}</strong>
-          <WebSearchLink
+          <GoogleSearchLink
             searchString="{data.service.contactName} {structure.name}"
           />
         </div>
@@ -124,10 +124,10 @@
     </InfoLine>
 
     <InfoLine>
-      Date de création: <Date date={data.service.creationDate} />
+      Date de création: <DateLabel date={data.service.creationDate} />
     </InfoLine>
     <InfoLine>
-      Date de dernière modification: <Date
+      Date de dernière modification: <DateLabel
         date={data.service.modificationDate}
       />
     </InfoLine>

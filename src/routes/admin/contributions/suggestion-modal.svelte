@@ -1,6 +1,6 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
-  import Modal from "$lib/components/display/modal.svelte";
+  import Modal from "$lib/components/hoc/modal.svelte";
   import { markdownToHTML } from "$lib/utils/misc";
   import Line from "./line.svelte";
 
@@ -38,11 +38,11 @@
 
         <Line
           label="Descriptif complet du service"
-          data={markdownToHTML(suggestion.serviceInfo.fullDesc)}
+          data={markdownToHTML(suggestion.serviceInfo.fullDesc, 2)}
           verticalLayout
         >
           <div class="m-s16 border-l-8 border-gray-02 pl-s16">
-            {@html markdownToHTML(suggestion.serviceInfo.fullDesc)}
+            {@html markdownToHTML(suggestion.serviceInfo.fullDesc, 2)}
           </div>
         </Line>
 
@@ -142,7 +142,7 @@
 
     <div class="mt-s32 flex flex-row justify-end gap-s16">
       <Button label="Rejeter" secondary on:click={() => onReject(suggestion)} />
-      <Button label="Valider" on:click={async () => onAccept(suggestion)} />
+      <Button label="Valider" on:click={() => onAccept(suggestion)} />
     </div>
   </Modal>
 {/if}
