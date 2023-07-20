@@ -113,16 +113,14 @@
   <hr class="mt-s20 mb-s10" />
 
   <div class="flex w-full gap-s32">
-    <!--    todo -->
-    {#if service.locationKinds?.length}
-      <div class="flex-1">
-        <h3>
-          <span class="mr-s8 h-s24 w-s24 fill-current">
-            {@html mapPinUserFillIcon}
-          </span>
-          Lieu d'accueil
-        </h3>
-
+    <div class="flex-1">
+      <h3>
+        <span class="mr-s8 h-s24 w-s24 fill-current">
+          {@html mapPinUserFillIcon}
+        </span>
+        Lieu d'accueil
+      </h3>
+      {#if service.locationKinds?.length}
         <div class="flex flex-col gap-s6">
           {#if service.locationKinds.includes("en-presentiel")}
             <p class="mb-s6">
@@ -150,8 +148,10 @@
             </p>
           {/if}
         </div>
-      </div>
-    {/if}
+      {:else}
+        <p class="mb-s6">Non renseigné</p>
+      {/if}
+    </div>
 
     {#if service.recurrence}
       <div class="flex-1">

@@ -87,15 +87,14 @@
     </div>
   {/if}
 
-  {#if service.locationKinds?.length}
-    <div>
-      <h3>
-        <span class="mr-s8 h-s24 w-s24 fill-current">
-          {@html mapPinUserFillIcon}
-        </span>
-        Accueil
-      </h3>
-
+  <div>
+    <h3>
+      <span class="mr-s8 h-s24 w-s24 fill-current">
+        {@html mapPinUserFillIcon}
+      </span>
+      Accueil
+    </h3>
+    {#if service.locationKinds?.length}
       <div class="flex flex-col gap-s6">
         {#if service.locationKinds.includes("en-presentiel")}
           <p class="mb-s6">
@@ -123,8 +122,10 @@
           </p>
         {/if}
       </div>
-    </div>
-  {/if}
+    {:else}
+      <p>Non renseigné</p>
+    {/if}
+  </div>
 </div>
 
 <style lang="postcss">

@@ -14,10 +14,6 @@
   });
 </script>
 
-<!-- TODO: afficher D·I + la source -->
-<!-- TODO: corriger le lien de partage -->
-<!-- TODO: afficher le lien original ? -->
-
 {#if data.service}
   <CenteredGrid bgColor="bg-france-blue print:bg-white">
     <ServiceHeader service={data.service} isDI />
