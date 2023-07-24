@@ -1,4 +1,4 @@
-import content from "../content.md?raw";
+import content from "$lib/utils/cgu/content.md?raw";
 
 export function GET() {
   return new Response(content, {

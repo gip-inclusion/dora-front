@@ -9,10 +9,13 @@
   import { get } from "svelte/store";
   import AuthLayout from "../auth-layout.svelte";
   import type { PageData } from "./$types";
+  import content from "$lib/utils/cgu/content.md?raw";
+  import StaticMarkdown from "$lib/components/display/static-markdown.svelte";
 
   export let data: PageData;
 
   let cguAccepted = false;
+  let cguCanBeValidated = false;
   let { establishment } = data;
   let ctaLabel = "";
 
@@ -82,12 +85,31 @@
               Votre précédente demande d’adhésion est en attente de validation
               par l’administrateur de la structure.
             {:else}
+              <div
+                class="cgu mb-s24 max-h-s512 overflow-auto border border-gray-02 p-s20"
+                on:scroll={(evt) => {
+                  if (cguAccepted) {
+                    return;
+                  }
+
+                  const { scrollTop, scrollHeight, clientHeight } = evt.target;
+                  cguCanBeValidated =
+                    scrollTop + clientHeight >= scrollHeight - 100;
+                }}
+              >
+                <StaticMarkdown {content} />
+              </div>
+
               <div class="legend">
-                <label class="flex flex-row items-start">
+                <label
+                  class="flex flex-row items-start"
+                  class:opacity-50={!cguCanBeValidated}
+                >
                   <input
                     bind:checked={cguAccepted}
                     type="checkbox"
-                    class="hidden "
+                    disabled={!cguCanBeValidated}
+                    class="hidden"
                   />
                   <div
                     class="flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
@@ -124,3 +146,15 @@
     </StructureSearch>
   </AuthLayout>
 </EnsureLoggedIn>
+
+<style type="postcss">
+  :global(.cgu h1) {
+    @apply text-f18;
+  }
+  :global(.cgu h2) {
+    @apply text-f16;
+  }
+  :global(.cgu p, .cgu li, .cgu a) {
+    @apply text-f14;
+  }
+</style>

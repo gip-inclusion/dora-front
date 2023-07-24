@@ -1,5 +1,5 @@
 import type { PageLoad } from "./$types";
-import content from "./content.md?raw";
+import content from "$lib/utils/cgu/content.md?raw";
 
 export const load: PageLoad = () => {
   return {
