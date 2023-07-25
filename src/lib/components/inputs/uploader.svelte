@@ -49,9 +49,29 @@
         updateProgress(event.loaded, event.total);
       });
 
+      // upload progress event
+      request.upload.addEventListener("error", (event) => {
+        // TODO
+        console.error(event);
+      });
+
+      request.upload.addEventListener("abort", (event) => {
+        // TODO
+        console.error(event);
+      });
+
+      request.upload.addEventListener("timeout", (event) => {
+        // TODO
+        console.error(event);
+      });
+
       // request finished event
-      request.addEventListener("load", () => {
-        handleUploadDone(request);
+      request.addEventListener("load", (event) => {
+        if (event.target.status !== 201) {
+          console.log(event, event.target.status, event.target.responseText);
+        } else {
+          handleUploadDone(request);
+        }
       });
 
       // send POST request to server
