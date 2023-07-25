@@ -74,6 +74,7 @@
     pendingAdminInvite: PendingAdminChoice;
     freshnessChoice: FreshnessChoice;
     moderationStatusChoices: ModerationStatus[];
+    nationalLabels: string[];
     numServicesChoice: NumServicesChoice;
     searchString: string;
     selectedCategories: ServiceCategory[];
@@ -117,6 +118,14 @@
           !params.selectedCategories.length ||
           struct.categories.some((structureCat: ServiceCategory) =>
             params.selectedCategories.includes(structureCat)
+          )
+        );
+      })
+      .filter((struct) => {
+        return (
+          !params.nationalLabels.length ||
+          struct.nationalLabels.some((label: string) =>
+            params.nationalLabels.includes(label)
           )
         );
       })
@@ -209,6 +218,7 @@
       freshnessChoice: "all",
       moderationStatusChoices: [],
       pendingAdminInvite: "all",
+      nationalLabels: [],
       numServicesChoice: "all",
       searchString: "",
       selectedCategories: [],
@@ -377,6 +387,17 @@
             id="num-services"
             bind:value={searchParams.numServicesChoice}
             choices={NUM_SERVICES_CHOICES}
+          />
+        </div>
+      </div>
+      <div>
+        <div class="flex grow flex-col">
+          <label for="moderation">Labels nationaux…</label>
+          <Select
+            id="sort"
+            multiple
+            bind:value={searchParams.nationalLabels}
+            choices={structuresOptions.nationalLabels}
           />
         </div>
       </div>
