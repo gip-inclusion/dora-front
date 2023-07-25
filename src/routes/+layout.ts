@@ -40,16 +40,37 @@ export const load: LayoutLoad = async ({ url }) => {
     // connecté.
     const currentPathName = url.pathname;
 
+    if (SAFE_URLS.some((urlPrefix) => currentPathName.startsWith(urlPrefix))) {
+      return {};
+    }
+
     // Si l'utilisateur est connecté mais n'est rattaché à aucune structure,
     // on le force à se rattacher
     if (
       !(
         currentUserInfo.structures.length ||
         currentUserInfo.pendingStructures.length
-      ) &&
-      !SAFE_URLS.some((urlPrefix) => currentPathName.startsWith(urlPrefix))
+      )
     ) {
       throw redirect(302, "/auth/rattachement");
+    }
+
+    // Si l'utilisateur n'a pas accepté les (ou les nouvelles) CGU
+    if (
+      currentPathName.startsWith("/cgu-validation") &&
+      !currentUserInfo.needToAcceptCgu
+    ) {
+      throw redirect(301, "/");
+    }
+
+    if (
+      currentUserInfo.needToAcceptCgu &&
+      !currentPathName.startsWith("/cgu-validation")
+    ) {
+      throw redirect(
+        301,
+        `/cgu-validation?next=${encodeURIComponent(url.pathname + url.search)}`
+      );
     }
   }
 
