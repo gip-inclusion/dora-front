@@ -9,8 +9,9 @@
   import { get } from "svelte/store";
   import AuthLayout from "../auth-layout.svelte";
   import type { PageData } from "./$types";
-  import content from "$lib/utils/cgu/content.md?raw";
+  import content from "../../(static)/cgu/content.md?raw";
   import StaticMarkdown from "$lib/components/display/static-markdown.svelte";
+  import { CGU_VERSION } from "$lib/env";
 
   export let data: PageData;
 
@@ -32,6 +33,7 @@
       },
       body: JSON.stringify({
         siret: establishment.siret,
+        cguVersion: CGU_VERSION,
       }),
     });
 

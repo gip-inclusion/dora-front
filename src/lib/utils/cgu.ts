@@ -1,6 +1,7 @@
 import { get } from "svelte/store";
-import { token } from "../auth";
-import { getApiURL } from "../api";
+import { token } from "./auth";
+import { getApiURL } from "./api";
+import { CGU_VERSION } from "$lib/env";
 
 export async function acceptCGU() {
   const url = `${getApiURL()}/auth/accept-cgu/`;
@@ -12,6 +13,7 @@ export async function acceptCGU() {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
+    body: JSON.stringify({ cguVersion: CGU_VERSION }),
   });
   if (!response.ok) {
     throw Error(response.statusText);

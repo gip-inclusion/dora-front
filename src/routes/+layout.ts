@@ -3,6 +3,7 @@ import { userInfo, validateCredsAndFillUserInfo } from "$lib/utils/auth";
 import { redirect } from "@sveltejs/kit";
 import { get } from "svelte/store";
 import type { LayoutLoad } from "./$types";
+import { CGU_VERSION } from "$lib/env";
 
 export const prerender = false;
 
@@ -56,20 +57,17 @@ export const load: LayoutLoad = async ({ url }) => {
     }
 
     // Si l'utilisateur n'a pas accepté les (ou les nouvelles) CGU
-    if (
-      currentPathName.startsWith("/cgu-validation") &&
-      !currentUserInfo.needToAcceptCgu
-    ) {
+    const needToAcceptCgu =
+      CGU_VERSION && !Object.keys(currentUserInfo.cgu).includes(CGU_VERSION);
+
+    if (currentPathName.startsWith("/cgu/validation") && needToAcceptCgu) {
       throw redirect(301, "/");
     }
 
-    if (
-      currentUserInfo.needToAcceptCgu &&
-      !currentPathName.startsWith("/cgu-validation")
-    ) {
+    if (needToAcceptCgu && !currentPathName.startsWith("/cgu/validation")) {
       throw redirect(
         301,
-        `/cgu-validation?next=${encodeURIComponent(url.pathname + url.search)}`
+        `/cgu/validation?next=${encodeURIComponent(url.pathname + url.search)}`
       );
     }
   }

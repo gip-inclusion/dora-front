@@ -7,7 +7,7 @@
   import StaticMarkdown from "$lib/components/display/static-markdown.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import { refreshUserInfo } from "$lib/utils/auth";
-  import { acceptCGU } from "$lib/utils/cgu/cgu";
+  import { acceptCGU } from "$lib/utils/cgu";
   import type { PageData } from "./$types";
 
   export let data: PageData;

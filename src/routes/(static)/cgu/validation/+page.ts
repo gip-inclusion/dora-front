@@ -1,6 +1,6 @@
+import content from "../content.md?raw";
 import type { PageLoad } from "./$types";
-import content from "$lib/utils/cgu/content.md?raw";
-import { getNextPage } from "../../auth/utils";
+import { getNextPage } from "../../../auth/utils";
 
 export const load: PageLoad = ({ url }) => {
   return {
