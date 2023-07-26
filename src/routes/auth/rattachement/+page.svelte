@@ -9,7 +9,7 @@
   import { get } from "svelte/store";
   import AuthLayout from "../auth-layout.svelte";
   import type { PageData } from "./$types";
-  import content from "../../(static)/cgu/content.md?raw";
+  import cguText from "../../(static)/cgu/content.md?raw";
   import StaticMarkdown from "$lib/components/display/static-markdown.svelte";
   import { CGU_VERSION } from "$lib/env";
 
@@ -99,7 +99,7 @@
                     scrollTop + clientHeight >= scrollHeight - 100;
                 }}
               >
-                <StaticMarkdown {content} />
+                <StaticMarkdown content={cguText} />
               </div>
 
               <div class="legend">

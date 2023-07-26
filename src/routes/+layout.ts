@@ -56,17 +56,17 @@ export const load: LayoutLoad = async ({ url }) => {
       throw redirect(302, "/auth/rattachement");
     }
 
-    // Si l'utilisateur n'a pas accepté les (ou les nouvelles) CGU
+    // Si l'utilisateur a besoin de valider les CGU en cours de validité
     const needToAcceptCgu =
       CGU_VERSION && !Object.keys(currentUserInfo.cgu).includes(CGU_VERSION);
 
     if (currentPathName.startsWith("/cgu/validation") && needToAcceptCgu) {
-      throw redirect(301, "/");
+      throw redirect(302, "/");
     }
 
     if (needToAcceptCgu && !currentPathName.startsWith("/cgu/validation")) {
       throw redirect(
-        301,
+        302,
         `/cgu/validation?next=${encodeURIComponent(url.pathname + url.search)}`
       );
     }
