@@ -292,16 +292,14 @@
         </div>
       </div>
 
-      <div>
-        <div class="flex grow flex-col">
-          <label for="moderation">Labels nationaux…</label>
-          <Select
-            id="sort"
-            multiple
-            bind:value={searchParams.nationalLabels}
-            choices={structuresOptions.nationalLabels}
-          />
-        </div>
+      <div class="flex grow flex-col">
+        <label for="moderation">Labels nationaux…</label>
+        <Select
+          id="sort"
+          multiple
+          bind:value={searchParams.nationalLabels}
+          choices={structuresOptions.nationalLabels}
+        />
       </div>
 
       <div class="flex justify-between gap-s16">
