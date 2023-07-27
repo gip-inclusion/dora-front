@@ -84,7 +84,7 @@
   abTestingName="mobilisation"
   showIfGroups={["mobilisation--fond-bleu"]}
 >
-  <ServiceContact {service} useWhiteText />
+  <ServiceContact {service} {useWhiteText} />
 </AbTestingSection>
 
 <AbTestingSection

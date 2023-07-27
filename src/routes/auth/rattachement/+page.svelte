@@ -12,10 +12,11 @@
   import cguText from "../../(static)/cgu/content.md?raw";
   import StaticMarkdown from "$lib/components/display/static-markdown.svelte";
   import { CGU_VERSION } from "$lib/env";
+  import { needToAcceptCgu } from "$lib/utils/cgu";
 
   export let data: PageData;
 
-  let cguAccepted = false;
+  let requirementsAccepted = false;
   let cguCanBeValidated = false;
   let { establishment } = data;
   let ctaLabel = "";
@@ -80,17 +81,17 @@
     <StructureSearch bind:establishment title="Identifiez votre structure">
       <div slot="cta">
         {#if establishment?.siret}
-          <div class="mt-s24">
+          <div>
             {#if alreadyMember}
               Votre compte est déjà rattaché à cette structure.
             {:else if alreadyRequested}
               Votre précédente demande d’adhésion est en attente de validation
               par l’administrateur de la structure.
-            {:else}
+            {:else if needToAcceptCgu($userInfo)}
               <div
                 class="cgu mb-s24 max-h-s512 overflow-auto border border-gray-02 p-s20"
                 on:scroll={(evt) => {
-                  if (cguAccepted) {
+                  if (requirementsAccepted) {
                     return;
                   }
 
@@ -108,7 +109,7 @@
                   class:opacity-50={!cguCanBeValidated}
                 >
                   <input
-                    bind:checked={cguAccepted}
+                    bind:checked={requirementsAccepted}
                     type="checkbox"
                     disabled={!cguCanBeValidated}
                     class="hidden"
@@ -118,7 +119,7 @@
                   >
                     <div
                       class=" h-s12 w-s12 self-center bg-magenta-cta"
-                      class:hidden={!cguAccepted}
+                      class:hidden={!requirementsAccepted}
                     />
                   </div>
                   <span class="ml-s16 inline-block  text-f14 text-gray-text">
@@ -132,6 +133,28 @@
                   >
                 </label>
               </div>
+            {:else}
+              <div class="legend">
+                <label class="flex flex-row items-start">
+                  <input
+                    bind:checked={requirementsAccepted}
+                    type="checkbox"
+                    class="hidden"
+                  />
+                  <div
+                    class="flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
+                  >
+                    <div
+                      class=" h-s12 w-s12 self-center bg-magenta-cta"
+                      class:hidden={!requirementsAccepted}
+                    />
+                  </div>
+                  <span class="ml-s16 inline-block  text-f14 text-gray-text">
+                    Je déclare faire partie de la structure mentionnée
+                    ci-dessus.
+                  </span>
+                </label>
+              </div>
             {/if}
             <div class="mt-s24 flex justify-end">
               <Button
@@ -139,7 +162,7 @@
                 label={ctaLabel}
                 on:click={handleJoin}
                 preventDefaultOnMouseDown
-                disabled={!cguAccepted}
+                disabled={!requirementsAccepted}
               />
             </div>
           </div>

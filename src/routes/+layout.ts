@@ -3,7 +3,7 @@ import { userInfo, validateCredsAndFillUserInfo } from "$lib/utils/auth";
 import { redirect } from "@sveltejs/kit";
 import { get } from "svelte/store";
 import type { LayoutLoad } from "./$types";
-import { CGU_VERSION } from "$lib/env";
+import { needToAcceptCgu } from "$lib/utils/cgu";
 
 export const prerender = false;
 
@@ -57,14 +57,19 @@ export const load: LayoutLoad = async ({ url }) => {
     }
 
     // Si l'utilisateur a besoin de valider les CGU en cours de validité
-    const needToAcceptCgu =
-      CGU_VERSION && !Object.keys(currentUserInfo.cgu).includes(CGU_VERSION);
+    const userNeedsToAcceptCgu = needToAcceptCgu(currentUserInfo);
 
-    if (currentPathName.startsWith("/cgu/validation") && needToAcceptCgu) {
+    if (
+      currentPathName.startsWith("/cgu/validation") &&
+      !userNeedsToAcceptCgu
+    ) {
       throw redirect(302, "/");
     }
 
-    if (needToAcceptCgu && !currentPathName.startsWith("/cgu/validation")) {
+    if (
+      userNeedsToAcceptCgu &&
+      !currentPathName.startsWith("/cgu/validation")
+    ) {
       throw redirect(
         302,
         `/cgu/validation?next=${encodeURIComponent(url.pathname + url.search)}`

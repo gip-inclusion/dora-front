@@ -3,7 +3,11 @@ import { token } from "./auth";
 import { getApiURL } from "./api";
 import { CGU_VERSION } from "$lib/env";
 
-export async function acceptCGU() {
+export function needToAcceptCgu(currentUserInfo) {
+  return CGU_VERSION && !Object.keys(currentUserInfo.cgu).includes(CGU_VERSION);
+}
+
+export async function acceptCgu() {
   const url = `${getApiURL()}/auth/accept-cgu/`;
   const method = "POST";
   const response = await fetch(url, {

@@ -7,14 +7,14 @@
   import StaticMarkdown from "$lib/components/display/static-markdown.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import { refreshUserInfo } from "$lib/utils/auth";
-  import { acceptCGU } from "$lib/utils/cgu";
+  import { acceptCgu } from "$lib/utils/cgu";
   import type { PageData } from "./$types";
 
   export let data: PageData;
   let cguCanBeValidated = false;
 
-  async function doAcceptCGU() {
-    await acceptCGU();
+  async function doAcceptCgu() {
+    await acceptCgu();
     await refreshUserInfo();
     goto(data.next || "/");
   }
@@ -50,7 +50,7 @@
       <Button
         type="submit"
         label="Valider et accéder à DORA"
-        on:click={doAcceptCGU}
+        on:click={doAcceptCgu}
         disabled={!cguCanBeValidated}
       />
     </div>
