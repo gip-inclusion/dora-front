@@ -1,10 +1,13 @@
 import { get } from "svelte/store";
 import { token } from "./auth";
 import { getApiURL } from "./api";
-import { CGU_VERSION } from "$lib/env";
+import { CGU_VERSION } from "../../routes/(static)/cgu/version";
 
 export function needToAcceptCgu(currentUserInfo) {
-  return CGU_VERSION && !Object.keys(currentUserInfo.cgu).includes(CGU_VERSION);
+  return (
+    CGU_VERSION &&
+    !Object.keys(currentUserInfo.cguVersionsAccepted).includes(CGU_VERSION)
+  );
 }
 
 export async function acceptCgu() {

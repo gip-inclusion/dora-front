@@ -11,8 +11,8 @@
   import type { PageData } from "./$types";
   import cguText from "../../(static)/cgu/content.md?raw";
   import StaticMarkdown from "$lib/components/display/static-markdown.svelte";
-  import { CGU_VERSION } from "$lib/env";
   import { needToAcceptCgu } from "$lib/utils/cgu";
+  import { CGU_VERSION } from "../../(static)/cgu/version";
 
   export let data: PageData;
 
