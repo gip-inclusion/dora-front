@@ -9,15 +9,10 @@
   import { get } from "svelte/store";
   import AuthLayout from "../auth-layout.svelte";
   import type { PageData } from "./$types";
-  import cguText from "../../(static)/cgu/content.md?raw";
-  import StaticMarkdown from "$lib/components/display/static-markdown.svelte";
-  import { needToAcceptCgu } from "$lib/utils/cgu";
-  import { CGU_VERSION } from "../../(static)/cgu/version";
 
   export let data: PageData;
 
-  let requirementsAccepted = false;
-  let cguCanBeValidated = false;
+  let cguAccepted = false;
   let { establishment } = data;
   let ctaLabel = "";
 
@@ -34,7 +29,6 @@
       },
       body: JSON.stringify({
         siret: establishment.siret,
-        cguVersion: CGU_VERSION,
       }),
     });
 
@@ -81,45 +75,26 @@
     <StructureSearch bind:establishment title="Identifiez votre structure">
       <div slot="cta">
         {#if establishment?.siret}
-          <div>
+          <div class="mt-s24">
             {#if alreadyMember}
               Votre compte est déjà rattaché à cette structure.
             {:else if alreadyRequested}
               Votre précédente demande d’adhésion est en attente de validation
               par l’administrateur de la structure.
-            {:else if needToAcceptCgu($userInfo)}
-              <div
-                class="cgu mb-s24 max-h-s512 overflow-auto border border-gray-02 p-s20"
-                on:scroll={(evt) => {
-                  if (requirementsAccepted) {
-                    return;
-                  }
-
-                  const { scrollTop, scrollHeight, clientHeight } = evt.target;
-                  cguCanBeValidated =
-                    scrollTop + clientHeight >= scrollHeight - 100;
-                }}
-              >
-                <StaticMarkdown content={cguText} />
-              </div>
-
+            {:else}
               <div class="legend">
-                <label
-                  class="flex flex-row items-start"
-                  class:opacity-50={!cguCanBeValidated}
-                >
+                <label class="flex flex-row items-start">
                   <input
-                    bind:checked={requirementsAccepted}
+                    bind:checked={cguAccepted}
                     type="checkbox"
-                    disabled={!cguCanBeValidated}
-                    class="hidden"
+                    class="hidden "
                   />
                   <div
                     class="flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
                   >
                     <div
                       class=" h-s12 w-s12 self-center bg-magenta-cta"
-                      class:hidden={!requirementsAccepted}
+                      class:hidden={!cguAccepted}
                     />
                   </div>
                   <span class="ml-s16 inline-block  text-f14 text-gray-text">
@@ -133,28 +108,6 @@
                   >
                 </label>
               </div>
-            {:else}
-              <div class="legend">
-                <label class="flex flex-row items-start">
-                  <input
-                    bind:checked={requirementsAccepted}
-                    type="checkbox"
-                    class="hidden"
-                  />
-                  <div
-                    class="flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
-                  >
-                    <div
-                      class=" h-s12 w-s12 self-center bg-magenta-cta"
-                      class:hidden={!requirementsAccepted}
-                    />
-                  </div>
-                  <span class="ml-s16 inline-block  text-f14 text-gray-text">
-                    Je déclare faire partie de la structure mentionnée
-                    ci-dessus.
-                  </span>
-                </label>
-              </div>
             {/if}
             <div class="mt-s24 flex justify-end">
               <Button
@@ -162,7 +115,7 @@
                 label={ctaLabel}
                 on:click={handleJoin}
                 preventDefaultOnMouseDown
-                disabled={!requirementsAccepted}
+                disabled={!cguAccepted}
               />
             </div>
           </div>
@@ -171,15 +124,3 @@
     </StructureSearch>
   </AuthLayout>
 </EnsureLoggedIn>
-
-<style type="postcss">
-  :global(.cgu h1) {
-    @apply text-f18;
-  }
-  :global(.cgu h2) {
-    @apply text-f16;
-  }
-  :global(.cgu p, .cgu li, .cgu a) {
-    @apply text-f14;
-  }
-</style>
