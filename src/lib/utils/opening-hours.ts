@@ -1,4 +1,6 @@
 import type { DayPeriod, DayPrefix, OsmDay, OsmOpeningHours } from "$lib/types";
+// eslint-disable-next-line camelcase
+import opening_hours from "opening_hours";
 
 export const INVALID_OPENING_HOURS_MARKER = "##INVALID##";
 
@@ -179,6 +181,15 @@ function formatHour(hour: string) {
   return hour;
 }
 
+export function isValidformatOsmHours(value: string) {
+  try {
+    new opening_hours(value, null, { locale: "fr" });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
 export function formatOsmHours(value: string) {
   let monday = "Fermé";
   let tuesday = "Fermé";
@@ -191,7 +202,7 @@ export function formatOsmHours(value: string) {
   const hoursByDay = value.split(";");
 
   hoursByDay.forEach((hoursForDay) => {
-    const [dayPrefix, hours] = hoursForDay.split(" ");
+    const [dayPrefix, hours] = hoursForDay.trim().split(" ");
 
     if (dayPrefix === "Mo") {
       monday = formatHour(hours);
