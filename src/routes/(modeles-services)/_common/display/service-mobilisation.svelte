@@ -6,6 +6,7 @@
   import { trackDiMobilisation, trackMobilisation } from "$lib/utils/plausible";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import { token } from "$lib/utils/auth";
+  import { serviceCanBeMobilised } from "$lib/utils/service";
 
   export let service;
   export let isDI = false;
@@ -21,13 +22,7 @@
     }
   }
 
-  const showMobilisation =
-    !isDI &&
-    service.structureInfo.canShowOrientationForm &&
-    service.contactEmail &&
-    (service.coachOrientationModes?.includes("envoyer-courriel") ||
-      service.coachOrientationModes?.includes("envoyer-fiche-prescription") ||
-      service.beneficiariesAccessModes?.includes("envoyer-courriel"));
+  const showMobilisation = !isDI && serviceCanBeMobilised(service);
 </script>
 
 <h2 class="text-f23 text-white">Mobiliser le service</h2>

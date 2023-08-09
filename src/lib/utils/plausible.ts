@@ -184,6 +184,23 @@ export function trackService(service, url) {
   _track("service", _getServiceProps(service, false));
 }
 
+export function trackMobilisedServicePageView(service, url) {
+  if (browser) {
+    const customMobilisableUrl = url.pathname.replace(
+      "/services/",
+      "/service-mobilisable/"
+    );
+
+    logAnalyticsEvent("service-mobilisable", customMobilisableUrl, {
+      service: service.slug,
+    });
+
+    // https://plausible.io/docs/custom-locations#3-specify-a-custom-location
+    // eslint-disable-next-line id-length
+    plausible("pageview", { u: customMobilisableUrl });
+  }
+}
+
 export function trackDIService(service, url) {
   if (browser) {
     logAnalyticsEvent("di_service", url.pathname, {
