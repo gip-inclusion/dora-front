@@ -184,7 +184,7 @@ export function trackService(service, url) {
   _track("service", _getServiceProps(service, false));
 }
 
-export function trackMobilisedServicePageView(service, url) {
+export function trackMobilisableServicePageView(service, url) {
   if (browser) {
     const customMobilisableUrl = url.pathname.replace(
       "/services/",

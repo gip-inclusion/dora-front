@@ -9,22 +9,22 @@
   import { getService } from "$lib/requests/services";
   import { TallyFormId } from "$lib/utils/nps";
   import {
-    trackMobilisedServicePageView,
+    trackMobilisableServicePageView,
     trackService,
   } from "$lib/utils/plausible";
   import { onMount } from "svelte";
   import type { PageData } from "./$types";
   import type { Service } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
-  import { serviceCanBeMobilised } from "$lib/utils/service";
+  import { serviceIsMobilisable } from "$lib/utils/service";
 
   export let data: PageData;
 
   onMount(() => {
     trackService(data.service, $page.url);
 
-    if ($userInfo && serviceCanBeMobilised(data.service)) {
-      trackMobilisedServicePageView(data.service, $page.url);
+    if ($userInfo && serviceIsMobilisable(data.service)) {
+      trackMobilisableServicePageView(data.service, $page.url);
     }
   });
 

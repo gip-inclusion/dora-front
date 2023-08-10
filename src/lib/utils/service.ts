@@ -169,7 +169,7 @@ export function sortByCategories(
   return result;
 }
 
-export function serviceCanBeMobilised(service: Service) {
+export function serviceIsMobilisable(service: Service) {
   return (
     service.structureInfo.canShowOrientationForm &&
     service.contactEmail &&
