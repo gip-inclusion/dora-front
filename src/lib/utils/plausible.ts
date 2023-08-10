@@ -5,6 +5,7 @@ import { token, userInfo } from "$lib/utils/auth";
 import { getDepartmentFromCityCode } from "$lib/utils/misc";
 import { get } from "svelte/store";
 import { logAnalyticsEvent } from "$lib/utils/stats";
+import { serviceIsMobilisable } from "./service";
 
 function _track(tag, props) {
   if (browser) {
@@ -23,6 +24,7 @@ function _getServiceProps(service, withUserData = false) {
     department: service.department || service.structureInfo.department,
     perimeter: service.diffusionZoneType,
     url: `${CANONICAL_URL}/services/${service.slug}`,
+    mobilisable: serviceIsMobilisable(service),
   };
   if (withUserData) {
     props = {
@@ -177,28 +179,19 @@ export function trackModel(model) {
 
 export function trackService(service, url) {
   if (browser) {
+    const mobilisable = serviceIsMobilisable(service);
+
     logAnalyticsEvent("service", url.pathname, {
       service: service.slug,
+      mobilisable,
     });
+
+    if (get(token) && mobilisable) {
+      _track("service-mobilisable", _getServiceProps(service, true));
+    }
   }
+
   _track("service", _getServiceProps(service, false));
-}
-
-export function trackMobilisableServicePageView(service, url) {
-  if (browser) {
-    const customMobilisableUrl = url.pathname.replace(
-      "/services/",
-      "/service-mobilisable/"
-    );
-
-    logAnalyticsEvent("service-mobilisable", customMobilisableUrl, {
-      service: service.slug,
-    });
-
-    // https://plausible.io/docs/custom-locations#3-specify-a-custom-location
-    // eslint-disable-next-line id-length
-    plausible("pageview", { u: customMobilisableUrl });
-  }
 }
 
 export function trackDIService(service, url) {
