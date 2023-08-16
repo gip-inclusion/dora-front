@@ -96,6 +96,16 @@ export function trackOrientation(orientation, url) {
     });
   }
 }
+export function trackOrientationContactBeneficiary(orientation, url) {
+  logAnalyticsEvent("orientation-contact-beneficiary", url.pathname, {
+    orientation: orientation.id,
+  });
+}
+export function trackOrientationContactService(orientation, url) {
+  logAnalyticsEvent("orientation-contact-service", url.pathname, {
+    orientation: orientation.id,
+  });
+}
 
 export function trackMobilisationEmail(service) {
   _track("mobilisation-contact", _getServiceProps(service, true));

@@ -1,5 +1,6 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
+  import { page } from "$app/stores";
   import DenyOrientationModal from "./deny-orientation-modal.svelte";
   import AcceptOrientationModal from "./accept-orientation-modal.svelte";
   import ContactBeneficiaryModal from "./contact-beneficiary-modal.svelte";
@@ -8,6 +9,10 @@
   import type { Orientation } from "$lib/types";
   import Notice from "$lib/components/display/notice.svelte";
   import { formatNumericDate } from "$lib/utils/date";
+  import {
+    trackOrientationContactBeneficiary,
+    trackOrientationContactService,
+  } from "$lib/utils/plausible";
 
   export let orientation: Orientation;
   export let onRefresh;
@@ -101,7 +106,10 @@
             secondary
             extraClass="!border-gray-dark !text-gray-text hover:!text-white hover:border-gray-dark hover:!bg-gray-dark"
             label="Contacter le ou la bénéficiaire"
-            on:click={() => (modalOpened = "contact-beneficiary")}
+            on:click={() => {
+              modalOpened = "contact-beneficiary";
+              trackOrientationContactBeneficiary(orientation, $page.url);
+            }}
           />
         {/if}
 
@@ -109,7 +117,10 @@
           secondary
           extraClass="!border-gray-dark !text-gray-text hover:!text-white hover:border-gray-dark hover:!bg-gray-dark"
           label="Contacter le ou la prescripteur·rice"
-          on:click={() => (modalOpened = "contact-service")}
+          on:click={() => {
+            modalOpened = "contact-service";
+            trackOrientationContactService(orientation, $page.url);
+          }}
         />
       </div>
     {:else if orientation.status === "VALIDÉE"}
