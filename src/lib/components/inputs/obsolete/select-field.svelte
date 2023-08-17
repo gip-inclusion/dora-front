@@ -99,13 +99,21 @@
         value = (value as string[]).filter((val) => val !== newValue);
       } else {
         // Gestion du bouton "Tous"
-        if (optGroups) {
+        if (optGroups.length) {
           if (newValue.endsWith("--all")) {
             // Si on décoche toutes les options si on sélectionne "Tous"
             value = value.filter((val) => !val.startsWith(`${optGroup}--`));
           } else {
             // Si on décoche "Tous" si on sélectionne une option précise
             value = value.filter((val) => val !== `${optGroup}--all`);
+          }
+        } else {
+          if (newValue.endsWith("--all")) {
+            // Si on décoche toutes les options si on sélectionne "Tous"
+            value = value.filter((val) => val.endsWith("--all"));
+          } else {
+            // Si on décoche "Tous" si on sélectionne une option précise
+            value = value.filter((val) => !val.endsWith("--all"));
           }
         }
 
@@ -172,9 +180,11 @@
     choices = [...originalChoices];
     optGroups = [...originalOptGroups];
     filterText = "";
-    if (optGroups) {
+    if (optGroups.length) {
       optGroupsOpen = [];
     }
+
+    onChange({ detail: name, value: "" });
   }
 
   function setAsSelected(val: string | null) {
@@ -212,7 +222,7 @@
       toggleCombobox(true);
 
       // On filtre et ouvre les optgroup ayant des options
-      if (optGroups) {
+      if (optGroups.length) {
         const optGroupKeys = new Set<string>();
         choices.forEach((choice) => optGroupKeys.add(choice.optGroupKey));
 
@@ -246,7 +256,7 @@
   >
     <div class="current-value flex cursor-pointer items-center justify-between">
       <div class="w-[90%] overflow-hidden text-ellipsis whitespace-nowrap">
-        {#if isMultiple && value.length > 0}
+        {#if isMultiple && value.length > 0 && choices?.length}
           {value
             .map((val) => {
               const selectedChoice = choices.find(
@@ -389,6 +399,9 @@
   }
   .filter-search .has-sub-value-selected {
     @apply text-magenta-cta;
+  }
+  .filter-search :global(.option) {
+    @apply !min-h-min p-s8;
   }
   .filter-search .optgroup:hover,
   .filter-search .option:hover,

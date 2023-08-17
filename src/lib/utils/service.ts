@@ -135,7 +135,7 @@ export function sortCategory(categories: Choice[]) {
   });
 }
 
-function sortSubcategory(subcategories: Choice[]) {
+export function sortSubcategory(subcategories: Choice[]) {
   return subcategories.sort((a, b) => {
     if (a.value.endsWith("--autre")) {
       return 1;

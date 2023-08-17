@@ -20,20 +20,3 @@ export function injectOptGroupInSubCategories(choices: Choice[]): Choice[] {
   });
   return choices;
 }
-
-export function injectOptGroupAllOptionsInSubCategories(
-  optGroups: Choice[],
-  choices: Choice[],
-  allOptionLabel = "Tous"
-) {
-  return [
-    ...choices,
-    ...optGroups.map((optGroup: Choice) => ({
-      value: `${optGroup.value}--all`,
-      label: allOptionLabel,
-      optGroupKey: optGroup.value,
-      icon: optGroup.icon,
-      selectedLabel: optGroup.label,
-    })),
-  ];
-}

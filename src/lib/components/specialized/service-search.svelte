@@ -7,28 +7,33 @@
   import {
     arrowDownSIcon,
     deleteBackIcon,
+    listCheckIcon,
     mapPinIcon,
     searchIcon,
   } from "$lib/icons";
-  import type { FeeCondition, ServiceKind, ServicesOptions } from "$lib/types";
-  import {
-    injectOptGroupAllOptionsInSubCategories,
-    injectOptGroupInSubCategories,
-  } from "$lib/utils/choice";
+  import type {
+    Choice,
+    FeeCondition,
+    ServiceKind,
+    ServicesOptions,
+  } from "$lib/types";
+  import { getChoicesFromKey } from "$lib/utils/choice";
   import {
     getDepartmentFromCityCode,
     isInDeploymentDepartments,
   } from "$lib/utils/misc";
   import {
     associateIconToCategory,
-    sortByCategories,
     sortCategory,
+    sortSubcategory,
   } from "$lib/utils/service";
   import { getQueryString } from "$lib/utils/service-search";
+  import { onMount } from "svelte";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode;
   export let cityLabel;
+  export let categoryId = "";
   export let subCategoryIds: string[] = [];
   export let showDeploymentWarning = true;
   export let useAdditionalFilters = false;
@@ -36,21 +41,19 @@
   export let feeConditions: FeeCondition[] = [];
 
   let innerWidth;
+  let refreshDisabled = true;
   const MOBILE_BREAKPOINT = 768; // 'md' from https://tailwindcss.com/docs/screens
   let cityChoiceList;
+  let subCategories: Choice[] = [];
 
   function handleSearch() {
-    const categoryIds = subCategoryIds
-      .filter((value) => value.endsWith("--all"))
-      .map((value) => value.replace("--all", ""));
-
     // Remove sub-categories ending with --all
     const finalSubCategoryIds = subCategoryIds.filter(
       (value) => !value.endsWith("--all")
     );
 
     const query = getQueryString({
-      categoryIds,
+      categoryIds: [categoryId],
       subCategoryIds: finalSubCategoryIds,
       cityCode,
       cityLabel,
@@ -58,171 +61,227 @@
       feeConditions,
     });
     goto(`recherche?${query}`);
+    refreshDisabled = true;
   }
 
-  function handleSearchIfNotDisabled() {
-    if (cityCode && subCategoryIds.length) {
-      handleSearch();
-    }
+  function enableRefreshButton() {
+    refreshDisabled = false;
   }
 
   const categories = servicesOptions.categories
     ? associateIconToCategory(sortCategory(servicesOptions.categories))
     : [];
 
-  const subCategories = servicesOptions.categories
-    ? sortByCategories(
-        servicesOptions.categories,
-        injectOptGroupAllOptionsInSubCategories(
-          categories,
-          injectOptGroupInSubCategories(servicesOptions?.subcategories),
-          "Tous les besoins"
-        )
-      )
-    : [];
+  function handleCategoryChange(isInit = false) {
+    if (!isInit) {
+      enableRefreshButton();
+      subCategoryIds = [];
+    }
+
+    if (categoryId) {
+      subCategories = sortSubcategory([
+        {
+          value: `${categoryId}--all`,
+          label: "Tous les besoins",
+        },
+        ...getChoicesFromKey(categoryId, servicesOptions.subcategories),
+      ]);
+      if (isInit) {
+        subCategoryIds = [`${categoryId}--all`];
+      }
+    } else {
+      subCategories = [];
+    }
+  }
+
+  onMount(() => {
+    handleCategoryChange(true);
+  });
 </script>
 
 <svelte:window bind:innerWidth />
 
-<div class="w-full rounded-md border border-gray-02 bg-white">
-  {#if servicesOptions.categories}
-    <form class="grid" on:submit|preventDefault={handleSearch}>
-      <div
-        class="city flex items-center border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
-        class:has-value={!!cityCode}
-      >
-        <div class="mr-s8 h-s24 w-s24 fill-current text-magenta-cta">
-          {@html mapPinIcon}
-        </div>
-        <div class="relative w-full">
-          <label class="sr-only" for="city">
-            Lieu
-            <span class="text-error">*</span>
-          </label>
+<form on:submit|preventDefault={handleSearch}>
+  <div class="w-full rounded-md border border-gray-02 bg-white">
+    {#if servicesOptions.categories}
+      <div class="grid" class:with-subcategories={useAdditionalFilters}>
+        <div
+          class="city flex items-center border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
+          class:has-value={!!cityCode}
+        >
+          <div class="mr-s8 h-s24 w-s24 fill-current text-magenta-cta">
+            {@html mapPinIcon}
+          </div>
+          <div class="relative w-full">
+            <label class="sr-only" for="city">
+              Lieu
+              <span class="text-error">*</span>
+            </label>
 
-          <CitySearch
-            id="city"
-            initialValue={cityLabel}
-            bind:value={cityChoiceList}
-            placeholder="Rechercher par lieu : ville"
-            onChange={(city) => {
-              cityCode = city?.code;
-              cityLabel = `${city?.name} (${getDepartmentFromCityCode(
-                city?.code
-              )})`;
-            }}
-          />
+            <CitySearch
+              id="city"
+              initialValue={cityLabel}
+              bind:value={cityChoiceList}
+              onchange={enableRefreshButton}
+              placeholder="Rechercher par lieu : ville"
+              onChange={(city) => {
+                cityCode = city?.code;
+                cityLabel = `${city?.name} (${getDepartmentFromCityCode(
+                  city?.code
+                )})`;
+              }}
+            />
 
-          <div
-            class="absolute top-s12 right-s12 z-10 h-s24 w-s24 text-gray-dark"
-          >
-            {#if cityCode}
-              <button
-                class="inline-block h-s24 w-s24"
-                on:click={() => {
-                  cityCode = "";
-                  cityLabel = "";
-                  cityChoiceList = {};
-                }}
-              >
-                <span class="h-s24 w-s24 fill-current text-gray-text-alt">
-                  {@html deleteBackIcon}
+            <div
+              class="absolute top-s12 right-s12 z-10 h-s24 w-s24 text-gray-dark"
+            >
+              {#if cityCode}
+                <button
+                  class="inline-block h-s24 w-s24"
+                  on:click={() => {
+                    cityCode = "";
+                    cityLabel = "";
+                    cityChoiceList = {};
+                  }}
+                >
+                  <span class="h-s24 w-s24 fill-current text-gray-text-alt">
+                    {@html deleteBackIcon}
+                  </span>
+                  <span class="sr-only">Supprimer la ville sélectionnée</span>
+                </button>
+              {:else}
+                <span class="h-s24 w-s24 fill-current">
+                  {@html arrowDownSIcon}
                 </span>
-                <span class="sr-only">Supprimer la ville sélectionnée</span>
-              </button>
-            {:else}
-              <span class="h-s24 w-s24 fill-current">
-                {@html arrowDownSIcon}
-              </span>
-            {/if}
+              {/if}
+            </div>
           </div>
         </div>
-      </div>
 
-      <div
-        class="subcategories-search flex border-b border-gray-02 py-s24 px-s16 text-f14 lg:border-r lg:border-b-0 lg:py-s16"
-      >
         <div
-          class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
+          class="subcategories-search flex border-b border-gray-02 py-s24 px-s16 text-f14 lg:border-r lg:border-b-0 lg:py-s16"
         >
-          {@html searchIcon}
+          <div
+            class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
+          >
+            {@html searchIcon}
+          </div>
+
+          <SelectField
+            inputMode={innerWidth < MOBILE_BREAKPOINT ? "none" : undefined}
+            hideLabel
+            withClearButton
+            style="search"
+            label="Thématiques"
+            name="categories"
+            placeholder="Recherche par thématiques"
+            bind:value={categoryId}
+            choices={categories}
+            onChange={() => handleCategoryChange()}
+          />
         </div>
 
-        <SelectField
-          inputMode={innerWidth < MOBILE_BREAKPOINT ? "none" : undefined}
-          hideLabel
-          isMultiple
-          withAutoComplete
-          withClearButton
-          style="search"
-          label="Besoins"
-          name="subcategories"
-          placeholder="Recherche par besoins"
-          bind:value={subCategoryIds}
-          choices={subCategories}
-          optGroups={categories}
-        />
+        {#if useAdditionalFilters}
+          <div
+            class="subcategories-search flex border-b border-gray-02 py-s24 px-s16 text-f14 lg:border-r lg:border-b-0 lg:py-s16"
+          >
+            <div
+              class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
+            >
+              {@html listCheckIcon}
+            </div>
+
+            {#key subCategories}
+              <SelectField
+                inputMode={innerWidth < MOBILE_BREAKPOINT ? "none" : undefined}
+                hideLabel
+                isMultiple
+                withClearButton
+                style="search"
+                label="Besoins"
+                name="subcategories"
+                placeholder="Recherche par besoins"
+                bind:value={subCategoryIds}
+                choices={subCategories}
+                onChange={enableRefreshButton}
+              />
+            {/key}
+          </div>
+        {:else}
+          <div class="p-s12 text-center lg:p-s16">
+            <Button
+              extraClass="h-s48"
+              type="submit"
+              label="Rechercher"
+              disabled={!cityCode}
+              preventDefaultOnMouseDown
+            />
+          </div>
+        {/if}
       </div>
 
-      <div class="p-s12 text-center lg:p-s16">
-        <Button
-          extraClass="h-s48"
-          type="submit"
-          label="Rechercher"
-          disabled={!cityCode}
-          preventDefaultOnMouseDown
-        />
-      </div>
-    </form>
-
-    {#if showDeploymentWarning && cityCode && !isInDeploymentDepartments(cityCode, servicesOptions)}
+      {#if showDeploymentWarning && cityCode && !isInDeploymentDepartments(cityCode, servicesOptions)}
+        <div
+          class=" rounded-b-md border-t border-gray-02 bg-blue-light p-s16 text-center text-france-blue"
+        >
+          <span>
+            Sur votre territoire, le référencement des services débute – il se
+            peut que votre recherche aboutisse à peu de résultats.
+          </span>
+        </div>
+      {/if}
+    {:else}
+      <p class="p-s16 text-center">Impossible de contacter le serveur</p>
+    {/if}
+    {#if useAdditionalFilters}
       <div
-        class=" rounded-b-md border-t border-gray-02 bg-blue-light p-s16 text-center text-france-blue"
+        class="flex flex-col rounded-b-md border-t border-gray-02 bg-white p-s16 text-f14 md:flex-row"
       >
-        <span>
-          Sur votre territoire, le référencement des services débute – il se
-          peut que votre recherche aboutisse à peu de résultats.
-        </span>
+        <div class="mr-s12 mb-s12 md:mb-s0">
+          <SelectField
+            hideLabel
+            isMultiple
+            style="filter"
+            label="Type de service"
+            minDropdownWidth="min-w-[200px]"
+            name="kinds"
+            placeholder="Type de service"
+            bind:value={kindIds}
+            choices={servicesOptions.kinds}
+            onChange={enableRefreshButton}
+          />
+        </div>
+        <div>
+          <SelectField
+            hideLabel
+            isMultiple
+            minDropdownWidth="min-w-[240px]"
+            style="filter"
+            label="Frais à charge"
+            name="fee"
+            placeholder="Frais à charge"
+            bind:value={feeConditions}
+            choices={servicesOptions.feeConditions}
+            onChange={enableRefreshButton}
+          />
+        </div>
       </div>
     {/if}
-  {:else}
-    <p class="p-s16 text-center">Impossible de contacter le serveur</p>
-  {/if}
+  </div>
+
   {#if useAdditionalFilters}
-    <div
-      class="flex flex-col rounded-b-md border-t border-gray-02 bg-white p-s16 text-f14 md:flex-row"
-    >
-      <div class="mr-s12 mb-s12 md:mb-s0">
-        <SelectField
-          hideLabel
-          isMultiple
-          style="filter"
-          label="Type de service"
-          minDropdownWidth="min-w-[200px]"
-          name="kinds"
-          placeholder="Type de service"
-          bind:value={kindIds}
-          choices={servicesOptions.kinds}
-          onChange={handleSearchIfNotDisabled}
-        />
-      </div>
-      <div>
-        <SelectField
-          hideLabel
-          isMultiple
-          minDropdownWidth="min-w-[240px]"
-          style="filter"
-          label="Frais à charge"
-          name="fee"
-          placeholder="Frais à charge"
-          bind:value={feeConditions}
-          choices={servicesOptions.feeConditions}
-          onChange={handleSearchIfNotDisabled}
-        />
-      </div>
+    <div class="mt-s24 text-center lg:p-s16">
+      <Button
+        extraClass="h-s48"
+        type="submit"
+        label="Actualiser la recherche"
+        disabled={!cityCode || refreshDisabled}
+        on:click={handleSearch}
+        preventDefaultOnMouseDown
+      />
     </div>
   {/if}
-</div>
+</form>
 
 <style lang="postcss">
   .grid {
@@ -238,6 +297,9 @@
     }
     .grid {
       grid-template-columns: 3fr 3fr 1fr;
+    }
+    .with-subcategories {
+      grid-template-columns: 1fr 1fr 1fr;
     }
   }
 
