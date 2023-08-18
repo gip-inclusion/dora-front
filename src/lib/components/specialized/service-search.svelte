@@ -122,13 +122,14 @@
               id="city"
               initialValue={cityLabel}
               bind:value={cityChoiceList}
-              onchange={enableRefreshButton}
               placeholder="Rechercher par lieu : ville"
               onChange={(city) => {
                 cityCode = city?.code;
                 cityLabel = `${city?.name} (${getDepartmentFromCityCode(
                   city?.code
                 )})`;
+
+                enableRefreshButton();
               }}
             />
 
