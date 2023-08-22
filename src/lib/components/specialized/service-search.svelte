@@ -29,6 +29,8 @@
   } from "$lib/utils/service";
   import { getQueryString } from "$lib/utils/service-search";
   import { onMount } from "svelte";
+  import { refreshUserInfo, userInfo } from "$lib/utils/auth";
+  import { currentSearchInAlert, saveAlert } from "$lib/utils/alerts";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode;
@@ -46,22 +48,30 @@
   let cityChoiceList;
   let subCategories: Choice[] = [];
 
-  function handleSearch() {
-    // Remove sub-categories ending with --all
-    const finalSubCategoryIds = subCategoryIds.filter(
-      (value) => !value.endsWith("--all")
-    );
+  $: query = getQueryString({
+    categoryIds: [categoryId],
+    subCategoryIds: subCategoryIds.filter((value) => !value.endsWith("--all")),
+    cityCode,
+    cityLabel,
+    kindIds,
+    feeConditions,
+  });
 
-    const query = getQueryString({
-      categoryIds: [categoryId],
-      subCategoryIds: finalSubCategoryIds,
-      cityCode,
-      cityLabel,
-      kindIds,
-      feeConditions,
-    });
+  function handleSearch() {
     goto(`recherche?${query}`);
     refreshDisabled = true;
+  }
+
+  async function saveSearch() {
+    await saveAlert({
+      categories: [categoryId],
+      subcategories: subCategoryIds.filter((value) => !value.endsWith("--all")),
+      cityCode,
+      cityLabel,
+      kinds: kindIds,
+      fees: feeConditions,
+    });
+    await refreshUserInfo();
   }
 
   function enableRefreshButton() {
@@ -271,7 +281,7 @@
   </div>
 
   {#if useAdditionalFilters}
-    <div class="mt-s24 text-center lg:p-s16">
+    <div class="mt-s24 flex justify-center gap-s16 lg:p-s16">
       <Button
         extraClass="h-s48"
         type="submit"
@@ -280,6 +290,26 @@
         on:click={handleSearch}
         preventDefaultOnMouseDown
       />
+
+      {#if currentSearchInAlert($userInfo, query)}
+        <Button
+          extraClass="h-s48"
+          secondary
+          label="Recherche déjà sauvegardé"
+          disabled
+          on:click={saveSearch}
+          preventDefaultOnMouseDown
+        />
+      {:else}
+        <Button
+          extraClass="h-s48"
+          secondary
+          label="Sauvegarder la recherche"
+          disabled={!cityCode}
+          on:click={saveSearch}
+          preventDefaultOnMouseDown
+        />
+      {/if}
     </div>
   {/if}
 </form>

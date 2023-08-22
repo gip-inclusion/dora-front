@@ -284,6 +284,8 @@ export type FeeCondition =
   | "adhesion"
   | "pass-numerique";
 
+type Frequency = "never" | "two-weeks" | "monthly";
+
 export type CoachOrientationModes =
   | "envoyer-courriel"
   | "envoyer-fiche-prescription"
@@ -458,6 +460,22 @@ export interface ShortService {
 export interface Bookmark {
   service: ShortService;
   creationDate: string;
+}
+
+export interface Alert {
+  id: string;
+  creationDate: string;
+  cityCode: string;
+  cityLabel: string;
+  categories: string[];
+  categoriesDisplay: string[];
+  subcategories: string[];
+  subcategoriesDisplay: string[];
+  kinds: ServiceKind[];
+  kindsDisplay: string[];
+  fees: FeeCondition[];
+  feesDisplay: string[];
+  frequency: Frequency;
 }
 
 export interface CustomChoice {
