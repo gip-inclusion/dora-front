@@ -48,6 +48,7 @@ export const load: PageLoad = async ({ url, parent }) => {
   await parent();
 
   const query = url.searchParams;
+
   const categoryIds = query.get("cats") ? query.get("cats").split(",") : [];
   const subCategoryIds = query.get("subs") ? query.get("subs").split(",") : [];
   const cityCode = query.get("city");
@@ -56,7 +57,8 @@ export const load: PageLoad = async ({ url, parent }) => {
   const feeConditions = query.get("fees") ? query.get("fees").split(",") : [];
 
   const services = await getResults({
-    categoryIds,
+    // La priorité est donnée aux sous-catégories
+    categoryIds: subCategoryIds.length ? [] : categoryIds,
     subCategoryIds,
     cityCode,
     cityLabel,
@@ -66,7 +68,8 @@ export const load: PageLoad = async ({ url, parent }) => {
 
   trackSearch(
     url,
-    categoryIds,
+    // La priorité est donnée aux sous-catégories
+    subCategoryIds.length ? [] : categoryIds,
     subCategoryIds,
     cityCode,
     cityLabel,

@@ -53,7 +53,8 @@
     );
 
     const query = getQueryString({
-      categoryIds: [categoryId],
+      // La priorité est donnée aux sous-catégories
+      categoryIds: finalSubCategoryIds.length ? [] : [categoryId],
       subCategoryIds: finalSubCategoryIds,
       cityCode,
       cityLabel,
