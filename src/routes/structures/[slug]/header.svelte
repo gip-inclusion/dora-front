@@ -23,8 +23,10 @@
   import { capitalize } from "$lib/utils/misc";
   import AdminNotice from "./admin-notice.svelte";
   import PendingNotice from "./pending-notice.svelte";
+  import type { StructureMember } from "$lib/types";
 
   export let structure;
+  export let admins: StructureMember[] = [];
   export let tabId = "informations";
 
   let tabs: TabItem[] = [];
@@ -106,7 +108,7 @@
 
   {#if structure.isPendingMember}
     <div class="mt-s24">
-      <PendingNotice />
+      <PendingNotice {admins} />
     </div>
   {:else if !structure.hasAdmin}
     <div class="mt-s24">
