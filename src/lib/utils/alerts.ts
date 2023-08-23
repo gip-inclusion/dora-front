@@ -1,7 +1,7 @@
 import { get } from "svelte/store";
 import { token } from "./auth";
 import { getApiURL } from "./api";
-import type { Alert } from "$lib/types";
+import type { Alert, Frequency } from "$lib/types";
 import { getQueryString } from "./service-search";
 
 export async function saveAlert(
@@ -20,6 +20,27 @@ export async function saveAlert(
       Authorization: `Token ${get(token)}`,
     },
     body: JSON.stringify({ ...alert }),
+  });
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+}
+
+export async function updateAlertFrequency(
+  alertId: string,
+  frequency: Frequency
+) {
+  const url = `${getApiURL()}/services/update-alert-frequency/`;
+  const method = "POST";
+
+  const response = await fetch(url, {
+    method,
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({ alertId, frequency }),
   });
   if (!response.ok) {
     throw Error(response.statusText);

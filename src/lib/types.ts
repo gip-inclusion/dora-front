@@ -284,7 +284,7 @@ export type FeeCondition =
   | "adhesion"
   | "pass-numerique";
 
-type Frequency = "never" | "two-weeks" | "monthly";
+export type Frequency = "never" | "two-weeks" | "monthly";
 
 export type CoachOrientationModes =
   | "envoyer-courriel"
