@@ -49,7 +49,7 @@ export const load: PageLoad = async ({ url, parent }) => {
 
   const query = url.searchParams;
 
-  const categoryIds = query.get("cats") ? query.get("cats").split(",") : [];
+  let categoryIds = query.get("cats") ? query.get("cats").split(",") : [];
   const subCategoryIds = query.get("subs") ? query.get("subs").split(",") : [];
   const cityCode = query.get("city");
   const cityLabel = query.get("cl");
@@ -82,6 +82,10 @@ export const load: PageLoad = async ({ url, parent }) => {
     storeLastSearchCity(cityCode, cityLabel);
   }
 
+  // Pour le formulaire de recherche, on veut afficher la catégorie sélectionnée
+  if (subCategoryIds.length && !categoryIds.length) {
+    categoryIds = [subCategoryIds[0].split("--")[0]];
+  }
   return {
     title: `Services d’insertion à ${cityLabel} | Recherche | DORA`,
     noIndex: true,
