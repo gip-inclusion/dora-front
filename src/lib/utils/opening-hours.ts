@@ -1,6 +1,5 @@
 import type { DayPeriod, DayPrefix, OsmDay, OsmOpeningHours } from "$lib/types";
-// eslint-disable-next-line camelcase
-import opening_hours from "opening_hours";
+import openingHours from "opening_hours";
 
 export const INVALID_OPENING_HOURS_MARKER = "##INVALID##";
 
@@ -183,7 +182,7 @@ function formatHour(hour: string) {
 
 export function isValidformatOsmHours(value: string) {
   try {
-    new opening_hours(value, null, { locale: "fr" });
+    new openingHours(value, null, { locale: "fr" });
     return true;
   } catch {
     return false;
