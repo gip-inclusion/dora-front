@@ -78,7 +78,7 @@
     <StructureSearch
       bind:establishment
       title="Retrouvez votre structure"
-      description="Pour accéder a toutes les fonctionnalités, merci de nous indiquer la structure dans laquelle vous travaillez :"
+      description="Pour accéder à toutes les fonctionnalités, merci de nous indiquer la structure dans laquelle vous travaillez :"
     >
       <div slot="cta">
         {#if establishment?.siret}
