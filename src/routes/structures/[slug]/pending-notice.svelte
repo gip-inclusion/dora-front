@@ -27,7 +27,10 @@
     {:else}
       les relancer.
     {/if}
-    En cas de difficultés, n’hésitez pas à nous contacter.
+    En cas de difficultés, n’hésitez pas à
+    <a class="underline" href="mailto:contact@dora.inclusion.beta.gouv.fr"
+      >nous contacter</a
+    >.
   </p>
 
   {#if resendRequestFlag}
