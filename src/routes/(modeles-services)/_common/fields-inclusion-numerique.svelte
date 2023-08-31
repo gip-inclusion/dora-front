@@ -28,11 +28,11 @@
     return servicesOptions.concernedPublic
       .filter(
         (genericConcernedPublicOption): boolean =>
-          genericConcernedPublicOption.structure == null
+          genericConcernedPublicOption.structure == null,
       )
       .map(
         (genericConcernedPublicOption: Choice): string =>
-          genericConcernedPublicOption.label
+          genericConcernedPublicOption.label,
       )
       .includes(concernedPublicOption.label);
   }
@@ -43,7 +43,7 @@
     return {
       label: concernedPublicOption.label,
       value: servicesOptions.concernedPublic.find(
-        (option: Choice) => option.label === concernedPublicOption.label
+        (option: Choice) => option.label === concernedPublicOption.label,
       ).value,
     };
   }
@@ -149,27 +149,26 @@
       (concernedPublicValue: string): boolean =>
         concernedPublicOptions
           .map((concernedPublicOption): string => concernedPublicOption.value)
-          .includes(concernedPublicValue)
+          .includes(concernedPublicValue),
     );
   }
 
   function filterKinds() {
     service.kinds = service.kinds.filter((kind: ServiceKind) =>
-      kindsOptions.map((option) => option.value).includes(kind)
+      kindsOptions.map((option) => option.value).includes(kind),
     );
   }
 
-  service.locationKinds = [];
   filterConcernedPublics();
   preSetContact();
   preSetDiffusionZone();
   filterKinds();
 </script>
 
-<FieldSet title="Service de l'inclusion numérique">
+<FieldSet title="Service de l’inclusion numérique">
   <div slot="help">
     <p class="text-f14">
-      Le <b>Formulaire de l'inclusion numérique</b> est un outil de saisie
+      Le <b>Formulaire de l’inclusion numérique</b> est un outil de saisie
       compatible avec le
       <a
         href="https://lamednum.coop/schema-de-donnees-des-lieux-de-mediation-numerique-2/"
@@ -178,7 +177,7 @@
         class="underline">schéma de données des lieux de médiation numérique</a
       >.
       <br />
-      La standardisation des données de l'inclusion numérique permet de décrire l’offre
+      La standardisation des données de l’inclusion numérique permet de décrire l’offre
       disponible de manière harmonisée, assurant ainsi la compatibilité de ces données
       avec de nombreux outils.
     </p>
@@ -229,7 +228,7 @@
     choices={moveToTheEnd(
       servicesOptions.beneficiariesAccessModes,
       "value",
-      "autre"
+      "autre",
     )}
     bind:value={service.beneficiariesAccessModes}
   />

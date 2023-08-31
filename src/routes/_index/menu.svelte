@@ -18,7 +18,7 @@
 
   $: lastVisitedStructure = $userPreferences.visitedStructures.length
     ? structures.find(
-        ({ slug }) => slug === $userPreferences.visitedStructures[0]
+        ({ slug }) => slug === $userPreferences.visitedStructures[0],
       )
     : structures[0];
 </script>
@@ -31,7 +31,7 @@
         noBackground
         otherTab
         extraClass="mr-s8 !text-f14"
-        label="Besoin d'aide ?"
+        label="Besoin d’aide ?"
       />
     </div>
 
@@ -40,7 +40,7 @@
         <LinkButton
           label="Se connecter"
           to={`/auth/connexion?next=${encodeURIComponent(
-            $page.url.pathname + $page.url.search
+            $page.url.pathname + $page.url.search,
           )}`}
         />
       {/if}
@@ -56,7 +56,7 @@
         <MenuMesStructures {structures} {lastVisitedStructure} mobileDesign />
         <MenuMonCompte mobileDesign />
       {/if}
-      <hr class="-mx-s32 mt-s64 mb-s16" />
+      <hr class="-mx-s32 mb-s16 mt-s64" />
       <SubMenu mobileDesign />
     </div>
   </div>

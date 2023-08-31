@@ -18,8 +18,6 @@ function serviceToBack(service) {
       type: "Point",
       coordinates: [service.longitude, service.latitude],
     };
-  } else {
-    service.geom = null;
   }
 
   return service;
@@ -38,6 +36,18 @@ function serviceToFront(service) {
 
 export async function getService(slug): Promise<Service> {
   const url = `${getApiURL()}/services/${slug}/`;
+  const response = await fetchData<Service>(url);
+
+  if (!response.data) {
+    return null;
+  }
+  // TODO: 404
+
+  return serviceToFront(response.data);
+}
+
+export async function getServiceDI(diId): Promise<Service> {
+  const url = `${getApiURL()}/service-di/${diId}/`;
   const response = await fetchData<Service>(url);
 
   if (!response.data) {
@@ -83,6 +93,18 @@ export function createOrModifyService(service: Service) {
       Authorization: `Token ${get(token)}`,
     },
     body: JSON.stringify(serviceToBack(service)),
+  });
+}
+
+export function markServiceAsSynced(service: Service | ShortService) {
+  return fetch(`${getApiURL()}/services/${service.slug}/`, {
+    method: "PATCH",
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({ markSynced: true }),
   });
 }
 
@@ -283,7 +305,7 @@ export async function getServicesOptions(): Promise<ServicesOptions | null> {
 }
 
 export function updateServicesFromModel(
-  services: Service[] | StructureService[]
+  services: Service[] | StructureService[],
 ) {
   return fetch(`${getApiURL()}/services/update-from-model/`, {
     method: "POST",
@@ -304,7 +326,7 @@ type ModelToService = {
 };
 
 export function addIgnoredServicesToUpdate(
-  modelToServiceSlugs: ModelToService[]
+  modelToServiceSlugs: ModelToService[],
 ) {
   return fetch(`${getApiURL()}/services/reject-update-from-model/`, {
     method: "POST",

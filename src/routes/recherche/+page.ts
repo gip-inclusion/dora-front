@@ -2,7 +2,7 @@ import { getServicesOptions } from "$lib/requests/services";
 import type { SearchQuery, ServiceSearchResult } from "$lib/types";
 import { getApiURL } from "$lib/utils/api";
 import { trackSearch } from "$lib/utils/plausible";
-import { getQuery, storeLastSearchCity } from "$lib/utils/service-search";
+import { getQueryString, storeLastSearchCity } from "$lib/utils/service-search";
 import type { PageLoad } from "./$types";
 
 // pour raison de performance, les requêtes étant lourdes, et on ne tient pas forcément
@@ -17,7 +17,7 @@ async function getResults({
   kindIds,
   feeConditions,
 }: SearchQuery): Promise<ServiceSearchResult[]> {
-  const query = getQuery({
+  const querystring = getQueryString({
     categoryIds,
     subCategoryIds,
     cityCode,
@@ -25,7 +25,7 @@ async function getResults({
     kindIds,
     feeConditions,
   });
-  const url = `${getApiURL()}/search/?${query}`;
+  const url = `${getApiURL()}/search/?${querystring}`;
 
   const res = await fetch(url, {
     headers: { Accept: "application/json; version=1.0" },
@@ -72,7 +72,7 @@ export const load: PageLoad = async ({ url, parent }) => {
     cityLabel,
     kindIds,
     feeConditions,
-    services.length
+    services,
   );
 
   if (cityCode && cityLabel) {

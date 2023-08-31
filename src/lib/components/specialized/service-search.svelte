@@ -24,7 +24,7 @@
     sortByCategories,
     sortCategory,
   } from "$lib/utils/service";
-  import { getQuery } from "$lib/utils/service-search";
+  import { getQueryString } from "$lib/utils/service-search";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode;
@@ -46,10 +46,10 @@
 
     // Remove sub-categories ending with --all
     const finalSubCategoryIds = subCategoryIds.filter(
-      (value) => !value.endsWith("--all")
+      (value) => !value.endsWith("--all"),
     );
 
-    const query = getQuery({
+    const query = getQueryString({
       categoryIds,
       subCategoryIds: finalSubCategoryIds,
       cityCode,
@@ -76,8 +76,8 @@
         injectOptGroupAllOptionsInSubCategories(
           categories,
           injectOptGroupInSubCategories(servicesOptions?.subcategories),
-          "Tous les besoins"
-        )
+          "Tous les besoins",
+        ),
       )
     : [];
 </script>
@@ -88,7 +88,7 @@
   {#if servicesOptions.categories}
     <form class="grid" on:submit|preventDefault={handleSearch}>
       <div
-        class="city flex items-center border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
+        class="city flex items-center border-b border-gray-02 p-s16 text-f14 lg:border-b-0 lg:border-r"
         class:has-value={!!cityCode}
       >
         <div class="mr-s8 h-s24 w-s24 fill-current text-magenta-cta">
@@ -108,13 +108,13 @@
             onChange={(city) => {
               cityCode = city?.code;
               cityLabel = `${city?.name} (${getDepartmentFromCityCode(
-                city?.code
+                city?.code,
               )})`;
             }}
           />
 
           <div
-            class="absolute top-s12 right-s12 z-10 h-s24 w-s24 text-gray-dark"
+            class="absolute right-s12 top-s12 z-10 h-s24 w-s24 text-gray-dark"
           >
             {#if cityCode}
               <button
@@ -140,7 +140,7 @@
       </div>
 
       <div
-        class="subcategories-search flex border-b border-gray-02 py-s24 px-s16 text-f14 lg:border-r lg:border-b-0 lg:py-s16"
+        class="subcategories-search flex border-b border-gray-02 px-s16 py-s24 text-f14 lg:border-b-0 lg:border-r lg:py-s16"
       >
         <div
           class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
@@ -192,7 +192,7 @@
     <div
       class="flex flex-col rounded-b-md border-t border-gray-02 bg-white p-s16 text-f14 md:flex-row"
     >
-      <div class="mr-s12 mb-s12 md:mb-s0">
+      <div class="mb-s12 mr-s12 md:mb-s0">
         <SelectField
           hideLabel
           isMultiple

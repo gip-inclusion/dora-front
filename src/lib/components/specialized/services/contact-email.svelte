@@ -7,7 +7,7 @@
   export let service;
   export let preferred = false;
   const emailSubject = encodeURIComponent(
-    `Candidature ${service.name} / Demande d'orientation`
+    `Candidature ${service.name} / Demande d’orientation`,
   );
   const emailBody = encodeURIComponent(
     `
@@ -31,7 +31,7 @@
   ${service.credentialsDisplay
     ?.map((credential) => `- ${credential}`)
     .join("\n")}
-  `.trim()
+  `.trim(),
   );
 
   function trackClick() {

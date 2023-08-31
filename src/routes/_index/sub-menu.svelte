@@ -75,7 +75,7 @@
       >
         Nouveautés
         <span
-          class="inline-block h-s20 w-s20 fill-current pt-s6 pl-s4 {externalIconColor}"
+          class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6 {externalIconColor}"
           aria-hidden
         >
           {@html externalLinkIcon}
@@ -88,12 +88,12 @@
         target="_blank"
         title="Ouverture dans une nouvelle fenêtre"
         rel="noopener"
-        href="https://communaute.inclusion.beta.gouv.fr/"
+        href="https://communaute.inclusion.beta.gouv.fr/forum/dora-105/"
         class="inline-block h-full {aClass}"
       >
         Communauté de l’inclusion
         <span
-          class="inline-block h-s20 w-s20 fill-current pt-s6 pl-s4 {externalIconColor}"
+          class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6 {externalIconColor}"
           aria-hidden
         >
           {@html externalLinkIcon}

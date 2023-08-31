@@ -75,6 +75,7 @@ module.exports = {
     "no-extra-boolean-cast": ["error", { enforceForLogicalOperands: true }],
     "no-implicit-coercion": [2, { allow: ["!!"] }],
     "no-implied-eval": "error",
+    "no-irregular-whitespace":"off",
     "no-mixed-operators": "error",
     "no-nested-ternary": "error",
     "no-return-assign": "error",
@@ -92,6 +93,8 @@ module.exports = {
     ],
     "prefer-const": "error",
     "require-await": "error",
+    "svelte/no-at-html-tags": "warn",
+    "svelte/valid-compile": "warn",
     "@typescript-eslint/no-empty-function": "warn",
     "@typescript-eslint/no-unused-vars": [
       "error",

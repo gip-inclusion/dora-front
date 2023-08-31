@@ -10,7 +10,9 @@
   import type { Service, ServicesOptions, ShortService } from "$lib/types";
   import { getLabelFromValue } from "$lib/utils/choice";
   import { shortenString } from "$lib/utils/misc";
+  import { isValidformatOsmHours } from "$lib/utils/opening-hours";
   import { isNotFreeService } from "$lib/utils/service";
+  import OsmHours from "../../osm-hours.svelte";
 
   export let service: Service | ShortService;
   export let servicesOptions: ServicesOptions;
@@ -20,20 +22,22 @@
 <h2 class:text-f23={display === "sidebar"}>Informations clés</h2>
 
 <div class="flex flex-col gap-s12">
-  {#if service.isCumulative}
-    <div class="bold flex items-center font-bold text-available">
-      <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
-        {@html addCircleIcon}
-      </span>
-      Ce service est cumulable avec d’autres dispositifs
-    </div>
-  {:else}
-    <div class="bold flex items-center font-bold text-error">
-      <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
-        {@html errorWarningIcon}
-      </span>
-      Ce service n'est pas cumulable avec d’autres dispositifs
-    </div>
+  {#if service.isCumulative != null}
+    {#if service.isCumulative}
+      <div class="bold flex items-center font-bold text-available">
+        <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
+          {@html addCircleIcon}
+        </span>
+        Ce service est cumulable avec d’autres dispositifs
+      </div>
+    {:else}
+      <div class="bold flex items-center font-bold text-error">
+        <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
+          {@html errorWarningIcon}
+        </span>
+        Ce service n’est pas cumulable avec d’autres dispositifs
+      </div>
+    {/if}
   {/if}
 
   {#if service.feeCondition && isNotFreeService(service.feeCondition)}
@@ -55,7 +59,7 @@
   {/if}
 
   {#if display === "sidebar"}
-    <hr class="mt-s20 mb-s10" />
+    <hr class="mb-s10 mt-s20" />
   {/if}
 
   {#if service.feeCondition && isNotFreeService(service.feeCondition)}
@@ -81,24 +85,29 @@
         </span>
         Fréquence et horaires
       </h3>
-      <p>{service.recurrence}</p>
+      <p>
+        {#if isValidformatOsmHours(service.recurrence)}
+          <OsmHours osmHours={service.recurrence} />
+        {:else}
+          {service.recurrence}
+        {/if}
+      </p>
     </div>
   {/if}
 
-  {#if service.locationKinds?.length}
-    <div>
-      <h3>
-        <span class="mr-s8 h-s24 w-s24 fill-current">
-          {@html mapPinUserFillIcon}
-        </span>
-        Accueil
-      </h3>
-
+  <div>
+    <h3>
+      <span class="mr-s8 h-s24 w-s24 fill-current">
+        {@html mapPinUserFillIcon}
+      </span>
+      Accueil
+    </h3>
+    {#if service.locationKinds?.length}
       <div class="flex flex-col gap-s6">
         {#if service.locationKinds.includes("en-presentiel")}
           <p class="mb-s6">
             <strong>En présentiel&nbsp;•&nbsp;</strong>
-            {service.address1}{#if service.address2}{service.address2}{/if},
+            {service.address1}{#if service.address2}, {service.address2}{/if},
             {service.postalCode}&nbsp;{service.city}
           </p>
         {/if}
@@ -121,13 +130,15 @@
           </p>
         {/if}
       </div>
-    </div>
-  {/if}
+    {:else}
+      <p>Non renseigné</p>
+    {/if}
+  </div>
 </div>
 
 <style lang="postcss">
   h3 {
-    @apply mt-s10 mb-s2 flex items-center text-f17;
+    @apply mb-s2 mt-s10 flex items-center text-f17;
   }
   p {
     @apply m-s0 text-f16 text-gray-text;

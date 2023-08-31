@@ -6,16 +6,8 @@ const AB_TESTING_KEY = "testingGroups";
 
 type AbTestingData = { name: string; groupNames: string[] };
 
-const CURRENT_AB_TESTS: AbTestingData[] = [
-  {
-    name: "mobilisation",
-    groupNames: [
-      "mobilisation--fond-bleu",
-      "mobilisation--fond-blanc",
-      "mobilisation--ancien-design",
-    ],
-  },
-];
+const CURRENT_AB_TESTS: AbTestingData[] = [];
+
 type UserAbTestingGroups = Record<string, string>;
 
 function getUserAbTestingGroups(): UserAbTestingGroups {
@@ -40,7 +32,7 @@ export function refreshExperiments() {
     });
     window.localStorage.setItem(
       AB_TESTING_KEY,
-      JSON.stringify(newAbTestingUserGroups)
+      JSON.stringify(newAbTestingUserGroups),
     );
     return;
   }
@@ -67,7 +59,7 @@ export function refreshExperiments() {
 
   window.localStorage.setItem(
     AB_TESTING_KEY,
-    JSON.stringify(newAbTestingUserGroups)
+    JSON.stringify(newAbTestingUserGroups),
   );
 }
 

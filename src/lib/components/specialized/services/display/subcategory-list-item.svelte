@@ -16,7 +16,7 @@
 
 <div class="text-f14 text-france-blue">
   <div
-    class={`mr-s4 inline-flex items-center self-start rounded-md  py-s8 px-s16
+    class={`mr-s4 inline-flex items-center self-start rounded-md  px-s16 py-s8
       ${
         expanded
           ? "rounded-bl-none rounded-br-none bg-france-blue text-white"

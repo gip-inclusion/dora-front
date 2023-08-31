@@ -5,7 +5,6 @@ import { token, userInfo } from "$lib/utils/auth";
 import { getDepartmentFromCityCode } from "$lib/utils/misc";
 import { get } from "svelte/store";
 import { logAnalyticsEvent } from "$lib/utils/stats";
-import { getAbTestingUserGroup } from "$lib/utils/ab-testing";
 
 function _track(tag, props) {
   if (browser) {
@@ -71,18 +70,25 @@ export function trackMobilisation(service, url) {
   if (browser) {
     logAnalyticsEvent("mobilisation", url.pathname, {
       service: service.slug,
-      abTestingGroup: getAbTestingUserGroup("mobilisation"),
     });
   }
-
-  const props = {
-    ..._getServiceProps(service, true),
-    abTestingGroup: getAbTestingUserGroup("mobilisation"),
-  };
-  _track("mobilisation", props);
-  _track("mobilisation-abTesting", props);
+  _track("mobilisation", _getServiceProps(service, true));
 }
 
+export function trackDiMobilisation(service, url) {
+  if (browser) {
+    logAnalyticsEvent("di_mobilisation", url.pathname, {
+      diStructureId: service.structure,
+      diStructureName: service.structureInfo.name,
+      diStructureDepartment: service.structureInfo.department,
+      diServiceId: service.slug.split("--")[1],
+      diServiceName: service.name,
+      diSource: service.source,
+      diCategories: service.categories || [],
+      diSubcategories: service.subcategories || [],
+    });
+  }
+}
 export function trackOrientation(orientation, url) {
   if (browser) {
     logAnalyticsEvent("orientation", url.pathname, {
@@ -92,23 +98,11 @@ export function trackOrientation(orientation, url) {
 }
 
 export function trackMobilisationEmail(service) {
-  const props = {
-    ..._getServiceProps(service, true),
-    abTestingGroup: getAbTestingUserGroup("mobilisation"),
-  };
-
-  _track("mobilisation-contact", props);
-  _track("mobilisation-contact-abTesting", props);
+  _track("mobilisation-contact", _getServiceProps(service, true));
 }
 
 export function trackMobilisationLogin(service) {
-  const props = {
-    ..._getServiceProps(service, false),
-    abTestingGroup: getAbTestingUserGroup("mobilisation"),
-  };
-
-  _track("mobilisation-login", props);
-  _track("mobilisation-login-abTesting", props);
+  _track("mobilisation-login", _getServiceProps(service, false));
 }
 
 export function trackFeedback(service) {
@@ -127,14 +121,24 @@ export function trackSearch(
   cityLabel,
   kindIds,
   feeConditions,
-  numResults
+  results,
 ) {
+  const numResults = results.length;
+
   if (browser) {
+    const numDiResults = results.filter(
+      (service) => service.type === "di",
+    ).length;
+    const numDiResultsTop10 = results
+      .slice(0, 10)
+      .filter((service) => service.type === "di").length;
     logAnalyticsEvent("search", url.pathname, {
       searchCityCode: cityCode,
-      searchNumResults: numResults,
+      searchNumResults: results.length,
       categoryIds: categoryIds,
       subCategoryIds: subCategoryIds,
+      numDiResults,
+      numDiResultsTop10,
     });
   }
 
@@ -177,14 +181,22 @@ export function trackService(service, url) {
       service: service.slug,
     });
   }
+  _track("service", _getServiceProps(service, false));
+}
 
-  const props = {
-    ..._getServiceProps(service, false),
-    abTestingGroup: getAbTestingUserGroup("mobilisation"),
-  };
-
-  _track("service", props);
-  _track("service-abTesting", props);
+export function trackDIService(service, url) {
+  if (browser) {
+    logAnalyticsEvent("di_service", url.pathname, {
+      diStructureId: service.structure,
+      diStructureName: service.structureInfo.name,
+      diStructureDepartment: service.structureInfo.department,
+      diServiceId: service.slug.split("--")[1],
+      diServiceName: service.name,
+      diSource: service.source,
+      diCategories: service.categories || [],
+      diSubcategories: service.subcategories || [],
+    });
+  }
 }
 
 export function trackStructure(structure, url) {

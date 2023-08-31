@@ -16,7 +16,7 @@
   let choices: Choice[] = [];
   async function searchCity(query) {
     const url = `${getApiURL()}/admin-division-search/?type=city&q=${encodeURIComponent(
-      query
+      query,
     )}`;
 
     const response = await fetch(url);
@@ -43,7 +43,7 @@
     // pour tester l'API, décommenter:
     // const q = `lon=2.37&lat=48.357`;
     const url = `${getApiURL()}/admin-division-reverse-search/?type=city&lon=${encodeURIComponent(
-      longitude
+      longitude,
     )}&lat=${encodeURIComponent(latitude)}`;
 
     const response = await fetchData<GeoApiValue>(url);
@@ -68,12 +68,12 @@
 
   function searchCityFromLocation() {
     if (!navigator.geolocation) {
-      geolocLabel = "La géolocalisation n'est pas supportée";
+      geolocLabel = "La géolocalisation n’est pas supportée";
     } else {
       geolocLabel = "Recherche";
       navigator.geolocation.getCurrentPosition(
         searchCityFromLocationSuccess,
-        searchCityFromLocationError
+        searchCityFromLocationError,
       );
     }
   }
@@ -96,11 +96,11 @@
 >
   <div slot="prepend" class="px-s8 pt-s8" let:results>
     <button
-      class="flex w-full border-gray-02 py-s12 px-s8 text-f14 text-gray-text"
+      class="flex w-full border-gray-02 px-s8 py-s12 text-f14 text-gray-text"
       on:click|preventDefault|stopPropagation={searchCityFromLocation}
       class:border-b={results?.length}
     >
-      <span class="mr-s8 h-s24 w-s24 fill-current ">
+      <span class="mr-s8 h-s24 w-s24 fill-current">
         {@html pinDistanceIcon}
       </span>
 

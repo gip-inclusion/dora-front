@@ -11,7 +11,7 @@ import * as v from "../schema-utils";
 export function allCategoriesHaveSubcategories() {
   return (name, value, data, servicesOptions: ServicesOptions) => {
     const subcatRoots = new Set(
-      data.subcategories.map((val) => val.split("--")[0])
+      data.subcategories.map((val) => val.split("--")[0]),
     );
 
     if (!servicesOptions) {
@@ -24,12 +24,12 @@ export function allCategoriesHaveSubcategories() {
       .filter((val) => !subcatRoots.has(val))
       .map(
         (val) =>
-          servicesOptions.categories.find((cat) => cat.value === val).label
+          servicesOptions.categories.find((cat) => cat.value === val).label,
       );
     return {
       valid: catWithoutSubCat.length === 0,
       msg: `Ces thématiques n’ont pas de besoin associé: ${catWithoutSubCat.join(
-        ", "
+        ", ",
       )} `,
     };
   };
@@ -148,7 +148,7 @@ export const serviceSchema: v.Schema = {
       "coachOrientationModes",
     ],
     required: (data: { coachOrientationModes: CoachOrientationModes }) => {
-      return !data.coachOrientationModes.length;
+      return !data.coachOrientationModes?.length;
     },
   },
   beneficiariesAccessModesOther: {

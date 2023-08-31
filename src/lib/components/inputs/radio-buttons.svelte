@@ -33,7 +33,7 @@
         on:focus={() => (focusValue = choice.value)}
         on:blur={() => (focusValue = undefined)}
         value={choice.value}
-        name={choice.value}
+        name={id}
         type="radio"
         class="sr-only"
         {disabled}
@@ -41,7 +41,7 @@
         aria-describedby={formatErrors(id, errorMessages)}
       />
       <div
-        class="toggle-path flex h-s24 w-s24 shrink-0 justify-center rounded-full border border-gray-03 bg-white "
+        class="toggle-path flex h-s24 w-s24 shrink-0 justify-center rounded-full border border-gray-03 bg-white"
       >
         <div
           class="toggle-circle hidden h-s12 w-s12 self-center rounded-full bg-magenta-cta"

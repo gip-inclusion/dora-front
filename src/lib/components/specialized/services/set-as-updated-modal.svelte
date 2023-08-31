@@ -3,10 +3,10 @@
   import LinkButton from "$lib/components/display/link-button.svelte";
   import Modal from "$lib/components/hoc/modal.svelte";
   import { checkboxCircleFillIcon, editIcon } from "$lib/icons";
-  import { createOrModifyService } from "$lib/requests/services";
+  import { markServiceAsSynced } from "$lib/requests/services";
   import type { Service, ServicesOptions, ShortService } from "$lib/types";
   import ServiceContact from "./service-contact.svelte";
-  import ServiceKeyInformations from "./display/old/service-key-informations.svelte";
+  import ExtendedServiceKeyInformations from "./display/extended-service-key-informations.svelte";
 
   export let isOpen = false;
   export let service: Service | ShortService;
@@ -14,8 +14,7 @@
   export let onRefresh: () => Promise<void>;
 
   async function setAsUpdated() {
-    // TODO: il serait sans doute mieux d'avoir un endpoint dédié.
-    await createOrModifyService({ ...service, markSynced: true });
+    await markServiceAsSynced(service);
     isOpen = false;
     await onRefresh();
   }
@@ -35,9 +34,9 @@
   </div>
 
   <hr class="my-s24" />
-  <ServiceContact {service} />
+  <ServiceContact {service} useWhiteText={false} />
   <hr class="my-s24" />
-  <ServiceKeyInformations {service} {servicesOptions} />
+  <ExtendedServiceKeyInformations {service} {servicesOptions} />
 
   <div slot="footer">
     <div class="mt-s24 flex flex-col-reverse justify-end gap-s24 md:flex-row">

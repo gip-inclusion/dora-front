@@ -17,8 +17,8 @@ describe("computeUpdateStatus et computeRelativeDateLabel", () => {
     const date = new Date(2022, 1, 1, 14);
     vi.setSystemTime(date);
 
-    // ALORS la réponse est "aujourd'hui"
-    expect(computeRelativeDateLabel(startDate)).toStrictEqual("aujourd'hui");
+    // ALORS la réponse est "aujourd’hui"
+    expect(computeRelativeDateLabel(startDate)).toStrictEqual("aujourd’hui");
   });
 
   test("moins d'une semaine", () => {
@@ -43,7 +43,7 @@ describe("computeUpdateStatus et computeRelativeDateLabel", () => {
 
     // ALORS la réponse est "il y a 1 semaine"
     expect(computeRelativeDateLabel(startDate)).toStrictEqual(
-      "il y a 1 semaine"
+      "il y a 1 semaine",
     );
   });
 
@@ -57,7 +57,7 @@ describe("computeUpdateStatus et computeRelativeDateLabel", () => {
 
     // ALORS la réponse est "il y a 3 semaines"
     expect(computeRelativeDateLabel(startDate)).toStrictEqual(
-      "il y a 3 semaines"
+      "il y a 3 semaines",
     );
   });
 
@@ -71,7 +71,7 @@ describe("computeUpdateStatus et computeRelativeDateLabel", () => {
 
     // ALORS pas d'actualisation nécessaire et la réponse est il y a 5 semaines
     expect(computeRelativeDateLabel(startDate)).toStrictEqual(
-      "il y a 5 semaines"
+      "il y a 5 semaines",
     );
   });
 
@@ -121,7 +121,7 @@ describe("computeUpdateStatus et computeRelativeDateLabel", () => {
 
     // ALORS la réponse est "il y a plus de 2 ans"
     expect(computeRelativeDateLabel(startDate)).toStrictEqual(
-      "il y a plus de 2 ans"
+      "il y a plus de 2 ans",
     );
   });
 });
