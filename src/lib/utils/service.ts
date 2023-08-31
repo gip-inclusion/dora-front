@@ -25,7 +25,7 @@ import { getChoicesFromKey } from "./choice";
 import { log } from "./logger";
 
 export function getAvailableOptionsForStatus(
-  status: ServiceStatus
+  status: ServiceStatus,
 ): (ServiceStatus | "DELETE")[] {
   let result: (ServiceStatus | "DELETE")[] = [];
 
@@ -102,7 +102,7 @@ export function getCategoryIcon(slug: string) {
 
 export function getCategoryLabel(
   slug: string,
-  servicesOptions: ServicesOptions
+  servicesOptions: ServicesOptions,
 ) {
   const category = servicesOptions.categories.find((cat) => cat.value === slug);
   return category?.label ?? "";
@@ -110,10 +110,10 @@ export function getCategoryLabel(
 
 export function getSubCategoryLabel(
   slug: string,
-  servicesOptions: ServicesOptions
+  servicesOptions: ServicesOptions,
 ) {
   const subCategory = servicesOptions.subcategories.find(
-    (subCat) => subCat.value === slug
+    (subCat) => subCat.value === slug,
   );
   return subCategory?.label ?? "";
 }
@@ -157,7 +157,7 @@ function sortSubcategory(subcategories: Choice[]) {
 
 export function sortByCategories(
   categories: Choice[],
-  subcategories: Choice[]
+  subcategories: Choice[],
 ) {
   const result: Choice[] = [];
 

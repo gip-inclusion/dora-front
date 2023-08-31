@@ -13,7 +13,7 @@ export const load: LayoutLoad = async ({ url, parent }) => {
   if (!myToken) {
     throw redirect(
       302,
-      `/auth/connexion?next=${encodeURIComponent(url.pathname + url.search)}`
+      `/auth/connexion?next=${encodeURIComponent(url.pathname + url.search)}`,
     );
   }
 

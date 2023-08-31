@@ -24,7 +24,7 @@ function hasAtLeastTwoMembers(members: Array<StructureMember> = []): boolean {
   return members.length > 1;
 }
 function hasInvitedMembers(
-  putativeMembers: Array<PutativeStructureMember> = []
+  putativeMembers: Array<PutativeStructureMember> = [],
 ): boolean {
   return putativeMembers.filter((mbr) => mbr.invitedByAdmin).length > 0;
 }

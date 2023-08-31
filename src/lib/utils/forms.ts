@@ -7,7 +7,7 @@ const defaultServiceCache = Object.fromEntries(
   Object.entries(serviceSchema).map(([fieldName, props]) => [
     fieldName,
     props.default,
-  ])
+  ]),
 );
 
 export function getNewService() {
@@ -18,7 +18,7 @@ const defaultModelCache = Object.fromEntries(
   Object.entries(modelSchema).map(([fieldName, props]) => [
     fieldName,
     props.default,
-  ])
+  ]),
 );
 
 export function getNewModel() {
@@ -32,9 +32,9 @@ export function createModelFromService(service) {
         Object.keys(modelSchema).map((fieldName) => [
           fieldName,
           service[fieldName],
-        ])
-      )
-    )
+        ]),
+      ),
+    ),
   );
 }
 
@@ -64,7 +64,7 @@ export function getModelInputProps({
               fieldName in servicesOptions ? servicesOptions[fieldName] : null,
             onUseValue: () => onUseModelValue(fieldName),
           },
-        ])
+        ]),
       )
     : {};
 }

@@ -18,7 +18,7 @@ const INSANE_CONFIGURATION = {
 
 export function markdownToHTML(
   markdownContent: string,
-  titleLevel: number | undefined = undefined
+  titleLevel: number | undefined = undefined,
 ) {
   const converter = new showdown.Converter({
     headerLevelStart: titleLevel,
@@ -121,9 +121,9 @@ export function addlinkToUrls(text) {
     text.replace(
       urlRegex,
       (url) =>
-        `<a href="${url}" class="underline" target="_blank" rel="noopener ugc">${url}</a>`
+        `<a href="${url}" class="underline" target="_blank" rel="noopener ugc">${url}</a>`,
     ),
-    INSANE_CONFIGURATION
+    INSANE_CONFIGURATION,
   );
 }
 
@@ -131,7 +131,7 @@ export function moveToTheEnd(
   array,
   key,
   value,
-  { sortBeginning = false, sortKey = "label" } = {}
+  { sortBeginning = false, sortKey = "label" } = {},
 ) {
   const elementsToMove = array.filter((elt) => elt[key] === value);
 
@@ -142,7 +142,7 @@ export function moveToTheEnd(
   let beginning = array.filter((elt) => elt[key] !== value);
   if (sortBeginning) {
     beginning = beginning.sort((a, b) =>
-      a[sortKey].localeCompare(b[sortKey], "fr", { numeric: true })
+      a[sortKey].localeCompare(b[sortKey], "fr", { numeric: true }),
     );
   }
 
@@ -152,10 +152,10 @@ export function moveToTheEnd(
 export function orderAndReformatSubcategories(
   subcategoriesValues,
   categoriesValues,
-  servicesOptions
+  servicesOptions,
 ) {
   const selectedCategories = servicesOptions.categories.filter((option) =>
-    categoriesValues.includes(option.value)
+    categoriesValues.includes(option.value),
   );
 
   return moveToTheEnd(subcategoriesValues, "label", "Autre", {
@@ -163,7 +163,7 @@ export function orderAndReformatSubcategories(
     sortKey: "value",
   }).map(({ value, label }) => {
     const categorie = selectedCategories.find(
-      (cat) => cat.value === value.split("--")[0]
+      (cat) => cat.value === value.split("--")[0],
     );
     return {
       value,
@@ -201,11 +201,11 @@ export function formatPhoneNumber(phoneNumber: string): string {
 
 export function isInDeploymentDepartments(
   cityCode: string,
-  servicesOptions: ServicesOptions
+  servicesOptions: ServicesOptions,
 ): boolean {
   return (
     (servicesOptions.deploymentDepartments || []).filter((department) =>
-      cityCode.startsWith(department)
+      cityCode.startsWith(department),
     ).length > 0
   );
 }

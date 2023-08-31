@@ -9,7 +9,8 @@
   export let small = false;
 
   let title;
-
+  $: currentIcon = active ? starSmileFillIcon : starSmileLineIcon;
+  $: disabled = !$userInfo;
   const dispatch = createEventDispatcher();
 
   function handleClick(evt: MouseEvent) {
@@ -18,8 +19,6 @@
     }
   }
 
-  $: currentIcon = active ? starSmileFillIcon : starSmileLineIcon;
-  $: disabled = !$userInfo;
   $: {
     if (disabled) {
       title = "Connectez-vous pour ajouter<br/> ce service à vos favoris";
@@ -78,7 +77,7 @@
   }
 
   .tooltip .tooltiptext {
-    @apply invisible absolute top-[-1000px] left-[-1000px] z-10 w-max -translate-x-1/2 rounded bg-magenta-dark px-s8 py-s2 text-center text-f12 font-bold text-white;
+    @apply invisible absolute left-[-1000px] top-[-1000px] z-10 w-max -translate-x-1/2 rounded bg-magenta-dark px-s8 py-s2 text-center text-f12 font-bold text-white;
   }
 
   .tooltip.big .tooltiptext {
@@ -92,6 +91,6 @@
 
   .tooltip:hover .tooltiptext,
   .tooltip:focus .tooltiptext {
-    @apply visible top-s28 left-1/2 opacity-100;
+    @apply visible left-1/2 top-s28 opacity-100;
   }
 </style>

@@ -24,7 +24,7 @@ export function isModelNoticeHidden(structureSlug: string): boolean {
   }
 
   const structureModelNotice = getModelNotices().find(
-    ({ slug }) => structureSlug === slug
+    ({ slug }) => structureSlug === slug,
   );
 
   if (!structureModelNotice) {
@@ -36,7 +36,7 @@ export function isModelNoticeHidden(structureSlug: string): boolean {
 
 export function hideModelNotice(structureSlug: string): void {
   const modelNoticesWithoutStruct = getModelNotices().filter(
-    ({ slug }) => structureSlug !== slug
+    ({ slug }) => structureSlug !== slug,
   );
 
   window.localStorage.setItem(
@@ -47,7 +47,7 @@ export function hideModelNotice(structureSlug: string): void {
         slug: structureSlug,
         untilDate: dayjs().add(7, "day").startOf("day").toISOString(),
       },
-    ])
+    ]),
   );
 }
 
@@ -55,7 +55,7 @@ export function showModelNotice(structureSlug: string): void {
   window.localStorage.setItem(
     MODEL_NOTICES_HIDDEN_KEY,
     JSON.stringify(
-      getModelNotices().filter(({ slug }) => structureSlug !== slug)
-    )
+      getModelNotices().filter(({ slug }) => structureSlug !== slug),
+    ),
   );
 }

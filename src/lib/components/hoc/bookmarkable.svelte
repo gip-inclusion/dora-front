@@ -4,14 +4,14 @@
 
   export let slug: string;
 
+  $: isBookmarked = $userInfo?.bookmarks
+    .map((bookmark) => bookmark.service.slug)
+    .includes(slug);
+
   async function handleFavClick() {
     await setBookmark(slug, !isBookmarked);
     await refreshUserInfo();
   }
-
-  $: isBookmarked = $userInfo?.bookmarks
-    .map((bookmark) => bookmark.service.slug)
-    .includes(slug);
 </script>
 
 <slot onBookmark={handleFavClick} {isBookmarked} />

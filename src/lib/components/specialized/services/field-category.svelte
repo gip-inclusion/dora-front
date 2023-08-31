@@ -12,8 +12,6 @@
 
   let isPristine = service.subcategories.length === 0;
 
-  let previousCategories = [];
-
   function handleCategoriesChange(categories) {
     if (
       isPristine &&
@@ -25,10 +23,9 @@
     } else if (categories.length !== 1) {
       service.useInclusionNumeriqueScheme = false;
     }
-    previousCategories = categories;
 
     service.subcategories = service.subcategories.filter((scat) =>
-      categories.some((cat) => scat.startsWith(cat))
+      categories.some((cat) => scat.startsWith(cat)),
     );
   }
 </script>

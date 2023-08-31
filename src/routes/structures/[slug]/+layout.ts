@@ -36,14 +36,14 @@ export const load: LayoutLoad = async ({ params, parent, url }) => {
 
     if (userStructuresSlugs.includes(currentStructure.slug)) {
       preferences.visitedStructures = preferences.visitedStructures.filter(
-        (slug) => slug !== currentStructure.slug
+        (slug) => slug !== currentStructure.slug,
       );
 
       preferences.visitedStructures.unshift(currentStructure.slug);
 
       localStorage.setItem(
         "visitedStructures",
-        JSON.stringify(preferences.visitedStructures)
+        JSON.stringify(preferences.visitedStructures),
       );
 
       userPreferences.set(preferences);

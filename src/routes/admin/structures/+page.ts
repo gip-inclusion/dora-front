@@ -7,7 +7,7 @@ import { getApiURL } from "$lib/utils/api";
 
 async function searchAdminDivision(query) {
   const url = `${getApiURL()}/admin-division-search/?type=department&q=${encodeURIComponent(
-    query
+    query,
   )}&with_geom=1`;
   const response = await fetch(url);
   const jsonResponse = await response.json();

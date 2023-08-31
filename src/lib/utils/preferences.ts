@@ -14,7 +14,7 @@ export function userPreferencesSet(userStructures: ShortStructure[]) {
   const visitedStructuresString = localStorage.getItem("visitedStructures");
   const visitedStructures = visitedStructuresString
     ? JSON.parse(visitedStructuresString).filter((slug) =>
-        userStructuresSlugs.includes(slug)
+        userStructuresSlugs.includes(slug),
       )
     : [];
 

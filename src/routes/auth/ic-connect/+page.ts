@@ -30,7 +30,7 @@ export const load: PageLoad = async ({ url, parent }) => {
     body: JSON.stringify({
       // eslint-disable-next-line camelcase
       redirect_uri: `${CANONICAL_URL}/auth/ic-callback?next=${encodeURIComponent(
-        nextPage
+        nextPage,
       )}`,
       loginHint: url.searchParams.get("login_hint") || undefined,
     }),

@@ -82,6 +82,8 @@
   let selectedOptionIndex: number | null = null;
   let selectedOption: ServiceStatus | "DELETE" | null = null;
 
+  let availableOptions;
+
   // Actions disponibles
   async function publish() {
     let serviceFull = service;
@@ -182,7 +184,7 @@
 
   function setAsSelected(
     hoveredStatus: ServiceStatus | "DELETE",
-    index: number
+    index: number,
   ) {
     selectedOptionIndex = index;
     selectedOption = hoveredStatus;
@@ -236,7 +238,7 @@
   <div
     class:hidden={!isDropdownOpen}
     class:w-full={fullWidth}
-    class="absolute top-s48 right-s0 z-20 min-w-[150px] rounded border border-gray-00 bg-white py-s12 px-s12 shadow-md"
+    class="absolute right-s0 top-s48 z-20 min-w-[150px] rounded border border-gray-00 bg-white px-s12 py-s12 shadow-md"
     role="listbox"
     id={`listbox-values-${uuid}`}
     aria-labelledby={`button-label-${uuid}`}

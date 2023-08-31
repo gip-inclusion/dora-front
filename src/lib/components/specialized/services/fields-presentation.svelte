@@ -12,7 +12,7 @@
   export let noTopPadding = false;
 
   let fullDesc;
-
+  let showModel;
   function handleUseModelValue(fieldName: string) {
     service[fieldName] = model ? model[fieldName] : undefined;
     if (fieldName === "fullDesc") {

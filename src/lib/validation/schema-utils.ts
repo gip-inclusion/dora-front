@@ -23,7 +23,7 @@ export type Rule = (
   value: any,
   data?: any,
   servicesOptions?: ServicesOptions,
-  schema?: any
+  schema?: any,
 ) => {
   valid: boolean;
   msg: string;

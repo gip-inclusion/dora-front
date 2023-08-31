@@ -9,7 +9,7 @@ export async function getCityLabel(inseeCode): Promise<string> {
     return result.data;
   }
   log(
-    `Impossible de trouver la ville correspondant au code INSEE ${inseeCode}`
+    `Impossible de trouver la ville correspondant au code INSEE ${inseeCode}`,
   );
   return "";
 }

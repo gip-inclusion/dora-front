@@ -18,7 +18,7 @@ async function getServicesEntries() {
       <loc>${CANONICAL_URL}/services/${service.slug}</loc>
       <lastmod>${toISODate(service.modificationDate)}</lastmod>
       <priority>0.5</priority>
-    </url>`.trim()
+    </url>`.trim(),
     )
     .join("\n");
 }
@@ -31,7 +31,7 @@ async function getStructuresEntries() {
       <loc>${CANONICAL_URL}/structures/${structure.slug}</loc>
       <lastmod>${toISODate(structure.modificationDate)}</lastmod>
       <priority>0.7</priority>
-    </url>`.trim()
+    </url>`.trim(),
     )
     .join("\n");
 }
@@ -42,7 +42,7 @@ function getStaticEntries() {
       `<url>
     <loc>${CANONICAL_URL}/${entry}</loc>
     <priority>1</priority>
-  </url>`.trim()
+  </url>`.trim(),
     )
     .join("\n");
 }

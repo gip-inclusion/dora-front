@@ -20,7 +20,7 @@ interface TallyFormLocalStorageItem {
 
 function getNpsAnswerLocalStorageKey(
   formId: TallyFormId,
-  keySuffix: string
+  keySuffix: string,
 ): string {
   let key = `tallyForm-${formId}`;
   if (keySuffix) {
@@ -32,7 +32,7 @@ function getNpsAnswerLocalStorageKey(
 
 export function saveNpsFormDateClosed(
   formId: TallyFormId,
-  keySuffix: string
+  keySuffix: string,
 ): void {
   const key = getNpsAnswerLocalStorageKey(formId, keySuffix);
   const item: TallyFormLocalStorageItem = {
@@ -43,7 +43,7 @@ export function saveNpsFormDateClosed(
 
 export function canDisplayNpsForm(
   formId: TallyFormId,
-  keySuffix: string
+  keySuffix: string,
 ): boolean {
   const key = getNpsAnswerLocalStorageKey(formId, keySuffix);
   const item = JSON.parse(localStorage.getItem(key));

@@ -24,7 +24,7 @@ export function injectOptGroupInSubCategories(choices: Choice[]): Choice[] {
 export function injectOptGroupAllOptionsInSubCategories(
   optGroups: Choice[],
   choices: Choice[],
-  allOptionLabel = "Tous"
+  allOptionLabel = "Tous",
 ) {
   return [
     ...choices,

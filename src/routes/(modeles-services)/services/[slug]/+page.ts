@@ -21,7 +21,7 @@ export const load: PageLoad = async ({ url, params, parent }) => {
     if (!get(token)) {
       throw redirect(
         302,
-        `/auth/connexion?next=${encodeURIComponent(url.pathname + url.search)}`
+        `/auth/connexion?next=${encodeURIComponent(url.pathname + url.search)}`,
       );
     }
     throw error(404, "Page Not Found");

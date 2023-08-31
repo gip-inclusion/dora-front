@@ -19,8 +19,6 @@
 
   const PAGE_LENGTH = 10;
 
-  let tags = [];
-
   function hasOnlyNationalResults(services: ServiceSearchResult[]) {
     if (services.length === 0) {
       return false;
@@ -41,7 +39,7 @@
 
     // A11y : focus on the first new result
     const firstNewResult = document.getElementById(
-      getResultId(oldPageLength)
+      getResultId(oldPageLength),
     ) as HTMLElement;
     firstNewResult.focus();
   }
@@ -49,32 +47,6 @@
   $: showDeploymentNotice =
     data.cityCode &&
     !isInDeploymentDepartments(data.cityCode, data.servicesOptions);
-  $: {
-    tags = [];
-
-    if (data.categoryIds.length) {
-      const categoryTags = data.categoryIds.map((id) => {
-        return data.servicesOptions.categories.find((cat) => cat.value === id)
-          .label;
-      });
-
-      if (categoryTags.length) {
-        tags = [...tags, ...categoryTags];
-      }
-
-      if (data.subCategoryIds.length) {
-        const subCategoryTags = data.subCategoryIds.map((id) => {
-          return data.servicesOptions.subcategories.find(
-            (cat) => cat.value === id
-          ).label;
-        });
-
-        if (subCategoryTags) {
-          tags = [...tags, ...subCategoryTags];
-        }
-      }
-    }
-  }
 </script>
 
 <CenteredGrid bgColor="bg-blue-light">
@@ -146,7 +118,7 @@
     </div>
   {/if}
 
-  <div class="mt-s48 mb-s24 lg:flex lg:gap-s24">
+  <div class="mb-s24 mt-s48 lg:flex lg:gap-s24">
     <ServiceSuggestionNotice />
   </div>
 

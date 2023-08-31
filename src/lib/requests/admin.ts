@@ -11,7 +11,7 @@ import { fetchData } from "$lib/utils/misc";
 import { get } from "svelte/store";
 
 export async function getStructuresAdmin(
-  departmentCode
+  departmentCode,
 ): Promise<AdminShortStructure[]> {
   let url = `${getApiURL()}/structures-admin/`;
 

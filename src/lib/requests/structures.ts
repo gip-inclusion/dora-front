@@ -129,7 +129,7 @@ export async function getMembers(slug): Promise<Array<StructureMember> | null> {
 }
 
 export async function getPutativeMembers(
-  slug
+  slug,
 ): Promise<Array<PutativeStructureMember> | null> {
   const url = `${getApiURL()}/structure-putative-members/?structure=${slug}`;
 

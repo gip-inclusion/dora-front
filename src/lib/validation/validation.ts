@@ -56,7 +56,7 @@ function validateField(
   data,
   servicesOptions: ServicesOptions | undefined,
   schema,
-  checkRequired = true
+  checkRequired = true,
 ) {
   const originalValue = data[fieldName];
 
@@ -127,7 +127,7 @@ export function validate(
     showErrors?: boolean;
     servicesOptions?: ServicesOptions;
     checkRequired?: boolean;
-  } = {}
+  } = {},
 ) {
   let validatedData = {};
   let isValid = true;
@@ -146,10 +146,12 @@ export function validate(
       data,
       servicesOptions,
       schema,
-      checkRequired
+      checkRequired,
     );
 
-    if (!shape) {return;}
+    if (!shape) {
+      return;
+    }
     isValid = isValid && valid;
     validatedData[fieldName] = value;
 
@@ -183,7 +185,7 @@ export function validate(
           data,
           servicesOptions,
           schema,
-          checkRequired
+          checkRequired,
         );
 
         isValid = isValid && depValid;
@@ -248,7 +250,7 @@ export function injectAPIErrors(err, serverErrorsTranslation) {
           doneOnce = true;
         }
       });
-    }
+    },
   );
 }
 
