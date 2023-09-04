@@ -14,10 +14,7 @@
 </script>
 
 <CenteredGrid bgColor="bg-magenta-brand print:bg-white" noPadding>
-  <Header
-    structure={$structure}
-    admins={data.members?.filter((mbr) => mbr.isAdmin)}
-  />
+  <Header structure={$structure} />
 </CenteredGrid>
 
 <CenteredGrid roundedColor="bg-magenta-brand">

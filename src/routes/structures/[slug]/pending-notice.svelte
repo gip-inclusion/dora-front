@@ -3,12 +3,10 @@
   import Info from "$lib/components/display/info.svelte";
   import Notice from "$lib/components/display/notice.svelte";
   import { adminIcon } from "$lib/icons";
-  import type { StructureMember } from "$lib/types";
 
   const requestResent = false;
 
-  export let admins: StructureMember[] = [];
-
+  export let shortAdminNames = [];
   const resendRequestFlag = false;
 </script>
 
@@ -18,12 +16,8 @@
 >
   <p class="text-f14">
     Si au bout de quelques jours vous n’avez pas de réponse, vous pouvez
-    {#if admins.length}
-      relancer {admins
-        .map(
-          (admin) => `${admin.user.firstName.charAt(0)}. ${admin.user.lastName}`
-        )
-        .join(", ")}.
+    {#if shortAdminNames.length}
+      relancer {shortAdminNames.join(", ")}.
     {:else}
       les relancer.
     {/if}
