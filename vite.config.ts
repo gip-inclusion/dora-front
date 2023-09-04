@@ -6,10 +6,7 @@ export default defineConfig(({ mode }) => {
   // Charge les variables d'environnement des fichiers .env
   process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   return {
-    plugins: [
-      sentrySvelteKit({ autoUploadSourceMaps: false, autoInstrument: false }),
-      sveltekit(),
-    ],
+    plugins: [sentrySvelteKit(), sveltekit()],
 
     build: {
       sourcemap: false,
@@ -17,7 +14,6 @@ export default defineConfig(({ mode }) => {
 
     test: {
       include: ["src/**/*.{test,spec}.{js,ts}"],
-      deps: {},
     },
   };
 });
