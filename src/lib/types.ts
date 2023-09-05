@@ -180,6 +180,7 @@ export interface Structure {
   postalCode: string;
   quickStartDone: boolean;
   services: StructureService[];
+  shortAdminNames: string[];
   shortDesc: string;
   siret: string | null;
   slug: string;
@@ -303,7 +304,6 @@ export interface SearchQuery {
   cityLabel: string;
   kindIds: ServiceKind[];
   feeConditions: FeeCondition[];
-  useDI: boolean;
 }
 
 export interface ServiceSearchResult {
