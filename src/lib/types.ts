@@ -341,7 +341,6 @@ export interface ServiceStructure {
   address1: string;
   address2: string;
   city: string;
-  canShowOrientationForm: boolean;
   department: string;
   hasAdmin: boolean;
   name: string;
@@ -401,6 +400,7 @@ export interface Service {
   isAvailable: boolean;
   isContactInfoPublic: boolean;
   isCumulative: boolean;
+  isOrientable: boolean;
   kinds: ServiceKind[];
   kindsDisplay: string[];
   locationKinds: LocationKind[];

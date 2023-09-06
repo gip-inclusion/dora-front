@@ -20,7 +20,6 @@ import type {
   FeeCondition,
   ServicesOptions,
   ServiceStatus,
-  Service,
 } from "$lib/types";
 import { getChoicesFromKey } from "./choice";
 import { log } from "./logger";
@@ -167,14 +166,4 @@ export function sortByCategories(
     result.push(...sortSubcategory(subCategoriesForCategory));
   });
   return result;
-}
-
-export function serviceIsMobilisable(service: Service) {
-  return (
-    service.structureInfo.canShowOrientationForm &&
-    service.contactEmail &&
-    (service.coachOrientationModes?.includes("envoyer-courriel") ||
-      service.coachOrientationModes?.includes("envoyer-fiche-prescription") ||
-      service.beneficiariesAccessModes?.includes("envoyer-courriel"))
-  );
 }
