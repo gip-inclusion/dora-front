@@ -17,7 +17,6 @@
     ServiceKind,
     ServicesOptions,
   } from "$lib/types";
-  import { getChoicesFromKey } from "$lib/utils/choice";
   import {
     getDepartmentFromCityCode,
     isInDeploymentDepartments,
@@ -61,8 +60,8 @@
       kindIds,
       feeConditions,
     });
-    goto(`recherche?${query}`);
     refreshDisabled = true;
+    goto(`recherche?${query}`);
   }
 
   function enableRefreshButton() {
@@ -73,30 +72,29 @@
     ? associateIconToCategory(sortCategory(servicesOptions.categories))
     : [];
 
-  function handleCategoryChange(isInit = false) {
-    if (!isInit) {
-      enableRefreshButton();
+  function handleCategoryChange(clearSubCategories = false) {
+    enableRefreshButton();
+
+    if (clearSubCategories) {
       subCategoryIds = [];
     }
-
     if (categoryId) {
       subCategories = sortSubcategory([
         {
           value: `${categoryId}--all`,
           label: "Tous les besoins",
         },
-        ...getChoicesFromKey(categoryId, servicesOptions.subcategories),
+        ...servicesOptions.subcategories.filter((sub) =>
+          sub.value.startsWith(categoryId)
+        ),
       ]);
-      if (isInit) {
-        subCategoryIds = [`${categoryId}--all`];
-      }
     } else {
       subCategories = [];
     }
   }
 
   onMount(() => {
-    handleCategoryChange(true);
+    handleCategoryChange();
   });
 </script>
 
@@ -179,7 +177,7 @@
             placeholder="Recherche par thématiques"
             bind:value={categoryId}
             choices={categories}
-            onChange={() => handleCategoryChange()}
+            onChange={() => handleCategoryChange(true)}
           />
         </div>
 

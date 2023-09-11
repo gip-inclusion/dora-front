@@ -535,7 +535,6 @@ export type Partner = {
 export type Choice<T = string> = {
   value: T;
   label: string;
-  optGroupKey?: string;
   selectedLabel?: string;
   icon?: string;
   iconOnRight?: boolean;

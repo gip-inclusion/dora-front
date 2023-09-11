@@ -21,7 +21,6 @@ import type {
   ServicesOptions,
   ServiceStatus,
 } from "$lib/types";
-import { getChoicesFromKey } from "./choice";
 import { log } from "./logger";
 
 export function getAvailableOptionsForStatus(
@@ -162,7 +161,9 @@ export function sortByCategories(
   const result: Choice[] = [];
 
   categories.forEach(({ value }) => {
-    const subCategoriesForCategory = getChoicesFromKey(value, subcategories);
+    const subCategoriesForCategory = subcategories.filter((sub) =>
+      sub.value.startsWith(value)
+    );
     result.push(...sortSubcategory(subCategoriesForCategory));
   });
   return result;
