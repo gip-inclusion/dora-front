@@ -5,23 +5,23 @@
   import DateLabel from "$lib/components/display/date-label.svelte";
   import SelectField from "$lib/components/forms/fields/select-field.svelte";
   import { closeCircleIcon, historyLineIcon, mailLineIcon } from "$lib/icons";
-  import type { Alert } from "$lib/types";
+  import type { SavedSearch } from "$lib/types";
   import {
-    updateAlertFrequency,
-    deleteAlert,
-    getAlertQueryString,
-  } from "$lib/utils/alerts";
+    updateSavedSearchFrequency,
+    deleteSavedSearch,
+    getSavedSearchQueryString,
+  } from "$lib/utils/saved-search";
   import { refreshUserInfo } from "$lib/utils/auth";
   import Button from "$lib/components/display/button.svelte";
 
-  export let alert: Alert;
+  export let search: SavedSearch;
 
   let requesting = false;
 
   async function doDeleteAlert() {
     requesting = true;
 
-    await deleteAlert(alert.id);
+    await deleteSavedSearch(search.id);
     await refreshUserInfo();
 
     requesting = false;
@@ -29,20 +29,20 @@
 
   // Mise à jour de la fréquence d'envoi des alertes
   let formData = {
-    frequency: alert.frequency,
+    frequency: search.frequency,
   };
 
   const updateFrequencySchema: v.Schema = {
     frequency: {
       label: "Fréquence de notification",
-      default: alert.frequency,
+      default: search.frequency,
       rules: [v.isString(), v.maxStrLength(255)],
       required: true,
     },
   };
 
   async function handleSubmit(validatedData) {
-    await updateAlertFrequency(alert.id, validatedData.frequency);
+    await updateSavedSearchFrequency(search.id, validatedData.frequency);
     return { ok: true };
   }
   async function handleSuccess() {
@@ -55,12 +55,14 @@
   tabindex="-1"
 >
   <h2 class="text-f20">
-    <a href={`recherche?${getAlertQueryString(alert)}`}>
-      Services d’insertion à proximité de {alert.cityLabel}
+    <a href={`recherche?${getSavedSearchQueryString(search)}`}>
+      Services d’insertion à proximité de {search.cityLabel}
 
-      {#if alert.categories}
-        pour {alert.categories.length > 1 ? "les thématiques" : "la thématique"}
-        {alert.categoriesDisplay.join(", ")}
+      {#if search.categories}
+        pour {search.categories.length > 1
+          ? "les thématiques"
+          : "la thématique"}
+        {search.categoriesDisplay.join(", ")}
       {/if}
     </a>
   </h2>
@@ -78,20 +80,20 @@
     </span>
   </button>
 
-  {#if alert.subcategories.length || alert.kinds.length || alert.fees.length}
+  {#if search.subcategories.length || search.kinds.length || search.fees.length}
     <p class="text-f16">
-      {#if alert.subcategories.length}
-        Besoins sélectionnés : {alert.subcategoriesDisplay.join(", ")}.
+      {#if search.subcategories.length}
+        Besoins sélectionnés : {search.subcategoriesDisplay.join(", ")}.
       {:else}
         Aucun besoin sélectionné.
       {/if}
 
-      {#if alert.kinds.length}
-        Type de services : {alert.kindsDisplay.join(", ")}.
+      {#if search.kinds.length}
+        Type de services : {search.kindsDisplay.join(", ")}.
       {/if}
 
-      {#if alert.fees.length}
-        Frais à charge : {alert.feesDisplay.join(", ")}.
+      {#if search.fees.length}
+        Frais à charge : {search.feesDisplay.join(", ")}.
       {/if}
     </p>
   {/if}
@@ -100,7 +102,7 @@
     <span class="mr-s8 inline-block h-s16 w-s16 fill-current">
       {@html historyLineIcon}
     </span>
-    Le <DateLabel date={alert.creationDate} />
+    Le <DateLabel date={search.creationDate} />
   </p>
 
   <div class="form-container">
@@ -118,7 +120,7 @@
         <SelectField
           id="frequency"
           vertical
-          initialValue={alert.frequency || "two-weeks"}
+          initialValue={search.frequency || "two-weeks"}
           hideLabel={true}
           bind:value={formData.frequency}
           placeholder="Fréquence de notification"
@@ -139,7 +141,7 @@
         />
       </div>
 
-      {#if formData.frequency !== alert.frequency}
+      {#if formData.frequency !== search.frequency}
         <Button
           name="validate"
           type="submit"

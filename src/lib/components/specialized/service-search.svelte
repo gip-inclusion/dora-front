@@ -30,7 +30,10 @@
   import { getQueryString } from "$lib/utils/service-search";
   import { onMount } from "svelte";
   import { refreshUserInfo, userInfo } from "$lib/utils/auth";
-  import { currentSearchInAlert, saveAlert } from "$lib/utils/alerts";
+  import {
+    isCurrentSearchInUserSavedSearchs,
+    saveSearch,
+  } from "$lib/utils/saved-search";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode;
@@ -62,8 +65,8 @@
     refreshDisabled = true;
   }
 
-  async function saveSearch() {
-    await saveAlert({
+  async function doSaveSearch() {
+    await saveSearch({
       categories: [categoryId],
       subcategories: subCategoryIds.filter((value) => !value.endsWith("--all")),
       cityCode,
@@ -291,22 +294,22 @@
         preventDefaultOnMouseDown
       />
 
-      {#if currentSearchInAlert($userInfo, query)}
+      {#if isCurrentSearchInUserSavedSearchs($userInfo, query)}
         <Button
           extraClass="h-s48"
           secondary
           label="Recherche déjà sauvegardé"
           disabled
-          on:click={saveSearch}
+          on:click={doSaveSearch}
           preventDefaultOnMouseDown
         />
       {:else}
         <Button
           extraClass="h-s48"
           secondary
-          label="Sauvegarder la recherche"
+          label="Créer une alerte"
           disabled={!cityCode}
-          on:click={saveSearch}
+          on:click={doSaveSearch}
           preventDefaultOnMouseDown
         />
       {/if}

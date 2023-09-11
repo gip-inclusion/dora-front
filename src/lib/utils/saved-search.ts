@@ -1,16 +1,16 @@
 import { get } from "svelte/store";
 import { token } from "./auth";
 import { getApiURL } from "./api";
-import type { Alert, Frequency } from "$lib/types";
+import type { SavedSearch, Frequency } from "$lib/types";
 import { getQueryString } from "./service-search";
 
-export async function saveAlert(
-  alert: Pick<
-    Alert,
+export async function saveSearch(
+  savedSearch: Pick<
+    SavedSearch,
     "cityCode" | "cityLabel" | "categories" | "subcategories" | "kinds" | "fees"
   >
 ) {
-  const url = `${getApiURL()}/services/save-alert/`;
+  const url = `${getApiURL()}/services/save-search/`;
   const method = "POST";
   const response = await fetch(url, {
     method,
@@ -19,18 +19,18 @@ export async function saveAlert(
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ ...alert }),
+    body: JSON.stringify({ ...savedSearch }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
   }
 }
 
-export async function updateAlertFrequency(
-  alertId: string,
+export async function updateSavedSearchFrequency(
+  savedSearchId: string,
   frequency: Frequency
 ) {
-  const url = `${getApiURL()}/services/update-alert-frequency/`;
+  const url = `${getApiURL()}/services/update-saved-search-frequency/`;
   const method = "POST";
 
   const response = await fetch(url, {
@@ -40,15 +40,15 @@ export async function updateAlertFrequency(
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ alertId, frequency }),
+    body: JSON.stringify({ savedSearchId, frequency }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
   }
 }
 
-export async function deleteAlert(alertId: string) {
-  const url = `${getApiURL()}/services/delete-alert/`;
+export async function deleteSavedSearch(savedSearchId: string) {
+  const url = `${getApiURL()}/services/delete-saved-search/`;
   const method = "POST";
 
   const response = await fetch(url, {
@@ -58,29 +58,32 @@ export async function deleteAlert(alertId: string) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ alertId }),
+    body: JSON.stringify({ savedSearchId }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
   }
 }
 
-export function getAlertQueryString(alert: Alert) {
+export function getSavedSearchQueryString(savedSearch: SavedSearch) {
   return getQueryString({
-    categoryIds: alert.categories,
-    subCategoryIds: alert.subcategories,
-    cityCode: alert.cityCode,
-    cityLabel: alert.cityLabel,
-    kindIds: alert.kinds,
-    feeConditions: alert.fees,
+    categoryIds: savedSearch.categories,
+    subCategoryIds: savedSearch.subcategories,
+    cityCode: savedSearch.cityCode,
+    cityLabel: savedSearch.cityLabel,
+    kindIds: savedSearch.kinds,
+    feeConditions: savedSearch.fees,
   });
 }
 
-export function currentSearchInAlert(userInfo, currentQuery): boolean {
-  const userAlerts = userInfo?.alerts || [];
+export function isCurrentSearchInUserSavedSearchs(
+  userInfo,
+  currentQuery
+): boolean {
+  const userSavedSearchs = userInfo?.savedSearchs || [];
 
-  for (let i = 0; i < userAlerts.length; i++) {
-    if (getAlertQueryString(userAlerts[i]) === currentQuery) {
+  for (let i = 0; i < userSavedSearchs.length; i++) {
+    if (getSavedSearchQueryString(userSavedSearchs[i]) === currentQuery) {
       return true;
     }
   }

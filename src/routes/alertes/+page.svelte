@@ -4,21 +4,23 @@
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import { externalLinkIcon, starSmileLineIcon } from "$lib/icons";
   import { userInfo } from "$lib/utils/auth";
-  import AlertCard from "./alert-card.svelte";
+  import SavedSearchCard from "./saved-search-card.svelte";
 
-  $: alerts = $userInfo?.alerts;
+  $: savedSearchs = $userInfo?.savedSearchs;
 </script>
 
 <EnsureLoggedIn>
   <CenteredGrid>
     <h1 class="mb-s64 text-center text-france-blue">Mes alertes</h1>
-    {#if alerts.length}
+    {#if savedSearchs.length}
       <p class="mb-s40 text-f21 font-bold text-gray-dark">
-        {$userInfo.alerts.length} alerte{$userInfo.alerts.length > 1 ? "s" : ""}
+        {$userInfo.savedSearchs.length} alerte{$userInfo.savedSearchs.length > 1
+          ? "s"
+          : ""}
       </p>
       <div class="flex flex-col gap-s16">
-        {#each alerts as alert}
-          <AlertCard {alert} />
+        {#each savedSearchs as search}
+          <SavedSearchCard {search} />
         {/each}
       </div>
     {:else}

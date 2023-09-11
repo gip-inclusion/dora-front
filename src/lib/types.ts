@@ -462,7 +462,7 @@ export interface Bookmark {
   creationDate: string;
 }
 
-export interface Alert {
+export interface SavedSearch {
   id: string;
   creationDate: string;
   cityCode: string;
