@@ -45,6 +45,10 @@
   let cityChoiceList;
   let subCategories: Choice[] = [];
 
+  const categories = servicesOptions.categories
+    ? associateIconToCategory(sortCategory(servicesOptions.categories))
+    : [];
+
   function handleSearch() {
     // Remove sub-categories ending with --all
     const finalSubCategoryIds = subCategoryIds.filter(
@@ -67,10 +71,6 @@
   function enableRefreshButton() {
     refreshDisabled = false;
   }
-
-  const categories = servicesOptions.categories
-    ? associateIconToCategory(sortCategory(servicesOptions.categories))
-    : [];
 
   function handleCategoryChange(clearSubCategories = false) {
     enableRefreshButton();
