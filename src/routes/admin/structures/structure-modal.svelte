@@ -31,7 +31,7 @@
   width="medium"
   overflow
 >
-  <div class=" m-s8">
+  <div class="m-s16">
     {#if structure}
       <ModerationButtonMenu entity={structure} onRefresh={handleRefresh} />
       <StructureContacts {structure} />
