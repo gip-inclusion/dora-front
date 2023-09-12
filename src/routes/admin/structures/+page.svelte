@@ -69,6 +69,9 @@
         "Département": structure.department,
         "Ville": structure.city,
         "Description": structure.shortDesc,
+        "Thématiques": structure.categories.filter(Boolean).map(
+          (val) => data.servicesOptions?.categories.find((cat) => cat.value === val)?.label
+        ).join(", "),
         "Téléphone": structure.phone,
         "Courriel": structure.email,
         "Lien DORA": `${CANONICAL_URL}/structures/${structure.slug}`,
