@@ -35,6 +35,8 @@
   import { validate } from "$lib/validation/validation";
   import type { Schema } from "$lib/validation/schema-utils";
   import { shortenString } from "$lib/utils/misc";
+  import { inclusionFormAutoSwitchDone } from "$lib/components/specialized/services/store";
+  import { onMount } from "svelte";
 
   export let service: Service,
     servicesOptions: ServicesOptions,
@@ -44,6 +46,10 @@
 
   let requesting = false;
   let currentSchema: Schema;
+
+  onMount(() => {
+    $inclusionFormAutoSwitchDone = service.subcategories.length !== 0;
+  });
 
   // Affichage d'un message aux anciennes structures suite à l'ajout d'une limitation du nombre de typologies
   const showMaxCategoriesNotice = (service.categories.length || 0) > 3;

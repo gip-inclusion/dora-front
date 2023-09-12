@@ -2,6 +2,7 @@
   import MultiSelectField from "$lib/components/forms/fields/multi-select-field.svelte";
   import type { Model, Service, ServicesOptions } from "$lib/types";
   import InclusionNumSwitch from "./inclusion-num-switch.svelte";
+  import { inclusionFormAutoSwitchDone } from "./store";
 
   export let servicesOptions: ServicesOptions, service: Service;
 
@@ -10,18 +11,16 @@
   export let description = "";
   const useModel = model != null;
 
-  let isPristine = service.subcategories.length === 0;
-
   let previousCategories = [];
 
   function handleCategoriesChange(categories) {
     if (
-      isPristine &&
+      !$inclusionFormAutoSwitchDone &&
       categories.length === 1 &&
       categories[0] === "numerique"
     ) {
       service.useInclusionNumeriqueScheme = true;
-      isPristine = false;
+      $inclusionFormAutoSwitchDone = true;
     } else if (categories.length !== 1) {
       service.useInclusionNumeriqueScheme = false;
     }
