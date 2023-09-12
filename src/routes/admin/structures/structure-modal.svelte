@@ -28,11 +28,13 @@
   on:close={() => (structureSlug = null)}
   bind:isOpen
   title={structure?.name}
-  width="small"
+  width="medium"
   overflow
 >
-  {#if structure}
-    <ModerationButtonMenu entity={structure} onRefresh={handleRefresh} />
-    <StructureContacts {structure} />
-  {/if}
+  <div class=" m-s8">
+    {#if structure}
+      <ModerationButtonMenu entity={structure} onRefresh={handleRefresh} />
+      <StructureContacts {structure} />
+    {/if}
+  </div>
 </Modal>
