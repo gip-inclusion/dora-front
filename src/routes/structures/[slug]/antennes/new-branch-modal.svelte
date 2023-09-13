@@ -17,10 +17,11 @@
     <p class="text-f16">
       Une antenne est une <strong>nouvelle structure</strong> sur Dora
       <strong>rattachée à votre structure principale</strong>. Une antenne a
-      ainsi la possibilité d’afficher <strong>propres offres</strong> et d’être
-      gérée par ses <strong>propres administrateurs et collaborateurs</strong>.
-      Une antenne peut avoir le même numéro SIRET que la structure principale ou
-      un numéro de SIRET différent.
+      ainsi la possibilité d’afficher <strong>ses propres offres</strong> et
+      d’être gérée par ses
+      <strong>propres administrateurs et collaborateurs</strong>. Une antenne
+      peut avoir le même numéro SIRET que la structure principale ou un numéro
+      de SIRET différent.
     </p>
 
     <h2 class="mt-s32">
@@ -29,7 +30,7 @@
 
     <p class="text-f16">
       Entre votre structure principale et votre(vos) antenne(s), les
-      collaborateurs qui diffusent les offres sur DORA sont :
+      collaborateurs qui diffusent des offres sur DORA sont :
     </p>
 
     <ul class="mt-s10 list-disc pl-s16 text-gray-text">
@@ -38,9 +39,9 @@
       </li>
       <li class="text-f16">
         Les mêmes : ❌ NON, la création d’antenne n’est pas nécessaire et dans
-        cas, choisissez la simplicité 😉 : gérez toutes vos offres sur votre
+        ce cas, choisissez la simplicité 😉 : gérez toutes vos offres sur votre
         structure principale en créant plusieurs services (un par localité par
-        exemple) !
+        exemple !).
       </li>
     </ul>
 
@@ -52,6 +53,9 @@
       <a
         href="https://aide.dora.inclusion.beta.gouv.fr/fr/"
         class="text-magenta-cta underline"
+        target="_blank"
+        title="Ouverture dans une nouvelle fenêtre"
+        rel="noopener"
       >
         via notre chatbot
       </a> (bouton "Discuter avec nous" en bas de la page).
