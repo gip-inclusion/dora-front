@@ -65,6 +65,9 @@ const config = {
 
     // Désactivation des avertissements d'accessibilité, le temps de finir la migration Sveltekit
     // TODO: les corriger au lieu de les masquer
+    if (warning.code === "a11y-interactive-supports-focus") {
+      return;
+    }
     if (warning.code === "a11y-click-events-have-key-events") {
       return;
     }
