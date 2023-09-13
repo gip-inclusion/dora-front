@@ -1,3 +1,3 @@
 import { writable } from "svelte/store";
 
-export const inclusionFormAutoSwitchDone = writable<boolean>(false);
+export const preventInclusionFormAutoSwitch = writable<boolean>(false);

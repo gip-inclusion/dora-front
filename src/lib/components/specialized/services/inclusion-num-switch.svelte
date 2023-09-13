@@ -3,7 +3,7 @@
   import Modal from "$lib/components/hoc/modal.svelte";
   import Notice from "$lib/components/display/notice.svelte";
   import type { Service } from "$lib/types";
-  import { tick } from "svelte";
+  import { preventInclusionFormAutoSwitch } from "./store";
 
   export let service: Service;
 
@@ -30,15 +30,19 @@
     ? inclusionNumeriqueFormActiveNotice
     : inclusionNumeriqueFormAvailableNotice;
 
-  function toggleInclusionNumeriqueForm() {
-    service.useInclusionNumeriqueScheme = !service.useInclusionNumeriqueScheme;
+  function activateInclusionNumeriqueForm() {
+    service.useInclusionNumeriqueScheme = true;
+    service.categories = ["numerique"];
+  }
 
-    if (service.useInclusionNumeriqueScheme) {
-      service.categories = ["numerique"];
-    } else {
-      if (service.feeCondition === "pass-numerique") {
-        service.feeCondition = "gratuit";
-      }
+  function closeInclusionNumeriqueForm() {
+    // On empêche le switch automatique vers le formulaire de l'inclusion numérique
+    // si on conserve uniquement la catégorie "numerique"
+    $preventInclusionFormAutoSwitch = true;
+
+    service.useInclusionNumeriqueScheme = false;
+    if (service.feeCondition === "pass-numerique") {
+      service.feeCondition = "gratuit";
     }
   }
 
@@ -49,14 +53,6 @@
   function handleRejectSwitchToInclusionNumForm() {
     isInclusionNumModalOpen = false;
   }
-
-  async function handleSwitchToInclusionNumForm() {
-    isInclusionNumModalOpen = false;
-    toggleInclusionNumeriqueForm();
-    await tick();
-  }
-
-  $: showModel = !!service.model;
 </script>
 
 <Modal
@@ -75,7 +71,7 @@
     />
     <Button
       label="Passer au formulaire de l’inclusion numérique"
-      on:click={handleSwitchToInclusionNumForm}
+      on:click={activateInclusionNumeriqueForm}
     />
   </div>
 </Modal>
@@ -96,7 +92,7 @@
           noBackground
           noPadding
           on:click={service.useInclusionNumeriqueScheme
-            ? toggleInclusionNumeriqueForm
+            ? closeInclusionNumeriqueForm
             : openInclusionNumModal}
         />
       </p>
