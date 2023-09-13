@@ -32,7 +32,7 @@
       collaborateurs qui diffusent les offres sur DORA sont :
     </p>
 
-    <ul class="mt-s10 list-disc pl-s16">
+    <ul class="mt-s10 list-disc pl-s16 text-gray-text">
       <li class="text-f16">
         Différents : ✅ OUI, la création d’antenne est nécessaire
       </li>
@@ -48,8 +48,13 @@
 
     <p class="mb-s20 text-f16">
       Pour demander la création d’une ou plusieurs antennes, il suffit
-      simplement de nous en faire la demande via notre chatbot (bouton "Discuter
-      avec nous" en bas de la page).
+      simplement de nous en faire la demande
+      <a
+        href="https://aide.dora.inclusion.beta.gouv.fr/fr/"
+        class="text-magenta-cta underline"
+      >
+        via notre chatbot
+      </a> (bouton "Discuter avec nous" en bas de la page).
     </p>
 
     <p
@@ -69,9 +74,5 @@
       Une fois créée, vous retrouverez l’accès à <strong>vos structures</strong>
       depuis votre tableau de bord principal.
     </p>
-
-    <div class="mt-s32 flex flex-row justify-end gap-s16">
-      <Button on:click={() => {}} label="Contacter le support" />
-    </div>
   </Modal>
 {/if}
