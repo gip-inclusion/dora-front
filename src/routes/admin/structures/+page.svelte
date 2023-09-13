@@ -5,7 +5,10 @@
   import { CANONICAL_URL } from "$lib/env";
   import { getStructuresAdmin } from "$lib/requests/admin";
   import type { AdminShortStructure, GeoApiValue } from "$lib/types";
+  import { getApiURL } from "$lib/utils/api";
+  import { token } from "$lib/utils/auth";
   import dayjs from "dayjs";
+  import { get } from "svelte/store";
   import type { PageData } from "./$types";
   import Filters from "./filters.svelte";
   import StructuresMap from "./structures-map.svelte";
@@ -47,7 +50,30 @@
     );
   }
 
-  function handleClick() {
+  async function handleReInviteClick() {
+    const response = await fetch(
+      `${getApiURL()}/structures-admin/resend-all-invite/`,
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json; version=1.0",
+          "Content-Type": "application/json",
+          Authorization: `Token ${get(token)}`,
+        },
+      }
+    );
+    if (!response.ok) {
+      throw Error(response.statusText);
+    }
+    const results = await response.json();
+    console.log(results);
+    // TODO: à remplacer par une modale
+    alert(
+      `${results.invitedUsers.length} utilisateurs ont été réinvités. ${results.notReinvitedUsers.length} ne l’ont pas été car ils ont déjà été notifiés récemment.`
+    );
+  }
+
+  function handleDowloadClick() {
     const sheetData = filteredStructures.map((structure) => {
       let status = "";
       if (!structure.hasAdmin && !structure.adminsToRemind.length) {
@@ -159,11 +185,19 @@
           </div>
           <div class="flex w-full flex-col gap-s24">
             <Button
-              on:click={handleClick}
+              on:click={handleDowloadClick}
               label="Télécharger"
               secondary
               disabled={!filteredStructures.length}
             />
+            {#if searchStatus === "en_attente"}
+              <Button
+                on:click={handleReInviteClick}
+                label="Réinviter les administrateurs"
+                secondary
+                disabled={false}
+              />
+            {/if}
             <StructuresTable
               {filteredStructures}
               bind:selectedStructureSlug
