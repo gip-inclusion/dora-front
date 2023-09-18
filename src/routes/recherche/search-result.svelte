@@ -7,13 +7,13 @@
   export let result: ServiceSearchResult;
 
   $: hasLocationTag = result.distance || result.location === "À distance";
-  $: isDI = result.type === "di";
+  $: isDI = result.type === "di"; // dummy change for commit
 </script>
 
 <Bookmarkable slug={result.slug} let:onBookmark let:isBookmarked>
   <div {id} class="rounded-ml border border-gray-02 shadow-sm" tabindex="-1">
-    <div class="relative p-s32 lg:pr-s64 ">
-      <div class="mb-s24 flex items-center justify-between ">
+    <div class="relative p-s32 lg:pr-s64">
+      <div class="mb-s24 flex items-center justify-between">
         <div class="text-f14">
           {result.structureInfo.name}
           {#if result.location && result.location !== "À distance"}<span
@@ -24,7 +24,7 @@
         <div class="flex items-center gap-s8">
           {#if hasLocationTag}
             <div
-              class="whitespace-nowrap rounded-xl bg-france-blue py-s4 px-s10 text-f14 font-bold text-white"
+              class="whitespace-nowrap rounded-xl bg-france-blue px-s10 py-s4 text-f14 font-bold text-white"
             >
               {#if result.distance}
                 à&nbsp;{Math.round(result.distance)}&nbsp;km
@@ -56,7 +56,7 @@
       </p>
       {#if isDI}
         <div
-          class="inline rounded border border-gray-02 py-s2 px-s8 text-f12 text-gray-text"
+          class="inline rounded border border-gray-02 px-s8 py-s2 text-f12 text-gray-text"
         >
           Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
         </div>
