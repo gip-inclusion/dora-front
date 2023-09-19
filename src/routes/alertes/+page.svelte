@@ -51,7 +51,7 @@
             href="https://aide.dora.inclusion.beta.gouv.fr/fr/category/quoi-de-neuf-es1img/"
             class="inline-block h-full text-magenta-cta"
           >
-            Nouveautés
+            Découvrez comment créer une alerte
             <span
               class="inline-block h-s20 w-s20 fill-current pt-s6 pl-s4"
               aria-hidden
