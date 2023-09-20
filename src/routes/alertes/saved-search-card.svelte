@@ -58,7 +58,7 @@
     <a href={`recherche?${getSavedSearchQueryString(search)}`}>
       Services d’insertion à proximité de {search.cityLabel}
 
-      {#if search.categories}
+      {#if search.categories.length}
         pour {search.categories.length > 1
           ? "les thématiques"
           : "la thématique"}
