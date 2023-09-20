@@ -15,15 +15,21 @@
   import StructuresTable from "./structures-table.svelte";
   import * as XLSX from "xlsx";
   import type { StatusFilter } from "./types";
+  import ReinviteModal from "./reinvite-modal.svelte";
 
   export let data: PageData;
 
   let searchStatus: StatusFilter = "toutes";
-
   let structures: AdminShortStructure[] = [];
   let filteredStructures: AdminShortStructure[] = [];
   let department: GeoApiValue;
   let selectedStructureSlug: string | null = null;
+  let reinviteModalOpen = false;
+  let reinvitedUsers: {
+    reinvited: string[];
+    blacklisted: string[];
+  } | null = null;
+  let reinviteRequestPending = false;
 
   function filterOrphanPoleEmploiStructures(structs) {
     return structs.filter(
@@ -51,6 +57,7 @@
   }
 
   async function handleReInviteClick() {
+    reinviteRequestPending = true;
     const response = await fetch(
       `${getApiURL()}/structures-admin/resend-all-invite/`,
       {
@@ -65,15 +72,13 @@
     if (!response.ok) {
       throw Error(response.statusText);
     }
-    const results = await response.json();
-    console.log(results);
-    // TODO: à remplacer par une modale
-    alert(
-      `${results.invitedUsers.length} utilisateurs ont été réinvités. ${results.notReinvitedUsers.length} ne l’ont pas été car ils ont déjà été notifiés récemment.`
-    );
+
+    reinvitedUsers = await response.json();
+    reinviteModalOpen = true;
+    reinviteRequestPending = false;
   }
 
-  function handleDowloadClick() {
+  function handleDownloadClick() {
     const sheetData = filteredStructures.map((structure) => {
       let status = "";
       if (!structure.hasAdmin && !structure.adminsToRemind.length) {
@@ -130,6 +135,7 @@
   }
 </script>
 
+<ReinviteModal bind:isOpen={reinviteModalOpen} {reinvitedUsers}></ReinviteModal>
 <CenteredGrid>
   {#if !data.isManager}
     <div class="mb-s16 flex flex-col">
@@ -185,7 +191,7 @@
           </div>
           <div class="flex w-full flex-col gap-s24">
             <Button
-              on:click={handleDowloadClick}
+              on:click={handleDownloadClick}
               label="Télécharger"
               secondary
               disabled={!filteredStructures.length}
@@ -193,9 +199,9 @@
             {#if searchStatus === "en_attente"}
               <Button
                 on:click={handleReInviteClick}
-                label="Réinviter les administrateurs"
+                label="Relancer les administrateurs invités"
                 secondary
-                disabled={false}
+                disabled={reinviteRequestPending}
               />
             {/if}
             <StructuresTable
