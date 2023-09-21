@@ -56,7 +56,7 @@
         <MenuMesStructures {structures} {lastVisitedStructure} mobileDesign />
         <MenuMonCompte mobileDesign />
       {/if}
-      <hr class="-mx-s32 mb-s16 mt-s64" />
+      <hr class="-mx-s32 mt-s64 mb-s16" />
       <SubMenu mobileDesign />
     </div>
   </div>

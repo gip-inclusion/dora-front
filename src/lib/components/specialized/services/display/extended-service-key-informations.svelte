@@ -59,7 +59,7 @@
   {/if}
 
   {#if display === "sidebar"}
-    <hr class="mb-s10 mt-s20" />
+    <hr class="mt-s20 mb-s10" />
   {/if}
 
   {#if service.feeCondition && isNotFreeService(service.feeCondition)}
@@ -138,7 +138,7 @@
 
 <style lang="postcss">
   h3 {
-    @apply mb-s2 mt-s10 flex items-center text-f17;
+    @apply mt-s10 mb-s2 flex items-center text-f17;
   }
   p {
     @apply m-s0 text-f16 text-gray-text;
