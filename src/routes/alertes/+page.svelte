@@ -25,7 +25,7 @@
       </div>
     {:else}
       <div
-        class="flex flex-col-reverse items-center justify-center gap-s40 rounded-md border border-gray-03 py-s32 px-s20 lg:flex-row"
+        class="flex flex-col-reverse items-center justify-center gap-s40 rounded-md border border-gray-03 px-s20 py-s32 lg:flex-row"
       >
         <div class="max-w-lg basis-1/2 text-center">
           <div class="mx-auto mb-s12 h-s24 w-s24">
@@ -53,7 +53,7 @@
           >
             Découvrez comment créer une alerte
             <span
-              class="inline-block h-s20 w-s20 fill-current pt-s6 pl-s4"
+              class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
               aria-hidden
             >
               {@html externalLinkIcon}
@@ -61,10 +61,7 @@
           </a>
         </div>
         <div class="flex-shrink-0">
-          <img
-            src={illustration}
-            alt="Personne avec un sac à dos feuilletant des notes"
-          />
+          <img src={illustration} alt="" />
         </div>
       </div>
     {/if}
