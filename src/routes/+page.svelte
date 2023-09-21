@@ -35,7 +35,7 @@
     cityLabel={data.cityLabel}
   />
 
-  <div class="mb-s16 mt-s32 text-center text-f16">
+  <div class="mt-s32 mb-s16 text-center text-f16">
     <a
       target="_blank"
       class="text-magenta-cta underline"

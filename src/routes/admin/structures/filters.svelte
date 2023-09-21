@@ -287,7 +287,7 @@
   />
   <div
     class:hidden={!showAdvancedFilters}
-    class="mx-s8 rounded border border-gray-01 p-s16"
+    class="mx-s8  rounded border border-gray-01 p-s16"
   >
     <div class="mb-s16 flex flex-col gap-s24">
       <div class="flex justify-between gap-s16">
