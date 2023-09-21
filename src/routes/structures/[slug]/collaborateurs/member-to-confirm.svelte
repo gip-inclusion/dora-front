@@ -39,14 +39,14 @@
   </div>
   <div slot="status">
     <span
-      class="inline-block rounded-md bg-service-orange py-s6 px-s12 text-center"
+      class="inline-block rounded-md bg-service-orange px-s12 py-s6 text-center"
     >
       Adhésion en attente
     </span>
   </div>
 
   <div slot="actions" let:onCloseParent>
-    <div>
+    <div class="flex flex-col items-end">
       <Button
         label="Accepter"
         on:click={() => {
@@ -56,12 +56,9 @@
         icon={checkboxCircleIcon}
         iconOnRight
         small
-        wFull
-        extraClass="justify-end"
         noBackground
       />
-    </div>
-    <div>
+
       <Button
         label="Révoquer"
         on:click={() => {
@@ -71,8 +68,6 @@
         icon={forbidIcon}
         iconOnRight
         small
-        wFull
-        extraClass="justify-end"
         noBackground
       />
     </div>

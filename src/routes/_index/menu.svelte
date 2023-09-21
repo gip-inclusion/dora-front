@@ -31,7 +31,7 @@
         noBackground
         otherTab
         extraClass="mr-s8 !text-f14"
-        label="Besoin d'aide ?"
+        label="Besoin d’aide ?"
       />
     </div>
 
@@ -56,7 +56,7 @@
         <MenuMesStructures {structures} {lastVisitedStructure} mobileDesign />
         <MenuMonCompte mobileDesign />
       {/if}
-      <hr class="-mx-s32 mt-s64 mb-s16" />
+      <hr class="-mx-s32 mb-s16 mt-s64" />
       <SubMenu mobileDesign />
     </div>
   </div>

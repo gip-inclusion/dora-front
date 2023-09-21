@@ -12,7 +12,9 @@
   import type { Service, ServicesOptions } from "$lib/types";
   import { getLabelFromValue } from "$lib/utils/choice";
   import { shortenString } from "$lib/utils/misc";
+  import { isValidformatOsmHours } from "$lib/utils/opening-hours";
   import { isNotFreeService } from "$lib/utils/service";
+  import OsmHours from "../../osm-hours.svelte";
   import SubcategoryList from "./subcategory-list.svelte";
 
   export let service: Service;
@@ -35,7 +37,7 @@
         <span class="mr-s8 h-s24 w-s24 min-w-[24px] fill-current">
           {@html errorWarningIcon}
         </span>
-        Ce service n'est pas cumulable avec d’autres dispositifs
+        Ce service n’est pas cumulable avec d’autres dispositifs
       </div>
     {/if}
   {/if}
@@ -57,7 +59,7 @@
     </div>
   {/if}
 
-  <hr class="mt-s20 mb-s10" />
+  <hr class="mb-s10 mt-s20" />
 
   <div>
     <h3 class="!mb-s10 text-f17">
@@ -69,7 +71,7 @@
     <SubcategoryList {service} {servicesOptions} />
   </div>
 
-  <hr class="mt-s20 mb-s10" />
+  <hr class="mb-s10 mt-s20" />
 
   <div class="flex">
     <div class="flex-1">
@@ -110,7 +112,7 @@
     {/if}
   </div>
 
-  <hr class="mt-s20 mb-s10" />
+  <hr class="mb-s10 mt-s20" />
 
   <div class="flex w-full gap-s32">
     <div class="flex-1">
@@ -118,14 +120,14 @@
         <span class="mr-s8 h-s24 w-s24 fill-current">
           {@html mapPinUserFillIcon}
         </span>
-        Lieu d'accueil
+        Lieu d’accueil
       </h3>
       {#if service.locationKinds?.length}
         <div class="flex flex-col gap-s6">
           {#if service.locationKinds.includes("en-presentiel")}
             <p class="mb-s6">
               Présentiel,<br />
-              {service.address1}{#if service.address2}{service.address2}{/if},
+              {service.address1}{#if service.address2}, {service.address2}{/if},
               {service.postalCode}&nbsp;{service.city}
             </p>
           {/if}
@@ -161,7 +163,13 @@
           </span>
           Fréquence et horaires
         </h3>
-        <p>{service.recurrence}</p>
+        <p>
+          {#if isValidformatOsmHours(service.recurrence)}
+            <OsmHours osmHours={service.recurrence} />
+          {:else}
+            {service.recurrence}
+          {/if}
+        </p>
       </div>
     {/if}
   </div>
@@ -169,7 +177,7 @@
 
 <style lang="postcss">
   h3 {
-    @apply mt-s10 mb-s2 flex items-center text-f17;
+    @apply mb-s2 mt-s10 flex items-center text-f17;
   }
   p {
     @apply m-s0 text-f16 text-gray-text;

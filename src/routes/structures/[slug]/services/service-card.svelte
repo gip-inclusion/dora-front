@@ -61,13 +61,13 @@
       {/if}
       {#if !readOnly && service.city && service.locationKinds.includes("en-presentiel")}
         <div class="mb-s8 flex items-center text-france-blue">
-          Lieu d'accueil&nbsp;:&nbsp;<strong>{service.city}</strong>
+          Lieu d’accueil&nbsp;:&nbsp;<strong>{service.city}</strong>
         </div>
       {/if}
     </div>
 
     <div
-      class="flex min-h-[100px] flex-col justify-center gap-s10 border-t border-t-gray-03 py-s12 px-s20"
+      class="flex min-h-[100px] flex-col justify-center gap-s10 border-t border-t-gray-03 px-s20 py-s12"
     >
       <div class="flex items-center text-f14 text-gray-text">
         {#if service.status !== "PUBLISHED" || service.updateStatus === "NOT_NEEDED"}

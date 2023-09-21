@@ -101,9 +101,12 @@
     }
     if (features.length) {
       const firstCoordinates = [features[0].longitude, features[0].latitude];
-      const bounds = features.reduce(function (acc, feature) {
-        return acc.extend([feature.longitude, feature.latitude]);
-      }, new mlgl.LngLatBounds(firstCoordinates, firstCoordinates));
+      const bounds = features.reduce(
+        function (acc, feature) {
+          return acc.extend([feature.longitude, feature.latitude]);
+        },
+        new mlgl.LngLatBounds(firstCoordinates, firstCoordinates)
+      );
 
       if (bounds) {
         map.fitBounds(bounds, {
@@ -112,9 +115,12 @@
       }
     } else if (department) {
       const coordinates = department.geom.coordinates[0];
-      const bounds = coordinates.reduce(function (acc, coord) {
-        return acc.extend(coord);
-      }, new mlgl.LngLatBounds(coordinates[0], coordinates[0]));
+      const bounds = coordinates.reduce(
+        function (acc, coord) {
+          return acc.extend(coord);
+        },
+        new mlgl.LngLatBounds(coordinates[0], coordinates[0])
+      );
 
       map.fitBounds(bounds, {
         padding: 20,
@@ -124,9 +130,11 @@
 
   function updateHoveredFeature(structureSlug: string | null) {
     if (map) {
-      map.removeFeatureState({
-        source: "structuresSource",
-      });
+      if (map.getSource("structuresSource")) {
+        map.removeFeatureState({
+          source: "structuresSource",
+        });
+      }
       if (structureSlug) {
         map.setFeatureState(
           {

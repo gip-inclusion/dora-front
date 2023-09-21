@@ -17,7 +17,6 @@
     ServiceKind,
     ServicesOptions,
   } from "$lib/types";
-  import { getChoicesFromKey } from "$lib/utils/choice";
   import {
     getDepartmentFromCityCode,
     isInDeploymentDepartments,
@@ -60,9 +59,13 @@
     feeConditions,
   });
 
+  const categories = servicesOptions.categories
+    ? associateIconToCategory(sortCategory(servicesOptions.categories))
+    : [];
+
   function handleSearch() {
-    goto(`recherche?${query}`);
     refreshDisabled = true;
+    goto(`recherche?${query}`);
   }
 
   async function doSaveSearch() {
@@ -81,34 +84,29 @@
     refreshDisabled = false;
   }
 
-  const categories = servicesOptions.categories
-    ? associateIconToCategory(sortCategory(servicesOptions.categories))
-    : [];
+  function handleCategoryChange(clearSubCategories = false) {
+    enableRefreshButton();
 
-  function handleCategoryChange(isInit = false) {
-    if (!isInit) {
-      enableRefreshButton();
+    if (clearSubCategories) {
       subCategoryIds = [];
     }
-
     if (categoryId) {
       subCategories = sortSubcategory([
         {
           value: `${categoryId}--all`,
           label: "Tous les besoins",
         },
-        ...getChoicesFromKey(categoryId, servicesOptions.subcategories),
+        ...servicesOptions.subcategories.filter((sub) =>
+          sub.value.startsWith(categoryId)
+        ),
       ]);
-      if (isInit) {
-        subCategoryIds = [`${categoryId}--all`];
-      }
     } else {
       subCategories = [];
     }
   }
 
   onMount(() => {
-    handleCategoryChange(true);
+    handleCategoryChange();
   });
 </script>
 
@@ -119,7 +117,7 @@
     {#if servicesOptions.categories}
       <div class="grid" class:with-subcategories={useAdditionalFilters}>
         <div
-          class="city flex items-center border-b border-gray-02 p-s16 text-f14 lg:border-r lg:border-b-0"
+          class="city flex items-center border-b border-gray-02 p-s16 text-f14 lg:border-b-0 lg:border-r"
           class:has-value={!!cityCode}
         >
           <div class="mr-s8 h-s24 w-s24 fill-current text-magenta-cta">
@@ -147,7 +145,7 @@
             />
 
             <div
-              class="absolute top-s12 right-s12 z-10 h-s24 w-s24 text-gray-dark"
+              class="absolute right-s12 top-s12 z-10 h-s24 w-s24 text-gray-dark"
             >
               {#if cityCode}
                 <button
@@ -173,7 +171,7 @@
         </div>
 
         <div
-          class="subcategories-search flex border-b border-gray-02 py-s24 px-s16 text-f14 lg:border-r lg:border-b-0 lg:py-s16"
+          class="subcategories-search flex border-b border-gray-02 px-s16 py-s24 text-f14 lg:border-b-0 lg:border-r lg:py-s16"
         >
           <div
             class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
@@ -197,7 +195,7 @@
 
         {#if useAdditionalFilters}
           <div
-            class="subcategories-search flex border-b border-gray-02 py-s24 px-s16 text-f14 lg:border-r lg:border-b-0 lg:py-s16"
+            class="subcategories-search flex border-b border-gray-02 px-s16 py-s24 text-f14 lg:border-b-0 lg:border-r lg:py-s16"
           >
             <div
               class="mr-s8 h-s24 w-s24 self-center fill-current text-magenta-cta"
@@ -251,7 +249,7 @@
       <div
         class="flex flex-col rounded-b-md border-t border-gray-02 bg-white p-s16 text-f14 md:flex-row"
       >
-        <div class="mr-s12 mb-s12 md:mb-s0">
+        <div class="mb-s12 mr-s12 md:mb-s0">
           <SelectField
             hideLabel
             isMultiple

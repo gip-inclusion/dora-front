@@ -10,6 +10,7 @@
   import AuthLayout from "../auth-layout.svelte";
   import type { PageData } from "./$types";
   import { CGU_VERSION } from "../../(static)/cgu/version";
+  import loopImg from "$lib/assets/icons/loop.svg";
 
   export let data: PageData;
 
@@ -67,14 +68,18 @@
     } else if (alreadyMember) {
       ctaLabel = "Accéder à la structure";
     } else {
-      ctaLabel = "Adhérer à la structure";
+      ctaLabel = "Rejoindre la structure";
     }
   }
 </script>
 
 <EnsureLoggedIn>
   <AuthLayout>
-    <StructureSearch bind:establishment title="Identifiez votre structure">
+    <StructureSearch
+      bind:establishment
+      title="Retrouvez votre structure"
+      description="Pour accéder à toutes les fonctionnalités, merci de nous indiquer la structure dans laquelle vous travaillez :"
+    >
       <div slot="cta">
         {#if establishment?.siret}
           <div class="mt-s24">
@@ -89,7 +94,7 @@
                   <input
                     bind:checked={cguAccepted}
                     type="checkbox"
-                    class="hidden "
+                    class="hidden"
                   />
                   <div
                     class="flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
@@ -99,7 +104,7 @@
                       class:hidden={!cguAccepted}
                     />
                   </div>
-                  <span class="ml-s16 inline-block  text-f14 text-gray-text">
+                  <span class="ml-s16 inline-block text-f14 text-gray-text">
                     Je déclare avoir lu les
                     <a
                       href="/cgu"
@@ -124,5 +129,20 @@
         {/if}
       </div>
     </StructureSearch>
+
+    <div class="mt-s24 rounded-md border border-gray-02 bg-white px-s32 py-s24">
+      <a
+        href="https://aide.dora.inclusion.beta.gouv.fr/fr/article/comment-sinscrire-sur-dora-14d64n0/#3-03-adherer-a-votre-structure"
+        target="_blank"
+        rel="noopener"
+        class="flex items-center"
+        title="Ouverture dans une nouvelle fenêtre"
+      >
+        <img src={loopImg} alt="" class="mr-s20" />
+        <span class="text-f18 font-bold text-france-blue hover:underline">
+          Besoin d’aide ?
+        </span>
+      </a>
+    </div>
   </AuthLayout>
 </EnsureLoggedIn>
