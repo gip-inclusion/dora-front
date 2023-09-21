@@ -14,13 +14,13 @@
   import SearchPromo from "./search-promo.svelte";
   import SearchResult from "./search-result.svelte";
   import ServiceSuggestionNotice from "./service-suggestion-notice.svelte";
+  import ServicesMap from "./services-map.svelte";
 
   export let data: PageData;
 
   const PAGE_LENGTH = 10;
 
-  let tags = [];
-
+  // TODO: on veut les services à distance plutot?
   function hasOnlyNationalResults(services: ServiceSearchResult[]) {
     if (services.length === 0) {
       return false;
@@ -49,32 +49,10 @@
   $: showDeploymentNotice =
     data.cityCode &&
     !isInDeploymentDepartments(data.cityCode, data.servicesOptions);
-  $: {
-    tags = [];
 
-    if (data.categoryIds.length) {
-      const categoryTags = data.categoryIds.map((id) => {
-        return data.servicesOptions.categories.find((cat) => cat.value === id)
-          .label;
-      });
-
-      if (categoryTags.length) {
-        tags = [...tags, ...categoryTags];
-      }
-
-      if (data.subCategoryIds.length) {
-        const subCategoryTags = data.subCategoryIds.map((id) => {
-          return data.servicesOptions.subcategories.find(
-            (cat) => cat.value === id
-          ).label;
-        });
-
-        if (subCategoryTags) {
-          tags = [...tags, ...subCategoryTags];
-        }
-      }
-    }
-  }
+  $: onSiteServices = data.services.filter(
+    (service) => service.distance && service.distance < 100
+  );
 </script>
 
 <CenteredGrid bgColor="bg-blue-light">
@@ -123,6 +101,9 @@
     </div>
   {/if}
 
+  <div class="relative h-s512 w-full shrink-0 lg:h-[800px] lg:w-s512">
+    <ServicesMap services={onSiteServices}></ServicesMap>
+  </div>
   {#if data.services.length}
     <div class="mt-s32 flex flex-col gap-s16">
       <h2 class="sr-only">Résultats de votre recherche</h2>
@@ -144,7 +125,7 @@
     </div>
   {/if}
 
-  <div class="mt-s48 mb-s24 lg:flex lg:gap-s24">
+  <div class="mb-s24 mt-s48 lg:flex lg:gap-s24">
     <ServiceSuggestionNotice />
   </div>
 

@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { AdminShortStructure, GeoApiValue } from "$lib/types";
   import * as mlgl from "maplibre-gl";
-  import "maplibre-gl/dist/maplibre-gl.css";
-  import Map from "./map.svelte";
+  import Map from "$lib/components/display/map.svelte";
   import insane from "insane";
 
   export let filteredStructures: AdminShortStructure[] = [];
@@ -101,9 +100,12 @@
     }
     if (features.length) {
       const firstCoordinates = [features[0].longitude, features[0].latitude];
-      const bounds = features.reduce(function (acc, feature) {
-        return acc.extend([feature.longitude, feature.latitude]);
-      }, new mlgl.LngLatBounds(firstCoordinates, firstCoordinates));
+      const bounds = features.reduce(
+        function (acc, feature) {
+          return acc.extend([feature.longitude, feature.latitude]);
+        },
+        new mlgl.LngLatBounds(firstCoordinates, firstCoordinates)
+      );
 
       if (bounds) {
         map.fitBounds(bounds, {
@@ -112,9 +114,12 @@
       }
     } else if (department) {
       const coordinates = department.geom.coordinates[0];
-      const bounds = coordinates.reduce(function (acc, coord) {
-        return acc.extend(coord);
-      }, new mlgl.LngLatBounds(coordinates[0], coordinates[0]));
+      const bounds = coordinates.reduce(
+        function (acc, coord) {
+          return acc.extend(coord);
+        },
+        new mlgl.LngLatBounds(coordinates[0], coordinates[0])
+      );
 
       map.fitBounds(bounds, {
         padding: 20,
