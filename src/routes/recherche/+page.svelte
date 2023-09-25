@@ -79,60 +79,63 @@
   </div>
 </CenteredGrid>
 
-<CenteredGrid extraClass="max-w-4xl m-auto">
-  <div class="mt-s16 text-f21 font-bold text-gray-dark">
-    {#if data.services.length > 0}
-      {data.services.length}
-      {data.services.length > 1 ? "résultats" : "résultat"}
-    {:else}
-      Aucun résultat
+<div class="mt-s16 text-f21 font-bold text-gray-dark">
+  {#if data.services.length > 0}
+    {data.services.length}
+    {data.services.length > 1 ? "résultats" : "résultat"}
+  {:else}
+    Aucun résultat
+  {/if}
+</div>
+
+{#if showDeploymentNotice}
+  <div class="mt-s24">
+    <DoraDeploymentNotice />
+  </div>
+{/if}
+
+{#if hasOnlyNationalResults(data.services)}
+  <div class="mt-s24">
+    <OnlyNationalResultsNotice />
+  </div>
+{/if}
+
+{#if data.services.length}
+  <div class="mt-s32 flex flex-col gap-s16">
+    <h2 class="sr-only">Résultats de votre recherche</h2>
+    <div class="flex h-[50vh] gap-x-s32">
+      <div
+        class="ml-s32 flex w-[280px] shrink-0 flex-col gap-s8 overflow-y-scroll"
+      >
+        {#each data.services as service, index}
+          {#if index < currentPageLength}
+            <SearchResult id={getResultId(index)} result={service} />
+          {/if}
+        {/each}
+      </div>
+      <div class="relative w-full">
+        <ServicesMap services={onSiteServices}></ServicesMap>
+      </div>
+    </div>
+    {#if data.services.length > currentPageLength}
+      <div class="text-center">
+        <Button
+          label="Charger plus de résultats"
+          on:click={loadMoreResult}
+          noBackground
+        />
+      </div>
     {/if}
   </div>
+{/if}
 
-  {#if showDeploymentNotice}
-    <div class="mt-s24">
-      <DoraDeploymentNotice />
-    </div>
-  {/if}
+<div class="mb-s24 mt-s48 lg:flex lg:gap-s24">
+  <ServiceSuggestionNotice />
+</div>
 
-  {#if hasOnlyNationalResults(data.services)}
-    <div class="mt-s24">
-      <OnlyNationalResultsNotice />
-    </div>
-  {/if}
-
-  <div class="relative h-s512 w-full shrink-0 lg:h-[800px] lg:w-s512">
-    <ServicesMap services={onSiteServices}></ServicesMap>
-  </div>
-  {#if data.services.length}
-    <div class="mt-s32 flex flex-col gap-s16">
-      <h2 class="sr-only">Résultats de votre recherche</h2>
-      {#each data.services as service, index}
-        {#if index < currentPageLength}
-          <SearchResult id={getResultId(index)} result={service} />
-        {/if}
-      {/each}
-
-      {#if data.services.length > currentPageLength}
-        <div class="text-center">
-          <Button
-            label="Charger plus de résultats"
-            on:click={loadMoreResult}
-            noBackground
-          />
-        </div>
-      {/if}
-    </div>
-  {/if}
-
-  <div class="mb-s24 mt-s48 lg:flex lg:gap-s24">
-    <ServiceSuggestionNotice />
-  </div>
-
-  {#if data.subCategoryIds.includes("famille--garde-enfants") || data.subCategoryIds.includes("famille--accompagnement-parents")}
-    <SearchPromo />
-  {/if}
-</CenteredGrid>
+{#if data.subCategoryIds.includes("famille--garde-enfants") || data.subCategoryIds.includes("famille--accompagnement-parents")}
+  <SearchPromo />
+{/if}
 
 <TallyNpsPopup
   formId={TallyFormId.NPS_FORM_ID}
