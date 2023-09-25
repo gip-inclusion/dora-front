@@ -285,7 +285,7 @@ export type FeeCondition =
   | "adhesion"
   | "pass-numerique";
 
-export type Frequency = "never" | "two-weeks" | "monthly";
+export type Frequency = "NEVER" | "TWO_WEEKS" | "MONTHLY";
 
 export type CoachOrientationModes =
   | "envoyer-courriel"
@@ -469,8 +469,8 @@ export interface SavedSearch {
   creationDate: string;
   cityCode: string;
   cityLabel: string;
-  categories: string[];
-  categoriesDisplay: string[];
+  category: string;
+  categoryDisplay: string;
   subcategories: string[];
   subcategoriesDisplay: string[];
   kinds: ServiceKind[];

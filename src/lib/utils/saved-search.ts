@@ -7,10 +7,10 @@ import { getQueryString } from "./service-search";
 export async function saveSearch(
   savedSearch: Pick<
     SavedSearch,
-    "cityCode" | "cityLabel" | "categories" | "subcategories" | "kinds" | "fees"
+    "cityCode" | "cityLabel" | "category" | "subcategories" | "kinds" | "fees"
   >
 ) {
-  const url = `${getApiURL()}/services/save-search/`;
+  const url = `${getApiURL()}/saved-searchs/`;
   const method = "POST";
   const response = await fetch(url, {
     method,
@@ -30,8 +30,8 @@ export async function updateSavedSearchFrequency(
   savedSearchId: string,
   frequency: Frequency
 ) {
-  const url = `${getApiURL()}/services/update-saved-search-frequency/`;
-  const method = "POST";
+  const url = `${getApiURL()}/saved-searchs/${savedSearchId}/`;
+  const method = "PATCH";
 
   const response = await fetch(url, {
     method,
@@ -40,7 +40,7 @@ export async function updateSavedSearchFrequency(
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ savedSearchId, frequency }),
+    body: JSON.stringify({ frequency }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
@@ -48,8 +48,8 @@ export async function updateSavedSearchFrequency(
 }
 
 export async function deleteSavedSearch(savedSearchId: string) {
-  const url = `${getApiURL()}/services/delete-saved-search/`;
-  const method = "POST";
+  const url = `${getApiURL()}/saved-searchs/${savedSearchId}/`;
+  const method = "DELETE";
 
   const response = await fetch(url, {
     method,
@@ -58,7 +58,6 @@ export async function deleteSavedSearch(savedSearchId: string) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ savedSearchId }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
@@ -67,7 +66,7 @@ export async function deleteSavedSearch(savedSearchId: string) {
 
 export function getSavedSearchQueryString(savedSearch: SavedSearch) {
   return getQueryString({
-    categoryIds: savedSearch.categories,
+    categoryIds: [savedSearch.category],
     subCategoryIds: savedSearch.subcategories,
     cityCode: savedSearch.cityCode,
     cityLabel: savedSearch.cityLabel,
@@ -82,11 +81,7 @@ export function isCurrentSearchInUserSavedSearchs(
 ): boolean {
   const userSavedSearchs = userInfo?.savedSearchs || [];
 
-  for (let i = 0; i < userSavedSearchs.length; i++) {
-    if (getSavedSearchQueryString(userSavedSearchs[i]) === currentQuery) {
-      return true;
-    }
-  }
-
-  return false;
+  return userSavedSearchs.some(
+    (search) => getSavedSearchQueryString(search) === currentQuery
+  );
 }

@@ -70,7 +70,7 @@
 
   async function doSaveSearch() {
     await saveSearch({
-      categories: [categoryId],
+      category: categoryId,
       subcategories: subCategoryIds.filter((value) => !value.endsWith("--all")),
       cityCode,
       cityLabel,
@@ -296,7 +296,7 @@
         <Button
           extraClass="h-s48"
           secondary
-          label="Recherche déjà sauvegardé"
+          label="Alerte déjà créée"
           disabled
           on:click={doSaveSearch}
           preventDefaultOnMouseDown

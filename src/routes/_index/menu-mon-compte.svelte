@@ -37,15 +37,14 @@
     Mes favoris
   </a>
 
-  <a href="/alertes" class={aClass}>
+  <a href="/mes-alertes" class={aClass}>
     <span
       class="mr-s10 inline-block h-s24 w-s24 fill-current"
-      class:text-magenta-cta={$page.url.pathname === "/alertes"}
+      class:text-magenta-cta={$page.url.pathname === "/mes-alertes"}
       aria-hidden
     >
       {@html notificationIcon}
-    </span>
-    Mes alertes
+    </span>Mes alertes
   </a>
 
   <a href="/auth/deconnexion" class={aClass}>

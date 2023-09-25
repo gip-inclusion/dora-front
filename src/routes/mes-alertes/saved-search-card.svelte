@@ -58,17 +58,14 @@
     <a href={`recherche?${getSavedSearchQueryString(search)}`}>
       Services d’insertion à proximité de {search.cityLabel}
 
-      {#if search.categories.length}
-        pour {search.categories.length > 1
-          ? "les thématiques"
-          : "la thématique"}
-        {search.categoriesDisplay.join(", ")}
+      {#if search.category}
+        pour la thématique {search.categoryDisplay}
       {/if}
     </a>
   </h2>
 
   <button
-    class="absolute top-s40 right-s32 text-magenta-cta"
+    class="absolute right-s32 top-s40 text-magenta-cta"
     disabled={requesting}
     on:click={doDeleteAlert}
   >
@@ -120,21 +117,21 @@
         <SelectField
           id="frequency"
           vertical
-          initialValue={search.frequency || "two-weeks"}
+          initialValue={search.frequency || "TWO_WEEKS"}
           hideLabel={true}
           bind:value={formData.frequency}
           placeholder="Fréquence de notification"
           choices={[
             {
-              value: "never",
+              value: "NEVER",
               label: "Pas de notification",
             },
             {
-              value: "two-weeks",
+              value: "TWO_WEEKS",
               label: "Une alerte toutes les 2 semaines",
             },
             {
-              value: "monthly",
+              value: "MONTHLY",
               label: "Une alerte tous les mois",
             },
           ]}

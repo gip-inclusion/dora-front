@@ -2,7 +2,7 @@
   import illustration from "$lib/assets/illustrations/illu-favoris.svg";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
-  import { externalLinkIcon, starSmileLineIcon } from "$lib/icons";
+  import { starSmileLineIcon } from "$lib/icons";
   import { userInfo } from "$lib/utils/auth";
   import SavedSearchCard from "./saved-search-card.svelte";
 
@@ -32,7 +32,7 @@
             {@html starSmileLineIcon}
           </div>
           <h2 class="legend text-f32 font-bold leading-40 text-gray-text">
-            Vous n’avez pas encore crée des alertes
+            Vous n’avez pas encore créé d’alerte
           </h2>
           <p class="legend">
             Pour mettre en place votre première alerte, il vous suffit
@@ -44,21 +44,23 @@
             e-mail.
           </p>
 
-          <a
-            target="_blank"
-            title="Ouverture dans une nouvelle fenêtre"
-            rel="noopener"
-            href="https://aide.dora.inclusion.beta.gouv.fr/fr/category/quoi-de-neuf-es1img/"
-            class="inline-block h-full text-magenta-cta"
-          >
-            Découvrez comment créer une alerte
-            <span
+          <!--
+            <a
+              target="_blank"
+              title="Ouverture dans une nouvelle fenêtre"
+              rel="noopener"
+              href="https://aide.dora.inclusion.beta.gouv.fr/fr/category/quoi-de-neuf-es1img/"
+              class="inline-block h-full text-magenta-cta"
+              >
+              Découvrez comment créer une alerte
+              <span
               class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
               aria-hidden
-            >
+              >
               {@html externalLinkIcon}
             </span>
           </a>
+          -->
         </div>
         <div class="flex-shrink-0">
           <img src={illustration} alt="" />
