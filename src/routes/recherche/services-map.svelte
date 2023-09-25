@@ -21,6 +21,27 @@
     );
   }
 
+  function handleLeafClick(feature: mlgl.GeoJSONFeature) {
+    window.open(`/services/${feature.properties.slug}`, "_blank").focus();
+  }
+
+  function handleLeafEnter(feature: mlgl.GeoJSONFeature) {
+    // console.log("enter", feature);
+    map.getCanvas().style.cursor = "pointer";
+    const coordinates = feature.geometry.coordinates.slice();
+    selectedServiceSlug = feature.properties.slug;
+    // Populate the popup and set its coordinates
+    // based on the feature found.
+    popup.setLngLat(coordinates).setHTML(getPopupContent(feature)).addTo(map);
+    popup._update();
+  }
+
+  function handleLeafExit(_feature: mlgl.GeoJSONFeature) {
+    map.getCanvas().style.cursor = "";
+    selectedServiceSlug = null;
+    popup.remove();
+  }
+
   function handleOnMapLoaded() {
     const servs = services.filter((serv) => !!serv.coordinates);
     map.addSource("servicesSource", {
@@ -71,44 +92,60 @@
       closeButton: false,
       closeOnClick: false,
     });
-    map.on("mouseenter", "clusters", function (evt) {
-      // Change the cursor style as a UI indicator.
-      map.getCanvas().style.cursor = "pointer";
-      const features = map.queryRenderedFeatures(evt.point, {
-        layers: ["clusters"],
-      });
-      if (features.length === 1 && !features[0].properties.cluster) {
-        const feature = features[0];
-        const coordinates = feature.geometry.coordinates.slice();
-        selectedServiceSlug = feature.properties.slug;
 
-        // Populate the popup and set its coordinates
-        // based on the feature found.
-        popup
-          .setLngLat(coordinates)
-          .setHTML(getPopupContent(feature))
-          .addTo(map);
-        popup._update();
+    let lastHovered = null;
+    map.on("mousemove", function (evt) {
+      const featuresUnderMouse = map
+        .queryRenderedFeatures(evt.point)
+        .filter(
+          (feat) =>
+            (feat.layer.id === "clusters" ||
+              feat.layer.id.startsWith("clusters-spiderfy-leaf")) &&
+            !feat.properties.cluster
+        );
+      if (featuresUnderMouse.length > 1) {
+        return;
+      }
+      const feature = featuresUnderMouse[0];
+      if (feature) {
+        if (
+          !lastHovered ||
+          feature.source !== lastHovered.source ||
+          feature.id !== lastHovered.id
+        ) {
+          lastHovered = feature;
+          handleLeafEnter(feature);
+        }
+      } else {
+        lastHovered = null;
+        handleLeafExit(feature);
       }
     });
-    map.on("mouseleave", "clusters", function () {
-      map.getCanvas().style.cursor = "";
-      selectedServiceSlug = null;
-      popup.remove();
-    });
 
-    map.on("click", "clusters", (evt) => {
-      const features = map.queryRenderedFeatures(evt.point, {
-        layers: ["clusters"],
-      });
-      if (features.length === 1 && !features[0].properties.cluster) {
-        console.log(features[0]);
+    map.on("click", (evt) => {
+      const featuresUnderMouse = map
+        .queryRenderedFeatures(evt.point)
+        .filter(
+          (feat) =>
+            (feat.layer.id === "clusters" ||
+              feat.layer.id.startsWith("clusters-spiderfy-leaf")) &&
+            !feat.properties.cluster
+        );
+      if (featuresUnderMouse.length > 1) {
+        return;
+      }
+      const feature = featuresUnderMouse[0];
+      if (feature) {
+        lastHovered = feature;
+        handleLeafClick(feature);
       }
     });
   }
 
   function updateMapContent() {
-    if (!map) {return;}
+    if (!map) {
+      return;
+    }
     const servs = services.filter((serv) => !!serv.coordinates);
 
     map.getSource("servicesSource").setData({
@@ -148,28 +185,8 @@
   //   }
   // }
 
-  function handleLeafClick(
-    feature: mlgl.GeoJSONFeature,
-    event: mlgl.MapMouseEvent
-  ) {
-    console.log(feature, event);
-  }
-
-  function handleLeafHover(
-    feature: mlgl.GeoJSONFeature,
-    event: mlgl.MapMouseEvent
-  ) {
-    console.log(feature, event);
-  }
-
   // $: updateHoveredFeature(selectedServiceSlug);
   $: services, updateMapContent();
 </script>
 
-<Map
-  bind:map
-  bind:spiderfy
-  onMapLoaded={handleOnMapLoaded}
-  onLeafClick={handleLeafClick}
-  onLeafHover={handleLeafHover}
-/>
+<Map bind:map bind:spiderfy onMapLoaded={handleOnMapLoaded} />

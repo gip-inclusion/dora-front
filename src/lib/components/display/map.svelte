@@ -12,15 +12,6 @@
   export let map: mlgl.Map;
   export let spiderfy: Spiderfy;
 
-  export let onLeafClick: (
-    feature: mlgl.GeoJSONFeature,
-    event: mlgl.MapMouseEvent
-  ) => void;
-  export let onLeafHover: (
-    feature: mlgl.GeoJSONFeature,
-    event: mlgl.MapMouseEvent
-  ) => void;
-
   export let onMapLoaded;
 
   let mapDiv: HTMLElement;
@@ -39,12 +30,10 @@
 
     map.on("load", () => {
       spiderfy = new Spiderfy(map, {
-        minZoomLevel: 12,
+        minZoomLevel: 10,
         zoomIncrement: 2,
         renderMethod: "3d",
         closeOnLeafClick: false,
-        onLeafClick: onLeafClick,
-        onLeafHover: onLeafHover,
       });
       map.loadImage(circleIcon, (error, image) => {
         if (error) {
