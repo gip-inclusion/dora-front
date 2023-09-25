@@ -16,6 +16,7 @@ const config = {
           "self",
           process.env?.VITE_API_URL,
           process.env?.VITE_ENVIRONMENT === "local" ? "ws:" : null,
+          "data:",
           "https://raw.githubusercontent.com",
           "https://*.sentry.gip-inclusion.org",
           "https://*.sentry.gip-inclusion.cloud-ed.fr",
