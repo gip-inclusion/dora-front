@@ -37,7 +37,7 @@
   export let servicesOptions: ServicesOptions;
   export let cityCode;
   export let cityLabel;
-  export let categoryId = "";
+  export let categoryId = undefined;
   export let subCategoryIds: string[] = [];
   export let showDeploymentWarning = true;
   export let useAdditionalFilters = false;
