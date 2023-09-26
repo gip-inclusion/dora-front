@@ -37,7 +37,7 @@
   export let servicesOptions: ServicesOptions;
   export let cityCode;
   export let cityLabel;
-  export let categoryId = undefined;
+  export let categoryId: string | undefined = undefined;
   export let subCategoryIds: string[] = [];
   export let showDeploymentWarning = true;
   export let useAdditionalFilters = false;
@@ -51,7 +51,7 @@
   let subCategories: Choice[] = [];
 
   $: query = getQueryString({
-    categoryIds: [categoryId],
+    categoryIds: [categoryId ? categoryId : ""],
     subCategoryIds: subCategoryIds.filter((value) => !value.endsWith("--all")),
     cityCode,
     cityLabel,
