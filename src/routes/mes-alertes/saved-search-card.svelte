@@ -1,9 +1,5 @@
 <script lang="ts">
-  import Form from "$lib/components/forms/form.svelte";
-  import * as v from "$lib/validation/schema-utils";
-
   import DateLabel from "$lib/components/display/date-label.svelte";
-  import SelectField from "$lib/components/forms/fields/select-field.svelte";
   import { closeCircleIcon, historyLineIcon, mailLineIcon } from "$lib/icons";
   import type { SavedSearch } from "$lib/types";
   import {
@@ -28,25 +24,16 @@
   }
 
   // Mise à jour de la fréquence d'envoi des alertes
-  let formData = {
-    frequency: search.frequency,
-  };
+  let frequencyValue = search.frequency;
 
-  const updateFrequencySchema: v.Schema = {
-    frequency: {
-      label: "Fréquence de notification",
-      default: search.frequency,
-      rules: [v.isString(), v.maxStrLength(255)],
-      required: true,
-    },
-  };
-
-  async function handleSubmit(validatedData) {
-    await updateSavedSearchFrequency(search.id, validatedData.frequency);
-    return { ok: true };
-  }
-  async function handleSuccess() {
-    await refreshUserInfo();
+  async function handleSubmit() {
+    requesting = true;
+    try {
+      await updateSavedSearchFrequency(search.id, frequencyValue);
+      await refreshUserInfo();
+    } finally {
+      requesting = false;
+    }
   }
 </script>
 
@@ -103,42 +90,24 @@
   </p>
 
   <div class="form-container">
-    <Form
-      bind:data={formData}
-      schema={updateFrequencySchema}
-      onSubmit={handleSubmit}
-      onSuccess={handleSuccess}
-    >
-      <div class="flex items-center rounded border border-gray-02 pl-s12">
+    <form on:submit|preventDefault={handleSubmit} class="flex gap-s16">
+      <div class="flex items-center rounded border border-gray-02 p-s12">
         <span class="mr-s8 inline-block h-s24 w-s24 fill-current">
           {@html mailLineIcon}
         </span>
 
-        <SelectField
+        <select
           id="frequency"
-          vertical
-          initialValue={search.frequency || "TWO_WEEKS"}
-          hideLabel={true}
-          bind:value={formData.frequency}
-          placeholder="Fréquence de notification"
-          choices={[
-            {
-              value: "NEVER",
-              label: "Pas de notification",
-            },
-            {
-              value: "TWO_WEEKS",
-              label: "Une alerte toutes les 2 semaines",
-            },
-            {
-              value: "MONTHLY",
-              label: "Une alerte tous les mois",
-            },
-          ]}
-        />
+          bind:value={frequencyValue}
+          class="border-0 pr-s10"
+        >
+          <option value="NEVER">Pas de notification</option>
+          <option value="TWO_WEEKS">Une alerte toutes les 2 semaines</option>
+          <option value="MONTHLY">Une alerte tous les mois</option>
+        </select>
       </div>
 
-      {#if formData.frequency !== search.frequency}
+      {#if frequencyValue !== search.frequency}
         <Button
           name="validate"
           type="submit"
@@ -146,21 +115,6 @@
           disabled={requesting}
         />
       {/if}
-    </Form>
+    </form>
   </div>
 </div>
-
-<style lang="postcss">
-  .form-container :global(form) {
-    @apply flex gap-s16;
-  }
-  .form-container :global(.field-wrapper) {
-    @apply gap-s0;
-  }
-  .form-container :global(.input-container) {
-    @apply w-[310px] text-gray-text;
-  }
-  .form-container :global(.input[type="text"]) {
-    @apply border-0;
-  }
-</style>
