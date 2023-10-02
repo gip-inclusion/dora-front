@@ -285,7 +285,10 @@ export type FeeCondition =
   | "adhesion"
   | "pass-numerique";
 
-export type Frequency = "NEVER" | "TWO_WEEKS" | "MONTHLY";
+export type SavedSearchNotificationFrequency =
+  | "NEVER"
+  | "TWO_WEEKS"
+  | "MONTHLY";
 
 export type CoachOrientationModes =
   | "envoyer-courriel"
@@ -477,7 +480,7 @@ export interface SavedSearch {
   kindsDisplay: string[];
   fees: FeeCondition[];
   feesDisplay: string[];
-  frequency: Frequency;
+  frequency: SavedSearchNotificationFrequency;
 }
 
 export interface CustomChoice {

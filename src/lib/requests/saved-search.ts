@@ -1,8 +1,8 @@
 import { get } from "svelte/store";
-import { token } from "./auth";
-import { getApiURL } from "./api";
-import type { SavedSearch, Frequency } from "$lib/types";
-import { getQueryString } from "./service-search";
+import { token } from "../utils/auth";
+import { getApiURL } from "../utils/api";
+import type { SavedSearch, SavedSearchNotificationFrequency } from "$lib/types";
+import { getQueryString } from "../utils/service-search";
 
 export async function saveSearch(
   savedSearch: Pick<
@@ -28,7 +28,7 @@ export async function saveSearch(
 
 export async function updateSavedSearchFrequency(
   savedSearchId: string,
-  frequency: Frequency
+  frequency: SavedSearchNotificationFrequency
 ) {
   const url = `${getApiURL()}/saved-searchs/${savedSearchId}/`;
   const method = "PATCH";

@@ -32,7 +32,7 @@
   import {
     isCurrentSearchInUserSavedSearchs,
     saveSearch,
-  } from "$lib/utils/saved-search";
+  } from "$lib/requests/saved-search";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode;

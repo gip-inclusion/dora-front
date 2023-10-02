@@ -6,7 +6,7 @@
     updateSavedSearchFrequency,
     deleteSavedSearch,
     getSavedSearchQueryString,
-  } from "$lib/utils/saved-search";
+  } from "$lib/requests/saved-search";
   import { refreshUserInfo } from "$lib/utils/auth";
   import Button from "$lib/components/display/button.svelte";
 
