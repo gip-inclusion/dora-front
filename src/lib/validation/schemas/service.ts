@@ -250,7 +250,6 @@ export const serviceSchema: v.Schema = {
     label: "Mode d’accueil",
     default: [],
     rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-    dependents: ["city", "address1", "postalCode"],
     required: true,
   },
   remoteUrl: {
@@ -259,6 +258,9 @@ export const serviceSchema: v.Schema = {
     rules: [v.isURL(), v.maxStrLength(200)],
     post: [v.trim],
     maxLength: 200,
+    required: (data: { locationKinds: LocationKind[] }) => {
+      return data.locationKinds.includes("a-distance");
+    },
   },
   city: {
     label: "Ville",
