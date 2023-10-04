@@ -26,6 +26,14 @@
   export let hideLabel = false;
   export let vertical = false;
 
+  let phoneValue = value;
+  function handlePhoneChange() {
+    if (phoneValue.length > 14) {
+      phoneValue = phoneValue.slice(0, 14);
+    }
+    value = phoneValue.replace(/[^0-9]/g, "");
+  }
+
   $: commonProps = {
     id,
     name: id,
@@ -33,6 +41,7 @@
     disabled,
     readonly,
     placeholder,
+    maxLength,
   };
 </script>
 
@@ -94,10 +103,11 @@
       {:else if type === "tel"}
         <input
           type="tel"
-          bind:value
+          bind:value={phoneValue}
           on:blur={onBlur}
-          on:change={onChange}
+          on:input={handlePhoneChange}
           {...props}
+          maxlength={null}
         />
       {:else if type === "url"}
         <input
