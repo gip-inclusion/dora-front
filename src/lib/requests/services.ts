@@ -178,6 +178,21 @@ export async function setBookmark(serviceSlug: string, wantedState: boolean) {
   }
 }
 
+export async function setDiBookmark(diId: string, wantedState: boolean) {
+  const response = await fetch(`${getApiURL()}/services/set-di-bookmark/`, {
+    method: "POST",
+    headers: {
+      Accept: "application/json; version=1.0",
+      "Content-Type": "application/json",
+      Authorization: `Token ${get(token)}`,
+    },
+    body: JSON.stringify({ state: wantedState, diId }),
+  });
+  if (!response.ok) {
+    throw Error(response.statusText);
+  }
+}
+
 export async function publishDraft(serviceSlug) {
   const url = `${getApiURL()}/services/${serviceSlug}/`;
   const method = "PATCH";

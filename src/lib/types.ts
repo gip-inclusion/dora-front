@@ -458,7 +458,12 @@ export interface ShortService {
 }
 
 export interface Bookmark {
-  service: ShortService;
+  service: ShortService | Service;
+  creationDate: string;
+  isDI?: boolean;
+}
+export interface DIBookmark {
+  diId: string;
   creationDate: string;
 }
 

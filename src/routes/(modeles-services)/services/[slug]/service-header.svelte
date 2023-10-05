@@ -8,7 +8,7 @@
   export let isDI: false;
 </script>
 
-<Bookmarkable slug={service.slug} let:onBookmark let:isBookmarked>
+<Bookmarkable slug={service.slug} {isDI}>
   <div
     id="service-header"
     class="relative gap-s16 lg:flex-row-reverse lg:justify-between"

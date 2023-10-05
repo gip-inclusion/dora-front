@@ -8,17 +8,32 @@
   $: service = bookmark.service;
 </script>
 
-<Bookmarkable slug={bookmark.service.slug} let:onBookmark let:isBookmarked>
+<Bookmarkable
+  slug={bookmark.service.slug}
+  isDI={bookmark.isDI}
+  let:onBookmark
+  let:isBookmarked
+>
   <div class="rounded-ml border border-gray-02 shadow-sm" tabindex="-1">
-    <div class="p-s32 lg:pr-s64 ">
-      <div class="mb-s24 flex items-center justify-between ">
-        <a href="/structures/{service.structure}" class="block text-f14">
-          {bookmark.service.structureInfo.name}
-          {#if service.postalCode}<span
-              class="legend ml-s8 font-bold text-gray-dark"
-              >{service.postalCode} {service.city}</span
-            >{/if}
-        </a>
+    <div class="p-s32 lg:pr-s64">
+      <div class="mb-s24 flex items-center justify-between">
+        {#if bookmark.isDI}
+          <div class="text-f14">
+            {bookmark.service.structureInfo.name}
+            {#if service.postalCode}<span
+                class="legend ml-s8 font-bold text-gray-dark"
+                >{service.postalCode} {service.city}</span
+              >{/if}
+          </div>
+        {:else}
+          <a href="/structures/{service.structure}" class="block text-f14">
+            {bookmark.service.structureInfo.name}
+            {#if service.postalCode}<span
+                class="legend ml-s8 font-bold text-gray-dark"
+                >{service.postalCode} {service.city}</span
+              >{/if}
+          </a>
+        {/if}
         <div class="flex items-center gap-s8">
           <FavoriteIcon on:click={onBookmark} active={isBookmarked} small />
         </div>
@@ -27,14 +42,16 @@
       <h3 class=" mb-s0 text-france-blue lg:mb-s24">
         <a
           class="full-result-link hover:underline"
-          href="/services/{service.slug}"
+          href="/services/{bookmark.isDI ? 'di/' : ''}{service.slug}"
         >
           {service.name}
         </a>
       </h3>
 
       <p class="z-10 mt-s16 hidden text-f16 text-gray-text md:block">
-        <a href="/services/{service.slug}">{service.shortDesc}</a>
+        <a href="/services/{bookmark.isDI ? 'di/' : ''}{service.slug}">
+          {service.shortDesc}
+        </a>
       </p>
     </div>
   </div>
