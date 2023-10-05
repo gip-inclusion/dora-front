@@ -53,6 +53,14 @@
           {service.shortDesc}
         </a>
       </p>
+      {#if bookmark.isDI}
+        <div
+          class="inline rounded border border-gray-02 px-s8 py-s2 text-f12 text-gray-text"
+        >
+          Source&nbsp;: <span class="capitalize">{bookmark.service.source}</span
+          >, via data·inclusion
+        </div>
+      {/if}
     </div>
   </div>
 </Bookmarkable>
