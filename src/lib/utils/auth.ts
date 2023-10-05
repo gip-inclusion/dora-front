@@ -1,7 +1,12 @@
 import { browser } from "$app/environment";
 import { defaultAcceptHeader, getApiURL } from "$lib/utils/api";
 import { get, writable } from "svelte/store";
-import type { Bookmark, DIBookmark, ShortStructure } from "../types";
+import type {
+  SavedSearch,
+  Bookmark,
+  DIBookmark,
+  ShortStructure,
+} from "../types";
 import { log, logException } from "./logger";
 import { userPreferencesSet } from "./preferences";
 
@@ -28,6 +33,7 @@ export interface UserInfo {
   department: string;
   bookmarks: Bookmark[];
   diBookmarks: DIBookmark[];
+  savedSearchs: SavedSearch[];
   structures: ShortStructure[];
   pendingStructures: ShortStructure[];
   mainActivity: UserMainActivity;

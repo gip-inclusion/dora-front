@@ -94,7 +94,7 @@
                   <input
                     bind:checked={cguAccepted}
                     type="checkbox"
-                    class="hidden "
+                    class="hidden"
                   />
                   <div
                     class="flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
@@ -104,7 +104,7 @@
                       class:hidden={!cguAccepted}
                     />
                   </div>
-                  <span class="ml-s16 inline-block  text-f14 text-gray-text">
+                  <span class="ml-s16 inline-block text-f14 text-gray-text">
                     Je déclare avoir lu les
                     <a
                       href="/cgu"

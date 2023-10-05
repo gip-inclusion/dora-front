@@ -285,6 +285,11 @@ export type FeeCondition =
   | "adhesion"
   | "pass-numerique";
 
+export type SavedSearchNotificationFrequency =
+  | "NEVER"
+  | "TWO_WEEKS"
+  | "MONTHLY";
+
 export type CoachOrientationModes =
   | "envoyer-courriel"
   | "envoyer-fiche-prescription"
@@ -465,6 +470,22 @@ export interface Bookmark {
 export interface DIBookmark {
   diId: string;
   creationDate: string;
+}
+
+export interface SavedSearch {
+  id: string;
+  creationDate: string;
+  cityCode: string;
+  cityLabel: string;
+  category: string;
+  categoryDisplay: string;
+  subcategories: string[];
+  subcategoriesDisplay: string[];
+  kinds: ServiceKind[];
+  kindsDisplay: string[];
+  fees: FeeCondition[];
+  feesDisplay: string[];
+  frequency: SavedSearchNotificationFrequency;
 }
 
 export interface CustomChoice {
