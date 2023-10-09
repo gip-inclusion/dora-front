@@ -63,6 +63,13 @@ const config = {
       return;
     }
 
+    // Désactivation des avertissements d'accessibilité, le temps de finir la migration Sveltekit
+    // TODO: les corriger au lieu de les masquer
+    const ignoredA11yWarnings = ["a11y-no-noninteractive-element-interactions"];
+    if (ignoredA11yWarnings.includes(warning.code)) {
+      return;
+    }
+
     // Le RGAA impose l'utilisation de ces `role`
     // et ces avertissements n'ont donc pas lieu d'être
     if (warning.code === "a11y-no-redundant-roles") {

@@ -103,6 +103,8 @@
         class:medium-width={width === "medium"}
         class:min-w-[80vw]={!width}
         class:overflow-y-auto={overflow}
+        on:click|stopPropagation
+        on:keypress|stopPropagation
       >
         <div class:mb-s24={!hideTitle} class:float-right={hideTitle}>
           <div class="flex justify-between">
