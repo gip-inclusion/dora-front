@@ -83,7 +83,13 @@
     <div
       id="background"
       class="flex items-center justify-center"
+      role="presentation"
       on:click={handleClose}
+      on:keypress={(event) => {
+        if (event.code === "Escape") {
+          handleClose();
+        }
+      }}
     >
       <div
         id="modal"
@@ -97,7 +103,6 @@
         class:medium-width={width === "medium"}
         class:min-w-[80vw]={!width}
         class:overflow-y-auto={overflow}
-        on:click|stopPropagation
       >
         <div class:mb-s24={!hideTitle} class:float-right={hideTitle}>
           <div class="flex justify-between">
