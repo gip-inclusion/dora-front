@@ -41,10 +41,12 @@ export async function getServiceAdmin(slug) {
   return (await fetchData<Service>(url)).data;
 }
 
+/*
 export async function getServicesToModerate() {
   const url = `${getApiURL()}/services-admin/?moderation=1`;
   return (await fetchData(url)).data;
 }
+*/
 
 export async function setModerationState(entity, status: ModerationStatus) {
   const urlFragment = entity.services ? "structures-admin" : "services-admin";
