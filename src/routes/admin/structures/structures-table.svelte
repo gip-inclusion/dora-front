@@ -2,6 +2,7 @@
   import Button from "$lib/components/display/button.svelte";
   import LinkButton from "$lib/components/display/link-button.svelte";
   import { eyeIcon, phoneLineIcon } from "$lib/icons";
+  import { modifyStructure } from "$lib/requests/structures";
   import type { AdminShortStructure } from "$lib/types";
   import { userInfo } from "$lib/utils/auth";
   import { capitalize, shortenString } from "$lib/utils/misc";
@@ -13,6 +14,12 @@
 
   let isStructureModalOpen = false;
   let currentStructure: AdminShortStructure | null = null;
+
+  async function makeStructureObsolete(structure: AdminShortStructure) {
+    structure.isObsolete = true;
+    await modifyStructure(structure);
+    onRefresh();
+  }
 </script>
 
 {#if currentStructure}
@@ -23,7 +30,7 @@
   />
 {/if}
 
-<div class="flex  flex-col gap-s8">
+<div class="flex flex-col gap-s8">
   {#each filteredStructures as structure}
     <div
       class="flex flex-row gap-s16 rounded-md border border-gray-01 p-s16 shadow-xs"
@@ -59,6 +66,14 @@
         icon={phoneLineIcon}
         noBackground
       />
+      {#if !structure.isObsolete}
+        <Button
+          small
+          extraClass="font-normal !text-f12 w-[75px]"
+          on:click={() => makeStructureObsolete(structure)}
+          label="Rendre obsolète"
+        />
+      {/if}
     </div>
   {/each}
 </div>
