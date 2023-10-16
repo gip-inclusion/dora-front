@@ -201,7 +201,7 @@
           <input
             type="text"
             inputmode={inputMode}
-            class="absolute top-s0 right-s0 h-full w-full bg-transparent pl-s12"
+            class="absolute right-s0 top-s0 h-full w-full bg-transparent pl-s12"
             bind:value={filterText}
             aria-label={placeholder}
             {placeholder}
@@ -215,8 +215,9 @@
 
       <div class="h-s24 w-s24 text-gray-text-alt">
         {#if (isMultiple ? value.length > 0 : !!value) && withClearButton}
-          <button class="h-s24 w-s24 fill-current " on:click={clearAll}>
+          <button class="h-s24 w-s24 fill-current" on:click={clearAll}>
             {@html deleteBackIcon}
+            <span class="sr-only">Supprimer</span>
           </button>
         {:else}
           <span class="chevron h-s24 w-s24 fill-current">
@@ -232,7 +233,7 @@
 
     <div
       class:hidden={!expanded}
-      class="absolute top-[52px] left-s0 z-20 flex max-h-s512 flex-col gap-s10 overflow-y-auto rounded border border-gray-00 bg-white p-s12 shadow-md {minDropdownWidth}"
+      class="absolute left-s0 top-[52px] z-20 flex max-h-s512 flex-col gap-s10 overflow-y-auto rounded border border-gray-00 bg-white p-s12 shadow-md {minDropdownWidth}"
       role="listbox"
       id={`listbox-values-${uuid}`}
       tabindex="-1"
@@ -265,7 +266,7 @@
 
   /* As search */
   .filter-search {
-    @apply absolute border-0 bg-transparent py-s0 px-s12;
+    @apply absolute border-0 bg-transparent px-s12 py-s0;
   }
 
   @screen lg {
