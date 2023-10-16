@@ -41,6 +41,7 @@
       id="forms"
       structureSlug={service.structure}
       on:blur
+      description="Taille maximale&nbsp;: 5 Mo. Formats supportés&nbsp;: doc, docx, pdf, png, jpeg, jpg, odt, xls, xlsx, ods"
       bind:fileKeys={service.forms}
     />
   </FieldModel>
@@ -65,6 +66,7 @@
       id="onlineForm"
       placeholder="https://exemple.com"
       type="url"
+      description="Format attendu : http://example.fr"
       bind:value={service.onlineForm}
     />
   </FieldModel>
