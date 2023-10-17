@@ -217,7 +217,6 @@
         {#if (isMultiple ? value.length > 0 : !!value) && withClearButton}
           <button class="h-s24 w-s24 fill-current" on:click={clearAll}>
             {@html deleteBackIcon}
-            <span class="sr-only">Supprimer</span>
           </button>
         {:else}
           <span class="chevron h-s24 w-s24 fill-current">
@@ -253,6 +252,9 @@
 <style lang="postcss">
   .selected {
     @apply text-magenta-cta;
+  }
+  :global(.hover) {
+    @apply !bg-magenta-10 !text-magenta-cta;
   }
   .combobox {
     @apply relative;
@@ -338,6 +340,10 @@
   }
   .filter-style:hover .chevron {
     @apply text-magenta-hover;
+  }
+  .filter-style .option:hover,
+  .filter-style :global(.hover) {
+    @apply !bg-magenta-10 !text-magenta-cta;
   }
 
   .filter-style.expanded {
