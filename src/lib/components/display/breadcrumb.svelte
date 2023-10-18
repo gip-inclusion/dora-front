@@ -9,7 +9,7 @@
     | "cgu"
     | "model"
     | "saved-searchs"
-    | "bookmark"
+    | "bookmarks"
     | "account"
     | "login"
     | "accessibility"
@@ -46,7 +46,7 @@
     "service-orientation-confirmation": "Orienter • Confirmation",
     orientation: "Demande d’orientation",
     "saved-searchs": "Mes alertes",
-    bookmark: "Mes favoris",
+    bookmarks: "Mes favoris",
   };
 
   function getStructureData(location) {

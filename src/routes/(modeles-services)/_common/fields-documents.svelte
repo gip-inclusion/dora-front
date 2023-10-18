@@ -64,9 +64,9 @@
   <FieldModel {...fieldModelProps.onlineForm ?? {}}>
     <BasicInputField
       id="onlineForm"
-      placeholder="https://exemple.com"
+      placeholder="https://exemple.fr"
       type="url"
-      description="Format attendu : http://example.fr"
+      description="Format attendu : https://example.fr"
       bind:value={service.onlineForm}
     />
   </FieldModel>

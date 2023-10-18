@@ -22,7 +22,7 @@
       type="url"
       id="remoteUrl"
       placeholder="https://"
-      description="Format attendu : http://example.fr"
+      description="Format attendu : https://example.fr"
       bind:value={service.remoteUrl}
     />
   {/if}
