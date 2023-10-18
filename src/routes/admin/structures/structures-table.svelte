@@ -15,8 +15,11 @@
   let isStructureModalOpen = false;
   let currentStructure: AdminShortStructure | null = null;
 
-  async function makeStructureObsolete(structure: AdminShortStructure) {
-    structure.isObsolete = true;
+  async function updateStructureObsolete(
+    structure: AdminShortStructure,
+    isObsolete: boolean
+  ) {
+    structure.isObsolete = isObsolete;
     await modifyStructure(structure);
     onRefresh();
   }
@@ -70,8 +73,15 @@
         <Button
           small
           extraClass="font-normal !text-f12 w-[75px]"
-          on:click={() => makeStructureObsolete(structure)}
+          on:click={() => updateStructureObsolete(structure, true)}
           label="Rendre obsolète"
+        />
+      {:else}
+        <Button
+          small
+          extraClass="font-normal !text-f12 w-[75px]"
+          on:click={() => updateStructureObsolete(structure, false)}
+          label="Ré-activer"
         />
       {/if}
     </div>
