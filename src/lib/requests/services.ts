@@ -162,7 +162,7 @@ export async function deleteService(serviceSlug) {
 }
 
 export async function setBookmark(serviceSlug: string, wantedState: boolean) {
-  const url = `${getApiURL()}/services/${serviceSlug}/set-bookmark/`;
+  const url = `${getApiURL()}/bookmarks/set-bookmark/`;
   const method = "POST";
   const response = await fetch(url, {
     method,
@@ -171,7 +171,7 @@ export async function setBookmark(serviceSlug: string, wantedState: boolean) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ state: wantedState }),
+    body: JSON.stringify({ state: wantedState, serviceSlug }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
@@ -179,7 +179,7 @@ export async function setBookmark(serviceSlug: string, wantedState: boolean) {
 }
 
 export async function setDiBookmark(diId: string, wantedState: boolean) {
-  const response = await fetch(`${getApiURL()}/services/set-di-bookmark/`, {
+  const response = await fetch(`${getApiURL()}/bookmarks/set-di-bookmark/`, {
     method: "POST",
     headers: {
       Accept: "application/json; version=1.0",

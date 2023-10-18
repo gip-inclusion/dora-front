@@ -1,9 +1,42 @@
 import { get } from "svelte/store";
 import type { PageLoad } from "./$types";
 import { userInfo } from "$lib/utils/auth";
-import { getServiceDI } from "$lib/requests/services";
+import { getService, getServiceDI } from "$lib/requests/services";
 import dayjs from "dayjs";
-import type { Service } from "$lib/types";
+import type { Bookmark, Service } from "$lib/types";
+
+async function computeServiceInfos(
+  bookmarks: Bookmark[],
+  isDI: boolean
+): Promise<Bookmark[]> {
+  const resultBookmarks: Bookmark[] = [];
+
+  const servicesPromises: Promise<Service>[] = [];
+  for (const bookmark of bookmarks) {
+    servicesPromises.push(
+      isDI ? getServiceDI(bookmark.diId) : getService(bookmark.serviceSlug)
+    );
+  }
+  const services = await Promise.all(servicesPromises);
+  services.forEach((service) => {
+    if (!service) {
+      return;
+    }
+
+    const doraBookmark = bookmarks.find(
+      (bookmark) =>
+        bookmark.diId === service.slug || bookmark.serviceSlug === service.slug
+    );
+    resultBookmarks.push({
+      ...doraBookmark,
+      service,
+      creationDate: doraBookmark!.creationDate,
+      isDI,
+    });
+  });
+
+  return resultBookmarks;
+}
 
 export const load: PageLoad = async ({ parent }) => {
   await parent();
@@ -13,29 +46,14 @@ export const load: PageLoad = async ({ parent }) => {
     return {};
   }
 
-  const bookmarks = user.bookmarks;
+  const bookmarks: Bookmark[] = [];
 
-  // Ajout des favoris de DI
-  const servicesPromises: Promise<Service>[] = [];
-  for (const diBookmark of user.diBookmarks) {
-    servicesPromises.push(
-      getServiceDI(diBookmark.diId + (Math.random() > 0.7 ? "8" : ""))
-    );
-  }
-  const services = await Promise.all(servicesPromises);
-  services.forEach((service) => {
-    if (service == null) {
-      return;
-    }
-    const diBookmark = user.diBookmarks.find(
-      (bookmark) => bookmark.diId === service.slug
-    );
-    bookmarks.push({
-      service,
-      creationDate: diBookmark!.creationDate,
-      isDI: true,
-    });
-  });
+  // Récupération des favoris Dora
+  const userDoraBookmarks = user.bookmarks.filter((bmk) => bmk.serviceSlug);
+  bookmarks.push(...(await computeServiceInfos(userDoraBookmarks, false)));
+
+  const userDiBookmarks = user.bookmarks.filter((bmk) => bmk.diId);
+  bookmarks.push(...(await computeServiceInfos(userDiBookmarks, true)));
 
   return {
     title: "Mes favoris | DORA",

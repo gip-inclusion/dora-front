@@ -9,7 +9,7 @@
 </script>
 
 <Bookmarkable
-  slug={bookmark.service.slug}
+  slug={bookmark.service?.slug}
   isDI={bookmark.isDI}
   let:onBookmark
   let:isBookmarked
@@ -19,18 +19,18 @@
       <div class="mb-s24 flex items-center justify-between">
         {#if bookmark.isDI}
           <div class="text-f14">
-            {bookmark.service.structureInfo.name}
-            {#if service.postalCode}<span
+            {service?.structureInfo.name}
+            {#if service?.postalCode}<span
                 class="legend ml-s8 font-bold text-gray-dark"
-                >{service.postalCode} {service.city}</span
+                >{service?.postalCode} {service?.city}</span
               >{/if}
           </div>
         {:else}
-          <a href="/structures/{service.structure}" class="block text-f14">
-            {bookmark.service.structureInfo.name}
-            {#if service.postalCode}<span
+          <a href="/structures/{service?.structure}" class="block text-f14">
+            {service?.structureInfo.name}
+            {#if service?.postalCode}<span
                 class="legend ml-s8 font-bold text-gray-dark"
-                >{service.postalCode} {service.city}</span
+                >{service?.postalCode} {service.city}</span
               >{/if}
           </a>
         {/if}
@@ -42,23 +42,23 @@
       <h3 class=" mb-s0 text-france-blue lg:mb-s24">
         <a
           class="full-result-link hover:underline"
-          href="/services/{bookmark.isDI ? 'di/' : ''}{service.slug}"
+          href="/services/{bookmark.isDI ? 'di/' : ''}{service?.slug}"
         >
-          {service.name}
+          {service?.name}
         </a>
       </h3>
 
       <p class="z-10 mt-s16 hidden text-f16 text-gray-text md:block">
-        <a href="/services/{bookmark.isDI ? 'di/' : ''}{service.slug}">
-          {service.shortDesc}
+        <a href="/services/{bookmark.isDI ? 'di/' : ''}{service?.slug}">
+          {service?.shortDesc}
         </a>
       </p>
       {#if bookmark.isDI}
         <div
           class="inline rounded border border-gray-02 px-s8 py-s2 text-f12 text-gray-text"
         >
-          Source&nbsp;: <span class="capitalize">{bookmark.service.source}</span
-          >, via data·inclusion
+          Source&nbsp;: <span class="capitalize">{service?.source}</span>, via
+          data·inclusion
         </div>
       {/if}
     </div>

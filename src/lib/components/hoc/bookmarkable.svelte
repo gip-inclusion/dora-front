@@ -7,9 +7,9 @@
 
   $: isBookmarked =
     $userInfo?.bookmarks
-      .map((bookmark) => bookmark.service.slug)
+      .map((bookmark) => bookmark.serviceSlug)
       .includes(slug) ||
-    $userInfo?.diBookmarks.map((diBookmark) => diBookmark.diId).includes(slug);
+    $userInfo?.bookmarks.map((diBookmark) => diBookmark.diId).includes(slug);
 
   async function handleFavClick() {
     if (isDI) {

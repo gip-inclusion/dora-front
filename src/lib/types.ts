@@ -463,13 +463,11 @@ export interface ShortService {
 }
 
 export interface Bookmark {
-  service: ShortService | Service;
+  serviceSlug?: string;
+  service?: ShortService | Service;
+  diId?: string;
   creationDate: string;
   isDI?: boolean;
-}
-export interface DIBookmark {
-  diId: string;
-  creationDate: string;
 }
 
 export interface SavedSearch {
