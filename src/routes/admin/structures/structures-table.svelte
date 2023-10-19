@@ -38,6 +38,7 @@
     <div
       class="flex flex-row gap-s16 rounded-md border border-gray-01 p-s16 shadow-xs"
       class:highlight={selectedStructureSlug === structure.slug}
+      role="presentation"
       on:mouseenter={() => (selectedStructureSlug = structure.slug)}
       on:mouseleave={() => (selectedStructureSlug = null)}
     >
