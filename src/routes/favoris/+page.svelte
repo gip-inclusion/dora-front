@@ -6,6 +6,7 @@
   import { userInfo } from "$lib/utils/auth";
   import type { PageData } from "./$types";
   import BookmarkCard from "./bookmark-card.svelte";
+  import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
 
   export let data: PageData;
 
@@ -14,7 +15,12 @@
 
 <EnsureLoggedIn>
   <CenteredGrid>
-    <h1 class="mb-s64 text-center text-france-blue">Mes favoris</h1>
+    <h1 class="text-center text-france-blue">Mes favoris</h1>
+
+    <div class="mb-s32">
+      <Breadcrumb currentLocation="bookmarks" dark />
+    </div>
+
     {#if bookmarks.length}
       <p class="mb-s40 text-f21 font-bold text-gray-dark">
         {$userInfo.bookmarks.length} favori{$userInfo.bookmarks.length > 1
