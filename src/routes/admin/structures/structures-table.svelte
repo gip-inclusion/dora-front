@@ -20,7 +20,7 @@
     isObsolete: boolean
   ) {
     structure.isObsolete = isObsolete;
-    await modifyStructure(structure);
+    await modifyStructure({ slug: structure.slug, isObsolete });
     onRefresh();
   }
 </script>
@@ -76,6 +76,7 @@
           extraClass="font-normal !text-f12 w-[75px]"
           on:click={() => updateStructureObsolete(structure, true)}
           label="Rendre obsolète"
+          secondary
         />
       {:else}
         <Button
@@ -83,6 +84,7 @@
           extraClass="font-normal !text-f12 w-[75px]"
           on:click={() => updateStructureObsolete(structure, false)}
           label="Ré-activer"
+          secondary
         />
       {/if}
     </div>
