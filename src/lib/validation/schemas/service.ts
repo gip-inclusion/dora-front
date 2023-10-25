@@ -55,7 +55,6 @@ export const serviceSchema: v.Schema = {
       v.isArray([v.isString(), v.maxStrLength(255)]),
       v.arrMaxLength(3, "Vous avez choisi plus de 3 thématiques"),
     ],
-    dependents: ["subcategories"],
     required: true,
   },
   subcategories: {
@@ -126,7 +125,6 @@ export const serviceSchema: v.Schema = {
     label: "Frais à charge",
     default: "gratuit",
     rules: [v.isString()],
-    dependents: ["feeDetails"],
   },
   feeDetails: {
     label: "Détails des frais à charge",
@@ -141,12 +139,6 @@ export const serviceSchema: v.Schema = {
     label: "Pour les bénéficiaires",
     default: [],
     rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-    dependents: [
-      "contactEmail",
-      "contactPhone",
-      "beneficiariesAccessModesOther",
-      "coachOrientationModes",
-    ],
     required: (data: { coachOrientationModes: CoachOrientationModes }) => {
       return !data.coachOrientationModes?.length;
     },
@@ -164,12 +156,6 @@ export const serviceSchema: v.Schema = {
     label: "Pour les accompagnateurs",
     default: [],
     rules: [v.isArray([v.isString(), v.maxStrLength(255)])],
-    dependents: [
-      "contactEmail",
-      "contactPhone",
-      "coachOrientationModesOther",
-      "beneficiariesAccessModes",
-    ],
     required: (data: { beneficiariesAccessModes: BeneficiaryAccessModes }) => {
       return !data.beneficiariesAccessModes.length;
     },
@@ -258,9 +244,6 @@ export const serviceSchema: v.Schema = {
     rules: [v.isURL(), v.maxStrLength(200)],
     post: [v.trim],
     maxLength: 200,
-    required: (data: { locationKinds: LocationKind[] }) => {
-      return data.locationKinds.includes("a-distance");
-    },
   },
   city: {
     label: "Ville",
@@ -277,7 +260,6 @@ export const serviceSchema: v.Schema = {
     default: "",
     rules: [v.isString(), v.maxStrLength(255)],
     post: [v.trim],
-    dependents: ["postalCode"],
     maxLength: 255,
     required: (data: { locationKinds: LocationKind[] }) => {
       return data.locationKinds.includes("en-presentiel");
@@ -303,7 +285,6 @@ export const serviceSchema: v.Schema = {
     label: "Périmètre",
     default: "",
     rules: [v.isString(), v.maxStrLength(10)],
-    dependents: ["diffusionZoneDetails"],
     required: true,
   },
 
