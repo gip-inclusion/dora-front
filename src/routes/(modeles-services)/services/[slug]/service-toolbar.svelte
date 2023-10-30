@@ -21,7 +21,7 @@
     service.updateStatus === "NOT_NEEDED" || !$token ? "bg-france-blue" : "";
 </script>
 
-<div class="print:block">
+<div class="hidden print:block">
   <CenteredGrid noPadding>
     <RelativeDateLabel date={service.modificationDate} prefix="Actualisé le" />
   </CenteredGrid>
