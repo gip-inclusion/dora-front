@@ -65,7 +65,7 @@
                 prefix="Actualisé"
                 bold
               />
-              <span class="print:hidden">
+              <span>
                 Ce service est dépriorisé dans les résultats de recherche, il
                 doit être actualisé pour gagner à nouveau en visibilité
               </span>
