@@ -183,8 +183,8 @@ export async function setBookmark(bookmarkSlug: string, isDI: boolean) {
   }
 }
 
-export async function clearBookmark(bookmarkSlug: string, isDI: boolean) {
-  const url = `${getApiURL()}/bookmarks/${bookmarkSlug}/`;
+export async function clearBookmark(bookmarkId: number) {
+  const url = `${getApiURL()}/bookmarks/${bookmarkId}/`;
   const method = "DELETE";
   const response = await fetch(url, {
     method,
@@ -193,7 +193,6 @@ export async function clearBookmark(bookmarkSlug: string, isDI: boolean) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ slug: bookmarkSlug, isDI }),
   });
   if (!response.ok) {
     throw Error(response.statusText);

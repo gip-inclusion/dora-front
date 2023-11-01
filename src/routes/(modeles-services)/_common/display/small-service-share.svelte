@@ -94,7 +94,7 @@
   </div>
 {/if}
 
-{#if browser && $userInfo}
+{#if browser && $userInfo && service.status !== "ARCHIVED"}
   <Bookmarkable slug={service.slug} {isDI} let:onBookmark let:isBookmarked>
     <button
       class="ml-s24 flex text-f16 text-gray-text print:hidden {isBookmarked

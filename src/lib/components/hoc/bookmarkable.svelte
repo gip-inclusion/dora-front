@@ -5,13 +5,13 @@
   export let slug: string;
   export let isDI = false;
 
-  $: isBookmarked = $userInfo?.bookmarks
-    .map((bookmark) => bookmark.slug)
-    .includes(slug);
+  $: bookmarkId = $userInfo?.bookmarks?.find(
+    (bookmark) => bookmark.slug === slug
+  )?.id;
 
   async function handleFavClick() {
-    if (isBookmarked) {
-      await clearBookmark(slug, isDI);
+    if (bookmarkId) {
+      await clearBookmark(bookmarkId);
     } else {
       await setBookmark(slug, isDI);
     }
@@ -20,4 +20,4 @@
   }
 </script>
 
-<slot onBookmark={handleFavClick} {isBookmarked} />
+<slot onBookmark={handleFavClick} isBookmarked={!!bookmarkId} />
