@@ -5,7 +5,7 @@
 
   export let id: string;
   export let result: ServiceSearchResult;
-
+  export let searchId: string;
   $: hasLocationTag = result.distance || result.location === "À distance";
   $: isDI = result.type === "di";
 </script>
@@ -41,15 +41,19 @@
       <h3 class="mb-s0 text-france-blue lg:mb-s24">
         <a
           class="full-result-link hover:underline"
-          href="/services/{isDI ? `di/` : ``}{result.slug}"
+          href="/services/{isDI
+            ? `di/`
+            : ``}{result.slug}?searchId={searchId.event}"
         >
           {result.name}
         </a>
       </h3>
 
       <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
-        <a href="/services/{isDI ? `di/` : ``}{result.slug}"
-          >{result.shortDesc}</a
+        <a
+          href="/services/{isDI
+            ? `di/`
+            : ``}{result.slug}?searchId={searchId.event}">{result.shortDesc}</a
         >
       </p>
       {#if isDI}
