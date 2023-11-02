@@ -14,8 +14,8 @@
   </div>
 
   <StaticMarkdown content={data.content} />
-  <hr class="my-s24" />
-  <div>
+
+  <div class="mt-s48 max-w-3xl">
     <MatomoOptOut />
   </div>
 </CenteredGrid>

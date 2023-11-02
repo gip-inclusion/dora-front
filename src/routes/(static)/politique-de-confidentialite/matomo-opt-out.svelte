@@ -73,15 +73,15 @@
   DORA utilise également la solution de mesure d'audience
   <a href="https://matomo.org/" class="underline"> Matomo </a>
 
-  en l'ayant configuré en mode « exempté » ; conformément aux
+  en l'ayant configuré en mode « exempté », conformément aux
   <a
     href="https://www.cnil.fr/fr/solutions-pour-la-mesure-daudience"
     class="underline"
   >
-    recommandations de la CNIL
-  </a>. Elle ne nécessite donc pas le consentement des personnes concernées.
-  Vous pouvez malgré tout vous opposer au suivi de votre navigation, en cochant
-  la case ci-dessous.
+    recommandations de la CNIL</a
+  >. Elle ne nécessite donc pas le consentement des personnes concernées. Vous
+  pouvez malgré tout vous opposer au suivi de votre navigation, en cochant la
+  case ci-dessous.
 </p>
 
 {#if browser}
@@ -119,7 +119,7 @@
       <label for="trackVisits"
         ><strong>
           Vous êtes suivi(e), de façon anonyme. Décochez cette case pour vous
-          exclure.
+          exclure du suivi.
         </strong>
       </label>
     {:else}
@@ -147,7 +147,7 @@
       <label for="trackVisits">
         <strong>
           Vous n'êtes actuellement pas suivi(e). Cochez cette case pour ne plus
-          être exclu(e).
+          être exclu(e) du suivi.
         </strong>
       </label>
       <p class="mt-s8">
