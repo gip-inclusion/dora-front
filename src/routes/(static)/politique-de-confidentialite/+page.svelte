@@ -13,4 +13,11 @@
   </div>
 
   <StaticMarkdown content={data.content} />
+
+  <div id="matomo-opt-out">dfasdf</div>
+
+  <script
+    src="https://matomo.inclusion.beta.gouv.fr/index.php?module=CoreAdminHome&action=optOutJS&divId=matomo-opt-out&language=fr&backgroundColor=FFFFFF&fontColor=000000&fontSize=12px&fontFamily=Arial&showIntro=1"
+  >
+  </script>
 </CenteredGrid>
