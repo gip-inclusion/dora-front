@@ -28,11 +28,10 @@ const config = {
         ].filter((source) => !!source),
         "script-src": [
           "self",
-          // "strict-dynamic",
+          "strict-dynamic",
           "unsafe-inline",
           "https://plausible.io/js/",
           "https://tally.so/widgets/embed.js",
-          "https://matomo.inclusion.beta.gouv.fr",
         ],
         "worker-src": ["self", "blob:"],
         "child-src": [
