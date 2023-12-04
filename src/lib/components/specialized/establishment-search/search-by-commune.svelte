@@ -6,7 +6,6 @@
   import type { Establishment, GeoApiValue } from "$lib/types";
 
   export let establishment;
-  export let isOwnStructure = true;
 
   export let onCityChange: (newCity: GeoApiValue | null) => void;
   export let onEstablishmentChange: (estab: Establishment | null) => void;
@@ -54,26 +53,29 @@
     }
     return [];
   }
-
-  const structureLabel = isOwnStructure
-    ? "Nom de votre structure"
-    : "Nom de la structure de votre partenaire";
 </script>
 
-<FieldWrapper id="city" label="Commune" required vertical>
-  <CitySearch
-    id="city"
-    onChange={handleCityChange}
-    placeholder="Saisissez et sélectionnez le nom de la ville"
-  />
+<FieldWrapper
+  id="city"
+  label="Commune"
+  required
+  vertical
+  description="Ville où la structure mène ses activités ou où elle est officiellement immatriculée. Veuillez commencer à saisir le nom de la ville et choisir parmi les options qui apparaissent."
+>
+  <CitySearch id="city" onChange={handleCityChange} />
 </FieldWrapper>
 
-<FieldWrapper id="siret-select" label={structureLabel} required vertical>
+<FieldWrapper
+  id="siret-select"
+  label="Structure"
+  required
+  vertical
+  description="Veuillez commencer à saisir le nom de la structure et choisir parmi les options qui apparaissent."
+>
   <Select
     id="siret-select"
     onChange={handleEstablishmentChange}
     disabled={!city?.code}
-    placeholder="Commencez à saisir et choisissez dans la liste"
     hideArrow
     searchFunction={searchSirene}
     delay="200"

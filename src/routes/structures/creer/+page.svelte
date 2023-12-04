@@ -72,7 +72,7 @@
         <div class="mr-s8 h-s24 w-s24 fill-current">
           {@html alertIcon}
         </div>
-        <p>
+        <p class="m-s0">
           Cette structure a déjà été saisie dans DORA. Vous pouvez la
           <a
             class="underline"
