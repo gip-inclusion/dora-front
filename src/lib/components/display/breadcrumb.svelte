@@ -8,6 +8,9 @@
     | "legal"
     | "cgu"
     | "model"
+    | "saved-searches"
+    | "saved-search"
+    | "bookmarks"
     | "account"
     | "login"
     | "accessibility"
@@ -43,6 +46,9 @@
     "service-orientation-step2": "Orienter • Étape 2/2",
     "service-orientation-confirmation": "Orienter • Confirmation",
     orientation: "Demande d’orientation",
+    "saved-searches": "Mes alertes",
+    "saved-search": "Mon alerte",
+    bookmarks: "Mes favoris",
   };
 
   function getStructureData(location) {
@@ -110,7 +116,7 @@
           >
             Structure&nbsp;•&nbsp;
           </span><span
-            class=" text-white  print:text-france-blue lg:inline"
+            class=" text-white print:text-france-blue lg:inline"
             class:text-gray-text={dark}>{structure.name}</span
           >
         {/if}
@@ -138,7 +144,13 @@
         </span>
       </li>
     {/if}
-
+    {#if currentLocation === "saved-search"}
+      <li class="inline before:content-['/']">
+        <a href="/mes-alertes">
+          <span class="hidden lg:inline">Mes alertes</span>
+        </a>
+      </li>
+    {/if}
     {#if Object.keys(locationToText).includes(currentLocation)}
       <li class="inline before:content-['/']">
         <span aria-current="page" class="current">

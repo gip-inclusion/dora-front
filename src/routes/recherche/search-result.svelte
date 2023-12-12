@@ -5,11 +5,12 @@
 
   export let id: string;
   export let result: ServiceSearchResult;
+  export let searchId: string;
 
   $: isDI = result.type === "di";
 </script>
 
-<Bookmarkable slug={result.slug} let:onBookmark let:isBookmarked>
+<Bookmarkable slug={result.slug} {isDI} let:onBookmark let:isBookmarked>
   <div {id} class="rounded-ml border border-gray-02 shadow-sm" tabindex="-1">
     <div class="relative p-s32 lg:pr-s64">
       <div class="mb-s24 flex items-center justify-between">
@@ -38,24 +39,26 @@
             </div>
           {/if}
 
-          {#if !isDI}
-            <FavoriteIcon on:click={onBookmark} active={isBookmarked} small />
-          {/if}
+          <FavoriteIcon on:click={onBookmark} active={isBookmarked} small />
         </div>
       </div>
 
       <h3 class="mb-s0 text-france-blue lg:mb-s24">
         <a
           class="full-result-link hover:underline"
-          href="/services/{isDI ? `di/` : ``}{result.slug}"
+          href="/services/{isDI
+            ? `di/`
+            : ``}{result.slug}?searchId={searchId?.event}"
         >
           {result.name}
         </a>
       </h3>
 
       <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
-        <a href="/services/{isDI ? `di/` : ``}{result.slug}"
-          >{result.shortDesc}</a
+        <a
+          href="/services/{isDI
+            ? `di/`
+            : ``}{result.slug}?searchId={searchId?.event}">{result.shortDesc}</a
         >
       </p>
       {#if isDI}

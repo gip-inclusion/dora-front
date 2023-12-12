@@ -1,25 +1,33 @@
 <script lang="ts">
   import illustration from "$lib/assets/illustrations/illu-favoris.svg";
+  import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
-  import { starSmileLineIcon } from "$lib/icons";
+  import { externalLinkIcon, starSmileLineIcon } from "$lib/icons";
   import { userInfo } from "$lib/utils/auth";
   import SavedSearchCard from "./saved-search-card.svelte";
 
-  $: savedSearchs = $userInfo?.savedSearchs;
+  export let data;
+  const { savedSearches } = data;
 </script>
 
 <EnsureLoggedIn>
   <CenteredGrid>
-    <h1 class="mb-s64 text-center text-france-blue">Mes alertes</h1>
-    {#if savedSearchs.length}
+    <h1 class="text-center text-france-blue">Mes alertes</h1>
+
+    <div class="mb-s32">
+      <Breadcrumb currentLocation="saved-searches" dark />
+    </div>
+
+    {#if savedSearches.length}
       <p class="mb-s40 text-f21 font-bold text-gray-dark">
-        {$userInfo.savedSearchs.length} alerte{$userInfo.savedSearchs.length > 1
+        {$userInfo.savedSearches.length} alerte{$userInfo.savedSearches.length >
+        1
           ? "s"
           : ""}
       </p>
       <div class="flex flex-col gap-s16">
-        {#each savedSearchs as search}
+        {#each savedSearches as search}
           <SavedSearchCard {search} />
         {/each}
       </div>
@@ -44,23 +52,21 @@
             e-mail.
           </p>
 
-          <!--
-            <a
-              target="_blank"
-              title="Ouverture dans une nouvelle fenêtre"
-              rel="noopener"
-              href="https://aide.dora.inclusion.beta.gouv.fr/fr/category/quoi-de-neuf-es1img/"
-              class="inline-block h-full text-magenta-cta"
-              >
-              Découvrez comment créer une alerte
-              <span
+          <a
+            target="_blank"
+            title="Ouverture dans une nouvelle fenêtre"
+            rel="noopener"
+            href="https://aide.dora.inclusion.beta.gouv.fr/fr/article/alertes-comment-enregistrer-des-recherches-1xpnlc9/?bust=1698336652095"
+            class="inline-block h-full text-magenta-cta"
+          >
+            Découvrez comment créer une alerte
+            <span
               class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
               aria-hidden
-              >
+            >
               {@html externalLinkIcon}
             </span>
           </a>
-          -->
         </div>
         <div class="flex-shrink-0">
           <img src={illustration} alt="" />

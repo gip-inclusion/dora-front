@@ -29,10 +29,10 @@
   export let structure;
   export let members;
   export let onRefresh;
-  export let forceAdmin = false;
+  export let suggestAdmin = false;
 
   let email = "";
-  let level: userLevelKind = "user";
+  let level: userLevelKind = suggestAdmin ? "admin" : "user";
 
   let successEmailMsg;
   let confirmationModalIsOpen = false;
@@ -79,8 +79,7 @@
     confirmationModalIsOpen = true;
   }
 
-  $: formData = { email, level };
-  $: level = forceAdmin ? "admin" : level;
+  $: formData = { email, level, siret: structure.siret };
 </script>
 
 <Modal bind:isOpen title="Nouveau collaborateur">
@@ -109,7 +108,6 @@
         bind:value={level}
         choices={USER_LEVEL_CHOICES}
         placeholder="Permissions"
-        disabled={forceAdmin}
       />
     </Fieldset>
     <div class="mt-s32 flex flex-row justify-end gap-s16">

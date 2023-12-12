@@ -161,8 +161,13 @@ export async function deleteService(serviceSlug) {
   return result;
 }
 
-export async function setBookmark(serviceSlug: string, wantedState: boolean) {
-  const url = `${getApiURL()}/services/${serviceSlug}/set-bookmark/`;
+export async function getBookmarks(): Promise<ShortService[]> {
+  const url = `${getApiURL()}/bookmarks/`;
+  return (await fetchData<ShortService[]>(url)).data;
+}
+
+export async function setBookmark(bookmarkSlug: string, isDI: boolean) {
+  const url = `${getApiURL()}/bookmarks/`;
   const method = "POST";
   const response = await fetch(url, {
     method,
@@ -171,18 +176,16 @@ export async function setBookmark(serviceSlug: string, wantedState: boolean) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ state: wantedState }),
+    body: JSON.stringify({ slug: bookmarkSlug, isDI }),
   });
   if (!response.ok) {
     throw Error(response.statusText);
   }
 }
 
-export async function publishDraft(serviceSlug) {
-  const url = `${getApiURL()}/services/${serviceSlug}/`;
-  const method = "PATCH";
-  const status: ServiceStatus = "PUBLISHED";
-
+export async function clearBookmark(bookmarkId: number) {
+  const url = `${getApiURL()}/bookmarks/${bookmarkId}/`;
+  const method = "DELETE";
   const response = await fetch(url, {
     method,
     headers: {
@@ -190,14 +193,10 @@ export async function publishDraft(serviceSlug) {
       "Content-Type": "application/json",
       Authorization: `Token ${get(token)}`,
     },
-    body: JSON.stringify({ status }),
   });
-
   if (!response.ok) {
     throw Error(response.statusText);
   }
-
-  return response.json();
 }
 
 export async function unPublishService(serviceSlug) {
