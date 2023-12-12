@@ -31,7 +31,7 @@
             </div>
           {/if}
 
-          {#if result.locationKinds.includes("a-distance")}
+          {#if result.locationKinds.includes("a-distance") && (result.distance == null || result.distance > 100)}
             <div
               class="whitespace-nowrap rounded-xl bg-france-blue px-s10 py-s4 text-f14 font-bold text-white"
             >
