@@ -5,7 +5,7 @@
 
 <h2 class="text-f20">
   <a href={`/recherche?${getSavedSearchQueryString(search)}`}>
-    Services d’insertion à proximité de {search.cityLabel}
+    Services d’insertion à proximité de {search.label}
 
     {#if search.category}
       pour la thématique {search.categoryDisplay}

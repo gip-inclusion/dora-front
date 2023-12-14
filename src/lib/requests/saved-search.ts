@@ -80,7 +80,7 @@ export function getSavedSearchQueryString(savedSearch: SavedSearch) {
     categoryIds: [savedSearch.category],
     subCategoryIds: savedSearch.subcategories,
     cityCode: savedSearch.cityCode,
-    cityLabel: savedSearch.cityLabel,
+    label: savedSearch.cityLabel,
     kindIds: savedSearch.kinds,
     feeConditions: savedSearch.fees,
   });

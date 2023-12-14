@@ -306,9 +306,11 @@ export interface SearchQuery {
   categoryIds: string[];
   subCategoryIds: string[];
   cityCode: string;
-  cityLabel: string;
+  label: string;
   kindIds: ServiceKind[];
   feeConditions: FeeCondition[];
+  lat?: number;
+  lon?: number;
 }
 
 export interface ServiceSearchResult {

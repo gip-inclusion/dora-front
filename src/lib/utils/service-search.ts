@@ -7,18 +7,22 @@ export function getQueryString({
   categoryIds,
   subCategoryIds,
   cityCode,
-  cityLabel,
+  label,
   feeConditions,
   kindIds,
+  lon,
+  lat,
 }: SearchQuery) {
   const parameters = {
     cats: categoryIds.join(","),
     subs: subCategoryIds.sort().join(","),
     city: cityCode,
     // eslint-disable-next-line id-length
-    cl: cityLabel,
+    cl: label,
     kinds: kindIds.join(","),
     fees: feeConditions.join(","),
+    lat: lat,
+    lon: lon,
   };
   const query = Object.entries(parameters)
     .filter(([_key, value]) => !!value)

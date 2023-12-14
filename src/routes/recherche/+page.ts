@@ -13,17 +13,21 @@ async function getResults({
   categoryIds,
   subCategoryIds,
   cityCode,
-  cityLabel,
+  label,
   kindIds,
   feeConditions,
+  lat,
+  lon,
 }: SearchQuery): Promise<ServiceSearchResult[]> {
   const querystring = getQueryString({
     categoryIds,
     subCategoryIds,
     cityCode,
-    cityLabel,
+    label: label,
     kindIds,
     feeConditions,
+    lat,
+    lon,
   });
   const url = `${getApiURL()}/search/?${querystring}`;
 
@@ -52,18 +56,22 @@ export const load: PageLoad = async ({ url, parent }) => {
   let categoryIds = query.get("cats") ? query.get("cats").split(",") : [];
   const subCategoryIds = query.get("subs") ? query.get("subs").split(",") : [];
   const cityCode = query.get("city");
-  const cityLabel = query.get("cl");
+  const label = query.get("cl");
   const kindIds = query.get("kinds") ? query.get("kinds").split(",") : [];
   const feeConditions = query.get("fees") ? query.get("fees").split(",") : [];
+  const lon = query.get("lon");
+  const lat = query.get("lat");
 
   const services = await getResults({
     // La priorité est donnée aux sous-catégories
     categoryIds: subCategoryIds.length ? [] : categoryIds,
     subCategoryIds,
     cityCode,
-    cityLabel,
+    label,
     kindIds,
     feeConditions,
+    lon,
+    lat,
   });
 
   const searchId = trackSearch(
@@ -72,14 +80,13 @@ export const load: PageLoad = async ({ url, parent }) => {
     subCategoryIds.length ? [] : categoryIds,
     subCategoryIds,
     cityCode,
-    cityLabel,
     kindIds,
     feeConditions,
     services
   );
 
-  if (cityCode && cityLabel) {
-    storeLastSearchCity(cityCode, cityLabel);
+  if (cityCode && label) {
+    storeLastSearchCity(cityCode, label);
   }
 
   // Pour le formulaire de recherche, on veut afficher la catégorie sélectionnée
@@ -87,12 +94,12 @@ export const load: PageLoad = async ({ url, parent }) => {
     categoryIds = [subCategoryIds[0].split("--")[0]];
   }
   return {
-    title: `Services d’insertion à ${cityLabel} | Recherche | DORA`,
+    title: `Services d’insertion à ${label} | Recherche | DORA`,
     noIndex: true,
     categoryIds,
     subCategoryIds,
     cityCode,
-    cityLabel,
+    label,
     kindIds,
     feeConditions,
     services,
