@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { externalLinkIcon } from "$lib/icons";
   import { getApiURL } from "$lib/utils/api";
   import CitySearch from "$lib/components/inputs/geo/city-search.svelte";
   import Select from "$lib/components/inputs/select/select.svelte";
@@ -9,6 +10,8 @@
 
   export let onCityChange: (newCity: GeoApiValue | null) => void;
   export let onEstablishmentChange: (estab: Establishment | null) => void;
+
+  let queryText: string | undefined;
 
   let city: GeoApiValue | null;
 
@@ -53,6 +56,20 @@
     }
     return [];
   }
+
+  let aePath: string;
+  $: {
+    aePath = "";
+    if (city?.code && queryText) {
+      const code = city.code;
+      const dep = code.slice(0, 2);
+      if (["75", "69", "13"].includes(dep)) {
+        aePath = `/rechercher?terme=${queryText}&cp_dep_type=dep&cp_dep=${dep}`;
+      } else {
+        aePath = `/rechercher?terme=${queryText}&cp_dep_type=insee&cp_dep=${code}`;
+      }
+    }
+  }
 </script>
 
 <FieldWrapper
@@ -67,13 +84,14 @@
 
 <FieldWrapper
   id="siret-select"
-  label="Structure"
+  label="Dénomination"
   required
   vertical
   description="Veuillez commencer à saisir le nom de la structure et choisir parmi les options qui apparaissent."
 >
   <Select
     id="siret-select"
+    bind:searchText={queryText}
     onChange={handleEstablishmentChange}
     disabled={!city?.code}
     hideArrow
@@ -83,4 +101,21 @@
     postfixValueFunction={(item) => item.siret}
     minCharactersToSearch="3"
   />
+
+  <p class="pt-s4 text-f14">
+    Si vous avez du mal à la retrouver, consultez l’<a
+      target="_blank"
+      title="Ouverture dans une nouvelle fenêtre"
+      rel="noopener"
+      href={"https://annuaire-entreprises.data.gouv.fr" + aePath}
+      class="inline-block h-full text-magenta-cta underline"
+      >Annuaire des entreprises
+      <span
+        class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
+        aria-hidden
+      >
+        {@html externalLinkIcon}
+      </span>
+    </a>
+  </p>
 </FieldWrapper>

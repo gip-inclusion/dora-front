@@ -1,27 +1,26 @@
 <script lang="ts">
   import Button from "$lib/components/display/button.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import Fieldset from "$lib/components/display/fieldset.svelte";
+  import Notice from "$lib/components/display/notice.svelte";
   import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import FormErrors from "$lib/components/forms/form-errors.svelte";
   import Form from "$lib/components/forms/form.svelte";
   import EnsureLoggedIn from "$lib/components/hoc/ensure-logged-in.svelte";
   import StructureSearch from "$lib/components/specialized/establishment-search/search.svelte";
-  import { alertIcon } from "$lib/icons";
   import { siretWasAlreadyClaimed } from "$lib/requests/structures";
   import { getApiURL } from "$lib/utils/api";
   import * as v from "$lib/validation/schema-utils";
   import { structureSchema } from "$lib/validation/schemas/structure";
+  import { formErrors } from "$lib/validation/validation";
   import type { PageData } from "./$types";
-  import { goto } from "$app/navigation";
   import { token } from "$lib/utils/auth";
   import { get } from "svelte/store";
-  import type { StructuresOptions } from "$lib/types";
+  import type { Structure, StructuresOptions } from "$lib/types";
 
   export let data: PageData;
   export let structuresOptions: StructuresOptions;
-  export let modify = false;
-  export let onRefresh: (() => Promise<void>) | undefined = undefined;
 
   const schema = {
     email: {
@@ -48,12 +47,21 @@
   );
   let structure = JSON.parse(JSON.stringify(defaultStructure));
   let alreadyClaimedEstablishment;
+  let structureAdded = false;
 
+  function resetForm() {
+    alreadyClaimedEstablishment = false;
+    structure = JSON.parse(JSON.stringify(defaultStructure));
+    structureAdded = false;
+    requesting = false;
+    $formErrors = {};
+  }
   function handleChange(_validatedData) {}
 
   function handleSubmit(validatedData) {
-    const url = `${getApiURL()}/auth/invite-first-admin/`;
+    const url = `${getApiURL()}/auth/invite-admin/`;
     const method = "POST";
+
     return fetch(url, {
       method,
       headers: {
@@ -63,17 +71,15 @@
         Authorization: `Token ${get(token)}`,
       },
       body: JSON.stringify({
-        siret: structure.siret,
+        siret: validatedData.siret,
         inviteeEmail: validatedData.email,
       }),
     });
   }
 
-  async function handleSuccess(result) {
-    if (modify && onRefresh) {
-      await onRefresh();
-    }
-    goto(`/invite-first-admin/${result.slug}`);
+  function handleSuccess(result) {
+    structure = result;
+    structureAdded = true;
   }
 
   function handleCityChange(_city) {
@@ -83,7 +89,7 @@
   async function establishmentAlreadyCreated(siret) {
     const result = await siretWasAlreadyClaimed(siret);
     if (result.ok) {
-      return result.result;
+      return result.result as unknown as Structure;
     }
     return false;
   }
@@ -112,68 +118,98 @@
 </script>
 
 <EnsureLoggedIn>
-  <CenteredGrid extraClass="max-w-3xl m-auto">
+  <CenteredGrid extraClass="max-w-4xl m-auto">
     <h1 class="mb-s64 text-center text-france-blue">Ajouter une structure</h1>
-
-    <FormErrors />
-
-    <StructureSearch
-      title="Identifier la structure"
-      onEstablishmentChange={handleEstablishmentChange}
-      onCityChange={handleCityChange}
-    />
-
-    {#if alreadyClaimedEstablishment}
-      <div
-        class="mt-s16 flex flex-row items-center justify-center pt-s4 text-f18 text-error"
+    <div class="mt-s24"></div>
+    {#if structureAdded && structure}
+      <Notice
+        title="La structure {structure.name} a été ajoutée"
+        type="success"
       >
-        <div class="mr-s8 h-s24 w-s24 fill-current">
-          {@html alertIcon}
-        </div>
-        <p class="m-s0">
-          Cette structure a déjà été saisie dans DORA. Vous pouvez la
-          <a
-            class="underline"
-            href="/structures/{alreadyClaimedEstablishment?.slug}"
-          >
-            visualiser</a
-          >.
+        <p class="mb-s0 text-f14">
+          Une invitation pour rejoindre DORA et administrer la structure a été
+          envoyée à l’adresse e-mail saisie.
         </p>
-      </div>
-    {/if}
-    <FormErrors />
-    {#if structure.siret || true}
-      <Form
-        bind:data={structure}
-        serverErrorsDict={serverErrors}
-        {schema}
-        onChange={handleChange}
-        onSubmit={handleSubmit}
-        onSuccess={handleSuccess}
-        bind:requesting
-      >
-        <Fieldset
-          title="Premier administrateur"
-          description="Saisissez le courriel de l’administrateur à inviter"
-        >
-          <BasicInputField
-            type="email"
-            id="email"
-            bind:value={structure.email}
-            description="Format attendu&nbsp;: mail@domaine.fr"
-            vertical
-          />
-        </Fieldset>
+      </Notice>
 
-        <div class="mt-s32 flex flex-col justify-end gap-s16 md:flex-row">
-          <Button
-            name="validate"
-            type="submit"
-            label="Envoyer l’invitation"
-            disabled={requesting}
+      <div class="mt-s24 flex flex-row justify-center gap-s24">
+        <LinkButton
+          to="/structures/{structure.slug}"
+          label="Voir la structure"
+          secondary
+        />
+
+        <Button on:click={resetForm} label="Ajouter une autre structure" />
+      </div>
+    {:else}
+      <FormErrors />
+
+      <StructureSearch
+        title="Identifier la structure"
+        onEstablishmentChange={handleEstablishmentChange}
+        onCityChange={handleCityChange}
+      />
+
+      {#if alreadyClaimedEstablishment}
+        <div class="mt-s24"></div>
+        <Notice
+          title="La structure {alreadyClaimedEstablishment.name} est déjà référencée sur
+            DORA."
+          type="info"
+        >
+          <p>
+            {#if alreadyClaimedEstablishment.numAdmins === 0}
+              Elle n’a pas encore d’administrateur.
+            {:else if alreadyClaimedEstablishment.numAdmins === 1}
+              Elle a déjà un administrateur.
+            {:else}
+              Elle compte déjà {alreadyClaimedEstablishment.numAdmins} administrateurs.
+            {/if}
+          </p>
+          <LinkButton
+            to="/structures/{alreadyClaimedEstablishment?.slug}"
+            label="Consultez la structure"
+            small
+            slot="button"
           />
-        </div>
-      </Form>
+        </Notice>
+      {/if}
+
+      <FormErrors />
+
+      {#if structure.siret}
+        <Form
+          bind:data={structure}
+          serverErrorsDict={serverErrors}
+          {schema}
+          onChange={handleChange}
+          onSubmit={handleSubmit}
+          onSuccess={handleSuccess}
+          bind:requesting
+        >
+          <Fieldset
+            title="Premier administrateur"
+            description="Veuillez saisir le courriel de la personne que vous souhaitez inviter."
+          >
+            <BasicInputField
+              type="email"
+              id="email"
+              bind:value={structure.email}
+              description="Format attendu&nbsp;: mail@domaine.fr"
+              vertical
+            />
+          </Fieldset>
+
+          <div class="mt-s32 flex flex-col justify-end gap-s16 md:flex-row">
+            <Button
+              name="validate"
+              type="submit"
+              label="Envoyer l’invitation"
+              disabled={requesting}
+            />
+          </div>
+        </Form>
+      {/if}
     {/if}
   </CenteredGrid>
 </EnsureLoggedIn>

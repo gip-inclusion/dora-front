@@ -8,6 +8,7 @@
   export let onChange: (newValue: GeoApiValue) => void;
 
   export let description;
+  export let placeholder;
   export let disabled = false;
   export let id;
   export let value = undefined;
@@ -85,6 +86,7 @@
   {id}
   {onChange}
   {initialValue}
+  {placeholder}
   {disabled}
   {choices}
   hideArrow

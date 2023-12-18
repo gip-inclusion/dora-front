@@ -185,7 +185,6 @@
               label="Ajouter une structure"
               to="/admin/structures/creer"
               icon={addIcon}
-              small
             />
           </div>
         </div>
