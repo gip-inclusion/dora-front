@@ -17,7 +17,7 @@
   import type { PageData } from "./$types";
   import { token } from "$lib/utils/auth";
   import { get } from "svelte/store";
-  import type { Structure, StructuresOptions } from "$lib/types";
+  import type { Establishment, Structure, StructuresOptions } from "$lib/types";
 
   export let data: PageData;
   export let structuresOptions: StructuresOptions;
@@ -32,7 +32,6 @@
       required: true,
     },
   };
-  let requesting = false;
 
   const serverErrors = {
     _default: {},
@@ -45,17 +44,20 @@
       props.default,
     ])
   );
+
+  let requesting = false;
   let structure = JSON.parse(JSON.stringify(defaultStructure));
-  let alreadyClaimedEstablishment;
+  let alreadyClaimedEstablishment: Structure | null = null;
   let structureAdded = false;
 
   function resetForm() {
-    alreadyClaimedEstablishment = false;
-    structure = JSON.parse(JSON.stringify(defaultStructure));
-    structureAdded = false;
     requesting = false;
+    structure = JSON.parse(JSON.stringify(defaultStructure));
+    alreadyClaimedEstablishment = null;
+    structureAdded = false;
     $formErrors = {};
   }
+
   function handleChange(_validatedData) {}
 
   function handleSubmit(validatedData) {
@@ -86,15 +88,17 @@
     structure = JSON.parse(JSON.stringify(defaultStructure));
   }
 
-  async function establishmentAlreadyCreated(siret) {
+  async function establishmentAlreadyCreated(siret: string) {
     const result = await siretWasAlreadyClaimed(siret);
     if (result.ok) {
       return result.result as unknown as Structure;
     }
-    return false;
+    return null;
   }
 
-  async function handleEstablishmentChange(establishment) {
+  async function handleEstablishmentChange(
+    establishment: Establishment | null
+  ) {
     alreadyClaimedEstablishment = null;
     structure = JSON.parse(JSON.stringify(defaultStructure));
     if (establishment) {

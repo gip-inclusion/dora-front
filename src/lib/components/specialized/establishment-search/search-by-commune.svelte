@@ -57,16 +57,16 @@
     return [];
   }
 
-  let aePath: string;
+  let annuaireEntreprisePath: string;
   $: {
-    aePath = "";
+    annuaireEntreprisePath = "";
     if (city?.code && queryText) {
       const code = city.code;
-      const dep = code.slice(0, 2);
-      if (["75", "69", "13"].includes(dep)) {
-        aePath = `/rechercher?terme=${queryText}&cp_dep_type=dep&cp_dep=${dep}`;
+      const dept = code.slice(0, 2);
+      if (["75", "69", "13"].includes(dept)) {
+        annuaireEntreprisePath = `/rechercher?terme=${queryText}&cp_dep_type=dep&cp_dep=${dept}`;
       } else {
-        aePath = `/rechercher?terme=${queryText}&cp_dep_type=insee&cp_dep=${code}`;
+        annuaireEntreprisePath = `/rechercher?terme=${queryText}&cp_dep_type=insee&cp_dep=${code}`;
       }
     }
   }
@@ -107,7 +107,8 @@
       target="_blank"
       title="Ouverture dans une nouvelle fenêtre"
       rel="noopener"
-      href={"https://annuaire-entreprises.data.gouv.fr" + aePath}
+      href={"https://annuaire-entreprises.data.gouv.fr" +
+        annuaireEntreprisePath}
       class="inline-block h-full text-magenta-cta underline"
       >Annuaire des entreprises
       <span

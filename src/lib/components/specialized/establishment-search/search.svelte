@@ -77,7 +77,7 @@
       {:else}
         Veuillez choisir une méthode d’identification parmi les options
         disponibles. Si vous rencontrez des difficultés ou avez besoin
-        d'assistance, n'hésitez pas à
+        d’assistance, n’hésitez pas à
         <a
           class="underline"
           target="_blank"
