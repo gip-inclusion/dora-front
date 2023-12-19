@@ -61,7 +61,7 @@
   function handleChange(_validatedData) {}
 
   function handleSubmit(validatedData) {
-    const url = `${getApiURL()}/auth/invite-admin/`;
+    const url = `${getApiURL()}/auth/invite-first-admin/`;
     const method = "POST";
 
     return fetch(url, {
