@@ -16,11 +16,11 @@
   {service.shortDesc || ""}
 </p>
 
-<div class="rounded-lg border border-gray-02 p-s32 pb-s48">
+<div class=" rounded-lg border border-gray-02 p-s32 pb-s48">
   <ServiceKeyInformations {service} {servicesOptions} />
 </div>
 
-<div class="mb-s40" />
+<div class="mb-s40 print:mb-s0" />
 
 {#if service.fullDesc}
   <div class="mb-s40">

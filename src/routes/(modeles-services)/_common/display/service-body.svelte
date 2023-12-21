@@ -17,22 +17,17 @@
 </script>
 
 <CenteredGrid>
-  <div class="service-body">
-    <div class="presentation">
-      <ServicePresentation {service} {servicesOptions} {isDI} />
+  <div class="flex flex-col justify-between gap-s48 md:flex-row">
+    <div id="main-content" class="flex-auto basis-2/3">
+      <div class="">
+        <ServicePresentation {service} {servicesOptions} {isDI} />
+      </div>
     </div>
-
-    <hr class="separator-1" />
-    <div class="beneficiaries">
-      <ServiceBeneficiaries {service} />
-    </div>
-    <hr class="separator-2" />
-    <div class="mobilize">
-      <ServiceMobilize {service} />
-    </div>
-
     {#if browser}
-      <div class="sidebar flex flex-col gap-y-s24">
+      <div
+        id="sidebar"
+        class="flex flex-none flex-col gap-y-s24 md:w-[320px] lg:w-[375px]"
+      >
         {#if !isModel}
           <div class="sticky top-s32">
             <div
@@ -51,54 +46,20 @@
       </div>
     {/if}
   </div>
+  <div class="flex flex-col justify-between gap-s48 md:flex-row">
+    <div class="flex-auto md:basis-1/2 lg:basis-2/3">
+      <div>
+        <hr class="my-s24" />
+        <ServiceBeneficiaries {service} />
+      </div>
+      <hr class="my-s24" />
+      <div class="mobilize">
+        <ServiceMobilize {service} />
+      </div>
+    </div>
+    <div class="md:basis-1/2 lg:basis-1/3"></div>
+  </div>
 </CenteredGrid>
 
 <style lang="postcss">
-  .presentation {
-    grid-area: presentation;
-  }
-
-  .beneficiaries {
-    grid-area: beneficiaries;
-  }
-
-  .mobilize {
-    grid-area: mobilize;
-  }
-
-  .sidebar {
-    grid-area: sidebar;
-  }
-
-  .service-body {
-    display: grid;
-    grid-template-columns: 1fr;
-    column-gap: 6rem;
-    row-gap: 2rem;
-    grid-template-areas:
-      "presentation"
-      "sidebar"
-      "separator-1"
-      "beneficiaries"
-      "separator-2"
-      "mobilize";
-  }
-
-  @screen md {
-    .service-body {
-      grid-template-columns: 1fr 300px;
-      column-gap: 4rem;
-      grid-template-areas:
-        "presentation sidebar"
-        "separator-1 sidebar"
-        "beneficiaries sidebar"
-        "separator-2 sidebar"
-        "mobilize sidebar";
-    }
-  }
-  @screen lg {
-    .service-body {
-      grid-template-columns: 1fr 375px;
-    }
-  }
 </style>
