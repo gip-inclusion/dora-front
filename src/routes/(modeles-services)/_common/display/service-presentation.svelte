@@ -20,10 +20,10 @@
   <ServiceKeyInformations {service} {servicesOptions} />
 </div>
 
-<div class="mb-s40 print:mb-s0" />
+<div class="mb-s40 print:mb-s24" />
 
 {#if service.fullDesc}
-  <div class="mb-s40">
+  <div>
     <h3>Description du service</h3>
     <ServiceDescription {service} />
   </div>

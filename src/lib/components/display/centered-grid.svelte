@@ -9,7 +9,7 @@
 
 <div class={roundedColor} class:bg-white={roundedColor}>
   <div
-    class="{padding} break-inside-auto {extraClass} {bgColor} {roundedColor
+    class="{padding} {extraClass} {bgColor} {roundedColor
       ? 'md:rounded-t-[30px] lg:rounded-t-[45px] xl:rounded-t-[60px]'
       : ''} print:pb-s0"
   >

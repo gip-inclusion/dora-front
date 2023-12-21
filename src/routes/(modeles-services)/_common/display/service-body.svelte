@@ -17,17 +17,14 @@
 </script>
 
 <CenteredGrid>
-  <div class="flex flex-col justify-between gap-s48 md:flex-row">
-    <div id="main-content" class="flex-auto basis-2/3">
-      <div class="">
+  <div class="mb-s48 flex flex-col justify-between gap-x-s48 md:flex-row">
+    <div class="flex-auto basis-2/3">
+      <div>
         <ServicePresentation {service} {servicesOptions} {isDI} />
       </div>
     </div>
     {#if browser}
-      <div
-        id="sidebar"
-        class="flex flex-none flex-col gap-y-s24 md:w-[320px] lg:w-[375px]"
-      >
+      <div class="flex flex-none flex-col gap-y-s24 md:w-[320px] lg:w-[375px]">
         {#if !isModel}
           <div class="sticky top-s32">
             <div
@@ -46,8 +43,8 @@
       </div>
     {/if}
   </div>
-  <div class="flex flex-col justify-between gap-s48 md:flex-row">
-    <div class="flex-auto md:basis-1/2 lg:basis-2/3">
+  <div class="flex flex-col">
+    <div class="main-content">
       <div>
         <hr class="my-s24" />
         <ServiceBeneficiaries {service} />
@@ -57,9 +54,5 @@
         <ServiceMobilize {service} />
       </div>
     </div>
-    <div class="md:basis-1/2 lg:basis-1/3"></div>
   </div>
 </CenteredGrid>
-
-<style lang="postcss">
-</style>
