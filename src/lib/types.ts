@@ -151,7 +151,6 @@ export interface Structure {
   canEditInformations: boolean;
   canEditMembers: boolean;
   canEditServices: boolean;
-  canInviteFirstAdmin: boolean;
   canViewMembers: boolean;
   city: string;
   cityCode: string;
@@ -161,6 +160,7 @@ export interface Structure {
   email: string;
   fullDesc: string;
   hasAdmin: boolean;
+  numAdmins: number;
   hasBeenEdited: boolean;
   isAdmin: boolean;
   isMember: boolean;
@@ -463,13 +463,31 @@ export interface ShortService {
   updateStatus: ServiceUpdateStatus;
 }
 
-export interface Bookmark {
-  service: ShortService;
+export interface ShortBookmark {
+  id: number;
+  slug: string;
   creationDate: string;
+  isDI: boolean;
+}
+
+export interface Bookmark {
+  id: number;
+  slug: string;
+  creationDate: string;
+  isDi: boolean;
+  service: {
+    name: string;
+    structureName: string;
+    structureSlug: string;
+    postalCode: string;
+    city: string;
+    shortDesc: string;
+    source: string;
+  };
 }
 
 export interface SavedSearch {
-  id: string;
+  id: number;
   creationDate: string;
   cityCode: string;
   cityLabel: string;
@@ -482,6 +500,7 @@ export interface SavedSearch {
   fees: FeeCondition[];
   feesDisplay: string[];
   frequency: SavedSearchNotificationFrequency;
+  newServicesCount?: number;
 }
 
 export interface CustomChoice {

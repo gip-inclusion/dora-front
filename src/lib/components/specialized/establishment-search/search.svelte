@@ -2,23 +2,31 @@
   import FieldSet from "$lib/components/display/fieldset.svelte";
   import Tabs from "$lib/components/display/tabs.svelte";
   import SearchByCommune from "./search-by-commune.svelte";
+  import SearchBySafir from "./search-by-safir.svelte";
   import SearchBySiret from "./search-by-siret.svelte";
   import type { Establishment, GeoApiValue } from "$lib/types";
 
-  type Tab = "nom" | "siret";
-
   export let onCityChange: ((city: GeoApiValue | null) => void) | undefined =
     undefined;
+
+  type Tab = "nom" | "siret" | "safir";
 
   export let onEstablishmentChange:
     | ((establishment: Establishment | null) => void)
     | undefined = undefined;
 
   export let establishment: Establishment | null = null;
-  export let isOwnStructure = true;
-  export let tabId: Tab = "nom";
+  export let showSafir: boolean = false;
+  export let tabId: Tab = showSafir ? "safir" : "nom";
+
   export let title = "Structure";
   export let description: string | undefined = undefined;
+  export let proposedSafir: string = "";
+  export let proposedSiret: string = "";
+
+  if (!showSafir) {
+    proposedSafir = "";
+  }
 
   function handleCityChange(newCity: GeoApiValue | null) {
     establishment = null;
@@ -44,30 +52,38 @@
       }
     }
   }
+  const tabs: { id: string; name: string }[] = [];
+  if (showSafir) {
+    tabs.push({ id: "safir", name: "Agences Pôle emploi" });
+  }
 
-  const tabs: { id: Tab; name: string }[] = [
-    { id: "nom", name: "Nom" },
-    { id: "siret", name: "Siret" },
-  ];
+  tabs.push(
+    ...[
+      { id: "nom", name: "Nom" },
+      { id: "siret", name: "SIRET" },
+    ]
+  );
 
-  if (establishment?.siret) {
+  if (proposedSiret) {
     tabId = "siret";
   }
 </script>
 
 <FieldSet {title} headerBg="bg-magenta-brand" noHeaderBorder noTopPadding>
   <div slot="description">
-    <p class="text-f14 text-white">
+    <p class="m-s0 text-f14 text-white">
       {#if description}
         {description}
       {:else}
-        Choisissez une méthode d’identification. En cas de doute,
+        Veuillez choisir une méthode d’identification parmi les options
+        disponibles. Si vous rencontrez des difficultés ou avez besoin
+        d’assistance, n’hésitez pas à
         <a
           class="underline"
           target="_blank"
           title="Ouverture dans une nouvelle fenêtre"
           rel="noopener"
-          href="https://aide.dora.inclusion.beta.gouv.fr/fr/">contactez-nous</a
+          href="https://aide.dora.inclusion.beta.gouv.fr/fr/">nous contacter</a
         >.
       {/if}
     </p>
@@ -79,19 +95,25 @@
     <SearchBySiret
       onEstablishmentChange={handleEstablishmentChange}
       {establishment}
+      {proposedSiret}
     />
   {:else if tabId === "nom"}
     <SearchByCommune
       bind:establishment
       onEstablishmentChange={handleEstablishmentChange}
       onCityChange={handleCityChange}
-      {isOwnStructure}
+    />
+  {:else if tabId === "safir"}
+    <SearchBySafir
+      {establishment}
+      onEstablishmentChange={handleEstablishmentChange}
+      {proposedSafir}
     />
   {/if}
 
   {#if establishment?.siret}
     <div class="border border-gray-01 p-s24">
-      <h4 class="text-gray-text">{establishment.name}</h4>
+      <h4 class="text-f16">{establishment.name}</h4>
       <div class="legend">{establishment.siret}</div>
       <div class="legend">{establishment.address1}</div>
       <div class="legend">{establishment.address2}</div>
