@@ -121,6 +121,7 @@ export async function trackSearch(
   categoryIds,
   subCategoryIds,
   cityCode,
+  cityLabel,
   kindIds,
   feeConditions,
   results

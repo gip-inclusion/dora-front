@@ -29,16 +29,18 @@
   import { getQueryString } from "$lib/utils/service-search";
   import { onMount } from "svelte";
   import { refreshUserInfo, userInfo } from "$lib/utils/auth";
+  import LinkButton from "../display/link-button.svelte";
   import {
-    isCurrentSearchInUserSavedSearches,
+    getSavedSearchQueryString,
     saveSearch,
   } from "$lib/requests/saved-search";
 
   export let servicesOptions: ServicesOptions;
-  export let cityCode;
-  export let label;
-  export let lon;
-  export let lat;
+  export let cityCode: string | undefined = undefined;
+  export let cityLabel: string | undefined = undefined;
+  export let label: string | undefined = undefined;
+  export let lon: number | undefined = undefined;
+  export let lat: number | undefined = undefined;
   export let categoryId: string | undefined = undefined;
   export let subCategoryIds: string[] = [];
   export let showDeploymentWarning = true;
@@ -56,6 +58,7 @@
     categoryIds: [categoryId ? categoryId : ""],
     subCategoryIds: subCategoryIds.filter((value) => !value.endsWith("--all")),
     cityCode,
+    cityLabel,
     label,
     kindIds,
     feeConditions,
@@ -67,11 +70,15 @@
     ? associateIconToCategory(sortCategory(servicesOptions.categories))
     : [];
 
-  function getAdressLabel(address) {
+  function getCityLabel(address) {
+    return `${address.properties.city} (${getDepartmentFromCityCode(
+      address.properties.citycode
+    )})`;
+  }
+
+  function getAddressLabel(address) {
     return address.properties.type === "municipality"
-      ? `${address.properties.label} (${getDepartmentFromCityCode(
-          address.properties.citycode
-        )})`
+      ? getCityLabel(address)
       : address.properties.label;
   }
 
@@ -83,46 +90,26 @@
     const jsonResponse = await response.json();
     const results = jsonResponse.features.map((feature) => ({
       value: feature,
-      label: getAdressLabel(feature),
+      label: getAddressLabel(feature),
     }));
     return results;
   }
 
-  function handleAddressChange(address) {
-    //     {
-    //     "type": "Feature",
-    //     "geometry": {
-    //         "type": "Point",
-    //         "coordinates": [
-    //             1.433805,
-    //             43.604082
-    //         ]
-    //     },
-    //     "properties": {
-    //         "label": "Toulouse",
-    //         "score": 0.9637263636363634,
-    //         "id": "31555",
-    //         "type": "municipality",
-    //         "name": "Toulouse",
-    //         "postcode": "31100",
-    //         "citycode": "31555",
-    //         "x": 573517.1,
-    //         "y": 6279590.9,
-    //         "population": 498003,
-    //         "city": "Toulouse",
-    //         "context": "31, Haute-Garonne, Occitanie",
-    //         "importance": 0.60099,
-    //         "municipality": "Toulouse"
-    //     }
-    // }
+  function enableRefreshButton() {
+    refreshDisabled = false;
+  }
 
-    // cityCode = city?.code;
-    // cityLabel = `${city?.name} (${getDepartmentFromCityCode(city?.code)})`;
-    const props = address.properties;
-    cityCode = props.citycode;
-    label = getAdressLabel(address);
-    [lon, lat] = address.geometry.coordinates;
-    console.log(cityCode, label, lon, lat);
+  function handleAddressChange(address) {
+    if (address) {
+      const props = address.properties;
+      cityCode = props.citycode;
+      cityLabel = getCityLabel(address);
+      label = getAddressLabel(address);
+      [lon, lat] = address.geometry.coordinates;
+      enableRefreshButton();
+    } else {
+      cityCode = cityLabel = label = lon = lat = undefined;
+    }
   }
 
   function handleSearch() {
@@ -136,16 +123,13 @@
       category: categoryId,
       subcategories: subCategoryIds.filter((value) => !value.endsWith("--all")),
       cityCode,
-      label,
+      cityLabel,
       kinds: kindIds,
       fees: feeConditions,
     });
+    // TODO
     await refreshUserInfo();
     requestingSave = false;
-  }
-
-  function enableRefreshButton() {
-    refreshDisabled = false;
   }
 
   function handleCategoryChange(clearSubCategories = false) {
@@ -172,6 +156,27 @@
   onMount(() => {
     handleCategoryChange();
   });
+
+  let currentSearchWasAlreadySaved;
+  $: {
+    // Saved searches don't store the street address neither lat/lon
+    const currentShortQueryString = getQueryString({
+      categoryIds: [categoryId ? categoryId : ""],
+      subCategoryIds: subCategoryIds.filter(
+        (value) => !value.endsWith("--all")
+      ),
+      cityCode,
+      cityLabel,
+      label: undefined,
+      kindIds,
+      feeConditions,
+    });
+    const userSavedSearches = $userInfo?.savedSearches || [];
+    const result = userSavedSearches.some(
+      (search) => getSavedSearchQueryString(search) === currentShortQueryString
+    );
+    currentSearchWasAlreadySaved = result;
+  }
 </script>
 
 <svelte:window bind:innerWidth />
@@ -192,23 +197,9 @@
               Lieu
               <span class="text-error">*</span>
             </label>
-
-            <!--            <CitySearch-->
-            <!--              id="city"-->
-            <!--              initialValue={cityLabel}-->
-            <!--              bind:value={cityChoiceList}-->
-            <!--              placeholder="Rechercher par lieu : ville"-->
-            <!--              onChange={(city) => {-->
-            <!--                cityCode = city?.code;-->
-            <!--                cityLabel = `${city?.name} (${getDepartmentFromCityCode(-->
-            <!--                  city?.code-->
-            <!--                )})`;-->
-
-            <!--                enableRefreshButton();-->
-            <!--              }}-->
-            <!--            />-->
             <Select
               id="address"
+              bind:searchText={label}
               onChange={handleAddressChange}
               hideArrow
               searchFunction={searchAddress}
@@ -224,10 +215,7 @@
                 <button
                   class="inline-block h-s24 w-s24"
                   on:click={() => {
-                    cityCode = "";
-                    label = "";
-                    lon = null;
-                    lat = null;
+                    handleAddressChange(null);
                   }}
                 >
                   <span class="h-s24 w-s24 fill-current text-gray-text-alt">
@@ -363,17 +351,14 @@
         label="Actualiser la recherche"
         disabled={!cityCode || refreshDisabled}
         on:click={handleSearch}
-        preventDefaultOnMouseDown
       />
 
-      {#if isCurrentSearchInUserSavedSearches($userInfo, query)}
-        <Button
+      {#if currentSearchWasAlreadySaved}
+        <LinkButton
+          to="/mes-alertes"
           extraClass="h-s48"
           secondary
-          label="Alerte déjà créée"
-          disabled
-          on:click={doSaveSearch}
-          preventDefaultOnMouseDown
+          label="Voir mes alertes"
         />
       {:else}
         <Button
@@ -382,7 +367,6 @@
           label="Créer une alerte"
           disabled={!cityCode || requestingSave}
           on:click={doSaveSearch}
-          preventDefaultOnMouseDown
         />
       {/if}
     </div>

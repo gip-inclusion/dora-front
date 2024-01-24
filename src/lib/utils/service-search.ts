@@ -7,6 +7,7 @@ export function getQueryString({
   categoryIds,
   subCategoryIds,
   cityCode,
+  cityLabel,
   label,
   feeConditions,
   kindIds,
@@ -18,7 +19,9 @@ export function getQueryString({
     subs: subCategoryIds.sort().join(","),
     city: cityCode,
     // eslint-disable-next-line id-length
-    cl: label,
+    cl: cityLabel,
+    // eslint-disable-next-line id-length
+    l: label,
     kinds: kindIds.join(","),
     fees: feeConditions.join(","),
     lat: lat,
@@ -28,7 +31,6 @@ export function getQueryString({
     .filter(([_key, value]) => !!value)
     .map(([key, value]) => `${key}=${encodeURIComponent(value)}`)
     .join("&");
-
   return query;
 }
 

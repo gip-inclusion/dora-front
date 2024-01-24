@@ -13,6 +13,7 @@ async function getResults({
   categoryIds,
   subCategoryIds,
   cityCode,
+  cityLabel,
   label,
   kindIds,
   feeConditions,
@@ -23,7 +24,8 @@ async function getResults({
     categoryIds,
     subCategoryIds,
     cityCode,
-    label: label,
+    cityLabel,
+    label,
     kindIds,
     feeConditions,
     lat,
@@ -56,7 +58,8 @@ export const load: PageLoad = async ({ url, parent }) => {
   let categoryIds = query.get("cats") ? query.get("cats").split(",") : [];
   const subCategoryIds = query.get("subs") ? query.get("subs").split(",") : [];
   const cityCode = query.get("city");
-  const label = query.get("cl");
+  const cityLabel = query.get("cl");
+  const label = query.get("l") || cityLabel;
   const kindIds = query.get("kinds") ? query.get("kinds").split(",") : [];
   const feeConditions = query.get("fees") ? query.get("fees").split(",") : [];
   const lon = query.get("lon");
@@ -67,6 +70,7 @@ export const load: PageLoad = async ({ url, parent }) => {
     categoryIds: subCategoryIds.length ? [] : categoryIds,
     subCategoryIds,
     cityCode,
+    cityLabel,
     label,
     kindIds,
     feeConditions,
@@ -80,26 +84,31 @@ export const load: PageLoad = async ({ url, parent }) => {
     subCategoryIds.length ? [] : categoryIds,
     subCategoryIds,
     cityCode,
+    cityLabel,
     kindIds,
     feeConditions,
     services
   );
 
-  if (cityCode && label) {
-    storeLastSearchCity(cityCode, label);
+  if (cityCode && cityLabel) {
+    storeLastSearchCity(cityCode, cityLabel);
   }
 
   // Pour le formulaire de recherche, on veut afficher la catégorie sélectionnée
   if (subCategoryIds.length && !categoryIds.length) {
     categoryIds = [subCategoryIds[0].split("--")[0]];
   }
+
   return {
     title: `Services d’insertion à ${label} | Recherche | DORA`,
     noIndex: true,
     categoryIds,
     subCategoryIds,
     cityCode,
+    cityLabel,
     label,
+    lat,
+    lon,
     kindIds,
     feeConditions,
     services,
