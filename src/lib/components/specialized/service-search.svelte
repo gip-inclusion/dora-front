@@ -127,7 +127,6 @@
       kinds: kindIds,
       fees: feeConditions,
     });
-    // TODO
     await refreshUserInfo();
     requestingSave = false;
   }

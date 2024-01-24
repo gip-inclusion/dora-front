@@ -161,6 +161,7 @@ export async function trackSearch(
     categoryIds: categoryIds.join(","),
     subCategoryIds: subCategoryIds.join(","),
     cityCode,
+    cityLabel,
     serviceKinds: kindIds.join(","),
     feeConditions: feeConditions.join(","),
     loggedIn: !!get(token),
