@@ -10,7 +10,6 @@ import { validate } from "$lib/validation/validation";
 
 export const load = async ({ parent }) => {
   const data = await parent();
-  const { service, servicesOptions } = data;
   const { service, servicesOptions, isDI } = data;
 
   const orientation = get(orientationStore);
