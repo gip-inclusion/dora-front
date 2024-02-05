@@ -100,5 +100,15 @@
         </span>
       </a>
     </li>
+    <li class="border-gray-03 lg:border-none" class:border-b={mobileDesign}>
+      <a
+        title="Structures"
+        rel="noopener"
+        href="/structure-map"
+        class="inline-block h-full {aClass}"
+      >
+        Représentaion des structures
+      </a>
+    </li>
   </ul>
 </nav>

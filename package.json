@@ -63,6 +63,7 @@
     "tslib": "2.6.2",
     "typescript": "5.2.2",
     "vite": "4.5.2",
+    "vite-plugin-iso-import": "^1.1.0",
     "vitest": "0.34.4",
     "wicg-inert": "3.1.2",
     "xlsx": "https://cdn.sheetjs.com/xlsx-0.20.0/xlsx-0.20.0.tgz"
@@ -81,6 +82,7 @@
     ]
   },
   "dependencies": {
-    "@sentry/sveltekit": "7.64.0"
+    "@sentry/sveltekit": "7.64.0",
+    "@types/svelte-leafletjs": "^0.8.7"
   }
 }

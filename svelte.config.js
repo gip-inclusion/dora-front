@@ -41,10 +41,11 @@ const config = {
           "https://tally.so",
         ],
         "font-src": ["self"],
-        "img-src": ["self", "data:"],
+        "img-src": ["self", "data:", "https:"],
         "style-src": [
           "self",
           "https://tally.so/widgets/embed.js",
+          "https://unpkg.com/leaflet@1.6.0/dist/leaflet.css",
           "unsafe-inline",
         ],
       },

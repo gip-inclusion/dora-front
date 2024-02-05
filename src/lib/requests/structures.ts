@@ -91,6 +91,11 @@ export function createStructure(structure) {
   });
 }
 
+export async function getStructuresPublic() {
+  const url = `${getApiURL()}/api/v2/public-structures/`;
+  return (await fetchData(url)).data;
+}
+
 export function modifyStructure(structure) {
   const url = `${getApiURL()}/structures/${structure.slug}/`;
 

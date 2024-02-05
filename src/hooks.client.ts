@@ -1,6 +1,10 @@
 import * as Sentry from "@sentry/sveltekit";
 import { ENVIRONMENT, SENTRY_DSN } from "$lib/env";
 import type { HandleClientError } from "@sveltejs/kit";
+import L from 'leaflet';
+import 'leaflet/dist/leaflet.css';
+
+
 
 if (ENVIRONMENT !== "local") {
   Sentry.init({
