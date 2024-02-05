@@ -104,7 +104,6 @@
 		markerLayers = L.layerGroup()
         const structures =  await getStructuresPublic();
  		for(let structure of structures) {
- 		debugger;
  		  if(structure.geocoding_score > 0.5)
  		  {
  			let m = createMarker({'lat': structure.latitude, 'lon': structure.longitude}    , structure.nom);
