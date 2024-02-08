@@ -1,70 +1,61 @@
-/* global plausible */
 import { browser } from "$app/environment";
-import { CANONICAL_URL } from "$lib/env";
-import { token, userInfo } from "$lib/utils/auth";
-import { getDepartmentFromCityCode } from "$lib/utils/misc";
+import { token } from "$lib/utils/auth";
 import { get } from "svelte/store";
-import { logAnalyticsEvent } from "$lib/utils/stats";
+import { getApiURL } from "$lib/utils/api";
+import hexoid from "hexoid";
 
-function _track(tag, props) {
+const analyticsIdKey = "userHash";
+
+function getAnalyticsId() {
+  let analyticsId = localStorage.getItem(analyticsIdKey);
+  if (!analyticsId) {
+    analyticsId = hexoid(32)();
+    localStorage.setItem(analyticsIdKey, analyticsId);
+  }
+  return analyticsId;
+}
+
+async function logAnalyticsEvent(tag, path, params = {}) {
+  const data = {
+    tag,
+    path,
+    userHash: getAnalyticsId(),
+    ...params,
+  };
+  const currentToken = get(token);
+
+  const headers = new Headers({
+    Accept: "application/json; version=1.0",
+    "Content-Type": "application/json",
+  });
+  if (currentToken) {
+    headers.append("Authorization", `Token ${currentToken}`);
+  }
+
+  const res = await fetch(`${getApiURL()}/stats/event/`, {
+    method: "POST",
+    headers,
+    body: JSON.stringify(data),
+  });
+
+  if (res.ok) {
+    return res.json();
+  } else {
+    try {
+      console.error(await res.json());
+    } catch (err) {
+      console.error(err);
+    }
+  }
+  return null;
+}
+
+export function trackPageView(pathname, title) {
   if (browser) {
-    plausible(tag, {
-      props,
+    logAnalyticsEvent("pageview", pathname, {
+      title: title,
     });
   }
-}
-
-function _getServiceProps(service, withUserData = false) {
-  let props = {
-    service: service.name,
-    slug: service.slug,
-    structure: service.structureInfo.name,
-    departement: service.department || service.structureInfo.department,
-    department: service.department || service.structureInfo.department,
-    perimeter: service.diffusionZoneType,
-    url: `${CANONICAL_URL}/services/${service.slug}`,
-    orientable: service.isOrientable,
-  };
-  if (withUserData) {
-    props = {
-      ...props,
-      loggedIn: !!get(token),
-      profile: get(userInfo)?.mainActivity,
-      owner: [
-        ...(get(userInfo)?.structures.map((struct) => struct.slug) ?? []),
-        ...(get(userInfo)?.pendingStructures.map((struct) => struct.slug) ??
-          []),
-      ].includes(service.structureInfo.slug),
-    };
-  }
-  return props;
-}
-
-function _getStructureProps(structure, withUserData = false) {
-  let props = {
-    structure: structure.name,
-    slug: structure.slug,
-    departement: structure.department,
-    department: structure.department,
-    url: `${CANONICAL_URL}/structures/${structure.slug}`,
-  };
-  if (withUserData) {
-    props = {
-      ...props,
-      loggedIn: !!get(token),
-      profile: get(userInfo)?.mainActivity,
-      owner: [
-        ...(get(userInfo)?.structures.map((struct) => struct.slug) ?? []),
-        ...(get(userInfo)?.pendingStructures.map((struct) => struct.slug) ??
-          []),
-      ].includes(structure.slug),
-    };
-  }
-  return props;
-}
-
-export function trackError(errorStatusCode, path) {
-  _track(errorStatusCode, { path });
 }
 
 export function trackMobilisation(service, url, searchId) {
@@ -74,7 +65,6 @@ export function trackMobilisation(service, url, searchId) {
       searchId,
     });
   }
-  _track("mobilisation", _getServiceProps(service, true));
 }
 
 export function trackDiMobilisation(service, url, searchId) {
@@ -103,22 +93,6 @@ export function trackOrientation(orientation, url) {
   }
 }
 
-export function trackMobilisationEmail(service) {
-  _track("mobilisation-contact", _getServiceProps(service, true));
-}
-
-export function trackMobilisationLogin(service) {
-  _track("mobilisation-login", _getServiceProps(service, false));
-}
-
-export function trackFeedback(service) {
-  _track("suggestion", _getServiceProps(service, true));
-}
-
-export function trackPrintService(service) {
-  _track("pdf-download", _getServiceProps(service, true));
-}
-
 export async function trackSearch(
   url,
   categoryIds,
@@ -129,9 +103,9 @@ export async function trackSearch(
   feeConditions,
   results
 ) {
-  const numResults = results.length;
-  let searchId = null;
   if (browser) {
+    const numResults = results.length;
+
     const numDiResults = results.filter(
       (service) => service.type === "di"
     ).length;
@@ -141,7 +115,7 @@ export async function trackSearch(
     const resultsSlugsTop10 = results
       .slice(0, 10)
       .map((service) => service.slug);
-    searchId = await logAnalyticsEvent("search", url.pathname, {
+    const searchId = await logAnalyticsEvent("search", url.pathname, {
       searchCityCode: cityCode,
       searchNumResults: results.length,
       categoryIds: categoryIds,
@@ -150,74 +124,30 @@ export async function trackSearch(
       numDiResultsTop10,
       resultsSlugsTop10,
     });
-  }
-
-  let numResultsCat;
-  if (numResults === 0) {
-    numResultsCat = "0";
-  } else if (numResults <= 5) {
-    numResultsCat = "Entre 1 et 5";
-  } else {
-    numResultsCat = "Plus de 5";
-  }
-  _track("recherche", {
-    categoryIds: categoryIds.join(","),
-    subCategoryIds: subCategoryIds.join(","),
-    cityCode,
-    cityLabel,
-    serviceKinds: kindIds.join(","),
-    feeConditions: feeConditions.join(","),
-    loggedIn: !!get(token),
-    profile: get(userInfo)?.mainActivity,
-    numResults: numResultsCat,
-    department: getDepartmentFromCityCode(cityCode),
-  });
-  return searchId;
-}
-
-export function trackJoinStructure() {
-  _track("inscription", { step: "Adhésion structure" });
-}
-
-export function trackModel(model) {
-  const props = _getServiceProps(model, true);
-  props.model = props.structure;
-  delete props.model;
-  _track("modele", props);
-}
-
-function trackDIService(service, url, searchId) {
-  if (browser) {
-    logAnalyticsEvent("di_service", url.pathname, {
-      diStructureId: service.structure,
-      diStructureName: service.structureInfo.name,
-      diStructureDepartment: service.structureInfo.department,
-      diServiceId: service.slug.split("--")[1],
-      diServiceName: service.name,
-      diSource: service.source,
-      diCategories: service.categories || [],
-      diSubcategories: service.subcategories || [],
-      searchId,
-    });
+    return searchId;
   }
 }
 
 export function trackService(service, url, searchId, isDI) {
-  if (isDI) {
-    trackDIService(service, url, searchId);
-  } else {
-    if (browser) {
+  if (browser) {
+    if (isDI) {
+      logAnalyticsEvent("di_service", url.pathname, {
+        diStructureId: service.structure,
+        diStructureName: service.structureInfo.name,
+        diStructureDepartment: service.structureInfo.department,
+        diServiceId: service.slug.split("--")[1],
+        diServiceName: service.name,
+        diSource: service.source,
+        diCategories: service.categories || [],
+        diSubcategories: service.subcategories || [],
+        searchId,
+      });
+    } else {
       logAnalyticsEvent("service", url.pathname, {
         service: service.slug,
         searchId,
       });
-
-      if (get(token) && service.isOrientable) {
-        _track("service-orientable", _getServiceProps(service, true));
-      }
     }
-
-    _track("service", _getServiceProps(service, true));
   }
 }
 
@@ -227,5 +157,4 @@ export function trackStructure(structure, url) {
       structure: structure.slug,
     });
   }
-  _track("structure", _getStructureProps(structure, true));
 }
