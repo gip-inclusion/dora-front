@@ -7,7 +7,7 @@
   import SkipLink from "./_index/skip-link.svelte";
   import UserMainActivityModal from "$lib/components/user/user-main-activity-modal.svelte";
   import { userInfo } from "$lib/utils/auth";
-  import { trackPageView } from "$lib/utils/plausible";
+  import { trackPageView } from "$lib/utils/stats";
 
   $: trackPageView($page.url.pathname, $page.data.title);
 </script>
