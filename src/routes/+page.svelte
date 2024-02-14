@@ -13,17 +13,14 @@
   export let data: PageData;
 </script>
 
-<CenteredGrid
-  bgColor="bg-magenta-10 mb-s32 rounded-bl-[64px] rounded-br-[64px]"
->
-  <h1 class="mb-s16 text-center text-france-blue">
-    Identifiez rapidement les services d’insertion adaptés aux besoins de vos
-    bénéficiaires
+<CenteredGrid bgColor="bg-magenta-10 mb-s32">
+  <h1 class="m-auto mb-s16 text-balance text-center text-france-blue">
+    Orientez vos bénéficiaires vers des solutions adaptées à leurs besoins
   </h1>
   <div class="mb-s32">
-    <p class="text-center text-f16 text-gray-text">
-      DORA vous aide dans la levée des freins périphériques bloquant le retour à
-      l’emploi des bénéficiaires.
+    <p class="m-auto text-balance text-center text-f16 text-gray-text">
+      DORA est un outil d'aide à la prescription qui vous accompagne dans la
+      levée des freins périphériques.
     </p>
   </div>
 
@@ -33,16 +30,46 @@
     cityLabel={data.cityLabel}
     label={data.cityLabel}
   />
+</CenteredGrid>
 
-  <div class="mb-s16 mt-s32 text-center text-f16">
-    <a
-      target="_blank"
-      class="text-magenta-cta underline"
-      rel="noopener"
-      href="https://app.livestorm.co/dora-1"
-    >
-      Découvrez DORA en participant à un de nos webinaires d’appropriation.
-    </a>
+<CenteredGrid>
+  <h2 class="mb-s32 text-center text-france-blue">
+    Comment DORA peut vous aider
+  </h2>
+  <div class="mb-s24 flex flex-col gap-s24 md:flex-row">
+    <div class="md:flex-1">
+      <img src={illuRecenser} alt="" class="mb-s16 w-full" />
+      <div class="tag bg-[#003895]">Recherche simplifiée</div>
+      <h3>Identifier des services</h3>
+      <p class="text-f16">
+        DORA vous permet d’<strong
+          >identifier les services d'insertion les plus adaptés</strong
+        >
+        aux besoins spécifiques de vos bénéficiaires.
+      </p>
+    </div>
+    <div class="md:flex-1">
+      <img src={illuAccompagner} alt="" class="mb-s16 w-full" />
+      <div class="tag bg-info">Nouvelle fonctionnalité !</div>
+      <h3>Orienter vos bénéficiaires</h3>
+      <p class="text-f16">
+        Le formulaire DORA <strong
+          >facilite l’orientation de vos bénéficiaires</strong
+        >
+        vers la solution identifiée, le tout en
+        <strong>moins de 5 minutes</strong>.
+      </p>
+    </div>
+    <div class="md:flex-1">
+      <img src={illuMobiliser} alt="" class="mb-s16 w-full" />
+      <div class="tag bg-blue-information !text-gray-text">Très bientôt !</div>
+      <h3>Suivre vos demandes</h3>
+      <p class="text-f16">
+        La structure partenaire répondra rapidement à votre demande. Un <strong>
+          outil de suivi pour toutes vos orientations
+        </strong> est actuellement en cours de développement.
+      </p>
+    </div>
   </div>
 </CenteredGrid>
 
@@ -50,26 +77,29 @@
   <div class="flex flex-col gap-s24">
     <div class="text-center">
       <h2 class="text-france-blue">
-        Donnez de la visibilité à votre offre d’insertion
+        Donnez de la visibilité à votre offre de services
       </h2>
-      <p class="mb-s0">
-        Publiez, mettez à jour et rendez vos services disponibles partout grâce
-        à l’<span lang="en">Open Data</span>.
+      <p class="m-auto mb-s0 w-3/4">
+        Saisissez ou importez vos services et mettez-les à jour, en un seul
+        endroit ! DORA se charge de présenter vos données là où elles sont
+        utiles, en les diffusant automatiquement sur plusieurs sites.
       </p>
     </div>
     <div class="flex flex-wrap justify-center gap-s16">
-      <LinkButton label="Référencer un service" to={`/services/creer`} />
+      <LinkButton label="Référencer vos service" to={`/services/creer`} />
       <InviteStructureLink />
     </div>
 
     <div class="mt-s16">
       <p class="text-center text-f12">
-        Plus de 1 000 structures ont déjà commencé à référencer leurs services
+        Plus de 5 000 structures ont déjà commencé à référencer leurs services
         sur DORA
       </p>
+
       <ul class="mt-s24 flex w-full flex-wrap justify-center grayscale">
         <PartnerList partnersToShow={data.partnersToShow} imgHeight="small" />
       </ul>
+
       <div class="mt-s10 text-center">
         <a
           href="/nos-partenaires"
@@ -80,40 +110,10 @@
       </div>
     </div>
   </div>
-</CenteredGrid>
 
-<CenteredGrid>
-  <h2 class="mb-s32 text-center text-france-blue">Comment cela fonctionne</h2>
-  <div class="mb-s24 flex flex-col gap-s24 md:flex-row">
-    <div class="md:flex-1">
-      <img src={illuRecenser} alt="" class="mb-s16 w-full" />
-      <h3>Recensement de l’offre d’insertion</h3>
-      <p class="text-f16">
-        Vous proposez des services d’insertion ? Rendez les visibles sur votre
-        territoire et sur tous les sites partenaires grâce à notre démarche
-        collective d’<span lang="en">open data</span>.
-      </p>
-    </div>
-    <div class="md:flex-1">
-      <img src={illuMobiliser} alt="" class="mb-s16 w-full" />
-      <h3>Identification du service adapté</h3>
-      <p class="text-f16">
-        Vous accompagnez des bénéficiaires ? Trouvez rapidement les services
-        d’insertion adaptés, les modalités, le bon contact et les documents à
-        fournir.
-      </p>
-    </div>
-    <div class="md:flex-1">
-      <img src={illuAccompagner} alt="" class="mb-s16 w-full" />
-      <h3>Mobilisation du service</h3>
-      <p class="text-f16">
-        Vous avez identifié le bon service ? Aidez votre bénéficiaire en
-        facilitant ses démarches et son retour vers un emploi durable.
-      </p>
-    </div>
-  </div>
-
-  <div class="flex flex-col gap-s24 rounded-md bg-magenta-10 p-s24 md:flex-row">
+  <div
+    class="mt-s64 flex flex-col gap-s24 rounded-md bg-gray-bg p-s24 md:flex-row"
+  >
     <div class="w-1/3 self-center text-center">
       <a href="https://www.data.inclusion.beta.gouv.fr/">
         <img
@@ -135,3 +135,13 @@
     </div>
   </div>
 </CenteredGrid>
+
+<style lang="postcss">
+  h3 {
+    @apply text-france-blue;
+  }
+
+  .tag {
+    @apply w-fit rounded px-s8 py-s2 text-f12 font-bold uppercase text-white;
+  }
+</style>
