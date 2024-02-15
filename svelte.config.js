@@ -39,6 +39,7 @@ const config = {
           "https://metabase.dora.inclusion.beta.gouv.fr",
           "https://plausible.io",
           "https://tally.so",
+          "https://tube.numerique.gouv.fr",
         ],
         "font-src": ["self"],
         "img-src": ["self", "data:"],
