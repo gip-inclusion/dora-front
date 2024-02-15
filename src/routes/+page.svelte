@@ -20,7 +20,11 @@
 </script>
 
 {#if browser}
-  <Modal bind:isOpen={isVideoModalOpen} title="Le formulaire d’orientation">
+  <Modal
+    bind:isOpen={isVideoModalOpen}
+    title="Le formulaire d’orientation"
+    width="medium"
+  >
     <div style="position: relative; padding-top: 50%;">
       <iframe
         title="DORA - Orienter un bénéficiaire"
