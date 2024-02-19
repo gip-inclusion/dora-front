@@ -13,6 +13,7 @@
 
   import type { PageData } from "./$types";
   import { browser } from "$app/environment";
+  import { videoIcon } from "$lib/icons";
 
   export let data: PageData;
 
@@ -46,7 +47,7 @@
   </h1>
   <div class="mb-s32">
     <p class="m-auto text-balance text-center text-f16 text-gray-text">
-      DORA est un outil d'aide à la prescription qui vous accompagne dans la
+      DORA est un outil d’aide à la prescription qui vous accompagne dans la
       levée des freins périphériques.
     </p>
   </div>
@@ -70,7 +71,7 @@
       <h3>Identifier des services</h3>
       <p class="text-f16">
         DORA vous permet d’<strong
-          >identifier les services d'insertion les plus adaptés</strong
+          >identifier les services d’insertion les plus adaptés</strong
         >
         aux besoins spécifiques de vos bénéficiaires.
       </p>
@@ -99,11 +100,33 @@
       <div class="tag bg-blue-information !text-gray-text">Très bientôt !</div>
       <h3>Suivre vos demandes</h3>
       <p class="text-f16">
-        La structure partenaire répondra rapidement à votre demande. Un <strong>
-          outil de suivi pour toutes vos orientations
-        </strong> est actuellement en cours de développement.
+        La structure partenaire répondra rapidement à votre demande. Vous
+        pourrez <strong>suivre l’ensemble de vos demandes d’orientation</strong>
+        depuis votre espace DORA.
       </p>
     </div>
+  </div>
+
+  <div
+    class=" flex flex-col items-center justify-between rounded-ml border border-gray-01 p-s16 text-center md:flex-row md:items-baseline md:gap-s32"
+  >
+    <p class="m-s0 p-s0">
+      <span
+        class="inline-block h-s24 w-s24 flex-none fill-current align-bottom text-france-blue"
+      >
+        {@html videoIcon}
+      </span>
+      Rejoignez-nous lors d'un webinaire pour explorer les possibilités offertes
+      par DORA.
+    </p>
+
+    <LinkButton
+      to="https://app.livestorm.co/dora-1"
+      otherTab
+      nofollow
+      noBackground
+      label="Consulter le calendrier"
+    ></LinkButton>
   </div>
 </CenteredGrid>
 
