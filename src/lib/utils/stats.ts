@@ -82,6 +82,7 @@ export function trackDiMobilisation(service, url, searchId) {
     });
   }
 }
+
 export function trackOrientation(orientation, url) {
   if (browser) {
     logAnalyticsEvent("orientation", url.pathname, {
