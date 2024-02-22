@@ -1,6 +1,6 @@
 <script lang="ts">
   import { page } from "$app/stores";
-  import { userInfo } from "$lib/utils/auth";
+  import { token, userInfo } from "$lib/utils/auth";
   import Notice from "$lib/components/display/notice.svelte";
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
@@ -10,7 +10,9 @@
 
   const { service } = data;
 
-  let currentLocation = "service-orientation-step1";
+  let currentLocation = $token
+    ? "service-orientation-step1"
+    : "service-orientation";
   if ($page.url.pathname.endsWith("/orienter/demande")) {
     currentLocation = "service-orientation-step2";
   } else if ($page.url.pathname.endsWith("/orienter/merci")) {

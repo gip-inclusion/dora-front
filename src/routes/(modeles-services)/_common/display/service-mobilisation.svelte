@@ -9,6 +9,7 @@
   export let service: Service;
   export let contactBoxOpen = false;
   export let isDI = false;
+
   function showContact() {
     contactBoxOpen = true;
     const searchId = $page.url.searchParams.get("searchId");

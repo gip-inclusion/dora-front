@@ -17,7 +17,7 @@
   <div
     class="flex basis-2/3 flex-col gap-s40 rounded-ml border border-gray-01 p-s32"
   >
-    <h3 class="text-france-blue">
+    <h3 class="mb-s0 text-france-blue">
       Pourquoi utiliser le formulaire d’orientation DORA
     </h3>
     <ul class="line text-f18 leading-40">
