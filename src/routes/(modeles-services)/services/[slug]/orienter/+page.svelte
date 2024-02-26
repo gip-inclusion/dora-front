@@ -41,19 +41,19 @@
   }
 </script>
 
-<Layout {data}>
-  {#if $token}
-    <FormErrors />
+{#if $token}
+  <FormErrors />
 
-    <Form
-      bind:data={$orientation}
-      schema={orientationStep1Schema}
-      disableExitWarning
-      onChange={handleChange}
-      onSubmit={handleSubmit}
-      onSuccess={handleSuccess}
-      bind:requesting
-    >
+  <Form
+    bind:data={$orientation}
+    schema={orientationStep1Schema}
+    disableExitWarning
+    onChange={handleChange}
+    onSubmit={handleSubmit}
+    onSuccess={handleSuccess}
+    bind:requesting
+  >
+    <Layout {data}>
       <p class="legend">Étape 1 sur 2</p>
       <h2 class="mb-s0">Valider la conformité</h2>
       <p class="legend">
@@ -68,22 +68,26 @@
       <div class="flex flex-col justify-between gap-x-s24 md:flex-row">
         <ValidationForm {service} />
         <div class="mt-s32 w-full shrink-0 md:mt-s0 md:w-[384px]">
-          <ContactBox {service} />
+          <ContactBox
+            {service}
+            bind:contactBoxOpen={$orientation.contactBoxOpen}
+          />
         </div>
       </div>
+    </Layout>
+    <StickyFormSubmissionRow justifyBetween>
+      <LinkButton
+        icon={arrowLeftLineIcon}
+        to="/services/{data.isDI ? 'di--' : ''}{service.slug}"
+        label="Retour à la fiche"
+        secondary
+      />
 
-      <StickyFormSubmissionRow justifyBetween>
-        <LinkButton
-          icon={arrowLeftLineIcon}
-          to="/services/{data.isDI ? 'di--' : ''}{service.slug}"
-          label="Retour à la fiche"
-          secondary
-        />
-
-        <Button id="publish" type="submit" label="Étape suivante" />
-      </StickyFormSubmissionRow>
-    </Form>
-  {:else}
-    <Teaser></Teaser>
-  {/if}
-</Layout>
+      <Button id="publish" type="submit" label="Étape suivante" />
+    </StickyFormSubmissionRow>
+  </Form>
+{:else}
+  <Layout {data}>
+    <Teaser></Teaser></Layout
+  >
+{/if}

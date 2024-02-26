@@ -1,10 +1,11 @@
 <script lang="ts">
   import { page } from "$app/stores";
   import { token, userInfo } from "$lib/utils/auth";
-  import Notice from "$lib/components/display/notice.svelte";
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import { capitalize } from "$lib/utils/misc";
+  import MembershipPendingWarning from "$lib/components/specialized/membership-pending-warning.svelte";
+  import Notice from "$lib/components/display/notice.svelte";
 
   export let data;
 
@@ -37,13 +38,11 @@
 
 <CenteredGrid bgColor="bg-white" roundedColor="bg-france-blue">
   {#if $userInfo && !$userInfo.structures.length}
-    <Notice type="warning"
-      >{#if $userInfo.pendingStructures.length === 1}
-        Le temps que votre adhésion à la structure “{$userInfo
-          .pendingStructures[0].name}” soit validée, vous ne pouvez pas
-        visualiser ces informations.{:else}Le temps que vos demandes d’adhésion
-        soient validées, vous ne pouvez pas visualiser ces informations.{/if}
-    </Notice>
+    <div class="m-auto max-w-xl">
+      <Notice type="warning">
+        <MembershipPendingWarning />
+      </Notice>
+    </div>
   {:else}
     <slot />
   {/if}

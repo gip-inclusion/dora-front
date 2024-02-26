@@ -102,7 +102,10 @@
       <div class="flex flex-col justify-between gap-x-s24 md:flex-row">
         <OrientationForm {credentials} {service} />
         <div class="mb-s32 w-full shrink-0 md:w-[384px]">
-          <ContactBox {service} />
+          <ContactBox
+            {service}
+            bind:contactBoxOpen={$orientation.contactBoxOpen}
+          />
         </div>
       </div>
     </Layout>

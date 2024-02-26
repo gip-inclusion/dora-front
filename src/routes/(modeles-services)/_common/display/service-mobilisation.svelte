@@ -1,6 +1,8 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
+  import { token } from "$lib/utils/auth";
+
   import Button from "$lib/components/display/button.svelte";
   import ServiceContact from "$lib/components/specialized/services/service-contact.svelte";
   import { trackDiMobilisation, trackMobilisation } from "$lib/utils/stats";
@@ -11,6 +13,14 @@
   export let isDI = false;
 
   function showContact() {
+    if (!$token) {
+      goto(
+        `/auth/connexion?next=${encodeURIComponent(
+          $page.url.pathname + $page.url.search
+        )}`
+      );
+      return;
+    }
     contactBoxOpen = true;
     const searchId = $page.url.searchParams.get("searchId");
 
@@ -28,7 +38,8 @@
       goto(`/services/${isDI ? "di--" : ""}${service.slug}/orienter`);
     }
   }
-  function handleShareClick() {}
+
+  // function handleShareClick() {}
 </script>
 
 <h2 class="text-f23 text-white">Mobiliser ce service</h2>
@@ -48,13 +59,13 @@
       {/if}
     </div>
 
-    <div class="text-white">
+    <!-- <div class="text-white">
       <Button
         on:click={handleShareClick}
         extraClass="!bg-france-blue text-white !border !border-white hover:!bg-magenta-cta hover:!border-france-blue"
         label="Partager cette fiche"
         wFull
       />
-    </div>
+    </div> -->
   </div>
 </div>
