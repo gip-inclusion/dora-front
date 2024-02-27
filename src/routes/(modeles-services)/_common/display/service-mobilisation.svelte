@@ -35,7 +35,13 @@
     if (!service.isOrientable) {
       showContact();
     } else {
-      goto(`/services/${isDI ? "di--" : ""}${service.slug}/orienter`);
+      const searchId = $page.url.searchParams.get("searchId");
+      const searchFragment = searchId ? `?searchId=${searchId}` : "";
+      goto(
+        `/services/${isDI ? "di--" : ""}${
+          service.slug
+        }/orienter${searchFragment}`
+      );
     }
   }
 

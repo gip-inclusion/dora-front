@@ -71,6 +71,8 @@
           <ContactBox
             {service}
             bind:contactBoxOpen={$orientation.contactBoxOpen}
+            isDI={data.isDI}
+            trackClick
           />
         </div>
       </div>

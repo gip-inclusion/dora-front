@@ -1,13 +1,31 @@
 <script lang="ts">
+  import { page } from "$app/stores";
   import Button from "$lib/components/display/button.svelte";
   import Notice from "$lib/components/display/notice.svelte";
   import OrientationVideo from "$lib/components/specialized/orientation-video.svelte";
   import ContactEmail from "$lib/components/specialized/services/contact-email.svelte";
   import ContactPhone from "$lib/components/specialized/services/contact-phone.svelte";
+  import { trackDiMobilisation, trackMobilisation } from "$lib/utils/stats";
 
   export let service;
+  export let isDI = false;
   export let contactBoxOpen = false;
+  export let trackClick = false;
+
   let isVideoModalOpen = false;
+
+  function handleShowContactClick() {
+    contactBoxOpen = true;
+    if (trackClick) {
+      const searchId = $page.url.searchParams.get("searchId");
+
+      if (isDI) {
+        trackDiMobilisation(service, $page.url, searchId);
+      } else {
+        trackMobilisation(service, $page.url, searchId);
+      }
+    }
+  }
 </script>
 
 <OrientationVideo bind:isVideoModalOpen></OrientationVideo>
@@ -35,7 +53,7 @@
     {:else}
       <Button
         label="Afficher les informations de contact"
-        on:click={() => (contactBoxOpen = true)}
+        on:click={handleShowContactClick}
       />
     {/if}
   </div>
