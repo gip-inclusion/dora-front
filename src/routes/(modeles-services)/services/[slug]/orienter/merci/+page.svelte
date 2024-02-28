@@ -22,10 +22,10 @@
 <EnsureLoggedIn>
   <Layout {data}>
     <div
-      class="gap-s46 px-s14 mt-s56 flex flex-col-reverse items-center justify-around rounded-md border border-gray-03 py-s32 lg:flex-row"
+      class="gap-s46 px-s14 mt-s56 flex flex-col-reverse items-start justify-around rounded-md border border-gray-03 py-s32 lg:flex-row"
     >
       <div class="max-w-lg basis-1/2 text-center">
-        <div class="mx-auto mb-s12 h-s24 w-s24">
+        <div class="mx-auto mb-s12 h-s24 w-s24 fill-current text-gray-text">
           {@html flashLightIcon}
         </div>
         <h2 class=" font-bold text-gray-text">
@@ -59,7 +59,7 @@
           noBackground
         />
       </div>
-      <div class="flex-shrink-0">
+      <div class="mt-s35 flex-shrink-0">
         <img
           src={illustration}
           alt="Personne avec un sac à dos feuilletant des notes"
