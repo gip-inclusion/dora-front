@@ -4,6 +4,7 @@ import type { PageLoad } from "./$types";
 import { userInfo } from "$lib/utils/auth";
 import { get } from "svelte/store";
 import { getApiURL } from "$lib/utils/api";
+import type { GeoApiValue } from "$lib/types";
 
 async function searchAdminDivision(query) {
   const url = `${getApiURL()}/admin-division-search/?type=department&q=${encodeURIComponent(
@@ -28,12 +29,20 @@ export const load: PageLoad = async ({ parent }) => {
   ]);
 
   const user = get(userInfo);
+
   let department;
+  let departments: GeoApiValue[] = [];
   let title = "Structures | Administration | DORA";
   if (user.isManager) {
-    department = (await searchAdminDivision(user.department))[0].value;
-    title = `Tableau de bord ${user.department} | DORA`;
+    // note : on pourrait créer un service pour récupérer un bloc, plutôt que répeter l'appel
+    // mais ce n'est utilisé qu'ici je pense ...
+    departments = await Promise.all(user.departments.map(searchAdminDivision));
+    departments = departments.map((dpt) => dpt[0]);
+    [department] = departments;
+    department = department.value;
+    title = `Tableau de bord ${user.departments} | DORA`;
   }
+
   return {
     title,
     noIndex: true,
@@ -41,5 +50,6 @@ export const load: PageLoad = async ({ parent }) => {
     structuresOptions,
     isManager: user.isManager && department,
     department,
+    departments,
   };
 };

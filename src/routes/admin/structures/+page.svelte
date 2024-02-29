@@ -13,6 +13,7 @@
   import Filters from "./filters.svelte";
   import StructuresMap from "./structures-map.svelte";
   import StructuresTable from "./structures-table.svelte";
+  import DepartmentList from "./department-list.svelte";
   import {
     isOrphan,
     toActivate,
@@ -30,7 +31,8 @@
 
   let structures: AdminShortStructure[] = [];
   let filteredStructures: AdminShortStructure[] = [];
-  let department: GeoApiValue;
+  export let department = data.department;
+  const departments = data.departments;
   let selectedStructureSlug: string | null = null;
 
   function filterIgnoredStructures(structs) {
@@ -48,6 +50,7 @@
         !isOrphanOrWaitingOrToActivateSIAE(struct)
     );
   }
+
   async function handleDepartmentChange(dept: GeoApiValue) {
     department = dept;
     if (department.code) {
@@ -158,9 +161,12 @@
           <div
             class=" flex flex-col items-baseline justify-between gap-s8 text-france-blue md:flex-row"
           >
-            <span class="text-f23 font-bold"
-              >{department.name}({department.code})
-            </span>
+            <DepartmentList
+              {departments}
+              {department}
+              onRefresh={handleDepartmentChange}
+            />
+
             <span class="hidden text-f23 font-bold md:block">•</span>
             <a
               href="https://metabase.dora.inclusion.beta.gouv.fr/public/dashboard/860a9da9-9300-4289-878c-7bf8ec74f9b7?d%25C3%25A9partement={department.code}"
