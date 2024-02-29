@@ -5,7 +5,7 @@
 
   import Button from "$lib/components/display/button.svelte";
   import ServiceContact from "$lib/components/specialized/services/service-contact.svelte";
-  import { trackDiMobilisation, trackMobilisation } from "$lib/utils/stats";
+  import { trackMobilisation } from "$lib/utils/stats";
   import type { Service } from "$lib/types";
 
   export let service: Service;
@@ -22,19 +22,16 @@
       return;
     }
     contactBoxOpen = true;
-    const searchId = $page.url.searchParams.get("searchId");
-
-    if (isDI) {
-      trackDiMobilisation(service, $page.url, searchId);
-    } else {
-      trackMobilisation(service, $page.url, searchId);
-    }
+    trackMobilisation(service, $page.url, isDI);
   }
 
   function handleOrientationClick() {
     if (!service.isOrientable) {
       showContact();
     } else {
+      if ($token) {
+        trackMobilisation(service, $page.url, isDI);
+      }
       const searchId = $page.url.searchParams.get("searchId");
       const searchFragment = searchId ? `?searchId=${searchId}` : "";
       goto(

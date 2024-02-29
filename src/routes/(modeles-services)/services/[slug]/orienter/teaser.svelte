@@ -2,6 +2,9 @@
   import { checkboxCircleFillIcon } from "$lib/icons";
   import { page } from "$app/stores";
   import IcButton from "$lib/components/specialized/ic-button.svelte";
+
+  const nextURL = new URL($page.url);
+  nextURL.searchParams.set("newlogin", "1");
 </script>
 
 <h2>Accédez au formulaire d’orientation</h2>
@@ -74,7 +77,9 @@
         d’orientation ou afficher les coordonnées de contact.
       </p>
 
-      <IcButton nextPage={encodeURIComponent($page.url.pathname)}></IcButton>
+      <IcButton
+        nextPage={encodeURIComponent(nextURL.pathname + nextURL.search)}
+      />
     </div>
   </div>
 </div>

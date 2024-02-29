@@ -14,7 +14,8 @@
   import { onMount } from "svelte";
   import { token } from "$lib/utils/auth";
   import Teaser from "./teaser.svelte";
-
+  import { trackMobilisation } from "$lib/utils/stats";
+  import { page } from "$app/stores";
   export let data;
 
   const { service } = data;
@@ -39,6 +40,15 @@
       `/services/${data.isDI ? "di--" : ""}${service.slug}/orienter/demande`
     );
   }
+
+  onMount(async () => {
+    const shouldTrack = $page.url.searchParams.get("newlogin");
+    if ($token && shouldTrack) {
+      await trackMobilisation(service, $page.url, !!data.isDI);
+      $page.url.searchParams.delete("newlogin");
+      history.replaceState(null, "", $page.url.pathname + $page.url.search);
+    }
+  });
 </script>
 
 {#if $token}
@@ -71,8 +81,6 @@
           <ContactBox
             {service}
             bind:contactBoxOpen={$orientation.contactBoxOpen}
-            isDI={data.isDI}
-            trackClick
           />
         </div>
       </div>
@@ -90,6 +98,6 @@
   </Form>
 {:else}
   <Layout {data}>
-    <Teaser></Teaser></Layout
-  >
+    <Teaser></Teaser>
+  </Layout>
 {/if}
