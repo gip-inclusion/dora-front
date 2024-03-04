@@ -9,14 +9,7 @@
 
 <h2>Accédez au formulaire d’orientation</h2>
 
-<p class="text-f16">
-  Il est nécessaire d'être connecté pour utiliser le formulaire d’orientation ou
-  afficher les coordonnées de contact.
-</p>
-
-<hr class="my-s40 border-t-gray-01 print:hidden" />
-
-<div class="flex flex-col-reverse gap-s24 lg:flex-row">
+<div class="mt-s40 flex flex-col-reverse gap-s24 lg:flex-row">
   <div
     class="flex basis-2/3 flex-col gap-s40 rounded-ml border border-gray-01 p-s32"
   >
