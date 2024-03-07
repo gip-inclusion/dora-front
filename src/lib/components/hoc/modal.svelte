@@ -7,7 +7,6 @@
   import Button from "../display/button.svelte";
 
   export let isOpen;
-  export let overflow = false;
   export let title: string | undefined = undefined;
   export let subtitle: string | undefined = undefined;
   export let hideTitle = false;
@@ -98,11 +97,10 @@
         aria-modal="true"
         tabindex="-1"
         bind:this={modalEl}
-        class="max-h-screen rounded-md bg-white p-s24 shadow-md"
+        class="m-s24 max-h-[90vh] overflow-auto rounded-md bg-white px-s36 py-s24 shadow-md"
         class:w-[560px]={width === "small"}
         class:w-[820px]={width === "medium"}
         class:min-w-[80vw]={!width}
-        class:overflow-y-auto={overflow}
         on:click|stopPropagation
         on:keypress|stopPropagation
       >
@@ -143,13 +141,14 @@
           {/if}
         </div>
 
-        <div class="body max-h-s512 overflow-auto">
+        <div>
           <slot />
         </div>
 
         {#if $$slots.footer}
           <div class="footer">
             <hr class="-mx-s24 my-s24 mt-s32" />
+
             <slot name="footer" />
           </div>
         {/if}
