@@ -5,18 +5,18 @@ import { userInfo } from "$lib/utils/auth";
 import { get } from "svelte/store";
 import { getApiURL } from "$lib/utils/api";
 import type { GeoApiValue } from "$lib/types";
+import { error } from "@sveltejs/kit";
 
-async function searchAdminDivision(query) {
-  const url = `${getApiURL()}/admin-division-search/?type=department&q=${encodeURIComponent(
-    query
-  )}&with_geom=1`;
+async function getDepartments(departmentCodes) {
+  const url = `${getApiURL()}/admin-division-departments/?dept_codes=${encodeURIComponent(
+    departmentCodes.join(",")
+  )}`;
   const response = await fetch(url);
   const jsonResponse = await response.json();
   const results = jsonResponse.map((result) => ({
     value: result,
     label: `${result.name} (${result.code})`,
   }));
-
   return results;
 }
 
@@ -34,11 +34,11 @@ export const load: PageLoad = async ({ parent }) => {
   let departments: GeoApiValue[] = [];
   let title = "Structures | Administration | DORA";
   if (user.isManager) {
-    // note : on pourrait créer un service pour récupérer un bloc, plutôt que répeter l'appel
-    // mais ce n'est utilisé qu'ici je pense ...
-    departments = await Promise.all(user.departments.map(searchAdminDivision));
-    departments = departments.map((dpt) => dpt[0]);
+    departments = await getDepartments(user.departments);
     [department] = departments;
+    if (!department) {
+      throw error(403, "Accès réservé");
+    }
     department = department.value;
     title = `Tableau de bord ${user.departments} | DORA`;
   }

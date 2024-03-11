@@ -9,6 +9,7 @@
   export let hideLabel = false;
   export let disabled = false;
   export let small = false;
+  export let big = false;
   export let secondary = false;
   export let noBackground = false;
   export let noPadding = false;
@@ -25,6 +26,9 @@
   if (small) {
     paddingY = "py-s6";
     textSize = "text-f14";
+  } else if (big) {
+    paddingY = "py-s12";
+    textSize = "text-f23";
   } else {
     paddingY = "py-s12";
     textSize = "text-f16";
