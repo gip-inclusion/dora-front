@@ -208,7 +208,7 @@
 
     <div class="mb-s8 text-gray-text">
       {#if loading}
-        Chargement en cours…
+        <strong>Chargement en cours…</strong>
       {:else if structures?.length !== filteredStructures?.length}
         {filteredStructures.length} structures affichées / {structures.length}
       {:else}

@@ -15,6 +15,7 @@
   export let noPadding = false;
   export let hoverUnderline = false;
   export let wFull = false;
+  export let noWrap = false;
   export let preventDefaultOnMouseDown = false;
   export let ariaAttributes: Partial<{
     "aria-expanded": boolean;
@@ -81,6 +82,7 @@
   {name}
   class="{paddingX} {paddingY} {textSize} {border} {text} {extraClass} {background}  break-words rounded leading-normal outline-none focus:shadow-focus"
   class:w-full={wFull}
+  class:whitespace-nowrap={noWrap}
   class:hover:underline={hoverUnderline}
   class:flex={icon}
   class:flex-row={icon}
