@@ -9,6 +9,8 @@
   import RadioButtonsField from "$lib/components/forms/fields/radio-buttons-field.svelte";
   import Notice from "$lib/components/display/notice.svelte";
   import type { Service } from "$lib/types";
+  import { trackServiceShare } from "$lib/utils/stats";
+  import { page } from "$app/stores";
 
   export let isOpen = false;
   export let service: Service;
@@ -75,6 +77,15 @@
   }
 
   function handleSuccess(_jsonResult) {
+    const searchId = $page.url.searchParams.get("searchId");
+    trackServiceShare(
+      service,
+      recipientEmail,
+      recipientKind,
+      $page.url,
+      searchId,
+      isDI
+    );
     messageSent = true;
   }
 
