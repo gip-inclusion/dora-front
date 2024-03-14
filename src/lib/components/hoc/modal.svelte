@@ -6,7 +6,7 @@
   import "wicg-inert";
   import Button from "../display/button.svelte";
 
-  export let isOpen;
+  export let isOpen: boolean;
   export let title: string | undefined = undefined;
   export let subtitle: string | undefined = undefined;
   export let hideTitle = false;
@@ -22,8 +22,8 @@
 
   const appSelector = "body > div:first-child";
 
-  let activeElementSave;
-  let modalEl;
+  let activeElementSave: HTMLButtonElement;
+  let modalEl: HTMLDivElement;
 
   function closeActions() {
     document.body.style.overflow = "inherit";
@@ -44,7 +44,7 @@
       if (isOpen) {
         document.body.style.overflow = "hidden";
         // Sauvegarde du bouton à l'origine de la modale
-        activeElementSave = document.activeElement;
+        activeElementSave = document.activeElement as HTMLButtonElement;
 
         setTimeout(() => {
           modalEl.focus();
