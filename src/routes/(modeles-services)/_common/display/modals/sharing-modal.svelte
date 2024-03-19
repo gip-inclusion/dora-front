@@ -154,17 +154,20 @@
         />
       </fieldset>
       {#if !mobilisableByBeneficiary}
-        <Notice
-          type="warning"
-          title="Ce service ne peut pas être mobilisé par le bénéficiaire"
-          showIcon={false}
-        >
-          <p>
-            Le bénéficiaire pourra consulter le service, mais il n'aura pas
-            accès aux informations de contact. Seul un professionnel de
-            l'insertion est habilité à orienter un bénéficiaire vers ce service.
-          </p>
-        </Notice>
+        <div class="mb-s24">
+          <Notice
+            type="warning"
+            title="Ce service ne peut pas être mobilisé par le bénéficiaire"
+            showIcon={false}
+          >
+            <p>
+              Le bénéficiaire pourra consulter le service, mais il n'aura pas
+              accès aux informations de contact. Seul un professionnel de
+              l'insertion est habilité à orienter un bénéficiaire vers ce
+              service.
+            </p>
+          </Notice>
+        </div>
       {/if}
       <div class="flex justify-end">
         <Button
