@@ -6,6 +6,7 @@
   import {
     refreshUserInfo,
     userInfo,
+    type DiscoveryMethod,
     type UserMainActivity,
   } from "$lib/utils/auth";
   import Button from "$lib/components/display/button.svelte";
@@ -13,6 +14,7 @@
   import { updateUserMainActivity } from "$lib/utils/user";
 
   let userMainActivity = "";
+  let discoveryMethod = "";
   let requesting = false;
 
   export let onSuccess;
@@ -43,6 +45,29 @@
     },
   ];
 
+  const discoveryMethodOptions: Array<Option<DiscoveryMethod>> = [
+    {
+      value: "bouche-a-oreille",
+      label: "Bouche-à-oreille (mes collègues, réseau, etc.)",
+    },
+    {
+      value: "moteurs-de-recherche",
+      label: "Moteurs de recherche (Ecosia, Qwant, Google, Bing, etc.)",
+    },
+    {
+      value: "reseaux-sociaux",
+      label: "Réseaux sociaux (Linkedin, Twitter, etc.)",
+    },
+    {
+      value: "evenements-dora",
+      label: "Événements DORA (démonstration, webinaires, open labs, etc.)",
+    },
+    {
+      value: "autre",
+      label: "Autre (préciser)",
+    },
+  ];
+
   const userMainActivitySchema: v.Schema = {
     userMainActivity: {
       label: "Quels sont vos objectifs lors de l’utilisation de DORA ?",
@@ -50,11 +75,17 @@
       rules: [v.isString(), v.maxStrLength(255)],
       required: true,
     },
+    discoveryMethod: {
+      label: "Comment avez-vous connu DORA ?",
+      default: "",
+      rules: [v.isString(), v.maxStrLength(255)],
+    },
   };
 
   onMount(() => {
     if ($userInfo) {
       userMainActivity = $userInfo.mainActivity;
+      discoveryMethod = $userInfo.discoveryMethod;
     }
   });
 
@@ -70,7 +101,7 @@
     }
   }
 
-  $: formData = { userMainActivity };
+  $: formData = { userMainActivity, discoveryMethod };
 </script>
 
 <Form
@@ -80,12 +111,18 @@
   onSuccess={handleSuccess}
   bind:requesting
 >
-  <div class="mx-s4">
+  <div class="mx-s4 flex flex-col gap-s24">
     <RadioButtonsField
       id="userMainActivity"
       choices={userMainActivityOptions}
       description="Veuillez choisir la réponse qui correspond le mieux à votre utilisation actuelle (ou future, si vous venez de vous inscrire)."
       bind:value={userMainActivity}
+      vertical
+    />
+    <RadioButtonsField
+      id="discoveryMethod"
+      choices={discoveryMethodOptions}
+      bind:value={discoveryMethod}
       vertical
     />
   </div>
