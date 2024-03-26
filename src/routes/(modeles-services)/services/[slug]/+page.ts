@@ -4,7 +4,6 @@ import {
   getServiceDI,
   getServicesOptions,
 } from "$lib/requests/services";
-import { getStructure } from "$lib/requests/structures";
 import type { Service } from "$lib/types";
 import { token } from "$lib/utils/auth";
 import { error, redirect } from "@sveltejs/kit";
@@ -17,7 +16,7 @@ export const load: PageLoad = async ({ url, params, parent }) => {
   if (params.slug.startsWith("di--")) {
     const service = (await getServiceDI(params.slug.slice(4))) as Service;
     if (!service) {
-      throw error(404, "Page Not Found");
+      error(404, "Page Not Found");
     }
 
     return {
@@ -39,19 +38,18 @@ export const load: PageLoad = async ({ url, params, parent }) => {
       };
     }
     if (!get(token)) {
-      throw redirect(
+      redirect(
         302,
         `/auth/connexion?next=${encodeURIComponent(url.pathname + url.search)}`
       );
     }
-    throw error(404, "Page Not Found");
+    error(404, "Page Not Found");
   }
 
   return {
     title: `${service.name} | ${service.structureInfo.name} | DORA`,
     description: service.shortDesc,
     service,
-    structure: await getStructure(service.structure),
     servicesOptions: await getServicesOptions(),
   };
 };

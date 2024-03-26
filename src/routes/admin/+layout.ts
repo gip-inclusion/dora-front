@@ -11,7 +11,7 @@ export const load: LayoutLoad = async ({ url, parent }) => {
 
   const myToken = get(token);
   if (!myToken) {
-    throw redirect(
+    redirect(
       302,
       `/auth/connexion?next=${encodeURIComponent(url.pathname + url.search)}`
     );
@@ -19,8 +19,8 @@ export const load: LayoutLoad = async ({ url, parent }) => {
 
   const user = get(userInfo);
 
-  if (!user?.isStaff && !(user?.isManager && user?.department)) {
-    throw error(403, "Accès réservé");
+  if (!user?.isStaff && !(user?.isManager && user?.departments?.length)) {
+    error(403, "Accès réservé");
   }
 
   return {};
