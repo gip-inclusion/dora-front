@@ -3,7 +3,11 @@
 
   import Form from "$lib/components/forms/form.svelte";
   import * as v from "$lib/validation/schema-utils";
-  import { refreshUserInfo, userInfo } from "$lib/utils/auth";
+  import {
+    refreshUserInfo,
+    userInfo,
+    type UserMainActivity,
+  } from "$lib/utils/auth";
   import Button from "$lib/components/display/button.svelte";
   import RadioButtonsField from "$lib/components/forms/fields/radio-buttons-field.svelte";
   import { updateUserMainActivity } from "$lib/utils/user";
@@ -13,7 +17,12 @@
 
   export let onSuccess;
 
-  const userMainActivityOptions = [
+  interface Option<T> {
+    value: T;
+    label: string;
+  }
+
+  const userMainActivityOptions: Array<Option<UserMainActivity>> = [
     {
       value: "accompagnateur",
       label:
