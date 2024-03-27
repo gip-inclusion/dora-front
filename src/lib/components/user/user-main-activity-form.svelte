@@ -9,12 +9,14 @@
     type DiscoveryMethod,
     type UserMainActivity,
   } from "$lib/utils/auth";
+  import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import Button from "$lib/components/display/button.svelte";
   import RadioButtonsField from "$lib/components/forms/fields/radio-buttons-field.svelte";
   import { updateUserMainActivity } from "$lib/utils/user";
 
   let userMainActivity = "";
   let discoveryMethod = "";
+  let otherDiscoveryMethod = "";
   let requesting = false;
 
   export let onSuccess;
@@ -81,6 +83,11 @@
       rules: [v.isString(), v.maxStrLength(255)],
       required: true,
     },
+    otherDiscoveryMethod: {
+      label: "Précision",
+      default: "",
+      rules: [v.isString(), v.maxStrLength(255)],
+    },
   };
 
   onMount(() => {
@@ -102,7 +109,7 @@
     }
   }
 
-  $: formData = { userMainActivity, discoveryMethod };
+  $: formData = { userMainActivity, discoveryMethod, otherDiscoveryMethod };
 </script>
 
 <Form
@@ -120,12 +127,22 @@
       bind:value={userMainActivity}
       vertical
     />
-    <RadioButtonsField
-      id="discoveryMethod"
-      choices={discoveryMethodOptions}
-      bind:value={discoveryMethod}
-      vertical
-    />
+    <div>
+      <RadioButtonsField
+        id="discoveryMethod"
+        choices={discoveryMethodOptions}
+        bind:value={discoveryMethod}
+        vertical
+      />
+      {#if discoveryMethod === "autre"}
+        <BasicInputField
+          id="otherDiscoveryMethod"
+          bind:value={otherDiscoveryMethod}
+          hideLabel
+          vertical
+        />
+      {/if}
+    </div>
   </div>
 
   <div class="mt-s32 text-right">
