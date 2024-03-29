@@ -31,6 +31,7 @@ export const load: PageLoad = async ({ url, parent }) => {
   const userEmail = get(userInfo)?.email;
   const userIsPe =
     userEmail?.endsWith("@pole-emploi.fr") ||
+    userEmail?.endsWith("@francetravail.fr") ||
     userEmail?.endsWith("@beta.gouv.fr");
 
   let establishment: Establishment | undefined;
