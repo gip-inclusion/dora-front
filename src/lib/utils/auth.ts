@@ -39,6 +39,7 @@ export interface UserInfo {
   pendingStructures: ShortStructure[];
   mainActivity: UserMainActivity;
   discoveryMethod: DiscoveryMethod;
+  discoveryMethodOther: string;
 }
 
 export const userInfo = writable<UserInfo>(null);
