@@ -12,11 +12,11 @@
   import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import Button from "$lib/components/display/button.svelte";
   import RadioButtonsField from "$lib/components/forms/fields/radio-buttons-field.svelte";
-  import { updateUserMainActivity } from "$lib/utils/user";
+  import { updateUserProfile } from "$lib/utils/user";
 
-  let userMainActivity = "";
+  let mainActivity = "";
   let discoveryMethod = "";
-  let otherDiscoveryMethod = "";
+  let discoveryMethodOther = "";
   let requesting = false;
 
   export let onSuccess;
@@ -26,7 +26,7 @@
     label: string;
   }
 
-  const userMainActivityOptions: Array<Option<UserMainActivity>> = [
+  const mainActivityOptions: Array<Option<UserMainActivity>> = [
     {
       value: "accompagnateur",
       label:
@@ -70,8 +70,8 @@
     },
   ];
 
-  const userMainActivitySchema: v.Schema = {
-    userMainActivity: {
+  const userProfileDataSchema: v.Schema = {
+    mainActivity: {
       label: "Quels sont vos objectifs lors de l’utilisation de DORA ?",
       default: "",
       rules: [v.isString(), v.maxStrLength(255)],
@@ -82,7 +82,7 @@
       default: "",
       rules: [v.isString(), v.maxStrLength(255)],
     },
-    otherDiscoveryMethod: {
+    discoveryMethodOther: {
       label: "Précision",
       default: "",
       rules: [v.isString(), v.maxStrLength(255)],
@@ -91,13 +91,14 @@
 
   onMount(() => {
     if ($userInfo) {
-      userMainActivity = $userInfo.mainActivity;
+      mainActivity = $userInfo.mainActivity;
       discoveryMethod = $userInfo.discoveryMethod;
+      discoveryMethodOther = $userInfo.discoveryMethodOther;
     }
   });
 
   async function handleSubmit(validatedData) {
-    await updateUserMainActivity(validatedData.userMainActivity);
+    await updateUserProfile(validatedData);
     await refreshUserInfo();
     return { ok: true };
   }
@@ -108,22 +109,22 @@
     }
   }
 
-  $: formData = { userMainActivity, discoveryMethod, otherDiscoveryMethod };
+  $: formData = { mainActivity, discoveryMethod, discoveryMethodOther };
 </script>
 
 <Form
   bind:data={formData}
-  schema={userMainActivitySchema}
+  schema={userProfileDataSchema}
   onSubmit={handleSubmit}
   onSuccess={handleSuccess}
   bind:requesting
 >
   <div class="mx-s4 flex flex-col gap-s24">
     <RadioButtonsField
-      id="userMainActivity"
-      choices={userMainActivityOptions}
+      id="mainActivity"
+      choices={mainActivityOptions}
       description="Veuillez choisir la réponse qui correspond le mieux à votre utilisation actuelle (ou future, si vous venez de vous inscrire)."
-      bind:value={userMainActivity}
+      bind:value={mainActivity}
       vertical
     />
     <div>
@@ -135,8 +136,8 @@
       />
       {#if discoveryMethod === "autre"}
         <BasicInputField
-          id="otherDiscoveryMethod"
-          bind:value={otherDiscoveryMethod}
+          id="discoveryMethodOther"
+          bind:value={discoveryMethodOther}
           hideLabel
           vertical
         />
