@@ -81,6 +81,7 @@
       label: "Comment avez-vous connu DORA ?",
       default: "",
       rules: [v.isString(), v.maxStrLength(255)],
+      required: true,
     },
     discoveryMethodOther: {
       label: "Précision",
