@@ -1,5 +1,5 @@
 <script lang="ts">
-  import UserMainActivityForm from "./user-main-activity-form.svelte";
+  import UserOnboardingForm from "./user-onboarding-form.svelte";
   import Modal from "$lib/components/hoc/modal.svelte";
 
   let isOpen = true;
@@ -16,5 +16,5 @@
   width="medium"
   canClose={false}
 >
-  <UserMainActivityForm {onSuccess} />
+  <UserOnboardingForm {onSuccess} />
 </Modal>
