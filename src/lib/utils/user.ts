@@ -3,14 +3,14 @@ import { getApiURL } from "./api";
 import { token, type DiscoveryMethod, type UserMainActivity } from "./auth";
 
 export interface UpdateUserProfileInput {
-  mainActivity: UserMainActivity;
+  mainActivity?: UserMainActivity;
   discoveryMethod?: DiscoveryMethod;
   discoveryMethodOther?: string;
 }
 
 export function updateUserProfile(userProfileData: UpdateUserProfileInput) {
   return fetch(`${getApiURL()}/profile/`, {
-    method: "POST",
+    method: "PATCH",
     body: JSON.stringify(userProfileData),
     headers: {
       "Content-Type": "application/json",
