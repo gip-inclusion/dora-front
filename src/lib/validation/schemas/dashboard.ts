@@ -1,9 +1,9 @@
 import * as v from "../schema-utils";
-import { SIREN_POLE_EMPLOI } from "$lib/consts";
+import { SIREN_FRANCE_TRAVAIL } from "$lib/consts";
 
 function checkFranceTravailRestrictions(msg = "") {
   return (_name, value, data) => ({
-    valid: data.siret.startsWith(SIREN_POLE_EMPLOI)
+    valid: data.siret.startsWith(SIREN_FRANCE_TRAVAIL)
       ? !!(
           value.endsWith("@pole-emploi.fr") ||
           value.endsWith("@francetravail.fr") ||
