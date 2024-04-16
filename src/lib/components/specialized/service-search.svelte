@@ -48,10 +48,12 @@
   export let kindIds: ServiceKind[] = [];
   export let feeConditions: FeeCondition[] = [];
   export let locationKinds: LocationKind[] = [];
+  export let initialSearch = false;
 
   let innerWidth;
   let requestingSave = false;
-  let refreshDisabled = true;
+  let submitDisabled = !initialSearch;
+  let refreshMode = false;
   const MOBILE_BREAKPOINT = 768; // 'md' from https://tailwindcss.com/docs/screens
   let subCategories: Choice[] = [];
 
@@ -98,7 +100,10 @@
   }
 
   function enableRefreshButton() {
-    refreshDisabled = false;
+    if (!initialSearch) {
+      refreshMode = true;
+      submitDisabled = false;
+    }
   }
 
   function handleAddressChange(address) {
@@ -115,7 +120,8 @@
   }
 
   function handleSearch() {
-    refreshDisabled = true;
+    submitDisabled = true;
+    refreshMode = false;
     goto(`/recherche?${query}`, { noScroll: true });
   }
 
@@ -134,12 +140,7 @@
     requestingSave = false;
   }
 
-  function handleCategoryChange(clearSubCategories = false) {
-    enableRefreshButton();
-
-    if (clearSubCategories) {
-      subCategoryIds = [];
-    }
+  function loadSubCategories() {
     if (categoryId) {
       subCategories = sortSubcategory([
         {
@@ -155,8 +156,14 @@
     }
   }
 
+  function handleCategoryChange() {
+    enableRefreshButton();
+    subCategoryIds = [];
+    loadSubCategories();
+  }
+
   onMount(() => {
-    handleCategoryChange();
+    loadSubCategories();
   });
 
   let currentSearchWasAlreadySaved;
@@ -252,7 +259,7 @@
             placeholder="Sélectionnez une thématique"
             bind:value={categoryId}
             choices={categories}
-            onChange={() => handleCategoryChange(true)}
+            onChange={handleCategoryChange}
           />
         </div>
 
@@ -282,17 +289,15 @@
               />
             {/key}
           </div>
-        {:else}
-          <div class="p-s12 text-center lg:p-s16">
-            <Button
-              extraClass="h-s48"
-              type="submit"
-              label="Rechercher"
-              disabled={!cityCode}
-              preventDefaultOnMouseDown
-            />
-          </div>
         {/if}
+        <div class="p-s12 text-center lg:p-s16">
+          <Button
+            extraClass="h-s48"
+            type="submit"
+            label={refreshMode ? "Actualiser" : "Rechercher"}
+            disabled={!cityCode || submitDisabled}
+          />
+        </div>
       </div>
 
       {#if showDeploymentWarning && cityCode && !isInDeploymentDepartments(cityCode, servicesOptions)}
@@ -360,14 +365,6 @@
 
   {#if useAdditionalFilters}
     <div class="mt-s24 flex justify-center gap-s16 lg:p-s16">
-      <Button
-        extraClass="h-s48"
-        type="submit"
-        label="Actualiser la recherche"
-        disabled={!cityCode || refreshDisabled}
-        on:click={handleSearch}
-      />
-
       {#if currentSearchWasAlreadySaved}
         <LinkButton
           to="/mes-alertes"
@@ -404,7 +401,7 @@
       grid-template-columns: 3fr 3fr 1fr;
     }
     .with-subcategories {
-      grid-template-columns: 1fr 1fr 1fr;
+      grid-template-columns: 2fr 2fr 2fr 1fr;
     }
   }
 
