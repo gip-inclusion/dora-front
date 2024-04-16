@@ -295,6 +295,9 @@
             extraClass="h-s48"
             type="submit"
             label={refreshMode ? "Actualiser" : "Rechercher"}
+            title={submitDisabled
+              ? "Modifiez un des critères avant d’actualiser la recherche"
+              : undefined}
             disabled={!cityCode || submitDisabled}
           />
         </div>
