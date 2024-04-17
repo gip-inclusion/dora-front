@@ -28,12 +28,6 @@
   } from "$lib/utils/service";
   import { getQueryString } from "$lib/utils/service-search";
   import { onMount } from "svelte";
-  import { refreshUserInfo, userInfo } from "$lib/utils/auth";
-  import LinkButton from "../display/link-button.svelte";
-  import {
-    getSavedSearchQueryString,
-    saveSearch,
-  } from "$lib/requests/saved-search";
 
   export let servicesOptions: ServicesOptions;
   export let cityCode: string | undefined = undefined;
@@ -51,7 +45,6 @@
   export let initialSearch = false;
 
   let innerWidth;
-  let requestingSave = false;
   let submitDisabled = !initialSearch;
   let refreshMode = false;
   const MOBILE_BREAKPOINT = 768; // 'md' from https://tailwindcss.com/docs/screens
@@ -125,21 +118,6 @@
     goto(`/recherche?${query}`, { noScroll: true });
   }
 
-  async function doSaveSearch() {
-    requestingSave = true;
-    await saveSearch({
-      category: categoryId,
-      subcategories: subCategoryIds.filter((value) => !value.endsWith("--all")),
-      cityCode,
-      cityLabel,
-      kinds: kindIds,
-      fees: feeConditions,
-      locationKinds,
-    });
-    await refreshUserInfo();
-    requestingSave = false;
-  }
-
   function loadSubCategories() {
     if (categoryId) {
       subCategories = sortSubcategory([
@@ -165,30 +143,6 @@
   onMount(() => {
     loadSubCategories();
   });
-
-  let currentSearchWasAlreadySaved;
-  $: {
-    // Saved searches don't store the street address neither lat/lon
-    const currentShortQueryString = getQueryString({
-      categoryIds: [categoryId ? categoryId : ""],
-      subCategoryIds: subCategoryIds.filter(
-        (value) => !value.endsWith("--all")
-      ),
-      cityCode,
-      cityLabel,
-      label: undefined,
-      kindIds,
-      feeConditions,
-      locationKinds,
-    });
-
-    const userSavedSearches = $userInfo?.savedSearches || [];
-
-    const result = userSavedSearches.some(
-      (search) => getSavedSearchQueryString(search) === currentShortQueryString
-    );
-    currentSearchWasAlreadySaved = result;
-  }
 </script>
 
 <svelte:window bind:innerWidth />
@@ -365,27 +319,6 @@
       </div>
     {/if}
   </div>
-
-  {#if useAdditionalFilters}
-    <div class="mt-s24 flex justify-center gap-s16 lg:p-s16">
-      {#if currentSearchWasAlreadySaved}
-        <LinkButton
-          to="/mes-alertes"
-          extraClass="h-s48"
-          secondary
-          label="Voir mes alertes"
-        />
-      {:else}
-        <Button
-          extraClass="h-s48"
-          secondary
-          label="Créer une alerte"
-          disabled={!cityCode || requestingSave}
-          on:click={doSaveSearch}
-        />
-      {/if}
-    </div>
-  {/if}
 </form>
 
 <style lang="postcss">
