@@ -36,13 +36,26 @@
     on:mouseenter={() => setAsSelected(option.value)}
     on:mouseleave={() => setAsSelected(null)}
   >
+    {#if isMultiple}
+      <div
+        class="mr-s12 flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
+      >
+        <div
+          class="h-s12 w-s12 self-center bg-magenta-cta"
+          class:hidden={!selected}
+        />
+      </div>
+    {/if}
+
     <SelectLabel choice={getChoiceFromValue(option.value, choices)} />
 
-    <span class="h-s24 w-s24 fill-current text-magenta-cta" class:selected>
-      {#if selected}
-        {@html checkIcon}
-      {/if}
-    </span>
+    {#if !isMultiple}
+      <span class="h-s24 w-s24 fill-current text-magenta-cta" class:selected>
+        {#if selected}
+          {@html checkIcon}
+        {/if}
+      </span>
+    {/if}
   </div>
 {/each}
 

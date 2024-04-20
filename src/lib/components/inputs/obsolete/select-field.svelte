@@ -232,7 +232,8 @@
 
     <div
       class:hidden={!expanded}
-      class="absolute left-s0 top-[52px] z-20 flex max-h-s512 flex-col gap-s10 overflow-y-auto rounded border border-gray-00 bg-white p-s12 shadow-md {minDropdownWidth}"
+      class="absolute left-s0 top-[52px] z-20 flex max-h-s512 flex-col overflow-y-auto rounded border border-gray-00 bg-white p-s12 shadow-md {minDropdownWidth}"
+      class:gap-s10={!isMultiple}
       role="listbox"
       id={`listbox-values-${uuid}`}
       tabindex="-1"
