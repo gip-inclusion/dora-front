@@ -1,6 +1,7 @@
 <script lang="ts">
   import { checkIcon } from "$lib/icons";
   import type { Choice } from "$lib/types";
+  import CheckboxMark from "$lib/components/display/checkbox-mark.svelte";
   import { getChoiceFromValue } from "$lib/utils/choice";
   import SelectLabel from "./select-label.svelte";
 
@@ -37,14 +38,7 @@
     on:mouseleave={() => setAsSelected(null)}
   >
     {#if isMultiple}
-      <div
-        class="mr-s12 flex h-s24 w-s24 shrink-0 justify-center rounded border border-gray-03"
-      >
-        <div
-          class="h-s12 w-s12 self-center bg-magenta-cta"
-          class:hidden={!selected}
-        />
-      </div>
+      <CheckboxMark checked={!selected} />
     {/if}
 
     <SelectLabel choice={getChoiceFromValue(option.value, choices)} />
