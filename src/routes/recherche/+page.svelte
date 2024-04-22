@@ -127,13 +127,10 @@
 </CenteredGrid>
 
 <CenteredGrid extraClass="max-w-4xl m-auto">
-  <div class="mt-s16 text-f21 font-bold text-gray-dark">
-    {#if data.services.length > 0}
-      {data.services.length}
-      {data.services.length > 1 ? "résultats" : "résultat"}
-    {:else}
-      Aucun résultat
-    {/if}
+  <div class="mt-s16 text-f21">
+    {data.services.length > 0 ? data.services.length : "Aucun"}
+    {data.services.length > 1 ? "services" : "service"}
+    à proximité de <b>{data.cityLabel}</b>
   </div>
 
   {#if showDeploymentNotice}
