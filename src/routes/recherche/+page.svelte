@@ -126,67 +126,76 @@
   </div>
 </CenteredGrid>
 
-<CenteredGrid extraClass="max-w-4xl m-auto">
-  <div class="mt-s16 text-f21">
-    {data.services.length > 0 ? data.services.length : "Aucun"}
-    {data.services.length > 1 ? "services" : "service"}
-    à proximité de <b>{data.cityLabel}</b>
-  </div>
-
-  {#if showDeploymentNotice}
-    <div class="mt-s24">
-      <DoraDeploymentNotice />
-    </div>
-  {/if}
-
-  {#if hasOnlyNationalResults(data.services)}
-    <div class="mt-s24">
-      <OnlyNationalResultsNotice />
-    </div>
-  {/if}
-
-  {#if data.services.length}
-    <div class="mt-s32 flex flex-col gap-s16">
-      <h2 class="sr-only">Résultats de votre recherche</h2>
-      {#each data.services as service, index}
-        {#if index < currentPageLength}
-          <SearchResult
-            id={getResultId(index)}
-            result={service}
-            searchId={data.searchId}
-          />
-        {/if}
-      {/each}
-
-      <div class="sticky bottom-s16 z-10 m-auto flex justify-center">
-        {#if currentSearchWasAlreadySaved}
-          <LinkButton to="/mes-alertes" secondary label="Voir mes alertes" />
-        {:else}
-          <Button
-            label="Créer une alerte"
-            disabled={!data.cityCode || creatingAlert}
-            on:click={handleCreateAlertClick}
-          />
-        {/if}
+<CenteredGrid extraClass="m-auto">
+  <div class="lg:flex lg:flex-row lg:gap-s24">
+    <div class="lg:basis-1/3"></div>
+    <div class="lg:basis-2/3">
+      <div class="mt-s16 text-f21">
+        {data.services.length > 0 ? data.services.length : "Aucun"}
+        {data.services.length > 1 ? "services" : "service"}
+        à proximité de <b>{data.cityLabel}</b>
       </div>
 
-      {#if data.services.length > currentPageLength}
-        <div class="text-center">
-          <Button
-            label="Charger plus de résultats"
-            on:click={loadMoreResult}
-            noBackground
-          />
+      {#if showDeploymentNotice}
+        <div class="mt-s24">
+          <DoraDeploymentNotice />
         </div>
       {/if}
+
+      {#if hasOnlyNationalResults(data.services)}
+        <div class="mt-s24">
+          <OnlyNationalResultsNotice />
+        </div>
+      {/if}
+
+      {#if data.services.length}
+        <div class="mt-s32 flex flex-col gap-s16">
+          <h2 class="sr-only">Résultats de votre recherche</h2>
+          {#each data.services as service, index}
+            {#if index < currentPageLength}
+              <SearchResult
+                id={getResultId(index)}
+                result={service}
+                searchId={data.searchId}
+              />
+            {/if}
+          {/each}
+
+          <div class="sticky bottom-s16 z-10 m-auto flex justify-center">
+            {#if currentSearchWasAlreadySaved}
+              <LinkButton
+                to="/mes-alertes"
+                secondary
+                label="Voir mes alertes"
+              />
+            {:else}
+              <Button
+                label="Créer une alerte"
+                disabled={!data.cityCode || creatingAlert}
+                on:click={handleCreateAlertClick}
+              />
+            {/if}
+          </div>
+
+          {#if data.services.length > currentPageLength}
+            <div class="text-center">
+              <Button
+                label="Charger plus de résultats"
+                on:click={loadMoreResult}
+                noBackground
+              />
+            </div>
+          {/if}
+        </div>
+      {/if}
+
+      <div class="mb-s24 mt-s48 lg:flex lg:gap-s24">
+        <ServiceSuggestionNotice />
+      </div>
+
+      {#if data.subCategoryIds.includes("famille--garde-enfants") || data.subCategoryIds.includes("famille--accompagnement-parents")}
+        <SearchPromo />
+      {/if}
     </div>
-  {/if}
-
-  <div class="mb-s24 mt-s48 lg:flex lg:gap-s24">
-    <ServiceSuggestionNotice />
   </div>
-
-  {#if data.subCategoryIds.includes("famille--garde-enfants") || data.subCategoryIds.includes("famille--accompagnement-parents")}
-    <SearchPromo />
-  {/if}
 </CenteredGrid>
