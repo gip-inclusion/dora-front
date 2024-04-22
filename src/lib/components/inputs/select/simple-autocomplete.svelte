@@ -5,6 +5,7 @@
 <script lang="ts">
   // TODO: lint this file properly
   /* eslint-disable */
+  import CheckboxMark from "$lib/components/display/checkbox-mark.svelte";
   import { checkIcon, closeCircleIcon } from "$lib/icons";
   import { formatErrors } from "$lib/validation/validation";
 
@@ -773,16 +774,20 @@
           {#if listItem && (maxItemsToShowInList <= 0 || i < maxItemsToShowInList)}
             {#if listItem}
               <button
-                class="autocomplete-list-item flex w-full flex-row items-baseline justify-between text-left {i ===
+                class="autocomplete-list-item flex w-full flex-row items-baseline text-left {i ===
                 highlightIndex
                   ? 'selected'
-                  : ''}"
+                  : ''} {multiple ? 'gap-s10' : 'justify-between'}"
                 class:confirmed={isConfirmed(listItem.value)}
                 on:click|preventDefault={() => onListItemClick(listItem)}
                 on:pointerenter={() => {
                   highlightIndex = i;
                 }}
               >
+                {#if multiple}
+                  <CheckboxMark checked={isConfirmed(listItem.value)} />
+                {/if}
+
                 {#if hasCustomContentSlot}
                   <slot name="itemContent" item={listItem} />
                 {:else}
@@ -792,11 +797,14 @@
                       : listItem.label}
                   </div>
                 {/if}
-                <div class="checkmark invisible grow-0">
-                  <div class="ml-s8 h-s16 w-s24 fill-current">
-                    {@html checkIcon}
+
+                {#if !multiple}
+                  <div class="checkmark invisible grow-0">
+                    <div class="ml-s8 h-s16 w-s24 fill-current">
+                      {@html checkIcon}
+                    </div>
                   </div>
-                </div>
+                {/if}
               </button>
             {/if}
           {/if}
