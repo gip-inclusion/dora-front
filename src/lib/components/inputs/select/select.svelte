@@ -29,6 +29,7 @@
 
   // https://github.com/sveltejs/svelte/issues/5604
   const hasPrependSlot = $$slots.prepend;
+  const hasAppendSlot = $$slots.append;
   const hasCustomContentSlot = $$slots.itemContent;
 
   $: {
@@ -65,6 +66,7 @@
   {hideArrow}
   {showClear}
   {hasPrependSlot}
+  {hasAppendSlot}
   {hasCustomContentSlot}
   {errorMessages}
 >
@@ -73,4 +75,6 @@
   <svelte:fragment slot="itemContent" let:item>
     <slot name="itemContent" {item} />
   </svelte:fragment>
+
+  <slot name="append" slot="append" />
 </AutoComplete>
