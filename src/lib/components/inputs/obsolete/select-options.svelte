@@ -40,7 +40,7 @@
     on:mouseleave={() => setAsSelected(null)}
   >
     {#if isMultiple}
-      <CheckboxMark checked={!selected} />
+      <CheckboxMark checked={selected} />
     {/if}
 
     <SelectLabel choice={getChoiceFromValue(option.value, choices)} />
