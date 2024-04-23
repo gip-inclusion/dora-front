@@ -63,18 +63,26 @@
     // As array
     if (isMultiple) {
       if (value.includes(newValue)) {
+        // Désélection d'une option
         value = (value as string[]).filter((val) => val !== newValue);
       } else {
-        // Gestion du bouton "Tous"
-        if (newValue.endsWith("--all")) {
-          // Si on décoche toutes les options si on sélectionne "Tous"
-          value = value.filter((val) => val.endsWith("--all"));
+        // Sélection d'une option
+        if (
+          newValue.endsWith("--all") ||
+          value?.length === choices.length - 2
+        ) {
+          // Sélection de l'option "Tous" ou de toutes les options ordinaires
+          // => on sélectionne l'option "Tous" et désélectionne toutes les autres
+          value = choices
+            .filter((choice) => choice.value.endsWith("--all"))
+            .map((choice) => choice.value);
         } else {
-          // Si on décoche "Tous" si on sélectionne une option précise
-          value = value.filter((val) => !val.endsWith("--all"));
+          // Sélection d'une option ordinaire (sans qu'elles soient toutes sélectionnées)
+          // => on désélectionne l'option Tous
+          value = value
+            .filter((val) => !val.endsWith("--all"))
+            .concat([newValue]);
         }
-
-        value = [...value, newValue];
       }
     } else {
       // As string
