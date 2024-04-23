@@ -120,15 +120,17 @@
 
   function loadSubCategories() {
     if (categoryId) {
+      const allSubCategoriesValue = `${categoryId}--all`;
       subCategories = sortSubcategory([
         {
-          value: `${categoryId}--all`,
+          value: allSubCategoriesValue,
           label: "Tous les besoins",
         },
         ...servicesOptions.subcategories.filter((sub) =>
           sub.value.startsWith(categoryId)
         ),
       ]);
+      subCategoryIds = [allSubCategoriesValue];
     } else {
       subCategories = [];
     }
