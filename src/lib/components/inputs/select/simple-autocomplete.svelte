@@ -32,6 +32,7 @@
 
   // Workaround for https://github.com/sveltejs/svelte/issues/5604
   export let hasPrependSlot = false;
+  export let hasAppendSlot = false;
   export let hasCustomContentSlot = false;
 
   // ignores the accents when matching items
@@ -584,7 +585,7 @@
           filteredTextLength >= minCharactersToSearch)) &&
       ((items && items.length > 0) || filteredTextLength > 0);
 
-    if (!hasPrependSlot && !showList) {
+    if (!hasPrependSlot && !hasAppendSlot && !showList) {
       return;
     }
 
@@ -765,8 +766,10 @@
     class:hidden={!opened}
     bind:this={list}
   >
-    <slot name="prepend" />
-    <hr class:hidden={!showList} class="mx-s8" />
+    {#if hasPrependSlot}
+      <slot name="prepend" />
+      <hr class:hidden={!showList} class="mx-s20" />
+    {/if}
 
     <div class:hidden={!showList} class="py-s10 text-f14">
       {#if filteredListItems && filteredListItems.length > 0}
@@ -774,7 +777,7 @@
           {#if listItem && (maxItemsToShowInList <= 0 || i < maxItemsToShowInList)}
             {#if listItem}
               <button
-                class="autocomplete-list-item flex w-full flex-row items-baseline text-left {i ===
+                class="autocomplete-list-item flex w-full flex-row items-baseline px-s20 py-s6 text-left {i ===
                 highlightIndex
                   ? 'selected'
                   : ''} {multiple ? 'gap-s10' : 'justify-between'}"
@@ -825,6 +828,11 @@
         </div>
       {/if}
     </div>
+
+    {#if hasAppendSlot}
+      <hr class:hidden={!showList} class="mx-s20" />
+      <slot name="append" />
+    {/if}
   </div>
 </div>
 {#if multiple && value.length}
@@ -922,7 +930,6 @@
   }
 
   .autocomplete-list-item {
-    padding: 6px 15px;
     color: var(--col-text);
     cursor: pointer;
     line-height: 1.25;
