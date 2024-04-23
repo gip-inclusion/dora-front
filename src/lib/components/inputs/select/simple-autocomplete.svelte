@@ -702,16 +702,6 @@
     const regexp = words.join("|");
     return regexp;
   }
-
-  function isConfirmed(newValue) {
-    if (!value) {
-      return false;
-    }
-    if (multiple) {
-      return value.includes(newValue);
-    }
-    return newValue === value;
-  }
 </script>
 
 <div
@@ -776,19 +766,24 @@
         {#each filteredListItems as listItem, i}
           {#if listItem && (maxItemsToShowInList <= 0 || i < maxItemsToShowInList)}
             {#if listItem}
+              {@const confirmed =
+                value &&
+                (multiple
+                  ? value.includes(listItem.value)
+                  : listItem.value === value)}
               <button
                 class="autocomplete-list-item flex w-full flex-row items-baseline px-s20 py-s6 text-left {i ===
                 highlightIndex
                   ? 'selected'
                   : ''} {multiple ? 'gap-s10' : 'justify-between'}"
-                class:confirmed={isConfirmed(listItem.value)}
+                class:confirmed
                 on:click|preventDefault={() => onListItemClick(listItem)}
                 on:pointerenter={() => {
                   highlightIndex = i;
                 }}
               >
                 {#if multiple}
-                  <CheckboxMark checked={isConfirmed(listItem.value)} />
+                  <CheckboxMark checked={confirmed} />
                 {/if}
 
                 {#if hasCustomContentSlot}
