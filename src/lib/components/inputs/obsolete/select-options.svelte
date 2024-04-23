@@ -21,7 +21,9 @@
     : option.value === value}
 
   <div
-    class="option flex min-h-[36px] w-full cursor-pointer items-center justify-between p-s6 text-gray-dark {extraClass}"
+    class="option flex min-h-[36px] w-full cursor-pointer p-s6 text-gray-dark {isMultiple
+      ? 'items-start gap-s8'
+      : 'items-center justify-between'} {extraClass}"
     role="option"
     aria-selected={selected}
     id={option.value}
