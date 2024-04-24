@@ -20,6 +20,7 @@
   import SearchPromo from "./search-promo.svelte";
   import SearchResult from "./search-result.svelte";
   import ServiceSuggestionNotice from "./service-suggestion-notice.svelte";
+  import ResultFilters, { type Filters } from "./result-filters.svelte";
 
   export let data: PageData;
 
@@ -28,6 +29,14 @@
   let currentPageLength = PAGE_LENGTH;
 
   let creatingAlert = false;
+
+  let filters: Filters = {
+    kinds: [],
+    feeConditions: [],
+    locationKinds: [],
+  };
+
+  $: console.log(filters);
 
   function hasOnlyNationalResults(services: ServiceSearchResult[]) {
     if (services.length === 0) {
@@ -127,8 +136,10 @@
 </CenteredGrid>
 
 <CenteredGrid extraClass="m-auto">
-  <div class="lg:flex lg:flex-row lg:gap-s24">
-    <div class="lg:basis-1/3"></div>
+  <div class="lg:flex lg:flex-row lg:items-start lg:gap-s24">
+    <div class="rounded-ml border border-gray-02 p-s32 shadow-sm lg:basis-1/3">
+      <ResultFilters servicesOptions={data.servicesOptions} bind:filters />
+    </div>
     <div class="lg:basis-2/3">
       <div class="mt-s16 text-f21">
         {data.services.length > 0 ? data.services.length : "Aucun"}
