@@ -39,6 +39,10 @@
   let selectedOptionIndex: number | null = null;
   let selectedOption: Choice | undefined;
 
+  $: hasSelectAllOption = choices.some((choice) =>
+    choice.value.endsWith("--all")
+  );
+
   function toggleCombobox(forceValue?: boolean) {
     expanded = forceValue !== undefined ? forceValue : !expanded;
     if (!expanded) {
@@ -67,21 +71,27 @@
         value = (value as string[]).filter((val) => val !== newValue);
       } else {
         // Sélection d'une option
-        if (
-          newValue.endsWith("--all") ||
-          value?.length === choices.length - 2
-        ) {
-          // Sélection de l'option "Tous" ou de toutes les options ordinaires
-          // => on sélectionne l'option "Tous" et désélectionne toutes les autres
-          value = choices
-            .filter((choice) => choice.value.endsWith("--all"))
-            .map((choice) => choice.value);
+        if (hasSelectAllOption) {
+          // Il existe une option "Tous"
+          if (
+            newValue.endsWith("--all") ||
+            value?.length === choices.length - 2
+          ) {
+            // Sélection de l'option "Tous" ou de toutes les options ordinaires
+            // => on sélectionne l'option "Tous" et désélectionne toutes les autres
+            value = choices
+              .filter((choice) => choice.value.endsWith("--all"))
+              .map((choice) => choice.value);
+          } else {
+            // Sélection d'une option ordinaire (sans qu'elles soient toutes sélectionnées)
+            // => on désélectionne l'option Tous
+            value = value
+              .filter((val) => !val.endsWith("--all"))
+              .concat([newValue]);
+          }
         } else {
-          // Sélection d'une option ordinaire (sans qu'elles soient toutes sélectionnées)
-          // => on désélectionne l'option Tous
-          value = value
-            .filter((val) => !val.endsWith("--all"))
-            .concat([newValue]);
+          // Il n'y a pas d'option "Tous"
+          value = [...value, newValue];
         }
       }
     } else {
