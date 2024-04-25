@@ -36,7 +36,13 @@
     locationKinds: [],
   };
 
-  $: console.log(filters);
+  $: filteredServices = data.services.filter((service) =>
+    ["kinds", "feeConditions", "locationKinds"].every((attr) =>
+      service[attr].some(
+        (value) => filters[attr].length === 0 || filters[attr].includes(value)
+      )
+    )
+  );
 
   function hasOnlyNationalResults(services: ServiceSearchResult[]) {
     if (services.length === 0) {
@@ -142,8 +148,8 @@
     </div>
     <div class="lg:basis-2/3">
       <div class="mt-s16 text-f21">
-        {data.services.length > 0 ? data.services.length : "Aucun"}
-        {data.services.length > 1 ? "services" : "service"}
+        {filteredServices.length > 0 ? filteredServices.length : "Aucun"}
+        {filteredServices.length > 1 ? "services" : "service"}
         à proximité de <b>{data.cityLabel}</b>
       </div>
 
@@ -153,16 +159,16 @@
         </div>
       {/if}
 
-      {#if hasOnlyNationalResults(data.services)}
+      {#if hasOnlyNationalResults(filteredServices)}
         <div class="mt-s24">
           <OnlyNationalResultsNotice />
         </div>
       {/if}
 
-      {#if data.services.length}
+      {#if filteredServices.length}
         <div class="mt-s32 flex flex-col gap-s16">
           <h2 class="sr-only">Résultats de votre recherche</h2>
-          {#each data.services as service, index}
+          {#each filteredServices as service, index}
             {#if index < currentPageLength}
               <SearchResult
                 id={getResultId(index)}
@@ -188,7 +194,7 @@
             {/if}
           </div>
 
-          {#if data.services.length > currentPageLength}
+          {#if filteredServices.length > currentPageLength}
             <div class="text-center">
               <Button
                 label="Charger plus de résultats"
