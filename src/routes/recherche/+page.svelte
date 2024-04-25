@@ -1,4 +1,8 @@
 <script lang="ts">
+  import { tick } from "svelte";
+
+  import { page } from "$app/stores";
+  import { goto } from "$app/navigation";
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import Button from "$lib/components/display/button.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
@@ -13,7 +17,6 @@
   import { isInDeploymentDepartments } from "$lib/utils/misc";
   import { getQueryString } from "$lib/utils/service-search";
 
-  import { tick } from "svelte";
   import type { PageData } from "./$types";
   import DoraDeploymentNotice from "./dora-deployment-notice.svelte";
   import OnlyNationalResultsNotice from "./only-national-results-notice.svelte";
@@ -30,19 +33,31 @@
 
   let creatingAlert = false;
 
-  let filters: Filters = {
-    kinds: [],
-    feeConditions: [],
-    locationKinds: [],
-  };
+  let filters = ["kinds", "feeConditions", "locationKinds"].reduce<Filters>(
+    (acc, filterKey) => ({
+      ...acc,
+      [filterKey]: $page.url.searchParams.get(filterKey)?.split(",") || [],
+    }),
+    {} as Filters
+  );
 
+  // Filtre les services en fonctions des filtres sélectionnés
   $: filteredServices = data.services.filter((service) =>
-    ["kinds", "feeConditions", "locationKinds"].every((attr) =>
-      service[attr].some(
-        (value) => filters[attr].length === 0 || filters[attr].includes(value)
+    Object.keys(filters).every((filterKey) =>
+      service[filterKey].some(
+        (value: string) =>
+          filters[filterKey].length === 0 || filters[filterKey].includes(value)
       )
     )
   );
+
+  // Met à jour les paramètres d'URL en fonction des filtres sélectionnés
+  $: {
+    Object.keys(filters).forEach((filterKey) => {
+      $page.url.searchParams.set(filterKey, filters[filterKey]);
+    });
+    goto(`?${$page.url.searchParams.toString()}`);
+  }
 
   function hasOnlyNationalResults(services: ServiceSearchResult[]) {
     if (services.length === 0) {
