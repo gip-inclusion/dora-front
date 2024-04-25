@@ -29,14 +29,20 @@
 
   const PAGE_LENGTH = 10;
 
+  const FILTER_KEY_TO_QUERY_PARAM = {
+    kinds: "kinds",
+    feeConditions: "fees",
+    locationKinds: "locs",
+  };
+
   let currentPageLength = PAGE_LENGTH;
 
   let creatingAlert = false;
 
-  let filters = ["kinds", "feeConditions", "locationKinds"].reduce<Filters>(
-    (acc, filterKey) => ({
+  let filters = Object.entries(FILTER_KEY_TO_QUERY_PARAM).reduce<Filters>(
+    (acc, [filterKey, queryParam]) => ({
       ...acc,
-      [filterKey]: $page.url.searchParams.get(filterKey)?.split(",") || [],
+      [filterKey]: $page.url.searchParams.get(queryParam)?.split(",") || [],
     }),
     {} as Filters
   );
@@ -54,7 +60,12 @@
   // Met à jour les paramètres d'URL en fonction des filtres sélectionnés
   $: {
     Object.keys(filters).forEach((filterKey) => {
-      $page.url.searchParams.set(filterKey, filters[filterKey]);
+      const queryParam = FILTER_KEY_TO_QUERY_PARAM[filterKey];
+      if (filters[filterKey].length > 0) {
+        $page.url.searchParams.set(queryParam, filters[filterKey]);
+      } else {
+        $page.url.searchParams.delete(queryParam);
+      }
     });
     goto(`?${$page.url.searchParams.toString()}`);
   }
