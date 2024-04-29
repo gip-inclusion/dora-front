@@ -1,13 +1,18 @@
 <script lang="ts" context="module">
   export interface Filters {
-    kinds: Array<string>;
-    feeConditions: Array<string>;
-    locationKinds: Array<string>;
+    kinds: Array<ServiceKind>;
+    feeConditions: Array<FeeCondition>;
+    locationKinds: Array<LocationKind>;
   }
 </script>
 
 <script lang="ts">
-  import type { ServicesOptions } from "$lib/types";
+  import type {
+    FeeCondition,
+    LocationKind,
+    ServiceKind,
+    ServicesOptions,
+  } from "$lib/types";
 
   import ResultFilter from "./result-filter.svelte";
 
