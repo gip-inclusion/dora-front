@@ -48,14 +48,21 @@
   );
 
   // Filtre les services en fonctions des filtres sélectionnés
-  $: filteredServices = data.services.filter((service) =>
-    Object.keys(filters).every((filterKey) =>
-      service[filterKey].some(
-        (value: string) =>
-          filters[filterKey].length === 0 || filters[filterKey].includes(value)
-      )
-    )
-  );
+  $: filteredServices = data.services.filter((service) => {
+    const kindsMatch =
+      filters.kinds.length === 0 ||
+      filters.kinds.some((value) => service.kinds.includes(value));
+    const feeConditionMatch =
+      filters.feeConditions.length === 0 ||
+      (service.feeCondition &&
+        filters.feeConditions.includes(service.feeCondition));
+    const locationKindsMatch =
+      filters.locationKinds.length === 0 ||
+      filters.locationKinds.some((value) =>
+        service.locationKinds.includes(value)
+      );
+    return kindsMatch && feeConditionMatch && locationKindsMatch;
+  });
 
   // Met à jour les paramètres d'URL en fonction des filtres sélectionnés
   $: {
