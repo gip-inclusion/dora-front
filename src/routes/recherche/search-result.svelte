@@ -14,6 +14,10 @@
     result.distance != null &&
     result.distance <= 50;
   $: remote = result.locationKinds.includes("a-distance");
+
+  $: servicePagePath = `/services/${
+    isDI ? "di--" : ""
+  }${result.slug}?searchId=${searchId?.event}`;
 </script>
 
 <Bookmarkable slug={result.slug} {isDI} let:onBookmark let:isBookmarked>
@@ -29,12 +33,7 @@
       </div>
 
       <h3 class="mb-s12 text-france-blue">
-        <a
-          class="full-result-link hover:underline"
-          href="/services/{isDI
-            ? `di--`
-            : ``}{result.slug}?searchId={searchId?.event}"
-        >
+        <a class="full-result-link hover:underline" href={servicePagePath}>
           {result.name}
         </a>
       </h3>
@@ -65,11 +64,7 @@
       </div>
 
       <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
-        <a
-          href="/services/{isDI
-            ? `di--`
-            : ``}{result.slug}?searchId={searchId?.event}">{result.shortDesc}</a
-        >
+        <a href={servicePagePath}>{result.shortDesc}</a>
       </p>
       {#if isDI}
         <div
