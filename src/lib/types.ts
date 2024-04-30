@@ -324,6 +324,7 @@ export interface ServiceSearchResult {
   postalCode: string;
   city: string;
   diffusionZoneType: string;
+  isOrientable: boolean;
   modificationDate: string;
   name: string;
   shortDesc: string;
