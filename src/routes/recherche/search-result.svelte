@@ -65,6 +65,9 @@
 
       <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
         <a href={servicePagePath}>{result.shortDesc}</a>
+        <a href={servicePagePath} class="text-magenta-cta underline"
+          >Voir plus…</a
+        >
       </p>
       {#if isDI}
         <div
