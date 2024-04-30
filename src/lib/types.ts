@@ -328,7 +328,7 @@ export interface ServiceSearchResult {
   structure: string;
   status: ServiceStatus;
   updateStatus: ServiceUpdateStatus;
-  kinds: ServiceKind[];
+  kinds: ServiceKind[] | null;
   feeCondition: FeeCondition | null;
   locationKinds: LocationKind[];
   structureInfo: {

@@ -51,7 +51,8 @@
   $: filteredServices = data.services.filter((service) => {
     const kindsMatch =
       filters.kinds.length === 0 ||
-      filters.kinds.some((value) => service.kinds.includes(value));
+      (service.kinds &&
+        filters.kinds.some((value) => service.kinds!.includes(value)));
     const feeConditionMatch =
       filters.feeConditions.length === 0 ||
       (service.feeCondition &&
