@@ -75,10 +75,10 @@ type ServiceType<T extends boolean> = T extends true
 export async function trackMobilisation<T extends boolean>(
   service: ServiceType<T>,
   url: URL,
-  isDI: T
+  isDI: T,
+  searchId?: string
 ) {
   if (browser) {
-    const searchId = url.searchParams.get("searchId");
     if (isDI) {
       const diService = service as ServiceType<true>;
       await logAnalyticsEvent("di_mobilisation", url.pathname, {
@@ -90,13 +90,13 @@ export async function trackMobilisation<T extends boolean>(
         diSource: diService.source,
         diCategories: diService.categories || [],
         diSubcategories: diService.subcategories || [],
-        searchId,
+        searchId: searchId || url.searchParams.get("searchId"),
       });
     } else {
       const doraService = service as ServiceType<false>;
       await logAnalyticsEvent("mobilisation", url.pathname, {
         service: doraService.slug,
-        searchId,
+        searchId: searchId || url.searchParams.get("searchId"),
       });
     }
   }
