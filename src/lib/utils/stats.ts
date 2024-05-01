@@ -76,7 +76,7 @@ export async function trackMobilisation<T extends boolean>(
   service: ServiceType<T>,
   url: URL,
   isDI: T,
-  searchId?: string
+  searchId?: number
 ) {
   if (browser) {
     if (isDI) {
