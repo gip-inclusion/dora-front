@@ -40,7 +40,7 @@ async function logAnalyticsEvent(tag, path, params = {}) {
   });
 
   if (res.ok) {
-    return res.json();
+    return res.json() as Promise<{ tag: string; event: number }>;
   } else {
     try {
       console.error(await res.json());
