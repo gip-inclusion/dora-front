@@ -136,7 +136,7 @@ export async function trackSearch(
       .slice(0, 10)
       .map((service) => service.slug);
 
-    const searchId = await logAnalyticsEvent("search", url.pathname, {
+    const event = await logAnalyticsEvent("search", url.pathname, {
       searchCityCode: cityCode,
       searchNumResults: numResults,
       categoryIds: categoryIds,
@@ -148,6 +148,7 @@ export async function trackSearch(
       feeConditions,
       locationKinds,
     });
+    const searchId = event && event.event;
     return searchId;
   }
   return null;
