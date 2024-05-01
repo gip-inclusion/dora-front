@@ -1,11 +1,20 @@
 <script lang="ts">
+  import { goto } from "$app/navigation";
+  import { page } from "$app/stores";
+
+  import Button from "$lib/components/display/button.svelte";
   import Bookmarkable from "$lib/components/hoc/bookmarkable.svelte";
   import FavoriteIcon from "$lib/components/specialized/favorite-icon.svelte";
+  import { mailLineIcon } from "$lib/icons";
   import type { ServiceSearchResult } from "$lib/types";
+  import { token } from "$lib/utils/auth";
+  import { trackMobilisation } from "$lib/utils/stats";
 
   export let id: string;
   export let result: ServiceSearchResult;
   export let searchId: number | null;
+  export let categoryId: string;
+  export let subCategoryIds: string[];
 
   $: isDI = result.type === "di";
 
@@ -18,6 +27,24 @@
   $: servicePagePath = `/services/${
     isDI ? "di--" : ""
   }${result.slug}?searchId=${searchId}`;
+
+  function handleOrientationClick() {
+    if ($token) {
+      const service = isDI
+        ? {
+            ...result,
+            categories: [categoryId],
+            subcategories: subCategoryIds,
+          }
+        : result;
+      trackMobilisation(service, $page.url, isDI, searchId || undefined);
+    }
+    const slug = `${isDI ? "di--" : ""}${result.slug}`;
+    const queryString = searchId
+      ? new URLSearchParams({ searchId: searchId.toString() }).toString()
+      : "";
+    goto(`/services/${slug}/orienter?${queryString}`);
+  }
 </script>
 
 <Bookmarkable slug={result.slug} {isDI} let:onBookmark let:isBookmarked>
@@ -69,13 +96,27 @@
           >Voir plus…</a
         >
       </p>
-      {#if isDI}
-        <div
-          class="inline rounded border border-gray-02 px-s8 py-s2 text-f12 text-gray-text"
-        >
-          Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
-        </div>
-      {/if}
+      <div
+        class={`flex items-center ${isDI ? "justify-between" : "justify-end"}`}
+      >
+        {#if isDI}
+          <div
+            class="inline rounded border border-gray-02 px-s8 py-s2 text-f12 text-gray-text"
+          >
+            Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
+          </div>
+        {/if}
+        {#if result.isOrientable}
+          <Button
+            on:click={handleOrientationClick}
+            label="Orienter votre bénéficiaire"
+            icon={mailLineIcon}
+            secondary
+            small
+            franceBlue
+          />
+        {/if}
+      </div>
     </div>
   </div>
 </Bookmarkable>
