@@ -5,7 +5,7 @@
 
   export let id: string;
   export let result: ServiceSearchResult;
-  export let searchId: string | null;
+  export let searchId: number | null;
 
   $: isDI = result.type === "di";
 
@@ -17,7 +17,7 @@
 
   $: servicePagePath = `/services/${
     isDI ? "di--" : ""
-  }${result.slug}?searchId=${searchId?.event}`;
+  }${result.slug}?searchId=${searchId}`;
 </script>
 
 <Bookmarkable slug={result.slug} {isDI} let:onBookmark let:isBookmarked>
