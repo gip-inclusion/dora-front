@@ -2,8 +2,8 @@ import { browser } from "$app/environment";
 import { token } from "$lib/utils/auth";
 import { get } from "svelte/store";
 import { getApiURL } from "$lib/utils/api";
-import hexoid from "hexoid";
 import type { Service } from "$lib/types";
+import hexoid from "hexoid";
 
 const analyticsIdKey = "userHash";
 
@@ -59,28 +59,43 @@ export function trackPageView(pathname, title) {
   }
 }
 
-export async function trackMobilisation(
-  service: Service,
+type ServiceType<T extends boolean> = T extends true
+  ? Pick<
+      Service,
+      | "structure"
+      | "structureInfo"
+      | "slug"
+      | "name"
+      | "source"
+      | "categories"
+      | "subcategories"
+    >
+  : Pick<Service, "slug">;
+
+export async function trackMobilisation<T extends boolean>(
+  service: ServiceType<T>,
   url: URL,
-  isDI: boolean
+  isDI: T
 ) {
   if (browser) {
     const searchId = url.searchParams.get("searchId");
     if (isDI) {
+      const diService = service as ServiceType<true>;
       await logAnalyticsEvent("di_mobilisation", url.pathname, {
-        diStructureId: service.structure,
-        diStructureName: service.structureInfo.name,
-        diStructureDepartment: service.structureInfo.department,
-        diServiceId: service.slug.split("--")[1],
-        diServiceName: service.name,
-        diSource: service.source,
-        diCategories: service.categories || [],
-        diSubcategories: service.subcategories || [],
+        diStructureId: diService.structure,
+        diStructureName: diService.structureInfo.name,
+        diStructureDepartment: diService.structureInfo.department,
+        diServiceId: diService.slug.split("--")[1],
+        diServiceName: diService.name,
+        diSource: diService.source,
+        diCategories: diService.categories || [],
+        diSubcategories: diService.subcategories || [],
         searchId,
       });
     } else {
+      const doraService = service as ServiceType<false>;
       await logAnalyticsEvent("mobilisation", url.pathname, {
-        service: service.slug,
+        service: doraService.slug,
         searchId,
       });
     }
