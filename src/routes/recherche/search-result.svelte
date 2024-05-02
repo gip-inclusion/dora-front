@@ -28,9 +28,15 @@
     isDI ? "di--" : ""
   }${result.slug}?searchId=${searchId}`;
 
-  $: isOrientable =
-    result.isOrientable === true ||
-    (result.isOrientablePartialCompute &&
+  function isOrientable() {
+    if (result.isOrientable !== undefined) {
+      // isOrientable est fourni (service DI) : on peut l'utiliser directement
+      return result.isOrientable;
+    }
+    // isOrientable n'est pas fourni (service Dora) : on calcule sa valeur à partir de
+    // isOrientablePartialCompute, coachOrientationModes et beneficiariesAccessModes
+    return (
+      result.isOrientablePartialCompute &&
       (result.coachOrientationModes?.some((coachOrientationMode) =>
         ["envoyer-courriel", "envoyer-fiche-prescription"].includes(
           coachOrientationMode
@@ -39,7 +45,9 @@
         result.beneficiariesAccessModes?.some(
           (beneficiariesAccessMode) =>
             beneficiariesAccessMode === "envoyer-courriel"
-        )));
+        ))
+    );
+  }
 
   function handleOrientationClick() {
     if ($token) {
@@ -119,7 +127,7 @@
             Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
           </div>
         {/if}
-        {#if isOrientable}
+        {#if isOrientable()}
           <Button
             on:click={handleOrientationClick}
             label="Orienter votre bénéficiaire"
