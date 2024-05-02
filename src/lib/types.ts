@@ -439,7 +439,7 @@ export interface Service {
   requirementsDisplay: string[];
   shortDesc: string;
   slug: string;
-  source: string;
+  source?: string;
   status: ServiceStatus;
   structure: string;
   structureInfo: ServiceStructure;
