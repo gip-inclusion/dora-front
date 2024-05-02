@@ -28,6 +28,19 @@
     isDI ? "di--" : ""
   }${result.slug}?searchId=${searchId}`;
 
+  $: isOrientable =
+    result.isOrientable === true ||
+    (result.isOrientablePartialCompute &&
+      (result.coachOrientationModes?.some((coachOrientationMode) =>
+        ["envoyer-courriel", "envoyer-fiche-prescription"].includes(
+          coachOrientationMode
+        )
+      ) ||
+        result.beneficiariesAccessModes?.some(
+          (beneficiariesAccessMode) =>
+            beneficiariesAccessMode === "envoyer-courriel"
+        )));
+
   function handleOrientationClick() {
     if ($token) {
       const service = isDI
@@ -106,14 +119,13 @@
             Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
           </div>
         {/if}
-        {#if result.isOrientable}
+        {#if isOrientable}
           <Button
             on:click={handleOrientationClick}
             label="Orienter votre bénéficiaire"
             icon={mailLineIcon}
             secondary
             small
-            franceBlue
           />
         {/if}
       </div>
