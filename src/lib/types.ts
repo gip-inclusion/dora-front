@@ -175,7 +175,7 @@ export interface Structure {
   openingHoursDetails: string | null;
   otherLabels: string;
   parent: string;
-  phone: number;
+  phone: string;
   postalCode: string;
   quickStartDone: boolean;
   services: StructureService[];
@@ -315,12 +315,19 @@ export interface SearchQuery {
 }
 
 export interface ServiceSearchResult {
+  // Une valeur nulle (null) signifie que l'information n'est pas renseignée tandis
+  // qu'une valeur vide ("" ou []) signifie que l'information est renseignée mais vide.
+  // Ces valeurs ayant un sens différent, leur traitement peut lui aussi différer.
   distance: number;
   address1: string;
   address2: string;
   postalCode: string;
   city: string;
   diffusionZoneType: string;
+  isOrientable?: boolean;
+  isOrientablePartialCompute?: boolean;
+  coachOrientationModes?: string[];
+  beneficiariesAccessModes?: string[];
   modificationDate: string;
   name: string;
   shortDesc: string;
@@ -328,6 +335,8 @@ export interface ServiceSearchResult {
   structure: string;
   status: ServiceStatus;
   updateStatus: ServiceUpdateStatus;
+  kinds: ServiceKind[] | null;
+  feeCondition: FeeCondition | null;
   locationKinds: LocationKind[];
   structureInfo: {
     address1: string;
@@ -430,6 +439,7 @@ export interface Service {
   requirementsDisplay: string[];
   shortDesc: string;
   slug: string;
+  source?: string;
   status: ServiceStatus;
   structure: string;
   structureInfo: ServiceStructure;
