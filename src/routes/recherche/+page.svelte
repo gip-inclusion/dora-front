@@ -53,7 +53,9 @@
     filters = { kinds: [], feeConditions: [], locationKinds: [] };
   }
 
-  // Réinitialise les filtres quand la recherche est actualisée
+  // Réinitialise les filtres quand la recherche est actualisée.
+  // On observe l'objet data car celui-ci change à chaque fois que la recherche est actualisée.
+  // Il n'est pas utile d'observer les champs de l'objet data vu que tout l'objet change.
   $: {
     data;
     if (filtersInitialized) {
