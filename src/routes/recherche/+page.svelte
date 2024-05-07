@@ -2,7 +2,7 @@
   import { tick } from "svelte";
 
   import { page } from "$app/stores";
-  import { goto } from "$app/navigation";
+
   import Breadcrumb from "$lib/components/display/breadcrumb.svelte";
   import Button from "$lib/components/display/button.svelte";
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
@@ -93,10 +93,12 @@
         $page.url.searchParams.delete(queryParam);
       }
     });
-    goto(`?${$page.url.searchParams.toString()}`, {
-      noScroll: true,
-      keepFocus: true,
-    });
+    // Utilisation de l'API History pour mettre à jour les paramètres d'URL sans recharger la page
+    window.history.replaceState(
+      history.state,
+      "",
+      `?${$page.url.searchParams.toString()}`
+    );
   }
 
   function hasOnlyNationalResults(services: ServiceSearchResult[]) {
