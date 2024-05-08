@@ -25,6 +25,7 @@
   import ServiceSuggestionNotice from "./service-suggestion-notice.svelte";
   import ResultFilters, { type Filters } from "./result-filters.svelte";
   import MapViewButton from "./map-view-button.svelte";
+  import ResultCount from "./result-count.svelte";
 
   export let data: PageData;
 
@@ -209,9 +210,10 @@
     </div>
     <div class="lg:basis-2/3">
       <div class="mt-s16 text-f21">
-        {filteredServices.length > 0 ? filteredServices.length : "Aucun"}
-        {filteredServices.length > 1 ? "services" : "service"}
-        à proximité de <b>{data.cityLabel}</b>
+        <ResultCount
+          resultCount={filteredServices.length}
+          cityLabel={data.cityLabel}
+        />
       </div>
 
       {#if showDeploymentNotice}
