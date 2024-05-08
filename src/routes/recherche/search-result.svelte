@@ -113,9 +113,6 @@
 
       <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
         <a href={servicePagePath}>{result.shortDesc}</a>
-        <!-- <a href={servicePagePath} class="text-magenta-cta underline"
-          >Voir plus…</a
-        > -->
       </p>
       <div
         class={`flex items-center ${isDI ? "justify-between" : "justify-end"}`}
@@ -127,15 +124,20 @@
             Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
           </div>
         {/if}
-        <!-- {#if isOrientable()}
-          <Button
-            on:click={handleOrientationClick}
-            label="Orienter votre bénéficiaire"
-            icon={mailLineIcon}
-            secondary
-            small
-          />
-        {/if} -->
+        <div class="flex items-center gap-s24">
+          <a href={servicePagePath} class="text-magenta-cta underline"
+            >Voir la fiche détaillée</a
+          >
+          {#if isOrientable()}
+            <Button
+              on:click={handleOrientationClick}
+              label="Orienter votre bénéficiaire"
+              icon={mailLineIcon}
+              secondary
+              small
+            />
+          {/if}
+        </div>
       </div>
     </div>
   </div>
