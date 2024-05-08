@@ -24,6 +24,7 @@
   import SearchResult from "./search-result.svelte";
   import ServiceSuggestionNotice from "./service-suggestion-notice.svelte";
   import ResultFilters, { type Filters } from "./result-filters.svelte";
+  import MapViewButton from "./map-view-button.svelte";
 
   export let data: PageData;
 
@@ -200,7 +201,10 @@
 
 <CenteredGrid extraClass="m-auto">
   <div class="lg:flex lg:flex-row lg:items-start lg:gap-s24">
-    <div class="rounded-ml border border-gray-02 p-s32 shadow-sm lg:basis-1/3">
+    <div
+      class="flex flex-col gap-s32 rounded-ml border border-gray-02 p-s32 shadow-sm lg:basis-1/3"
+    >
+      <MapViewButton />
       <ResultFilters servicesOptions={data.servicesOptions} bind:filters />
     </div>
     <div class="lg:basis-2/3">
