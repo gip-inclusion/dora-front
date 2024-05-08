@@ -99,6 +99,16 @@
     {/each}
   </div>
 
+  {#if filteredServices.length > currentPageLength}
+    <div class="text-center">
+      <Button
+        label="Charger plus de résultats"
+        on:click={loadMoreResult}
+        noBackground
+      />
+    </div>
+  {/if}
+
   <div
     class="sticky z-10 m-auto flex justify-center"
     class:bottom-s0={noAlertButtonBottomGap}
@@ -114,14 +124,4 @@
       />
     {/if}
   </div>
-
-  {#if filteredServices.length > currentPageLength}
-    <div class="text-center">
-      <Button
-        label="Charger plus de résultats"
-        on:click={loadMoreResult}
-        noBackground
-      />
-    </div>
-  {/if}
 </div>
