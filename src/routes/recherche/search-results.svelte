@@ -19,6 +19,7 @@
   export let filters: Filters;
   export let filteredServices: ServiceSearchResult[];
   export let noAlertButtonBottomGap = false;
+  export let summarized = false;
 
   const PAGE_LENGTH = 10;
 
@@ -94,6 +95,7 @@
           searchId={data.searchId}
           categoryId={data.categoryIds[0]}
           subCategoryIds={[...data.subCategoryIds]}
+          {summarized}
         />
       {/if}
     {/each}

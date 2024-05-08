@@ -15,6 +15,7 @@
   export let searchId: number | null;
   export let categoryId: string;
   export let subCategoryIds: string[];
+  export let summarized = false;
 
   $: isDI = result.type === "di";
 
@@ -111,23 +112,24 @@
         {/if}
       </div>
 
-      <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
-        <a href={servicePagePath}>{result.shortDesc}</a>
-        <!-- <a href={servicePagePath} class="text-magenta-cta underline"
+      {#if !summarized}
+        <p class="relative z-10 mt-s16 hidden text-f16 text-gray-text md:block">
+          <a href={servicePagePath}>{result.shortDesc}</a>
+          <!-- <a href={servicePagePath} class="text-magenta-cta underline"
           >Voir plus…</a
         > -->
-      </p>
-      <div
-        class={`flex items-center ${isDI ? "justify-between" : "justify-end"}`}
-      >
-        {#if isDI}
-          <div
-            class="inline rounded border border-gray-02 px-s8 py-s2 text-f12 text-gray-text"
-          >
-            Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
-          </div>
-        {/if}
-        <!-- {#if isOrientable()}
+        </p>
+        <div
+          class={`flex items-center ${isDI ? "justify-between" : "justify-end"}`}
+        >
+          {#if isDI}
+            <div
+              class="inline rounded border border-gray-02 px-s8 py-s2 text-f12 text-gray-text"
+            >
+              Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
+            </div>
+          {/if}
+          <!-- {#if isOrientable()}
           <Button
             on:click={handleOrientationClick}
             label="Orienter votre bénéficiaire"
@@ -136,7 +138,8 @@
             small
           />
         {/if} -->
-      </div>
+        </div>
+      {/if}
     </div>
   </div>
 </Bookmarkable>
