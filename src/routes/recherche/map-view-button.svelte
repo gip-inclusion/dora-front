@@ -8,26 +8,46 @@
   import type { PageData } from "./$types";
   import type { Filters } from "./result-filters.svelte";
   import ResultCount from "./result-count.svelte";
+  import ResultFilters from "./result-filters.svelte";
   import SearchResults from "./search-results.svelte";
 
   export let data: PageData;
   export let filters: Filters;
   export let filteredServices: ServiceSearchResult[];
 
-  let isOpen = false;
+  let isMapViewOpen = false;
+  let isResultFiltersOpen = false;
 </script>
 
 <div
   style={`background-image: url('${mapViewImage}'); height: 116px`}
   class="flex items-center justify-center rounded-ml bg-cover"
 >
-  <Button label="Voir sur la carte" on:click={() => (isOpen = true)} />
-  <Modal bind:isOpen hideTitle canClose={false}>
+  <Button label="Voir sur la carte" on:click={() => (isMapViewOpen = true)} />
+  <Modal bind:isOpen={isMapViewOpen} hideTitle canClose={false}>
     <div class="flex">
       <div class="flex w-[384px] flex-col gap-s32">
         <div class="flex flex-col gap-s8">
-          <Button label="Fermer la carte" on:click={() => (isOpen = false)} />
-          <Button label="Affiner la recherche" secondary />
+          <Button
+            label="Fermer la carte"
+            on:click={() => (isMapViewOpen = false)}
+          />
+          <Button
+            label="Affiner la recherche"
+            secondary
+            on:click={() => (isResultFiltersOpen = true)}
+          />
+          <Modal
+            title="Affiner la recherche"
+            width="small"
+            bind:isOpen={isResultFiltersOpen}
+            on:close={() => (isResultFiltersOpen = false)}
+          >
+            <ResultFilters
+              servicesOptions={data.servicesOptions}
+              bind:filters
+            />
+          </Modal>
         </div>
         <div class="flex flex-col gap-s24">
           <ResultCount

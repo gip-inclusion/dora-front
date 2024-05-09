@@ -132,7 +132,7 @@
     <div
       class="hidden flex-col gap-s32 rounded-ml border border-gray-02 p-s32 shadow-sm lg:flex lg:basis-1/3"
     >
-      <MapViewButton {data} {filters} {filteredServices} />
+      <MapViewButton {data} bind:filters {filteredServices} />
       <ResultFilters servicesOptions={data.servicesOptions} bind:filters />
     </div>
     <div class="lg:basis-2/3">
