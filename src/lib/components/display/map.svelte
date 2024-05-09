@@ -3,6 +3,8 @@
   import mapStyle from "./map-style.json?raw"; // Basé sur https://openmaptiles.geo.data.gouv.fr/styles/osm-bright/style.json
   import * as mlgl from "maplibre-gl";
 
+  import "maplibre-gl/dist/maplibre-gl.css";
+
   const METROPOLE_BB: mlgl.LngLatBoundsLike = [-5, 42, 8, 51];
 
   let mapDiv: HTMLElement;

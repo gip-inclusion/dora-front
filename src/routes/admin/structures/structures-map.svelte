@@ -1,8 +1,7 @@
 <script lang="ts">
   import type { AdminShortStructure, GeoApiValue } from "$lib/types";
   import * as mlgl from "maplibre-gl";
-  import "maplibre-gl/dist/maplibre-gl.css";
-  import Map from "./map.svelte";
+  import Map from "$lib/components/display/map.svelte";
   import insane from "insane";
 
   export let filteredStructures: AdminShortStructure[] = [];
