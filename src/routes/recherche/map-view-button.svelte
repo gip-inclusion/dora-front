@@ -10,6 +10,7 @@
   import ResultCount from "./result-count.svelte";
   import ResultFilters from "./result-filters.svelte";
   import SearchResults from "./search-results.svelte";
+  import ResultMap from "./result-map.svelte";
 
   export let data: PageData;
   export let filters: Filters;
@@ -24,9 +25,9 @@
   class="flex items-center justify-center rounded-ml bg-cover"
 >
   <Button label="Voir sur la carte" on:click={() => (isMapViewOpen = true)} />
-  <Modal bind:isOpen={isMapViewOpen} hideTitle canClose={false}>
-    <div class="flex">
-      <div class="flex w-[384px] flex-col gap-s32">
+  <Modal bind:isOpen={isMapViewOpen} hideTitle noPadding canClose={false}>
+    <div class="flex h-[90vh]">
+      <div class="flex w-[448px] flex-col gap-s32 overflow-y-auto p-s32">
         <div class="flex flex-col gap-s8">
           <Button
             label="Fermer la carte"
@@ -65,7 +66,9 @@
           {/if}
         </div>
       </div>
-      <div></div>
+      <div class="flex-1">
+        <ResultMap />
+      </div>
     </div>
   </Modal>
 </div>
