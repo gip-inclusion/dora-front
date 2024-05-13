@@ -115,7 +115,7 @@
         <a href={servicePagePath}>{result.shortDesc}</a>
       </p>
       <div
-        class={`flex items-center gap-s24 ${isDI ? "justify-between" : "justify-end"}`}
+        class={`mt-s24 flex flex-col items-center gap-s24 md:flex-row ${isDI ? "justify-between" : "justify-end"}`}
       >
         {#if isDI}
           <div
@@ -124,7 +124,7 @@
             Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
           </div>
         {/if}
-        <div class="flex shrink-0 items-center gap-s24">
+        <div class="flex shrink-0 flex-col items-center gap-s24 md:flex-row">
           <a href={servicePagePath} class="text-magenta-cta underline"
             >Voir la fiche détaillée</a
           >
