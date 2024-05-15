@@ -7,23 +7,25 @@
 
   const METROPOLE_BB: mlgl.LngLatBoundsLike = [-5, 42, 8, 51];
 
-  let mapDiv: HTMLElement;
   export let map: mlgl.Map;
+  export let onMapLoaded: () => void;
+
+  let mapDiv: HTMLElement;
 
   onMount(() => {
-    const currentMap = new mlgl.Map({
+    map = new mlgl.Map({
       container: mapDiv,
       style: JSON.parse(mapStyle),
       center: [1.5, 46.5],
       zoom: 4,
       maxZoom: 17,
     });
-    currentMap.fitBounds(METROPOLE_BB, {
+    map.fitBounds(METROPOLE_BB, {
       padding: 20,
     });
 
-    currentMap.on("load", () => {
-      map = currentMap;
+    map.on("load", () => {
+      onMapLoaded();
     });
   });
 
