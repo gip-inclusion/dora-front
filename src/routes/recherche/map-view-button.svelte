@@ -67,7 +67,7 @@
         </div>
       </div>
       <div class="flex-1">
-        <ResultMap />
+        <ResultMap {filteredServices} />
       </div>
     </div>
   </Modal>
