@@ -12,6 +12,7 @@
   }
 
   export let filteredServices: ServiceSearchResult[];
+  export let onServiceClick: ((slug: string) => void) | undefined = undefined;
 
   let map: mlgl.Map;
   let spiderfy: Spiderfy;
@@ -20,17 +21,17 @@
     (service) => !!service.coordinates
   ) as ServiceWithCoords[];
 
-  function handleLeafClick(feature: mlgl.Feature) {
-    console.log(feature.properties);
-  }
-
   function handleMapLoaded() {
     spiderfy = new Spiderfy(map, {
       minZoomLevel: 10,
       zoomIncrement: 2,
       renderMethod: "3d",
       closeOnLeafClick: false,
-      onLeafClick: handleLeafClick,
+      onLeafClick: (feature: mlgl.Feature) => {
+        if (onServiceClick) {
+          onServiceClick(feature.properties.slug);
+        }
+      },
     });
 
     const image = new Image(24, 24);
@@ -80,6 +81,14 @@
       paint: {
         "text-color": "#ffffff",
       },
+    });
+
+    map.on("click", "clusters", (evt) => {
+      const feature = evt.features && evt.features[0];
+      const serviceSlug = feature?.properties.slug;
+      if (onServiceClick && serviceSlug) {
+        onServiceClick(serviceSlug);
+      }
     });
 
     spiderfy.applyTo("clusters");
