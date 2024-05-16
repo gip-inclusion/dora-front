@@ -18,6 +18,11 @@
 
   let isMapViewOpen = false;
   let isResultFiltersOpen = false;
+  let selectedServiceSlug: string | undefined;
+
+  function handleServiceClick(slug: string) {
+    selectedServiceSlug = slug;
+  }
 </script>
 
 <div
@@ -62,12 +67,13 @@
               {filteredServices}
               summarized
               noAlertButtonBottomGap
+              {selectedServiceSlug}
             />
           {/if}
         </div>
       </div>
       <div class="flex-1">
-        <ResultMap {filteredServices} />
+        <ResultMap {filteredServices} onServiceClick={handleServiceClick} />
       </div>
     </div>
   </Modal>
