@@ -14,7 +14,10 @@
   export let searchId: number | null;
   export let categoryId: string;
   export let subCategoryIds: string[];
+  export let selected = false;
   export let summarized = false;
+
+  let element: HTMLDivElement;
 
   $: isDI = result.type === "di";
 
@@ -27,6 +30,16 @@
   $: servicePagePath = `/services/${
     isDI ? "di--" : ""
   }${result.slug}?searchId=${searchId}`;
+
+  $: {
+    if (selected) {
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center",
+        inline: "center",
+      });
+    }
+  }
 
   function isOrientable() {
     if (result.isOrientable !== undefined) {
@@ -69,7 +82,14 @@
 </script>
 
 <Bookmarkable slug={result.slug} {isDI} let:onBookmark let:isBookmarked>
-  <div {id} class="rounded-ml border border-gray-02 shadow-sm" tabindex="-1">
+  <div
+    bind:this={element}
+    {id}
+    class="rounded-ml border shadow-sm"
+    class:border-gray-02={!selected}
+    class:border-magenta-cta={selected}
+    tabindex="-1"
+  >
     <div class="relative p-s32 lg:pr-s64">
       <div class="mb-s4 flex items-center justify-between">
         <div class="text-f14">
