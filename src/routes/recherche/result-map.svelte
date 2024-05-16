@@ -93,6 +93,8 @@
 
     spiderfy.applyTo("clusters");
 
+    map.addControl(new mlgl.NavigationControl({ showCompass: false }));
+
     zoomToResults(map, servicesWithCoords);
   }
 
