@@ -1,6 +1,8 @@
 <script lang="ts">
   import * as mlgl from "maplibre-gl";
+  import Spiderfy from "@nazka/map-gl-js-spiderfy";
 
+  import circleIcon from "$lib/assets/icons/circle.png";
   import type { ServiceSearchResult } from "$lib/types";
   import Map from "$lib/components/display/map.svelte";
   import { zoomToResults } from "$lib/utils/map";
@@ -12,12 +14,29 @@
   export let filteredServices: ServiceSearchResult[];
 
   let map: mlgl.Map;
+  let spiderfy: Spiderfy;
 
   $: servicesWithCoords = filteredServices.filter(
     (service) => !!service.coordinates
   ) as ServiceWithCoords[];
 
+  function handleLeafClick(feature: mlgl.Feature) {
+    console.log(feature.properties);
+  }
+
   function handleMapLoaded() {
+    spiderfy = new Spiderfy(map, {
+      minZoomLevel: 10,
+      zoomIncrement: 2,
+      renderMethod: "3d",
+      closeOnLeafClick: false,
+      onLeafClick: handleLeafClick,
+    });
+
+    const image = new Image(24, 24);
+    image.src = circleIcon;
+    map.addImage("cluster", image);
+
     map.addSource("servicesSource", {
       type: "geojson",
       promoteId: "slug",
@@ -40,23 +59,30 @@
     });
 
     map.addLayer({
-      id: "servicesLayer",
-      type: "circle",
+      id: "clusters",
+      type: "symbol",
       source: "servicesSource",
-      paint: {
-        "circle-radius": 7,
-        "circle-color": [
-          "case",
-          ["boolean", ["feature-state", "hover"], false],
-          "#6CB6EB",
-          "#3887be",
-        ],
-        "circle-stroke-color": "#efefef",
-        "circle-stroke-width": 0.4,
-        "circle-stroke-opacity": 0.5,
-        "circle-opacity": 0.8,
+      layout: {
+        "icon-image": "cluster",
+        "icon-allow-overlap": true,
       },
     });
+
+    map.addLayer({
+      id: "cluster-count",
+      type: "symbol",
+      source: "servicesSource",
+      layout: {
+        "text-field": ["get", "point_count"],
+        "text-size": 12,
+        "text-allow-overlap": true,
+      },
+      paint: {
+        "text-color": "#ffffff",
+      },
+    });
+
+    spiderfy.applyTo("clusters");
 
     zoomToResults(map, servicesWithCoords);
   }
