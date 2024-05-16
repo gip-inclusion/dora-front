@@ -18,6 +18,7 @@
   export let data: PageData;
   export let filters: Filters;
   export let filteredServices: ServiceSearchResult[];
+  export let selectedServiceSlug: string | undefined = undefined;
   export let noAlertButtonBottomGap = false;
   export let summarized = false;
 
@@ -95,6 +96,7 @@
           searchId={data.searchId}
           categoryId={data.categoryIds[0]}
           subCategoryIds={[...data.subCategoryIds]}
+          selected={service.slug === selectedServiceSlug}
           {summarized}
         />
       {/if}
