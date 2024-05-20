@@ -23,6 +23,12 @@
   function handleServiceClick(slug: string) {
     selectedServiceSlug = slug;
   }
+
+  function handleCloseModal() {
+    isMapViewOpen = false;
+    isResultFiltersOpen = false;
+    selectedServiceSlug = undefined;
+  }
 </script>
 
 <div
@@ -34,10 +40,7 @@
     <div class="flex h-[90vh]">
       <div class="flex w-[448px] flex-col gap-s32 overflow-y-auto p-s32">
         <div class="flex flex-col gap-s8">
-          <Button
-            label="Fermer la carte"
-            on:click={() => (isMapViewOpen = false)}
-          />
+          <Button label="Fermer la carte" on:click={handleCloseModal} />
           <Button
             label="Affiner la recherche"
             secondary
