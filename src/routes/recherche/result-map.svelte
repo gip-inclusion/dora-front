@@ -21,7 +21,7 @@
     (service) => !!service.coordinates
   ) as ServiceWithCoords[];
 
-  function handleMapLoaded() {
+  async function handleMapLoaded() {
     spiderfy = new Spiderfy(map, {
       minZoomLevel: 10,
       zoomIncrement: 2,
@@ -34,9 +34,8 @@
       },
     });
 
-    const image = new Image(24, 24);
-    image.src = circleIcon;
-    map.addImage("cluster", image);
+    const image = await map.loadImage(circleIcon);
+    map.addImage("cluster", image.data);
 
     map.addSource("servicesSource", {
       type: "geojson",
