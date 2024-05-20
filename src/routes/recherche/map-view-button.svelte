@@ -67,6 +67,7 @@
               {filteredServices}
               summarized
               noAlertButtonBottomGap
+              noPagination
               {selectedServiceSlug}
             />
           {/if}

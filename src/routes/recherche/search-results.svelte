@@ -21,6 +21,7 @@
   export let selectedServiceSlug: string | undefined = undefined;
   export let noAlertButtonBottomGap = false;
   export let summarized = false;
+  export let noPagination = false;
 
   const PAGE_LENGTH = 10;
 
@@ -89,7 +90,7 @@
   <h2 class="sr-only">Résultats de votre recherche</h2>
   <div class="flex flex-col gap-s16">
     {#each filteredServices as service, index}
-      {#if index < currentPageLength}
+      {#if noPagination || index < currentPageLength}
         <SearchResult
           id={getResultId(index)}
           result={service}
@@ -103,7 +104,7 @@
     {/each}
   </div>
 
-  {#if filteredServices.length > currentPageLength}
+  {#if !noPagination && filteredServices.length > currentPageLength}
     <div class="text-center">
       <Button
         label="Charger plus de résultats"
