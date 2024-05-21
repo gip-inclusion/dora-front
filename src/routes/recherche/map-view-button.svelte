@@ -36,7 +36,7 @@
   class="flex items-center justify-center rounded-ml bg-cover"
 >
   <Button label="Voir sur la carte" on:click={() => (isMapViewOpen = true)} />
-  <Modal bind:isOpen={isMapViewOpen} hideTitle noPadding canClose={false}>
+  <Modal bind:isOpen={isMapViewOpen} hideTitle hideCloseButton noPadding>
     <div class="flex h-[90vh]">
       <div class="flex w-[448px] flex-col gap-s32 overflow-y-auto p-s32">
         <div class="flex flex-col gap-s8">
