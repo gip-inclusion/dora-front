@@ -2,6 +2,8 @@
   import * as mlgl from "maplibre-gl";
   import Spiderfy from "@nazka/map-gl-js-spiderfy";
 
+  import insane from "insane";
+
   import circleIcon from "$lib/assets/icons/circle.png";
   import type { ServiceSearchResult } from "$lib/types";
   import Map from "$lib/components/display/map.svelte";
@@ -15,11 +17,36 @@
   export let onServiceClick: ((slug: string) => void) | undefined = undefined;
 
   let map: mlgl.Map;
+  let popup: mlgl.Popup;
   let spiderfy: Spiderfy;
 
   $: servicesWithCoords = filteredServices.filter(
     (service) => !!service.coordinates
   ) as ServiceWithCoords[];
+
+  function getPopupContent(feature): string {
+    return insane(
+      `<strong>${feature.properties.name}</strong><br>${feature.properties.shortDesc}`
+    );
+  }
+
+  function handleLeafEnter(feature: mlgl.MapGeoJSONFeature) {
+    if (feature.geometry.type !== "Point") {
+      return;
+    }
+    map.getCanvas().style.cursor = "pointer";
+    const coordinates = feature.geometry.coordinates.slice() as [
+      number,
+      number,
+    ];
+    popup.setLngLat(coordinates).setHTML(getPopupContent(feature)).addTo(map);
+    popup._update();
+  }
+
+  function handleLeafExit(_feature: mlgl.MapGeoJSONFeature) {
+    map.getCanvas().style.cursor = "";
+    popup.remove();
+  }
 
   async function handleMapLoaded() {
     spiderfy = new Spiderfy(map, {
@@ -88,6 +115,40 @@
       if (onServiceClick && serviceSlug) {
         onServiceClick(serviceSlug);
       }
+    });
+
+    let lastHovered: mlgl.MapGeoJSONFeature | null = null;
+    map.on("mousemove", function (evt) {
+      const featuresUnderMouse = map
+        .queryRenderedFeatures(evt.point)
+        .filter(
+          (feat) =>
+            (feat.layer.id === "clusters" ||
+              feat.layer.id.startsWith("clusters-spiderfy-leaf")) &&
+            !feat.properties.cluster
+        );
+      if (featuresUnderMouse.length > 1) {
+        return;
+      }
+      const feature = featuresUnderMouse[0];
+      if (feature) {
+        if (
+          !lastHovered ||
+          feature.source !== lastHovered.source ||
+          feature.id !== lastHovered.id
+        ) {
+          lastHovered = feature;
+          handleLeafEnter(feature);
+        }
+      } else {
+        lastHovered = null;
+        handleLeafExit(feature);
+      }
+    });
+
+    popup = new mlgl.Popup({
+      closeButton: false,
+      closeOnClick: false,
     });
 
     spiderfy.applyTo("clusters");
