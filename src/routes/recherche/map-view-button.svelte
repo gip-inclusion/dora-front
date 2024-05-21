@@ -38,8 +38,10 @@
   <Button label="Voir sur la carte" on:click={() => (isMapViewOpen = true)} />
   <Modal bind:isOpen={isMapViewOpen} hideTitle hideCloseButton noPadding>
     <div class="flex h-[90vh]">
-      <div class="flex w-[448px] flex-col gap-s32 overflow-y-auto p-s32">
-        <div class="flex flex-col gap-s8">
+      <div class="flex w-[448px] flex-col overflow-y-auto pb-s16">
+        <div
+          class="sticky top-s0 z-10 flex flex-col gap-s8 bg-white px-s32 pt-s32"
+        >
           <Button label="Fermer la carte" on:click={handleCloseModal} />
           <Button
             label="Affiner la recherche"
@@ -57,12 +59,14 @@
               bind:filters
             />
           </Modal>
+          <div class="my-s24">
+            <ResultCount
+              resultCount={filteredServices.length}
+              cityLabel={data.cityLabel}
+            />
+          </div>
         </div>
-        <div class="flex flex-col gap-s24">
-          <ResultCount
-            resultCount={filteredServices.length}
-            cityLabel={data.cityLabel}
-          />
+        <div class="flex flex-col gap-s24 px-s32">
           {#if filteredServices.length}
             <SearchResults
               {data}
