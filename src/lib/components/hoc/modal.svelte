@@ -14,6 +14,7 @@
   export let noPadding = false;
   export let targetId: string | undefined = undefined;
   export let canClose = true;
+  export let hideCloseButton = false;
 
   const target = (
     targetId ? document.getElementById(targetId) : document.body
@@ -117,7 +118,7 @@
               </h1>
             {/if}
 
-            {#if canClose}
+            {#if canClose && !hideCloseButton}
               <div class="ml-auto">
                 <Button
                   icon={closeLineIcon}
