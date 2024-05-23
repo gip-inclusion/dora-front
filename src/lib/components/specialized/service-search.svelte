@@ -105,7 +105,10 @@
       cityCode = props.citycode;
       cityLabel = getCityLabel(address);
       label = getAddressLabel(address);
-      [lon, lat] = address.geometry.coordinates;
+      const entireCity = address.properties.label === address.properties.city;
+      [lon, lat] = entireCity
+        ? [undefined, undefined]
+        : address.geometry.coordinates;
       enableRefreshButton();
     } else {
       cityCode = cityLabel = label = lon = lat = undefined;
