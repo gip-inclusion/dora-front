@@ -173,4 +173,4 @@
   $: filteredStructures, updateMapContent();
 </script>
 
-<Map bind:map onMapLoaded={handleMapLoaded} />
+<Map bind:map on:load={handleMapLoaded} />
