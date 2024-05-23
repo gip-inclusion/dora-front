@@ -7,13 +7,13 @@
   import circleIcon from "$lib/assets/icons/circle.png";
   import type { ServiceSearchResult } from "$lib/types";
   import Map from "$lib/components/display/map.svelte";
-  import { zoomToResults } from "$lib/utils/map";
 
   interface ServiceWithCoords extends ServiceSearchResult {
     coordinates: [number, number];
   }
 
   export let filteredServices: ServiceSearchResult[];
+  export let mapBounds: [number, number, number, number];
   export let onServiceClick: ((slug: string) => void) | undefined = undefined;
 
   let map: mlgl.Map;
@@ -23,6 +23,8 @@
   $: servicesWithCoords = filteredServices.filter(
     (service) => !!service.coordinates
   ) as ServiceWithCoords[];
+
+  $: mapBoundsObj = new mlgl.LngLatBounds(mapBounds);
 
   function getPopupContent(feature): string {
     return insane(
@@ -155,7 +157,7 @@
 
     map.addControl(new mlgl.NavigationControl({ showCompass: false }));
 
-    zoomToResults(map, servicesWithCoords);
+    map.fitBounds(mapBoundsObj);
   }
 
   function updateMapContent() {
@@ -184,7 +186,8 @@
         },
       })),
     });
-    zoomToResults(map, servicesWithCoords);
+
+    map.fitBounds(mapBoundsObj);
   }
 
   $: servicesWithCoords, updateMapContent();
