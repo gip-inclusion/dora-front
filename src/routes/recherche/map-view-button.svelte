@@ -82,8 +82,8 @@
       </div>
       <div class="flex-1">
         <ResultMap
+          {data}
           {filteredServices}
-          mapBounds={data.mapBounds}
           onServiceClick={handleServiceClick}
         />
       </div>

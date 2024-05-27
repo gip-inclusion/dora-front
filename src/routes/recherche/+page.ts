@@ -21,7 +21,7 @@ async function getResults({
   lat,
   lon,
 }: SearchQuery): Promise<{
-  mapBounds: [number, number, number, number];
+  cityBounds: [number, number, number, number];
   services: ServiceSearchResult[];
 }> {
   const querystring = getQueryString({
@@ -71,7 +71,7 @@ export const load: PageLoad = async ({ url, parent }) => {
   const lon = query.get("lon");
   const lat = query.get("lat");
 
-  const { mapBounds, services } = await getResults({
+  const { cityBounds, services } = await getResults({
     // La priorité est donnée aux sous-catégories
     categoryIds: subCategoryIds.length ? [] : categoryIds,
     subCategoryIds,
@@ -113,7 +113,7 @@ export const load: PageLoad = async ({ url, parent }) => {
     noIndex: true,
     categoryIds,
     subCategoryIds,
-    mapBounds,
+    cityBounds,
     cityCode,
     cityLabel,
     label,

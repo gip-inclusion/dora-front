@@ -8,12 +8,14 @@
   import type { ServiceSearchResult } from "$lib/types";
   import Map from "$lib/components/display/map.svelte";
 
+  import type { PageData } from "./$types";
+
   interface ServiceWithCoords extends ServiceSearchResult {
     coordinates: [number, number];
   }
 
+  export let data: PageData;
   export let filteredServices: ServiceSearchResult[];
-  export let mapBounds: [number, number, number, number];
   export let onServiceClick: ((slug: string) => void) | undefined = undefined;
 
   let map: mlgl.Map;
@@ -24,7 +26,7 @@
     (service) => !!service.coordinates
   ) as ServiceWithCoords[];
 
-  $: mapBoundsObj = new mlgl.LngLatBounds(mapBounds);
+  $: zoomToAddress = Boolean(data.lat && data.lon);
 
   function getPopupContent(feature): string {
     return insane(
@@ -48,6 +50,30 @@
   function handleLeafExit(_feature: mlgl.MapGeoJSONFeature) {
     map.getCanvas().style.cursor = "";
     popup.remove();
+  }
+
+  function zoomToAddressOrCity() {
+    if (zoomToAddress) {
+      // Déplacement animé vers les coordonnées de l'adresse avec zoom de niveau 15
+      map.flyTo({
+        center: [parseFloat(data.lon!), parseFloat(data.lat!)],
+        zoom: 15,
+      });
+    } else {
+      // Sauvegarde des limites par défaut (métropole)
+      const defaultBounds = map.getBounds();
+      // Affectation immédiate des limites de la ville
+      map.fitBounds(new mlgl.LngLatBounds(data.cityBounds), { animate: false });
+      // Sauvegarde des valeurs de centre et de zoom de la ville
+      const center = map.getCenter();
+      const zoom = map.getZoom();
+      // Réduction du zoom de 2 niveaux
+      const newZoom = zoom - 2;
+      // Affectation immédiate des limites par défaut (métropole)
+      map.fitBounds(defaultBounds, { animate: false });
+      // Déplacement animé vers le centre de la ville avec zoom réduit
+      map.flyTo({ center, zoom: newZoom });
+    }
   }
 
   async function handleMapLoaded() {
@@ -157,7 +183,7 @@
 
     map.addControl(new mlgl.NavigationControl({ showCompass: false }));
 
-    map.fitBounds(mapBoundsObj);
+    zoomToAddressOrCity();
   }
 
   function updateMapContent() {
@@ -186,8 +212,6 @@
         },
       })),
     });
-
-    map.fitBounds(mapBoundsObj);
   }
 
   $: servicesWithCoords, updateMapContent();
