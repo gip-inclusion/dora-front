@@ -67,16 +67,13 @@
         service.locationKinds.includes(value)
       );
     // Lorsqu'on ne veut que les services en présentiels, on exclue ceux à plus de 50 km de distance
-    const onSiteServiceNotTooFar = !(
+    const onSiteAndNearby = !(
       filters.locationKinds.length === 1 &&
       filters.locationKinds[0] === "en-presentiel" &&
       service.distance > 50
     );
     return (
-      kindsMatch &&
-      feeConditionMatch &&
-      locationKindsMatch &&
-      onSiteServiceNotTooFar
+      kindsMatch && feeConditionMatch && locationKindsMatch && onSiteAndNearby
     );
   });
 
