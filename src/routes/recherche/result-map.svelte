@@ -22,8 +22,11 @@
   let popup: mlgl.Popup;
   let spiderfy: Spiderfy;
 
-  $: servicesWithCoords = filteredServices.filter(
-    (service) => !!service.coordinates
+  $: onSiteServicesWithCoords = filteredServices.filter(
+    (service) =>
+      service.locationKinds.includes("en-presentiel") &&
+      service.distance <= 50 &&
+      !!service.coordinates
   ) as ServiceWithCoords[];
 
   $: zoomToAddress = Boolean(data.lat && data.lon);
@@ -100,7 +103,7 @@
       clusterRadius: 50,
       data: {
         type: "FeatureCollection",
-        features: servicesWithCoords.map((service) => ({
+        features: onSiteServicesWithCoords.map((service) => ({
           type: "Feature",
           properties: {
             ...service,
@@ -201,7 +204,7 @@
 
     servicesSource.setData({
       type: "FeatureCollection",
-      features: servicesWithCoords.map((service) => ({
+      features: onSiteServicesWithCoords.map((service) => ({
         type: "Feature",
         properties: {
           ...service,
@@ -214,7 +217,7 @@
     });
   }
 
-  $: servicesWithCoords, updateMapContent();
+  $: onSiteServicesWithCoords, updateMapContent();
 </script>
 
 <Map bind:map on:load={handleMapLoaded} />
