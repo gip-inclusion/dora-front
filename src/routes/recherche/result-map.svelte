@@ -41,7 +41,6 @@
     if (feature.geometry.type !== "Point") {
       return;
     }
-    map.getCanvas().style.cursor = "pointer";
     const coordinates = feature.geometry.coordinates.slice() as [
       number,
       number,
@@ -51,7 +50,6 @@
   }
 
   function handleLeafExit(_feature: mlgl.MapGeoJSONFeature) {
-    map.getCanvas().style.cursor = "";
     popup.remove();
   }
 
@@ -154,14 +152,18 @@
         .queryRenderedFeatures(evt.point)
         .filter(
           (feat) =>
-            (feat.layer.id === "clusters" ||
-              feat.layer.id.startsWith("clusters-spiderfy-leaf")) &&
-            !feat.properties.cluster
+            feat.layer.id === "clusters" ||
+            feat.layer.id.startsWith("clusters-spiderfy-leaf")
         );
-      if (featuresUnderMouse.length > 1) {
+      map.getCanvas().style.cursor =
+        featuresUnderMouse.length > 0 ? "pointer" : "";
+      const serviceFeatures = featuresUnderMouse.filter(
+        (feat) => !feat.properties.cluster
+      );
+      if (serviceFeatures.length > 1) {
         return;
       }
-      const feature = featuresUnderMouse[0];
+      const feature = serviceFeatures[0];
       if (feature) {
         if (
           !lastHovered ||
