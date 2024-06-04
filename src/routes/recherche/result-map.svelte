@@ -81,7 +81,7 @@
 
   async function handleMapLoaded() {
     spiderfy = new Spiderfy(map, {
-      minZoomLevel: 10,
+      minZoomLevel: 14,
       zoomIncrement: 2,
       renderMethod: "3d",
       closeOnLeafClick: false,
