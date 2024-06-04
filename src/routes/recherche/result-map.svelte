@@ -99,7 +99,7 @@
       type: "geojson",
       promoteId: "slug",
       cluster: true,
-      clusterMaxZoom: 14, // Max zoom to cluster points on
+      clusterMaxZoom: map.getMaxZoom(),
       clusterRadius: 50,
       data: {
         type: "FeatureCollection",
