@@ -51,8 +51,13 @@ export const load: PageLoad = async ({ url }) => {
   const cityName = cityMatchGroups[1];
   const departmentCode = cityMatchGroups[2];
 
-  // Recherche du slug correspondant à la ville et au département
-  const citySlug = await searchCitySlug(cityName, departmentCode);
+  let citySlug: string;
+  try {
+    // Recherche du slug correspondant à la ville et au département
+    citySlug = await searchCitySlug(cityName, departmentCode);
+  } catch (err) {
+    citySlug = "";
+  }
 
   // Redirection vers la page de la ville de collectivite.fr
   redirectToCollectiviteFr(citySlug);
