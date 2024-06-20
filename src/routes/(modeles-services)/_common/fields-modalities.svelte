@@ -10,15 +10,39 @@
   import { moveToTheEnd } from "$lib/utils/misc";
   import { isNotFreeService } from "$lib/utils/service";
   import FieldModel from "$lib/components/specialized/services/field-model.svelte";
+  import FieldWrapper from "$lib/components/forms/field-wrapper.svelte";
+  import Checkbox from "$lib/components/inputs/checkbox.svelte";
+  import {
+    currentFormData,
+    currentSchema,
+    formatErrors,
+    isRequired,
+  } from "$lib/validation/validation";
 
   export let servicesOptions: ServicesOptions, service: Service;
   export let model: Model | undefined = undefined;
 
-  $: showModel = !!service.model;
+  const orderedCoachOrientationModeValues = {
+    "formulaire-dora": 0,
+    "formulaire-externe": 1,
+    "envoyer-fiche-prescription": 2,
+    "envoyer-courriel": 3,
+    telephoner: 4,
+    autre: 5,
+  };
+  const orderedCoachOrientationModes =
+    servicesOptions.coachOrientationModes.sort(
+      (a, b) =>
+        orderedCoachOrientationModeValues[a.value] -
+        orderedCoachOrientationModeValues[b.value]
+    );
+  let coachOrientationModesFocusValue: string | undefined = undefined;
 
   function handleUseModelValue(fieldName) {
     service[fieldName] = model ? model[fieldName] : undefined;
   }
+
+  $: showModel = !!service.model;
 
   $: fieldModelProps = model
     ? getModelInputProps({
@@ -48,16 +72,36 @@
 
   <div class="flex flex-col lg:gap-s8">
     <FieldModel {...fieldModelProps.coachOrientationModes ?? {}} type="array">
-      <CheckboxesField
-        id="coachOrientationModes"
-        choices={moveToTheEnd(
-          servicesOptions.coachOrientationModes,
-          "value",
-          "autre"
-        )}
-        bind:value={service.coachOrientationModes}
-        description="Plusieurs choix possibles."
-      />
+      {#if $currentSchema && "coachOrientationModes" in $currentSchema}
+        {@const id = "coachOrientationModes"}
+        <FieldWrapper
+          {id}
+          let:onChange
+          let:errorMessages
+          label={$currentSchema[id].label}
+          required={isRequired($currentSchema[id], $currentFormData)}
+          description="Plusieurs choix possibles."
+          readonly={$currentSchema?.[id]?.readonly}
+        >
+          <div class="flex flex-col gap-s8">
+            {#each orderedCoachOrientationModes as choice}
+              <Checkbox
+                name={id}
+                bind:group={service.coachOrientationModes}
+                label={choice.label}
+                value={choice.value}
+                readonly={$currentSchema?.[id]?.readonly}
+                errorMessage={formatErrors(id, errorMessages)}
+                focused={coachOrientationModesFocusValue === choice.value}
+                on:change={onChange}
+                on:focus={() =>
+                  (coachOrientationModesFocusValue = choice.value)}
+                on:blur={() => (coachOrientationModesFocusValue = undefined)}
+              />
+            {/each}
+          </div>
+        </FieldWrapper>
+      {/if}
     </FieldModel>
 
     {#if service.coachOrientationModes.includes("autre")}
