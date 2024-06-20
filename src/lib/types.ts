@@ -292,7 +292,8 @@ export type SavedSearchNotificationFrequency =
 export type CoachOrientationModes =
   | "envoyer-courriel"
   | "envoyer-fiche-prescription"
-  | "envoyer-formulaire"
+  | "formulaire-dora"
+  | "formulaire-externe"
   | "autre"
   | "telephoner";
 export type BeneficiaryAccessModes =
@@ -563,6 +564,8 @@ export type Model = {
   credentials: CustomizableFK[];
   credentialsDisplay: string[];
   department: string;
+  externalFormLink: string;
+  externalFormLinkText: string;
   feeCondition: FeeCondition;
   feeDetails: string;
   forms: string[];
