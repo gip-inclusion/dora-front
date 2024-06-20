@@ -399,6 +399,8 @@ export interface Service {
   cityCode: string;
   coachOrientationModes: CoachOrientationModes[];
   coachOrientationModesDisplay: string[];
+  coachOrientationModesExternalFormLinkText: string;
+  coachOrientationModesExternalFormLink: string;
   coachOrientationModesOther: string;
   concernedPublic: CustomizableFK[]; // TODO: should be plural
   concernedPublicDisplay: string[];
