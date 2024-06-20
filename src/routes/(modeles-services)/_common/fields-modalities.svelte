@@ -85,19 +85,50 @@
         >
           <div class="flex flex-col gap-s8">
             {#each orderedCoachOrientationModes as choice}
-              <Checkbox
-                name={id}
-                bind:group={service.coachOrientationModes}
-                label={choice.label}
-                value={choice.value}
-                readonly={$currentSchema?.[id]?.readonly}
-                errorMessage={formatErrors(id, errorMessages)}
-                focused={coachOrientationModesFocusValue === choice.value}
-                on:change={onChange}
-                on:focus={() =>
-                  (coachOrientationModesFocusValue = choice.value)}
-                on:blur={() => (coachOrientationModesFocusValue = undefined)}
-              />
+              {#if choice.value === "formulaire-externe" && service.coachOrientationModes.includes("formulaire-externe")}
+                <Checkbox
+                  name={id}
+                  bind:group={service.coachOrientationModes}
+                  label={choice.label}
+                  value={choice.value}
+                  readonly={$currentSchema?.[id]?.readonly}
+                  errorMessage={formatErrors(id, errorMessages)}
+                  focused={coachOrientationModesFocusValue === choice.value}
+                  on:change={onChange}
+                  on:focus={() =>
+                    (coachOrientationModesFocusValue = choice.value)}
+                  on:blur={() => (coachOrientationModesFocusValue = undefined)}
+                >
+                  <BasicInputField
+                    id="coachOrientationModesExternalFormLinkText"
+                    description="Par exemple : Orienter votre bénéficiaire, Faire une simulation, Prendre rendez-vous, etc."
+                    placeholder="Orienter votre bénéficiaire"
+                    vertical
+                    bind:value={service.coachOrientationModesExternalFormLinkText}
+                  />
+                  <BasicInputField
+                    id="coachOrientationModesExternalFormLink"
+                    description="Lien vers votre formulaire ou plateforme. Format attendu : https://example.fr"
+                    type="url"
+                    vertical
+                    bind:value={service.coachOrientationModesExternalFormLink}
+                  />
+                </Checkbox>
+              {:else}
+                <Checkbox
+                  name={id}
+                  bind:group={service.coachOrientationModes}
+                  label={choice.label}
+                  value={choice.value}
+                  readonly={$currentSchema?.[id]?.readonly}
+                  errorMessage={formatErrors(id, errorMessages)}
+                  focused={coachOrientationModesFocusValue === choice.value}
+                  on:change={onChange}
+                  on:focus={() =>
+                    (coachOrientationModesFocusValue = choice.value)}
+                  on:blur={() => (coachOrientationModesFocusValue = undefined)}
+                />
+              {/if}
             {/each}
           </div>
         </FieldWrapper>
