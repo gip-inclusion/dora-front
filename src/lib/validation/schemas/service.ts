@@ -160,6 +160,21 @@ export const serviceSchema: v.Schema = {
       return !data.beneficiariesAccessModes.length;
     },
   },
+  coachOrientationModesExternalFormLinkText: {
+    label: "L’intitulé du lien",
+    default: "Orienter votre bénéficiaire",
+    rules: [v.isString(), v.maxStrLength(27)],
+    maxLength: 27,
+  },
+  coachOrientationModesExternalFormLink: {
+    label: "Lien",
+    default: "",
+    rules: [v.isString(), v.maxStrLength(280)],
+    required: (data: { coachOrientationModes: CoachOrientationModes }) => {
+      return data.coachOrientationModes.includes("formulaire-externe");
+    },
+    maxLength: 280,
+  },
   coachOrientationModesOther: {
     label: "",
     default: "",
@@ -358,6 +373,10 @@ export const draftSchema: v.Schema = {
   beneficiariesAccessModes: serviceSchema.beneficiariesAccessModes,
   beneficiariesAccessModesOther: serviceSchema.beneficiariesAccessModesOther,
   coachOrientationModes: serviceSchema.coachOrientationModes,
+  coachOrientationModesExternalFormLinkText:
+    serviceSchema.coachOrientationModesExternalFormLinkText,
+  coachOrientationModesExternalFormLink:
+    serviceSchema.coachOrientationModesExternalFormLink,
   coachOrientationModesOther: serviceSchema.coachOrientationModesOther,
   credentials: serviceSchema.credentials,
   forms: serviceSchema.forms,
@@ -422,6 +441,10 @@ export const modelSchema: v.Schema = {
   beneficiariesAccessModes: serviceSchema.beneficiariesAccessModes,
   beneficiariesAccessModesOther: serviceSchema.beneficiariesAccessModesOther,
   coachOrientationModes: serviceSchema.coachOrientationModes,
+  coachOrientationModesExternalFormLinkText:
+    serviceSchema.coachOrientationModesExternalFormLinkText,
+  coachOrientationModesExternalFormLink:
+    serviceSchema.coachOrientationModesExternalFormLink,
   coachOrientationModesOther: serviceSchema.coachOrientationModesOther,
   credentials: serviceSchema.credentials,
   forms: serviceSchema.forms,
