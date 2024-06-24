@@ -292,12 +292,12 @@ export type SavedSearchNotificationFrequency =
   | "MONTHLY";
 
 export type CoachOrientationModes =
-  | "envoyer-courriel"
-  | "envoyer-fiche-prescription"
   | "formulaire-dora"
   | "formulaire-externe"
-  | "autre"
-  | "telephoner";
+  | "envoyer-fiche-prescription"
+  | "envoyer-courriel"
+  | "telephoner"
+  | "autre";
 export type BeneficiaryAccessModes =
   | "envoyer-courriel"
   | "se-presenter"
