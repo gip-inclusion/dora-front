@@ -395,6 +395,8 @@ export interface Service {
   address2: string;
   beneficiariesAccessModes: BeneficiaryAccessModes[];
   beneficiariesAccessModesDisplay: string[];
+  beneficiariesAccessModesExternalFormLinkText: string;
+  beneficiariesAccessModesExternalFormLink: string;
   beneficiariesAccessModesOther: string;
   canWrite: boolean;
   categories: ServiceCategory[];
