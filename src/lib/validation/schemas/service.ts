@@ -194,6 +194,9 @@ export const serviceSchema: v.Schema = {
     label: "Documents à compléter",
     default: [],
     rules: [v.isArray([v.isString(), v.maxStrLength(1024)])],
+    required: (data: { coachOrientationModes: CoachOrientationModes }) => {
+      return data.coachOrientationModes.includes("envoyer-fiche-prescription");
+    },
   },
   onlineForm: {
     label: "Lien",
