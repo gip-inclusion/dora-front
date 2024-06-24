@@ -299,10 +299,12 @@ export type CoachOrientationModes =
   | "telephoner"
   | "autre";
 export type BeneficiaryAccessModes =
-  | "envoyer-courriel"
+  | "professionnel"
   | "se-presenter"
-  | "autre"
-  | "telephoner";
+  | "formulaire-externe"
+  | "envoyer-courriel"
+  | "telephoner"
+  | "autre";
 
 export interface SearchQuery {
   categoryIds: string[];
