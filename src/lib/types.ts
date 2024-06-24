@@ -96,6 +96,7 @@ export interface ShortStructure {
   department: string;
   modificationDate: string;
   name: string;
+  noDoraForm: boolean;
   parent: string;
   siret: string;
   slug: string;
@@ -169,6 +170,7 @@ export interface Structure {
   modificationDate: string;
   name: string;
   nationalLabels: string[];
+  noDoraForm: boolean;
   numModels: number;
   numServices: number;
   openingHours: string | null;
