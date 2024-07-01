@@ -93,23 +93,22 @@
   </Notice>
 
   <div class="flex flex-col lg:gap-s8">
-    {#if $currentSchema && "coachOrientationModes" in $currentSchema && "coachOrientationModesExternalFormLink" in $currentSchema && "coachOrientationModesExternalFormLinkText" in $currentSchema}
+    {#if $currentSchema && "coachOrientationModes" in $currentSchema && "coachOrientationModesExternalFormLink" in $currentSchema && "coachOrientationModesExternalFormLinkText" in $currentSchema && "coachOrientationModesOther" in $currentSchema}
       <FieldModel
         {...fieldModelProps.coachOrientationModes ?? {}}
         subFields={{
           "formulaire-externe": [
             {
-              label:
-                $currentSchema.coachOrientationModesExternalFormLink.label,
+              label: $currentSchema.coachOrientationModesExternalFormLink.label,
               ...fieldModelProps.coachOrientationModesExternalFormLink,
             },
             {
               label:
-                $currentSchema.coachOrientationModesExternalFormLinkText
-                  .label,
+                $currentSchema.coachOrientationModesExternalFormLinkText.label,
               ...fieldModelProps.coachOrientationModesExternalFormLinkText,
             },
           ],
+          autre: [fieldModelProps.coachOrientationModesOther],
         }}
         type="array"
       >
@@ -154,6 +153,27 @@
                     bind:value={service.coachOrientationModesExternalFormLink}
                   />
                 </Checkbox>
+              {:else if choice.value === "autre" && service.coachOrientationModes.includes("autre")}
+                <Checkbox
+                  name={id}
+                  bind:group={service.coachOrientationModes}
+                  label={choice.label}
+                  value={choice.value}
+                  readonly={$currentSchema?.[id]?.readonly}
+                  errorMessage={formatErrors(id, errorMessages)}
+                  focused={coachOrientationModesFocusValue === choice.value}
+                  on:change={onChange}
+                  on:focus={() =>
+                    (coachOrientationModesFocusValue = choice.value)}
+                  on:blur={() => (coachOrientationModesFocusValue = undefined)}
+                >
+                  <BasicInputField
+                    id="coachOrientationModesOther"
+                    hideLabel
+                    vertical
+                    bind:value={service.coachOrientationModesOther}
+                  />
+                </Checkbox>
               {:else}
                 <Checkbox
                   name={id}
@@ -174,29 +194,17 @@
         </FieldWrapper>
       </FieldModel>
     {/if}
-
-    {#if service.coachOrientationModes.includes("autre")}
-      <FieldModel {...fieldModelProps.coachOrientationModesOther ?? {}}>
-        <BasicInputField
-          id="coachOrientationModesOther"
-          hideLabel
-          description="Merci de préciser la modalité"
-          bind:value={service.coachOrientationModesOther}
-        />
-      </FieldModel>
-    {/if}
   </div>
 
   <div class="flex flex-col lg:gap-s8">
-    {#if $currentSchema && "beneficiariesAccessModes" in $currentSchema && "beneficiariesAccessModesExternalFormLink" in $currentSchema && "beneficiariesAccessModesExternalFormLinkText" in $currentSchema}
+    {#if $currentSchema && "beneficiariesAccessModes" in $currentSchema && "beneficiariesAccessModesExternalFormLink" in $currentSchema && "beneficiariesAccessModesExternalFormLinkText" in $currentSchema && "beneficiariesAccessModesOther" in $currentSchema}
       <FieldModel
         {...fieldModelProps.beneficiariesAccessModes ?? {}}
         subFields={{
           "formulaire-externe": [
             {
               label:
-                $currentSchema.beneficiariesAccessModesExternalFormLink
-                  .label,
+                $currentSchema.beneficiariesAccessModesExternalFormLink.label,
               ...fieldModelProps.beneficiariesAccessModesExternalFormLink,
             },
             {
@@ -206,6 +214,7 @@
               ...fieldModelProps.beneficiariesAccessModesExternalFormLinkText,
             },
           ],
+          autre: [fieldModelProps.beneficiariesAccessModesOther],
         }}
         type="array"
       >
@@ -251,6 +260,28 @@
                     bind:value={service.beneficiariesAccessModesExternalFormLink}
                   />
                 </Checkbox>
+              {:else if choice.value === "autre" && service.beneficiariesAccessModes.includes("autre")}
+                <Checkbox
+                  name={id}
+                  bind:group={service.beneficiariesAccessModes}
+                  label={choice.label}
+                  value={choice.value}
+                  readonly={$currentSchema?.[id]?.readonly}
+                  errorMessage={formatErrors(id, errorMessages)}
+                  focused={beneficiariesAccessModesFocusValue === choice.value}
+                  on:change={onChange}
+                  on:focus={() =>
+                    (beneficiariesAccessModesFocusValue = choice.value)}
+                  on:blur={() =>
+                    (beneficiariesAccessModesFocusValue = undefined)}
+                >
+                  <BasicInputField
+                    id="beneficiariesAccessModesOther"
+                    hideLabel
+                    vertical
+                    bind:value={service.beneficiariesAccessModesOther}
+                  />
+                </Checkbox>
               {:else}
                 <Checkbox
                   name={id}
@@ -270,17 +301,6 @@
             {/each}
           </div>
         </FieldWrapper>
-      </FieldModel>
-    {/if}
-
-    {#if service.beneficiariesAccessModes.includes("autre")}
-      <FieldModel {...fieldModelProps.beneficiariesAccessModesOther ?? {}}>
-        <BasicInputField
-          id="beneficiariesAccessModesOther"
-          hideLabel
-          description="Merci de préciser la modalité"
-          bind:value={service.beneficiariesAccessModesOther}
-        />
       </FieldModel>
     {/if}
   </div>
