@@ -61,7 +61,7 @@
 
   $: subFieldsHaveSameValue = subFields
     ? Object.values(subFields).every((fields) =>
-        fields.every((field) => compare(field.value, field.serviceValue))
+        fields.every((field) => field.value === field.serviceValue)
       )
     : true;
   $: haveSameValue =
