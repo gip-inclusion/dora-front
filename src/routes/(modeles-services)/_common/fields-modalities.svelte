@@ -36,13 +36,6 @@
     telephoner: 4,
     autre: 5,
   };
-  const orderedCoachOrientationModes =
-    servicesOptions.coachOrientationModes.sort(
-      (a, b) =>
-        orderedCoachOrientationModeValues[a.value] -
-        orderedCoachOrientationModeValues[b.value]
-    );
-  let coachOrientationModesFocusValue: string | undefined = undefined;
 
   const orderedBeneficiariesAccessModeValues = {
     professionnel: 0,
@@ -52,12 +45,8 @@
     telephoner: 4,
     autre: 5,
   };
-  const orderedBeneficiariesAccessModes =
-    servicesOptions.beneficiariesAccessModes.sort(
-      (a, b) =>
-        orderedBeneficiariesAccessModeValues[a.value] -
-        orderedBeneficiariesAccessModeValues[b.value]
-    );
+
+  let coachOrientationModesFocusValue: string | undefined = undefined;
   let beneficiariesAccessModesFocusValue: string | undefined = undefined;
 
   function handleUseModelValue(fieldName) {
@@ -75,6 +64,41 @@
         model,
       })
     : {};
+
+  $: servicesOptions.coachOrientationModes.sort(
+    (a, b) =>
+      orderedCoachOrientationModeValues[a.value] -
+      orderedCoachOrientationModeValues[b.value]
+  );
+  $: fieldModelProps.coachOrientationModes.value.sort((a, b) => {
+    return (
+      orderedCoachOrientationModeValues[a] -
+      orderedCoachOrientationModeValues[b]
+    );
+  });
+  $: fieldModelProps.coachOrientationModes.serviceValue.sort((a, b) => {
+    return (
+      orderedCoachOrientationModeValues[a] -
+      orderedCoachOrientationModeValues[b]
+    );
+  });
+  $: servicesOptions.beneficiariesAccessModes.sort(
+    (a, b) =>
+      orderedBeneficiariesAccessModeValues[a.value] -
+      orderedBeneficiariesAccessModeValues[b.value]
+  );
+  $: fieldModelProps.beneficiariesAccessModes.value.sort((a, b) => {
+    return (
+      orderedBeneficiariesAccessModeValues[a] -
+      orderedBeneficiariesAccessModeValues[b]
+    );
+  });
+  $: fieldModelProps.beneficiariesAccessModes.serviceValue.sort((a, b) => {
+    return (
+      orderedBeneficiariesAccessModeValues[a] -
+      orderedBeneficiariesAccessModeValues[b]
+    );
+  });
 </script>
 
 <FieldSet title="Modalités" {showModel}>
@@ -123,7 +147,7 @@
           readonly={$currentSchema?.[id]?.readonly}
         >
           <div class="flex flex-col gap-s8">
-            {#each orderedCoachOrientationModes as choice}
+            {#each servicesOptions.coachOrientationModes as choice}
               {#if choice.value === "formulaire-externe" && service.coachOrientationModes.includes("formulaire-externe")}
                 <Checkbox
                   name={id}
@@ -229,7 +253,7 @@
           readonly={$currentSchema?.[id]?.readonly}
         >
           <div class="flex flex-col gap-s8">
-            {#each orderedBeneficiariesAccessModes as choice}
+            {#each servicesOptions.beneficiariesAccessModes as choice}
               {#if choice.value === "formulaire-externe" && service.beneficiariesAccessModes.includes("formulaire-externe")}
                 <Checkbox
                   name={id}
