@@ -93,8 +93,26 @@
   </Notice>
 
   <div class="flex flex-col lg:gap-s8">
-    <FieldModel {...fieldModelProps.coachOrientationModes ?? {}} type="array">
-      {#if $currentSchema && "coachOrientationModes" in $currentSchema}
+    {#if $currentSchema && "coachOrientationModes" in $currentSchema && "coachOrientationModesExternalFormLink" in $currentSchema && "coachOrientationModesExternalFormLinkText" in $currentSchema}
+      <FieldModel
+        {...fieldModelProps.coachOrientationModes ?? {}}
+        subFields={{
+          "formulaire-externe": [
+            {
+              label:
+                $currentSchema.coachOrientationModesExternalFormLink.label,
+              ...fieldModelProps.coachOrientationModesExternalFormLink,
+            },
+            {
+              label:
+                $currentSchema.coachOrientationModesExternalFormLinkText
+                  .label,
+              ...fieldModelProps.coachOrientationModesExternalFormLinkText,
+            },
+          ],
+        }}
+        type="array"
+      >
         {@const id = "coachOrientationModes"}
         <FieldWrapper
           {id}
@@ -154,8 +172,8 @@
             {/each}
           </div>
         </FieldWrapper>
-      {/if}
-    </FieldModel>
+      </FieldModel>
+    {/if}
 
     {#if service.coachOrientationModes.includes("autre")}
       <FieldModel {...fieldModelProps.coachOrientationModesOther ?? {}}>
@@ -170,11 +188,27 @@
   </div>
 
   <div class="flex flex-col lg:gap-s8">
-    <FieldModel
-      {...fieldModelProps.beneficiariesAccessModes ?? {}}
-      type="array"
-    >
-      {#if $currentSchema && "beneficiariesAccessModes" in $currentSchema}
+    {#if $currentSchema && "beneficiariesAccessModes" in $currentSchema && "beneficiariesAccessModesExternalFormLink" in $currentSchema && "beneficiariesAccessModesExternalFormLinkText" in $currentSchema}
+      <FieldModel
+        {...fieldModelProps.beneficiariesAccessModes ?? {}}
+        subFields={{
+          "formulaire-externe": [
+            {
+              label:
+                $currentSchema.beneficiariesAccessModesExternalFormLink
+                  .label,
+              ...fieldModelProps.beneficiariesAccessModesExternalFormLink,
+            },
+            {
+              label:
+                $currentSchema.beneficiariesAccessModesExternalFormLinkText
+                  .label,
+              ...fieldModelProps.beneficiariesAccessModesExternalFormLinkText,
+            },
+          ],
+        }}
+        type="array"
+      >
         {@const id = "beneficiariesAccessModes"}
         <FieldWrapper
           {id}
@@ -236,8 +270,8 @@
             {/each}
           </div>
         </FieldWrapper>
-      {/if}
-    </FieldModel>
+      </FieldModel>
+    {/if}
 
     {#if service.beneficiariesAccessModes.includes("autre")}
       <FieldModel {...fieldModelProps.beneficiariesAccessModesOther ?? {}}>
