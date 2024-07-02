@@ -2,6 +2,7 @@
   import { page } from "$app/stores";
 
   import Accordion from "$lib/components/display/accordion.svelte";
+  import { externalLinkIcon } from "$lib/icons";
   import type { Service } from "$lib/types";
   import { token } from "$lib/utils/auth";
   import { formatFilePath } from "$lib/utils/file";
@@ -20,6 +21,10 @@
       trackMobilisation(service, $page.url, isDI);
     }
   }
+
+  function trackMobilisationUnconditionally() {
+    trackMobilisation(service, $page.url, isDI);
+  }
 </script>
 
 <div id="orientation-modes">
@@ -34,6 +39,18 @@
             <li>
               {#if mode === "autre"}
                 {@html addlinkToUrls(service.coachOrientationModesOther)}
+              {:else if mode === "formulaire-externe"}
+                <a
+                  href={service.coachOrientationModesExternalFormLink}
+                  target="_blank"
+                  on:click={trackMobilisationUnconditionally}
+                  class="text-magenta-cta underline"
+                  >{service.coachOrientationModesExternalFormLinkText}
+                  <span
+                    class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
+                    >{@html externalLinkIcon}</span
+                  ></a
+                >
               {:else}
                 {service.coachOrientationModesDisplay[i]}
               {/if}
