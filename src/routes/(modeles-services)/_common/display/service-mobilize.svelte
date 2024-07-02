@@ -1,10 +1,25 @@
 <script lang="ts">
+  import { page } from "$app/stores";
+
   import Accordion from "$lib/components/display/accordion.svelte";
   import type { Service } from "$lib/types";
-  import { addlinkToUrls } from "$lib/utils/misc";
+  import { token } from "$lib/utils/auth";
   import { formatFilePath } from "$lib/utils/file";
+  import { addlinkToUrls } from "$lib/utils/misc";
+  import { trackMobilisation } from "$lib/utils/stats";
 
   export let service: Service;
+  export let isDI = false;
+
+  const searchId = $page.url.searchParams.get("searchId");
+  const searchFragment = searchId ? `?searchId=${searchId}` : "";
+  const orientationFormUrl = `/services/${isDI ? "di--" : ""}${service.slug}/orienter${searchFragment}`;
+
+  function trackMobilisationIfSignedIn() {
+    if ($token) {
+      trackMobilisation(service, $page.url, isDI);
+    }
+  }
 </script>
 
 <div id="orientation-modes">
@@ -15,12 +30,19 @@
       <h4>Pour les accompagnateurs</h4>
       <ul>
         {#if Array.isArray(service.coachOrientationModesDisplay)}
-          {#each service.coachOrientationModesDisplay as mode (mode)}
+          {#each service.coachOrientationModes as mode, i (mode)}
             <li>
-              {#if mode === "Autre (préciser)"}
+              {#if mode === "autre"}
                 {@html addlinkToUrls(service.coachOrientationModesOther)}
               {:else}
-                {mode}
+                {service.coachOrientationModesDisplay[i]}
+              {/if}
+              {#if mode === "formulaire-dora"}
+                <a
+                  href={orientationFormUrl}
+                  on:click={trackMobilisationIfSignedIn}
+                  class="text-magenta-cta underline">Commencer</a
+                >
               {/if}
             </li>
           {:else}
