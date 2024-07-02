@@ -34,7 +34,7 @@
 
       <h4>Pour les accompagnateurs</h4>
       <ul>
-        {#if Array.isArray(service.coachOrientationModesDisplay)}
+        {#if Array.isArray(service.coachOrientationModes)}
           {#each service.coachOrientationModes as mode, i (mode)}
             <li>
               {#if mode === "autre"}
@@ -72,13 +72,24 @@
 
       <h4>Pour les bénéficiaires</h4>
       <ul>
-        {#if Array.isArray(service.beneficiariesAccessModesDisplay)}
-          {#each service.beneficiariesAccessModesDisplay as mode (mode)}
+        {#if Array.isArray(service.beneficiariesAccessModes)}
+          {#each service.beneficiariesAccessModes as mode, i (mode)}
             <li>
-              {#if mode === "Autre (préciser)"}
+              {#if mode === "autre"}
                 {@html addlinkToUrls(service.beneficiariesAccessModesOther)}
+              {:else if mode === "formulaire-externe"}
+                <a
+                  href={service.beneficiariesAccessModesExternalFormLink}
+                  target="_blank"
+                  class="text-magenta-cta underline"
+                  >{service.beneficiariesAccessModesExternalFormLinkText}
+                  <span
+                    class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
+                    >{@html externalLinkIcon}</span
+                  ></a
+                >
               {:else}
-                {mode}
+                {service.beneficiariesAccessModesDisplay[i]}
               {/if}
             </li>
           {:else}
