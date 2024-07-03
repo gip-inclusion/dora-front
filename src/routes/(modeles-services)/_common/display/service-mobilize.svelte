@@ -139,6 +139,7 @@
                 <a
                   href={service.beneficiariesAccessModesExternalFormLink}
                   target="_blank"
+                  on:click={trackMobilisationUnconditionally}
                   class="text-magenta-cta underline"
                   >{service.beneficiariesAccessModesExternalFormLinkText}
                   <span
