@@ -16,6 +16,8 @@
   const searchFragment = searchId ? `?searchId=${searchId}` : "";
   const orientationFormUrl = `/services/${isDI ? "di--" : ""}${service.slug}/orienter${searchFragment}`;
 
+  let isContactInfoShown = false;
+
   function trackMobilisationIfSignedIn() {
     if ($token) {
       trackMobilisation(service, $page.url, isDI);
@@ -24,6 +26,11 @@
 
   function trackMobilisationUnconditionally() {
     trackMobilisation(service, $page.url, isDI);
+  }
+
+  function showContactInfo() {
+    trackMobilisation(service, $page.url, isDI);
+    isContactInfoShown = true;
   }
 </script>
 
@@ -60,6 +67,45 @@
                   on:click={trackMobilisationIfSignedIn}
                   class="text-magenta-cta underline">Commencer</a
                 >
+              {:else if mode === "envoyer-fiche-prescription"}
+                {#if isContactInfoShown}
+                  <a
+                    href={`mailto:${service.contactEmail}`}
+                    class="text-magenta-cta underline">{service.contactEmail}</a
+                  >
+                {:else}
+                  <button
+                    on:click={showContactInfo}
+                    class="text-magenta-cta underline"
+                    >Voir l’adresse email</button
+                  >
+                {/if}
+              {:else if mode === "envoyer-courriel"}
+                {#if isContactInfoShown}
+                  <a
+                    href={`mailto:${service.contactEmail}`}
+                    class="text-magenta-cta underline">{service.contactEmail}</a
+                  >
+                {:else}
+                  <button
+                    on:click={showContactInfo}
+                    class="text-magenta-cta underline"
+                    >Voir l’adresse email</button
+                  >
+                {/if}
+              {:else if mode === "telephoner"}
+                {#if isContactInfoShown}
+                  <a
+                    href={`tel:${service.contactPhone}`}
+                    class="text-magenta-cta underline">{service.contactPhone}</a
+                  >
+                {:else}
+                  <button
+                    on:click={showContactInfo}
+                    class="text-magenta-cta underline"
+                    >Voir le numéro de téléphone</button
+                  >
+                {/if}
               {/if}
             </li>
           {:else}
