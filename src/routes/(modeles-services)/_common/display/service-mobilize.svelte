@@ -2,11 +2,11 @@
   import { page } from "$app/stores";
 
   import Accordion from "$lib/components/display/accordion.svelte";
+  import Linkify from "$lib/components/display/linkify.svelte";
   import { externalLinkIcon } from "$lib/icons";
   import type { Service } from "$lib/types";
   import { token } from "$lib/utils/auth";
   import { formatFilePath } from "$lib/utils/file";
-  import { addlinkToUrls } from "$lib/utils/misc";
   import { trackMobilisation } from "$lib/utils/stats";
 
   export let service: Service;
@@ -45,7 +45,13 @@
           {#each service.coachOrientationModes as mode, i (mode)}
             <li>
               {#if mode === "autre"}
-                {@html addlinkToUrls(service.coachOrientationModesOther)}
+                <Linkify
+                  text={service.coachOrientationModesOther}
+                  trackMobilisationOnLinkClick={{
+                    service,
+                    isDI,
+                  }}
+                />
               {:else if mode === "formulaire-externe"}
                 <a
                   href={service.coachOrientationModesExternalFormLink}
@@ -122,7 +128,13 @@
           {#each service.beneficiariesAccessModes as mode, i (mode)}
             <li>
               {#if mode === "autre"}
-                {@html addlinkToUrls(service.beneficiariesAccessModesOther)}
+                <Linkify
+                  text={service.beneficiariesAccessModesOther}
+                  trackMobilisationOnLinkClick={{
+                    service,
+                    isDI,
+                  }}
+                />
               {:else if mode === "formulaire-externe"}
                 <a
                   href={service.beneficiariesAccessModesExternalFormLink}
