@@ -39,7 +39,7 @@
     <div class="mb-s32">
       <h3>Les démarches à réaliser</h3>
 
-      <h4>Pour les accompagnateurs</h4>
+      <h4>Pour les professionnels d’insertion</h4>
       <ul>
         {#if Array.isArray(service.coachOrientationModes)}
           {#each service.coachOrientationModes as mode, i (mode)}
@@ -122,7 +122,7 @@
         {/if}
       </ul>
 
-      <h4>Pour les bénéficiaires</h4>
+      <h4>Pour les particuliers</h4>
       <ul>
         {#if Array.isArray(service.beneficiariesAccessModes)}
           {#each service.beneficiariesAccessModes as mode, i (mode)}
