@@ -11,7 +11,7 @@
   import { orientationStep1Schema } from "./schema";
   import { goto } from "$app/navigation";
   import { arrowLeftLineIcon } from "$lib/icons";
-  import { onMount } from "svelte";
+  import { onMount, setContext } from "svelte";
   import { token } from "$lib/utils/auth";
   import Teaser from "./teaser.svelte";
   import { trackMobilisation } from "$lib/utils/stats";
@@ -19,8 +19,22 @@
   export let data;
 
   const { service } = data;
+  const isDI = !!data.isDI;
 
   let requesting = false;
+
+  // tracking activé sur la page courante :
+  const shouldTrack = Boolean($page.url.searchParams.get("newlogin"));
+
+  // On ne doit pas tracker la mobilisation sur affichage de contacts
+  // (ou toute autre action)
+  // si on se trouve sur la page du formulaire d'orientation :
+  // la mobilisation est déjà comptabilisé à l'ouverture du formulaire.
+  // On doit transmettre cette information de manière générique
+  // au composant enfant 'ContactInfo'.
+
+  // Raccourci : on ne peut accéder à cette page que si connecté.
+  setContext("shouldTrack", !$token);
 
   onMount(() => {
     $orientation.firstStepDone = true;
@@ -36,15 +50,12 @@
   }
 
   function handleSuccess(_result) {
-    goto(
-      `/services/${data.isDI ? "di--" : ""}${service.slug}/orienter/demande`
-    );
+    goto(`/services/${isDI ? "di--" : ""}${service.slug}/orienter/demande`);
   }
 
   onMount(async () => {
-    const shouldTrack = $page.url.searchParams.get("newlogin");
     if ($token && shouldTrack) {
-      await trackMobilisation(service, $page.url, !!data.isDI);
+      await trackMobilisation(service, $page.url, isDI);
       $page.url.searchParams.delete("newlogin");
       history.replaceState(null, "", $page.url.pathname + $page.url.search);
     }
@@ -78,17 +89,14 @@
       <div class="flex flex-col justify-between gap-x-s24 md:flex-row">
         <ValidationForm {service} />
         <div class="mt-s32 w-full shrink-0 md:mt-s0 md:w-[384px]">
-          <ContactBox
-            {service}
-            bind:contactBoxOpen={$orientation.contactBoxOpen}
-          />
+          <ContactBox {service} {isDI} />
         </div>
       </div>
     </Layout>
     <StickyFormSubmissionRow justifyBetween>
       <LinkButton
         icon={arrowLeftLineIcon}
-        to="/services/{data.isDI ? 'di--' : ''}{service.slug}"
+        to="/services/{isDI ? 'di--' : ''}{service.slug}"
         label="Retour à la fiche"
         secondary
       />
@@ -98,6 +106,6 @@
   </Form>
 {:else}
   <Layout {data}>
-    <Teaser></Teaser>
+    <Teaser {service} {isDI}></Teaser>
   </Layout>
 {/if}
