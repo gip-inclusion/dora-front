@@ -53,9 +53,9 @@
     .filter(Boolean)
     .join(", ");
   $: contactInfoForIndividualPhone =
-    service.contactPhone || service.structureInfo.phone;
+    service["contactPhone"] || service.structureInfo.phone;
   $: contactInfoForIndividualEmail =
-    service.contactEmail || service.structureInfo.email;
+    service["contactEmail"] || service.structureInfo.email;
 </script>
 
 <div id="orientation-modes">
@@ -97,7 +97,7 @@
                   on:click={trackMobilisationIfSignedIn}
                   class="text-magenta-cta underline">Commencer</a
                 >
-              {:else if mode === "envoyer-fiche-prescription"}
+              {:else if mode === "envoyer-fiche-prescription" && "contactEmail" in service}
                 {#if isContactInfoForProfessionalShown}
                   <a
                     href={`mailto:${service.contactEmail}`}
@@ -110,7 +110,7 @@
                     >Voir l’adresse email</button
                   >
                 {/if}
-              {:else if mode === "envoyer-courriel"}
+              {:else if mode === "envoyer-courriel" && "contactEmail" in service}
                 {#if isContactInfoForProfessionalShown}
                   <a
                     href={`mailto:${service.contactEmail}`}
@@ -123,7 +123,7 @@
                     >Voir l’adresse email</button
                   >
                 {/if}
-              {:else if mode === "telephoner"}
+              {:else if mode === "telephoner" && "contactPhone" in service}
                 {#if isContactInfoForProfessionalShown}
                   <a
                     href={`tel:${service.contactPhone}`}
