@@ -562,12 +562,16 @@ export type Model = {
   accessConditionsDisplay: string[];
   beneficiariesAccessModes: BeneficiaryAccessModes[];
   beneficiariesAccessModesDisplay: string[];
+  beneficiariesAccessModesExternalFormLinkText: string;
+  beneficiariesAccessModesExternalFormLink: string;
   beneficiariesAccessModesOther: string;
   canWrite: boolean;
   categories: ServiceCategory[];
   categoriesDisplay: string[];
   coachOrientationModes: CoachOrientationModes[];
   coachOrientationModesDisplay: string[];
+  coachOrientationModesExternalFormLinkText: string;
+  coachOrientationModesExternalFormLink: string;
   coachOrientationModesOther: string;
   concernedPublic: CustomizableFK[];
   concernedPublicDisplay: string[];
