@@ -11,12 +11,12 @@
     mapPinFillIcon,
     phoneFillIcon,
   } from "$lib/icons";
-  import type { Service } from "$lib/types";
+  import type { Model, Service } from "$lib/types";
   import { token } from "$lib/utils/auth";
   import { formatFilePath } from "$lib/utils/file";
   import { trackMobilisation } from "$lib/utils/stats";
 
-  export let service: Service;
+  export let service: Service | Model;
   export let isDI = false;
 
   const searchId = $page.url.searchParams.get("searchId");
