@@ -70,13 +70,13 @@
       orderedCoachOrientationModeValues[a.value] -
       orderedCoachOrientationModeValues[b.value]
   );
-  $: fieldModelProps.coachOrientationModes.value.sort((a, b) => {
+  $: fieldModelProps.coachOrientationModes?.value.sort((a, b) => {
     return (
       orderedCoachOrientationModeValues[a] -
       orderedCoachOrientationModeValues[b]
     );
   });
-  $: fieldModelProps.coachOrientationModes.serviceValue.sort((a, b) => {
+  $: fieldModelProps.coachOrientationModes?.serviceValue.sort((a, b) => {
     return (
       orderedCoachOrientationModeValues[a] -
       orderedCoachOrientationModeValues[b]
@@ -87,13 +87,13 @@
       orderedBeneficiariesAccessModeValues[a.value] -
       orderedBeneficiariesAccessModeValues[b.value]
   );
-  $: fieldModelProps.beneficiariesAccessModes.value.sort((a, b) => {
+  $: fieldModelProps.beneficiariesAccessModes?.value.sort((a, b) => {
     return (
       orderedBeneficiariesAccessModeValues[a] -
       orderedBeneficiariesAccessModeValues[b]
     );
   });
-  $: fieldModelProps.beneficiariesAccessModes.serviceValue.sort((a, b) => {
+  $: fieldModelProps.beneficiariesAccessModes?.serviceValue.sort((a, b) => {
     return (
       orderedBeneficiariesAccessModeValues[a] -
       orderedBeneficiariesAccessModeValues[b]
@@ -120,20 +120,24 @@
     {#if $currentSchema && "coachOrientationModes" in $currentSchema && "coachOrientationModesExternalFormLink" in $currentSchema && "coachOrientationModesExternalFormLinkText" in $currentSchema && "coachOrientationModesOther" in $currentSchema}
       <FieldModel
         {...fieldModelProps.coachOrientationModes ?? {}}
-        subFields={{
-          "formulaire-externe": [
-            {
-              label: $currentSchema.coachOrientationModesExternalFormLink.label,
-              ...fieldModelProps.coachOrientationModesExternalFormLink,
-            },
-            {
-              label:
-                $currentSchema.coachOrientationModesExternalFormLinkText.label,
-              ...fieldModelProps.coachOrientationModesExternalFormLinkText,
-            },
-          ],
-          autre: [fieldModelProps.coachOrientationModesOther],
-        }}
+        subFields={fieldModelProps.coachOrientationModes
+          ? {
+              "formulaire-externe": [
+                {
+                  label:
+                    $currentSchema.coachOrientationModesExternalFormLink.label,
+                  ...fieldModelProps.coachOrientationModesExternalFormLink,
+                },
+                {
+                  label:
+                    $currentSchema.coachOrientationModesExternalFormLinkText
+                      .label,
+                  ...fieldModelProps.coachOrientationModesExternalFormLinkText,
+                },
+              ],
+              autre: [fieldModelProps.coachOrientationModesOther],
+            }
+          : undefined}
         type="array"
       >
         {@const id = "coachOrientationModes"}
@@ -224,22 +228,25 @@
     {#if $currentSchema && "beneficiariesAccessModes" in $currentSchema && "beneficiariesAccessModesExternalFormLink" in $currentSchema && "beneficiariesAccessModesExternalFormLinkText" in $currentSchema && "beneficiariesAccessModesOther" in $currentSchema}
       <FieldModel
         {...fieldModelProps.beneficiariesAccessModes ?? {}}
-        subFields={{
-          "formulaire-externe": [
-            {
-              label:
-                $currentSchema.beneficiariesAccessModesExternalFormLink.label,
-              ...fieldModelProps.beneficiariesAccessModesExternalFormLink,
-            },
-            {
-              label:
-                $currentSchema.beneficiariesAccessModesExternalFormLinkText
-                  .label,
-              ...fieldModelProps.beneficiariesAccessModesExternalFormLinkText,
-            },
-          ],
-          autre: [fieldModelProps.beneficiariesAccessModesOther],
-        }}
+        subFields={fieldModelProps.beneficiariesAccessModes
+          ? {
+              "formulaire-externe": [
+                {
+                  label:
+                    $currentSchema.beneficiariesAccessModesExternalFormLink
+                      .label,
+                  ...fieldModelProps.beneficiariesAccessModesExternalFormLink,
+                },
+                {
+                  label:
+                    $currentSchema.beneficiariesAccessModesExternalFormLinkText
+                      .label,
+                  ...fieldModelProps.beneficiariesAccessModesExternalFormLinkText,
+                },
+              ],
+              autre: [fieldModelProps.beneficiariesAccessModesOther],
+            }
+          : undefined}
         type="array"
       >
         {@const id = "beneficiariesAccessModes"}
