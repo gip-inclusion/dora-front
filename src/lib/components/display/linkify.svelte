@@ -1,12 +1,12 @@
 <script lang="ts">
   import { externalLinkIcon } from "$lib/icons";
-  import type { Service } from "$lib/types";
+  import type { Model, Service } from "$lib/types";
   import { trackMobilisation } from "$lib/utils/stats";
   import { page } from "$app/stores";
 
   export let text: string;
   export let trackMobilisationOnLinkClick:
-    | { service: Service; isDI: boolean }
+    | { service: Service | Model; isDI: boolean }
     | undefined = undefined;
 
   type Parts = Array<
