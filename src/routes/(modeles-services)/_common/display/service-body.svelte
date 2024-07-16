@@ -29,7 +29,7 @@
         </div>
         <hr class="my-s24" />
         <div class="mobilize">
-          <ServiceMobilize {service} />
+          <ServiceMobilize {service} {isDI} />
         </div>
       </div>
     </div>

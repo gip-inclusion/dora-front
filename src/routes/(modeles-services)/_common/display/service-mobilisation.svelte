@@ -1,16 +1,22 @@
 <script lang="ts">
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
-  import { token } from "$lib/utils/auth";
 
   import Button from "$lib/components/display/button.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
   import ServiceContact from "$lib/components/specialized/services/display/service-contact.svelte";
-  import { trackMobilisation } from "$lib/utils/stats";
+  import { externalLinkIcon } from "$lib/icons";
   import type { Service } from "$lib/types";
+  import { token } from "$lib/utils/auth";
+  import { trackMobilisation } from "$lib/utils/stats";
+
   import SharingModal from "./modals/sharing-modal.svelte";
 
   export let service: Service;
   export let isDI = false;
+
+  $: hasExternalForm =
+    service.coachOrientationModes.includes("formulaire-externe");
 
   let sharingModalIsOpen = false;
   let contactBoxOpen = false;
@@ -46,6 +52,10 @@
     }
   }
 
+  function handleExternalFormClick() {
+    trackMobilisation(service, $page.url, isDI);
+  }
+
   function handleShareClick() {
     sharingModalIsOpen = true;
   }
@@ -55,32 +65,39 @@
 
 <h2 class="text-f23 text-white">Mobiliser ce service</h2>
 
-<div class="w-full sm:w-auto">
-  <div class="print:hidden">
-    <div class="mb-s16 mt-s16">
-      {#if service.isOrientable || service.contactInfoFilled}
-        {#if !contactBoxOpen}
-          <Button
-            on:click={handleOrientationClick}
-            extraClass="mt-s16 bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
-            label="Orienter votre bénéficiaire"
-            wFull
-          />
-        {:else}
-          <ServiceContact {service} />
-        {/if}
-      {:else}
-        Informations de contact non renseignées
-      {/if}
-    </div>
-
-    <div class="text-white">
+<div class="mt-s16 flex w-full flex-col gap-s16 sm:w-auto print:hidden">
+  {#if service.isOrientable || service.contactInfoFilled}
+    {#if !contactBoxOpen}
       <Button
-        on:click={handleShareClick}
-        extraClass="!bg-france-blue text-white !border !border-white hover:!bg-magenta-cta hover:!border-france-blue"
-        label="Partager cette fiche"
+        on:click={handleOrientationClick}
+        extraClass="mt-s16 bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
+        label="Orienter votre bénéficiaire"
         wFull
       />
-    </div>
-  </div>
+    {:else}
+      <ServiceContact {service} />
+    {/if}
+  {:else}
+    Informations de contact non renseignées
+  {/if}
+
+  {#if hasExternalForm}
+    <LinkButton
+      on:click={handleExternalFormClick}
+      to={service.coachOrientationModesExternalFormLink}
+      extraClass="bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
+      label={service.coachOrientationModesExternalFormLinkText}
+      icon={externalLinkIcon}
+      iconOnRight
+      otherTab
+      wFull
+    />
+  {/if}
+
+  <Button
+    on:click={handleShareClick}
+    extraClass="!bg-france-blue text-white !border !border-white hover:!bg-magenta-cta hover:!border-france-blue"
+    label="Partager cette fiche"
+    wFull
+  />
 </div>

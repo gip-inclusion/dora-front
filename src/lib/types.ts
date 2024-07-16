@@ -372,9 +372,11 @@ export interface ServiceStructure {
   address2: string;
   city: string;
   department: string;
+  email: string;
   hasAdmin: boolean;
   name: string;
   numServices: number;
+  phone: string;
   postalCode: string;
   shortDesc: string;
   siret: string;
