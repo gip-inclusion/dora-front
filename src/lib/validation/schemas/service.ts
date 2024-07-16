@@ -253,6 +253,7 @@ export const serviceSchema: v.Schema = {
       beneficiariesAccessModes: BeneficiaryAccessModes;
     }) => {
       return (
+        data.coachOrientationModes.includes("formulaire-dora") ||
         data.coachOrientationModes.includes("envoyer-courriel") ||
         data.coachOrientationModes.includes("envoyer-fiche-prescription") ||
         data.beneficiariesAccessModes.includes("envoyer-courriel")
