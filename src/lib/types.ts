@@ -96,6 +96,7 @@ export interface ShortStructure {
   department: string;
   modificationDate: string;
   name: string;
+  noDoraForm: boolean;
   parent: string;
   siret: string;
   slug: string;
@@ -169,6 +170,7 @@ export interface Structure {
   modificationDate: string;
   name: string;
   nationalLabels: string[];
+  noDoraForm: boolean;
   numModels: number;
   numServices: number;
   openingHours: string | null;
@@ -290,16 +292,19 @@ export type SavedSearchNotificationFrequency =
   | "MONTHLY";
 
 export type CoachOrientationModes =
-  | "envoyer-courriel"
+  | "formulaire-dora"
+  | "formulaire-externe"
   | "envoyer-fiche-prescription"
-  | "envoyer-formulaire"
-  | "autre"
-  | "telephoner";
-export type BeneficiaryAccessModes =
   | "envoyer-courriel"
+  | "telephoner"
+  | "autre";
+export type BeneficiaryAccessModes =
+  | "professionnel"
   | "se-presenter"
-  | "autre"
-  | "telephoner";
+  | "formulaire-externe"
+  | "envoyer-courriel"
+  | "telephoner"
+  | "autre";
 
 export interface SearchQuery {
   categoryIds: string[];
@@ -390,6 +395,8 @@ export interface Service {
   address2: string;
   beneficiariesAccessModes: BeneficiaryAccessModes[];
   beneficiariesAccessModesDisplay: string[];
+  beneficiariesAccessModesExternalFormLinkText: string;
+  beneficiariesAccessModesExternalFormLink: string;
   beneficiariesAccessModesOther: string;
   canWrite: boolean;
   categories: ServiceCategory[];
@@ -398,6 +405,8 @@ export interface Service {
   cityCode: string;
   coachOrientationModes: CoachOrientationModes[];
   coachOrientationModesDisplay: string[];
+  coachOrientationModesExternalFormLinkText: string;
+  coachOrientationModesExternalFormLink: string;
   coachOrientationModesOther: string;
   concernedPublic: CustomizableFK[]; // TODO: should be plural
   concernedPublicDisplay: string[];
@@ -564,6 +573,8 @@ export type Model = {
   credentials: CustomizableFK[];
   credentialsDisplay: string[];
   department: string;
+  externalFormLink: string;
+  externalFormLinkText: string;
   feeCondition: FeeCondition;
   feeDetails: string;
   forms: string[];
