@@ -90,7 +90,8 @@
       on:click={handleExternalFormClick}
       to={service.coachOrientationModesExternalFormLink}
       extraClass="bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
-      label={service.coachOrientationModesExternalFormLinkText}
+      label={service.coachOrientationModesExternalFormLinkText ||
+        "Orienter votre bénéficiaire"}
       icon={externalLinkIcon}
       iconOnRight
       otherTab

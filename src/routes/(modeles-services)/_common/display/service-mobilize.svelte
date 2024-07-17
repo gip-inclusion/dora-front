@@ -74,7 +74,8 @@
                   target="_blank"
                   on:click={trackMobilisationUnconditionally}
                   class="text-magenta-cta underline"
-                  >{service.coachOrientationModesExternalFormLinkText}
+                  >{service.coachOrientationModesExternalFormLinkText ||
+                    "Orienter votre bénéficiaire"}
                   <span
                     class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
                     >{@html externalLinkIcon}</span
