@@ -15,6 +15,9 @@
   export let service: Service;
   export let isDI = false;
 
+  $: isOrientasbleWithDoraForm =
+    service.isOrientable &&
+    service.coachOrientationModes?.includes("formulaire-dora");
   $: hasExternalForm = service.coachOrientationModes.includes(
     "completer-le-formulaire-dadhesion"
   );
@@ -37,7 +40,7 @@
   }
 
   function handleOrientationClick() {
-    if (!service.coachOrientationModes.includes("formulaire-dora")) {
+    if (!isOrientasbleWithDoraForm) {
       showContact();
     } else {
       if ($token) {
@@ -67,7 +70,7 @@
 <h2 class="text-f23 text-white">Mobiliser ce service</h2>
 
 <div class="mt-s16 flex w-full flex-col gap-s16 sm:w-auto print:hidden">
-  {#if service.coachOrientationModes.includes("formulaire-dora") || service.contactInfoFilled}
+  {#if isOrientasbleWithDoraForm || service.contactInfoFilled}
     {#if !contactBoxOpen}
       <Button
         on:click={handleOrientationClick}
