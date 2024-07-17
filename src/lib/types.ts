@@ -333,7 +333,6 @@ export interface ServiceSearchResult {
   coordinates: Coordinates | null;
   diffusionZoneType: string;
   isOrientable?: boolean;
-  isOrientablePartialCompute?: boolean;
   coachOrientationModes?: string[];
   beneficiariesAccessModes?: string[];
   modificationDate: string;
