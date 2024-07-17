@@ -15,8 +15,9 @@
   export let service: Service;
   export let isDI = false;
 
-  $: hasExternalForm =
-    service.coachOrientationModes.includes("formulaire-externe");
+  $: hasExternalForm = service.coachOrientationModes.includes(
+    "completer-le-formulaire-dadhesion"
+  );
 
   let sharingModalIsOpen = false;
   let contactBoxOpen = false;

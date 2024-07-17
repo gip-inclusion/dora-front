@@ -30,9 +30,9 @@
     number
   > = {
     "formulaire-dora": 0,
-    "formulaire-externe": 1,
-    "envoyer-fiche-prescription": 2,
-    "envoyer-courriel": 3,
+    "completer-le-formulaire-dadhesion": 1,
+    "envoyer-un-mail-avec-une-fiche-de-prescription": 2,
+    "envoyer-un-mail": 3,
     telephoner: 4,
     autre: 5,
   };
@@ -40,8 +40,8 @@
   const orderedBeneficiariesAccessModeValues = {
     professionnel: 0,
     "se-presenter": 1,
-    "formulaire-externe": 2,
-    "envoyer-courriel": 3,
+    "completer-le-formulaire-dadhesion": 2,
+    "envoyer-un-mail": 3,
     telephoner: 4,
     autre: 5,
   };
@@ -122,7 +122,7 @@
         {...fieldModelProps.coachOrientationModes ?? {}}
         subFields={fieldModelProps.coachOrientationModes
           ? {
-              "formulaire-externe": [
+              "completer-le-formulaire-dadhesion": [
                 {
                   label:
                     $currentSchema.coachOrientationModesExternalFormLink.label,
@@ -152,7 +152,7 @@
         >
           <div class="flex flex-col gap-s8">
             {#each servicesOptions.coachOrientationModes as choice}
-              {#if choice.value === "formulaire-externe" && service.coachOrientationModes.includes("formulaire-externe")}
+              {#if choice.value === "completer-le-formulaire-dadhesion" && service.coachOrientationModes.includes("completer-le-formulaire-dadhesion")}
                 <Checkbox
                   name={id}
                   bind:group={service.coachOrientationModes}
@@ -230,7 +230,7 @@
         {...fieldModelProps.beneficiariesAccessModes ?? {}}
         subFields={fieldModelProps.beneficiariesAccessModes
           ? {
-              "formulaire-externe": [
+              "completer-le-formulaire-dadhesion": [
                 {
                   label:
                     $currentSchema.beneficiariesAccessModesExternalFormLink
@@ -261,7 +261,7 @@
         >
           <div class="flex flex-col gap-s8">
             {#each servicesOptions.beneficiariesAccessModes as choice}
-              {#if choice.value === "formulaire-externe" && service.beneficiariesAccessModes.includes("formulaire-externe")}
+              {#if choice.value === "completer-le-formulaire-dadhesion" && service.beneficiariesAccessModes.includes("completer-le-formulaire-dadhesion")}
                 <Checkbox
                   name={id}
                   bind:group={service.beneficiariesAccessModes}

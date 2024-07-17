@@ -293,16 +293,16 @@ export type SavedSearchNotificationFrequency =
 
 export type CoachOrientationModes =
   | "formulaire-dora"
-  | "formulaire-externe"
-  | "envoyer-fiche-prescription"
-  | "envoyer-courriel"
+  | "completer-le-formulaire-dadhesion"
+  | "envoyer-un-mail-avec-une-fiche-de-prescription"
+  | "envoyer-un-mail"
   | "telephoner"
   | "autre";
 export type BeneficiaryAccessModes =
   | "professionnel"
   | "se-presenter"
-  | "formulaire-externe"
-  | "envoyer-courriel"
+  | "completer-le-formulaire-dadhesion"
+  | "envoyer-un-mail"
   | "telephoner"
   | "autre";
 

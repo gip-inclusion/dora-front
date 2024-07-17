@@ -154,7 +154,9 @@ export const serviceSchema: v.Schema = {
     default: "",
     rules: [v.isString(), v.maxStrLength(280)],
     required: (data: { beneficiariesAccessModes: BeneficiaryAccessModes }) => {
-      return data.beneficiariesAccessModes.includes("formulaire-externe");
+      return data.beneficiariesAccessModes.includes(
+        "completer-le-formulaire-dadhesion"
+      );
     },
     maxLength: 280,
   },
@@ -186,7 +188,9 @@ export const serviceSchema: v.Schema = {
     default: "",
     rules: [v.isString(), v.maxStrLength(280)],
     required: (data: { coachOrientationModes: CoachOrientationModes }) => {
-      return data.coachOrientationModes.includes("formulaire-externe");
+      return data.coachOrientationModes.includes(
+        "completer-le-formulaire-dadhesion"
+      );
     },
     maxLength: 280,
   },
@@ -210,7 +214,9 @@ export const serviceSchema: v.Schema = {
     default: [],
     rules: [v.isArray([v.isString(), v.maxStrLength(1024)])],
     required: (data: { coachOrientationModes: CoachOrientationModes }) => {
-      return data.coachOrientationModes.includes("envoyer-fiche-prescription");
+      return data.coachOrientationModes.includes(
+        "envoyer-un-mail-avec-une-fiche-de-prescription"
+      );
     },
   },
   onlineForm: {
@@ -254,9 +260,11 @@ export const serviceSchema: v.Schema = {
     }) => {
       return (
         data.coachOrientationModes.includes("formulaire-dora") ||
-        data.coachOrientationModes.includes("envoyer-courriel") ||
-        data.coachOrientationModes.includes("envoyer-fiche-prescription") ||
-        data.beneficiariesAccessModes.includes("envoyer-courriel")
+        data.coachOrientationModes.includes("envoyer-un-mail") ||
+        data.coachOrientationModes.includes(
+          "envoyer-un-mail-avec-une-fiche-de-prescription"
+        ) ||
+        data.beneficiariesAccessModes.includes("envoyer-un-mail")
       );
     },
   },

@@ -51,13 +51,14 @@
     return (
       result.isOrientablePartialCompute &&
       (result.coachOrientationModes?.some((coachOrientationMode) =>
-        ["envoyer-courriel", "envoyer-fiche-prescription"].includes(
-          coachOrientationMode
-        )
+        [
+          "envoyer-un-mail",
+          "envoyer-un-mail-avec-une-fiche-de-prescription",
+        ].includes(coachOrientationMode)
       ) ||
         result.beneficiariesAccessModes?.some(
           (beneficiariesAccessMode) =>
-            beneficiariesAccessMode === "envoyer-courriel"
+            beneficiariesAccessMode === "envoyer-un-mail"
         ))
     );
   }

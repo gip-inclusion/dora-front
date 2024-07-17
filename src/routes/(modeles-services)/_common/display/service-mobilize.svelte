@@ -53,9 +53,9 @@
     .filter(Boolean)
     .join(", ");
   $: contactInfoForIndividualPhone =
-    service["contactPhone"] || service.structureInfo.phone;
+    service.contactPhone || service.structureInfo.phone;
   $: contactInfoForIndividualEmail =
-    service["contactEmail"] || service.structureInfo.email;
+    service.contactEmail || service.structureInfo.email;
 </script>
 
 <div id="orientation-modes">
@@ -68,7 +68,7 @@
         {#if Array.isArray(service.coachOrientationModes)}
           {#each service.coachOrientationModes as mode, i (mode)}
             <li>
-              {#if mode === "formulaire-externe"}
+              {#if mode === "completer-le-formulaire-dadhesion"}
                 <a
                   href={service.coachOrientationModesExternalFormLink}
                   target="_blank"
@@ -97,7 +97,7 @@
                   on:click={trackMobilisationIfSignedIn}
                   class="text-magenta-cta underline">Commencer</a
                 >
-              {:else if mode === "envoyer-fiche-prescription" && "contactEmail" in service}
+              {:else if mode === "envoyer-un-mail-avec-une-fiche-de-prescription" && "contactEmail" in service}
                 {#if isContactInfoForProfessionalShown}
                   <a
                     href={`mailto:${service.contactEmail}`}
@@ -110,7 +110,7 @@
                     >Voir l’adresse email</button
                   >
                 {/if}
-              {:else if mode === "envoyer-courriel" && "contactEmail" in service}
+              {:else if mode === "envoyer-un-mail" && "contactEmail" in service}
                 {#if isContactInfoForProfessionalShown}
                   <a
                     href={`mailto:${service.contactEmail}`}
@@ -151,7 +151,7 @@
         {#if Array.isArray(service.beneficiariesAccessModes)}
           {#each service.beneficiariesAccessModes as mode, i (mode)}
             <li>
-              {#if mode === "formulaire-externe"}
+              {#if mode === "completer-le-formulaire-dadhesion"}
                 <a
                   href={service.beneficiariesAccessModesExternalFormLink}
                   target="_blank"
