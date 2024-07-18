@@ -117,7 +117,28 @@
       <ul class="typographic-list">
         {#each coachOrientationModesValueAndDisplay as [modeValue, modeDisplay] (modeValue)}
           <li>
-            {#if modeValue === "completer-le-formulaire-dadhesion"}
+            {#if modeValue === "formulaire-dora"}
+              Orienter votre bénéficiaire via le formulaire DORA
+              <a
+                href={orientationFormUrl}
+                on:click={trackMobilisationIfSignedIn}
+                class="text-magenta-cta underline">Commencer</a
+              >
+            {:else if modeValue === "envoyer-un-mail-avec-une-fiche-de-prescription" && "contactEmail" in service}
+              Envoyer un email avec une fiche de prescription
+              {#if isContactInfoForProfessionalShown}
+                <a
+                  href={`mailto:${service.contactEmail}`}
+                  class="text-magenta-cta underline">{service.contactEmail}</a
+                >
+              {:else}
+                <button
+                  on:click={showContactInfoForProfessional}
+                  class="text-magenta-cta underline"
+                  >Voir l’adresse email</button
+                >
+              {/if}
+            {:else if modeValue === "completer-le-formulaire-dadhesion"}
               <a
                 href={service.coachOrientationModesExternalFormLink}
                 target="_blank"
@@ -140,26 +161,7 @@
             {:else}
               {modeDisplay}
             {/if}
-            {#if modeValue === "formulaire-dora"}
-              <a
-                href={orientationFormUrl}
-                on:click={trackMobilisationIfSignedIn}
-                class="text-magenta-cta underline">Commencer</a
-              >
-            {:else if modeValue === "envoyer-un-mail-avec-une-fiche-de-prescription" && "contactEmail" in service}
-              {#if isContactInfoForProfessionalShown}
-                <a
-                  href={`mailto:${service.contactEmail}`}
-                  class="text-magenta-cta underline">{service.contactEmail}</a
-                >
-              {:else}
-                <button
-                  on:click={showContactInfoForProfessional}
-                  class="text-magenta-cta underline"
-                  >Voir l’adresse email</button
-                >
-              {/if}
-            {:else if modeValue === "envoyer-un-mail" && "contactEmail" in service}
+            {#if modeValue === "envoyer-un-mail" && "contactEmail" in service}
               {#if isContactInfoForProfessionalShown}
                 <a
                   href={`mailto:${service.contactEmail}`}
@@ -208,6 +210,8 @@
                   >{@html externalLinkIcon}</span
                 ></a
               >
+            {:else if modeValue === "professionnel"}
+              Orientation par un professionnel
             {:else if modeValue === "autre"}
               <Linkify
                 text={service.beneficiariesAccessModesOther}
