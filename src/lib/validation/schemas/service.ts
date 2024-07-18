@@ -145,8 +145,13 @@ export const serviceSchema: v.Schema = {
   },
   beneficiariesAccessModesExternalFormLinkText: {
     label: "L’intitulé du lien",
-    default: "Orienter votre bénéficiaire",
+    default: "Faire une demande",
     rules: [v.isString(), v.maxStrLength(27)],
+    required: (data: { beneficiariesAccessModes: BeneficiaryAccessModes }) => {
+      return data.beneficiariesAccessModes.includes(
+        "completer-le-formulaire-dadhesion"
+      );
+    },
     maxLength: 27,
   },
   beneficiariesAccessModesExternalFormLink: {
@@ -181,6 +186,11 @@ export const serviceSchema: v.Schema = {
     label: "L’intitulé du lien",
     default: "Orienter votre bénéficiaire",
     rules: [v.isString(), v.maxStrLength(27)],
+    required: (data: { coachOrientationModes: CoachOrientationModes }) => {
+      return data.coachOrientationModes.includes(
+        "completer-le-formulaire-dadhesion"
+      );
+    },
     maxLength: 27,
   },
   coachOrientationModesExternalFormLink: {

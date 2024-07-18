@@ -179,7 +179,7 @@
                   />
                   <BasicInputField
                     id="coachOrientationModesExternalFormLink"
-                    description="Lien vers votre formulaire ou plateforme. Format attendu : https://example.fr"
+                    description="Lien vers votre formulaire ou plateforme. Format attendu : https://exemple.fr"
                     type="url"
                     vertical
                     bind:value={service.coachOrientationModesExternalFormLink}
@@ -282,14 +282,14 @@
                 >
                   <BasicInputField
                     id="beneficiariesAccessModesExternalFormLinkText"
-                    description="Par exemple : Orienter votre bénéficiaire, Faire une simulation, Prendre rendez-vous, etc."
-                    placeholder="Orienter votre bénéficiaire"
+                    description="Par exemple : Faire une demande, Faire une simulation, Prendre rendez-vous, etc."
+                    placeholder="Faire une demande"
                     vertical
                     bind:value={service.beneficiariesAccessModesExternalFormLinkText}
                   />
                   <BasicInputField
                     id="beneficiariesAccessModesExternalFormLink"
-                    description="Lien vers votre formulaire ou plateforme. Format attendu : https://example.fr"
+                    description="Lien vers votre formulaire ou plateforme. Format attendu : https://exemple.fr"
                     type="url"
                     vertical
                     bind:value={service.beneficiariesAccessModesExternalFormLink}
