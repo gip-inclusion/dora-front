@@ -13,12 +13,41 @@
     mapPinFillIcon,
     phoneFillIcon,
   } from "$lib/icons";
-  import type { Model, Service } from "$lib/types";
+  import type {
+    BeneficiaryAccessModes,
+    CoachOrientationModes,
+    Model,
+    Service,
+  } from "$lib/types";
   import { token } from "$lib/utils/auth";
   import { formatFilePath } from "$lib/utils/file";
 
   export let service: Service | Model;
   export let isDI = false;
+
+  const orderedCoachOrientationModeValues: Record<
+    CoachOrientationModes,
+    number
+  > = {
+    "formulaire-dora": 0,
+    "envoyer-un-mail-avec-une-fiche-de-prescription": 1,
+    "completer-le-formulaire-dadhesion": 2,
+    "envoyer-un-mail": 3,
+    telephoner: 4,
+    autre: 5,
+  };
+
+  const orderedBeneficiariesAccessModeValues: Record<
+    BeneficiaryAccessModes,
+    number
+  > = {
+    "se-presenter": 0,
+    "completer-le-formulaire-dadhesion": 1,
+    "envoyer-un-mail": 2,
+    telephoner: 3,
+    professionnel: 4,
+    autre: 5,
+  };
 
   const searchId = $page.url.searchParams.get("searchId");
   const searchFragment = searchId ? `?searchId=${searchId}` : "";
@@ -59,6 +88,22 @@
     service.contactPhone || service.structureInfo.phone;
   $: contactInfoForIndividualEmail =
     service.contactEmail || service.structureInfo.email;
+
+  $: coachOrientationModesValueAndDisplay = service.coachOrientationModes
+    .map((val, index) => [val, service.coachOrientationModesDisplay[index]])
+    .sort(
+      (a, b) =>
+        orderedCoachOrientationModeValues[a[0]] -
+        orderedCoachOrientationModeValues[b[0]]
+    );
+
+  $: beneficiariesAccessModesValueAndDisplay = service.beneficiariesAccessModes
+    .map((val, index) => [val, service.beneficiariesAccessModesDisplay[index]])
+    .sort(
+      (a, b) =>
+        orderedBeneficiariesAccessModeValues[a[0]] -
+        orderedBeneficiariesAccessModeValues[b[0]]
+    );
 </script>
 
 <div id="orientation-modes">
@@ -68,123 +113,113 @@
 
       <h4>Pour les professionnels d’insertion</h4>
       <ul class="typographic-list">
-        {#if Array.isArray(service.coachOrientationModes)}
-          {#each service.coachOrientationModes as mode, i (mode)}
-            <li>
-              {#if mode === "completer-le-formulaire-dadhesion"}
+        {#each coachOrientationModesValueAndDisplay as [modeValue, modeDisplay] (modeValue)}
+          <li>
+            {#if modeValue === "completer-le-formulaire-dadhesion"}
+              <a
+                href={service.coachOrientationModesExternalFormLink}
+                target="_blank"
+                on:click={trackMobilisationUnconditionally}
+                class="text-magenta-cta underline"
+                >{service.coachOrientationModesExternalFormLinkText ||
+                  "Orienter votre bénéficiaire"}
+                <span class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
+                  >{@html externalLinkIcon}</span
+                ></a
+              >
+            {:else if modeValue === "autre"}
+              <Linkify
+                text={service.coachOrientationModesOther}
+                trackMobilisationOnLinkClick={{
+                  service,
+                  isDI,
+                }}
+              />
+            {:else}
+              {modeDisplay}
+            {/if}
+            {#if modeValue === "formulaire-dora"}
+              <a
+                href={orientationFormUrl}
+                on:click={trackMobilisationIfSignedIn}
+                class="text-magenta-cta underline">Commencer</a
+              >
+            {:else if modeValue === "envoyer-un-mail-avec-une-fiche-de-prescription" && "contactEmail" in service}
+              {#if isContactInfoForProfessionalShown}
                 <a
-                  href={service.coachOrientationModesExternalFormLink}
-                  target="_blank"
-                  on:click={trackMobilisationUnconditionally}
-                  class="text-magenta-cta underline"
-                  >{service.coachOrientationModesExternalFormLinkText ||
-                    "Orienter votre bénéficiaire"}
-                  <span
-                    class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
-                    >{@html externalLinkIcon}</span
-                  ></a
+                  href={`mailto:${service.contactEmail}`}
+                  class="text-magenta-cta underline">{service.contactEmail}</a
                 >
-              {:else if mode === "autre"}
-                <Linkify
-                  text={service.coachOrientationModesOther}
-                  trackMobilisationOnLinkClick={{
-                    service,
-                    isDI,
-                  }}
-                />
               {:else}
-                {service.coachOrientationModesDisplay[i]}
-              {/if}
-              {#if mode === "formulaire-dora"}
-                <a
-                  href={orientationFormUrl}
-                  on:click={trackMobilisationIfSignedIn}
-                  class="text-magenta-cta underline">Commencer</a
+                <button
+                  on:click={showContactInfoForProfessional}
+                  class="text-magenta-cta underline"
+                  >Voir l’adresse email</button
                 >
-              {:else if mode === "envoyer-un-mail-avec-une-fiche-de-prescription" && "contactEmail" in service}
-                {#if isContactInfoForProfessionalShown}
-                  <a
-                    href={`mailto:${service.contactEmail}`}
-                    class="text-magenta-cta underline">{service.contactEmail}</a
-                  >
-                {:else}
-                  <button
-                    on:click={showContactInfoForProfessional}
-                    class="text-magenta-cta underline"
-                    >Voir l’adresse email</button
-                  >
-                {/if}
-              {:else if mode === "envoyer-un-mail" && "contactEmail" in service}
-                {#if isContactInfoForProfessionalShown}
-                  <a
-                    href={`mailto:${service.contactEmail}`}
-                    class="text-magenta-cta underline">{service.contactEmail}</a
-                  >
-                {:else}
-                  <button
-                    on:click={showContactInfoForProfessional}
-                    class="text-magenta-cta underline"
-                    >Voir l’adresse email</button
-                  >
-                {/if}
-              {:else if mode === "telephoner" && "contactPhone" in service}
-                {#if isContactInfoForProfessionalShown}
-                  <a
-                    href={`tel:${service.contactPhone}`}
-                    class="text-magenta-cta underline">{service.contactPhone}</a
-                  >
-                {:else}
-                  <button
-                    on:click={showContactInfoForProfessional}
-                    class="text-magenta-cta underline"
-                    >Voir le numéro de téléphone</button
-                  >
-                {/if}
               {/if}
-            </li>
-          {:else}
-            <li>Non renseigné</li>
-          {/each}
+            {:else if modeValue === "envoyer-un-mail" && "contactEmail" in service}
+              {#if isContactInfoForProfessionalShown}
+                <a
+                  href={`mailto:${service.contactEmail}`}
+                  class="text-magenta-cta underline">{service.contactEmail}</a
+                >
+              {:else}
+                <button
+                  on:click={showContactInfoForProfessional}
+                  class="text-magenta-cta underline"
+                  >Voir l’adresse email</button
+                >
+              {/if}
+            {:else if modeValue === "telephoner" && "contactPhone" in service}
+              {#if isContactInfoForProfessionalShown}
+                <a
+                  href={`tel:${service.contactPhone}`}
+                  class="text-magenta-cta underline">{service.contactPhone}</a
+                >
+              {:else}
+                <button
+                  on:click={showContactInfoForProfessional}
+                  class="text-magenta-cta underline"
+                  >Voir le numéro de téléphone</button
+                >
+              {/if}
+            {/if}
+          </li>
         {:else}
           <li>Non renseigné</li>
-        {/if}
+        {/each}
       </ul>
 
       <h4>Pour les particuliers</h4>
       <ul class="typographic-list">
-        {#if Array.isArray(service.beneficiariesAccessModes)}
-          {#each service.beneficiariesAccessModes as mode, i (mode)}
-            <li>
-              {#if mode === "completer-le-formulaire-dadhesion"}
-                <a
-                  href={service.beneficiariesAccessModesExternalFormLink}
-                  target="_blank"
-                  on:click={trackMobilisationUnconditionally}
-                  class="text-magenta-cta underline"
-                  >{service.beneficiariesAccessModesExternalFormLinkText}
-                  <span
-                    class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
-                    >{@html externalLinkIcon}</span
-                  ></a
-                >
-              {:else if mode === "autre"}
-                <Linkify
-                  text={service.beneficiariesAccessModesOther}
-                  trackMobilisationOnLinkClick={{
-                    service,
-                    isDI,
-                  }}
-                />
-              {:else}
-                {service.beneficiariesAccessModesDisplay[i]}
-              {/if}
-            </li>
-          {:else}
-            <li>Non renseigné</li>
-          {/each}
+        {#each beneficiariesAccessModesValueAndDisplay as [modeValue, modeDisplay] (modeValue)}
+          <li>
+            {#if modeValue === "completer-le-formulaire-dadhesion"}
+              <a
+                href={service.beneficiariesAccessModesExternalFormLink}
+                target="_blank"
+                on:click={trackMobilisationUnconditionally}
+                class="text-magenta-cta underline"
+                >{service.beneficiariesAccessModesExternalFormLinkText}
+                <span class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
+                  >{@html externalLinkIcon}</span
+                ></a
+              >
+            {:else if modeValue === "autre"}
+              <Linkify
+                text={service.beneficiariesAccessModesOther}
+                trackMobilisationOnLinkClick={{
+                  service,
+                  isDI,
+                }}
+              />
+            {:else}
+              {modeDisplay}
+            {/if}
+          </li>
         {:else}
           <li>Non renseigné</li>
-        {/if}
+        {/each}
       </ul>
       {#if contactInfoForIndividualPhone || contactInfoForIndividualEmail}
         <div class="rounded-ml border border-gray-02 p-s24 shadow-sm">

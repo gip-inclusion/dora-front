@@ -5,6 +5,7 @@
   import RadioButtonsField from "$lib/components/forms/fields/radio-buttons-field.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
   import type {
+    BeneficiaryAccessModes,
     CoachOrientationModes,
     Model,
     Service,
@@ -37,7 +38,10 @@
     autre: 5,
   };
 
-  const orderedBeneficiariesAccessModeValues = {
+  const orderedBeneficiariesAccessModeValues: Record<
+    BeneficiaryAccessModes,
+    number
+  > = {
     professionnel: 0,
     "se-presenter": 1,
     "completer-le-formulaire-dadhesion": 2,
