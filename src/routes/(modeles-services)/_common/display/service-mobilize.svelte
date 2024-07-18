@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
+
   import { page } from "$app/stores";
 
   import Accordion from "$lib/components/display/accordion.svelte";
@@ -14,7 +16,6 @@
   import type { Model, Service } from "$lib/types";
   import { token } from "$lib/utils/auth";
   import { formatFilePath } from "$lib/utils/file";
-  import { trackMobilisation } from "$lib/utils/stats";
 
   export let service: Service | Model;
   export let isDI = false;
@@ -23,26 +24,28 @@
   const searchFragment = searchId ? `?searchId=${searchId}` : "";
   const orientationFormUrl = `/services/${isDI ? "di--" : ""}${service.slug}/orienter${searchFragment}`;
 
+  const dispatch = createEventDispatcher();
+
   let isContactInfoForProfessionalShown = false;
   let isContactInfoForIndividualShown = false;
 
   function trackMobilisationIfSignedIn() {
     if ($token) {
-      trackMobilisation(service, $page.url, isDI);
+      dispatch("trackMobilisation");
     }
   }
 
   function trackMobilisationUnconditionally() {
-    trackMobilisation(service, $page.url, isDI);
+    dispatch("trackMobilisation");
   }
 
   function showContactInfoForProfessional() {
-    trackMobilisation(service, $page.url, isDI);
+    dispatch("trackMobilisation");
     isContactInfoForProfessionalShown = true;
   }
 
   function showContactInfoForIndividual() {
-    trackMobilisation(service, $page.url, isDI);
+    dispatch("trackMobilisation");
     isContactInfoForIndividualShown = true;
   }
 

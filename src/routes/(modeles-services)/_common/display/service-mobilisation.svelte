@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { createEventDispatcher } from "svelte";
+
   import { goto } from "$app/navigation";
   import { page } from "$app/stores";
 
@@ -8,7 +10,6 @@
   import { externalLinkIcon } from "$lib/icons";
   import type { Service } from "$lib/types";
   import { token } from "$lib/utils/auth";
-  import { trackMobilisation } from "$lib/utils/stats";
 
   import SharingModal from "./modals/sharing-modal.svelte";
 
@@ -21,6 +22,8 @@
   $: hasExternalForm = service.coachOrientationModes.includes(
     "completer-le-formulaire-dadhesion"
   );
+
+  const dispatch = createEventDispatcher();
 
   let sharingModalIsOpen = false;
   let contactBoxOpen = false;
@@ -36,7 +39,7 @@
     }
     contactBoxOpen = true;
     // on tracke comme une MER si les contacts du service sont publics
-    trackMobilisation(service, $page.url, isDI);
+    dispatch("trackMobilisation");
   }
 
   function handleOrientationClick() {
@@ -44,7 +47,7 @@
       showContact();
     } else {
       if ($token) {
-        trackMobilisation(service, $page.url, isDI);
+        dispatch("trackMobilisation");
       }
       const searchId = $page.url.searchParams.get("searchId");
       const searchFragment = searchId ? `?searchId=${searchId}` : "";
@@ -57,7 +60,7 @@
   }
 
   function handleExternalFormClick() {
-    trackMobilisation(service, $page.url, isDI);
+    dispatch("trackMobilisation");
   }
 
   function handleShareClick() {
