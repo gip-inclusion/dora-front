@@ -81,6 +81,8 @@
   $: contactInfoForIndividualAddress = [
     service.structureInfo.address1,
     service.structureInfo.address2,
+    service.structureInfo.postalCode,
+    service.structureInfo.city,
   ]
     .filter(Boolean)
     .join(", ");
