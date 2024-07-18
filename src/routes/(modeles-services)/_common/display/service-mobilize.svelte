@@ -202,7 +202,8 @@
                 target="_blank"
                 on:click={trackMobilisationUnconditionally}
                 class="text-magenta-cta underline"
-                >{service.beneficiariesAccessModesExternalFormLinkText}
+                >{service.beneficiariesAccessModesExternalFormLinkText ||
+                  "Faire une demande"}
                 <span class="inline-block h-s20 w-s20 fill-current pl-s4 pt-s6"
                   >{@html externalLinkIcon}</span
                 ></a
