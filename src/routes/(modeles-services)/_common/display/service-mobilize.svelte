@@ -1,6 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from "svelte";
 
+  import { goto } from "$app/navigation";
   import { page } from "$app/stores";
 
   import Accordion from "$lib/components/display/accordion.svelte";
@@ -69,6 +70,14 @@
   }
 
   function showContactInfoForProfessional() {
+    if (!$token && !service.isContactInfoPublic) {
+      goto(
+        `/auth/connexion?next=${encodeURIComponent(
+          $page.url.pathname + $page.url.search
+        )}`
+      );
+      return;
+    }
     dispatch("trackMobilisation");
     isContactInfoForProfessionalShown = true;
   }
