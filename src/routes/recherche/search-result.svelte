@@ -116,11 +116,17 @@
             {result.address1}{#if result.address2}, {result.address2}{/if},
             {result.postalCode}&nbsp;{result.city}
           </div>
-          {#if result.distance > 0}
+          <!-- On n'affiche pas la distance lorsqu'elle n'est pas fournie ou
+               lorsqu'il s'agit d'un service DORA et que la distance est de 0. -->
+          {#if typeof result.distance === "number" && !(!isDI && result.distance === 0)}
             <div class="tag">
-              à&nbsp;{result.distance < 10
-                ? Math.round(result.distance * 10) / 10
-                : Math.round(result.distance)}&nbsp;km
+              {#if result.distance === 0}
+                &lt; 1 km
+              {:else}
+                à&nbsp;{result.distance < 10
+                  ? Math.round(result.distance * 10) / 10
+                  : Math.round(result.distance)} km
+              {/if}
             </div>
           {/if}
         {/if}
