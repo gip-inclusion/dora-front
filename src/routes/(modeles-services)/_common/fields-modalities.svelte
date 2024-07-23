@@ -4,13 +4,7 @@
   import BasicInputField from "$lib/components/forms/fields/basic-input-field.svelte";
   import RadioButtonsField from "$lib/components/forms/fields/radio-buttons-field.svelte";
   import TextareaField from "$lib/components/forms/fields/textarea-field.svelte";
-  import type {
-    BeneficiaryAccessModes,
-    CoachOrientationModes,
-    Model,
-    Service,
-    ServicesOptions,
-  } from "$lib/types";
+  import type { Model, Service, ServicesOptions } from "$lib/types";
   import { getModelInputProps } from "$lib/utils/forms";
   import { isNotFreeService } from "$lib/utils/service";
   import FieldModel from "$lib/components/specialized/services/field-model.svelte";
@@ -23,35 +17,16 @@
     isRequired,
   } from "$lib/validation/validation";
 
+  import FieldsModalitiesBeneficiary from "./fields-modalities-beneficiary.svelte";
+  import {
+    orderedBeneficiariesAccessModeValues,
+    orderedCoachOrientationModeValues,
+  } from "./modalities-order";
+
   export let servicesOptions: ServicesOptions, service: Service;
   export let model: Model | undefined = undefined;
 
-  const orderedCoachOrientationModeValues: Record<
-    CoachOrientationModes,
-    number
-  > = {
-    "formulaire-dora": 0,
-    "completer-le-formulaire-dadhesion": 1,
-    "envoyer-un-mail-avec-une-fiche-de-prescription": 2,
-    "envoyer-un-mail": 3,
-    telephoner: 4,
-    autre: 5,
-  };
-
-  const orderedBeneficiariesAccessModeValues: Record<
-    BeneficiaryAccessModes,
-    number
-  > = {
-    professionnel: 0,
-    "se-presenter": 1,
-    "completer-le-formulaire-dadhesion": 2,
-    "envoyer-un-mail": 3,
-    telephoner: 4,
-    autre: 5,
-  };
-
   let coachOrientationModesFocusValue: string | undefined = undefined;
-  let beneficiariesAccessModesFocusValue: string | undefined = undefined;
 
   function handleUseModelValue(fieldName) {
     service[fieldName] = model ? model[fieldName] : undefined;
@@ -86,11 +61,6 @@
       orderedCoachOrientationModeValues[b]
     );
   });
-  $: servicesOptions.beneficiariesAccessModes.sort(
-    (a, b) =>
-      orderedBeneficiariesAccessModeValues[a.value] -
-      orderedBeneficiariesAccessModeValues[b.value]
-  );
   $: fieldModelProps.beneficiariesAccessModes?.value.sort((a, b) => {
     return (
       orderedBeneficiariesAccessModeValues[a] -
@@ -253,89 +223,11 @@
           : undefined}
         type="array"
       >
-        {@const id = "beneficiariesAccessModes"}
-        <FieldWrapper
-          {id}
-          let:onChange
-          let:errorMessages
-          label={$currentSchema[id].label}
-          required={isRequired($currentSchema[id], $currentFormData)}
-          description="Plusieurs choix possibles."
-          readonly={$currentSchema?.[id]?.readonly}
-        >
-          <div class="flex flex-col gap-s8">
-            {#each servicesOptions.beneficiariesAccessModes as choice}
-              {#if choice.value === "completer-le-formulaire-dadhesion" && service.beneficiariesAccessModes.includes("completer-le-formulaire-dadhesion")}
-                <Checkbox
-                  name={id}
-                  bind:group={service.beneficiariesAccessModes}
-                  label={choice.label}
-                  value={choice.value}
-                  readonly={$currentSchema?.[id]?.readonly}
-                  errorMessage={formatErrors(id, errorMessages)}
-                  focused={beneficiariesAccessModesFocusValue === choice.value}
-                  on:change={onChange}
-                  on:focus={() =>
-                    (beneficiariesAccessModesFocusValue = choice.value)}
-                  on:blur={() =>
-                    (beneficiariesAccessModesFocusValue = undefined)}
-                >
-                  <BasicInputField
-                    id="beneficiariesAccessModesExternalFormLinkText"
-                    description="Par exemple : Faire une demande, Faire une simulation, Prendre rendez-vous, etc."
-                    placeholder="Faire une demande"
-                    vertical
-                    bind:value={service.beneficiariesAccessModesExternalFormLinkText}
-                  />
-                  <BasicInputField
-                    id="beneficiariesAccessModesExternalFormLink"
-                    description="Lien vers votre formulaire ou plateforme. Format attendu : https://exemple.fr"
-                    type="url"
-                    vertical
-                    bind:value={service.beneficiariesAccessModesExternalFormLink}
-                  />
-                </Checkbox>
-              {:else if choice.value === "autre" && service.beneficiariesAccessModes.includes("autre")}
-                <Checkbox
-                  name={id}
-                  bind:group={service.beneficiariesAccessModes}
-                  label={choice.label}
-                  value={choice.value}
-                  readonly={$currentSchema?.[id]?.readonly}
-                  errorMessage={formatErrors(id, errorMessages)}
-                  focused={beneficiariesAccessModesFocusValue === choice.value}
-                  on:change={onChange}
-                  on:focus={() =>
-                    (beneficiariesAccessModesFocusValue = choice.value)}
-                  on:blur={() =>
-                    (beneficiariesAccessModesFocusValue = undefined)}
-                >
-                  <BasicInputField
-                    id="beneficiariesAccessModesOther"
-                    hideLabel
-                    vertical
-                    bind:value={service.beneficiariesAccessModesOther}
-                  />
-                </Checkbox>
-              {:else}
-                <Checkbox
-                  name={id}
-                  bind:group={service.beneficiariesAccessModes}
-                  label={choice.label}
-                  value={choice.value}
-                  readonly={$currentSchema?.[id]?.readonly}
-                  errorMessage={formatErrors(id, errorMessages)}
-                  focused={beneficiariesAccessModesFocusValue === choice.value}
-                  on:change={onChange}
-                  on:focus={() =>
-                    (beneficiariesAccessModesFocusValue = choice.value)}
-                  on:blur={() =>
-                    (beneficiariesAccessModesFocusValue = undefined)}
-                />
-              {/if}
-            {/each}
-          </div>
-        </FieldWrapper>
+        <FieldsModalitiesBeneficiary
+          id="beneficiariesAccessModes"
+          {service}
+          {servicesOptions}
+        />
       </FieldModel>
     {/if}
   </div>
