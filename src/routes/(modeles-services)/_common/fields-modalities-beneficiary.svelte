@@ -25,7 +25,7 @@
   );
 </script>
 
-{#if $currentSchema}
+{#if $currentSchema && "beneficiariesAccessModes" in $currentSchema}
   <FieldWrapper
     {id}
     let:onChange

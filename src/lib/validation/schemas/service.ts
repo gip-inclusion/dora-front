@@ -379,6 +379,10 @@ export const inclusionNumeriqueSchema: v.Schema = {
     ...serviceSchema.beneficiariesAccessModes,
     required: true,
   },
+  beneficiariesAccessModesExternalFormLinkText:
+    serviceSchema.beneficiariesAccessModesExternalFormLinkText,
+  beneficiariesAccessModesExternalFormLink:
+    serviceSchema.beneficiariesAccessModesExternalFormLink,
   beneficiariesAccessModesOther: serviceSchema.beneficiariesAccessModesOther,
   contactName: serviceSchema.contactName,
   contactPhone: serviceSchema.contactPhone,
