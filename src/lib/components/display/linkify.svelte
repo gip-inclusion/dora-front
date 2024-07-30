@@ -14,11 +14,9 @@
     | { type: "text"; value: string; key: number }
   >;
 
-  let parts: Parts = [];
-
-  function linkify() {
+  function linkify(string: string) {
     const urlRegex = /(https?:\/\/[^\s]+|mailto:[^\s]+|tel:[^\s]+)/g;
-    return text.split(urlRegex).map((part, index) => {
+    return string.split(urlRegex).map((part, index) => {
       if (urlRegex.test(part)) {
         const matches = part.match(urlRegex);
         if (matches) {
@@ -44,7 +42,7 @@
     }
   }
 
-  $: parts = linkify();
+  $: parts = linkify(text);
 </script>
 
 {#each parts as part}
