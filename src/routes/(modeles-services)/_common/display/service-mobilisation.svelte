@@ -73,19 +73,21 @@
 <h2 class="text-f23 text-white">Mobiliser ce service</h2>
 
 <div class="mt-s16 flex w-full flex-col gap-s16 sm:w-auto print:hidden">
-  {#if isOrientasbleWithDoraForm || service.contactInfoFilled}
-    {#if !contactBoxOpen}
-      <Button
-        on:click={handleOrientationClick}
-        extraClass="mt-s16 bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
-        label="Orienter votre bénéficiaire"
-        wFull
-      />
+  {#if !(isDI && hasExternalForm)}
+    {#if isOrientasbleWithDoraForm || service.contactInfoFilled}
+      {#if !contactBoxOpen}
+        <Button
+          on:click={handleOrientationClick}
+          extraClass="mt-s16 bg-white !text-france-blue hover:!text-white text-center !whitespace-normal text-center"
+          label="Orienter votre bénéficiaire"
+          wFull
+        />
+      {:else}
+        <ServiceContact {service} />
+      {/if}
     {:else}
-      <ServiceContact {service} />
+      Informations de contact non renseignées
     {/if}
-  {:else}
-    Informations de contact non renseignées
   {/if}
 
   {#if hasExternalForm}
