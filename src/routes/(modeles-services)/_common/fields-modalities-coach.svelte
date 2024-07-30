@@ -18,6 +18,19 @@
 
   let coachOrientationModesFocusValue: string | undefined = undefined;
 
+  $: {
+    // Suppression du lien vers le formulaire externe et de son intitulé
+    // lorsque la case du formulaire externe est décochée.
+    if (
+      !service.coachOrientationModes.includes(
+        "completer-le-formulaire-dadhesion"
+      )
+    ) {
+      service.coachOrientationModesExternalFormLink = "";
+      service.coachOrientationModesExternalFormLinkText = "";
+    }
+  }
+
   $: servicesOptions.coachOrientationModes.sort(
     (a, b) =>
       orderedCoachOrientationModeValues[a.value] -

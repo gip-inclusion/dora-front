@@ -18,6 +18,19 @@
 
   let beneficiariesAccessModesFocusValue: string | undefined = undefined;
 
+  $: {
+    // Suppression du lien vers le formulaire externe et de son intitulé
+    // lorsque la case du formulaire externe est décochée.
+    if (
+      !service.beneficiariesAccessModes.includes(
+        "completer-le-formulaire-dadhesion"
+      )
+    ) {
+      service.beneficiariesAccessModesExternalFormLink = "";
+      service.beneficiariesAccessModesExternalFormLinkText = "";
+    }
+  }
+
   $: servicesOptions.beneficiariesAccessModes.sort(
     (a, b) =>
       orderedBeneficiariesAccessModeValues[a.value] -
