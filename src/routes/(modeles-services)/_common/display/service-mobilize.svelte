@@ -87,6 +87,11 @@
     isContactInfoForIndividualShown = true;
   }
 
+  $: contactInfoForIndividual =
+    service.isContactInfoPublic &&
+    service.beneficiariesAccessModes.some((mode) =>
+      ["envoyer-un-mail", "telephoner"].includes(mode)
+    );
   $: contactInfoForIndividualAddress = [
     service.structureInfo.address1,
     service.structureInfo.address2,
@@ -237,7 +242,7 @@
           <li>Non renseigné</li>
         {/each}
       </ul>
-      {#if contactInfoForIndividualPhone || contactInfoForIndividualEmail}
+      {#if contactInfoForIndividual}
         <div class="rounded-ml border border-gray-02 p-s24 shadow-sm">
           {#if isContactInfoForIndividualShown}
             <h5>{service.structureInfo.name}</h5>
