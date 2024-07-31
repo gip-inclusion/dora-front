@@ -27,6 +27,7 @@
     "security-scan": "ggshield secret scan path -r . -y"
   },
   "devDependencies": {
+    "@iframe-resizer/parent": "^5.2.1",
     "@nazka/map-gl-js-spiderfy": "^1.2.3",
     "@sveltejs/adapter-node": "^5.2.0",
     "@sveltejs/kit": "^2.5.18",
@@ -47,7 +48,6 @@
     "eslint-plugin-svelte": "^2.43.0",
     "hexoid": "^1.0.0",
     "husky": "^9.1.4",
-    "iframe-resizer": "^4.4.5",
     "insane": "^2.6.2",
     "lint-staged": "^15.2.7",
     "maplibre-gl": "^4.5.0",
