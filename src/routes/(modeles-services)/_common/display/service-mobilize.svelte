@@ -167,10 +167,8 @@
             {:else if modeValue === "autre"}
               <Linkify
                 text={service.coachOrientationModesOther}
-                trackMobilisationOnLinkClick={{
-                  service,
-                  isDI,
-                }}
+                on:linkClick={(event) =>
+                  trackMobilisationUnconditionally(event.detail.url)}
               />
             {:else}
               {modeDisplay}
@@ -229,10 +227,8 @@
             {:else if modeValue === "autre"}
               <Linkify
                 text={service.beneficiariesAccessModesOther}
-                trackMobilisationOnLinkClick={{
-                  service,
-                  isDI,
-                }}
+                on:linkClick={(event) =>
+                  trackMobilisationUnconditionally(event.detail.url)}
               />
             {:else}
               {modeDisplay}
