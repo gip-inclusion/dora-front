@@ -54,19 +54,21 @@
   const searchFragment = searchId ? `?searchId=${searchId}` : "";
   const orientationFormUrl = `/services/${isDI ? "di--" : ""}${service.slug}/orienter${searchFragment}`;
 
-  const dispatch = createEventDispatcher();
+  const dispatch = createEventDispatcher<{
+    trackMobilisation: { externalUrl?: string };
+  }>();
 
   let isContactInfoForProfessionalShown = false;
   let isContactInfoForIndividualShown = false;
 
   function trackMobilisationIfSignedIn() {
     if ($token) {
-      dispatch("trackMobilisation");
+      dispatch("trackMobilisation", {});
     }
   }
 
-  function trackMobilisationUnconditionally() {
-    dispatch("trackMobilisation");
+  function trackMobilisationUnconditionally(externalUrl: string) {
+    dispatch("trackMobilisation", { externalUrl });
   }
 
   function showContactInfoForProfessional() {
@@ -78,12 +80,12 @@
       );
       return;
     }
-    dispatch("trackMobilisation");
+    dispatch("trackMobilisation", {});
     isContactInfoForProfessionalShown = true;
   }
 
   function showContactInfoForIndividual() {
-    dispatch("trackMobilisation");
+    dispatch("trackMobilisation", {});
     isContactInfoForIndividualShown = true;
   }
 
@@ -156,7 +158,10 @@
               <a
                 href={service.coachOrientationModesExternalFormLink}
                 target="_blank"
-                on:click={trackMobilisationUnconditionally}
+                on:click={() =>
+                  trackMobilisationUnconditionally(
+                    service.coachOrientationModesExternalFormLink
+                  )}
                 class="text-magenta-cta underline"
                 >{service.coachOrientationModesExternalFormLinkText ||
                   "Orienter votre bénéficiaire"}
@@ -214,7 +219,10 @@
               <a
                 href={service.beneficiariesAccessModesExternalFormLink}
                 target="_blank"
-                on:click={trackMobilisationUnconditionally}
+                on:click={() =>
+                  trackMobilisationUnconditionally(
+                    service.beneficiariesAccessModesExternalFormLink
+                  )}
                 class="text-magenta-cta underline"
                 >{service.beneficiariesAccessModesExternalFormLinkText ||
                   "Faire une demande"}
