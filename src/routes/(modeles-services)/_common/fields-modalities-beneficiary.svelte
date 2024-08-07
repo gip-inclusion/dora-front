@@ -21,7 +21,7 @@
 
   function updateExternalFormFields(text: string) {
     if (preventUpdateExternalFormFields) {
-      // Don't reset fields on first load
+      // Pas de réinitialisation des champs au premier chargement
       preventUpdateExternalFormFields = false;
       return;
     }
