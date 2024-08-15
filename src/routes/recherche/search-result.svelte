@@ -3,10 +3,12 @@
   import { page } from "$app/stores";
 
   import Button from "$lib/components/display/button.svelte";
+  import LinkButton from "$lib/components/display/link-button.svelte";
   import Bookmarkable from "$lib/components/hoc/bookmarkable.svelte";
   import FavoriteIcon from "$lib/components/specialized/favorite-icon.svelte";
   import type { ServiceSearchResult } from "$lib/types";
   import { token } from "$lib/utils/auth";
+  import { registerMatomoExperiment } from "$lib/utils/matomo";
   import { trackMobilisation } from "$lib/utils/stats";
 
   export let id: string;
@@ -41,26 +43,7 @@
     }
   }
 
-  function isOrientable() {
-    if (result.isOrientable !== undefined) {
-      // isOrientable est fourni (service DI) : on peut l'utiliser directement
-      return result.isOrientable;
-    }
-    // isOrientable n'est pas fourni (service Dora) : on calcule sa valeur à partir de
-    // isOrientablePartialCompute, coachOrientationModes et beneficiariesAccessModes
-    return (
-      result.isOrientablePartialCompute &&
-      (result.coachOrientationModes?.some((coachOrientationMode) =>
-        ["envoyer-courriel", "envoyer-fiche-prescription"].includes(
-          coachOrientationMode
-        )
-      ) ||
-        result.beneficiariesAccessModes?.some(
-          (beneficiariesAccessMode) =>
-            beneficiariesAccessMode === "envoyer-courriel"
-        ))
-    );
-  }
+  let redirectToOrientationForm = true;
 
   function handleOrientationClick() {
     if ($token) {
@@ -79,6 +62,22 @@
       : "";
     goto(`/services/${slug}/orienter?${queryString}`);
   }
+
+  registerMatomoExperiment({
+    name: "CTA-Orienter",
+    includedTargets: [
+      { attribute: "url", inverted: "0", type: "any", value: "" },
+    ],
+    excludedTargets: [],
+    variations: [
+      {
+        name: "Fiche-service",
+        activate: function () {
+          redirectToOrientationForm = false;
+        },
+      },
+    ],
+  });
 </script>
 
 <Bookmarkable slug={result.slug} {isDI} let:onBookmark let:isBookmarked>
@@ -161,13 +160,22 @@
               target="_blank"
               class="text-magenta-cta underline">Voir la fiche détaillée</a
             >
-            {#if isOrientable()}
-              <Button
-                on:click={handleOrientationClick}
-                label="Orienter votre bénéficiaire"
-                secondary
-                small
-              />
+            {#if result.isOrientable && result.coachOrientationModes?.includes("formulaire-dora")}
+              {#if redirectToOrientationForm}
+                <Button
+                  on:click={handleOrientationClick}
+                  label="Orienter votre bénéficiaire"
+                  secondary
+                  small
+                />
+              {:else}
+                <LinkButton
+                  to={servicePagePath}
+                  label="Orienter votre bénéficiaire"
+                  secondary
+                  small
+                />
+              {/if}
             {/if}
           </div>
         </div>
@@ -178,6 +186,6 @@
 
 <style lang="postcss">
   .tag {
-    @apply whitespace-nowrap rounded-xl bg-blue-information px-s8 py-s0 text-f14  text-france-blue;
+    @apply whitespace-nowrap rounded-xl bg-blue-information px-s8 py-s0 text-f14 text-france-blue;
   }
 </style>
