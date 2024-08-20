@@ -11,15 +11,20 @@
   import DoraDeploymentNotice from "./dora-deployment-notice.svelte";
   import OnlyNationalResultsNotice from "./only-national-results-notice.svelte";
   import ServiceSuggestionNotice from "./service-suggestion-notice.svelte";
-  import ResultFilters, { type Filters } from "./result-filters.svelte";
+  import ResultFilters, {
+    type Filters,
+    type FundedByDepartment,
+  } from "./result-filters.svelte";
   import MapViewButton from "./map-view-button.svelte";
   import ResultCount from "./result-count.svelte";
   import SearchResults from "./search-results.svelte";
+  import { FUNDED_SERVICES } from "$lib/consts";
 
   export let data: PageData;
 
   const FILTER_KEY_TO_QUERY_PARAM = {
     kinds: "kinds",
+    fundedBy: "fundedBy",
     feeConditions: "fees",
     locationKinds: "locs",
   };
@@ -35,7 +40,7 @@
   );
 
   function resetFilters() {
-    filters = { kinds: [], feeConditions: [], locationKinds: [] };
+    filters = { kinds: [], fundedBy: [], feeConditions: [], locationKinds: [] };
   }
 
   // Réinitialise les filtres quand la recherche est actualisée.
@@ -56,6 +61,11 @@
       filters.kinds.length === 0 ||
       (service.kinds &&
         filters.kinds.some((value) => service.kinds!.includes(value)));
+    const fundedByMatch =
+      filters.fundedBy.length === 0 ||
+      filters.fundedBy.some((department) =>
+        FUNDED_SERVICES[department].slugs.includes(service.slug)
+      );
     const feeConditionMatch =
       filters.feeConditions.length === 0 ||
       (service.feeCondition &&
@@ -72,7 +82,11 @@
       service.distance > 50
     );
     return (
-      kindsMatch && feeConditionMatch && locationKindsMatch && onSiteAndNearby
+      kindsMatch &&
+      fundedByMatch &&
+      feeConditionMatch &&
+      locationKindsMatch &&
+      onSiteAndNearby
     );
   });
 
@@ -104,6 +118,20 @@
   $: showDeploymentNotice =
     data.cityCode &&
     !isInDeploymentDepartments(data.cityCode, data.servicesOptions);
+
+  $: fundedByDepartment =
+    data.cityCode &&
+    (Object.keys(FUNDED_SERVICES).find((department) =>
+      data.cityCode?.startsWith(department)
+    ) as FundedByDepartment | undefined);
+  $: fundedByOptions =
+    (fundedByDepartment && [
+      {
+        value: fundedByDepartment,
+        label: FUNDED_SERVICES[fundedByDepartment].organism,
+      },
+    ]) ||
+    [];
 </script>
 
 <CenteredGrid bgColor="bg-blue-light">
@@ -139,8 +167,12 @@
     <div
       class="hidden flex-col gap-s32 rounded-ml border border-gray-02 p-s32 shadow-sm lg:flex lg:basis-1/3"
     >
-      <MapViewButton {data} bind:filters {filteredServices} />
-      <ResultFilters servicesOptions={data.servicesOptions} bind:filters />
+      <MapViewButton {data} {fundedByOptions} bind:filters {filteredServices} />
+      <ResultFilters
+        servicesOptions={data.servicesOptions}
+        {fundedByOptions}
+        bind:filters
+      />
     </div>
     <div class="lg:basis-2/3">
       <div class="mt-s16 text-f21">
