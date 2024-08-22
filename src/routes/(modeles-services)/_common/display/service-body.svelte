@@ -11,6 +11,7 @@
   import ServiceMobilize from "./service-mobilize.svelte";
   import SmallServiceShare from "./small-service-share.svelte";
   import ServicePresentation from "./service-presentation.svelte";
+  import ServiceIndividual from "./service-individual.svelte";
 
   export let service: Service | Model;
   export let servicesOptions: ServicesOptions;
@@ -73,6 +74,10 @@
                 {service}
                 {isDI}
               />
+            </div>
+
+            <div class="mb-s8 mt-s16">
+              <ServiceIndividual {service} />
             </div>
 
             {#if !isModel}
