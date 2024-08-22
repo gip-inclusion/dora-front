@@ -76,9 +76,11 @@
               />
             </div>
 
-            <div class="mb-s8 mt-s16">
-              <ServiceIndividual {service} />
-            </div>
+            {#if service.source === "mes-aides"}
+              <div class="mb-s8 mt-s16">
+                <ServiceIndividual {service} />
+              </div>
+            {/if}
 
             {#if !isModel}
               <div class="mt-s24 flex flex-col gap-y-s24">
