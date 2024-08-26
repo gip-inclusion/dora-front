@@ -76,9 +76,9 @@
               />
             </div>
 
-            {#if service.source === "mes-aides"}
+            {#if service.source === "mes-aides" && service.lienSource}
               <div class="mb-s8 mt-s16">
-                <ServiceIndividual {service} />
+                <ServiceIndividual url={service.lienSource} />
               </div>
             {/if}
 
