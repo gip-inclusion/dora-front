@@ -4,6 +4,7 @@
 
   import CenteredGrid from "$lib/components/display/centered-grid.svelte";
   import type { Model, Service, ServicesOptions } from "$lib/types";
+  import { userInfo } from "$lib/utils/auth";
   import { trackMobilisation } from "$lib/utils/stats";
 
   import ServiceBeneficiaries from "./service-beneficiaries.svelte";
@@ -76,7 +77,7 @@
               />
             </div>
 
-            {#if service.source === "mes-aides" && service.lienSource}
+            {#if !$userInfo && service.source === "mes-aides" && service.lienSource}
               <div class="mb-s8 mt-s16">
                 <ServiceIndividual url={service.lienSource} />
               </div>
