@@ -126,14 +126,14 @@
     (Object.keys(FUNDED_SERVICES).find((department) =>
       data.cityCode?.startsWith(department)
     ) as FundedByDepartment | undefined);
-  $: fundedByOptions =
-    (fundedByDepartment && [
-      {
-        value: fundedByDepartment,
-        label: FUNDED_SERVICES[fundedByDepartment].organism,
-      },
-    ]) ||
-    [];
+  $: fundedByOptions = fundedByDepartment
+    ? [
+        {
+          value: fundedByDepartment,
+          label: FUNDED_SERVICES[fundedByDepartment].organism,
+        },
+      ]
+    : [];
 
   $: showMesAidesDialog = !$userInfo && data.categoryIds.includes("mobilite");
 </script>
