@@ -18,7 +18,7 @@
   const { concernedPublicChoices, concernedPublicRequired } =
     computeConcernedPublicChoices(service);
   orientationStep1Schema.situation.required = concernedPublicRequired;
-  const serviceAcceptsAllPublic = concernedPublicChoices.length === 1; // Que l'option "Autre"
+  const serviceAcceptsAllPublic = concernedPublicChoices.length === 0;
 
   // Critères et conditions d’accès
   const { requirementChoices, requirementRequired } =
@@ -48,17 +48,17 @@
         <p class="mb-s0 text-f14 italic text-gray-text">
           Ce service concerne tous les publics
         </p>
+      {:else}
+        <CheckboxesField
+          id="situation"
+          choices={concernedPublicChoices}
+          description={!serviceAcceptsAllPublic
+            ? "Merci de cocher au moins un profil ou situation"
+            : ""}
+          bind:value={$orientation.situation}
+          vertical
+        />
       {/if}
-
-      <CheckboxesField
-        id="situation"
-        choices={concernedPublicChoices}
-        description={!serviceAcceptsAllPublic
-          ? "Merci de cocher au moins un profil ou situation"
-          : ""}
-        bind:value={$orientation.situation}
-        vertical
-      />
     </div>
   </Fieldset>
 
