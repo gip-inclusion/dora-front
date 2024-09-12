@@ -238,6 +238,7 @@ export interface StructuresOptions {
   nationalLabels: NationalLabel[];
   sources: StructureSource[];
   typologies: Typology[];
+  restrictedNationalLabels: NationalLabel[];
 }
 
 // OSM hours format
@@ -283,8 +284,7 @@ export type FeeCondition =
   | "gratuit"
   | "gratuit-sous-conditions"
   | "payant"
-  | "adhesion"
-  | "pass-numerique";
+  | "adhesion";
 
 export type SavedSearchNotificationFrequency =
   | "NEVER"

@@ -9,9 +9,15 @@
   import FieldsAddress from "$lib/components/specialized/services/fields-address.svelte";
   import type { Structure, StructuresOptions } from "$lib/types";
   import { getDepartmentFromCityCode } from "$lib/utils/misc";
+  import type { NationalLabel } from "$lib/types";
 
   export let structure: Structure;
   export let structuresOptions: StructuresOptions;
+
+  const fixedNationalLabelValues: string[] =
+    structuresOptions.restrictedNationalLabels.map(
+      (restricted: NationalLabel) => restricted.value
+    );
 
   function getAccessLibreUrl(struct: Structure) {
     const department = getDepartmentFromCityCode(struct.cityCode);
@@ -106,6 +112,7 @@
   id="nationalLabels"
   bind:value={structure.nationalLabels}
   choices={structuresOptions.nationalLabels}
+  fixedItemsValues={fixedNationalLabelValues}
   description="Indiquez si la structure fait partie d’un ou plusieurs réseaux nationaux"
   placeholder="Choisissez…"
   placeholderMulti="Choisissez…"
