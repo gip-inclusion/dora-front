@@ -14,9 +14,9 @@
   export let servicesOptions: ServicesOptions;
   export let service: Service;
   export let structures: ShortStructure[];
-  export let structure: ShortStructure;
+  export let structure: ShortStructure | undefined;
   export let isModel = false;
-  export let model: Model | undefined = undefined;
+  export let model: Model | undefined | null = undefined;
 
   const propsWithSpecificFields = [
     "accessConditions",
