@@ -39,8 +39,8 @@
   export let service: Service;
   export let servicesOptions: ServicesOptions;
   export let structures: ShortStructure[];
-  export let structure: ShortStructure;
-  export let model: Model;
+  export let structure: ShortStructure | undefined;
+  export let model: Model | undefined;
 
   let requesting = false;
   let currentSchema: Schema;
@@ -115,14 +115,12 @@
     modelSlugTmp = null;
   }
 
-  $: console.log({ structure });
-
   $: currentSchema = service.useInclusionNumeriqueScheme
     ? inclusionNumeriqueSchema
     : serviceSchema;
 
   $: {
-    if (structure.noDoraForm) {
+    if (structure?.noDoraForm) {
       servicesOptions.coachOrientationModes =
         servicesOptions.coachOrientationModes.filter(
           (mode) => mode.value !== "formulaire-dora"
