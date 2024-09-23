@@ -36,11 +36,11 @@
   import type { Schema } from "$lib/validation/schema-utils";
   import { shortenString } from "$lib/utils/misc";
 
-  export let service: Service,
-    servicesOptions: ServicesOptions,
-    structures: ShortStructure[],
-    structure: ShortStructure,
-    model: Model;
+  export let service: Service;
+  export let servicesOptions: ServicesOptions;
+  export let structures: ShortStructure[];
+  export let structure: ShortStructure;
+  export let model: Model;
 
   let requesting = false;
   let currentSchema: Schema;
@@ -114,6 +114,8 @@
     service.model = modelSlugTmp;
     modelSlugTmp = null;
   }
+
+  $: console.log({ structure });
 
   $: currentSchema = service.useInclusionNumeriqueScheme
     ? inclusionNumeriqueSchema
