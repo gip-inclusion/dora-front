@@ -109,21 +109,14 @@
               Source&nbsp;: {result.diSourceDisplay}, via data·inclusion
             </div>
           {/if}
-          <div class="flex shrink-0 flex-col items-center gap-s24 md:flex-row">
-            <a
-              href={servicePagePath}
-              target="_blank"
-              class="text-magenta-cta underline">Voir la fiche détaillée</a
-            >
-            {#if result.isOrientable && result.coachOrientationModes?.includes("formulaire-dora")}
-              <LinkButton
-                to={servicePagePath}
-                label="Orienter votre bénéficiaire"
-                secondary
-                small
-              />
-            {/if}
-          </div>
+          {#if result.isOrientable && result.coachOrientationModes?.includes("formulaire-dora")}
+            <LinkButton
+              to={servicePagePath}
+              label="Orienter votre bénéficiaire"
+              secondary
+              small
+            />
+          {/if}
         </div>
       {/if}
     </div>
