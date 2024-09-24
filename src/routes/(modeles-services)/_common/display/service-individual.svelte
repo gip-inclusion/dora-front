@@ -6,8 +6,10 @@
 
   function addTrackingParamsToUrl(urlStr: string) {
     const urlObj = new URL(urlStr);
+    urlObj.searchParams.append("at_medium", "custom1");
+    urlObj.searchParams.append("at_campaign", "MA");
     urlObj.searchParams.append("at_custom1", "Dora");
-    urlObj.searchParams.append("at_custom2", "Garages");
+    urlObj.searchParams.append("at_custom2", "Mob");
     urlObj.searchParams.append("at_custom3", "France0924");
     return urlObj.toString();
   }
