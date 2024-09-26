@@ -26,6 +26,8 @@ const config = {
           "https://openmaptiles.github.io/osm-bright-gl-style/",
           "https://matomo.inclusion.beta.gouv.fr",
           "https://api.collectivite.fr",
+	  "https://*.dev-agentconnect.fr",
+	  "localhost"
         ].filter((source) => !!source),
         "script-src": [
           "self",
