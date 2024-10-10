@@ -136,6 +136,19 @@
     : [];
 
   $: showMesAidesDialog = !$userInfo && data.categoryIds.includes("mobilite");
+
+  $: {
+    const selectedFundedByFilter = filters.fundedBy[0];
+    if (selectedFundedByFilter !== undefined) {
+      window._paq?.push([
+        "trackEvent",
+        "Filtres",
+        "Sélection de filtre",
+        "Financé par",
+        selectedFundedByFilter,
+      ]);
+    }
+  }
 </script>
 
 <CenteredGrid bgColor="bg-blue-light">

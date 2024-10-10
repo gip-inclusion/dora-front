@@ -2,4 +2,5 @@
 
 declare interface Window {
   Tally?: any;
+  _paq?: string[][];
 }
